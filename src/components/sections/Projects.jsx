@@ -11,6 +11,7 @@ const projects = [
     video: 'cinema-project-movie.mov',
     gif: 'cinema.gif',
     github: 'https://github.com/Taninwat-55/cinema-booking-system-project',
+    demo: '',
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const projects = [
     video: 'Forum-video.mov',
     gif: 'forum.gif',
     github: 'https://github.com/Taninwat-55/Forum-App-Project-React',
+    demo: '',
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ const projects = [
     video: 'signup-project.mov',
     gif: 'signup.gif',
     github: 'https://github.com/Taninwat-55/Intro-component-with-sign-up-form',
+    demo: 'https://taninwat-55.github.io/Intro-component-with-sign-up-form/',
   },
 ];
 
@@ -99,14 +102,24 @@ function Portfolio() {
                   <p className='text-gray-300 font-bold mb-4 min-h-[28px]'>
                     {project.technologies}
                   </p>
-                  <a
-                    href={project.github}
-                    className='bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded-full self-start'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    Github
-                  </a>
+                  <div className='flex gap-3'>
+                    <a
+                      href={project.github}
+                      className='bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded-full'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      GitHub
+                    </a>
+                    <a
+                      href={project.demo}
+                      className='bg-gradient-to-r from-pink-500 to-red-500 text-white px-4 py-2 rounded-full'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      Live Demo
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}
