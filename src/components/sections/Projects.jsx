@@ -105,7 +105,7 @@ function Portfolio() {
                   <div className='flex gap-3'>
                     <a
                       href={project.github}
-                      className='bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded-full'
+                      className='bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded-full hover:scale-105'
                       target='_blank'
                       rel='noopener noreferrer'
                     >
@@ -113,7 +113,7 @@ function Portfolio() {
                     </a>
                     <a
                       href={project.demo}
-                      className='bg-gradient-to-r from-pink-500 to-red-500 text-white px-4 py-2 rounded-full'
+                      className='bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-4 py-2 rounded-full hover:scale-105'
                       target='_blank'
                       rel='noopener noreferrer'
                     >
