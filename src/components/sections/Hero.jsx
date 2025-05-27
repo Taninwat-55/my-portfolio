@@ -27,7 +27,7 @@ function Hero() {
   ]);
 
   return (
-    <div id='hero' className='bg-black text-white text-center py-16'>
+    <div id='hero' className='bg-gray-900/60 text-white text-center py-16'>
       <img
         src='Relaxed_pic_Ice.jpg'
         alt='Profile'

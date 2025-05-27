@@ -9,7 +9,7 @@ function Navbar() {
   };
 
   return (
-    <nav className='bg-black text-white px-8 md:px-16 lg:px-24'>
+    <nav className='bg-gray-900/60 text-white px-8 md:px-16 lg:px-24'>
       <div className='py-4 flex justify-between items-center relative'>
         {/* Logo (Visible on all screens) */}
         <div className='text-2xl font-bold border-2 px-2'>Taninwat</div>

@@ -6,19 +6,26 @@ import Projects from './components/sections/Projects';
 import Services from './components/sections/Services';
 import Contact from './components/sections/Contact';
 import ScrollToTop from './components/ScrollToTop';
+import StarfallBackground from './components/common/StarfallBG';
 
 const App = () => {
   return (
-    <>
-      <Navbar />
-      <Hero />
-      <Services />
-      <Projects />
-      <About />
-      <Contact />
-      <Footer />
-      <ScrollToTop />
-    </>
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background Canvas */}
+      <StarfallBackground />
+
+      {/* Foreground Content */}
+      <div className="relative z-10">
+        <Navbar />
+        <Hero />
+        <Services />
+        <Projects />
+        <About />
+        <Contact />
+        <Footer />
+        <ScrollToTop />
+      </div>
+    </div>
   );
 };
 
