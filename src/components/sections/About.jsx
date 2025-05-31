@@ -15,7 +15,7 @@ function About() {
     },
     {
       label: 'Development Tools',
-      level: 'w-8/12',
+      level: 'w-9/12',
       skills: 'Git, GitHub, Vercel, Render, Netlify',
     },
     {
