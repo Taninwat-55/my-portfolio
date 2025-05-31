@@ -6,22 +6,22 @@ function About() {
     {
       label: 'Frontend',
       level: 'w-10/12',
-      skills: 'HTML, CSS, JavaScript, React, Tailwind',
+      skills: 'HTML, CSS, JavaScript, React, Tailwind, TypeScript',
     },
     {
       label: 'Backend',
       level: 'w-8/12',
-      skills: 'Node.js, Express.js, REST API',
+      skills: 'Node.js, Express.js, REST API, SQL, SQLite',
     },
     {
-      label: 'Full Stack Tools',
+      label: 'Development Tools',
       level: 'w-8/12',
-      skills: 'SQL, SQLite, Git, GitHub',
+      skills: 'Git, GitHub, Vercel, Render, Netlify',
     },
     {
       label: 'Currently Learning',
       level: 'w-6/12',
-      skills: 'Next.js, TypeScript, MongoDB',
+      skills: 'Next.js, MongoDB, MySQL, PostgreSQL',
     },
   ];
 
@@ -62,10 +62,10 @@ function About() {
             <p className='text-lg mb-8'>
               I'm a full stack developer in training, actively building
               real-world projects through hands-on learning. I've worked with
-              tools like React, Express.js, Node.js, and SQL to create responsive
-              and functional applications. I enjoy problem-solving, writing
-              clean code, and collaborating in team-based projects using Agile
-              workflows.
+              tools like React, Express.js, Node.js, and SQL to create
+              responsive and functional applications. I enjoy problem-solving,
+              writing clean code, and collaborating in team-based projects using
+              Agile workflows.
             </p>
             <div className='space-y-4'>
               {skillGroups.map((group) => (
