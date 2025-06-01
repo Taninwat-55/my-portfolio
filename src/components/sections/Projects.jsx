@@ -23,7 +23,7 @@ const projects = [
     video: 'Forum-video.mov',
     gif: 'forum.gif',
     github: 'https://github.com/Taninwat-55/Forum-App-Project-React',
-    demo: 'https://forum-app-project-react-q54hiu5nj-taninwat-55s-projects.vercel.app',
+    demo: 'https://forum-app-project-react.vercel.app',
   },
   {
     id: 3,
