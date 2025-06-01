@@ -11,7 +11,7 @@ const projects = [
     video: 'cinema-project-movie.mov',
     gif: 'cinema.gif',
     github: 'https://github.com/Taninwat-55/cinema-booking-system-project',
-    demo: '',
+    demo: 'https://cinema-booking-system-project.vercel.app',
   },
   {
     id: 2,
