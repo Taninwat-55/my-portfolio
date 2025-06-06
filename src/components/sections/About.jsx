@@ -127,7 +127,9 @@ function About() {
                 Experience
               </h3>
               <div>
-                <h4 className='font-bold'>Head of Millennial Consulting</h4>
+                <h4 className='font-bold'>
+                  Head of Millennial Consulting <i>(Volunteer)</i>
+                </h4>
                 <p className='text-sm'>
                   Copenhagen, Denmark (Sep 2023 – May 2025)
                 </p>
