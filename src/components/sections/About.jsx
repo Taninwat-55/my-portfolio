@@ -1,16 +1,21 @@
+import { useState } from 'react';
 import useScrollReveal from '../../hooks/useScrollReveal';
+import SkillModal from '../common/SkillModal';
+import skillDetails from '../../data/skillDetails';
 
 function About() {
+  const [selectedSkill, setSelectedSkill] = useState(null);
+
   const categorizedSkills = [
     {
       category: 'Frontend',
       skills: [
-        { name: 'HTML', level: 10 },
-        { name: 'CSS', level: 9 },
+        { name: 'HTML', level: 7 },
+        { name: 'CSS', level: 7 },
         { name: 'JavaScript', level: 8 },
         { name: 'React', level: 7 },
-        { name: 'Tailwind', level: 9 },
-        { name: 'TypeScript', level: 7 },
+        { name: 'Tailwind', level: 6 },
+        { name: 'TypeScript', level: 4 },
       ],
     },
     {
@@ -18,24 +23,24 @@ function About() {
       skills: [
         { name: 'Node.js & Express.js', level: 6 },
         { name: 'REST API', level: 6 },
-        { name: 'SQL', level: 6 },
-        { name: 'SQLite', level: 6 },
+        { name: 'SQL', level: 5 },
       ],
     },
     {
-      category: 'Development Tools',
-      skills: [
-        { name: 'Git', level: 9 },
-        { name: 'GitHub', level: 9 },
-      ],
+      category: 'Database',
+      skills: [{ name: 'SQLite', level: 6 }],
+    },
+    {
+      category: 'DevOps & Dev Tools',
+      skills: [{ name: 'Git & Github', level: 8 }],
     },
     {
       category: 'Currently Learning',
       skills: [
-        { name: 'Next.js', level: 3 },
-        { name: 'MongoDB', level: 1 },
-        { name: 'MySQL', level: 2 },
-        { name: 'PostgreSQL', level: 1 },
+        { name: 'Next.js', level: 2 },
+        { name: 'MongoDB, MySQL, PostgreSQL', level: 1 },
+        { name: 'AWS, GCP', level: 1 },
+        { name: 'Docker, Kubernetes', level: 1 },
       ],
     },
   ];
@@ -63,6 +68,21 @@ function About() {
     },
   ]);
 
+  const skillLookup = {
+    HTML: 'HTML',
+    CSS: 'CSS',
+    JavaScript: 'JavaScript',
+    React: 'React',
+    Tailwind: 'Tailwind',
+    TypeScript: 'TypeScript',
+    'Node.js & Express.js': 'Nodeandexpress',
+    'Git & Github': 'GitGithub',
+    'Next.js': 'NextJS',
+    'REST API': 'RESTAPI',
+    SQL: 'SQL',
+    SQLite: 'SQLite',
+  };
+
   return (
     <section className='bg-gray-900/60 text-white py-20' id='about'>
       <div className='container mx-auto px-8 md:px-16 lg:px-24'>
@@ -73,7 +93,7 @@ function About() {
           <div className='about-left md:w-1/2 space-y-10'>
             <img
               src='Formal_Ice_pic.jpg'
-              alt=''
+              alt='Formal Portrait'
               className='about-img w-100 h-100 rounded object-cover mb-8 pb-8 md:mb-0'
             />
 
@@ -153,13 +173,25 @@ function About() {
                   <h4 className='text-md font-semibold text-amber-400 mb-2'>
                     {group.category}
                   </h4>
-                  <div className='space-y-3'>
+                  <div className='space-y-2'>
                     {group.skills.map((skill) => (
-                      <div key={skill.name}>
+                      <div
+                        key={skill.name}
+                        className='cursor-pointer transition-transform duration-200 hover:scale-[1.02] hover:bg-gray-800/70 hover:ring-2 hover:ring-amber-400 p-2 rounded-md'
+                        title='Click to view details'
+                        onClick={() => {
+                          const key = skillLookup[skill.name];
+                          if (key && skillDetails[key]) {
+                            setSelectedSkill(skillDetails[key]);
+                          } else {
+                            setSelectedSkill(null);
+                          }
+                        }}
+                      >
                         <div className='flex justify-between text-sm'>
                           <span>{skill.name}</span>
                           <span className='text-gray-400'>
-                            {skill.level}/12
+                            {skill.level}/10
                           </span>
                         </div>
                         <div className='w-full bg-gray-800 rounded-full h-2'>
@@ -199,6 +231,14 @@ function About() {
           </div>
         </div>
       </div>
+
+      {/* Modal Section */}
+      {selectedSkill && (
+        <SkillModal
+          skill={selectedSkill}
+          onClose={() => setSelectedSkill(null)}
+        />
+      )}
     </section>
   );
 }
