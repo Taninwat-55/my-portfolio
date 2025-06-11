@@ -1,7 +1,7 @@
 const skillDetails = {
   HTML: {
     name: 'HTML',
-    level: 7,
+    level: 8,
     topics: [
       {
         group: 'Beginner',
@@ -23,7 +23,7 @@ const skillDetails = {
         group: 'Advanced',
         items: [
           { name: 'ARIA & accessibility', completed: true },
-          { name: 'Meta tags for SEO', completed: false },
+          { name: 'Meta tags for SEO', completed: true },
           { name: 'Web components', completed: false },
         ],
       },
@@ -31,7 +31,7 @@ const skillDetails = {
   },
   CSS: {
     name: 'CSS',
-    level: 7,
+    level: 8,
     topics: [
       {
         group: 'Beginner',
@@ -53,7 +53,7 @@ const skillDetails = {
         group: 'Advanced',
         items: [
           { name: 'CSS variables', completed: true },
-          { name: 'CSS animations & keyframes', completed: false },
+          { name: 'CSS animations & keyframes', completed: true },
           { name: 'CSS methodologies (BEM)', completed: false },
         ],
       },
@@ -84,7 +84,7 @@ const skillDetails = {
         items: [
           { name: 'Promises & async/await', completed: true },
           { name: 'Fetch API & JSON', completed: true },
-          { name: 'Event loop', completed: false },
+          { name: 'Event loop & call stack', completed: true },
         ],
       },
     ],
@@ -113,7 +113,7 @@ const skillDetails = {
         group: 'Advanced',
         items: [
           { name: 'React Router v6', completed: true },
-          { name: 'Lazy loading', completed: false },
+          { name: 'Lazy loading', completed: true },
           { name: 'Global state (Redux/Zustand)', completed: false },
         ],
       },
@@ -151,7 +151,7 @@ const skillDetails = {
   },
   TypeScript: {
     name: 'TypeScript',
-    level: 4,
+    level: 3,
     topics: [
       {
         group: 'Beginner',
@@ -165,6 +165,8 @@ const skillDetails = {
         group: 'Intermediate',
         items: [
           { name: 'Generics', completed: false },
+          { name: 'Type assertions', completed: false },
+          { name: 'Tuple', completed: false },
           { name: 'Type narrowing', completed: false },
           { name: 'Modules', completed: false },
         ],
@@ -202,43 +204,44 @@ const skillDetails = {
       {
         group: 'Advanced',
         items: [
-          { name: 'Authentication (JWT)', completed: false },
+          { name: 'Authentication (JWT) & Authorization', completed: false },
           { name: 'bcrypt for hashing', completed: false },
           { name: 'Custom middleware', completed: false },
         ],
       },
     ],
   },
-  RESTAPI: {
-    name: 'REST API',
-    level: 6,
-    topics: [
-      {
-        group: 'Beginner',
-        items: [
-          { name: 'What is REST & HTTP methods', completed: true },
-          { name: 'GET & POST basics', completed: true },
-          { name: 'Understanding endpoints', completed: true },
-        ],
-      },
-      {
-        group: 'Intermediate',
-        items: [
-          { name: 'PUT, PATCH, DELETE', completed: true },
-          { name: 'Status codes & conventions', completed: true },
-          { name: 'Query & route params', completed: true },
-        ],
-      },
-      {
-        group: 'Advanced',
-        items: [
-          { name: 'Versioning & HATEOAS', completed: false },
-          { name: 'RESTful error handling', completed: false },
-          { name: 'Authentication in APIs', completed: false },
-        ],
-      },
-    ],
-  },
+  //   RESTAPI: {
+  //     name: 'REST API',
+  //     level: 6,
+  //     topics: [
+  //       {
+  //         group: 'Beginner',
+  //         items: [
+  //           { name: 'HTTP methods & CRUD', completed: true },
+  //           { name: 'Status codes & conventions', completed: true },
+  //           { name: 'Endpoints & URLs', completed: true },
+  //           { name: 'Request & Response Bodies (JSON)', completed: true },
+  //         ],
+  //       },
+  //       {
+  //         group: 'Intermediate',
+  //         items: [
+  //           { name: 'RESTful URL Design & Conventions', completed: true },
+  //           { name: 'Query & route params', completed: true },
+  //           { name: 'RESTful error handling', completed: true },
+  //         ],
+  //       },
+  //       {
+  //         group: 'Advanced',
+  //         items: [
+  //           { name: 'Versioning & HATEOAS', completed: false },
+  //           { name: 'Gateway & Microservices Context', completed: false },
+  //           { name: 'Authentication & Authorization in APIs', completed: false },
+  //         ],
+  //       },
+  //     ],
+  //   },
 
   SQL: {
     name: 'SQL',
@@ -271,36 +274,36 @@ const skillDetails = {
     ],
   },
 
-//   SQLite: {
-//     name: 'SQLite',
-//     level: 6,
-//     topics: [
-//       {
-//         group: 'Beginner',
-//         items: [
-//           { name: 'sqlite3 CLI basics', completed: true },
-//           { name: 'Creating & reading tables', completed: true },
-//           { name: 'Simple CRUD operations', completed: true },
-//         ],
-//       },
-//       {
-//         group: 'Intermediate',
-//         items: [
-//           { name: 'Using foreign keys', completed: true },
-//           { name: 'Data types & constraints', completed: true },
-//           { name: 'Joins & indexing', completed: true },
-//         ],
-//       },
-//       {
-//         group: 'Advanced',
-//         items: [
-//           { name: 'PRAGMA & settings', completed: false },
-//           { name: 'Triggers & views', completed: false },
-//           { name: 'Migration & versioning', completed: false },
-//         ],
-//       },
-//     ],
-//   },
+  //   SQLite: {
+  //     name: 'SQLite',
+  //     level: 6,
+  //     topics: [
+  //       {
+  //         group: 'Beginner',
+  //         items: [
+  //           { name: 'sqlite3 CLI basics', completed: true },
+  //           { name: 'Creating & reading tables', completed: true },
+  //           { name: 'Simple CRUD operations', completed: true },
+  //         ],
+  //       },
+  //       {
+  //         group: 'Intermediate',
+  //         items: [
+  //           { name: 'Using foreign keys', completed: true },
+  //           { name: 'Data types & constraints', completed: true },
+  //           { name: 'Joins & indexing', completed: true },
+  //         ],
+  //       },
+  //       {
+  //         group: 'Advanced',
+  //         items: [
+  //           { name: 'PRAGMA & settings', completed: false },
+  //           { name: 'Triggers & views', completed: false },
+  //           { name: 'Migration & versioning', completed: false },
+  //         ],
+  //       },
+  //     ],
+  //   },
 
   GitGithub: {
     name: 'Git & GitHub',
@@ -334,14 +337,14 @@ const skillDetails = {
   },
   NextJS: {
     name: 'Next.js',
-    level: 1,
+    level: 3,
     topics: [
       {
         group: 'Beginner',
         items: [
           { name: 'File-based routing', completed: true },
-          { name: 'next/link', completed: false },
-          { name: 'Static assets & CSS', completed: false },
+          { name: 'next/link', completed: true },
+          { name: 'Static assets & CSS', completed: true },
         ],
       },
       {

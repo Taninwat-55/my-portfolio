@@ -15,14 +15,14 @@ function About() {
         { name: 'JavaScript', level: 8 },
         { name: 'React', level: 7 },
         { name: 'Tailwind', level: 6 },
-        { name: 'TypeScript', level: 4 },
+        { name: 'TypeScript', level: 3 },
       ],
     },
     {
       category: 'Backend & Database',
       skills: [
         { name: 'Node.js & Express.js', level: 6 },
-        { name: 'REST API', level: 6 },
+        // { name: 'REST API', level: 6 },
         { name: 'SQL', level: 5 },
       ],
     },
@@ -37,7 +37,7 @@ function About() {
     {
       category: 'Currently Learning',
       skills: [
-        { name: 'Next.js', level: 2 },
+        { name: 'Next.js', level: 3 },
         { name: 'MongoDB, MySQL, PostgreSQL', level: 1 },
         { name: 'AWS, GCP', level: 1 },
         { name: 'Docker, Kubernetes', level: 1 },
