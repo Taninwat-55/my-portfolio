@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://taninwatkaewpankan.xyz/sitemap.xml
