@@ -1,133 +1,109 @@
-import React, { useState } from 'react';
+import GlassContainer from '../common/GlassContainer';
+import GlassButton from '../common/GlassButton';
+import useScrollReveal from '../../hooks/useScrollReveal';
 
+// This project data can stay here or be moved to a separate file in /src/data
 const projects = [
   {
     id: 1,
     title: 'Cinema Booking System',
     description:
       'A full-stack cinema booking system where users can browse movies, select seats, and book tickets. Admins can manage movies and showings.',
-    technologies: 'React, Node.js, Express.js, SQLite',
+    technologies: 'React (Vite), Node.js, Express.js, SQLite',
     image: 'cinema-project-img.png',
-    video: 'cinema-project-movie.mov',
-    gif: 'cinema.gif',
     github: 'https://github.com/Taninwat-55/cinema-booking-system-project',
     demo: 'https://cinema-booking-system-project.vercel.app',
   },
   {
     id: 2,
-    title: 'Forum Web Appplication',
+    title: 'Forum Web Application',
     description:
-      'A simple web application for a forum where users can add, edit and delete a thread as well as sharing ideas and discuss various topics.',
-    technologies: 'React, Node.js, Express.js, SQLite',
+      'A simple web application for a forum where users can add, edit, and delete threads, as well as share ideas and discuss various topics.',
+    technologies: 'React (Vite), Node.js, Express.js, SQLite',
     image: 'Forum-img.png',
-    video: 'Forum-video.mov',
-    gif: 'forum.gif',
     github: 'https://github.com/Taninwat-55/Forum-App-Project-React',
     demo: 'https://forum-app-project-react.vercel.app',
   },
   {
     id: 3,
-    title: 'Sign-Up Form',
+    title: 'Racha Beauty & Wellness',
     description:
-      'A responsive sign-up form with form validation, error handling, and hover effects built from a design challenge.',
+      'A real-world responsive website for a local spa & wellness business in Denmark. Built with a contact form, services section, and SEO.',
+    technologies: 'React (Vite), Node.js, Express.js, Tailwind CSS',
+    image: 'Racha_img.png',
+    github: 'https://github.com/Taninwat-55/rachabeautywellness',
+    demo: 'https://rachabeautywellness.com',
+  },
+  {
+    id: 4,
+    title: 'Interactive Sign-Up Form',
+    description:
+      'A responsive sign-up form with client-side validation, error handling, and hover effects, built from a design challenge.',
     technologies: 'HTML, CSS, JavaScript',
     image: 'sign-up-form-project.png',
-    video: 'signup-project.mov',
-    gif: 'signup.gif',
     github: 'https://github.com/Taninwat-55/Intro-component-with-sign-up-form',
     demo: 'https://taninwat-55.github.io/Intro-component-with-sign-up-form/',
   },
 ];
 
-function Portfolio() {
-  const [playingId, setPlayingId] = useState(null);
-
-  const handleClick = (id) => {
-    setPlayingId(id);
-  };
+function Projects() {
+  useScrollReveal([
+    {
+      selector: '.project-card',
+      config: {
+        origin: 'bottom',
+        distance: '50px',
+        duration: 1000,
+        interval: 200,
+        reset: true,
+      },
+    },
+  ]);
 
   return (
-    <div>
-      <div className='bg-gray-900/60 text-white py-20' id='projects'>
-        <div className='container mx-auto px-8 md:px-16 lg:px-24'>
-          <h2 className='text-4xl font-bold text-center mb-12'>Projects</h2>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-            {projects.map((project) => (
-              <div
-                key={project.id}
-                className='bg-gray-800 p-6 rounded-lg flex flex-col justify-between hover:shadow-lg transform transition-transform duration-300 hover:scale-105 '
-              >
-                <div
-                  onClick={() => handleClick(project.id)}
-                  className='cursor-pointer mb-4'
-                >
-                  {playingId === project.id ? (
-                    <img
-                      src={project.gif}
-                      alt={`${project.title} preview`}
-                      className='rounded-lg mb-4 w-full h-48 object-cover'
-                    />
-                  ) : (
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className='rounded-lg mb-4 w-full h-48 object-cover'
-                    />
-                  )}
-                  {/* {playingId === project.id ? (
-                    <video
-                      src={project.video}
-                      controls
-                      autoPlay
-                      loop
-                      muted
-                      className='rounded-lg mb-4 w-full h-48 object-cover'
-                    />
-                  ) : (
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className='rounded-lg mb-4 w-full h-48 object-cover'
-                    />
-                  )} */}
-                </div>
-
-                <div className='flex flex-col flex-grow justify-between'>
-                  <h3 className='text-2xl font-bold mb-2 min-h-[56px]'>
-                    {project.title}
-                  </h3>
-                  <p className='text-gray-400 mb-4 min-h-[96px]'>
-                    {project.description}
-                  </p>
-                  <p className='text-gray-300 font-bold mb-4 min-h-[28px]'>
-                    {project.technologies}
-                  </p>
-                  <div className='flex gap-3'>
-                    <a
-                      href={project.github}
-                      className='bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded-full hover:scale-105'
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      GitHub
-                    </a>
-                    <a
-                      href={project.demo}
-                      className='bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-4 py-2 rounded-full hover:scale-105'
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      Live Demo
-                    </a>
-                  </div>
+    <section
+      id='projects'
+      className='py-20 px-4'
+      aria-labelledby='projects-heading'
+    >
+      <div className='container mx-auto'>
+        <h2
+          id='projects-heading'
+          className='text-4xl font-bold text-center mb-12'
+        >
+          My Work
+        </h2>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto'>
+          {projects.map((project) => (
+            <GlassContainer
+              key={project.id}
+              className='project-card flex flex-col'
+            >
+              <img
+                src={project.image}
+                alt={`Screenshot of the ${project.title} project`}
+                className='rounded-lg mb-4 w-full h-56 object-cover object-top'
+                loading='lazy'
+              />
+              <div className='flex flex-col flex-grow'>
+                <h3 className='text-2xl font-bold mb-2'>{project.title}</h3>
+                <p className='text-text-secondary mb-4 flex-grow'>
+                  {project.description}
+                </p>
+                <p className='text-sm text-accent font-semibold mb-6'>
+                  {project.technologies}
+                </p>
+                <div className='flex flex-wrap gap-3 mt-auto'>
+                  <GlassButton href={project.github}>GitHub</GlassButton>
+                  <GlassButton href={project.demo}>Live Demo</GlassButton>
                 </div>
               </div>
-            ))}
-          </div>
+            </GlassContainer>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
-export default Portfolio;
+export default Projects;

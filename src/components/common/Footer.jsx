@@ -1,51 +1,43 @@
-import React from 'react';
 import { FaGithub, FaLinkedin, FaXTwitter } from 'react-icons/fa6';
 
 function Footer() {
+  const socialLinks = [
+    { href: 'https://github.com/Taninwat-55', label: 'GitHub', icon: FaGithub },
+    { href: 'https://www.linkedin.com/in/taninwat-k-a187951aa/', label: 'LinkedIn', icon: FaLinkedin },
+    { href: 'https://x.com/IceishhK', label: 'X (formerly Twitter)', icon: FaXTwitter },
+  ];
+
   return (
-    <footer className='bg-gray-900/60 text-white py-8'>
-      <div className='border-t border-gray-600 pt-4 w-[80%] mx-auto'>
-        <div className='container mx-auto px-8 md:px-16 lg:px-24 flex flex-col md:flex-row justify-between items-center'>
-          {/* LEFT SIDE */}
-          <div className='mb-4 md:mb-0 text-left'>
-            <h3 className='text-xl font-bold mb-1 sm:text-center md:text-start '>Taninwat Kaewpankan</h3>
-            <p className='text-gray-400 sm:text-center md:text-start'>
-              Full-Stack Developer in training — open to internship
-              opportunities.
+    <footer className="mt-20 py-8" role="contentinfo">
+      <div className="container mx-auto px-6">
+        <div className="border-t border-glass-border pt-8 flex flex-col sm:flex-row justify-between items-center gap-6">
+          {/* Left Side */}
+          <div className="text-center sm:text-left">
+            <h3 className="text-xl font-bold">Taninwat Kaewpankan</h3>
+            <p className="text-text-secondary">
+              Full-Stack Developer | Open to opportunities
             </p>
           </div>
 
-          {/* RIGHT SIDE */}
-          <div className='flex flex-col-reverse md:flex-col-reverse items-center md:items-end text-center md:text-right'>
-            <p className='text-gray-500 text-sm mt-2 md:mt-4'>
+          {/* Right Side */}
+          <div className="flex flex-col items-center sm:items-end gap-4">
+            <div className="flex items-center space-x-4">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  className="text-text-secondary hover:text-text-hover transition-colors"
+                >
+                  <link.icon size={20} />
+                </a>
+              ))}
+            </div>
+            <p className="text-xs text-text-secondary/70">
               &copy; {new Date().getFullYear()} Taninwat Kaewpankan
             </p>
-            <div className='flex justify-center md:justify-end space-x-4'>
-              <a
-                href='https://github.com/Taninwat-55'
-                target='_blank'
-                rel='noopener noreferrer'
-                aria-label='GitHub'
-              >
-                <FaGithub className='text-gray-400 hover:text-white' />
-              </a>
-              <a
-                href='https://www.linkedin.com/in/taninwat-k-a187951aa/'
-                target='_blank'
-                rel='noopener noreferrer'
-                aria-label='LinkedIn'
-              >
-                <FaLinkedin className='text-gray-400 hover:text-white' />
-              </a>
-              <a
-                href='https://x.com/IceishhK'
-                target='_blank'
-                rel='noopener noreferrer'
-                aria-label='Twitter'
-              >
-                <FaXTwitter className='text-gray-400 hover:text-white' />
-              </a>
-            </div>
           </div>
         </div>
       </div>
