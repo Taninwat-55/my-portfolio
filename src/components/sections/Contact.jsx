@@ -51,7 +51,9 @@ function Contact() {
       })
       .catch((error) => {
         toast.dismiss(loadingToast);
-        toast.error(error, 'Something went wrong. Please try again.');
+        toast.error('Something went wrong. Please try again.');
+
+        console.error('Form submission error:', error);
       });
   };
 
