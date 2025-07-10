@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import useScrollReveal from '../../hooks/useScrollReveal';
 import SkillModal from '../common/SkillModal';
-import SkillDetails from '../../data/SkillDetails.jsx'; // UPDATED THIS LINE
+import SkillDetails from '../../data/SkillDetails.jsx';
 import GlassContainer from '../common/GlassContainer';
 
 function About() {
   const [selectedSkill, setSelectedSkill] = useState(null);
 
-  // The skill data can remain here or be moved to a separate data file
+  // The skill data will be moved to a separate data file later
   const categorizedSkills = [
     {
       category: 'Frontend',
@@ -91,13 +91,26 @@ function About() {
           <GlassContainer className='about-left-panel'>
             <h3 className='text-3xl font-bold mb-6 text-accent'>My Story</h3>
             <p className='text-text-secondary mb-8'>
-              I'm a business and economics graduate from Uppsala University who
-              discovered a passion for building things, which led me to the
-              world of web development. My background in entrepreneurship and
-              project management gives me a unique perspective on creating
-              valuable, user-focused applications. I thrive on solving problems
-              and am constantly learning to keep up with the ever-evolving tech
-              landscape.
+              My journey began with a desire to turn creative ideas into
+              something real. I’ve always been drawn to storytelling and big
+              imaginative concepts—especially ones that feel too complex or
+              abstract for traditional formats like film. That’s what led me to
+              study Game Design. I saw it as a way to bring ideas to life
+              through interaction, systems, and design—where users could
+              experience a story, not just watch it.
+              <br />
+              <br />
+              Later on, during my Master’s in Business and Entrepreneurship, I
+              shifted focus toward creating real-world value from creative
+              concepts. I learned how to take ideas, structure them, and turn
+              them into usable, meaningful products.
+              <br />
+              <br />
+              Eventually, I found that web development was a natural next step.
+              It gives me the tools to combine creative thinking with practical
+              problem-solving. Now, I use that mix of design thinking,
+              storytelling instincts, and business awareness to build web
+              applications that are functional, purposeful, and human-centered.
             </p>
 
             {/* Education Timeline */}
@@ -107,7 +120,9 @@ function About() {
               </h4>
               <ul className='border-l-2 border-accent/50 pl-6 space-y-6'>
                 <li>
-                  <h5 className='font-bold'>M.S. in Business & Management</h5>
+                  <h5 className='font-bold'>
+                    M.S. in Business & Management - Entrepreneurship
+                  </h5>
                   <p className='text-sm text-text-secondary'>
                     Uppsala University (2022 – 2023)
                   </p>
@@ -122,10 +137,10 @@ function About() {
                 </li>
                 <li>
                   <h5 className='font-bold'>
-                    Professional Degree, Frontend Development
+                    Professional Bachelor's Degree, Frontend Development
                   </h5>
                   <p className='text-sm text-text-secondary'>
-                    Jensen Yrkeshögskola (Ongoing)
+                    Jensen Yrkeshögskola (Aug 2024 - May 2026)
                   </p>
                 </li>
               </ul>
@@ -145,10 +160,26 @@ function About() {
                 </p>
                 <ul className='list-disc pl-6 text-sm text-text-secondary mt-2 space-y-1'>
                   <li>
-                    Led workshops and supported student teams in consulting
-                    projects.
+                    Managed and monitored two-month consulting projects from
+                    start to finish, ensuring timely delivery and maintaining a
+                    high standard of client engagement and satisfaction.
                   </li>
-                  <li>Facilitated project kick-offs and planning sessions.</li>
+                  <li>
+                    Facilitated project kick-offs, planning workshops, and
+                    mentor-led sessions to support student development; created
+                    an inclusive environment focused on learning, initiative,
+                    and real-world problem-solving.
+                  </li>
+                  <li>
+                    Managed operations and internal communications; implemented
+                    a hybrid project management approach (structured + agile) to
+                    improve efficiency and team coordination.
+                  </li>
+                  <li>
+                    Spearheaded improvements in workflows, documentation, and
+                    internal knowledge-sharing; developed sustainability
+                    strategies to ensure the continued success of future cycles.
+                  </li>
                 </ul>
               </div>
             </div>
@@ -199,8 +230,6 @@ function About() {
           </GlassContainer>
         </div>
       </div>
-
-      {/* The SkillModal is called here, we will refactor it in the final step */}
       {selectedSkill && (
         <SkillModal
           skill={selectedSkill}

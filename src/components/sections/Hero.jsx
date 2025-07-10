@@ -3,7 +3,6 @@ import GlassButton from '../common/GlassButton';
 import useScrollReveal from '../../hooks/useScrollReveal';
 
 function Hero() {
-  // This hook for scroll animations remains unchanged
   useScrollReveal([
     {
       selector: '.hero-content',
@@ -25,7 +24,7 @@ function Hero() {
     >
       <div className='hero-content z-10'>
         <img
-          src='Relaxed_pic_Ice.jpg'
+          src='Ice-img.webp'
           alt='A relaxed portrait of Taninwat Kaewpankan'
           className='float-image mx-auto mb-8 w-48 h-48 object-cover border-4 border-glass-border shadow-lg'
           loading='lazy'

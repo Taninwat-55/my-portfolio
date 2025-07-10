@@ -1,21 +1,27 @@
 @import 'tailwindcss';
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 @theme {
   --color-background: #050615; /* A very dark, deep blue for the page background */
-  --color-glass-bg: rgb(21 22 49 / 30%); /* Semi-transparent dark blue for glass panels */
-  --color-glass-border: rgb(255 255 255 / 30%); /* Subtle white for glass borders */
-  --color-glass-border-hover: rgb(255 255 255 / 70%); /* Brighter border on hover */
+  --color-glass-bg: rgb(
+    21 22 49 / 30%
+  ); /* Semi-transparent dark blue for glass panels */
+  --color-glass-border: rgb(
+    255 255 255 / 30%
+  ); /* Subtle white for glass borders */
+  --color-glass-border-hover: rgb(
+    255 255 255 / 70%
+  ); /* Brighter border on hover */
 
   --color-text-primary: #e2e8f0; /* Off-white (slate-200) for main text */
   --color-text-secondary: #94a3b8; /* Muted gray (slate-400) for sub-text */
   --color-text-hover: #ffffff; /* Pure white for hover states */
-  
+
   --color-accent: #34d399; /* A vibrant green (emerald-400) for highlights and CTAs */
   --color-accent-hover: #6ee7b7; /* A lighter green for hover states */
 
-  --font-sans: 'Nunito', sans-serif;
+  --font-sans: 'Inter', sans-serif;
 }
 
 html {
@@ -27,8 +33,16 @@ body {
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   /* Apply a subtle texture or gradient to the background */
-  background-image: radial-gradient(circle at top right, rgb(12 74 110 / 0.5), transparent 50%),
-                    radial-gradient(circle at bottom left, rgb(134 25 143 / 0.3), transparent 60%);
+  background-image: radial-gradient(
+      circle at top right,
+      rgb(12 74 110 / 0.5),
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      rgb(134 25 143 / 0.3),
+      transparent 60%
+    );
 }
 
 /* Keyframe animation for the floating profile image */
@@ -42,7 +56,9 @@ body {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-1.5rem); /* Reduced float height for a subtler effect */
+    transform: translateY(
+      -1.5rem
+    ); /* Reduced float height for a subtler effect */
   }
   100% {
     transform: translateY(0);

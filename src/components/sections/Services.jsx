@@ -1,7 +1,7 @@
 import GlassContainer from '../common/GlassContainer';
 import useScrollReveal from '../../hooks/useScrollReveal';
 
-// You can keep this data array at the top of the file or move it to your data folder.
+// This will be moved it to another folder later.
 const services = [
   {
     id: 1,

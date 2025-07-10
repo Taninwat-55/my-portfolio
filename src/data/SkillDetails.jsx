@@ -1,16 +1,6 @@
-import {
-  FaCss3Alt,
-  FaJs,
-  FaReact,
-} from 'react-icons/fa';
+import { FaCss3Alt, FaJs, FaReact } from 'react-icons/fa';
 import { FaHtml5, FaGitAlt, FaNodeJs } from 'react-icons/fa6';
-import {
-  SiTailwindcss,
-  SiTypescript,
-  SiNextdotjs,
-  SiPostgresql,
-  SiMongodb,
-} from 'react-icons/si';
+import { SiTailwindcss, SiTypescript, SiNextdotjs } from 'react-icons/si';
 import { TbSql } from 'react-icons/tb';
 
 const SkillDetails = {
