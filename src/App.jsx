@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import Hero from './components/sections/Hero';
@@ -10,6 +11,7 @@ import ScrollToTop from './components/ScrollToTop';
 function App() {
   return (
     <div className="min-h-screen overflow-x-hidden">
+      <Toaster position="bottom-center" />
       <Navbar />
       <main>
         <Hero />
