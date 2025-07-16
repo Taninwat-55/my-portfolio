@@ -4,7 +4,7 @@ export const projects = [
     title: 'Cinema Booking System',
     description:
       'A full-stack application featuring real-time seat selection, user booking management, and a secure admin panel for content management. Built to demonstrate proficiency in RESTful API design and state management in React.',
-    technologies: 'React (Vite), Node.js, Express.js, SQLite',
+    technologies: 'React (Vite), Node.js, Express.js, SQLite, Claude Sonnet 3.7',
     image: 'cinema-project-img.png',
     github: 'https://github.com/Taninwat-55/cinema-booking-system-project',
     demo: 'https://cinema-booking-system-project.vercel.app',
@@ -14,7 +14,7 @@ export const projects = [
     title: 'Forum Web Application',
     description:
       'A dynamic forum where users can manage their own content. This project focuses on full CRUD (Create, Read, Update, Delete) functionality, user-generated content, and building a structured backend with a relational database.',
-    technologies: 'React (Vite), Node.js, Express.js, SQLite',
+    technologies: 'React (Vite), Node.js, Express.js, SQLite, Chat GPT o3',
     image: 'Forum-img.webp',
     github: 'https://github.com/Taninwat-55/Forum-App-Project-React',
     demo: 'https://forum-app-project-react.vercel.app',
