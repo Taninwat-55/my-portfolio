@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere, Line } from '@react-three/drei';
+import { OrbitControls, Line } from '@react-three/drei';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import * as THREE from 'three';
@@ -94,6 +94,7 @@ const ConnectingNodes = () => {
   //   <Sphere ref={orbRef} args={[1, 32, 32]} scale={2}>
   //     <meshStandardMaterial color='#4CAF50' wireframe />
   //   </Sphere>
+  // // Import Sphere in line 3 if want to use
   // );
 };
 
