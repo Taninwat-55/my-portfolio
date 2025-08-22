@@ -5,6 +5,14 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const navLinks = [
+  { name: 'Home', href: '#hero' },
+  { name: 'About', href: '#about' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Contact', href: '#contact' },
+];
+
 const Navbar = () => {
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,14 +25,12 @@ const Navbar = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Navbar slide-in animation
       gsap.fromTo(
         navRef.current,
         { y: -100, opacity: 0 },
         { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
       );
 
-      // Navbar background change on scroll
       ScrollTrigger.create({
         trigger: 'body',
         start: 'top -50px',
@@ -38,7 +44,6 @@ const Navbar = () => {
         },
       });
 
-      // Active link highlighting on scroll
       const sections = gsap.utils.toArray<HTMLElement>('section');
       sections.forEach((section) => {
         ScrollTrigger.create({
@@ -69,20 +74,21 @@ const Navbar = () => {
       className='navbar fixed top-0 left-0 w-full z-50 transition-all duration-300'
     >
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4'>
-        <div className='text-2xl font-heading font-bold border border-primary p-2 text-primary'>
+        <a
+          href='#hero'
+          className='text-2xl font-heading font-bold border border-primary p-2 text-primary'
+        >
           Taninwat
-        </div>
+        </a>
 
-        {/* Desktop Menu */}
         <ul className='hidden md:flex space-x-6'>
-          {['home', 'about', 'projects', 'skills', 'contact'].map((item) => (
-            <li key={item}>
+          {navLinks.map((item) => (
+            <li key={item.name}>
               <a
-                href={`#${item}`}
-                className='nav-link text-text dark:text-dark-text hover:text-secondary transition-colors font-body'
+                href={item.href}
+                className='nav-link nav-link-animated text-text dark:text-dark-text hover:text-secondary transition-colors font-body'
               >
-                {/* Capitalize first letter */}
-                {item.charAt(0).toUpperCase() + item.slice(1)}
+                {item.name}
               </a>
             </li>
           ))}
@@ -105,29 +111,47 @@ const Navbar = () => {
             {isDark ? '☀️' : '🌙'}
           </button>
 
-          {/* Mobile Menu Button */}
           <button
-            className='md:hidden text-2xl text-text dark:text-dark-text'
+            className='md:hidden text-2xl text-text dark:text-dark-text relative w-6 h-6'
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label='Toggle mobile menu'
+            aria-expanded={isMenuOpen}
           >
-            {isMenuOpen ? <FaTimes /> : <FaBars />}
+            <FaBars
+              className={`absolute top-0 left-0 transition-all duration-300 ${
+                isMenuOpen ? 'opacity-0 rotate-90' : 'opacity-100 rotate-0'
+              }`}
+            />
+            <FaTimes
+              className={`absolute top-0 left-0 transition-all duration-300 ${
+                isMenuOpen ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90'
+              }`}
+            />
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className='md:hidden bg-base dark:bg-dark-base absolute top-full left-0 w-full'>
+        <div className='md:hidden absolute top-full left-0 w-full bg-base/90 dark:bg-dark-base/90 backdrop-blur-sm transition-all duration-300 ease-in-out'>
           <ul className='flex flex-col items-center space-y-4 py-4'>
-            {['home', 'about', 'projects', 'skills', 'contact'].map((item) => (
-              <li key={item}>
+            <li>
+              <a
+                href='/my-resume.pdf'
+                download='Taninwat-Kaewpankan-Resume.pdf'
+                onClick={() => setIsMenuOpen(false)}
+                className='nav-link text-text dark:text-dark-text hover:text-secondary transition-colors font-body text-lg'
+              >
+                Resume
+              </a>
+            </li>
+            {navLinks.map((item) => (
+              <li key={item.name}>
                 <a
-                  href={`#${item}`}
+                  href={item.href}
                   onClick={() => setIsMenuOpen(false)}
                   className='nav-link text-text dark:text-dark-text hover:text-secondary transition-colors font-body text-lg'
                 >
-                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                  {item.name}
                 </a>
               </li>
             ))}

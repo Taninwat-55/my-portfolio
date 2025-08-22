@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { educationData } from '../data/educationData';
 import { experienceData } from '../data/experienceData';
-import TimelineItem from './TimelineItem'; // <-- Import the new component
+import { FaGraduationCap, FaBriefcase } from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,10 +11,10 @@ const About = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const timelineLineRef = useRef<HTMLDivElement>(null);
+  const data = [...educationData, ...experienceData];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animate the profile image
       gsap.fromTo(
         imgRef.current,
         { opacity: 0, scale: 0.5 },
@@ -27,7 +27,6 @@ const About = () => {
         }
       );
 
-      // Animate the timeline line "drawing" itself
       gsap.fromTo(
         timelineLineRef.current,
         { scaleY: 0 },
@@ -45,12 +44,11 @@ const About = () => {
         }
       );
 
-      // Animate each timeline item individually
       const items = gsap.utils.toArray<HTMLElement>('.timeline-item');
       items.forEach((item) => {
         const dot = item.querySelector('.timeline-dot');
         const card = item.querySelector('.card');
-        const isReversed = item.classList.contains('flex-row-reverse');
+        const isReversed = item.classList.contains('md:flex-row-reverse');
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -117,11 +115,58 @@ const About = () => {
             <div className='relative'>
               <div
                 ref={timelineLineRef}
-                className='absolute left-1/2 w-1 bg-highlight transform -translate-x-1/2 h-full'
+                className='absolute left-4 md:left-1/2 w-1 bg-highlight transform md:-translate-x-1/2 h-full'
               ></div>
-              {[...educationData, ...experienceData].map((item, index) => (
-                <TimelineItem key={index} item={item} index={index} />
-              ))}
+              {data.map((item, index) => {
+                const isEducation = 'degree' in item;
+                const isReversed = index % 2 === 0;
+
+                return (
+                  <div
+                    key={index}
+                    className={`timeline-item mb-8 flex flex-col md:flex-row items-start md:items-center relative ${
+                      isReversed ? 'md:flex-row-reverse' : ''
+                    }`}
+                  >
+                    <div className='timeline-dot absolute left-2 md:left-1/2 w-8 h-8 bg-secondary rounded-full border-2 border-dark-base transform -translate-x-1/2 flex items-center justify-center z-10'>
+                      {isEducation ? (
+                        <FaGraduationCap className='text-md text-dark-base' />
+                      ) : (
+                        <FaBriefcase className='text-md text-dark-base' />
+                      )}
+                    </div>
+                    <div
+                      className={`w-full md:w-1/2 ${
+                        isReversed ? 'md:pl-8 md:text-right' : 'md:pr-8'
+                      } pl-12 md:pl-0`}
+                    >
+                      <div className='card bg-base p-6 rounded-lg neon-glow'>
+                        <h4 className='text-xl font-heading font-semibold text-secondary'>
+                          {isEducation ? item.degree : item.role}
+                        </h4>
+                        <p className='text-sm font-body text-text/80'>
+                          {isEducation ? item.institution : item.company}
+                        </p>
+                        <p className='text-sm font-body text-text/60'>
+                          {item.period}
+                        </p>
+                        {isEducation ? (
+                          <p className='text-sm font-body text-text/80 mt-2'>
+                            {item.details}
+                          </p>
+                        ) : (
+                          <ul className='text-sm font-body text-text/80 mt-2 list-disc list-inside text-left'>
+                            {item.duties.map((duty, i) => (
+                              <li key={i}>{duty}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </div>
+                    <div className='hidden md:block md:w-1/2'></div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
