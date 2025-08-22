@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Orbitron:wght@400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+@theme {
+  --color-base: #0a0a0a;
+  --color-dark-base: #1c2526;
+  --color-primary: #ff007a;
+  --color-secondary: #00ddeb;
+  --color-highlight: #ffd700;
+  --color-text: #f0f0f0;
+  --color-dark-text: #ffffff;
+
+  --font-family-heading: 'Orbitron', sans-serif;
+  --font-family-body: 'Poppins', sans-serif;
+  --font-family-code: 'Inconsolata', monospace;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-family-body);
+}
+
+.neon-glow {
+  box-shadow: 0 0 10px theme('colors.primary'),
+    0 0 20px theme('colors.secondary');
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px) rotateX(5deg);
+  box-shadow: 0 5px 15px rgba(255, 0, 122, 0.5);
+}
+
+.hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.test-primary {
+  color: theme('colors.primary');
+}
+
+/* Hide scrollbar for Webkit and Firefox */
+.projects-gallery::-webkit-scrollbar {
+  display: none;
+}
+
+.projects-gallery {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Navbar styles */
+.navbar.scrolled {
+  background-color: theme('colors.base / 80%');
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 6px theme('colors.base / 10%');
+}
+
+.dark .navbar.scrolled {
+  background-color: theme('colors.dark-base / 80%');
+}
+
+.nav-link.active {
+  color: theme('colors.secondary');
+  font-weight: 700;
+}
+
+.nav-link-animated {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-link-animated::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: theme('colors.secondary');
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav-link-animated:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+/* Custom font utility classes */
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-family-heading);
+  }
+
+  .font-body {
+    font-family: var(--font-family-body);
+  }
+
+  .font-code {
+    font-family: var(--font-family-code);
+  }
+}
