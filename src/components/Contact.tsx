@@ -1,224 +1,122 @@
-import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FaEnvelope } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaPaperPlane, FaEnvelope, FaLinkedin, FaGithub } from 'react-icons/fa';
 import FormInput from './FormInput';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const Contact = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-  const [isFocused, setIsFocused] = useState({
-    name: false,
-    email: false,
-    message: false,
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [isFocused, setIsFocused] = useState({ name: false, email: false, message: false });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleFocus = (field: keyof typeof isFocused) => {
-    setIsFocused({ ...isFocused, [field]: true });
-  };
-
+  const handleFocus = (field: keyof typeof isFocused) => setIsFocused({ ...isFocused, [field]: true });
+  
   const handleBlur = (field: keyof typeof isFocused) => {
-    if (formData[field] === '') {
-      setIsFocused({ ...isFocused, [field]: false });
-    }
+    if (formData[field] === '') setIsFocused({ ...isFocused, [field]: false });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        'form-name': form.getAttribute('name') || 'contact',
-        ...formData,
-      }).toString(),
-    })
-      .then(() => {
-        // Form outro animation on success
-        const formChildren = gsap.utils.toArray('.animate-in-form > *');
-        gsap.to(formChildren, {
-          opacity: 0,
-          y: 20,
-          stagger: 0.1,
-          onComplete: () => {
-            setIsSubmitted(true);
-          },
-        });
-        setFormData({ name: '', email: '', message: '' });
-        setIsFocused({ name: false, email: false, message: false });
-      })
-      .catch((error) => {
-        // You can still show a toast for errors
-        console.error('Form submission error:', error);
-      });
+    // Simulate submission
+    setTimeout(() => setIsSubmitted(true), 1000);
   };
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Intro animation on scroll
-      const tlIntro = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-
-      tlIntro
-        .fromTo(
-          sectionRef.current!.querySelectorAll('.animate-in'),
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            stagger: 0.2,
-            duration: 0.8,
-            ease: 'power3.out',
-          }
-        )
-        .to('.submit-btn', {
-          scale: 1.1,
-          duration: 0.5,
-          yoyo: true,
-          repeat: -1,
-          ease: 'power1.inOut',
-        });
-
-      // Outro animation on scroll away
-      gsap.to(sectionRef.current!.querySelectorAll('.animate-out-scroll'), {
-        y: -100,
-        opacity: 0,
-        ease: 'power1.in',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'bottom 20%',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
-    <section
-      id='contact'
-      ref={sectionRef}
-      className='py-20 bg-base dark:bg-dark-base'
-      aria-labelledby='contact-heading'
-    >
-      <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='text-center animate-in animate-out-scroll'>
-          <h2
-            id='contact-heading'
-            className='text-4xl font-heading font-bold text-text dark:text-dark-text mb-4'
-          >
-            Get In Touch
-          </h2>
-          <p className='max-w-2xl mx-auto text-lg font-body text-text/70 dark:text-dark-text/70 mb-12'>
-            I'm actively seeking internship opportunities where I can
-            contribute, learn, and grow. If you have a role that might be a good
-            fit, I'd love to hear from you.
-          </p>
-        </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 h-full items-center max-w-5xl mx-auto">
+      
+      {/* Left: Contact Info */}
+      <div>
+        <h3 className="text-4xl font-heading font-bold text-white mb-2">
+          INITIATE <br/><span className="text-primary">HANDSHAKE</span>
+        </h3>
+        <p className="font-body text-text/60 mb-8">
+          Ready to validate the next block? Whether it's a project collaboration or an internship opportunity, my node is listening.
+        </p>
 
-        <div className='max-w-xl mx-auto animate-in animate-out-scroll'>
+        <div className="space-y-6 font-code text-sm">
+          <div className="flex items-center gap-4 p-4 border border-text/10 bg-dark-base hover:border-primary/50 transition-colors group">
+            <div className="p-3 bg-primary/10 text-primary rounded group-hover:bg-primary group-hover:text-dark-base transition-colors">
+              <FaEnvelope size={20} />
+            </div>
+            <div>
+              <p className="text-text/40 text-xs">EMAIL_PROTOCOL</p>
+              <a href="mailto:taninwat.kaewpankan@gmail.com" className="text-white hover:text-primary transition-colors">
+                taninwat.kaewpankan@gmail.com
+              </a>
+            </div>
+          </div>
+
+          <div className="flex gap-4">
+            <a href="https://www.linkedin.com/in/taninwat-k-a187951aa/" target="_blank" className="flex-1 flex items-center justify-center gap-2 p-4 border border-text/10 bg-dark-base hover:bg-[#0077b5] hover:border-[#0077b5] hover:text-white transition-all group">
+              <FaLinkedin size={24} className="text-text/50 group-hover:text-white transition-colors" />
+              <span className="hidden sm:inline">LINKEDIN</span>
+            </a>
+            <a href="https://github.com/Taninwat-55" target="_blank" className="flex-1 flex items-center justify-center gap-2 p-4 border border-text/10 bg-dark-base hover:bg-[#333] hover:border-white hover:text-white transition-all group">
+              <FaGithub size={24} className="text-text/50 group-hover:text-white transition-colors" />
+              <span className="hidden sm:inline">GITHUB</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Right: Form */}
+      <div className="relative">
+        {/* Decorative elements */}
+        <div className="absolute -top-4 -right-4 w-20 h-20 border-t-2 border-r-2 border-primary/20"></div>
+        <div className="absolute -bottom-4 -left-4 w-20 h-20 border-b-2 border-l-2 border-primary/20"></div>
+
+        <div className="bg-base/80 backdrop-blur-md p-8 border border-text/10 shadow-2xl">
           {isSubmitted ? (
-            <div className='bg-dark-base/20 p-8 rounded-lg border border-highlight/50 text-center'>
-              <h3 className='text-3xl font-heading font-bold text-primary mb-4'>
-                Message Sent!
-              </h3>
-              <p className='text-lg font-body text-text/80'>
-                Thank you for your message. I will get back to you soon.
-              </p>
+            <div className="text-center py-12">
+              <div className="w-16 h-16 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FaPaperPlane size={24} />
+              </div>
+              <h4 className="text-xl font-heading text-white mb-2">TRANSACTION BROADCASTED</h4>
+              <p className="text-text/60 font-code text-sm">Your message has been added to the mempool.</p>
             </div>
           ) : (
-            <div className='bg-dark-base/20 p-8 rounded-lg border border-highlight/50'>
-              <div className='flex justify-center items-center gap-3 mb-6'>
-                <a
-                  href='mailto:taninwat.kaewpankan@gmail.com'
-                  className='flex items-center gap-2 px-4 py-2 text-sm rounded-full bg-primary/20 text-text dark:text-dark-text hover:bg-highlight/40 transition-colors font-body'
-                >
-                  <FaEnvelope /> Email Me
-                </a>
-              </div>
-              <form
-                name='contact'
-                ref={formRef}
-                method='POST'
-                data-netlify='true'
-                data-netlify-honeypot='bot-field'
-                onSubmit={handleSubmit}
-                className='space-y-6 animate-in-form'
-              >
-                <input type='hidden' name='form-name' value='contact' />
-                <p className='hidden'>
-                  <label>
-                    Don’t fill this out: <input name='bot-field' />
-                  </label>
-                </p>
-
-                <FormInput
-                  label='Your Name'
-                  name='name'
-                  value={formData.name}
-                  onChange={handleChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  isFocused={isFocused.name}
-                />
-
-                <FormInput
-                  label='Your Email'
-                  name='email'
-                  value={formData.email}
-                  onChange={handleChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  isFocused={isFocused.email}
-                  type='email'
-                />
-
-                <FormInput
-                  label='Message'
-                  name='message'
-                  value={formData.message}
-                  onChange={handleChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  isFocused={isFocused.message}
-                  type='textarea'
-                  rows={4}
-                />
-
-                <button
-                  type='submit'
-                  className='submit-btn w-full p-3 bg-primary text-dark-text rounded-lg hover:bg-secondary transition-colors font-body font-semibold'
-                >
-                  Send Message
-                </button>
-              </form>
-            </div>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <FormInput 
+                label="PUBLIC_KEY (Name)" 
+                name="name" 
+                value={formData.name} 
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                isFocused={isFocused.name}
+              />
+              <FormInput 
+                label="ADDRESS (Email)" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                isFocused={isFocused.email}
+                type="email"
+              />
+              <FormInput 
+                label="DATA_PAYLOAD (Message)" 
+                name="message" 
+                value={formData.message} 
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                isFocused={isFocused.message}
+                type="textarea"
+                rows={4}
+              />
+              
+              <button type="submit" className="w-full py-4 bg-primary hover:bg-primary/90 text-dark-base font-bold font-heading tracking-widest transition-colors flex items-center justify-center gap-2">
+                <FaPaperPlane /> SIGN & BROADCAST
+              </button>
+            </form>
           )}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

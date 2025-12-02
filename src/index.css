@@ -1,115 +1,72 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Orbitron:wght@400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
 
 @theme {
   --color-base: #0a0a0a;
-  --color-dark-base: #1c2526;
-  --color-primary: #ff007a;
-  --color-secondary: #00ddeb;
-  --color-highlight: #ffd700;
-  --color-text: #f0f0f0;
-  --color-dark-text: #ffffff;
-
+  --color-dark-base: #111111;
+  --color-primary: #F7931A; /* Bitcoin Orange */
+  --color-secondary: #4D4D4D;
+  --color-highlight: #ffffff;
+  --color-text: #e0e0e0;
+  
   --font-family-heading: 'Orbitron', sans-serif;
-  --font-family-body: 'Poppins', sans-serif;
-  --font-family-code: 'Inconsolata', monospace;
+  --font-family-body: 'Inter', sans-serif;
+  --font-family-code: 'Share Tech Mono', monospace;
 }
 
-@custom-variant dark (&:where(.dark, .dark *));
-
-html {
-  scroll-behavior: smooth;
+/* --- Core Setup --- */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent default scrolling on body */
+  background-color: theme('colors.dark-base');
+  color: theme('colors.text');
   font-family: var(--font-family-body);
 }
 
-.neon-glow {
-  box-shadow: 0 0 10px theme('colors.primary'),
-    0 0 20px theme('colors.secondary');
+/* --- Horizontal Scroll Container --- */
+.horizontal-scroll-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto; /* Allow horizontal scroll */
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  /* Hide scrollbar for clean look (optional, but looks better) */
+  scrollbar-width: none; 
 }
-
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-5px) rotateX(5deg);
-  box-shadow: 0 5px 15px rgba(255, 0, 122, 0.5);
-}
-
-.hexagon {
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-
-.test-primary {
-  color: theme('colors.primary');
-}
-
-/* Hide scrollbar for Webkit and Firefox */
-.projects-gallery::-webkit-scrollbar {
+.horizontal-scroll-container::-webkit-scrollbar {
   display: none;
 }
 
-.projects-gallery {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+/* --- Utilities --- */
+.text-glow {
+  text-shadow: 0 0 15px rgba(247, 147, 26, 0.4);
 }
 
-/* Navbar styles */
-.navbar.scrolled {
-  background-color: theme('colors.base / 80%');
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 6px theme('colors.base / 10%');
+.neon-border {
+  box-shadow: 0 0 5px theme('colors.primary'), inset 0 0 5px theme('colors.primary');
 }
 
-.dark .navbar.scrolled {
-  background-color: theme('colors.dark-base / 80%');
+/* Background Grid (Ledger Look) */
+.ledger-bg {
+  background-image: 
+    linear-gradient(rgba(247, 147, 26, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(247, 147, 26, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-.nav-link.active {
-  color: theme('colors.secondary');
-  font-weight: 700;
+::selection {
+  background-color: theme('colors.primary'); /* Uses your Bitcoin Orange */
+  color: #000000; /* Forces text to black (or use white #ffffff) */
 }
 
-.nav-link-animated {
-  position: relative;
-  display: inline-block;
+/* For Firefox compatibility */
+::-moz-selection {
+  background-color: theme('colors.primary');
+  color: #000000;
 }
-
-.nav-link-animated::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  bottom: -5px;
-  left: 0;
-  background-color: theme('colors.secondary');
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease-in-out;
-}
-
-.nav-link-animated:hover::after {
-  transform: scaleX(1);
-}
-
-.nav-link.active::after {
-  transform: scaleX(1);
-}
-
-/* Custom font utility classes */
-@layer utilities {
-  .font-heading {
-    font-family: var(--font-family-heading);
-  }
-
-  .font-body {
-    font-family: var(--font-family-body);
-  }
-
-  .font-code {
-    font-family: var(--font-family-code);
-  }
-}
-

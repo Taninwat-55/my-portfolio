@@ -1,177 +1,112 @@
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { educationData } from '../data/educationData';
-import { experienceData } from '../data/experienceData';
+import { useEffect, useRef, useState } from 'react';
+import { experienceData } from '../data/experience';
 import { FaGraduationCap, FaBriefcase } from 'react-icons/fa';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const About = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const timelineLineRef = useRef<HTMLDivElement>(null);
-  const data = [...educationData, ...experienceData];
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const workExperience = experienceData.filter(item => item.type === 'work');
+  const education = experienceData.filter(item => item.type === 'education');
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        imgRef.current,
-        { opacity: 0, scale: 0.5 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 1.5,
-          ease: 'power4.out',
-          scrollTrigger: { trigger: imgRef.current, start: 'top 90%' },
-        }
-      );
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setIsVisible(true);
+      },
+      { threshold: 0.3 }
+    );
 
-      gsap.fromTo(
-        timelineLineRef.current,
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          transformOrigin: 'top',
-          duration: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: timelineLineRef.current,
-            start: 'top 80%',
-            end: 'bottom 80%',
-            scrub: true,
-          },
-        }
-      );
-
-      const items = gsap.utils.toArray<HTMLElement>('.timeline-item');
-      items.forEach((item) => {
-        const dot = item.querySelector('.timeline-dot');
-        const card = item.querySelector('.card');
-        const isReversed = item.classList.contains('md:flex-row-reverse');
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          },
-        });
-
-        tl.fromTo(
-          dot,
-          { scale: 0 },
-          { scale: 1, duration: 0.3, ease: 'back.out(1.7)' }
-        ).fromTo(
-          card,
-          { opacity: 0, x: isReversed ? -50 : 50 },
-          { opacity: 1, x: 0, duration: 0.5, ease: 'power2.out' },
-          '-=0.2'
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
   }, []);
 
-  return (
-    <section
-      id='about'
-      ref={sectionRef}
-      className='py-20 bg-dark-base text-text'
-      aria-labelledby='about-heading'
-    >
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <h2
-          id='about-heading'
-          className='text-5xl font-heading font-bold text-highlight mb-12 text-center'
-        >
-          About Me
-        </h2>
-        <div className='flex flex-col items-center'>
-          <div className='relative mb-12'>
-            <div className='hexagon w-64 h-64 relative overflow-hidden neon-glow'>
-              <img
-                ref={imgRef}
-                src='Ice-img.png'
-                alt='Taninwat Kaewpankan Image'
-                className='absolute inset-0 w-full h-full object-cover'
-              />
-            </div>
+  const TimelineItem = ({ item }: { item: any }) => {
+    const isEducation = item.type === 'education';
+    return (
+      <div className="flex gap-4 group p-4 rounded bg-white/5 border border-transparent hover:border-primary/30 transition-all duration-300">
+        <div className="flex-shrink-0 mt-1">
+          <div className="w-8 h-8 rounded bg-dark-base border border-text/20 flex items-center justify-center text-primary">
+            {isEducation ? <FaGraduationCap size={14} /> : <FaBriefcase size={14} />}
           </div>
-          <div className='text-center max-w-2xl mb-12'>
-            <h3 className='text-3xl font-heading font-bold text-secondary mb-4'>
-              My Journey
-            </h3>
-            <p className='font-family-body text-lg font-body text-text/80'>
-              I've always loved building things, from video games to business
-              ventures. Now, I get to build cool web apps as a Frontend
-              Developer student at Jensen Yrkeshögskola, where I'm learning and
-              studying programming languages and its library and framework like
-              HTML, CSS, JavaScript, React, Node.js, and SQL.
-            </p>
-          </div>
-          <div className='w-full max-w-3xl'>
-            <div className='relative'>
-              <div
-                ref={timelineLineRef}
-                className='absolute left-4 md:left-1/2 w-1 bg-highlight transform md:-translate-x-1/2 h-full'
-              ></div>
-              {data.map((item, index) => {
-                const isEducation = 'degree' in item;
-                const isReversed = index % 2 === 0;
+        </div>
+        <div>
+          <h4 className="font-heading text-base text-white">
+            {item.role}
+          </h4>
+          <p className="font-code text-xs text-primary/80 mb-2 mt-1">
+            {item.organization} | {item.period}
+          </p>
+          <p className="font-body text-xs text-gray-300 leading-relaxed">
+            {Array.isArray(item.details) ? item.details.join(' ') : item.details}
+          </p>
+        </div>
+      </div>
+    );
+  };
 
-                return (
-                  <div
-                    key={index}
-                    className={`timeline-item mb-8 flex flex-col md:flex-row items-start md:items-center relative ${
-                      isReversed ? 'md:flex-row-reverse' : ''
-                    }`}
-                  >
-                    <div className='timeline-dot absolute left-2 md:left-1/2 w-8 h-8 bg-secondary rounded-full border-2 border-dark-base transform -translate-x-1/2 flex items-center justify-center z-10'>
-                      {isEducation ? (
-                        <FaGraduationCap className='text-md text-dark-base' />
-                      ) : (
-                        <FaBriefcase className='text-md text-dark-base' />
-                      )}
-                    </div>
-                    <div
-                      className={`w-full md:w-1/2 ${
-                        isReversed ? 'md:pl-8 md:text-right' : 'md:pr-8'
-                      } pl-12 md:pl-0`}
-                    >
-                      <div className='card bg-base p-6 rounded-lg neon-glow'>
-                        <h4 className='text-xl font-heading font-semibold text-secondary'>
-                          {isEducation ? item.degree : item.role}
-                        </h4>
-                        <p className='text-sm font-body text-text/80'>
-                          {isEducation ? item.institution : item.company}
-                        </p>
-                        <p className='text-sm font-body text-text/60'>
-                          {item.period}
-                        </p>
-                        {isEducation ? (
-                          <p className='text-sm font-body text-text/80 mt-2'>
-                            {item.details}
-                          </p>
-                        ) : (
-                          <ul className='text-sm font-body text-text/80 mt-2 list-disc list-inside text-left'>
-                            {item.duties.map((duty, i) => (
-                              <li key={i}>{duty}</li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    </div>
-                    <div className='hidden md:block md:w-1/2'></div>
-                  </div>
-                );
-              })}
-            </div>
+  return (
+    <div ref={containerRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12 h-full items-start pt-4 lg:pt-10">
+      
+      {/* Left Column: Bio */}
+      <div className={`space-y-8 text-center lg:text-left transition-all duration-1000 delay-100 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+        <div className="hexagon w-48 h-48 md:w-64 md:h-64 relative overflow-hidden neon-border mx-auto lg:mx-0">
+          <img
+            src="/Ice-img.png"
+            alt="Taninwat Kaewpankan"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
+        
+        <div className="bg-white/5 p-6 rounded-lg border-l-4 border-primary text-left">
+          <h3 className="text-2xl font-heading text-white mb-4">Who am I?</h3>
+          <p 
+            className="font-body leading-relaxed mb-4 text-sm md:text-base" 
+            style={{ color: 'white' }}
+          >
+            I've always loved building things, from video games to business ventures. 
+            Now, I engineer web applications using <span className="text-primary font-bold">React, Node.js, and SQL</span>.
+          </p>
+          <div className="font-code text-xs text-gray-400 mt-4 pt-4 border-t border-white/10">
+            <p>📍 Copenhagen, Denmark</p>
+            <p>🎓 Frontend Development Student</p>
           </div>
         </div>
       </div>
-    </section>
+
+      {/* Right Column: Timeline */}
+      <div className={`h-[60vh] overflow-y-auto pr-2 custom-scrollbar transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+        
+        {/* Experience Section */}
+        {workExperience.length > 0 && (
+          <div className="mb-8">
+            <h3 className="text-lg font-heading text-primary mb-4 flex items-center gap-2">
+              <FaBriefcase /> Work Experience
+            </h3>
+            <div className="space-y-4">
+              {workExperience.map((item) => (
+                <TimelineItem key={item.id} item={item} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Education Section */}
+        {education.length > 0 && (
+          <div>
+            <h3 className="text-lg font-heading text-primary mb-4 flex items-center gap-2">
+              <FaGraduationCap /> Education
+            </h3>
+            <div className="space-y-4">
+              {education.map((item) => (
+                <TimelineItem key={item.id} item={item} />
+              ))}
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
   );
 };
 

@@ -1,165 +1,94 @@
-import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
-import { projects as importedProjects } from '../data/projectsData';
-import Modal from './Modal';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { FaGithub } from 'react-icons/fa';
-import { FaExternalLinkAlt } from 'react-icons/fa';
-import ProjectDetails from './ProjectDetails';
-
-gsap.registerPlugin(ScrollTrigger);
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  technologies: string;
-  image: string;
-  github: string;
-  demo: string;
-}
-
-const projects: Project[] = importedProjects;
+import { useState } from 'react';
+import { projects } from '../data/projects';
+import { FaGithub, FaExternalLinkAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const Projects = () => {
-  const projectsRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleOpenModal = (project: Project) => {
-    setSelectedProject(project);
-    setIsModalOpen(true);
+  const nextProject = () => {
+    setCurrentIndex((prev) => (prev + 1) % projects.length);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const prevProject = () => {
+    setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
   };
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (projectsRef.current) {
-      const scrollAmount = direction === 'right' ? 330 : -330;
-      projectsRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-  };
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const projectsElement = projectsRef.current;
-      if (projectsElement) {
-        const cards = gsap.utils.toArray<HTMLElement>(
-          projectsElement.querySelectorAll('.project-card')
-        );
-
-        // Animate the cards in on scroll
-        gsap.fromTo(
-          cards,
-          { opacity: 0, scale: 0.9 },
-          {
-            opacity: 1,
-            scale: 1,
-            stagger: 0.2,
-            duration: 0.8,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
-          }
-        );
-
-        // --- FIXED: Refactored hover animation with a cleaner approach ---
-        cards.forEach((card) => {
-          const hoverTween = gsap.to(card, { scale: 1.05, duration: 0.3, paused: true, });
-
-          card.addEventListener('mouseenter', () => hoverTween.play());
-          card.addEventListener('mouseleave', () => hoverTween.reverse());
-        });
-        // --- END OF FIX ---
-      }
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  const currentProject = projects[currentIndex];
 
   return (
-    <section id='projects' ref={sectionRef} className='py-20 bg-dark-base text-dark-text'>
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <h2 className='text-4xl font-heading font-bold mb-8 text-center'>
-          My Projects
-        </h2>
-        <div className='relative'>
-          <div
-            className='flex space-x-6 overflow-x-auto projects-gallery'
-            ref={projectsRef}
-          >
-            {projects.map((project) => (
-              <div
-                key={project.id}
-                className='project-card flex flex-col min-w-[300px] bg-base dark:bg-dark-base rounded-lg shadow-lg overflow-hidden cursor-pointer'
-                onClick={() => handleOpenModal(project)}
-              >
-                <LazyLoadImage
-                  src={`/assets/${project.image}`}
-                  alt={project.title}
-                  className='w-full h-48 object-cover'
-                  effect='blur'
-                  placeholderSrc='/assets/placeholder.jpg'
-                />
-                <div className='p-4 flex flex-col flex-grow'>
-                  <h3 className='text-xl font-heading font-bold mb-1'>
-                    {project.title}
-                  </h3>
-                  <p className='text-sm font-body text-text/70 dark:text-dark-text/70 mb-3'>
-                    {project.technologies}
-                  </p>
-                  <p className='text-sm font-body text-text/70 dark:text-dark-text/70 flex-grow'>
-                    {project.description}
-                  </p>
-                  <div className='mt-4 flex gap-2'>
-                    <a
-                      href={project.github}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='flex items-center gap-2 px-3 py-1 bg-highlight/20 text-text rounded-full hover:bg-highlight/40 transition-colors font-body text-sm'
-                    >
-                      <FaGithub />
-                      GitHub
-                    </a>
-                    <a
-                      href={project.demo}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                      className='flex items-center gap-2 px-3 py-1 bg-secondary/20 text-text rounded-full hover:bg-secondary/40 transition-colors font-body text-sm'
-                    >
-                      <FaExternalLinkAlt />
-                      Live Demo
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <button
-            onClick={() => scroll('left')}
-            className='absolute left-0 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-primary/80 hover:bg-primary transition-colors text-white z-10 hidden md:block'
-            aria-label='Scroll projects left'
-          >
-            <FaArrowLeft />
+    <div className="flex flex-col h-full justify-center">
+      {/* Header removed to avoid clash with BlockWrapper title */}
+      
+      {/* Navigation Controls moved to align with content */}
+      <div className="flex justify-end mb-4">
+        <div className="flex gap-2">
+          <button onClick={prevProject} className="p-3 border border-text/20 hover:border-primary hover:text-primary transition-colors text-white rounded bg-dark-base">
+            <FaChevronLeft />
           </button>
-          <button
-            onClick={() => scroll('right')}
-            className='absolute right-0 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-primary/80 hover:bg-primary transition-colors text-white z-10 hidden md:block'
-            aria-label='Scroll projects right'
-          >
-            <FaArrowRight />
+          <button onClick={nextProject} className="p-3 border border-text/20 hover:border-primary hover:text-primary transition-colors text-white rounded bg-dark-base">
+            <FaChevronRight />
           </button>
         </div>
       </div>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        {selectedProject && <ProjectDetails project={selectedProject} />}
-      </Modal>
-    </section>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Project Image Area */}
+        <div className="lg:col-span-7 relative group">
+          <div className="absolute inset-0 bg-primary/20 transform translate-x-2 translate-y-2 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-300"></div>
+          <div className="relative border border-text/10 bg-dark-base overflow-hidden h-[300px] md:h-[450px]">
+             {/* No blur, clean image */}
+             <img
+                src={`/assets/${currentProject.image}`}
+                alt={currentProject.title}
+                className="w-full h-full object-cover object-top opacity-100"
+             />
+          </div>
+        </div>
+
+        {/* Project Details */}
+        <div className="lg:col-span-5 flex flex-col h-full">
+          <h3 className="text-3xl font-heading font-bold mb-4 text-white leading-tight">
+            {currentProject.title}
+          </h3>
+          
+          <div className="bg-white/5 p-6 border-l-2 border-primary mb-6 backdrop-blur-sm rounded-r">
+            <p className="font-body text-gray-300 leading-relaxed text-sm md:text-base">
+              {currentProject.description}
+            </p>
+          </div>
+
+          <div className="mb-8">
+            <span className="font-code text-primary text-xs mb-2 block tracking-wider">TECH STACK:</span>
+            <div className="flex flex-wrap gap-2 font-code text-xs">
+              {currentProject.technologies.split(', ').map((tech, i) => (
+                <span key={i} className="px-3 py-1 bg-dark-base border border-white/10 text-gray-300 rounded-full">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex gap-4 mt-auto">
+            <a href={currentProject.github} target="_blank" rel="noreferrer" className="flex-1 py-3 text-center border border-white/20 text-white hover:border-primary hover:text-primary font-bold font-heading tracking-wide transition-colors rounded">
+              <span className="flex items-center justify-center gap-2"><FaGithub /> CODE</span>
+            </a>
+            <a href={currentProject.demo} target="_blank" rel="noreferrer" className="flex-1 py-3 text-center bg-primary text-dark-base hover:bg-white transition-colors font-bold font-heading tracking-wide rounded">
+               <span className="flex items-center justify-center gap-2"><FaExternalLinkAlt /> LIVE</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      {/* Progress Dots */}
+      <div className="flex gap-1 mt-8 justify-center">
+        {projects.map((_, idx) => (
+          <div 
+            key={idx} 
+            className={`h-1 w-8 rounded-full transition-colors duration-300 ${idx === currentIndex ? 'bg-primary' : 'bg-white/10'}`}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 

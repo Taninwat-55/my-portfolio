@@ -1,160 +1,94 @@
-import { useEffect, useState, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FaBars, FaTimes } from 'react-icons/fa';
-
-gsap.registerPlugin(ScrollTrigger);
+import { useState } from 'react';
+import { FaBars, FaTimes, FaDownload } from 'react-icons/fa';
 
 const navLinks = [
-  { name: 'Home', href: '#hero' },
-  { name: 'About', href: '#about' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Skills', href: '#skills' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Home', id: 'hero' },
+  { name: 'About', id: 'about' },
+  { name: 'Projects', id: 'projects' },
+  { name: 'Skills', id: 'skills' },
+  { name: 'Contact', id: 'contact' },
 ];
 
 const Navbar = () => {
-  const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navRef = useRef<HTMLElement>(null);
 
-  const toggleDarkMode = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
+  const handleNavClick = (id: string) => {
+    const container = document.querySelector('.horizontal-scroll-container');
+    const element = document.getElementById(id);
+    
+    if (container && element) {
+      // Calculate the position of the element inside the container
+      const offsetLeft = element.offsetLeft;
+      container.scrollTo({
+        left: offsetLeft,
+        behavior: 'smooth'
+      });
+    }
+    setIsMenuOpen(false);
   };
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        navRef.current,
-        { y: -100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
-      );
-
-      ScrollTrigger.create({
-        trigger: 'body',
-        start: 'top -50px',
-        end: 'bottom top',
-        onUpdate: (self) => {
-          if (self.direction === 1) {
-            navRef.current?.classList.add('scrolled');
-          } else {
-            navRef.current?.classList.remove('scrolled');
-          }
-        },
-      });
-
-      const sections = gsap.utils.toArray<HTMLElement>('section');
-      sections.forEach((section) => {
-        ScrollTrigger.create({
-          trigger: section,
-          start: 'top center',
-          end: 'bottom center',
-          onToggle: (self) => {
-            if (self.isActive) {
-              const id = section.getAttribute('id');
-              document.querySelectorAll('.nav-link').forEach((link) => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${id}`) {
-                  link.classList.add('active');
-                }
-              });
-            }
-          },
-        });
-      });
-    }, navRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <nav
-      ref={navRef}
-      className='navbar fixed top-0 left-0 w-full z-50 transition-all duration-300'
-    >
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4'>
-        <a
-          href='#hero'
-          className='text-2xl font-heading font-bold border border-primary p-2 text-primary'
-        >
-          Taninwat
-        </a>
+    <nav className='fixed top-0 left-0 w-full z-50 border-b border-text/10 bg-dark-base/90 backdrop-blur-md'>
+      <div className='max-w-full mx-auto px-6 lg:px-12 flex justify-between items-center h-16'>
+        <button onClick={() => handleNavClick('hero')} className='text-xl font-heading font-bold tracking-tighter cursor-pointer'>
+          <span className="text-primary">TK</span>.PORTFOLIO
+        </button>
 
-        <ul className='hidden md:flex space-x-6'>
+        {/* Desktop Nav */}
+        <ul className='hidden md:flex space-x-8'>
           {navLinks.map((item) => (
             <li key={item.name}>
-              <a
-                href={item.href}
-                className='nav-link nav-link-animated text-text dark:text-dark-text hover:text-secondary transition-colors font-body'
+              <button
+                onClick={() => handleNavClick(item.id)}
+                className='font-body text-sm text-text/70 hover:text-primary transition-colors uppercase tracking-wider font-bold'
               >
                 {item.name}
-              </a>
+              </button>
             </li>
           ))}
         </ul>
 
-        <div className='flex items-center gap-4'>
-          <a
+        <div className='hidden md:block'>
+           <a
             href='/my-resume.pdf'
             download='Taninwat-Kaewpankan-Resume.pdf'
-            className='hidden md:block px-4 py-2 text-sm rounded-full bg-primary/20 text-text dark:text-dark-text hover:bg-highlight/40 transition-colors font-body'
+            className='flex items-center gap-2 px-4 py-2 text-xs font-bold bg-primary text-dark-base hover:bg-white transition-colors font-heading rounded-sm'
           >
-            Resume
+            <FaDownload /> RESUME
           </a>
-
-          <button
-            onClick={toggleDarkMode}
-            className='p-2 rounded-full bg-primary/20 text-dark-text hover:bg-secondary/40 transition-colors'
-            aria-label='Toggle dark mode'
-          >
-            {isDark ? '☀️' : '🌙'}
-          </button>
-
-          <button
-            className='md:hidden text-2xl text-text dark:text-dark-text relative w-6 h-6'
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label='Toggle mobile menu'
-            aria-expanded={isMenuOpen}
-          >
-            <FaBars
-              className={`absolute top-0 left-0 transition-all duration-300 ${
-                isMenuOpen ? 'opacity-0 rotate-90' : 'opacity-100 rotate-0'
-              }`}
-            />
-            <FaTimes
-              className={`absolute top-0 left-0 transition-all duration-300 ${
-                isMenuOpen ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90'
-              }`}
-            />
-          </button>
         </div>
+
+        {/* Mobile Toggle */}
+        <button
+          className='md:hidden text-2xl text-primary'
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <FaTimes /> : <FaBars />}
+        </button>
       </div>
 
+      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className='md:hidden absolute top-full left-0 w-full bg-base/90 dark:bg-dark-base/90 backdrop-blur-sm transition-all duration-300 ease-in-out'>
-          <ul className='flex flex-col items-center space-y-4 py-4'>
-            <li>
-              <a
-                href='/my-resume.pdf'
-                download='Taninwat-Kaewpankan-Resume.pdf'
-                onClick={() => setIsMenuOpen(false)}
-                className='nav-link text-text dark:text-dark-text hover:text-secondary transition-colors font-body text-lg'
-              >
-                Resume
-              </a>
-            </li>
+        <div className='md:hidden absolute top-16 left-0 w-full bg-dark-base border-b border-text/10'>
+          <ul className='flex flex-col items-center space-y-6 py-8'>
             {navLinks.map((item) => (
               <li key={item.name}>
-                <a
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className='nav-link text-text dark:text-dark-text hover:text-secondary transition-colors font-body text-lg'
+                <button
+                  onClick={() => handleNavClick(item.id)}
+                  className='font-heading text-lg text-text hover:text-primary uppercase'
                 >
                   {item.name}
-                </a>
+                </button>
               </li>
             ))}
+             <li>
+              <a
+                href='/my-resume.pdf'
+                className='text-primary font-bold font-body'
+              >
+                DOWNLOAD RESUME
+              </a>
+            </li>
           </ul>
         </div>
       )}
