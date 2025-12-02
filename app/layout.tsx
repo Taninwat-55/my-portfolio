@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/assets/Ice-img.webp', 
-        width: 800,
-        height: 600,
+        url: '/og-image.png', 
+        width: 1200,
+        height: 630,
         alt: 'Taninwat Kaewpankan',
       },
     ],
@@ -46,10 +46,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Taninwat Kaewpankan | Product Engineer",
     description: "Frontend Engineer with a Master's in Business.",
-    images: ['/assets/Ice-img.webp'],
+    images: ['/og-image.png'],
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/icon.png',
   },
 };
 
