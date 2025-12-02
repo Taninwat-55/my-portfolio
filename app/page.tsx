@@ -19,11 +19,10 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-bold text-xl tracking-tighter">
+          <Link href="/" className="font-bold text-xl tracking-tighter" aria-label="Home">
             TK<span className="text-orange-500">.</span>
           </Link>
           <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400 items-center">
-            {/* Smooth scroll links */}
             <a href="#about" className="hover:text-orange-500 transition-colors">About</a>
             <a href="#skills" className="hover:text-orange-500 transition-colors">Skills</a>
             <a href="#work" className="hover:text-orange-500 transition-colors">Experience</a>
@@ -35,6 +34,7 @@ export default function Home() {
           <a 
             href="mailto:taninwat.kaewpankan@gmail.com"
             className="px-4 py-2 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg hover:opacity-90 transition-opacity"
+            aria-label="Send email to hire me"
           >
             HIRE ME
           </a>
@@ -43,14 +43,15 @@ export default function Home() {
 
       <main className="container mx-auto px-6 pt-32 pb-20">
         
-        {/* HERO SECTION (Text Only - Clean & Impactful) */}
+        {/* HERO SECTION */}
         <section className="mb-32 max-w-4xl">
           <motion.div 
             initial={fadeInUp.initial}
             animate={fadeInUp.animate}
             transition={fadeInUp.transition}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 text-sm font-medium mb-8">
+            {/* Contrast Fix: Darker orange text for badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300 text-sm font-medium mb-8">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
@@ -73,6 +74,7 @@ export default function Home() {
               <a 
                 href="#projects" 
                 className="bg-orange-600 hover:bg-orange-700 text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
+                aria-label="View my projects"
               >
                 View Case Studies <ArrowRight size={18} />
               </a>
@@ -80,28 +82,29 @@ export default function Home() {
                 href="/assets/_CV - Eng.pdf" 
                 target="_blank"
                 className="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
+                aria-label="Download my Resume PDF"
               >
                 Download CV <Download size={18} />
               </a>
             </div>
 
+            {/* Accessibility Fix: Added aria-labels */}
             <div className="flex gap-6 mt-12 text-zinc-400">
-              <a href={personalInfo.socials.github} target="_blank" className="hover:text-orange-500 transition-colors"><Github /></a>
-              <a href={personalInfo.socials.linkedin} target="_blank" className="hover:text-orange-500 transition-colors"><Linkedin /></a>
-              <a href={`mailto:${personalInfo.email}`} className="hover:text-orange-500 transition-colors"><Mail /></a>
+              <a href={personalInfo.socials.github} target="_blank" aria-label="Visit my GitHub Profile" className="hover:text-orange-500 transition-colors"><Github /></a>
+              <a href={personalInfo.socials.linkedin} target="_blank" aria-label="Visit my LinkedIn Profile" className="hover:text-orange-500 transition-colors"><Linkedin /></a>
+              <a href={`mailto:${personalInfo.email}`} aria-label="Send me an email" className="hover:text-orange-500 transition-colors"><Mail /></a>
             </div>
           </motion.div>
         </section>
 
-        {/* ABOUT / PROFILE SECTION (New Home for your Image) */}
+        {/* ABOUT / PROFILE SECTION */}
         <section id="about" className="mb-32 border-y border-zinc-100 dark:border-zinc-800 py-16">
           <div className="flex flex-col md:flex-row gap-12 items-center">
-            {/* Image is now smaller and less intrusive */}
             <div className="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0">
                <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-2xl scale-110"></div>
                <Image 
                   src="/assets/Ice-img.webp"
-                  alt="Taninwat Kaewpankan"
+                  alt="Taninwat Kaewpankan Profile"
                   fill
                   className="object-cover rounded-full shadow-lg relative z-10"
                 />
@@ -124,6 +127,7 @@ export default function Home() {
 
         {/* TECH STACK */}
         <section id="skills" className="mb-32">
+          {/* Changed Wording: Technical Arsenal -> Core Competencies */}
           <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
             <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
             Core Competencies
@@ -143,7 +147,8 @@ export default function Home() {
                 <ul className="space-y-3">
                   {skillGroup.items.map((item, i) => (
                     <li key={i} className="flex justify-between items-center text-sm">
-                      <span className="text-zinc-600 dark:text-zinc-400">{item.name}</span>
+                      {/* Contrast Fix: text-zinc-600 for better readability */}
+                      <span className="text-zinc-600 dark:text-zinc-300">{item.name}</span>
                       <div className="w-24 h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                         <div 
                           className="h-full bg-orange-500 rounded-full" 
@@ -168,17 +173,17 @@ export default function Home() {
           <div className="space-y-8 relative border-l-2 border-zinc-200 dark:border-zinc-800 ml-3 md:ml-6 pl-8 md:pl-12">
             {experience.map((item, idx) => (
               <div key={idx} className="relative">
-                {/* Timeline Dot */}
                 <span className="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-4 border-white dark:border-zinc-950 bg-orange-500"></span>
                 
                 <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-2">
                   <h3 className="text-xl font-bold">{item.role}</h3>
-                  <span className="text-sm font-mono text-orange-600 bg-orange-100 dark:bg-orange-900/30 px-2 py-0.5 rounded">
+                  <span className="text-sm font-mono text-orange-800 dark:text-orange-300 bg-orange-100 dark:bg-orange-900/30 px-2 py-0.5 rounded">
                     {item.period}
                   </span>
                 </div>
-                <div className="text-zinc-500 font-medium mb-3">{item.organization}</div>
-                <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl">
+                {/* Contrast Fix: Darker gray */}
+                <div className="text-zinc-600 dark:text-zinc-400 font-medium mb-3">{item.organization}</div>
+                <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-2xl">
                   {item.description}
                 </p>
               </div>
@@ -216,7 +221,7 @@ export default function Home() {
                   <h3 className="text-xl font-bold mb-3 group-hover:text-orange-500 transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-zinc-600 dark:text-zinc-400 text-sm mb-6 flex-grow leading-relaxed">
+                  <p className="text-zinc-600 dark:text-zinc-300 text-sm mb-6 flex-grow leading-relaxed">
                     {project.description}
                   </p>
                   
@@ -232,6 +237,7 @@ export default function Home() {
                     <a 
                       href={project.links.code} 
                       target="_blank"
+                      aria-label={`View code for ${project.title}`}
                       className="flex-1 flex items-center justify-center gap-2 py-2 text-sm font-bold border border-zinc-200 dark:border-zinc-700 rounded hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
                     >
                       <Github size={16} /> CODE
@@ -239,6 +245,7 @@ export default function Home() {
                     <a 
                       href={project.links.demo} 
                       target="_blank"
+                      aria-label={`View live demo for ${project.title}`}
                       className="flex-1 flex items-center justify-center gap-2 py-2 text-sm font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded hover:opacity-90 transition-opacity"
                     >
                       <ExternalLink size={16} /> LIVE
@@ -251,7 +258,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-zinc-200 dark:border-zinc-800 pt-12 pb-8 text-center text-zinc-500 text-sm">
+        <footer className="border-t border-zinc-200 dark:border-zinc-800 pt-12 pb-8 text-center text-zinc-600 dark:text-zinc-400 text-sm">
           <p className="mb-4">&copy; {new Date().getFullYear()} Taninwat Kaewpankan. Built with Next.js & Tailwind.</p>
           <div className="flex justify-center gap-6">
             <a href="#" className="hover:text-orange-500">Back to Top</a>

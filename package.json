@@ -28,5 +28,9 @@
     "eslint-config-next": "16.0.6",
     "tailwindcss": "^4.1.17",
     "typescript": "^5"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ]
 }
