@@ -72,7 +72,7 @@ export default function Home() {
                 View Case Studies <ArrowRight size={18} />
               </a>
               <a 
-                href="/my-resume.pdf" // Ensure this file is in your public folder
+                href="assets/_CV - Eng.pdf" 
                 target="_blank"
                 className="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
               >
