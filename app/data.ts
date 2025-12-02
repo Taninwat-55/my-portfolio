@@ -22,22 +22,22 @@ export const personalInfo = {
 
 export const skills = [
   {
-    category: "Frontend Architecture",
+    category: "Frontend & UI",
     icon: Layout,
     items: [
       { name: "React (Next.js)", level: 90 },
       { name: "TypeScript", level: 80 },
       { name: "Tailwind CSS", level: 95 },
-      { name: "Framer Motion", level: 70 },
+      { name: "API Integration", level: 85 }, // Changed from REST API Design
     ]
   },
   {
-    category: "Backend & Systems",
+    category: "Systems & Tools",
     icon: Server,
     items: [
-      { name: "Node.js", level: 75 },
+      { name: "Node.js & Express.js", level: 75 },
       { name: "PostgreSQL / SQL", level: 65 },
-      { name: "REST API Design", level: 85 },
+      { name: "Git & GitHub", level: 90 }, // Replaced Framer Motion
       { name: "Auth (JWT/NextAuth)", level: 70 },
     ]
   },

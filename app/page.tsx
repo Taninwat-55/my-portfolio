@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Github, Linkedin, Mail, Download, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link"; 
 import { personalInfo, skills, experience, projects } from "./data";
 
 export default function Home() {
@@ -18,14 +19,18 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-          <span className="font-bold text-xl tracking-tighter">
+          <Link href="/" className="font-bold text-xl tracking-tighter">
             TK<span className="text-orange-500">.</span>
-          </span>
-          <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+          </Link>
+          <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400 items-center">
+            {/* Smooth scroll links */}
             <a href="#about" className="hover:text-orange-500 transition-colors">About</a>
-            <a href="#stack" className="hover:text-orange-500 transition-colors">Stack</a>
+            <a href="#skills" className="hover:text-orange-500 transition-colors">Skills</a>
             <a href="#work" className="hover:text-orange-500 transition-colors">Experience</a>
             <a href="#projects" className="hover:text-orange-500 transition-colors">Projects</a>
+            <Link href="/blog" className="hover:text-orange-500 transition-colors">
+              Blog
+            </Link>
           </div>
           <a 
             href="mailto:taninwat.kaewpankan@gmail.com"
@@ -38,8 +43,8 @@ export default function Home() {
 
       <main className="container mx-auto px-6 pt-32 pb-20">
         
-        {/* HERO SECTION */}
-        <section id="about" className="max-w-4xl mb-32">
+        {/* HERO SECTION (Text Only - Clean & Impactful) */}
+        <section className="mb-32 max-w-4xl">
           <motion.div 
             initial={fadeInUp.initial}
             animate={fadeInUp.animate}
@@ -72,7 +77,7 @@ export default function Home() {
                 View Case Studies <ArrowRight size={18} />
               </a>
               <a 
-                href="assets/_CV - Eng.pdf" 
+                href="/assets/_CV - Eng.pdf" 
                 target="_blank"
                 className="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
               >
@@ -88,11 +93,40 @@ export default function Home() {
           </motion.div>
         </section>
 
+        {/* ABOUT / PROFILE SECTION (New Home for your Image) */}
+        <section id="about" className="mb-32 border-y border-zinc-100 dark:border-zinc-800 py-16">
+          <div className="flex flex-col md:flex-row gap-12 items-center">
+            {/* Image is now smaller and less intrusive */}
+            <div className="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0">
+               <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-2xl scale-110"></div>
+               <Image 
+                  src="/assets/Ice-img.webp"
+                  alt="Taninwat Kaewpankan"
+                  fill
+                  className="object-cover rounded-full shadow-lg relative z-10"
+                />
+            </div>
+            
+            <div>
+              <h2 className="text-2xl font-bold mb-4">About Me</h2>
+              <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
+                Originally from Thailand, I spent over 10 years in Sweden before settling in Denmark. 
+                This multicultural background has shaped my ability to adapt and communicate effectively across diverse teams.
+              </p>
+              <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                I hold a <strong>Master of Science in Business & Economics</strong> from Uppsala University and am currently 
+                sharpening my technical edge with a Professional Bachelor in Frontend Development. My goal is to work at the 
+                intersection of <strong>Product, Business, and Engineering</strong>.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* TECH STACK */}
-        <section id="stack" className="mb-32">
+        <section id="skills" className="mb-32">
           <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
             <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
-            Technical Arsenal
+            Core Competencies
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
