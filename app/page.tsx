@@ -1,64 +1,230 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { ArrowRight, Github, Linkedin, Mail, Download, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import { personalInfo, skills, experience, projects } from "./data";
 
 export default function Home() {
+  const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.5 }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 selection:bg-orange-500/30">
+      
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
+        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
+          <span className="font-bold text-xl tracking-tighter">
+            TK<span className="text-orange-500">.</span>
+          </span>
+          <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+            <a href="#about" className="hover:text-orange-500 transition-colors">About</a>
+            <a href="#stack" className="hover:text-orange-500 transition-colors">Stack</a>
+            <a href="#work" className="hover:text-orange-500 transition-colors">Experience</a>
+            <a href="#projects" className="hover:text-orange-500 transition-colors">Projects</a>
+          </div>
+          <a 
+            href="mailto:taninwat.kaewpankan@gmail.com"
+            className="px-4 py-2 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg hover:opacity-90 transition-opacity"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+            HIRE ME
           </a>
         </div>
+      </nav>
+
+      <main className="container mx-auto px-6 pt-32 pb-20">
+        
+        {/* HERO SECTION */}
+        <section id="about" className="max-w-4xl mb-32">
+          <motion.div 
+            initial={fadeInUp.initial}
+            animate={fadeInUp.animate}
+            transition={fadeInUp.transition}
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 text-sm font-medium mb-8">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+              </span>
+              Available for Product & Engineering Roles
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
+              Bridging business strategy <br />
+              with <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-600">engineering precision.</span>
+            </h1>
+            
+            <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-10 max-w-2xl leading-relaxed">
+              I am Taninwat "Ice" Kaewpankan. A Frontend Engineer with a 
+              <strong> Master's in Business & Economics</strong>. I combine technical skills in 
+              React & Node.js with product strategy to build meaningful digital experiences.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <a 
+                href="#projects" 
+                className="bg-orange-600 hover:bg-orange-700 text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
+              >
+                View Case Studies <ArrowRight size={18} />
+              </a>
+              <a 
+                href="/my-resume.pdf" // Ensure this file is in your public folder
+                target="_blank"
+                className="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
+              >
+                Download CV <Download size={18} />
+              </a>
+            </div>
+
+            <div className="flex gap-6 mt-12 text-zinc-400">
+              <a href={personalInfo.socials.github} target="_blank" className="hover:text-orange-500 transition-colors"><Github /></a>
+              <a href={personalInfo.socials.linkedin} target="_blank" className="hover:text-orange-500 transition-colors"><Linkedin /></a>
+              <a href={`mailto:${personalInfo.email}`} className="hover:text-orange-500 transition-colors"><Mail /></a>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* TECH STACK */}
+        <section id="stack" className="mb-32">
+          <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
+            <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
+            Technical Arsenal
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {skills.map((skillGroup, idx) => (
+              <motion.div 
+                key={idx}
+                whileHover={{ y: -5 }}
+                className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm"
+              >
+                <div className="mb-6 p-3 bg-orange-100 dark:bg-orange-900/20 text-orange-600 w-fit rounded-lg">
+                  <skillGroup.icon size={24} />
+                </div>
+                <h3 className="font-bold text-lg mb-4">{skillGroup.category}</h3>
+                <ul className="space-y-3">
+                  {skillGroup.items.map((item, i) => (
+                    <li key={i} className="flex justify-between items-center text-sm">
+                      <span className="text-zinc-600 dark:text-zinc-400">{item.name}</span>
+                      <div className="w-24 h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-orange-500 rounded-full" 
+                          style={{ width: `${item.level}%` }} 
+                        />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* EXPERIENCE & EDUCATION */}
+        <section id="work" className="mb-32 max-w-5xl">
+          <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
+            <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
+            Career Trajectory
+          </h2>
+          
+          <div className="space-y-8 relative border-l-2 border-zinc-200 dark:border-zinc-800 ml-3 md:ml-6 pl-8 md:pl-12">
+            {experience.map((item, idx) => (
+              <div key={idx} className="relative">
+                {/* Timeline Dot */}
+                <span className="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-4 border-white dark:border-zinc-950 bg-orange-500"></span>
+                
+                <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-2">
+                  <h3 className="text-xl font-bold">{item.role}</h3>
+                  <span className="text-sm font-mono text-orange-600 bg-orange-100 dark:bg-orange-900/30 px-2 py-0.5 rounded">
+                    {item.period}
+                  </span>
+                </div>
+                <div className="text-zinc-500 font-medium mb-3">{item.organization}</div>
+                <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* PROJECTS */}
+        <section id="projects" className="mb-20">
+          <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
+            <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
+            Selected Case Studies
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project) => (
+              <motion.div 
+                key={project.id}
+                whileHover={{ y: -5 }}
+                className="group rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden flex flex-col h-full"
+              >
+                <div className="relative h-48 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                  <Image 
+                    src={project.image} 
+                    alt={project.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full">
+                    {project.category}
+                  </div>
+                </div>
+
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="text-xl font-bold mb-3 group-hover:text-orange-500 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-zinc-600 dark:text-zinc-400 text-sm mb-6 flex-grow leading-relaxed">
+                    {project.description}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.tech.slice(0, 3).map((tech, i) => (
+                      <span key={i} className="text-xs font-mono px-2 py-1 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-600 dark:text-zinc-400">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-3 mt-auto pt-6 border-t border-zinc-100 dark:border-zinc-800">
+                    <a 
+                      href={project.links.code} 
+                      target="_blank"
+                      className="flex-1 flex items-center justify-center gap-2 py-2 text-sm font-bold border border-zinc-200 dark:border-zinc-700 rounded hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+                    >
+                      <Github size={16} /> CODE
+                    </a>
+                    <a 
+                      href={project.links.demo} 
+                      target="_blank"
+                      className="flex-1 flex items-center justify-center gap-2 py-2 text-sm font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded hover:opacity-90 transition-opacity"
+                    >
+                      <ExternalLink size={16} /> LIVE
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="border-t border-zinc-200 dark:border-zinc-800 pt-12 pb-8 text-center text-zinc-500 text-sm">
+          <p className="mb-4">&copy; {new Date().getFullYear()} Taninwat Kaewpankan. Built with Next.js & Tailwind.</p>
+          <div className="flex justify-center gap-6">
+            <a href="#" className="hover:text-orange-500">Back to Top</a>
+            <a href="mailto:taninwat.kaewpankan@gmail.com" className="hover:text-orange-500">Contact</a>
+          </div>
+        </footer>
+
       </main>
     </div>
   );
