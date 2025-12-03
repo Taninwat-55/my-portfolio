@@ -26,18 +26,18 @@ export const skills = [
     icon: Layout,
     items: [
       { name: "React (Next.js)", level: 90 },
-      { name: "TypeScript", level: 80 },
+      { name: "TypeScript", level: 85 },
       { name: "Tailwind CSS", level: 95 },
-      { name: "API Integration", level: 85 }, // Changed from REST API Design
+      { name: "API Integration", level: 85 },
     ]
   },
   {
     category: "Systems & Tools",
     icon: Server,
     items: [
-      { name: "Node.js & Express.js", level: 75 },
-      { name: "PostgreSQL / SQL", level: 65 },
-      { name: "Git & GitHub", level: 90 }, // Replaced Framer Motion
+      { name: "Node.js", level: 75 },
+      { name: "State (Zustand/Query)", level: 80 }, 
+      { name: "Git & GitHub", level: 90 }, 
       { name: "Auth (JWT/NextAuth)", level: 70 },
     ]
   },
@@ -55,12 +55,36 @@ export const skills = [
 
 export const experience = [
   {
+    id: "work-3",
+    type: "work",
+    role: "Frontend Developer Intern",
+    organization: "Trailr.ai",
+    period: "Sep 2025 - Dec 2025",
+    description: "Spearheaded a complete UI/UX overhaul of the core AI video platform. Implemented complex navigation systems using React, Zustand, and React Query, bridging the gap between design vision and technical feasibility."
+  },
+  {
     id: "edu-1",
     type: "education",
     role: "Professional Bachelor, Frontend Development",
     organization: "Jensen Yrkeshögskola",
     period: "2024 - 2026",
     description: "Specializing in modern web architecture, mastering React ecosystems, and performance optimization for scalable applications."
+  },
+  {
+    id: "work-1",
+    type: "work",
+    role: "Head of Millennial Consulting (Volunteer)",
+    organization: "Volunteer Leadership",
+    period: "2023 - 2025",
+    description: "Directed consulting projects, managed stakeholder expectations, and ensured timely delivery of strategic solutions for clients."
+  },
+  {
+    id: "work-2",
+    type: "work",
+    role: "Business Development Intern",
+    organization: "Spreadly (Remote)",
+    period: "Jan 2023 - Mar 2023",
+    description: "Conducted market analysis to identify growth opportunities and developed sales materials to drive business expansion."
   },
   {
     id: "edu-2",
@@ -78,22 +102,6 @@ export const experience = [
     period: "2019 - 2022",
     description: "Combined interactive system design with agile project management. Learned to manage user engagement mechanics and iterative development cycles."
   },
-  {
-    id: "work-1",
-    type: "work",
-    role: "Head of Millennial Consulting (Volunteer)",
-    organization: "Volunteer Leadership",
-    period: "2023 - 2025",
-    description: "Directed consulting projects, managed stakeholder expectations, and ensured timely delivery of strategic solutions for clients."
-  },
-  {
-    id: "work-2",
-    type: "work",
-    role: "Business Development Intern",
-    organization: "Spreadly (Remote)",
-    period: "Jan 2023 - Mar 2023",
-    description: "Conducted market analysis to identify growth opportunities and developed sales materials to drive business expansion."
-  }
 ];
 
 export const projects = [

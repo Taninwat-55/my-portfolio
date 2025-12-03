@@ -5,6 +5,7 @@ import { ArrowRight, Github, Linkedin, Mail, Download, ExternalLink } from "luci
 import Image from "next/image";
 import Link from "next/link"; 
 import { personalInfo, skills, experience, projects } from "./data";
+import { ThemeToggle } from "./components/theme-toggle";
 
 export default function Home() {
   const fadeInUp = {
@@ -19,9 +20,12 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
+          {/* 1. Logo (Left) */}
           <Link href="/" className="font-bold text-xl tracking-tighter" aria-label="Home">
             TK<span className="text-orange-500">.</span>
           </Link>
+
+          {/* 2. Navigation Links (Center) */}
           <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400 items-center">
             <a href="#about" className="hover:text-orange-500 transition-colors">About</a>
             <a href="#skills" className="hover:text-orange-500 transition-colors">Skills</a>
@@ -31,13 +35,18 @@ export default function Home() {
               Blog
             </Link>
           </div>
-          <a 
-            href="mailto:taninwat.kaewpankan@gmail.com"
-            className="px-4 py-2 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg hover:opacity-90 transition-opacity"
-            aria-label="Send email to hire me"
-          >
-            HIRE ME
-          </a>
+
+          {/* 3. Actions Group (Right) - Toggle + Hire Me */}
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <a 
+              href="mailto:taninwat.kaewpankan@gmail.com"
+              className="px-4 py-2 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg hover:opacity-90 transition-opacity"
+              aria-label="Send email to hire me"
+            >
+              HIRE ME
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -50,7 +59,6 @@ export default function Home() {
             animate={fadeInUp.animate}
             transition={fadeInUp.transition}
           >
-            {/* Contrast Fix: Darker orange text for badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300 text-sm font-medium mb-8">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
@@ -88,7 +96,6 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Accessibility Fix: Added aria-labels */}
             <div className="flex gap-6 mt-12 text-zinc-400">
               <a href={personalInfo.socials.github} target="_blank" aria-label="Visit my GitHub Profile" className="hover:text-orange-500 transition-colors"><Github /></a>
               <a href={personalInfo.socials.linkedin} target="_blank" aria-label="Visit my LinkedIn Profile" className="hover:text-orange-500 transition-colors"><Linkedin /></a>
@@ -125,9 +132,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* TECH STACK */}
+        {/* SKILLS */}
         <section id="skills" className="mb-32">
-          {/* Changed Wording: Technical Arsenal -> Core Competencies */}
           <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
             <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
             Core Competencies
@@ -147,7 +153,6 @@ export default function Home() {
                 <ul className="space-y-3">
                   {skillGroup.items.map((item, i) => (
                     <li key={i} className="flex justify-between items-center text-sm">
-                      {/* Contrast Fix: text-zinc-600 for better readability */}
                       <span className="text-zinc-600 dark:text-zinc-300">{item.name}</span>
                       <div className="w-24 h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                         <div 
@@ -163,7 +168,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* EXPERIENCE & EDUCATION */}
+        {/* EXPERIENCE */}
         <section id="work" className="mb-32 max-w-5xl">
           <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
             <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
@@ -181,7 +186,6 @@ export default function Home() {
                     {item.period}
                   </span>
                 </div>
-                {/* Contrast Fix: Darker gray */}
                 <div className="text-zinc-600 dark:text-zinc-400 font-medium mb-3">{item.organization}</div>
                 <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-2xl">
                   {item.description}

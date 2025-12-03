@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Orbitron, Share_Tech_Mono } from "next/font/google";
 import { GoogleTagManager } from '@next/third-parties/google'; // Changed to GTM
 import "./globals.css";
+import { ThemeProvider } from "./components/theme-provider";
 
 // Load your fonts
 const inter = Inter({ 
@@ -59,11 +60,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${inter.variable} ${orbitron.variable} ${codeFont.variable} antialiased bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50`}>
-        {children}
-        {/* Using Google Tag Manager with your specific ID */}
-        <GoogleTagManager gtmId="GTM-NJ6FFTVW" />
+        {/* Wrap everything inside ThemeProvider */}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+          <GoogleTagManager gtmId="GTM-NJ6FFTVW" />
+        </ThemeProvider>
       </body>
     </html>
   );

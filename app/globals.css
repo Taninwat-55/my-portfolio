@@ -6,7 +6,9 @@
   --color-bitcoin: #F7931A; 
 }
 
-/* Custom Scrollbar (Optional, but looks premium) */
+/* 👇 ADD THIS LINE to enable class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer utilities {
   ::-webkit-scrollbar {
     width: 8px;

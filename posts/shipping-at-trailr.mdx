@@ -1,0 +1,54 @@
+---
+title: "Building the Foundation: My 0-to-1 Experience at a Danish AI Startup"
+date: "2025-12-03"
+category: "Case Study"
+author: "Taninwat Kaewpankan"
+readTime: "7 min read"
+excerpt: "How I helped architect the core UI/UX for an unreleased AI video platform, wrestled with complex state management, and learned to balance ambition with technical constraints."
+---
+
+Working at a registered startup in Denmark is a unique experience. Unlike established corporate roles, you aren't just a cog in a machine—you are building the machine itself.
+
+For the past three months, I've been working as a Frontend Intern at **Trailr.ai**, an early-stage startup building an AI co-pilot for film trailer production. Since the product hasn't officially launched yet, I can't show you the live URL.
+
+But I _can_ share the engineering challenges we solved and the product decisions that will define its launch.
+
+### The "Reality Check" Moment
+
+In Week 3, I hit a wall that every Product Engineer faces: **The difference between Figma and Production.**
+
+I had designed a beautiful, ambitious UI overhaul for the timeline editor. It looked perfect in mockups. But when I sat down with the team for a technical "Reality Check," we realized the constraints. The video player had specific playback limitations; our state management couldn't handle that many simultaneous updates without stuttering.
+
+**I had two choices:**
+
+1.  Push for the "perfect" design and delay the roadmap by weeks.
+2.  Refactor the design to fit the technical constraints while keeping 90% of the user value.
+
+I chose the latter. We stripped back the "nice-to-haves" and focused on the core "active project lock" logic. This taught me a valuable lesson: **Great engineering isn't about avoiding constraints; it's about innovating _within_ them.**
+
+### Wrestling with State (Zustand vs. The World)
+
+The biggest technical hurdle was navigation. Trailr isn't a simple static website; it's a complex application with deep nesting (folders, collections, projects) that needs to feel like a native desktop app.
+
+I was tasked with implementing a new **Sidebar & Navigation System**. The challenge? Keeping the UI in sync with the URL and the server state without excessive re-renders.
+
+I learned that `useEffect` is often a trap. Instead, I dove deep into **Zustand** for global client state and paired it with **React Query** for server state. Balancing these two was tricky—invalidating caches at the right moment to prevent the UI from showing stale data taught me more about React lifecycles than any tutorial ever could.
+
+### The "Bloat" Discovery
+
+In my first week, I conducted a "Codebase Tour" to understand the existing architecture. I found what the team called "bloat"—leftover code from previous iterations and half-finished integrations.
+
+As a junior, my instinct was to ignore it. But a Product Engineer asks: _"Is this slowing us down?"_
+
+While I didn't refactor everything, simply _identifying_ these dead zones helped the team navigate faster. It made me realize that **reading code is a more important skill than writing code.**
+
+### Conclusion: The 0-to-1 Mindset
+
+I didn't just leave Trailr with better React skills. I left with a **Product Mindset**.
+
+I learned that:
+
+- **User Journeys > Component Libraries:** It doesn't matter if your button looks nice if the user flow is confusing.
+- **Alignment > Output:** The most valuable tool I used wasn't VS Code; it was the "Research Kickoff Doc" that aligned **the CEO** and the engineering team before a single line of code was written.
+
+Software engineering isn't just about typing syntax. It's about solving problems. And at Trailr, we built the foundation for something that will solve a very big one.

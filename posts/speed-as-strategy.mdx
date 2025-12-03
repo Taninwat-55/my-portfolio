@@ -1,0 +1,37 @@
+---
+title: "Speed as Strategy: Why Performance is a Product Manager’s Best Friend"
+date: "2025-12-03"
+category: "Product Strategy"
+author: "Taninwat Kaewpankan"
+readTime: "5 min read"
+excerpt: "Most developers optimize for code quality. I optimize for conversion. Here is why web performance is actually an economics problem."
+---
+
+In economics, we study **opportunity cost**. In frontend development, we study **latency**. They are the same thing.
+
+Every millisecond a user waits for your app to load is a "tax" on their attention span. If that tax gets too high, they churn. As a Product Engineer, I don't just look at Lighthouse scores as vanity metrics—I look at them as revenue indicators.
+
+### The "100ms" Rule
+
+Amazon found that every 100ms of latency cost them **1% in sales**. Google found that an extra 0.5 seconds in search page generation dropped traffic by **20%**.
+
+When I build a feature, I ask three questions:
+
+1.  **Does this spark joy?** (UX)
+2.  **Does this solve a problem?** (Product)
+3.  **Does the "weight" of this feature justify the "wait" for the user?** (Performance Economics)
+
+### Why I Moved to Next.js (The Business Case)
+
+My decision to migrate this portfolio from a client-side SPA (Vite) to **Next.js** wasn't just about using the latest tech. It was a calculated move to improve **First Contentful Paint (FCP)**.
+
+- **Client-Side Rendering (CSR):** The browser downloads a blank page, then a huge JS bundle, _then_ renders. The user stares at a white screen. **Result:** High bounce rate.
+- **Server-Side Rendering (SSR):** The server sends a fully formed HTML page instantly. **Result:** Immediate perceived value.
+
+### Optimizing for the "Next" User
+
+Technical debt isn't just bad code; it's a bad product strategy.
+
+By obsessing over **Core Web Vitals**—optimizing images to WebP, lazy-loading heavy components, and code-splitting routes—I am respecting the user's time.
+
+In a crowded market, you don't always win by having the _most_ features. Sometimes, you win simply by being the _fastest_ to solve the problem.
