@@ -1,0 +1,45 @@
+---
+title: 'The "Sleeping Server" Trap: Lessons from My First Real Freelance Client'
+date: "2025-12-28"
+category: "Case Study"
+author: "Taninwat Kaewpankan"
+readTime: "6 min read"
+excerpt: "Coding is 20% of freelancing. The other 80% is managing expectations, solving production fires, and building trust. Here is what I learned building for a local business in Næstved."
+---
+
+When you build side projects, your "users" are usually you and your localhost. When you build for a real client, your users are paying customers. The stakes are different.
+
+My first real freelance project was for **Racha Beauty & Wellness**, a small spa and massage business in Næstved. The owner needed a digital presence that matched the calming, professional atmosphere of her salon.
+
+I thought the challenge would be CSS animations. I was wrong. The real challenge was **infrastructure reliability**.
+
+### The Technical Trap: Nodemailer & Cold Starts
+
+To keep costs low for the client, I initially built a custom contact form using **Nodemailer** hosted on a free-tier server instance. It worked perfectly during development.
+
+But a few days after launch, the client called me: _"My customers say the contact form isn't working."_
+
+**The Problem:** The free server had a "cold start" policy. If no one visited the site for a while, the server went to sleep. When a customer tried to send a booking inquiry, the request would time out before the server woke up to send the email.
+
+**The Impact:** Lost leads. For a small business, every missed email is missed revenue.
+
+### The Pivot: Web3Forms
+
+I realized I was over-engineering. I didn't need a custom backend server just to send emails.
+
+I migrated the system to **Web3Forms**, a dedicated form backend service.
+
+- **Cost:** Free (250 submissions/month), which was perfect for Racha's volume.
+- **Reliability:** 100% uptime. No cold starts. No sleeping servers.
+
+### Client Communication: The Real Skill
+
+The most important part wasn't the code change; it was the communication. I didn't bore Racha with details about "server hydration states."
+
+I told her: _"The initial email system was going into 'power-saving mode,' which caused delays. I've switched to a specialized email vendor that guarantees instant delivery, 24/7, at no extra cost to you."_
+
+She didn't care about the stack. She cared that her bookings were safe.
+
+### Conclusion
+
+This project was my crash course in **Production Engineering**. It taught me that "free" often has a hidden cost, and that as a developer, my job isn't just to write code—it's to protect my client's business continuity.

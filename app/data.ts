@@ -1,10 +1,7 @@
 import { 
-  Code2, 
-  Database, 
   Layout, 
   Server, 
-  Smartphone, 
-  Terminal 
+  BrainCircuit, // New: Represents Systems/Strategy
 } from 'lucide-react';
 
 export const personalInfo = {
@@ -22,45 +19,54 @@ export const personalInfo = {
 
 export const skills = [
   {
-    category: "Frontend & UI",
+    category: "Frontend Engineering",
     icon: Layout,
+    color: "text-blue-600 dark:text-blue-400",
+    bg: "bg-blue-100 dark:bg-blue-900/20",
     items: [
-      { name: "React (Next.js)", level: 90 },
-      { name: "TypeScript", level: 85 },
-      { name: "Tailwind CSS", level: 95 },
-      { name: "API Integration", level: 85 },
+      { name: "React (Next.js)" },
+      { name: "TypeScript" },
+      { name: "Tailwind CSS" },
+      { name: "API Integration" },
+      { name: "Responsive Design" },
     ]
   },
   {
-    category: "Systems & Tools",
+    category: "Systems & Backend",
     icon: Server,
+    color: "text-green-600 dark:text-green-400",
+    bg: "bg-green-100 dark:bg-green-900/20",
     items: [
-      { name: "Node.js", level: 75 },
-      { name: "State (Zustand/Query)", level: 80 }, 
-      { name: "Git & GitHub", level: 90 }, 
-      { name: "Auth (JWT/NextAuth)", level: 70 },
+      { name: "Node.js (Express.js)" },
+      { name: "PostgreSQL" },
+      { name: "Git & CI/CD" },
+      { name: "Authentication" },
+      { name: "State Management" },
     ]
   },
   {
-    category: "Product Management",
-    icon: Smartphone, 
+    category: "Product Strategy",
+    icon: BrainCircuit, 
+    color: "text-orange-600 dark:text-orange-400",
+    bg: "bg-orange-100 dark:bg-orange-900/20",
     items: [
-      { name: "Agile/Scrum Leadership", level: 90 },
-      { name: "User Journey Mapping", level: 85 },
-      { name: "Market Analysis", level: 80 },
-      { name: "SEO & Performance", level: 85 },
+      { name: "Agile Leadership" },
+      { name: "User Journey Mapping" },
+      { name: "Market Analysis" },
+      { name: "Unit Economics" },
+      { name: "Stakeholder Mgmt" },
     ]
   }
 ];
 
 export const experience = [
   {
-    id: "work-3",
+    id: "work-trailr",
     type: "work",
     role: "Frontend Developer Intern",
-    organization: "Trailr.ai",
+    organization: "Trailr.ai (Copenhagen)",
     period: "Sep 2025 - Dec 2025",
-    description: "Spearheaded a complete UI/UX overhaul of the core AI video platform. Implemented complex navigation systems using React, Zustand, and React Query, bridging the gap between design vision and technical feasibility."
+    description: "Built core UI features for an early-stage AI startup (pre-launch). Architected the navigation system using React & Zustand, and bridged the gap between design vision and technical constraints during a complete platform overhaul."
   },
   {
     id: "edu-1",

@@ -20,12 +20,12 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-          {/* 1. Logo (Left) */}
+          {/* Logo */}
           <Link href="/" className="font-bold text-xl tracking-tighter" aria-label="Home">
             TK<span className="text-orange-500">.</span>
           </Link>
 
-          {/* 2. Navigation Links (Center) */}
+          {/* Nav Links */}
           <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400 items-center">
             <a href="#about" className="hover:text-orange-500 transition-colors">About</a>
             <a href="#skills" className="hover:text-orange-500 transition-colors">Skills</a>
@@ -36,7 +36,7 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* 3. Actions Group (Right) - Toggle + Hire Me */}
+          {/* Actions */}
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <a 
@@ -108,7 +108,7 @@ export default function Home() {
         <section id="about" className="mb-32 border-y border-zinc-100 dark:border-zinc-800 py-16">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <div className="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0">
-               <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-2xl scale-110"></div>
+               <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-3xl scale-110"></div>
                <Image 
                   src="/assets/Ice-img.webp"
                   alt="Taninwat Kaewpankan Profile"
@@ -132,37 +132,44 @@ export default function Home() {
           </div>
         </section>
 
-        {/* SKILLS */}
+        {/* SKILLS - THE NEW "ROW" LAYOUT */}
         <section id="skills" className="mb-32">
           <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
             <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
             Core Competencies
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="space-y-4">
             {skills.map((skillGroup, idx) => (
               <motion.div 
                 key={idx}
-                whileHover={{ y: -5 }}
-                className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                // Layout: Horizontal row with hover effect, clean background
+                className="group flex flex-col md:flex-row items-start md:items-center gap-6 p-6 rounded-2xl bg-white dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800/50 hover:border-orange-500/30 hover:bg-orange-50/50 dark:hover:bg-zinc-800/80 transition-all duration-300"
               >
-                <div className="mb-6 p-3 bg-orange-100 dark:bg-orange-900/20 text-orange-600 w-fit rounded-lg">
-                  <skillGroup.icon size={24} />
+                {/* Left Column: Icon & Title */}
+                <div className="flex items-center gap-4 md:w-1/3">
+                  <div className={`p-3 rounded-xl ${skillGroup.bg} ${skillGroup.color}`}>
+                    <skillGroup.icon size={24} />
+                  </div>
+                  <h3 className="font-bold text-lg text-zinc-800 dark:text-zinc-200">{skillGroup.category}</h3>
                 </div>
-                <h3 className="font-bold text-lg mb-4">{skillGroup.category}</h3>
-                <ul className="space-y-3">
+
+                {/* Right Column: Clean List of Skills */}
+                <div className="flex flex-wrap gap-x-6 gap-y-2 md:w-2/3">
                   {skillGroup.items.map((item, i) => (
-                    <li key={i} className="flex justify-between items-center text-sm">
-                      <span className="text-zinc-600 dark:text-zinc-300">{item.name}</span>
-                      <div className="w-24 h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-orange-500 rounded-full" 
-                          style={{ width: `${item.level}%` }} 
-                        />
-                      </div>
-                    </li>
+                    <div key={i} className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
+                      {/* Subtle Dot Indicator */}
+                      <span className="w-1.5 h-1.5 rounded-full bg-orange-500/50 group-hover:bg-orange-500 transition-colors"></span>
+                      <span className="text-sm font-medium group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors">
+                        {item.name}
+                      </span>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </motion.div>
             ))}
           </div>

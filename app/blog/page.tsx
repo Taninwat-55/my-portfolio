@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { ArrowLeft, Search, Clock } from 'lucide-react';
-import { getSortedPostsData } from '../lib/posts'; // Import our new "API"
+import { getSortedPostsData } from '../lib/posts'; 
 
 export default function BlogIndex() {
-  const allPosts = getSortedPostsData(); // Fetch real posts from files!
+  const allPosts = getSortedPostsData(); 
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 selection:bg-orange-500/30">
@@ -22,7 +22,7 @@ export default function BlogIndex() {
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Blog</h1>
           <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl">
-            Exploring the intersection of frontend engineering, product strategy, and business value.
+            A collection of thoughts on frontend engineering, product strategy, and the personal interests that drive my curiosity.
           </p>
         </div>
 
