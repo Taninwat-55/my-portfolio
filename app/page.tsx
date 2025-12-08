@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Github, Linkedin, Mail, Download, ExternalLink } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link"; 
+import Link from "next/link";
 import { personalInfo, skills, experience, projects } from "./data";
 import { ThemeToggle } from "./components/theme-toggle";
 
@@ -14,9 +14,11 @@ export default function Home() {
     transition: { duration: 0.5 }
   };
 
+  const featuredProjects = projects.slice(0, 3);
+
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 selection:bg-orange-500/30">
-      
+
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
@@ -39,7 +41,7 @@ export default function Home() {
           {/* Actions */}
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <a 
+            <a
               href="mailto:taninwat.kaewpankan@gmail.com"
               className="px-4 py-2 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg hover:opacity-90 transition-opacity"
               aria-label="Send email to hire me"
@@ -51,10 +53,10 @@ export default function Home() {
       </nav>
 
       <main className="container mx-auto px-6 pt-32 pb-20">
-        
+
         {/* HERO SECTION */}
         <section className="mb-32 max-w-4xl">
-          <motion.div 
+          <motion.div
             initial={fadeInUp.initial}
             animate={fadeInUp.animate}
             transition={fadeInUp.transition}
@@ -71,23 +73,23 @@ export default function Home() {
               Bridging business strategy <br />
               with <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-600">engineering precision.</span>
             </h1>
-            
+
             <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-10 max-w-2xl leading-relaxed">
-              I am Taninwat "Ice" Kaewpankan. A Frontend Engineer with a 
-              <strong> Master's in Business & Economics</strong>. I combine technical skills in 
+              I am Taninwat "Ice" Kaewpankan. A Frontend Engineer with a
+              <strong> Master's in Business & Economics</strong>. I combine technical skills in
               React & Node.js with product strategy to build meaningful digital experiences.
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <a 
-                href="#projects" 
+              <a
+                href="#projects"
                 className="bg-orange-600 hover:bg-orange-700 text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
                 aria-label="View my projects"
               >
-                View Case Studies <ArrowRight size={18} />
+                View Projects <ArrowRight size={18} />
               </a>
-              <a 
-                href="/assets/_CV - Eng.pdf" 
+              <a
+                href="/assets/_CV - Eng.pdf"
                 target="_blank"
                 className="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
                 aria-label="Download my Resume PDF"
@@ -108,24 +110,24 @@ export default function Home() {
         <section id="about" className="mb-32 border-y border-zinc-100 dark:border-zinc-800 py-16">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <div className="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0">
-               <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-3xl scale-110"></div>
-               <Image 
-                  src="/assets/Ice-img.webp"
-                  alt="Taninwat Kaewpankan Profile"
-                  fill
-                  className="object-cover rounded-full shadow-lg relative z-10"
-                />
+              <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-3xl scale-110"></div>
+              <Image
+                src="/assets/Ice-img.webp"
+                alt="Taninwat Kaewpankan Profile"
+                fill
+                className="object-cover rounded-full shadow-lg relative z-10"
+              />
             </div>
-            
+
             <div>
               <h2 className="text-2xl font-bold mb-4">About Me</h2>
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
-                Originally from Thailand, I spent over 10 years in Sweden before settling in Denmark. 
-                This multicultural background has shaped my ability to adapt and communicate effectively across diverse teams.
+                I am a developer with a background in Business and Game Design. I moved into engineering because I love the process of turning ideas into real, working software. 
+                I like to focus on building user-friendly applications, and I am always eager to learn new tools and collaborate with a team to solve interesting problems.
               </p>
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                I hold a <strong>Master of Science in Business & Economics</strong> from Uppsala University and am currently 
-                sharpening my technical edge with a Professional Bachelor in Frontend Development. My goal is to work at the 
+                I hold a <strong>Bachelor of Arts in Game Design & Project Management</strong> and <strong>Master of Science in Business & Economics</strong> from Uppsala University and am currently
+                sharpening my technical edge with a Professional Bachelor in Frontend Development. My goal is to work at the
                 intersection of <strong>Product, Business, and Engineering</strong>.
               </p>
             </div>
@@ -138,10 +140,10 @@ export default function Home() {
             <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
             Core Competencies
           </h2>
-          
+
           <div className="space-y-4">
             {skills.map((skillGroup, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -181,12 +183,12 @@ export default function Home() {
             <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
             Career Trajectory
           </h2>
-          
+
           <div className="space-y-8 relative border-l-2 border-zinc-200 dark:border-zinc-800 ml-3 md:ml-6 pl-8 md:pl-12">
             {experience.map((item, idx) => (
               <div key={idx} className="relative">
                 <span className="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-4 border-white dark:border-zinc-950 bg-orange-500"></span>
-                
+
                 <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-2">
                   <h3 className="text-xl font-bold">{item.role}</h3>
                   <span className="text-sm font-mono text-orange-800 dark:text-orange-300 bg-orange-100 dark:bg-orange-900/30 px-2 py-0.5 rounded">
@@ -204,21 +206,29 @@ export default function Home() {
 
         {/* PROJECTS */}
         <section id="projects" className="mb-20">
-          <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
-            <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
-            Selected Case Studies
-          </h2>
+          <div className="flex items-center justify-between mb-12">
+            <h2 className="text-2xl font-bold flex items-center gap-2">
+              <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
+              Featured Projects
+            </h2>
+            <Link
+              href="/projects"
+              className="hidden md:flex items-center gap-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-orange-500 transition-colors"
+            >
+              View Full Archive <ArrowRight size={16} />
+            </Link>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <motion.div 
+            {featuredProjects.map((project) => (
+              <motion.div
                 key={project.id}
                 whileHover={{ y: -5 }}
                 className="group rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden flex flex-col h-full"
               >
                 <div className="relative h-48 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-                  <Image 
-                    src={project.image} 
+                  <Image
+                    src={project.image}
                     alt={project.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -235,7 +245,7 @@ export default function Home() {
                   <p className="text-zinc-600 dark:text-zinc-300 text-sm mb-6 flex-grow leading-relaxed">
                     {project.description}
                   </p>
-                  
+
                   <div className="flex flex-wrap gap-2 mb-6">
                     {project.tech.slice(0, 3).map((tech, i) => (
                       <span key={i} className="text-xs font-mono px-2 py-1 bg-zinc-100 dark:bg-zinc-800 rounded text-zinc-600 dark:text-zinc-400">
@@ -245,16 +255,16 @@ export default function Home() {
                   </div>
 
                   <div className="flex gap-3 mt-auto pt-6 border-t border-zinc-100 dark:border-zinc-800">
-                    <a 
-                      href={project.links.code} 
+                    <a
+                      href={project.links.code}
                       target="_blank"
                       aria-label={`View code for ${project.title}`}
                       className="flex-1 flex items-center justify-center gap-2 py-2 text-sm font-bold border border-zinc-200 dark:border-zinc-700 rounded hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
                     >
                       <Github size={16} /> CODE
                     </a>
-                    <a 
-                      href={project.links.demo} 
+                    <a
+                      href={project.links.demo}
                       target="_blank"
                       aria-label={`View live demo for ${project.title}`}
                       className="flex-1 flex items-center justify-center gap-2 py-2 text-sm font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded hover:opacity-90 transition-opacity"
@@ -265,6 +275,16 @@ export default function Home() {
                 </div>
               </motion.div>
             ))}
+          </div>
+
+          {/* Mobile "View All" button */}
+          <div className="mt-8 flex justify-center md:hidden">
+            <Link
+              href="/projects"
+              className="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
+            >
+              View All Projects <ArrowRight size={18} />
+            </Link>
           </div>
         </section>
 

@@ -1,0 +1,58 @@
+---
+title: "Building Bevisly: How I Architected a Proof-Based Hiring Platform"
+date: "2025-12-08"
+category: "Engineering"
+author: "Taninwat Kaewpankan"
+readTime: "7 min read"
+excerpt: "A deep dive into building a full-stack SaaS with Supabase RLS, Real-time state management, and a role-based security model to fix the broken hiring market."
+---
+
+Hiring is broken. Candidates send hundreds of résumés into a void, often getting filtered out by keywords rather than actual ability. Employers, on the other hand, struggle to verify skills, relying on pedigree or connections instead of proof.
+
+I built **Bevisly** to fix this.
+
+Bevisly is a **proof-based hiring platform** that turns real work into verified experience. Instead of a CV, candidates submit a "Proof Task"—a short, real-world project. Employers review the actual output, not just the claim.
+
+As a Product Engineer, I didn't just want to build a pretty UI. I wanted to architect a secure, scalable system that could handle the complexity of a two-sided marketplace. Here is how I built it.
+
+### The Challenge: Security in a Multi-Role System
+
+The biggest technical challenge was handling three distinct user roles—**Candidate**, **Employer**, and **Admin**—without creating a spaghetti code mess of `if/else` statements in the API layer.
+
+My solution was to push security down to the database level using **PostgreSQL Row Level Security (RLS)** via Supabase.
+
+Instead of writing logic like `if (user.id === post.author_id)` in every API route, I defined policies directly in SQL. For the `submissions` table, the policy looks like this:
+
+> "Employers can only view submissions that are linked to jobs *they* created. Candidates can only view *their own* submissions."
+
+This ensures that even if a frontend bug exposed an API endpoint, the database itself would reject unauthorized queries. It’s **security by design**, not by patch.
+
+### Architecting the "Talent Board"
+
+One of the core features for employers is the **Talent Manager**—a Kanban-style board to track candidates through stages (New, Shortlisted, Interview, Hired).
+
+This wasn't just a simple list. It needed to:
+1.  **Support Drag-and-Drop:** I utilized `@dnd-kit` for a performant, accessible drag-and-drop experience.
+2.  **Handle Optimistic Updates:** When an employer drags a candidate from "New" to "Interview," the UI updates instantly while the database mutation happens in the background.
+3.  **Sync State:** The board state is complex, requiring joined data from `profiles`, `submissions`, and `jobs`.
+
+By structuring the data effectively, I reduced the need for excessive re-fetching, keeping the dashboard snappy even with dozens of candidates.
+
+### The "Proof Credit" Ledger
+
+Gamification is key to candidate engagement. I built a transactional ledger system (`credit_transactions`) that awards "Proof Credits" to candidates upon successful task completion.
+
+Instead of just storing a `credits` integer on the user profile, I treated it like a bank account. Every credit earned is a row in a transaction table:
+* **Action:** Submission Reviewed
+* **Amount:** +10 Credits
+* **Reference:** Job ID #123
+
+This allows for a complete audit trail and prevents race conditions where credits might be "lost" during concurrent updates.
+
+### Why This Matters
+
+Bevisly isn't just a coding project; it's a product vision.
+
+I combined my background in **Business** (understanding the cost of bad hires) with **Engineering** (building a secure, scalable solution) to create something that solves a real human problem.
+
+The future of hiring isn't about who you know. It's about what you can do. And with Bevisly, I'm building the infrastructure to prove it.

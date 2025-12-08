@@ -1,7 +1,7 @@
 import { 
   Layout, 
   Server, 
-  BrainCircuit, // New: Represents Systems/Strategy
+  BrainCircuit,
 } from 'lucide-react';
 
 export const personalInfo = {
@@ -111,6 +111,18 @@ export const experience = [
 ];
 
 export const projects = [
+  {
+    id: 99,
+    title: "Bevisly",
+    category: "SaaS Platform", 
+    description: "A proof-based hiring platform designed to eliminate resume bias. I architected a role-based system (Candidate/Employer/Admin) using Supabase RLS for security and React for a seamless UI. It features real-time task tracking and a drag-and-drop Kanban board for talent management.",
+    tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Tailwind"],
+    links: {
+      demo: "", // Leave empty. Your code should hide the button if empty.
+      code: "https://github.com/Taninwat-55/bevis-mvp",
+    },
+    image: "/assets/bevisly.png" 
+  },
   {
     id: 1,
     title: "Cinema Booking System",

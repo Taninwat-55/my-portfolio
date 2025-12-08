@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { getPostData, getSortedPostsData } from '../../lib/posts';
 import ReactMarkdown from 'react-markdown';
 
-// 1. Generate Static Params so Next.js knows which pages to build at build time
+// Generate Static Params so Next.js knows which pages to build at build time
 export async function generateStaticParams() {
   const posts = getSortedPostsData();
   return posts.map((post) => ({
