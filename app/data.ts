@@ -64,7 +64,7 @@ export const experience = [
     id: "work-trailr",
     type: "work",
     role: "Frontend Developer Intern",
-    organization: "Trailr.ai (Copenhagen)",
+    organization: "Trailr.ai (Remote)",
     period: "Sep 2025 - Dec 2025",
     description: "Built core UI features for an early-stage AI startup (pre-launch). Architected the navigation system using React & Zustand, and bridged the gap between design vision and technical constraints during a complete platform overhaul."
   },
