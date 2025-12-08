@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Github, Linkedin, Mail, Download, ExternalLink } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail, Download, ExternalLink, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { personalInfo, skills, experience, projects } from "./data";
@@ -15,6 +16,7 @@ export default function Home() {
   };
 
   const featuredProjects = projects.slice(0, 3);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 selection:bg-orange-500/30">
@@ -27,29 +29,54 @@ export default function Home() {
             TK<span className="text-orange-500">.</span>
           </Link>
 
-          {/* Nav Links */}
+          {/* Desktop Nav Links (Hidden on Mobile) */}
           <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400 items-center">
             <a href="#about" className="hover:text-orange-500 transition-colors">About</a>
             <a href="#skills" className="hover:text-orange-500 transition-colors">Skills</a>
             <a href="#work" className="hover:text-orange-500 transition-colors">Experience</a>
             <a href="#projects" className="hover:text-orange-500 transition-colors">Projects</a>
-            <Link href="/blog" className="hover:text-orange-500 transition-colors">
-              Blog
-            </Link>
+            <Link href="/blog" className="hover:text-orange-500 transition-colors">Blog</Link>
           </div>
 
-          {/* Actions */}
+          {/* Actions & Mobile Menu Toggle */}
           <div className="flex items-center gap-4">
             <ThemeToggle />
+
+            {/* Desktop Hire Me Button */}
             <a
               href="mailto:taninwat.kaewpankan@gmail.com"
-              className="px-4 py-2 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg hover:opacity-90 transition-opacity"
-              aria-label="Send email to hire me"
+              className="hidden md:block px-4 py-2 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg hover:opacity-90 transition-opacity"
+            >
+              HIRE ME
+            </a>
+
+            {/* Mobile Hamburger Button */}
+            <button
+              className="md:hidden p-2 text-zinc-600 dark:text-zinc-400"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        {isMenuOpen && (
+          <div className="md:hidden absolute top-16 left-0 w-full bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 p-4 flex flex-col gap-4 shadow-xl animate-in slide-in-from-top-5">
+            <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">About</a>
+            <a href="#skills" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Skills</a>
+            <a href="#work" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Experience</a>
+            <a href="#projects" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Projects</a>
+            <Link href="/blog" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Blog</Link>
+            <a
+              href="mailto:taninwat.kaewpankan@gmail.com"
+              className="mt-2 w-full text-center px-4 py-3 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg"
             >
               HIRE ME
             </a>
           </div>
-        </div>
+        )}
       </nav>
 
       <main className="container mx-auto px-6 pt-32 pb-20">
@@ -89,7 +116,7 @@ export default function Home() {
                 View Projects <ArrowRight size={18} />
               </a>
               <a
-                href="/assets/_CV - Eng.pdf"
+                href="/assets/Taninwat-Kaewpankan-CV.pdf"
                 target="_blank"
                 className="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
                 aria-label="Download my Resume PDF"
@@ -122,7 +149,7 @@ export default function Home() {
             <div>
               <h2 className="text-2xl font-bold mb-4">About Me</h2>
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
-                I am a developer with a background in Business and Game Design. I moved into engineering because I love the process of turning ideas into real, working software. 
+                I am a developer with a background in Business and Game Design. I moved into engineering because I love the process of turning ideas into real, working software.
                 I like to focus on building user-friendly applications, and I am always eager to learn new tools and collaborate with a team to solve interesting problems.
               </p>
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
