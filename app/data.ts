@@ -117,8 +117,8 @@ export const projects = [
     id: 99,
     title: "Bevisly",
     category: "SaaS Platform",
-    description: "A proof-based hiring platform designed to eliminate resume bias. I architected a role-based system (Candidate/Employer/Admin) using Supabase RLS for security and React for a seamless UI. It features real-time task tracking and a drag-and-drop Kanban board for talent management.",
-    tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Tailwind"],
+    description: "Problem: Resume bias and the inability to verify candidate skill. Solution: Architected a proof-based hiring platform where candidates submit verified tasks. Impact: Created a role-based system (Employer/Candidate) that turns real work into hiring data, eliminating the need for traditional CVs.",
+    tech: ["Supabase RLS (Security)", "Role-Based Design", "React", "TypeScript", "PostgreSQL"],
     links: {
       demo: "https://bevisly.com/",
       code: "https://github.com/Taninwat-55/bevis-mvp",
