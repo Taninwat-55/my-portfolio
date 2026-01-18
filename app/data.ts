@@ -1,7 +1,7 @@
 import {
   Layout,
   Server,
-  BrainCircuit,
+  Target,
 } from 'lucide-react';
 
 export const personalInfo = {
@@ -20,7 +20,7 @@ export const personalInfo = {
 export const skills = [
   {
     category: "Product Strategy",
-    icon: BrainCircuit,
+    icon: Target,
     color: "text-orange-600 dark:text-orange-400",
     bg: "bg-orange-100 dark:bg-orange-900/20",
     items: [

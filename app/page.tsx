@@ -98,7 +98,7 @@ export default function Home() {
 
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
               Bridging business strategy <br />
-              with <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-600">engineering precision.</span>
+              with <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-600">product vision.</span>
             </h1>
 
             <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-10 max-w-2xl leading-relaxed">
