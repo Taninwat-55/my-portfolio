@@ -19,7 +19,22 @@ export const personalInfo = {
 
 export const skills = [
   {
-    category: "Frontend Engineering",
+    category: "Product Strategy",
+    icon: BrainCircuit,
+    color: "text-orange-600 dark:text-orange-400",
+    bg: "bg-orange-100 dark:bg-orange-900/20",
+    items: [
+      { name: "Product Discovery" },
+      { name: "User Interviewing" },
+      { name: "Stakeholder Alignment" },
+      { name: "Agile Leadership" },
+      { name: "User Journey Mapping" },
+      { name: "Market Analysis" },
+      { name: "Unit Economics" },
+    ]
+  },
+  {
+    category: "Technical Literacy & Frontend",
     icon: Layout,
     color: "text-blue-600 dark:text-blue-400",
     bg: "bg-blue-100 dark:bg-blue-900/20",
@@ -42,19 +57,6 @@ export const skills = [
       { name: "Git & CI/CD" },
       { name: "Authentication" },
       { name: "State Management" },
-    ]
-  },
-  {
-    category: "Product Strategy",
-    icon: BrainCircuit,
-    color: "text-orange-600 dark:text-orange-400",
-    bg: "bg-orange-100 dark:bg-orange-900/20",
-    items: [
-      { name: "Agile Leadership" },
-      { name: "User Journey Mapping" },
-      { name: "Market Analysis" },
-      { name: "Unit Economics" },
-      { name: "Stakeholder Mgmt" },
     ]
   }
 ];
