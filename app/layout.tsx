@@ -5,38 +5,38 @@ import "./globals.css";
 import { ThemeProvider } from "./components/theme-provider";
 
 // Load your fonts
-const inter = Inter({ 
-  subsets: ["latin"], 
-  variable: "--font-inter" 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter"
 });
-const orbitron = Orbitron({ 
-  subsets: ["latin"], 
-  variable: "--font-orbitron" 
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  variable: "--font-orbitron"
 });
-const codeFont = Share_Tech_Mono({ 
-  weight: "400", 
-  subsets: ["latin"], 
-  variable: "--font-code" 
+const codeFont = Share_Tech_Mono({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-code"
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://taninwatkaewpankan.xyz'),
   title: {
-    default: "Taninwat Kaewpankan | Product Engineer & Frontend Dev",
+    default: "Taninwat Kaewpankan | Aspiring Product Manager",
     template: "%s | Taninwat Kaewpankan"
   },
-  description: "Portfolio of Taninwat Kaewpankan. Frontend Engineer with a Master's in Business. Bridging technical precision with product strategy.",
-  keywords: ["Frontend Developer", "Product Manager", "React", "Next.js", "Copenhagen"],
+  description: "Aspiring Product Manager with a Master's in Business & Economics. I bridge the gap between business strategy, user needs, and technical execution.",
+  keywords: ["Product Manager", "Junior PM", "Business Strategy", "Technical PM", "Copenhagen", "Product Engineer"],
   openGraph: {
-    title: "Taninwat Kaewpankan | Product Engineer",
-    description: "Bridging business strategy and engineering precision.",
+    title: "Taninwat Kaewpankan | Aspiring Product Manager",
+    description: "Bridging business strategy with product vision.",
     url: 'https://taninwatkaewpankan.xyz',
     siteName: 'Taninwat Kaewpankan Portfolio',
     locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: '/og-image.png', 
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Taninwat Kaewpankan',
@@ -45,8 +45,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Taninwat Kaewpankan | Product Engineer",
-    description: "Frontend Engineer with a Master's in Business.",
+    title: "Taninwat Kaewpankan | Aspiring Product Manager",
+    description: "Aspiring PM with a Master's in Business & Economics.",
     images: ['/og-image.png'],
   },
   icons: {
