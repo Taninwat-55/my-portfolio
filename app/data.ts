@@ -129,7 +129,7 @@ export const projects = [
     id: 1,
     title: "Cinema Booking System",
     category: "Full Stack",
-    description: "A complex booking engine handling real-time seat availability and state management. Solves the 'double-booking' problem using robust backend logic.",
+    description: "Problem: Users booking the same seat at the same time. Solution: Built a booking engine with real-time seat locking and backend validation. Impact: Eliminated double-booking issues and created a smooth user experience for selecting seats.",
     tech: ["React", "Node.js", "SQLite", "REST API"],
     links: {
       demo: "https://cinema-booking-system-project.vercel.app",
@@ -141,7 +141,7 @@ export const projects = [
     id: 2,
     title: "Satoshi Standard",
     category: "FinTech",
-    description: "A financial dashboard conceptualizing purchasing power in Bitcoin (Sats). Features real-time price feeds via CoinGecko API and dynamic currency conversion.",
+    description: "Problem: People don't understand how Bitcoin's value relates to everyday items. Solution: Built a dashboard that shows prices in Satoshis (the smallest Bitcoin unit) with live price updates. Impact: Helps users think about purchasing power in a new way.",
     tech: ["React", "Tailwind", "Vitest", "API Integration"],
     links: {
       demo: "https://www.satoshi-standard.xyz/",
@@ -153,7 +153,7 @@ export const projects = [
     id: 3,
     title: "Racha Beauty & Wellness",
     category: "Commercial",
-    description: "A production website for a real business client. Achieved 95+ Lighthouse scores for SEO and Accessibility, directly improving local search visibility.",
+    description: "Problem: A local wellness business had no online presence. Solution: Built a fast, SEO-optimized website from scratch. Impact: Achieved 95+ Lighthouse scores and improved the business's visibility in local search results.",
     tech: ["Next.js", "SEO", "Analytics", "Tailwind"],
     links: {
       demo: "https://rachabeautywellness.com",
