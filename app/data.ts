@@ -65,10 +65,10 @@ export const experience = [
   {
     id: "work-trailr",
     type: "work",
-    role: "Product Engineer Intern",
+    role: "Frontend Developer Intern",
     organization: "Trailr.ai (Remote)",
     period: "Sep 2025 - Dec 2025",
-    description: "Pivotal role in an early-stage AI startup. Authored Research Kickoff Docs to align the CEO and engineering team. Managed the product roadmap by navigating technical constraints—specifically refactoring ambitious UI designs into viable MVP features to ensure timely delivery."
+    description: "Built core UI features for an early-stage AI startup (pre-launch). Architected the navigation system using React & Zustand, and bridged the gap between design vision and technical constraints during a complete platform overhaul."
   },
   {
     id: "edu-1",
