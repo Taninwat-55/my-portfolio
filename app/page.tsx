@@ -102,9 +102,8 @@ export default function Home() {
             </h1>
 
             <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-10 max-w-2xl leading-relaxed">
-              I am Taninwat "Ice" Kaewpankan. A Frontend Engineer with a
-              <strong> Master's in Business & Economics</strong>. I combine technical skills in
-              React & Node.js with product strategy to build meaningful digital experiences.
+              I am Taninwat "Ice" Kaewpankan — an aspiring Product Manager with a
+              <strong> Master's in Business & Economics</strong>. I understand both the business side and the technical side, which helps me make better product decisions.
             </p>
 
             <div className="flex flex-wrap gap-4">
