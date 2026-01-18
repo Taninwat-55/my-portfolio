@@ -1,13 +1,13 @@
-import { 
-  Layout, 
-  Server, 
+import {
+  Layout,
+  Server,
   BrainCircuit,
 } from 'lucide-react';
 
 export const personalInfo = {
   name: "Taninwat Kaewpankan",
-  role: "Frontend Engineer & Product Strategist",
-  bio: "Bridging the gap between business strategy and engineering precision. I build scalable web applications with a focus on user experience and business viability.",
+  role: "Product Manager | Product Engineer",
+  bio: "Master of Science in Business & Economics. I bridge the gap between business strategy, user needs, and engineering precision. I don't just build software; I solve human problems by aligning stakeholder vision with technical feasibility.",
   location: "Copenhagen, Denmark",
   availability: "Open to Work",
   email: "taninwat.kaewpankan@gmail.com",
@@ -46,7 +46,7 @@ export const skills = [
   },
   {
     category: "Product Strategy",
-    icon: BrainCircuit, 
+    icon: BrainCircuit,
     color: "text-orange-600 dark:text-orange-400",
     bg: "bg-orange-100 dark:bg-orange-900/20",
     items: [
@@ -114,14 +114,14 @@ export const projects = [
   {
     id: 99,
     title: "Bevisly",
-    category: "SaaS Platform", 
+    category: "SaaS Platform",
     description: "A proof-based hiring platform designed to eliminate resume bias. I architected a role-based system (Candidate/Employer/Admin) using Supabase RLS for security and React for a seamless UI. It features real-time task tracking and a drag-and-drop Kanban board for talent management.",
     tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Tailwind"],
     links: {
-      demo: "https://bevisly.com/", 
+      demo: "https://bevisly.com/",
       code: "https://github.com/Taninwat-55/bevis-mvp",
     },
-    image: "/assets/bevisly.png" 
+    image: "/assets/bevisly.png"
   },
   {
     id: 1,
