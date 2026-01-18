@@ -65,10 +65,10 @@ export const experience = [
   {
     id: "work-trailr",
     type: "work",
-    role: "Frontend Developer Intern",
+    role: "Product Engineer Intern",
     organization: "Trailr.ai (Remote)",
     period: "Sep 2025 - Dec 2025",
-    description: "Built core UI features for an early-stage AI startup (pre-launch). Architected the navigation system using React & Zustand, and bridged the gap between design vision and technical constraints during a complete platform overhaul."
+    description: "Pivotal role in an early-stage AI startup. Authored Research Kickoff Docs to align the CEO and engineering team. Managed the product roadmap by navigating technical constraints—specifically refactoring ambitious UI designs into viable MVP features to ensure timely delivery."
   },
   {
     id: "edu-1",
@@ -84,7 +84,7 @@ export const experience = [
     role: "Head of Millennial Consulting (Volunteer)",
     organization: "Volunteer Leadership",
     period: "2023 - 2025",
-    description: "Directed consulting projects, managed stakeholder expectations, and ensured timely delivery of strategic solutions for clients."
+    description: "Led cross-functional consulting projects by managing stakeholder expectations across diverse client portfolios. Drove strategic delivery by aligning team capabilities with business objectives, ensuring on-time project completion."
   },
   {
     id: "work-2",
