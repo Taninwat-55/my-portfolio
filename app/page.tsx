@@ -149,13 +149,10 @@ export default function Home() {
             <div>
               <h2 className="text-2xl font-bold mb-4">About Me</h2>
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
-                I am a developer with a background in Business and Game Design. I moved into engineering because I love the process of turning ideas into real, working software.
-                I like to focus on building user-friendly applications, and I am always eager to learn new tools and collaborate with a team to solve interesting problems.
+                I come from a business background — I studied entrepreneurship and spent time figuring out how products succeed in the market. But I wanted to understand the technical side too, so I learned to code. Now I can talk to both engineers and stakeholders, which helps when making product decisions.
               </p>
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                I hold a <strong>Bachelor of Arts in Game Design & Project Management</strong> and <strong>Master of Science in Business & Economics</strong> from Uppsala University and am currently
-                sharpening my technical edge with a Professional Bachelor in Frontend Development. My goal is to work at the
-                intersection of <strong>Product, Business, and Engineering</strong>.
+                I have a <strong>Master of Science in Business & Economics</strong> and a <strong>Bachelor in Game Design & Project Management</strong> from Uppsala University. I'm also finishing a Professional Bachelor in Frontend Development. My goal is to work in product management where I can use both my business thinking and technical understanding.
               </p>
             </div>
           </div>
