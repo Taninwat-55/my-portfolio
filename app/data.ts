@@ -123,7 +123,7 @@ export const projects = [
       demo: "https://bevisly.com/",
       code: "https://github.com/Taninwat-55/bevis-mvp",
     },
-    image: "/assets/bevisly.png"
+    image: "/assets/bevisly.webp"
   },
   {
     id: 1,
@@ -135,7 +135,7 @@ export const projects = [
       demo: "https://cinema-booking-system-project.vercel.app",
       code: "https://github.com/Taninwat-55/cinema-booking-system-project",
     },
-    image: "/assets/cinema-project-img.png"
+    image: "/assets/cinema-project-img.webp"
   },
   {
     id: 2,

@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Github, Linkedin, Mail, Download, ExternalLink, Menu, X } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail, Download, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { personalInfo, skills, experience, projects } from "./data";
-import { ThemeToggle } from "./components/theme-toggle";
+import { Navbar } from "./components/Navbar";
+import { SkipLink } from "./components/SkipLink";
 
 export default function Home() {
   const fadeInUp = {
@@ -16,70 +16,13 @@ export default function Home() {
   };
 
   const featuredProjects = projects.slice(0, 3);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 selection:bg-orange-500/30">
+      <SkipLink />
+      <Navbar variant="full" />
 
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
-        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="font-bold text-xl tracking-tighter" aria-label="Home">
-            TK<span className="text-orange-500">.</span>
-          </Link>
-
-          {/* Desktop Nav Links (Hidden on Mobile) */}
-          <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400 items-center">
-            <a href="#about" className="hover:text-orange-500 transition-colors">About</a>
-            <a href="#skills" className="hover:text-orange-500 transition-colors">Skills</a>
-            <a href="#work" className="hover:text-orange-500 transition-colors">Experience</a>
-            <a href="#projects" className="hover:text-orange-500 transition-colors">Projects</a>
-            <Link href="/blog" className="hover:text-orange-500 transition-colors">Blog</Link>
-          </div>
-
-          {/* Actions & Mobile Menu Toggle */}
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
-
-            {/* Desktop Hire Me Button */}
-            <a
-              href="mailto:taninwat.kaewpankan@gmail.com"
-              className="hidden md:block px-4 py-2 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg hover:opacity-90 transition-opacity"
-            >
-              HIRE ME
-            </a>
-
-            {/* Mobile Hamburger Button */}
-            <button
-              className="md:hidden p-2 text-zinc-600 dark:text-zinc-400"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu Dropdown */}
-        {isMenuOpen && (
-          <div className="md:hidden absolute top-16 left-0 w-full bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 p-4 flex flex-col gap-4 shadow-xl animate-in slide-in-from-top-5">
-            <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">About</a>
-            <a href="#skills" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Skills</a>
-            <a href="#work" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Experience</a>
-            <a href="#projects" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Projects</a>
-            <Link href="/blog" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Blog</Link>
-            <a
-              href="mailto:taninwat.kaewpankan@gmail.com"
-              className="mt-2 w-full text-center px-4 py-3 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg"
-            >
-              HIRE ME
-            </a>
-          </div>
-        )}
-      </nav>
-
-      <main className="container mx-auto px-6 pt-32 pb-20">
+      <main id="main-content" className="container mx-auto px-6 pt-32 pb-20">
 
         {/* HERO SECTION */}
         <section className="mb-32 max-w-4xl">
@@ -102,8 +45,8 @@ export default function Home() {
             </h1>
 
             <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-10 max-w-2xl leading-relaxed">
-              I am Taninwat "Ice" Kaewpankan — an aspiring Product Manager with a
-              <strong> Master's in Business & Economics</strong>. I understand both the business side and the technical side, which helps me make better product decisions.
+              I am Taninwat &ldquo;Ice&rdquo; Kaewpankan — an aspiring Product Manager with a
+              <strong> Master&apos;s in Business & Economics</strong>. I understand both the business side and the technical side, which helps me make better product decisions.
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -117,6 +60,7 @@ export default function Home() {
               <a
                 href="/assets/Taninwat-Kaewpankan-CV.pdf"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
                 aria-label="Download my Resume PDF"
               >
@@ -125,8 +69,8 @@ export default function Home() {
             </div>
 
             <div className="flex gap-6 mt-12 text-zinc-400">
-              <a href={personalInfo.socials.github} target="_blank" aria-label="Visit my GitHub Profile" className="hover:text-orange-500 transition-colors"><Github /></a>
-              <a href={personalInfo.socials.linkedin} target="_blank" aria-label="Visit my LinkedIn Profile" className="hover:text-orange-500 transition-colors"><Linkedin /></a>
+              <a href={personalInfo.socials.github} target="_blank" rel="noopener noreferrer" aria-label="Visit my GitHub Profile" className="hover:text-orange-500 transition-colors"><Github /></a>
+              <a href={personalInfo.socials.linkedin} target="_blank" rel="noopener noreferrer" aria-label="Visit my LinkedIn Profile" className="hover:text-orange-500 transition-colors"><Linkedin /></a>
               <a href={`mailto:${personalInfo.email}`} aria-label="Send me an email" className="hover:text-orange-500 transition-colors"><Mail /></a>
             </div>
           </motion.div>
@@ -141,6 +85,7 @@ export default function Home() {
                 src="/assets/Ice-img.webp"
                 alt="Taninwat Kaewpankan Profile"
                 fill
+                priority
                 className="object-cover rounded-full shadow-lg relative z-10"
               />
             </div>
@@ -151,7 +96,7 @@ export default function Home() {
                 I come from a business background — I studied entrepreneurship and spent time figuring out how products succeed in the market. But I wanted to understand the technical side too, so I learned to code. Now I can talk to both engineers and stakeholders, which helps when making product decisions.
               </p>
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                I have a <strong>Master of Science in Business & Economics</strong> and a <strong>Bachelor in Game Design & Project Management</strong> from Uppsala University. I'm also finishing a Professional Bachelor in Frontend Development. My goal is to work in product management where I can use both my business thinking and technical understanding.
+                I have a <strong>Master of Science in Business & Economics</strong> and a <strong>Bachelor in Game Design & Project Management</strong> from Uppsala University. I&apos;m also finishing a Professional Bachelor in Frontend Development. My goal is to work in product management where I can use both my business thinking and technical understanding.
               </p>
             </div>
           </div>
@@ -281,6 +226,7 @@ export default function Home() {
                     <a
                       href={project.links.code}
                       target="_blank"
+                      rel="noopener noreferrer"
                       aria-label={`View code for ${project.title}`}
                       className="flex-1 flex items-center justify-center gap-2 py-2 text-sm font-bold border border-zinc-200 dark:border-zinc-700 rounded hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
                     >
@@ -289,6 +235,7 @@ export default function Home() {
                     <a
                       href={project.links.demo}
                       target="_blank"
+                      rel="noopener noreferrer"
                       aria-label={`View live demo for ${project.title}`}
                       className="flex-1 flex items-center justify-center gap-2 py-2 text-sm font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded hover:opacity-90 transition-opacity"
                     >

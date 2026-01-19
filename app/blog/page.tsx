@@ -1,24 +1,28 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowLeft, Search, Clock } from 'lucide-react';
-import { getSortedPostsData } from '../lib/posts'; 
+import { ArrowLeft, Clock } from 'lucide-react';
+import { getSortedPostsData } from '../lib/posts';
+import { Navbar } from '../components/Navbar';
+import { SkipLink } from '../components/SkipLink';
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description: "Thoughts on product management, frontend engineering, and strategy from Taninwat Kaewpankan.",
+  openGraph: {
+    title: "Blog | Taninwat Kaewpankan",
+    description: "Thoughts on product management, frontend engineering, and strategy.",
+  },
+};
 
 export default function BlogIndex() {
-  const allPosts = getSortedPostsData(); 
+  const allPosts = getSortedPostsData();
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 selection:bg-orange-500/30">
-      <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
-        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-bold text-xl tracking-tighter">
-            TK<span className="text-orange-500">.</span>
-          </Link>
-          <Link href="/" className="flex items-center gap-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-orange-500 transition-colors">
-            <ArrowLeft size={16} /> Back to Home
-          </Link>
-        </div>
-      </nav>
+      <SkipLink />
+      <Navbar variant="simple" backLinkHref="/" backLinkText="Back to Home" />
 
-      <main className="container mx-auto px-6 pt-32 pb-20 max-w-5xl">
+      <main id="main-content" className="container mx-auto px-6 pt-32 pb-20 max-w-5xl">
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Blog</h1>
           <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl">
@@ -28,8 +32,8 @@ export default function BlogIndex() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {allPosts.map((post) => (
-            <article 
-              key={post.slug} 
+            <article
+              key={post.slug}
               className="group cursor-pointer flex flex-col h-full bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 hover:border-orange-500/50 transition-colors"
             >
               <Link href={`/blog/${post.slug}`} className="flex flex-col h-full">

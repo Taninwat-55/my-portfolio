@@ -9,7 +9,9 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false)
 
   // Avoid hydration mismatch by waiting for mount
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    queueMicrotask(() => setMounted(true))
+  }, [])
 
   if (!mounted) return null
 

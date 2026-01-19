@@ -19,6 +19,28 @@ const codeFont = Share_Tech_Mono({
   variable: "--font-code"
 });
 
+// Person JSON-LD structured data for SEO
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Taninwat Kaewpankan',
+  alternateName: 'Ice',
+  url: 'https://taninwatkaewpankan.xyz',
+  jobTitle: 'Aspiring Product Manager',
+  description: "Aspiring Product Manager with a Master's in Business & Economics. I bridge the gap between business strategy, user needs, and technical execution.",
+  alumniOf: [
+    {
+      '@type': 'CollegeOrUniversity',
+      name: 'Uppsala University',
+    },
+  ],
+  knowsAbout: ['Product Management', 'Frontend Development', 'React', 'Next.js', 'TypeScript', 'Business Strategy'],
+  sameAs: [
+    'https://www.linkedin.com/in/taninwat-k-a187951aa/',
+    'https://github.com/Taninwat-55',
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://taninwatkaewpankan.xyz'),
   title: {
@@ -27,6 +49,9 @@ export const metadata: Metadata = {
   },
   description: "Aspiring Product Manager with a Master's in Business & Economics. I bridge the gap between business strategy, user needs, and technical execution.",
   keywords: ["Product Manager", "Junior PM", "Business Strategy", "Technical PM", "Copenhagen", "Product Engineer"],
+  alternates: {
+    canonical: 'https://taninwatkaewpankan.xyz',
+  },
   openGraph: {
     title: "Taninwat Kaewpankan | Aspiring Product Manager",
     description: "Bridging business strategy with product vision.",
@@ -62,6 +87,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${inter.variable} ${orbitron.variable} ${codeFont.variable} antialiased bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50`}>
+        {/* Person JSON-LD structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         {/* Wrap everything inside ThemeProvider */}
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
