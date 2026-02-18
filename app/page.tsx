@@ -4,18 +4,21 @@ import { motion } from "framer-motion";
 import { ArrowRight, Github, Linkedin, Mail, Download, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { personalInfo, skills, experience, projects } from "./data";
+import { personalInfo, modeContent, getSkills, experience, featuredProjects } from "./data";
 import { Navbar } from "./components/Navbar";
 import { SkipLink } from "./components/SkipLink";
+import { useMode } from "./context/ModeContext";
 
 export default function Home() {
+  const { mode } = useMode();
+  const content = modeContent[mode];
+  const skills = getSkills(mode);
+
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.5 }
   };
-
-  const featuredProjects = projects.slice(0, 3);
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 selection:bg-orange-500/30">
@@ -27,6 +30,7 @@ export default function Home() {
         {/* HERO SECTION */}
         <section className="mb-32 max-w-4xl">
           <motion.div
+            key={mode}
             initial={fadeInUp.initial}
             animate={fadeInUp.animate}
             transition={fadeInUp.transition}
@@ -36,17 +40,19 @@ export default function Home() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
               </span>
-              Available for Product & Engineering Roles
+              {content.availability}
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
-              Bridging business strategy <br />
-              with <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-600">product vision.</span>
+              {content.heroLine1} <br />
+              {content.heroLine2}{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-600">
+                {content.heroAccent}
+              </span>
             </h1>
 
             <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-10 max-w-2xl leading-relaxed">
-              I am Taninwat &ldquo;Ice&rdquo; Kaewpankan — an aspiring Product Manager with a
-              <strong> Master&apos;s in Business & Economics</strong>. I understand both the business side and the technical side, which helps me make better product decisions.
+              {content.heroSubtitle}
             </p>
 
             <div className="flex flex-wrap gap-4">
@@ -58,13 +64,13 @@ export default function Home() {
                 View Projects <ArrowRight size={18} />
               </a>
               <a
-                href="/assets/Taninwat-Kaewpankan-CV.pdf"
+                href={content.cvLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-white font-medium py-3 px-8 rounded-lg transition-all flex items-center gap-2"
-                aria-label="Download my Resume PDF"
+                aria-label={content.cvLabel}
               >
-                Download CV <Download size={18} />
+                {content.cvLabel} <Download size={18} />
               </a>
             </div>
 
@@ -90,19 +96,24 @@ export default function Home() {
               />
             </div>
 
-            <div>
+            <motion.div
+              key={`about-${mode}`}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4 }}
+            >
               <h2 className="text-2xl font-bold mb-4">About Me</h2>
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
-                I come from a business background — I studied entrepreneurship and spent time figuring out how products succeed in the market. But I wanted to understand the technical side too, so I learned to code. Now I can talk to both engineers and stakeholders, which helps when making product decisions.
+                {content.aboutP1}
               </p>
               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                I have a <strong>Master of Science in Business & Economics</strong> and a <strong>Bachelor in Game Design & Project Management</strong> from Uppsala University. I&apos;m also finishing a Professional Bachelor in Frontend Development. My goal is to work in product management where I can use both my business thinking and technical understanding.
+                {content.aboutP2}
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
-        {/* SKILLS - THE NEW "ROW" LAYOUT */}
+        {/* SKILLS */}
         <section id="skills" className="mb-32">
           <h2 className="text-2xl font-bold mb-12 flex items-center gap-2">
             <span className="w-8 h-1 bg-orange-500 rounded-full"></span>
@@ -112,12 +123,11 @@ export default function Home() {
           <div className="space-y-4">
             {skills.map((skillGroup, idx) => (
               <motion.div
-                key={idx}
+                key={skillGroup.id}
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                // Layout: Horizontal row with hover effect, clean background
                 className="group flex flex-col md:flex-row items-start md:items-center gap-6 p-6 rounded-2xl bg-white dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800/50 hover:border-orange-500/30 hover:bg-orange-50/50 dark:hover:bg-zinc-800/80 transition-all duration-300"
               >
                 {/* Left Column: Icon & Title */}
@@ -128,11 +138,10 @@ export default function Home() {
                   <h3 className="font-bold text-lg text-zinc-800 dark:text-zinc-200">{skillGroup.category}</h3>
                 </div>
 
-                {/* Right Column: Clean List of Skills */}
+                {/* Right Column: Skills */}
                 <div className="flex flex-wrap gap-x-6 gap-y-2 md:w-2/3">
                   {skillGroup.items.map((item, i) => (
                     <div key={i} className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
-                      {/* Subtle Dot Indicator */}
                       <span className="w-1.5 h-1.5 rounded-full bg-orange-500/50 group-hover:bg-orange-500 transition-colors"></span>
                       <span className="text-sm font-medium group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors">
                         {item.name}
@@ -165,7 +174,10 @@ export default function Home() {
                 </div>
                 <div className="text-zinc-600 dark:text-zinc-400 font-medium mb-3">{item.organization}</div>
                 <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-2xl">
-                  {item.description}
+                  {'description_pm' in item
+                    ? (mode === 'pm' ? item.description_pm : item.description_dev)
+                    : item.description
+                  }
                 </p>
               </div>
             ))}
@@ -211,7 +223,10 @@ export default function Home() {
                     {project.title}
                   </h3>
                   <p className="text-zinc-600 dark:text-zinc-300 text-sm mb-6 flex-grow leading-relaxed">
-                    {project.description}
+                    {'description_pm' in project
+                      ? (mode === 'pm' ? project.description_pm : project.description_dev)
+                      : project.description
+                    }
                   </p>
 
                   <div className="flex flex-wrap gap-2 mb-6">

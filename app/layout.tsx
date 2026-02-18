@@ -3,6 +3,7 @@ import { Inter, Orbitron, Share_Tech_Mono } from "next/font/google";
 import { GoogleTagManager } from '@next/third-parties/google'; // Changed to GTM
 import "./globals.css";
 import { ThemeProvider } from "./components/theme-provider";
+import { ModeProvider } from "./context/ModeContext";
 
 // Load your fonts
 const inter = Inter({
@@ -92,9 +93,11 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-        {/* Wrap everything inside ThemeProvider */}
+        {/* Wrap everything inside ThemeProvider + ModeProvider */}
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <ModeProvider>
+            {children}
+          </ModeProvider>
           <GoogleTagManager gtmId="GTM-NJ6FFTVW" />
         </ThemeProvider>
       </body>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X, ArrowLeft } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
+import { ModeToggle } from "./ModeToggle";
 
 interface NavbarProps {
     /** Show full navigation links (About, Skills, etc.) vs just a back link */
@@ -23,16 +24,16 @@ export function Navbar({
 
     return (
         <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
-            <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-                {/* Logo */}
-                <Link href="/" className="font-bold text-xl tracking-tighter" aria-label="Home">
+            <div className="container mx-auto px-6 h-16 flex items-center justify-between relative">
+                {/* Logo — left */}
+                <Link href="/" className="font-bold text-xl tracking-tighter shrink-0" aria-label="Home">
                     TK<span className="text-orange-500">.</span>
                 </Link>
 
                 {variant === "full" ? (
                     <>
-                        {/* Desktop Nav Links */}
-                        <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400 items-center">
+                        {/* Desktop Nav Links — absolutely centered */}
+                        <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400 items-center absolute left-1/2 -translate-x-1/2">
                             <a href="#about" className="hover:text-orange-500 transition-colors">About</a>
                             <a href="#skills" className="hover:text-orange-500 transition-colors">Skills</a>
                             <a href="#work" className="hover:text-orange-500 transition-colors">Experience</a>
@@ -40,8 +41,9 @@ export function Navbar({
                             <Link href="/blog" className="hover:text-orange-500 transition-colors">Blog</Link>
                         </div>
 
-                        {/* Actions & Mobile Menu Toggle */}
-                        <div className="flex items-center gap-4">
+                        {/* Actions — right */}
+                        <div className="flex items-center gap-3">
+                            <ModeToggle />
                             <ThemeToggle />
 
                             {/* Desktop Hire Me Button */}
@@ -64,7 +66,8 @@ export function Navbar({
                     </>
                 ) : (
                     /* Simple variant: Back link + theme toggle */
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
+                        <ModeToggle />
                         <ThemeToggle />
                         <Link
                             href={backLinkHref}
