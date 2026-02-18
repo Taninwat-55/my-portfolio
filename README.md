@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Taninwat Kaewpankan — Portfolio
+
+Personal portfolio website with a **dual-mode PM / Dev toggle**, allowing visitors to switch between a Product Manager-focused and a Frontend Developer-focused narrative.
+
+🌐 **Live site:** [taninwatkaewpankan.xyz](https://taninwatkaewpankan.xyz)
+
+---
+
+## Features
+
+- **PM / Dev Mode Toggle** — Switches hero copy, about text, skills order, experience descriptions, project descriptions, and CV download link based on the selected role
+- **Mode persistence** — Selected mode is saved to `localStorage` and survives page refresh
+- **Blog** — MDX-powered blog with syntax highlighting and SEO metadata
+- **Dark / Light mode** — System-aware theme with manual toggle
+- **Fully responsive** — Mobile-first layout with accessible navigation
+- **SEO optimized** — Structured data (JSON-LD), Open Graph, sitemap, and robots.txt
+- **95+ Lighthouse scores** — Optimized images (WebP), font loading, and static generation
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Animation | Framer Motion |
+| Content | MDX (blog posts) |
+| Fonts | Inter, Orbitron, Share Tech Mono (Google Fonts) |
+| Analytics | Google Tag Manager |
+| Deployment | Netlify |
+
+---
+
+## Project Structure
+
+```
+app/
+├── context/
+│   └── ModeContext.tsx     # PM/Dev mode state + localStorage
+├── components/
+│   ├── ModeToggle.tsx      # Animated pill toggle
+│   ├── Navbar.tsx          # 3-column navbar (logo | links | actions)
+│   ├── theme-toggle.tsx    # Dark/light mode toggle
+│   └── SkipLink.tsx        # Accessibility skip link
+├── blog/                   # Blog listing + dynamic [slug] page
+├── projects/               # Full project archive
+├── data.ts                 # All content (mode-specific variants)
+├── page.tsx                # Home page
+└── layout.tsx              # Root layout with providers
+posts/                      # MDX blog post files
+public/assets/              # Images (WebP) + mode-specific CV PDFs
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view locally.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # Production build + type check
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Content Management
 
-To learn more about Next.js, take a look at the following resources:
+See [`.agent/skills/content_manager/SKILL.md`](.agent/skills/content_manager/SKILL.md) for the workflow on adding new blog posts and projects.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## CV Files
 
-## Deploy on Vercel
+Two mode-specific CVs live in `public/assets/`:
+- `(PM) Taninwat-Kaewpankan-CV.pdf` — Product Manager resume
+- `(frontend) Taninwat-Kaewpankan-CV.pdf` — Frontend Developer resume
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The correct CV is served automatically based on the active mode.
