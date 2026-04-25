@@ -4,7 +4,7 @@ import { ArrowRight, ArrowUpRight, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getPostData, type Post } from "../lib/posts";
-import { GardenAnimator } from "./GardenAnimator";
+import { LabAnimator } from "./LabAnimator";
 
 // Curated post slugs — chosen to reinforce the case-studies arc:
 // - Two case-study companions (Bevisly + Trailr)
@@ -15,15 +15,15 @@ const FEATURED_SLUGS = [
   "speed-as-strategy",
 ] as const;
 
-export function Garden() {
+export function Lab() {
   const featured = FEATURED_SLUGS.map((slug) => getPostData(slug)).filter(
     (p): p is Post => p !== null
   );
 
   return (
     <section
-      id="garden"
-      aria-label="Digital Garden — recent writing"
+      id="lab"
+      aria-label="The Lab — interactive writing"
       className="relative py-32 md:py-40 border-t border-white/5 overflow-hidden"
     >
       {/* ambient glow, opposite side from previous sections for visual rhythm */}
@@ -33,21 +33,22 @@ export function Garden() {
       />
 
       <div className="relative container mx-auto px-6 max-w-6xl">
-        <GardenAnimator>
+        <LabAnimator>
           {/* Section header */}
           <div className="max-w-2xl mb-16">
             <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-ice-400 mb-5">
-              04 / Digital Garden
+              04 / The Lab
             </div>
             <h2 className="text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-zinc-50 mb-5">
-              Notes from{" "}
+              Half engineering log,{" "}
               <span className="bg-gradient-to-r from-ice-200 via-ice-300 to-ice-500 bg-clip-text text-transparent">
-                the workshop.
+                half live experiment.
               </span>
             </h2>
             <p className="text-base md:text-lg text-charcoal-300 leading-relaxed">
-              Half engineering log, half product diary. A few pieces I&apos;ve been thinking
-              through — the rest live in the garden.
+              A few pieces I&apos;ve been thinking through — some with interactive
+              tools embedded right inside the post. The rest of the bench
+              lives in the lab.
             </p>
           </div>
 
@@ -58,16 +59,16 @@ export function Garden() {
             ))}
           </div>
 
-          {/* CTA — explore full garden */}
+          {/* CTA — explore the full lab */}
           <div className="flex justify-center md:justify-start">
             <Button asChild variant="outline" size="lg">
-              <Link href="/blog" aria-label="Browse all blog posts">
-                Explore the full garden
+              <Link href="/lab" aria-label="Browse all lab notes">
+                Enter the lab
                 <ArrowRight />
               </Link>
             </Button>
           </div>
-        </GardenAnimator>
+        </LabAnimator>
       </div>
     </section>
   );
@@ -78,8 +79,9 @@ export function Garden() {
 function PostCard({ post }: { post: Post }) {
   return (
     <Link
-      href={`/blog/${post.slug}`}
+      href={`/lab/${post.slug}`}
       aria-label={`Read: ${post.title}`}
+      data-cursor="read"
       className="group relative flex flex-col h-full p-6 md:p-7 rounded-2xl border border-white/5 bg-charcoal-900/40 backdrop-blur-sm hover:border-ice-400/30 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ice-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-950"
     >
       {/* Top row: tag + exit arrow */}

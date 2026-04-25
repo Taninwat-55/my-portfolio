@@ -47,6 +47,13 @@
     color: var(--color-charcoal-100);
     font-feature-settings: "ss01", "cv11";
   }
+
+  /* When the custom cursor is mounted (fine pointer, motion not reduced),
+     hide the native cursor across the whole document. */
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
+    cursor: none !important;
+  }
 }
 
 @layer utilities {

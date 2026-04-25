@@ -3,7 +3,7 @@ import { SkipLink } from "./components/SkipLink";
 import { Hero } from "./sections/Hero";
 import { SkillTree } from "./sections/SkillTree";
 import { CaseStudies } from "./sections/CaseStudies";
-import { Garden } from "./sections/Garden";
+import { Lab } from "./sections/Lab";
 import { Footer } from "./sections/Footer";
 
 export default function Home() {
@@ -22,8 +22,8 @@ export default function Home() {
         {/* ───── Section 3 — The Case Studies ───── */}
         <CaseStudies />
 
-        {/* ───── Section 4 — The Digital Garden (Blog) ───── */}
-        <Garden />
+        {/* ───── Section 4 — The Lab (Interactive Blog) ───── */}
+        <Lab />
 
         {/* ───── Section 5 — Footer (Final CTA + Sitemap) ───── */}
         <Footer />

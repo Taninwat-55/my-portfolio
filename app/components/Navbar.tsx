@@ -32,7 +32,7 @@ export function Navbar({
                         <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-400 items-center absolute left-1/2 -translate-x-1/2">
                             <a href="#journey" className="hover:text-ice-400 transition-colors">Identity</a>
                             <a href="#case-studies" className="hover:text-ice-400 transition-colors">Case Studies</a>
-                            <a href="#garden" className="hover:text-ice-400 transition-colors">Garden</a>
+                            <a href="#lab" className="hover:text-ice-400 transition-colors">The Lab</a>
                         </div>
 
                         <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ export function Navbar({
                 <div className="md:hidden absolute top-16 left-0 w-full bg-charcoal-950 border-b border-white/5 p-4 flex flex-col gap-4 shadow-xl">
                     <a href="#journey" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 text-zinc-300 hover:bg-white/5 rounded">Identity</a>
                     <a href="#case-studies" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 text-zinc-300 hover:bg-white/5 rounded">Case Studies</a>
-                    <a href="#garden" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 text-zinc-300 hover:bg-white/5 rounded">Garden</a>
+                    <a href="#lab" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 text-zinc-300 hover:bg-white/5 rounded">The Lab</a>
                     <a
                         href="mailto:taninwat.kaewpankan@gmail.com"
                         className="mt-2 w-full text-center px-4 py-3 text-xs font-bold bg-ice-400 text-charcoal-950 rounded-lg"

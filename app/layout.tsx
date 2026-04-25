@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
+import { SmoothScroll } from "./components/SmoothScroll";
+import { CustomCursor } from "./components/CustomCursor";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -93,7 +95,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-charcoal-950 text-charcoal-100 selection:bg-ice-400/30 selection:text-ice-100`}
       >
@@ -101,7 +103,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-        {children}
+        <SmoothScroll>{children}</SmoothScroll>
+        <CustomCursor />
         <GoogleTagManager gtmId="GTM-NJ6FFTVW" />
       </body>
     </html>

@@ -8,17 +8,17 @@ import { Footer } from "../sections/Footer";
 import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
-  title: "The Garden",
+  title: "The Lab",
   description:
-    "Notes from the workshop — engineering log meets product diary. Writing on frontend craft, product strategy, and the projects I'm working on.",
+    "Half engineering log, half live experiment. Writing on frontend craft, product strategy, and the projects I'm working on — some posts have interactive tools embedded.",
   openGraph: {
-    title: "The Garden | Taninwat Kaewpankan",
+    title: "The Lab | Taninwat Kaewpankan",
     description:
-      "Notes from the workshop — engineering log meets product diary.",
+      "Half engineering log, half live experiment — interactive writing on frontend craft and product strategy.",
   },
 };
 
-export default function BlogIndex() {
+export default function LabIndex() {
   const allPosts = getSortedPostsData();
 
   return (
@@ -41,17 +41,18 @@ export default function BlogIndex() {
           {/* Page header */}
           <div className="max-w-2xl mb-20">
             <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-ice-400 mb-5">
-              The Digital Garden
+              The Lab — Interactive Writing
             </div>
             <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05] text-zinc-50 mb-6">
-              Notes from{" "}
+              Half engineering log,{" "}
               <span className="bg-gradient-to-r from-ice-200 via-ice-300 to-ice-500 bg-clip-text text-transparent">
-                the workshop.
+                half live experiment.
               </span>
             </h1>
             <p className="text-lg text-charcoal-300 leading-relaxed">
-              Half engineering log, half product diary. Posts about frontend craft,
-              product strategy, and the projects I&apos;m thinking through right now.
+              Posts about frontend craft, product strategy, and the projects
+              I&apos;m thinking through. A few have small interactive tools
+              embedded right inside the text — open one to find out which.
             </p>
           </div>
 
@@ -60,8 +61,9 @@ export default function BlogIndex() {
             {allPosts.map((post) => (
               <Link
                 key={post.slug}
-                href={`/blog/${post.slug}`}
+                href={`/lab/${post.slug}`}
                 aria-label={`Read: ${post.title}`}
+                data-cursor="read"
                 className="group relative flex flex-col h-full p-6 md:p-8 rounded-2xl border border-white/5 bg-charcoal-900/40 backdrop-blur-sm hover:border-ice-400/30 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ice-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-950"
               >
                 {/* Top: category + exit arrow */}

@@ -13,11 +13,11 @@ const fadeUp = {
 };
 
 /**
- * Wraps the Garden section's content in a scroll-triggered fade-up with stagger.
+ * Wraps the Lab section's content in a scroll-triggered fade-up with stagger.
  * Kept as a thin client wrapper so the parent section can stay a server component
  * (which is what allows it to read MDX posts directly via fs).
  */
-export function GardenAnimator({ children }: { children: ReactNode }) {
+export function LabAnimator({ children }: { children: ReactNode }) {
   return (
     <motion.div
       initial="hidden"
