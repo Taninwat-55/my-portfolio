@@ -1,7 +1,7 @@
 import { Navbar } from "./components/Navbar";
 import { SkipLink } from "./components/SkipLink";
 import { Hero } from "./sections/Hero";
-import { Pillars } from "./sections/Pillars";
+import { SkillTree } from "./sections/SkillTree";
 import { CaseStudies } from "./sections/CaseStudies";
 import { Garden } from "./sections/Garden";
 import { Footer } from "./sections/Footer";
@@ -16,8 +16,8 @@ export default function Home() {
         {/* ───── Section 1 — The Hook (Hero) ───── */}
         <Hero />
 
-        {/* ───── Section 2 — The Three Pillars (Identity) ───── */}
-        <Pillars />
+        {/* ───── Section 2 — The Skill Tree (Identity) ───── */}
+        <SkillTree />
 
         {/* ───── Section 3 — The Case Studies ───── */}
         <CaseStudies />

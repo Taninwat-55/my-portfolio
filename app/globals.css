@@ -28,6 +28,11 @@
   --color-ice-700: #1a7fac;
   --color-ice-800: #1a648a;
   --color-ice-900: #1a5572;
+
+  /* RPG class colors — muted, low-saturation. Used only inside SkillTree. */
+  --color-designer: #a899d4;   /* muted violet */
+  --color-strategist: #d8b06b; /* muted amber */
+  --color-builder: #79bea1;    /* muted emerald */
 }
 
 /* Class-based dark mode */
