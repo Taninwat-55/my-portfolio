@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
-import { SmoothScroll } from "./components/SmoothScroll";
-import { CustomCursor } from "./components/CustomCursor";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -103,8 +101,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-        <SmoothScroll>{children}</SmoothScroll>
-        <CustomCursor />
+        {children}
         <GoogleTagManager gtmId="GTM-NJ6FFTVW" />
       </body>
     </html>

@@ -8,7 +8,6 @@ import remarkGfm from "remark-gfm";
 import { getPostData, getSortedPostsData } from "../../lib/posts";
 import { Navbar } from "../../components/Navbar";
 import { SkipLink } from "../../components/SkipLink";
-import { Footer } from "../../sections/Footer";
 import { Badge } from "@/components/ui/badge";
 import { SatsConverter } from "../../components/post-tools/SatsConverter";
 
@@ -109,7 +108,6 @@ const mdxComponents = {
         href={href}
         target={external ? "_blank" : undefined}
         rel={external ? "noopener noreferrer" : undefined}
-        data-cursor={external ? "external" : undefined}
         className="text-ice-300 underline decoration-ice-400/30 underline-offset-4 hover:decoration-ice-300 hover:text-ice-200 transition-colors"
         {...rest}
       />
@@ -153,13 +151,13 @@ const mdxComponents = {
     />
   ),
 
-  // ── Lab tools — embeddable inside any post ────────────────────────────
+  // ── Garden tools — embeddable inside any post ────────────────────────────
   SatsConverter,
 };
 
 // ─── Page ───────────────────────────────────────────────────────────────────
 
-export default async function LabPost({
+export default async function GardenPost({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -190,7 +188,7 @@ export default async function LabPost({
   return (
     <div className="min-h-screen bg-charcoal-950 text-charcoal-100">
       <SkipLink />
-      <Navbar variant="simple" backLinkHref="/lab" backLinkText="Back to the Lab" />
+      <Navbar variant="simple" backLinkHref="/garden" backLinkText="Back to the Garden" />
 
       <script
         type="application/ld+json"
@@ -251,14 +249,14 @@ export default async function LabPost({
           {/* ── Footer ─────────────────────────────────────────────── */}
           <footer className="mt-20 pt-10 border-t border-white/5 flex items-center justify-between gap-4 flex-wrap">
             <Link
-              href="/lab"
+              href="/garden"
               className="group inline-flex items-center gap-2 text-sm font-medium text-charcoal-300 hover:text-ice-300 transition-colors"
             >
               <ArrowLeft
                 size={16}
                 className="transition-transform group-hover:-translate-x-1"
               />
-              Back to the Lab
+              Back to the Garden
             </Link>
 
             <Link
@@ -270,7 +268,6 @@ export default async function LabPost({
           </footer>
         </article>
       </main>
-      <Footer />
     </div>
   );
 }

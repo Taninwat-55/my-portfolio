@@ -4,21 +4,20 @@ import { ArrowUpRight, Clock } from "lucide-react";
 import { getSortedPostsData } from "../lib/posts";
 import { Navbar } from "../components/Navbar";
 import { SkipLink } from "../components/SkipLink";
-import { Footer } from "../sections/Footer";
 import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
-  title: "The Lab",
+  title: "Garden",
   description:
     "Half engineering log, half live experiment. Writing on frontend craft, product strategy, and the projects I'm working on — some posts have interactive tools embedded.",
   openGraph: {
-    title: "The Lab | Taninwat Kaewpankan",
+    title: "Garden | Taninwat Kaewpankan",
     description:
       "Half engineering log, half live experiment — interactive writing on frontend craft and product strategy.",
   },
 };
 
-export default function LabIndex() {
+export default function GardenIndex() {
   const allPosts = getSortedPostsData();
 
   return (
@@ -41,7 +40,7 @@ export default function LabIndex() {
           {/* Page header */}
           <div className="max-w-2xl mb-20">
             <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-ice-400 mb-5">
-              The Lab — Interactive Writing
+              Garden — Interactive Writing
             </div>
             <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05] text-zinc-50 mb-6">
               Half engineering log,{" "}
@@ -61,9 +60,8 @@ export default function LabIndex() {
             {allPosts.map((post) => (
               <Link
                 key={post.slug}
-                href={`/lab/${post.slug}`}
+                href={`/garden/${post.slug}`}
                 aria-label={`Read: ${post.title}`}
-                data-cursor="read"
                 className="group relative flex flex-col h-full p-6 md:p-8 rounded-2xl border border-white/5 bg-charcoal-900/40 backdrop-blur-sm hover:border-ice-400/30 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ice-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-950"
               >
                 {/* Top: category + exit arrow */}
@@ -100,7 +98,6 @@ export default function LabIndex() {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

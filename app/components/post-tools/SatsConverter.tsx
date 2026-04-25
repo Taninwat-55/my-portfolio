@@ -21,7 +21,7 @@ const QUICK_PICKS = [
 
 export function SatsConverter({
   rate = 67_000,
-  caption = `Rate locked at $${(67_000).toLocaleString()}/BTC for this article — adjust the inputs to play.`,
+  caption = `Rate locked at $${(67_000).toLocaleString("en-US")}/BTC for this article — adjust the inputs to play.`,
 }: SatsConverterProps) {
   const [sats, setSats] = useState(100_000);
   const ref = useRef<HTMLDivElement>(null);
@@ -59,11 +59,11 @@ export function SatsConverter({
       ref={ref}
       className="not-prose my-10 rounded-2xl border border-ice-400/20 bg-charcoal-900/60 backdrop-blur-sm overflow-hidden"
     >
-      {/* Top bar — Lab tool label + animated rate */}
+      {/* Top bar — Garden tool label + animated rate */}
       <div className="flex items-center justify-between gap-3 px-5 py-3 border-b border-white/5 bg-white/[0.02]">
         <div className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] uppercase text-ice-400">
           <Bitcoin size={12} strokeWidth={1.6} />
-          Lab tool · Sats Converter
+          Garden tool · Sats Converter
         </div>
         <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal-400">
           1 BTC ={" "}
@@ -72,7 +72,7 @@ export function SatsConverter({
             initial={false}
             animate={{ opacity: inView ? 1 : 0.4 }}
           >
-            ${displayedRate.toLocaleString()}
+            ${displayedRate.toLocaleString("en-US")}
           </motion.span>
         </div>
       </div>
@@ -118,7 +118,7 @@ export function SatsConverter({
                   : "border-white/10 bg-white/[0.02] text-charcoal-300 hover:border-ice-400/30 hover:text-ice-200"
               }`}
             >
-              {q.label} · {q.sats.toLocaleString()} sats
+              {q.label} · {q.sats.toLocaleString("en-US")} sats
             </button>
           );
         })}

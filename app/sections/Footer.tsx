@@ -15,12 +15,12 @@ import { CopenhagenClock } from "../components/CopenhagenClock";
 
 // ─── Sitemap ────────────────────────────────────────────────────────────────
 // Absolute paths so the same footer works from any page (deep-links from
-// /lab or /projects still need to scroll into the homepage's anchored sections).
+// /garden or /projects still need to scroll into the homepage's anchored sections).
 const sitemap = [
   { label: "Top", href: "/" },
   { label: "Identity", href: "/#journey" },
   { label: "Case Studies", href: "/#case-studies" },
-  { label: "The Lab", href: "/lab" },
+  { label: "Garden", href: "/garden" },
   { label: "Projects", href: "/projects" },
 ];
 
@@ -188,7 +188,7 @@ export function Footer() {
               <li>
                 <a
                   href={`mailto:${personalInfo.email}`}
-                  data-cursor="external"
+                  
                   className="group inline-flex items-center gap-2 text-sm text-charcoal-200 hover:text-ice-300 transition-colors"
                   aria-label={`Email ${personalInfo.email}`}
                 >
@@ -201,7 +201,7 @@ export function Footer() {
                   href={personalInfo.socials.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  data-cursor="external"
+                  
                   className="group inline-flex items-center gap-2 text-sm text-charcoal-200 hover:text-ice-300 transition-colors"
                   aria-label="LinkedIn profile"
                 >
@@ -214,7 +214,7 @@ export function Footer() {
                   href={personalInfo.socials.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  data-cursor="external"
+                  
                   className="group inline-flex items-center gap-2 text-sm text-charcoal-200 hover:text-ice-300 transition-colors"
                   aria-label="GitHub profile"
                 >

@@ -4,7 +4,7 @@ import { ArrowRight, ArrowUpRight, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getPostData, type Post } from "../lib/posts";
-import { LabAnimator } from "./LabAnimator";
+import { GardenAnimator } from "./GardenAnimator";
 
 // Curated post slugs — chosen to reinforce the case-studies arc:
 // - Two case-study companions (Bevisly + Trailr)
@@ -15,15 +15,15 @@ const FEATURED_SLUGS = [
   "speed-as-strategy",
 ] as const;
 
-export function Lab() {
+export function Garden() {
   const featured = FEATURED_SLUGS.map((slug) => getPostData(slug)).filter(
     (p): p is Post => p !== null
   );
 
   return (
     <section
-      id="lab"
-      aria-label="The Lab — interactive writing"
+      id="garden"
+      aria-label="Garden — interactive writing"
       className="relative py-32 md:py-40 border-t border-white/5 overflow-hidden"
     >
       {/* ambient glow, opposite side from previous sections for visual rhythm */}
@@ -33,11 +33,11 @@ export function Lab() {
       />
 
       <div className="relative container mx-auto px-6 max-w-6xl">
-        <LabAnimator>
+        <GardenAnimator>
           {/* Section header */}
           <div className="max-w-2xl mb-16">
             <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-ice-400 mb-5">
-              04 / The Lab
+              04 / Garden
             </div>
             <h2 className="text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-zinc-50 mb-5">
               Half engineering log,{" "}
@@ -48,7 +48,7 @@ export function Lab() {
             <p className="text-base md:text-lg text-charcoal-300 leading-relaxed">
               A few pieces I&apos;ve been thinking through — some with interactive
               tools embedded right inside the post. The rest of the bench
-              lives in the lab.
+              lives in the garden.
             </p>
           </div>
 
@@ -59,16 +59,16 @@ export function Lab() {
             ))}
           </div>
 
-          {/* CTA — explore the full lab */}
+          {/* CTA — explore the full garden */}
           <div className="flex justify-center md:justify-start">
             <Button asChild variant="outline" size="lg">
-              <Link href="/lab" aria-label="Browse all lab notes">
-                Enter the lab
+              <Link href="/garden" aria-label="Browse all garden notes">
+                Enter the garden
                 <ArrowRight />
               </Link>
             </Button>
           </div>
-        </LabAnimator>
+        </GardenAnimator>
       </div>
     </section>
   );
@@ -79,9 +79,8 @@ export function Lab() {
 function PostCard({ post }: { post: Post }) {
   return (
     <Link
-      href={`/lab/${post.slug}`}
+      href={`/garden/${post.slug}`}
       aria-label={`Read: ${post.title}`}
-      data-cursor="read"
       className="group relative flex flex-col h-full p-6 md:p-7 rounded-2xl border border-white/5 bg-charcoal-900/40 backdrop-blur-sm hover:border-ice-400/30 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ice-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-950"
     >
       {/* Top row: tag + exit arrow */}

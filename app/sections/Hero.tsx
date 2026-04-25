@@ -114,7 +114,7 @@ export function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                data-cursor="external"
+                
                 className="hover:text-ice-300 transition-colors"
               >
                 <Github size={20} />
@@ -124,7 +124,7 @@ export function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                data-cursor="external"
+                
                 className="hover:text-ice-300 transition-colors"
               >
                 <Linkedin size={20} />
@@ -132,7 +132,7 @@ export function Hero() {
               <a
                 href={`mailto:${personalInfo.email}`}
                 aria-label="Email"
-                data-cursor="external"
+                
                 className="hover:text-ice-300 transition-colors"
               >
                 <Mail size={20} />

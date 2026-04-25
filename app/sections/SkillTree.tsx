@@ -6,7 +6,6 @@ import {
   Layers,
   Compass,
   Code2,
-  Lock,
   type LucideIcon,
 } from "lucide-react";
 
@@ -36,7 +35,7 @@ const CLASSES: ClassDef[] = [
   {
     id: "designer",
     title: "Designer",
-    tagline: "Creating immersive experiences",
+    tagline: "Crafting intuitive interfaces",
     icon: Layers,
     color: "#a899d4",
     glow: "rgba(168, 153, 212, 0.18)",
@@ -194,8 +193,8 @@ export function SkillTree() {
             variants={fadeUp}
             className="text-base md:text-lg text-charcoal-300 leading-relaxed"
           >
-            Click a class to unlock its branch. Hover sub-skills for level and
-            context. The mood shifts when you play.
+            Click a class to expand my specializations. Hover sub-skills for
+            level and context.
           </motion.p>
         </motion.div>
 
@@ -250,14 +249,12 @@ export function SkillTree() {
               />
             ))}
 
-            {/* Sub-skill row — actual skills (when active) or ghosts (when idle) */}
-            {activeClass ? (
-              <AnimatePresence mode="wait">
+            {/* Sub-skill row — actual skills (when active) */}
+            <AnimatePresence mode="wait">
+              {activeClass && (
                 <SubSkillRow key={activeClass.id} cls={activeClass} />
-              </AnimatePresence>
-            ) : (
-              <GhostSkillRow />
-            )}
+              )}
+            </AnimatePresence>
 
             {/* Idle hint */}
             <AnimatePresence>
@@ -268,8 +265,7 @@ export function SkillTree() {
                   exit={{ opacity: 0 }}
                   className="absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-[10px] tracking-[0.25em] uppercase text-charcoal-500 flex items-center gap-2"
                 >
-                  <Lock size={10} />
-                  Click a class to unlock the tree
+                  ✦ Click a class to expand my specializations
                 </motion.div>
               )}
             </AnimatePresence>
@@ -326,24 +322,13 @@ function ClassNode({
       className="absolute -translate-x-1/2 -translate-y-1/2 group focus:outline-none"
       style={{ top: `${CLASS_Y}%`, left: `${cls.x}%` }}
     >
-      {/* Pulse ring (idle only) */}
-      {!isActive && (
-        <motion.span
-          aria-hidden
-          className="absolute inset-0 rounded-full border"
-          style={{ borderColor: cls.color, opacity: 0.5 }}
-          animate={{ scale: [1, 1.18], opacity: [0.45, 0] }}
-          transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut" }}
-        />
-      )}
-
       <div
         className="relative w-28 h-28 lg:w-32 lg:h-32 rounded-full flex flex-col items-center justify-center gap-1.5 border-2 backdrop-blur-sm transition-colors duration-300 group-focus-visible:ring-2 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-charcoal-950"
         style={{
-          borderColor: isActive ? cls.color : "rgba(255,255,255,0.10)",
+          borderColor: isActive ? cls.color : `${cls.color}44`,
           background: isActive
             ? `radial-gradient(circle at center, ${cls.glow}, rgba(20,22,26,0.7))`
-            : "rgba(20,22,26,0.55)",
+            : `radial-gradient(circle at center, ${cls.glow.replace('0.18', '0.08')}, rgba(20,22,26,0.55))`,
         }}
       >
         <Icon size={26} strokeWidth={1.6} style={{ color: cls.color }} />
@@ -358,6 +343,23 @@ function ClassNode({
       {/* Tagline below the node */}
       <div className="mt-3 max-w-[10rem] mx-auto text-center text-[11px] text-charcoal-300 leading-snug">
         {cls.tagline}
+      </div>
+
+      {/* Sub-skill preview tags — always visible */}
+      <div className="mt-2 flex flex-wrap justify-center gap-1 max-w-[12rem] mx-auto">
+        {cls.subskills.map((skill) => (
+          <span
+            key={skill.name}
+            className="px-1.5 py-0.5 rounded-full font-mono text-[8px] tracking-[0.12em] uppercase border"
+            style={{
+              color: cls.color,
+              borderColor: `${cls.color}30`,
+              background: `${cls.color}10`,
+            }}
+          >
+            {skill.name}
+          </span>
+        ))}
       </div>
     </motion.button>
   );
@@ -495,34 +497,6 @@ function SubSkillNode({
         )}
       </AnimatePresence>
     </motion.div>
-  );
-}
-
-// ─── Ghost sub-skill placeholders (idle) ────────────────────────────────────
-
-function GhostSkillRow() {
-  return (
-    <>
-      {SUBSKILL_X.map((x, i) => (
-        <motion.div
-          key={i}
-          className="absolute -translate-x-1/2 -translate-y-1/2"
-          style={{ top: `${SUB_Y}%`, left: `${x}%` }}
-          animate={{ opacity: [0.25, 0.5, 0.25] }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            delay: i * 0.4,
-            ease: "easeInOut",
-          }}
-        >
-          <div className="px-3.5 py-2 rounded-full border border-white/10 bg-white/[0.02] font-mono text-[10px] tracking-[0.2em] uppercase text-charcoal-500 inline-flex items-center gap-1.5">
-            <Lock size={9} strokeWidth={1.5} />
-            Locked
-          </div>
-        </motion.div>
-      ))}
-    </>
   );
 }
 
