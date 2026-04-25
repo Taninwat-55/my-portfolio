@@ -1,29 +1,29 @@
-import { Metadata } from 'next';
-import { Clock, Calendar, User } from 'lucide-react';
-import { notFound } from 'next/navigation';
-import { getPostData, getSortedPostsData } from '../../lib/posts';
-import ReactMarkdown from 'react-markdown';
-import { Navbar } from '../../components/Navbar';
-import { SkipLink } from '../../components/SkipLink';
+import { Metadata } from "next";
+import Link from "next/link";
+import { Clock, Calendar, ArrowLeft } from "lucide-react";
+import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
 
-// Generate Static Params so Next.js knows which pages to build at build time
+import { getPostData, getSortedPostsData } from "../../lib/posts";
+import { Navbar } from "../../components/Navbar";
+import { SkipLink } from "../../components/SkipLink";
+import { Footer } from "../../sections/Footer";
+import { Badge } from "@/components/ui/badge";
+
 export async function generateStaticParams() {
   const posts = getSortedPostsData();
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
-// Generate dynamic metadata for each blog post
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const resolvedParams = await params;
-  const post = getPostData(resolvedParams.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostData(slug);
 
-  if (!post) {
-    return {
-      title: 'Post Not Found',
-    };
-  }
+  if (!post) return { title: "Post Not Found" };
 
   return {
     title: post.title,
@@ -32,118 +32,219 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      type: 'article',
+      type: "article",
       publishedTime: post.date,
       authors: [post.author],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
     },
   };
 }
 
-export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = await params;
-  const post = getPostData(resolvedParams.slug);
+export default async function BlogPost({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const post = getPostData(slug);
 
-  if (!post) {
-    notFound();
-  }
+  if (!post) notFound();
 
-  // Article JSON-LD structured data
   const articleJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
+    "@context": "https://schema.org",
+    "@type": "Article",
     headline: post.title,
     description: post.excerpt,
     author: {
-      '@type': 'Person',
+      "@type": "Person",
       name: post.author,
-      url: 'https://taninwatkaewpankan.xyz',
+      url: "https://taninwatkaewpankan.xyz",
     },
     datePublished: post.date,
     publisher: {
-      '@type': 'Person',
-      name: 'Taninwat Kaewpankan',
-      url: 'https://taninwatkaewpankan.xyz',
+      "@type": "Person",
+      name: "Taninwat Kaewpankan",
+      url: "https://taninwatkaewpankan.xyz",
     },
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 font-sans">
+    <div className="min-h-screen bg-charcoal-950 text-charcoal-100">
       <SkipLink />
-      <Navbar variant="simple" backLinkHref="/blog" backLinkText="Back to Blog" />
+      <Navbar variant="simple" backLinkHref="/blog" backLinkText="Back to Garden" />
 
-      {/* Article JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
-      <article id="main-content" className="container mx-auto px-6 pt-32 pb-24 max-w-3xl">
-        {/* Post Header */}
-        <header className="mb-12">
-          <div className="flex items-center gap-2 mb-6">
-            <span className="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-full">
-              {post.category}
-            </span>
+      <main id="main-content" className="relative">
+        {/* ambient glow behind the article header */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[760px] h-[420px] rounded-full bg-ice-500/8 blur-[120px]"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-[50vh] bg-grid-ice mask-radial-fade opacity-40 pointer-events-none"
+        />
+
+        <article className="relative container mx-auto px-6 pt-32 md:pt-40 pb-24 max-w-3xl">
+          {/* ── Header ────────────────────────────────────────────────── */}
+          <header className="mb-14 md:mb-20">
+            <div className="mb-6">
+              <Badge variant="ice">{post.category}</Badge>
+            </div>
+
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-8 leading-[1.05] tracking-tight text-zinc-50">
+              {post.title}
+            </h1>
+
+            <p className="text-lg md:text-xl text-charcoal-300 leading-relaxed mb-10 max-w-2xl">
+              {post.excerpt}
+            </p>
+
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-6 border-t border-white/5 font-mono text-[11px] tracking-wider uppercase text-charcoal-400">
+              <span className="text-ice-300">{post.author}</span>
+              <span className="inline-flex items-center gap-2">
+                <Calendar size={12} strokeWidth={1.5} />
+                {post.date}
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <Clock size={12} strokeWidth={1.5} />
+                {post.readTime}
+              </span>
+            </div>
+          </header>
+
+          {/* ── Body ──────────────────────────────────────────────────── */}
+          <div className="article-body">
+            <ReactMarkdown
+              components={{
+                h2: (props) => (
+                  <h2
+                    className="text-2xl md:text-3xl font-semibold tracking-tight text-zinc-50 mt-16 mb-5 scroll-mt-24"
+                    {...props}
+                  />
+                ),
+                h3: (props) => (
+                  <h3
+                    className="text-xl md:text-2xl font-semibold tracking-tight text-zinc-50 mt-12 mb-4 scroll-mt-24"
+                    {...props}
+                  />
+                ),
+                h4: (props) => (
+                  <h4
+                    className="text-lg font-semibold text-zinc-100 mt-10 mb-3"
+                    {...props}
+                  />
+                ),
+                p: (props) => (
+                  <p
+                    className="text-[17px] md:text-[18px] text-charcoal-200 leading-[1.75] mb-7"
+                    {...props}
+                  />
+                ),
+                ul: (props) => (
+                  <ul
+                    className="list-disc pl-6 space-y-3 mb-8 marker:text-ice-400 text-charcoal-200 text-[17px] md:text-[18px] leading-[1.7]"
+                    {...props}
+                  />
+                ),
+                ol: (props) => (
+                  <ol
+                    className="list-decimal pl-6 space-y-3 mb-8 marker:text-ice-400 marker:font-mono text-charcoal-200 text-[17px] md:text-[18px] leading-[1.7]"
+                    {...props}
+                  />
+                ),
+                li: (props) => <li className="pl-1" {...props} />,
+                strong: (props) => (
+                  <strong className="font-semibold text-zinc-50" {...props} />
+                ),
+                em: (props) => <em className="text-zinc-100 italic" {...props} />,
+                blockquote: (props) => (
+                  <blockquote
+                    className="my-8 pl-5 border-l-2 border-ice-400/60 bg-ice-400/[0.03] py-3 pr-4 rounded-r-md text-zinc-100 italic [&>p]:text-zinc-100 [&>p]:mb-0"
+                    {...props}
+                  />
+                ),
+                a: ({ href, ...props }) => (
+                  <a
+                    href={href}
+                    target={href?.startsWith("http") ? "_blank" : undefined}
+                    rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="text-ice-300 underline decoration-ice-400/30 underline-offset-4 hover:decoration-ice-300 hover:text-ice-200 transition-colors"
+                    {...props}
+                  />
+                ),
+                code: ({ className, children, ...props }) => {
+                  const isInline = !className?.includes("language-");
+                  if (isInline) {
+                    return (
+                      <code
+                        className="font-mono text-[0.9em] px-1.5 py-0.5 rounded bg-charcoal-800/80 border border-white/5 text-ice-200"
+                        {...props}
+                      >
+                        {children}
+                      </code>
+                    );
+                  }
+                  return (
+                    <code className={className} {...props}>
+                      {children}
+                    </code>
+                  );
+                },
+                pre: (props) => (
+                  <pre
+                    className="my-8 p-5 rounded-xl bg-charcoal-900/80 border border-white/5 overflow-x-auto font-mono text-sm leading-relaxed text-zinc-200"
+                    {...props}
+                  />
+                ),
+                hr: () => (
+                  <hr className="my-14 border-0 h-px bg-white/5" />
+                ),
+                img: ({ alt, ...props }) => (
+                  // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
+                  <img
+                    alt={alt ?? ""}
+                    className="my-8 rounded-xl border border-white/5"
+                    {...props}
+                  />
+                ),
+              }}
+            >
+              {post.content}
+            </ReactMarkdown>
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-[1.1] tracking-tight text-zinc-900 dark:text-white">
-            {post.title}
-          </h1>
+          {/* ── Footer ────────────────────────────────────────────────── */}
+          <footer className="mt-20 pt-10 border-t border-white/5 flex items-center justify-between gap-4 flex-wrap">
+            <Link
+              href="/blog"
+              className="group inline-flex items-center gap-2 text-sm font-medium text-charcoal-300 hover:text-ice-300 transition-colors"
+            >
+              <ArrowLeft
+                size={16}
+                className="transition-transform group-hover:-translate-x-1"
+              />
+              Back to the garden
+            </Link>
 
-          <div className="flex flex-wrap items-center gap-6 text-sm text-zinc-500 dark:text-zinc-400 border-b border-zinc-200 dark:border-zinc-800 pb-8">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center overflow-hidden">
-                <User size={16} />
-              </div>
-              <span className="font-medium text-zinc-900 dark:text-zinc-200">{post.author}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar size={16} />
-              <span>{post.date}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock size={16} />
-              <span>{post.readTime}</span>
-            </div>
-          </div>
-        </header>
-
-        {/* Markdown Content with Custom Styling */}
-        <div className="prose prose-zinc dark:prose-invert prose-lg max-w-none leading-relaxed">
-          <ReactMarkdown
-            components={{
-              // Custom H3 styling
-              h3: (props) => <h3 className="text-2xl font-bold mt-12 mb-4 text-zinc-900 dark:text-zinc-100" {...props} />,
-              // Custom Paragraph styling
-              p: (props) => <p className="mb-6 text-zinc-600 dark:text-zinc-300 leading-relaxed" {...props} />,
-              // Custom List styling (This fixes the orange bullets!)
-              ul: (props) => <ul className="list-disc pl-6 space-y-2 mb-8 marker:text-orange-500" {...props} />,
-              li: (props) => <li className="pl-1" {...props} />,
-              // Custom Bold styling
-              strong: (props) => <strong className="font-bold text-zinc-900 dark:text-white" {...props} />,
-              // Custom Blockquote styling
-              blockquote: (props) => <blockquote className="border-l-4 border-orange-500 pl-4 italic bg-zinc-100 dark:bg-zinc-900/50 py-2 rounded-r" {...props} />,
-              // Custom Link styling with security attributes
-              a: ({ href, ...props }) => (
-                <a
-                  href={href}
-                  target={href?.startsWith('http') ? '_blank' : undefined}
-                  rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="text-orange-600 dark:text-orange-400 hover:underline"
-                  {...props}
-                />
-              ),
-            }}
-          >
-            {post.content}
-          </ReactMarkdown>
-        </div>
-      </article>
+            <Link
+              href="/"
+              className="text-sm font-mono uppercase tracking-wider text-charcoal-400 hover:text-ice-300 transition-colors"
+            >
+              taninwatkaewpankan.xyz
+            </Link>
+          </footer>
+        </article>
+      </main>
+      <Footer />
     </div>
   );
 }

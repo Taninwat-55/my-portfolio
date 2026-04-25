@@ -1,16 +1,20 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
-import { ArrowLeft, Clock } from 'lucide-react';
-import { getSortedPostsData } from '../lib/posts';
-import { Navbar } from '../components/Navbar';
-import { SkipLink } from '../components/SkipLink';
+import { Metadata } from "next";
+import Link from "next/link";
+import { ArrowUpRight, Clock } from "lucide-react";
+import { getSortedPostsData } from "../lib/posts";
+import { Navbar } from "../components/Navbar";
+import { SkipLink } from "../components/SkipLink";
+import { Footer } from "../sections/Footer";
+import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
-  title: "Blog",
-  description: "Thoughts on product management, frontend engineering, and strategy from Taninwat Kaewpankan.",
+  title: "The Garden",
+  description:
+    "Notes from the workshop — engineering log meets product diary. Writing on frontend craft, product strategy, and the projects I'm working on.",
   openGraph: {
-    title: "Blog | Taninwat Kaewpankan",
-    description: "Thoughts on product management, frontend engineering, and strategy.",
+    title: "The Garden | Taninwat Kaewpankan",
+    description:
+      "Notes from the workshop — engineering log meets product diary.",
   },
 };
 
@@ -18,53 +22,83 @@ export default function BlogIndex() {
   const allPosts = getSortedPostsData();
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 selection:bg-orange-500/30">
+    <div className="min-h-screen bg-charcoal-950 text-charcoal-100">
       <SkipLink />
       <Navbar variant="simple" backLinkHref="/" backLinkText="Back to Home" />
 
-      <main id="main-content" className="container mx-auto px-6 pt-32 pb-20 max-w-5xl">
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Blog</h1>
-          <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl">
-            A collection of thoughts on frontend engineering, product strategy, and the personal interests that drive my curiosity.
-          </p>
-        </div>
+      <main id="main-content" className="relative">
+        {/* ambient glow, off-center for visual rhythm */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute top-0 right-[-10%] w-[680px] h-[480px] rounded-full bg-ice-500/8 blur-[120px]"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-x-0 top-0 h-[60vh] bg-grid-ice mask-radial-fade opacity-50 pointer-events-none"
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {allPosts.map((post) => (
-            <article
-              key={post.slug}
-              className="group cursor-pointer flex flex-col h-full bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 hover:border-orange-500/50 transition-colors"
-            >
-              <Link href={`/blog/${post.slug}`} className="flex flex-col h-full">
-                <div className="flex justify-between items-start mb-4">
-                  <span className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider bg-zinc-100 dark:bg-zinc-800 text-zinc-500 rounded">
-                    {post.category}
+        <div className="relative container mx-auto px-6 pt-32 md:pt-40 pb-24 max-w-6xl">
+          {/* Page header */}
+          <div className="max-w-2xl mb-20">
+            <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-ice-400 mb-5">
+              The Digital Garden
+            </div>
+            <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05] text-zinc-50 mb-6">
+              Notes from{" "}
+              <span className="bg-gradient-to-r from-ice-200 via-ice-300 to-ice-500 bg-clip-text text-transparent">
+                the workshop.
+              </span>
+            </h1>
+            <p className="text-lg text-charcoal-300 leading-relaxed">
+              Half engineering log, half product diary. Posts about frontend craft,
+              product strategy, and the projects I&apos;m thinking through right now.
+            </p>
+          </div>
+
+          {/* Posts grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+            {allPosts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                aria-label={`Read: ${post.title}`}
+                className="group relative flex flex-col h-full p-6 md:p-8 rounded-2xl border border-white/5 bg-charcoal-900/40 backdrop-blur-sm hover:border-ice-400/30 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ice-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-950"
+              >
+                {/* Top: category + exit arrow */}
+                <div className="flex items-start justify-between gap-3 mb-6">
+                  <Badge variant="ice">{post.category}</Badge>
+                  <span
+                    aria-hidden
+                    className="text-charcoal-500 group-hover:text-ice-300 transition-colors"
+                  >
+                    <ArrowUpRight size={18} />
                   </span>
-                  <div className="flex items-center gap-1 text-xs text-zinc-400">
-                    <Clock size={12} />
-                    {post.readTime}
-                  </div>
                 </div>
 
-                <h2 className="text-2xl font-bold mb-3 group-hover:text-orange-500 transition-colors leading-tight">
+                {/* Title */}
+                <h2 className="text-xl md:text-2xl font-semibold tracking-tight leading-snug text-zinc-50 group-hover:text-ice-100 transition-colors mb-3">
                   {post.title}
                 </h2>
-                <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-6 flex-grow">
+
+                {/* Excerpt */}
+                <p className="text-sm md:text-[15px] text-charcoal-300 leading-relaxed mb-8 flex-grow">
                   {post.excerpt}
                 </p>
 
-                <div className="flex items-center justify-between pt-6 border-t border-zinc-100 dark:border-zinc-800/50 mt-auto">
-                  <span className="text-xs font-mono text-zinc-400">{post.date}</span>
-                  <span className="text-sm font-medium text-orange-600 dark:text-orange-500 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                    Read Article <ArrowLeft className="rotate-180" size={16} />
+                {/* Footer: date + read time */}
+                <div className="mt-auto pt-5 border-t border-white/5 flex items-center justify-between text-charcoal-400 font-mono text-[11px] tracking-wider uppercase">
+                  <span>{post.date}</span>
+                  <span className="inline-flex items-center gap-2">
+                    <Clock size={12} strokeWidth={1.5} />
+                    {post.readTime}
                   </span>
                 </div>
               </Link>
-            </article>
-          ))}
+            ))}
+          </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

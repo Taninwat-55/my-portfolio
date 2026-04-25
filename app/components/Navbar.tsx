@@ -3,11 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X, ArrowLeft } from "lucide-react";
-import { ThemeToggle } from "./theme-toggle";
-import { ModeToggle } from "./ModeToggle";
 
 interface NavbarProps {
-    /** Show full navigation links (About, Skills, etc.) vs just a back link */
+    /** Show full navigation links (Journey, Projects, Blog) vs just a back link */
     variant?: "full" | "simple";
     /** URL for the back link when using simple variant */
     backLinkHref?: string;
@@ -23,40 +21,30 @@ export function Navbar({
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800">
+        <nav className="fixed top-0 w-full z-50 bg-charcoal-950/70 backdrop-blur-md border-b border-white/5">
             <div className="container mx-auto px-6 h-16 flex items-center justify-between relative">
-                {/* Logo — left */}
-                <Link href="/" className="font-bold text-xl tracking-tighter shrink-0" aria-label="Home">
-                    TK<span className="text-orange-500">.</span>
+                <Link href="/" className="font-bold text-xl tracking-tighter shrink-0 text-zinc-100" aria-label="Home">
+                    TK<span className="text-ice-400">.</span>
                 </Link>
 
                 {variant === "full" ? (
                     <>
-                        {/* Desktop Nav Links — absolutely centered */}
-                        <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400 items-center absolute left-1/2 -translate-x-1/2">
-                            <a href="#about" className="hover:text-orange-500 transition-colors">About</a>
-                            <a href="#skills" className="hover:text-orange-500 transition-colors">Skills</a>
-                            <a href="#work" className="hover:text-orange-500 transition-colors">Experience</a>
-                            <a href="#projects" className="hover:text-orange-500 transition-colors">Projects</a>
-                            <Link href="/blog" className="hover:text-orange-500 transition-colors">Blog</Link>
+                        <div className="hidden md:flex gap-8 text-sm font-medium text-zinc-400 items-center absolute left-1/2 -translate-x-1/2">
+                            <a href="#journey" className="hover:text-ice-400 transition-colors">Identity</a>
+                            <a href="#case-studies" className="hover:text-ice-400 transition-colors">Case Studies</a>
+                            <a href="#garden" className="hover:text-ice-400 transition-colors">Garden</a>
                         </div>
 
-                        {/* Actions — right */}
                         <div className="flex items-center gap-3">
-                            <ModeToggle />
-                            <ThemeToggle />
-
-                            {/* Desktop Hire Me Button */}
                             <a
                                 href="mailto:taninwat.kaewpankan@gmail.com"
-                                className="hidden md:block px-4 py-2 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg hover:opacity-90 transition-opacity"
+                                className="hidden md:block px-4 py-2 text-xs font-bold bg-ice-400 text-charcoal-950 rounded-lg hover:bg-ice-300 transition-colors"
                             >
                                 HIRE ME
                             </a>
 
-                            {/* Mobile Hamburger Button */}
                             <button
-                                className="md:hidden p-2 text-zinc-600 dark:text-zinc-400"
+                                className="md:hidden p-2 text-zinc-400"
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                                 aria-label="Toggle menu"
                             >
@@ -65,31 +53,23 @@ export function Navbar({
                         </div>
                     </>
                 ) : (
-                    /* Simple variant: Back link + theme toggle */
-                    <div className="flex items-center gap-3">
-                        <ModeToggle />
-                        <ThemeToggle />
-                        <Link
-                            href={backLinkHref}
-                            className="flex items-center gap-2 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:text-orange-500 transition-colors"
-                        >
-                            <ArrowLeft size={16} /> {backLinkText}
-                        </Link>
-                    </div>
+                    <Link
+                        href={backLinkHref}
+                        className="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-ice-400 transition-colors"
+                    >
+                        <ArrowLeft size={16} /> {backLinkText}
+                    </Link>
                 )}
             </div>
 
-            {/* Mobile Menu Dropdown (full variant only) */}
             {variant === "full" && isMenuOpen && (
-                <div className="md:hidden absolute top-16 left-0 w-full bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 p-4 flex flex-col gap-4 shadow-xl animate-in slide-in-from-top-5">
-                    <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">About</a>
-                    <a href="#skills" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Skills</a>
-                    <a href="#work" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Experience</a>
-                    <a href="#projects" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Projects</a>
-                    <Link href="/blog" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded">Blog</Link>
+                <div className="md:hidden absolute top-16 left-0 w-full bg-charcoal-950 border-b border-white/5 p-4 flex flex-col gap-4 shadow-xl">
+                    <a href="#journey" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 text-zinc-300 hover:bg-white/5 rounded">Identity</a>
+                    <a href="#case-studies" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 text-zinc-300 hover:bg-white/5 rounded">Case Studies</a>
+                    <a href="#garden" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2 text-zinc-300 hover:bg-white/5 rounded">Garden</a>
                     <a
                         href="mailto:taninwat.kaewpankan@gmail.com"
-                        className="mt-2 w-full text-center px-4 py-3 text-xs font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg"
+                        className="mt-2 w-full text-center px-4 py-3 text-xs font-bold bg-ice-400 text-charcoal-950 rounded-lg"
                     >
                         HIRE ME
                     </a>
