@@ -15,6 +15,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { projects } from "../data";
+import {
+  TradeoffSimulator,
+  type SimulatorData,
+} from "./TradeoffSimulator";
 
 // ─── Case-study narratives ──────────────────────────────────────────────────
 // Three stories selected to showcase one of each pillar (Designer / Strategist / Builder)
@@ -31,12 +35,143 @@ type Story = {
   context: string;
   problem: string;
   process: string[];
+  /** Optional interactive trade-off simulator rendered after Process */
+  simulator?: SimulatorData;
   result: string;
   tech: string[];
   image: string | null; // null → render placeholder card
   liveUrl?: string;
   codeUrl?: string;
   confidential?: boolean;
+};
+
+// ─── Schematics for the Trailr simulator ───────────────────────────────────
+// Stylized 100×60 SVGs showing the UI pattern of each option.
+
+const LegoBoxSchematic = (
+  <svg
+    viewBox="0 0 100 60"
+    preserveAspectRatio="xMidYMid meet"
+    className="w-[78%] h-[78%]"
+    aria-hidden
+  >
+    <g
+      fill="rgba(103,200,245,0.06)"
+      stroke="rgba(147,216,249,0.55)"
+      strokeWidth="0.7"
+      strokeDasharray="1.8 1.4"
+    >
+      <rect x="10" y="8" width="22" height="18" rx="2.5" />
+      <rect x="39" y="8" width="22" height="18" rx="2.5" />
+      <rect x="68" y="8" width="22" height="18" rx="2.5" />
+      <rect x="10" y="34" width="22" height="18" rx="2.5" />
+      <rect x="39" y="34" width="22" height="18" rx="2.5" />
+      <rect x="68" y="34" width="22" height="18" rx="2.5" />
+    </g>
+  </svg>
+);
+
+const TimelineSchematic = (
+  <svg
+    viewBox="0 0 100 60"
+    preserveAspectRatio="xMidYMid meet"
+    className="w-[78%] h-[78%]"
+    aria-hidden
+  >
+    <g
+      stroke="rgba(147,216,249,0.55)"
+      strokeWidth="0.8"
+      fill="none"
+      strokeDasharray="1.2 1"
+    >
+      <line x1="22" y1="30" x2="36" y2="30" />
+      <line x1="46" y1="30" x2="60" y2="30" />
+      <line x1="70" y1="30" x2="84" y2="30" />
+    </g>
+    <g
+      stroke="rgba(147,216,249,0.65)"
+      strokeWidth="0.8"
+      fill="rgba(103,200,245,0.08)"
+    >
+      <circle cx="17" cy="30" r="5" />
+      <circle cx="41" cy="30" r="5" />
+      <circle cx="65" cy="30" r="5" />
+    </g>
+    <circle cx="89" cy="30" r="5" fill="rgba(103,200,245,0.45)" stroke="none" />
+  </svg>
+);
+
+// ─── Trailr.ai trade-off simulator data ────────────────────────────────────
+
+const trailrSimulator: SimulatorData = {
+  context: "Real decision · Trailr.ai navigation overhaul",
+  question:
+    "Tight pre-launch deadline. The platform needs a new navigation system. Which model do you ship?",
+  options: [
+    {
+      id: "lego",
+      name: "Option A · Lego Box",
+      subtitle: "Modular workspace cards",
+      pitch:
+        "Composable modules. Users arrange their own dashboard like an internal tool.",
+      schematic: LegoBoxSchematic,
+      builder: {
+        pros: [
+          "Maps 1:1 to React's component model — each module is a clean primitive",
+          "Trivial to add new modules later — plug in, register, ship",
+        ],
+        cons: [
+          "Drag-and-drop state means a Zustand store per module surface",
+          "~2× more components to scaffold under a tight deadline",
+        ],
+      },
+      strategist: {
+        pros: [
+          "Future-proof — every customer arranges differently with no extra eng",
+          "Feels like an internal tool — power users own their workspace",
+        ],
+        cons: [
+          "Blank-canvas paralysis for new users — no obvious starting point",
+          "Hard to communicate the canonical 'happy path' in onboarding",
+        ],
+      },
+    },
+    {
+      id: "timeline",
+      name: "Option B · Timeline",
+      subtitle: "Linear stages, one path",
+      pitch:
+        "Canonical flow from stage 1 to stage N. Users follow the arrow.",
+      schematic: TimelineSchematic,
+      builder: {
+        pros: [
+          "Familiar route-based React patterns — fast to scaffold and reason about",
+          "Predictable state shape, no per-module orchestration",
+        ],
+        cons: [
+          "Adding new stages later means reshuffling the navigation tree",
+          "Branching flows force conditional logic that gets messy",
+        ],
+      },
+      strategist: {
+        pros: [
+          "Onboarding is obvious — follow the arrow, no blank canvas",
+          "Easier to demo, document, and instrument with funnel metrics",
+        ],
+        cons: [
+          "Power users feel boxed in by the linear flow",
+          "Customer-specific branching workflows feel forced or impossible",
+        ],
+      },
+    },
+  ],
+  reveal: {
+    shipped: "Timeline spine, modular blocks inside each stage.",
+    body:
+      "The deadline killed pure Lego Box — but I kept modularity where it actually moved the needle. Inside each timeline stage, users could rearrange the building blocks. We got ~70% of the flexibility for ~40% of the build time, and onboarding stayed obvious for new accounts.",
+    lesson:
+      "Hybrids look like indecision, but they're often the smart play under real constraints. The trick is being explicit about what you're trading.",
+  },
 };
 
 const stories: Story[] = [
@@ -56,6 +191,7 @@ const stories: Story[] = [
       "Translated Figma specs into accessible component primitives — flagging cases where the design implied state the codebase couldn't yet support",
       "Bridged design and engineering at stand-up: surfaced technical constraints early instead of after a sprint closed, which cut rework on three flows",
     ],
+    simulator: trailrSimulator,
     result:
       "Shipped foundational UI for the platform relaunch. Walked away with production React experience in a small, ambiguous-spec environment — the closest analog there is to a Day 1 frontend hire.",
     tech: ["React", "Zustand", "TypeScript", "Figma → Code"],
@@ -196,8 +332,9 @@ function StoryBlock({ story }: { story: Story }) {
   return (
     <div
       ref={ref}
-      className="relative grid md:grid-cols-[1fr_1fr] gap-10 md:gap-16 py-24 md:py-32 border-t border-white/5"
+      className="relative py-24 md:py-32 border-t border-white/5"
     >
+      <div className="grid md:grid-cols-[1fr_1fr] gap-10 md:gap-16">
       {/* ── Sticky media column ── */}
       <div className="md:sticky md:top-24 md:self-start">
         <motion.div
@@ -338,6 +475,28 @@ function StoryBlock({ story }: { story: Story }) {
           </NarrativeBlock>
         </div>
       </div>
+      </div>
+
+      {/* ── Trade-off simulator (full width, below the narrative) ── */}
+      {story.simulator && (
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-16 md:mt-24"
+        >
+          <div className="mb-8 max-w-2xl">
+            <SectionLabel>Now play the decision</SectionLabel>
+            <p className="text-base md:text-lg text-charcoal-200 leading-relaxed">
+              You&apos;ve read what I shipped. Here&apos;s the trade-off as it
+              actually felt at the time. Pick a path, weigh both lenses, then
+              see the call I made.
+            </p>
+          </div>
+          <TradeoffSimulator data={story.simulator} />
+        </motion.div>
+      )}
     </div>
   );
 }
