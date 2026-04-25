@@ -19,6 +19,7 @@ import {
   TradeoffSimulator,
   type SimulatorData,
 } from "./TradeoffSimulator";
+import { DecisionModalTrigger } from "../components/DecisionModal";
 
 // ─── Case-study narratives ──────────────────────────────────────────────────
 // Three stories selected to showcase one of each pillar (Designer / Strategist / Builder)
@@ -175,6 +176,304 @@ const trailrSimulator: SimulatorData = {
   },
 };
 
+// ─── Schematics for the Bevisly simulator ──────────────────────────────────
+// Stylized 100×60 SVGs showing the collision detection patterns.
+
+const DefaultBoundsSchematic = (
+  <svg
+    viewBox="0 0 100 60"
+    preserveAspectRatio="xMidYMid meet"
+    className="w-[78%] h-[78%]"
+    aria-hidden
+  >
+    {/* Three columns */}
+    <g
+      fill="rgba(103,200,245,0.06)"
+      stroke="rgba(147,216,249,0.55)"
+      strokeWidth="0.7"
+      strokeDasharray="1.8 1.4"
+    >
+      <rect x="5" y="6" width="27" height="48" rx="2.5" />
+      <rect x="37" y="6" width="27" height="48" rx="2.5" />
+      <rect x="69" y="6" width="27" height="48" rx="2.5" />
+    </g>
+    {/* Cards inside columns */}
+    <g fill="rgba(147,216,249,0.18)" stroke="rgba(147,216,249,0.4)" strokeWidth="0.5">
+      <rect x="8" y="12" width="21" height="8" rx="1.5" />
+      <rect x="8" y="24" width="21" height="8" rx="1.5" />
+      <rect x="40" y="12" width="21" height="8" rx="1.5" />
+      <rect x="72" y="12" width="21" height="8" rx="1.5" />
+      <rect x="72" y="24" width="21" height="8" rx="1.5" />
+    </g>
+    {/* Jittering card indicator */}
+    <rect x="38" y="23" width="23" height="9" rx="1.5" fill="rgba(245,120,100,0.25)" stroke="rgba(245,120,100,0.6)" strokeWidth="0.6" strokeDasharray="2 1" />
+    <line x1="49" y1="32" x2="49" y2="40" stroke="rgba(245,120,100,0.4)" strokeWidth="0.5" strokeDasharray="1 1" />
+    <text x="49" y="45" textAnchor="middle" fontSize="4" fill="rgba(245,120,100,0.7)" fontFamily="monospace">?</text>
+  </svg>
+);
+
+const PriorityIntersectionSchematic = (
+  <svg
+    viewBox="0 0 100 60"
+    preserveAspectRatio="xMidYMid meet"
+    className="w-[78%] h-[78%]"
+    aria-hidden
+  >
+    {/* Three columns — the middle one highlighted as target */}
+    <g
+      fill="rgba(103,200,245,0.06)"
+      stroke="rgba(147,216,249,0.35)"
+      strokeWidth="0.7"
+      strokeDasharray="1.8 1.4"
+    >
+      <rect x="5" y="6" width="27" height="48" rx="2.5" />
+      <rect x="69" y="6" width="27" height="48" rx="2.5" />
+    </g>
+    {/* Target column — checked first, solid border */}
+    <rect x="37" y="6" width="27" height="48" rx="2.5" fill="rgba(121,190,161,0.08)" stroke="rgba(121,190,161,0.55)" strokeWidth="0.8" />
+    {/* Cards */}
+    <g fill="rgba(147,216,249,0.18)" stroke="rgba(147,216,249,0.4)" strokeWidth="0.5">
+      <rect x="8" y="12" width="21" height="8" rx="1.5" />
+      <rect x="8" y="24" width="21" height="8" rx="1.5" />
+      <rect x="40" y="12" width="21" height="8" rx="1.5" />
+      <rect x="72" y="12" width="21" height="8" rx="1.5" />
+    </g>
+    {/* Dragged card landing in empty space — clearly accepted */}
+    <rect x="40" y="30" width="21" height="8" rx="1.5" fill="rgba(121,190,161,0.2)" stroke="rgba(121,190,161,0.6)" strokeWidth="0.6" />
+    {/* Priority arrow: column first */}
+    <line x1="50" y1="3" x2="50" y2="6" stroke="rgba(121,190,161,0.6)" strokeWidth="0.8" markerEnd="url(#arrowG)" />
+    <text x="50" y="56" textAnchor="middle" fontSize="3.5" fill="rgba(121,190,161,0.7)" fontFamily="monospace">col → card</text>
+    <defs>
+      <marker id="arrowG" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
+        <path d="M0,0 L4,2 L0,4" fill="rgba(121,190,161,0.6)" />
+      </marker>
+    </defs>
+  </svg>
+);
+
+// ─── Bevisly trade-off simulator data ──────────────────────────────────────
+
+const bevislySimulator: SimulatorData = {
+  context: "Real decision · Bevisly Kanban board (TalentBoard.tsx)",
+  question:
+    "Drag-and-drop flicker in a multi-column Kanban. Which collision detection strategy do you ship?",
+  options: [
+    {
+      id: "default",
+      name: "Option A · Default Bounds",
+      subtitle: "rectIntersection / closestCenter",
+      pitch:
+        "Use @dnd-kit's built-in collision algorithms. Zero custom code, ships fast.",
+      schematic: DefaultBoundsSchematic,
+      builder: {
+        pros: [
+          "Zero custom code — use the library as documented",
+          "Well-tested defaults, no edge cases to maintain",
+        ],
+        cons: [
+          "rectIntersection causes jitter between two adjacent cards — the item flickers between columns",
+          "closestCenter fails on Kanban because it ignores the empty space at the bottom of a column",
+        ],
+      },
+      strategist: {
+        pros: [
+          "Faster to ship — less engineering time, more time on features",
+          "Easier for other devs to understand — standard library API",
+        ],
+        cons: [
+          "Recruiters dragging candidates into an empty column see no response — feels broken",
+          "The jitter makes the UI feel unpolished and unreliable in demos",
+        ],
+      },
+    },
+    {
+      id: "priority",
+      name: "Option B · Priority Intersection",
+      subtitle: "Column-first collision strategy",
+      pitch:
+        "Write a custom collision function that checks column containers before individual cards.",
+      schematic: PriorityIntersectionSchematic,
+      builder: {
+        pros: [
+          "Column detection runs first — dragging into empty space works instantly",
+          "6px activation constraint prevents accidental drags when users click to review profiles",
+        ],
+        cons: [
+          "Custom collision logic means more code to own and maintain",
+          "Requires understanding @dnd-kit internals — not a beginner-friendly pattern",
+        ],
+      },
+      strategist: {
+        pros: [
+          "Drag experience feels instant and predictable — recruiters trust the UI",
+          "Zero jitter means the Kanban board is demo-ready from day one",
+        ],
+        cons: [
+          "Extra engineering time on a feature that 'should just work'",
+          "Hard to A/B test — users don't notice good DnD, they only notice bad DnD",
+        ],
+      },
+    },
+  ],
+  reveal: {
+    shipped: "Priority-based intersection with a 6px activation constraint.",
+    body:
+      "The default algorithms failed visibly in a multi-column layout. I wrote a custom collision function that checks for intersections with Column Containers (droppables) before looking at individual cards. This ensures that even if a recruiter drags a candidate into the empty space of a new column, the UI instantly recognizes the destination. The 6px activation constraint prevents accidental drags when users are just trying to click to review a profile.",
+    lesson:
+      "The best DnD is invisible DnD. Users never praise good drag-and-drop — they only notice when it's broken. The extra hour writing a custom collision strategy saved every future demo from a 'why is this flickering?' moment.",
+  },
+};
+
+// ─── Schematics for the Satoshi Standard simulator ─────────────────────────
+// Stylized 100×60 SVGs showing data-fetching architecture patterns.
+
+const ComponentFetchSchematic = (
+  <svg
+    viewBox="0 0 100 60"
+    preserveAspectRatio="xMidYMid meet"
+    className="w-[78%] h-[78%]"
+    aria-hidden
+  >
+    {/* Three UI components directly calling an API */}
+    <g fill="rgba(103,200,245,0.06)" stroke="rgba(147,216,249,0.55)" strokeWidth="0.7">
+      <rect x="8" y="6" width="22" height="14" rx="2" />
+      <rect x="39" y="6" width="22" height="14" rx="2" />
+      <rect x="70" y="6" width="22" height="14" rx="2" />
+    </g>
+    {/* Labels inside components */}
+    <text x="19" y="15" textAnchor="middle" fontSize="3.5" fill="rgba(147,216,249,0.7)" fontFamily="monospace">UI</text>
+    <text x="50" y="15" textAnchor="middle" fontSize="3.5" fill="rgba(147,216,249,0.7)" fontFamily="monospace">UI</text>
+    <text x="81" y="15" textAnchor="middle" fontSize="3.5" fill="rgba(147,216,249,0.7)" fontFamily="monospace">UI</text>
+    {/* Direct arrows to single API */}
+    <g stroke="rgba(245,120,100,0.5)" strokeWidth="0.6" strokeDasharray="1.5 1">
+      <line x1="19" y1="20" x2="50" y2="36" />
+      <line x1="50" y1="20" x2="50" y2="36" />
+      <line x1="81" y1="20" x2="50" y2="36" />
+    </g>
+    {/* Single API box — fragile */}
+    <rect x="35" y="36" width="30" height="12" rx="2" fill="rgba(245,120,100,0.12)" stroke="rgba(245,120,100,0.5)" strokeWidth="0.7" />
+    <text x="50" y="44" textAnchor="middle" fontSize="3.5" fill="rgba(245,120,100,0.8)" fontFamily="monospace">CoinGecko</text>
+    {/* 429 indicator */}
+    <text x="50" y="55" textAnchor="middle" fontSize="3.5" fill="rgba(245,120,100,0.6)" fontFamily="monospace">429 → 💥</text>
+  </svg>
+);
+
+const AdapterPatternSchematic = (
+  <svg
+    viewBox="0 0 100 60"
+    preserveAspectRatio="xMidYMid meet"
+    className="w-[78%] h-[78%]"
+    aria-hidden
+  >
+    {/* UI components */}
+    <g fill="rgba(103,200,245,0.06)" stroke="rgba(147,216,249,0.55)" strokeWidth="0.7">
+      <rect x="8" y="4" width="22" height="12" rx="2" />
+      <rect x="39" y="4" width="22" height="12" rx="2" />
+      <rect x="70" y="4" width="22" height="12" rx="2" />
+    </g>
+    <text x="19" y="12" textAnchor="middle" fontSize="3.5" fill="rgba(147,216,249,0.7)" fontFamily="monospace">UI</text>
+    <text x="50" y="12" textAnchor="middle" fontSize="3.5" fill="rgba(147,216,249,0.7)" fontFamily="monospace">UI</text>
+    <text x="81" y="12" textAnchor="middle" fontSize="3.5" fill="rgba(147,216,249,0.7)" fontFamily="monospace">UI</text>
+    {/* Arrows to adapter layer */}
+    <g stroke="rgba(121,190,161,0.5)" strokeWidth="0.6">
+      <line x1="19" y1="16" x2="50" y2="24" />
+      <line x1="50" y1="16" x2="50" y2="24" />
+      <line x1="81" y1="16" x2="50" y2="24" />
+    </g>
+    {/* Adapter / abstraction layer */}
+    <rect x="28" y="24" width="44" height="10" rx="2.5" fill="rgba(121,190,161,0.1)" stroke="rgba(121,190,161,0.55)" strokeWidth="0.8" />
+    <text x="50" y="31" textAnchor="middle" fontSize="3.5" fill="rgba(121,190,161,0.8)" fontFamily="monospace">cryptoApi</text>
+    {/* Arrows to multiple providers */}
+    <g stroke="rgba(121,190,161,0.4)" strokeWidth="0.5" strokeDasharray="1.5 1">
+      <line x1="38" y1="34" x2="19" y2="42" />
+      <line x1="50" y1="34" x2="50" y2="42" />
+      <line x1="62" y1="34" x2="81" y2="42" />
+    </g>
+    {/* Provider boxes */}
+    <g fill="rgba(121,190,161,0.06)" stroke="rgba(121,190,161,0.35)" strokeWidth="0.6">
+      <rect x="7" y="42" width="24" height="10" rx="2" />
+      <rect x="38" y="42" width="24" height="10" rx="2" />
+      <rect x="69" y="42" width="24" height="10" rx="2" />
+    </g>
+    <text x="19" y="49" textAnchor="middle" fontSize="3" fill="rgba(121,190,161,0.7)" fontFamily="monospace">CoinGecko</text>
+    <text x="50" y="49" textAnchor="middle" fontSize="3" fill="rgba(121,190,161,0.7)" fontFamily="monospace">Mempool</text>
+    <text x="81" y="49" textAnchor="middle" fontSize="3" fill="rgba(121,190,161,0.7)" fontFamily="monospace">CoinCap</text>
+  </svg>
+);
+
+// ─── Satoshi Standard trade-off simulator data ─────────────────────────────
+
+const satoshiSimulator: SimulatorData = {
+  context: "Real decision · Satoshi Standard (cryptoApi.js)",
+  question:
+    "Third-party APIs go down or rate-limit you. How do you protect the UI from provider failures?",
+  options: [
+    {
+      id: "component-fetch",
+      name: "Option A · Component-Level Fetching",
+      subtitle: "Direct fetch in each component",
+      pitch:
+        "Each UI component calls CoinGecko directly. Fast to code, zero abstraction overhead.",
+      schematic: ComponentFetchSchematic,
+      builder: {
+        pros: [
+          "Zero abstraction — each component owns its own data, easy to reason about",
+          "Fastest path to a working prototype, no extra files or patterns to learn",
+        ],
+        cons: [
+          "A single 429 (rate limit) from CoinGecko breaks every component simultaneously",
+          "Switching providers means touching every component that fetches — high blast radius",
+        ],
+      },
+      strategist: {
+        pros: [
+          "Ship a demo in hours, not days — great for validating the idea quickly",
+          "No over-engineering risk — you build exactly what you need",
+        ],
+        cons: [
+          "The app is only as reliable as one API — zero resilience in production",
+          "Any future provider migration becomes a full rewrite across every component",
+        ],
+      },
+    },
+    {
+      id: "adapter-pattern",
+      name: "Option B · Adapter Pattern",
+      subtitle: "Centralized provider abstraction",
+      pitch:
+        "Build a cryptoApi module with setProvider() and a unified interface that maps to CoinGecko, Mempool, or CoinCap.",
+      schematic: AdapterPatternSchematic,
+      builder: {
+        pros: [
+          "setProvider() swaps the data source at runtime — components never know or care",
+          "Vitest suite validates each provider independently, so switching is safe",
+        ],
+        cons: [
+          "More upfront code — an abstraction layer, provider mappings, and a test suite",
+          "Risk of premature abstraction if only one provider is ever actually used",
+        ],
+      },
+      strategist: {
+        pros: [
+          "App survives provider outages — switch to Mempool in one line if CoinGecko dies",
+          "Future-proof for adding new data sources without touching any UI code",
+        ],
+        cons: [
+          "More engineering time spent on infrastructure instead of user-facing features",
+          "The abstraction is invisible to users — hard to 'demo' the value to stakeholders",
+        ],
+      },
+    },
+  ],
+  reveal: {
+    shipped: "Adapter Pattern with runtime provider switching and a full Vitest suite.",
+    body:
+      "I built a centralized cryptoApi module that abstracts the data source behind a unified interface. A setProvider function maps CoinGecko, Mempool, and CoinCap to the same fetchBitcoinPrices call. Components never import a specific provider — they call the abstraction. I wrote a Vitest suite to ensure that switching providers at runtime correctly delegates the call without breaking the frontend. When CoinGecko rate-limited me during development, I switched to Mempool in one line and the UI never knew.",
+    lesson:
+      "The best abstractions are the ones your components never have to think about. One hour building a provider adapter saved me from rewriting three components every time an API hiccuped.",
+  },
+};
+
 const stories: Story[] = [
   {
     number: "01",
@@ -192,7 +491,6 @@ const stories: Story[] = [
       "Translated Figma specs into accessible component primitives — flagging cases where the design implied state the codebase couldn't yet support",
       "Bridged design and engineering at stand-up: surfaced technical constraints early instead of after a sprint closed, which cut rework on three flows",
     ],
-    simulator: trailrSimulator,
     result:
       "Shipped foundational UI for the platform relaunch. Walked away with production React experience in a small, ambiguous-spec environment — the closest analog there is to a Day 1 frontend hire.",
     tech: ["React", "Zustand", "TypeScript", "Figma → Code"],
@@ -216,6 +514,7 @@ const stories: Story[] = [
       "Architected the PostgreSQL schema and wrote Supabase Row-Level Security policies so an employer literally cannot read another employer's data — security at the database layer, not the app",
       "Built the proof submission and review flows in React + TypeScript with type-safe API boundaries between the client and Supabase",
     ],
+    simulator: bevislySimulator,
     result:
       "Live at bevisly.com. A working multi-role SaaS with production auth, RLS-enforced data isolation, and a real user path — shipped solo from blank repo.",
     tech: ["React", "TypeScript", "Supabase RLS", "PostgreSQL", "Next.js"],
@@ -240,6 +539,7 @@ const stories: Story[] = [
       "Built a live API integration with controlled re-renders so the UI doesn't flicker on every price tick",
       "Wrote a full Vitest unit-test suite covering the conversion logic — because price math has to be right",
     ],
+    simulator: satoshiSimulator,
     result:
       "Live at satoshi-standard.xyz. A small but precise product where the design choice (sats over BTC) carries the value, and the engineering quietly supports it.",
     tech: ["React", "Tailwind", "Vitest", "REST API"],
@@ -430,6 +730,13 @@ function StoryBlock({ story }: { story: Story }) {
             </ul>
           </NarrativeBlock>
 
+          {/* Decision simulator trigger — opens in a focused modal */}
+          {story.simulator && (
+            <NarrativeBlock>
+              <DecisionModalTrigger data={story.simulator} title={story.title} />
+            </NarrativeBlock>
+          )}
+
           {/* Result */}
           <NarrativeBlock>
             <SectionLabel>The Result</SectionLabel>
@@ -486,26 +793,6 @@ function StoryBlock({ story }: { story: Story }) {
       </div>
       </div>
 
-      {/* ── Trade-off simulator (full width, below the narrative) ── */}
-      {story.simulator && (
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-16 md:mt-24"
-        >
-          <div className="mb-8 max-w-2xl">
-            <SectionLabel>Now play the decision</SectionLabel>
-            <p className="text-base md:text-lg text-charcoal-200 leading-relaxed">
-              You&apos;ve read what I shipped. Here&apos;s the trade-off as it
-              actually felt at the time. Pick a path, weigh both lenses, then
-              see the call I made.
-            </p>
-          </div>
-          <TradeoffSimulator data={story.simulator} />
-        </motion.div>
-      )}
     </div>
   );
 }
