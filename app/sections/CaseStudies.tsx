@@ -40,6 +40,7 @@ type Story = {
   result: string;
   tech: string[];
   image: string | null; // null → render placeholder card
+  images?: (string | null)[]; // Array of images or placeholders
   liveUrl?: string;
   codeUrl?: string;
   confidential?: boolean;
@@ -195,7 +196,8 @@ const stories: Story[] = [
     result:
       "Shipped foundational UI for the platform relaunch. Walked away with production React experience in a small, ambiguous-spec environment — the closest analog there is to a Day 1 frontend hire.",
     tech: ["React", "Zustand", "TypeScript", "Figma → Code"],
-    image: null, // TODO(user): upload screenshot to /public/assets/trailr.webp and set image: "/assets/trailr.webp"
+    image: null, // Keep for fallback
+    images: [null, null, null], // 3 Placeholders
     confidential: true,
   },
   {
@@ -218,6 +220,7 @@ const stories: Story[] = [
       "Live at bevisly.com. A working multi-role SaaS with production auth, RLS-enforced data isolation, and a real user path — shipped solo from blank repo.",
     tech: ["React", "TypeScript", "Supabase RLS", "PostgreSQL", "Next.js"],
     image: "/assets/bevisly.webp",
+    images: ["/assets/bevisly.webp", null, null], // Real image + 2 placeholders
     liveUrl: "https://bevisly.com/",
     codeUrl: "https://github.com/Taninwat-55/bevis-mvp",
   },
@@ -241,6 +244,7 @@ const stories: Story[] = [
       "Live at satoshi-standard.xyz. A small but precise product where the design choice (sats over BTC) carries the value, and the engineering quietly supports it.",
     tech: ["React", "Tailwind", "Vitest", "REST API"],
     image: "/assets/satoshi-standard.webp",
+    images: ["/assets/satoshi-standard.webp", null, null], // Real image + 2 placeholders
     liveUrl: "https://www.satoshi-standard.xyz/",
     codeUrl: "https://github.com/Taninwat-55/Satoshi-Standard",
   },
@@ -335,32 +339,37 @@ function StoryBlock({ story }: { story: Story }) {
       className="relative py-24 md:py-32 border-t border-white/5"
     >
       <div className="grid md:grid-cols-[1fr_1fr] gap-10 md:gap-16">
-      {/* ── Sticky media column ── */}
-      <div className="md:sticky md:top-24 md:self-start">
-        <motion.div
-          style={{ opacity: imageOpacity, scale: imageScale }}
-          className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/5 bg-charcoal-900/50"
-        >
-          {story.image ? (
-            <Image
-              src={story.image}
-              alt={`${story.title} screenshot`}
-              fill
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-cover"
-            />
-          ) : (
-            <ImagePlaceholder title={story.title} category={story.category} />
-          )}
+      {/* ── Media column ── */}
+      <div className="flex flex-col gap-6 md:self-start">
+        {(story.images || [story.image]).map((imgSrc, idx) => (
+          <motion.div
+            key={idx}
+            style={{ opacity: imageOpacity, scale: imageScale }}
+            className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/5 bg-charcoal-900/50"
+          >
+            {imgSrc ? (
+              <Image
+                src={imgSrc}
+                alt={`${story.title} screenshot ${idx + 1}`}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+              />
+            ) : (
+              <ImagePlaceholder title={story.title} category={story.category} />
+            )}
 
-          {/* category badge in corner */}
-          <div className="absolute top-4 left-4">
-            <Badge variant="ice">{story.category}</Badge>
-          </div>
-        </motion.div>
+            {/* category badge in corner, only on the first image */}
+            {idx === 0 && (
+              <div className="absolute top-4 left-4">
+                <Badge variant="ice">{story.category}</Badge>
+              </div>
+            )}
+          </motion.div>
+        ))}
 
-        {/* Caption row under the image */}
-        <div className="mt-4 flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-charcoal-400">
+        {/* Caption row under the images */}
+        <div className="mt-2 flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-charcoal-400 px-1">
           <span>{story.role}</span>
           <span>{story.period}</span>
         </div>
