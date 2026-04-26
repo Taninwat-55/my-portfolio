@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { personalInfo, siteContent } from "../data";
 import { CopenhagenClock } from "../components/CopenhagenClock";
 
@@ -22,31 +21,6 @@ const sitemap = [
   { label: "Case Studies", href: "/#case-studies" },
   { label: "Garden", href: "/garden" },
   { label: "Projects", href: "/projects" },
-];
-
-const languages = [
-  { name: "Thai", level: "Native" },
-  { name: "English", level: "Fluent" },
-  { name: "Swedish", level: "Fluent" },
-  { name: "Danish", level: "Beginner" },
-];
-
-const education = [
-  {
-    degree: "Professional Bachelor, Frontend Development",
-    org: "Jensen Yrkeshögskola",
-    period: "2024 — 2026",
-  },
-  {
-    degree: "MSc Business & Economics",
-    org: "Uppsala University",
-    period: "2022 — 2023",
-  },
-  {
-    degree: "BA Game Design & Project Management",
-    org: "Uppsala University",
-    period: "2019 — 2022",
-  },
 ];
 
 // ─── Section ────────────────────────────────────────────────────────────────
@@ -104,40 +78,6 @@ export function Footer() {
                 Resume
               </a>
             </Button>
-          </div>
-        </div>
-
-        {/* ── Credentials row: Languages + Education ──────────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-10 py-14 border-t border-white/5">
-          {/* Languages */}
-          <div>
-            <FooterHeading>Languages</FooterHeading>
-            <div className="flex flex-wrap gap-2">
-              {languages.map((lang) => (
-                <Badge
-                  key={lang.name}
-                  variant={lang.level === "Beginner" ? "default" : "ice"}
-                  className="!text-[10px]"
-                >
-                  {lang.name} · {lang.level}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          {/* Education */}
-          <div>
-            <FooterHeading>Education</FooterHeading>
-            <ul className="space-y-3.5">
-              {education.map((edu) => (
-                <li key={edu.degree} className="text-sm">
-                  <div className="text-zinc-200">{edu.degree}</div>
-                  <div className="font-mono text-[11px] tracking-wider uppercase text-charcoal-400 mt-1">
-                    {edu.org} · {edu.period}
-                  </div>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 
