@@ -1,4 +1,4 @@
-import { Layout, Server, Target } from "lucide-react";
+import { Layers, Compass, Code2 } from "lucide-react";
 
 // ─── PERSONAL INFO ────────────────────────────────────────────────────────────
 
@@ -33,41 +33,37 @@ export const siteContent = {
 
 export const skills = [
   {
-    id: "frontend",
-    category: "Technical Literacy & Frontend",
-    icon: Layout,
+    id: "builder",
+    category: "Builder",
+    icon: Code2,
     items: [
-      { name: "React (Next.js)" },
+      { name: "React 19 & Next.js" },
       { name: "TypeScript" },
-      { name: "Tailwind CSS" },
-      { name: "API Integration" },
-      { name: "Responsive Design" },
+      { name: "Vitest & Playwright E2E" },
+      { name: "Headless UI Patterns" },
+      { name: "Performance (Lighthouse)" },
     ],
   },
   {
-    id: "backend",
-    category: "Systems & Backend",
-    icon: Server,
+    id: "strategist",
+    category: "Strategist",
+    icon: Compass,
     items: [
-      { name: "Node.js (Express.js)" },
-      { name: "PostgreSQL" },
-      { name: "Git & CI/CD" },
-      { name: "Authentication" },
-      { name: "State Management" },
+      { name: "Technical Discovery" },
+      { name: "Tailwind v4 Variables" },
+      { name: "React Prototyping" },
+      { name: "Cross-functional Alignment" },
     ],
   },
   {
-    id: "product",
-    category: "Product Strategy",
-    icon: Target,
+    id: "designer",
+    category: "Designer",
+    icon: Layers,
     items: [
-      { name: "Product Discovery" },
-      { name: "User Interviewing" },
-      { name: "Stakeholder Alignment" },
-      { name: "Agile Leadership" },
-      { name: "User Journey Mapping" },
-      { name: "Market Analysis" },
-      { name: "Unit Economics" },
+      { name: "Systemic Design" },
+      { name: "Tactile Interaction" },
+      { name: "Motion Engineering (Framer)" },
+      { name: "WCAG 2.1 Compliant (A11y)" },
     ],
   },
 ];

@@ -10,6 +10,7 @@ import {
   ExternalLink,
   Lock,
   ArrowRight,
+  BookOpen,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -44,6 +45,7 @@ type Story = {
   images?: (string | null)[]; // Array of images or placeholders
   liveUrl?: string;
   codeUrl?: string;
+  gardenSlug?: string;
   confidential?: boolean;
 };
 
@@ -496,6 +498,7 @@ const stories: Story[] = [
     tech: ["React", "Zustand", "TypeScript", "Figma → Code"],
     image: null, // Keep for fallback
     images: [null, null, null], // 3 Placeholders
+    gardenSlug: "shipping-at-trailr",
     confidential: true,
   },
   {
@@ -522,6 +525,7 @@ const stories: Story[] = [
     images: ["/assets/bevisly.webp", null, null], // Real image + 2 placeholders
     liveUrl: "https://bevisly.com/",
     codeUrl: "https://github.com/Taninwat-55/bevis-mvp",
+    gardenSlug: "bevisly",
   },
   {
     number: "03",
@@ -547,6 +551,7 @@ const stories: Story[] = [
     images: ["/assets/satoshi-standard.webp", null, null], // Real image + 2 placeholders
     liveUrl: "https://www.satoshi-standard.xyz/",
     codeUrl: "https://github.com/Taninwat-55/Satoshi-Standard",
+    gardenSlug: "bitcoin-product-thinking",
   },
 ];
 
@@ -755,6 +760,17 @@ function StoryBlock({ story }: { story: Story }) {
             </div>
 
             <div className="flex flex-wrap gap-3">
+              {story.gardenSlug && (
+                <Button asChild variant="outline" size="default">
+                  <Link
+                    href={`/garden/${story.gardenSlug}`}
+                    aria-label={`Read engineering deep dive for ${story.title}`}
+                  >
+                    <BookOpen /> Deep Dive
+                  </Link>
+                </Button>
+              )}
+
               {story.confidential ? (
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-charcoal-300 text-xs font-mono uppercase tracking-wider">
                   <Lock size={14} /> Confidential — Pre-launch
