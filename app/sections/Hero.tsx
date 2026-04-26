@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import { personalInfo, siteContent } from "../data";
@@ -59,16 +60,25 @@ export function Hero() {
           }}
           className="flex flex-col items-start"
         >
-          {/* Availability pill */}
-          <motion.div
-            variants={fadeUp}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-ice-400/20 bg-ice-400/5 text-ice-200 text-xs font-mono tracking-wide mb-10"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ice-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-ice-400" />
-            </span>
-            {siteContent.availability}
+          {/* Creator Badge & Availability */}
+          <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4 mb-10">
+            <div className="relative h-16 w-16 overflow-hidden rounded-full border border-white/10 bg-charcoal-900 shrink-0">
+              <Image
+                src="/assets/Ice-img.webp"
+                alt={personalInfo.name}
+                fill
+                sizes="64px"
+                className="object-cover"
+                priority
+              />
+            </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-ice-400/20 bg-ice-400/5 text-ice-200 text-xs font-mono tracking-wide">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ice-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-ice-400" />
+              </span>
+              {siteContent.availability}
+            </div>
           </motion.div>
 
           {/* Headline */}

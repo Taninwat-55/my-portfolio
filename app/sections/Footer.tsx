@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowUpRight,
   Github,
@@ -43,6 +44,19 @@ export function Footer() {
       <div className="relative container mx-auto px-6 max-w-6xl">
         {/* ── Final CTA band ──────────────────────────────────────────── */}
         <div className="pt-28 md:pt-36 pb-20 md:pb-24">
+          {/* Avatar */}
+          <div className="mb-8">
+            <div className="relative h-[72px] w-[72px] overflow-hidden rounded-full border-2 border-ice-400/20 bg-charcoal-900 shadow-[0_0_30px_rgba(103,200,245,0.2)]">
+              <Image
+                src="/assets/Ice-img.webp"
+                alt={personalInfo.name}
+                fill
+                sizes="72px"
+                className="object-cover"
+              />
+            </div>
+          </div>
+
           <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-ice-400 mb-5">
             05 / Let&apos;s talk
           </div>
