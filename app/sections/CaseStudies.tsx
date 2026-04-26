@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -546,7 +546,7 @@ function StoryBlock({ story }: { story: Story }) {
         ))}
 
         {/* Caption row under the images */}
-        <div className="mt-2 flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-charcoal-300 px-1">
+        <div className="mt-2 flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-charcoal-200 px-1">
           <span>{story.role}</span>
           <span>{story.period}</span>
         </div>
@@ -568,7 +568,7 @@ function StoryBlock({ story }: { story: Story }) {
         <div className="space-y-14 md:space-y-20">
           {/* Header */}
           <NarrativeBlock>
-            <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-charcoal-300 mb-4">
+            <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-charcoal-200 mb-4">
               Chapter {story.number}
             </div>
             <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-zinc-50 mb-4">
@@ -636,15 +636,15 @@ function StoryBlock({ story }: { story: Story }) {
                 <Button asChild variant="outline" size="default">
                   <Link
                     href={`/garden/${story.gardenSlug}`}
-                    aria-label={`Deep Dive: Read engineering deep dive for ${story.title}`}
+                    aria-label={`Deep Dive into the engineering of ${story.title}`}
                   >
-                    <BookOpen /> Deep Dive
+                    <BookOpen aria-hidden="true" /> Deep Dive
                   </Link>
                 </Button>
               )}
 
               {story.confidential ? (
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-charcoal-300 text-xs font-mono uppercase tracking-wider">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-charcoal-200 text-xs font-mono uppercase tracking-wider">
                   <Lock size={14} /> Confidential — Pre-launch
                 </div>
               ) : (
@@ -726,7 +726,7 @@ function ImagePlaceholder({
         <div className="text-3xl md:text-4xl font-semibold text-zinc-100 mb-3">
           {title}
         </div>
-        <div className="font-mono text-[10px] tracking-wider text-charcoal-300">
+        <div className="font-mono text-[10px] tracking-wider text-charcoal-200">
           [ Asset pending — confidential project ]
         </div>
       </div>
@@ -737,6 +737,17 @@ function ImagePlaceholder({
 // ─── More-projects rail ─────────────────────────────────────────────────────
 
 function MoreRail() {
+  const [showAll, setShowAll] = useState(false);
+
+  useEffect(() => {
+    // Only show 8 if we are on desktop to reduce initial DOM size on mobile
+    if (window.innerWidth >= 768) {
+      setShowAll(true);
+    }
+  }, []);
+
+  const displayedProjects = railProjects.slice(0, showAll ? 8 : 4);
+
   return (
     <div className="relative pt-24 md:pt-32 pb-32 border-t border-white/5">
       <div className="container mx-auto px-6 max-w-6xl mb-10">
@@ -764,7 +775,7 @@ function MoreRail() {
 
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {railProjects.slice(0, 8).map((p, i) => (
+          {displayedProjects.map((p, i) => (
             <Link
               key={p.id}
               href="/projects"

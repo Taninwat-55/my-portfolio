@@ -193,7 +193,7 @@ export function Footer() {
         </div>
 
         {/* ── Bottom bar ──────────────────────────────────────────────── */}
-        <div className="py-7 border-t border-white/5 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-charcoal-300 font-mono text-[11px] tracking-wider uppercase">
+        <div className="py-7 border-t border-white/5 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-zinc-400 font-mono text-[11px] tracking-wider uppercase">
           <div>© {year} Taninwat Kaewpankan · Built with Next.js + Tailwind</div>
           <CopenhagenClock />
         </div>

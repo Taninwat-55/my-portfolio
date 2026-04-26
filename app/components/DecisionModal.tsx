@@ -52,7 +52,7 @@ export function DecisionModalTrigger({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label={`Play decision simulator for ${title}`}
+        aria-label={`Play the interactive decision simulator for ${title}`}
         className="group w-full text-left rounded-xl border border-white/5 bg-charcoal-900/40 hover:border-ice-400/30 hover:bg-charcoal-900/60 transition-all duration-300 p-5 mt-2"
       >
         <div className="flex items-center gap-4">
