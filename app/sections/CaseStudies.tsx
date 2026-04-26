@@ -521,7 +521,7 @@ function StoryBlock({ story }: { story: Story }) {
           <motion.div
             key={idx}
             style={{ opacity: imageOpacity, scale: imageScale }}
-            className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/5 bg-charcoal-900/50"
+            className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/5 bg-charcoal-900/50 [will-change:transform,opacity]"
           >
             {imgSrc ? (
               <Image
@@ -530,6 +530,7 @@ function StoryBlock({ story }: { story: Story }) {
                 fill
                 sizes="(min-width: 768px) 50vw, 100vw"
                 className="object-cover"
+                priority={story.slug === "trailr" && idx === 0}
               />
             ) : (
               <ImagePlaceholder title={story.title} category={story.category} />
@@ -545,7 +546,7 @@ function StoryBlock({ story }: { story: Story }) {
         ))}
 
         {/* Caption row under the images */}
-        <div className="mt-2 flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-charcoal-400 px-1">
+        <div className="mt-2 flex items-center justify-between text-[11px] font-mono uppercase tracking-wider text-charcoal-300 px-1">
           <span>{story.role}</span>
           <span>{story.period}</span>
         </div>
@@ -567,7 +568,7 @@ function StoryBlock({ story }: { story: Story }) {
         <div className="space-y-14 md:space-y-20">
           {/* Header */}
           <NarrativeBlock>
-            <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-charcoal-400 mb-4">
+            <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-charcoal-300 mb-4">
               Chapter {story.number}
             </div>
             <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-zinc-50 mb-4">
@@ -635,7 +636,7 @@ function StoryBlock({ story }: { story: Story }) {
                 <Button asChild variant="outline" size="default">
                   <Link
                     href={`/garden/${story.gardenSlug}`}
-                    aria-label={`Read engineering deep dive for ${story.title}`}
+                    aria-label={`Deep Dive: Read engineering deep dive for ${story.title}`}
                   >
                     <BookOpen /> Deep Dive
                   </Link>
@@ -725,7 +726,7 @@ function ImagePlaceholder({
         <div className="text-3xl md:text-4xl font-semibold text-zinc-100 mb-3">
           {title}
         </div>
-        <div className="font-mono text-[10px] tracking-wider text-charcoal-400">
+        <div className="font-mono text-[10px] tracking-wider text-charcoal-300">
           [ Asset pending — confidential project ]
         </div>
       </div>
@@ -763,11 +764,13 @@ function MoreRail() {
 
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {railProjects.slice(0, 8).map((p) => (
+          {railProjects.slice(0, 8).map((p, i) => (
             <Link
               key={p.id}
               href="/projects"
-              className="group relative aspect-[4/3] rounded-xl overflow-hidden border border-white/5 bg-charcoal-900/50 hover:border-ice-400/30 transition-colors"
+              className={`group relative aspect-[4/3] rounded-xl overflow-hidden border border-white/5 bg-charcoal-900/50 hover:border-ice-400/30 transition-colors ${
+                i >= 4 ? "hidden md:block" : ""
+              }`}
             >
               <Image
                 src={p.image}
