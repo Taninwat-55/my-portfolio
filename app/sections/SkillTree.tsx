@@ -39,28 +39,34 @@ const CLASSES: ClassDef[] = [
     glow: "rgba(168, 153, 212, 0.18)",
     subskills: [
       {
-        name: "Systemic Design",
-        level: "Game Design BA",
+        name: "Figma & Prototyping",
+        level: "Advanced",
         highlight:
-          "Applying engagement loops and system logic from game design to create high-retention SaaS interfaces.",
+          "Building interactive prototypes in Figma that accurately mirror technical constraints and state logic.",
       },
       {
-        name: "Tactile Interaction",
-        level: "Human-centric",
+        name: "Systemic Design",
+        level: "Architecture",
         highlight:
-          "Engineering fluid state transitions and micro-interactions that make the UI feel responsive and 'alive'.",
+          "Creating scalable, themeable component libraries that maintain visual consistency across large platforms.",
+      },
+      {
+        name: "A11y Compliance",
+        level: "WCAG 2.1",
+        highlight:
+          "Ensuring every component is semantically correct, keyboard-navigable, and screen-reader friendly.",
       },
       {
         name: "Motion Engineering",
         level: "Framer Motion",
         highlight:
-          "Orchestrating layout-aware animations and gesture-driven interactions using LayoutID and SVG pathing.",
+          "Crafting tactile, fluid transitions that improve user engagement and provide clear feedback.",
       },
       {
-        name: "Inclusive Design",
-        level: "WCAG 2.1 Compliant",
+        name: "Tailwind CSS",
+        level: "Variable-based",
         highlight:
-          "Building semantically correct, keyboard-navigable components that are accessible to all users by default.",
+          "Using modern Tailwind patterns and CSS variables to build flexible, high-performance design systems.",
       },
     ],
   },
@@ -73,28 +79,34 @@ const CLASSES: ClassDef[] = [
     glow: "rgba(216, 176, 107, 0.18)",
     subskills: [
       {
-        name: "Technical Discovery",
-        level: "Interaction Models",
+        name: "Product Discovery",
+        level: "Business MSc",
         highlight:
-          "Turning ambiguous user needs into high-fidelity technical specs and interaction models.",
+          "Validating ideas through market research and user interviews before writing a single line of code.",
       },
       {
-        name: "Design Systems",
-        level: "Tailwind v4",
+        name: "Technical Scoping",
+        level: "Roadmap Planning",
         highlight:
-          "Engineering scalable, themeable component libraries using Tailwind v4 variables and headless primitives.",
+          "Translating ambiguous product goals into clear technical requirements and realistic sprint targets.",
       },
       {
-        name: "Prototyping",
-        level: "React Prototypes",
-        highlight:
-          "Building high-fidelity React prototypes to validate user flows before committing to full production builds.",
-      },
-      {
-        name: "Alignment",
+        name: "Agile Alignment",
         level: "Cross-functional",
         highlight:
-          "Bridging the gap between the 'what' (product) and the 'how' (engineering) to ensure 100% feasibility.",
+          "Bridging the gap between design, product, and engineering to ensure 100% delivery success.",
+      },
+      {
+        name: "SEO Architecture",
+        level: "Performance-first",
+        highlight:
+          "Optimizing for search visibility and site speed from the initial architectural decisions.",
+      },
+      {
+        name: "Responsive Design",
+        level: "Mobile-First",
+        highlight:
+          "Crafting seamless experiences that adapt perfectly from 320px phones to 4K ultra-wide monitors.",
       },
     ],
   },
@@ -108,27 +120,33 @@ const CLASSES: ClassDef[] = [
     subskills: [
       {
         name: "React 19 & Next.js",
-        level: "Production",
+        level: "App Router",
         highlight:
           "Shipping with the React Compiler and Server Components for zero-bundle client logic.",
       },
       {
+        name: "TypeScript",
+        level: "Type-Safe APIs",
+        highlight:
+          "Implementing end-to-end type safety between frontend, backend, and database layers.",
+      },
+      {
         name: "Testing & Quality",
-        level: "Vitest & E2E",
+        level: "Vitest & Playwright",
         highlight:
-          "100% type-safe boundaries with Vitest unit tests and Playwright E2E suites.",
+          "Maintaining 100% reliability with robust unit tests and browser-based automation suites.",
       },
       {
-        name: "Architectural Patterns",
-        level: "Headless UI",
+        name: "State Management",
+        level: "Zustand",
         highlight:
-          "Implementing Headless UI orchestration, compound components, and atomic design systems.",
+          "Architecting high-performance, predictable state flows without the boilerplate of Redux.",
       },
       {
-        name: "Performance",
-        level: "Lighthouse-obsessed",
+        name: "CI/CD Pipelines",
+        level: "GitHub Actions",
         highlight:
-          "Optimizing for Core Web Vitals, Edge delivery, and asset subsetting.",
+          "Automating builds, linting, and deployments to ensure every commit is production-ready.",
       },
     ],
   },
