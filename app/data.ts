@@ -167,7 +167,7 @@ export const projects = [
       demo: "https://www.satoshi-standard.xyz/",
       code: "https://github.com/Taninwat-55/Satoshi-Standard",
     },
-    image: "/assets/satoshi-standard.webp",
+    image: "/assets/satoshi-standard/satoshi-dashboard.webp",
   },
   {
     id: 3,

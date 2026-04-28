@@ -422,8 +422,12 @@ const stories: Story[] = [
     result:
       "Live at satoshi-standard.xyz. A small but precise product where the design choice (sats over BTC) carries the value, and the engineering quietly supports it.",
     tech: ["React", "Tailwind", "Vitest", "REST API"],
-    image: "/assets/satoshi-standard.webp",
-    images: ["/assets/satoshi-standard.webp", null, null], // Real image + 2 placeholders
+    image: "/assets/satoshi-standard/satoshi-dashboard.webp",
+    images: [
+      "/assets/satoshi-standard/satoshi-dashboard.webp",
+      "/assets/satoshi-standard/satoshi-converter.webp",
+      "/assets/satoshi-standard/satoshi-graph.webp",
+    ], // Real high-res images for Satoshi Standard story
     liveUrl: "https://www.satoshi-standard.xyz/",
     codeUrl: "https://github.com/Taninwat-55/Satoshi-Standard",
     gardenSlug: "bitcoin-product-thinking",
