@@ -11,10 +11,12 @@ import {
   Lock,
   ArrowRight,
   BookOpen,
+  Maximize2,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Lightbox } from "../components/Lightbox";
 import { projects } from "../data";
 import {
   TradeoffSimulator,
@@ -441,6 +443,20 @@ const railProjects = projects.filter((p) => !featuredSlugIds.has(p.id));
 // ─── Section ────────────────────────────────────────────────────────────────
 
 export function CaseStudies() {
+  const [lightbox, setLightbox] = useState<{
+    images: (string | null)[];
+    index: number;
+    open: boolean;
+  }>({
+    images: [],
+    index: 0,
+    open: false,
+  });
+
+  const openLightbox = (images: (string | null)[], index: number) => {
+    setLightbox({ images, index, open: true });
+  };
+
   return (
     <section
       id="case-studies"
@@ -479,27 +495,59 @@ export function CaseStudies() {
             className="text-base md:text-lg text-charcoal-300 leading-relaxed"
           >
             Three projects, three angles. Scroll through each one — the screenshot
-            stays with you while the story unfolds beside it.
+            stays with you while the story unfolds beside it. Click any image to expand.
           </motion.p>
         </motion.div>
       </div>
 
       {/* Stories — each is a tall block with sticky media + scrolling narrative */}
       <div className="container mx-auto px-6 max-w-6xl">
-        {stories.map((story) => (
-          <StoryBlock key={story.slug} story={story} />
-        ))}
+        <div className="space-y-32 md:space-y-48">
+          {stories.map((story) => (
+            <StoryBlock 
+              key={story.slug} 
+              story={story} 
+              onImageClick={(idx) => openLightbox(story.images || [story.image], idx)}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* "And more" rail */}
       <MoreRail />
+
+      {/* Lightbox Overlay */}
+      {lightbox.open && (
+        <Lightbox
+          images={lightbox.images}
+          activeIndex={lightbox.index}
+          onClose={() => setLightbox({ ...lightbox, open: false })}
+          onPrev={() =>
+            setLightbox({
+              ...lightbox,
+              index: (lightbox.index - 1 + lightbox.images.length) % lightbox.images.length,
+            })
+          }
+          onNext={() =>
+            setLightbox({
+              ...lightbox,
+              index: (lightbox.index + 1) % lightbox.images.length,
+            })
+          }
+        />
+      )}
     </section>
   );
 }
 
 // ─── Story block ────────────────────────────────────────────────────────────
 
-function StoryBlock({ story }: { story: Story }) {
+function StoryBlock({ 
+  story, 
+  onImageClick 
+}: { 
+  story: Story; 
+  onImageClick: (idx: number) => void;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -526,31 +574,42 @@ function StoryBlock({ story }: { story: Story }) {
       {/* ── Media column ── */}
       <div className="flex flex-col gap-6 md:self-start">
         {(story.images || [story.image]).map((imgSrc, idx) => (
-          <motion.div
+          <motion.button
             key={idx}
+            type="button"
+            onClick={() => onImageClick(idx)}
             style={{ opacity: imageOpacity, scale: imageScale }}
-            className="relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/5 bg-charcoal-900/50 [will-change:transform,opacity]"
+            className="group/img relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/5 bg-charcoal-900/50 [will-change:transform,opacity] cursor-zoom-in"
           >
             {imgSrc ? (
-              <Image
-                src={imgSrc}
-                alt={`${story.title} screenshot ${idx + 1}`}
-                fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-cover"
-                priority={story.slug === "trailr" && idx === 0}
-              />
+              <>
+                <Image
+                  src={imgSrc}
+                  alt={`${story.title} screenshot ${idx + 1}`}
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-contain transition-transform duration-700 group-hover/img:scale-105"
+                  priority={story.slug === "trailr" && idx === 0}
+                />
+                
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-charcoal-950/20 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white translate-y-4 group-hover/img:translate-y-0 transition-transform duration-300">
+                    <Maximize2 size={20} />
+                  </div>
+                </div>
+              </>
             ) : (
               <ImagePlaceholder title={story.title} category={story.category} />
             )}
 
             {/* category badge in corner, only on the first image */}
             {idx === 0 && (
-              <div className="absolute top-4 left-4">
+              <div className="absolute top-4 left-4 z-10">
                 <Badge variant="ice">{story.category}</Badge>
               </div>
             )}
-          </motion.div>
+          </motion.button>
         ))}
 
         {/* Caption row under the images */}
@@ -796,7 +855,7 @@ function MoreRail() {
                 alt={p.title}
                 fill
                 sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-                className="object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-500"
+                className="object-contain opacity-60 group-hover:opacity-90 transition-opacity duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950 via-charcoal-950/40 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-4">
