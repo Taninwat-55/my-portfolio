@@ -141,7 +141,7 @@ export const projects = [
       demo: "https://bevisly.com/",
       code: "https://github.com/Taninwat-55/bevis-mvp",
     },
-    image: "/assets/bevisly.webp",
+    image: "/assets/bevisly/Bevisly-Landing.webp",
   },
   {
     id: 1,

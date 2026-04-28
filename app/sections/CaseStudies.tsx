@@ -392,8 +392,12 @@ const stories: Story[] = [
     result:
       "Live at bevisly.com. A working multi-role SaaS with production auth, RLS-enforced data isolation, and a real user path — shipped solo from blank repo.",
     tech: ["React", "TypeScript", "Supabase RLS", "PostgreSQL", "Next.js"],
-    image: "/assets/bevisly.webp",
-    images: ["/assets/bevisly.webp", null, null], // Real image + 2 placeholders
+    image: "/assets/bevisly/Bevisly-Landing.webp",
+    images: [
+      "/assets/bevisly/Bevisly-Landing.webp",
+      "/assets/bevisly/Bevisly-Candidate.webp",
+      "/assets/bevisly/Bevisly-Employer-Kanban.webp",
+    ], // Real high-res images for Bevisly story
     liveUrl: "https://bevisly.com/",
     codeUrl: "https://github.com/Taninwat-55/bevis-mvp",
     gardenSlug: "bevisly",
