@@ -37,11 +37,11 @@ export const skills = [
     category: "Builder",
     icon: Code2,
     items: [
-      { name: "React 19 & Next.js" },
-      { name: "TypeScript" },
+      { name: "React 19 & Next.js (App Router)" },
+      { name: "TypeScript & Type-Safe APIs" },
       { name: "Vitest & Playwright E2E" },
-      { name: "Headless UI Patterns" },
-      { name: "Performance (Lighthouse)" },
+      { name: "State Management (Zustand)" },
+      { name: "CI/CD Pipelines (GitHub Actions)" },
     ],
   },
   {
@@ -49,10 +49,11 @@ export const skills = [
     category: "Strategist",
     icon: Compass,
     items: [
-      { name: "Technical Discovery" },
-      { name: "Tailwind v4 Variables" },
-      { name: "React Prototyping" },
-      { name: "Cross-functional Alignment" },
+      { name: "Product Discovery & Research" },
+      { name: "Technical Discovery & Scoping" },
+      { name: "Agile & Cross-functional Alignment" },
+      { name: "SEO & Performance Architecture" },
+      { name: "Responsive Design (Mobile-First)" },
     ],
   },
   {
@@ -60,10 +61,11 @@ export const skills = [
     category: "Designer",
     icon: Layers,
     items: [
-      { name: "Systemic Design" },
-      { name: "Tactile Interaction" },
+      { name: "Figma & Prototyping" },
+      { name: "Systemic Design (Design Systems)" },
+      { name: "A11y (WCAG 2.1 Compliance)" },
       { name: "Motion Engineering (Framer)" },
-      { name: "WCAG 2.1 Compliant (A11y)" },
+      { name: "Tailwind CSS (Variable-based)" },
     ],
   },
 ];
