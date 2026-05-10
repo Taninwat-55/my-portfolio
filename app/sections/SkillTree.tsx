@@ -73,7 +73,7 @@ const CLASSES: ClassDef[] = [
   {
     id: "strategist",
     title: "Strategist",
-    tagline: "Bridging design and engineering",
+    tagline: "Products, people, and the decisions in between",
     icon: Compass,
     color: "#d8b06b",
     glow: "rgba(216, 176, 107, 0.18)",
@@ -97,16 +97,16 @@ const CLASSES: ClassDef[] = [
           "Bridging the gap between design, product, and engineering to ensure 100% delivery success.",
       },
       {
-        name: "SEO Architecture",
-        level: "Performance-first",
+        name: "Team & Org Leadership",
+        level: "Millennial Consulting",
         highlight:
-          "Optimizing for search visibility and site speed from the initial architectural decisions.",
+          "Led Millennial Consulting as Head of Organization — managing people, delivery timelines, and cross-functional communication with no formal playbook.",
       },
       {
-        name: "Responsive Design",
-        level: "Mobile-First",
+        name: "Budget & Stakeholder Comms",
+        level: "Org-wide",
         highlight:
-          "Crafting seamless experiences that adapt perfectly from 320px phones to 4K ultra-wide monitors.",
+          "Owned budget decisions and resource allocation across simultaneous consulting projects, and communicated trade-offs clearly to non-technical stakeholders.",
       },
     ],
   },

@@ -401,7 +401,7 @@ const stories: Story[] = [
       "/assets/bevisly/Bevisly-Employer-Kanban.webp",
     ], // Real high-res images for Bevisly story
     liveUrl: "https://bevisly.com/",
-    codeUrl: "https://github.com/Taninwat-55/bevis-mvp",
+
     gardenSlug: "bevisly",
   },
   {

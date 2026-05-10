@@ -90,10 +90,10 @@ export function Hero() {
             <br />
             <span className="text-charcoal-300 font-normal">I </span>
             <span className="bg-gradient-to-r from-ice-200 via-ice-300 to-ice-500 bg-clip-text text-transparent">
-              build fast, accessible interfaces
+              make product decisions
             </span>
-            <span className="text-charcoal-300 font-normal"> with a </span>
-            <span className="text-zinc-50">product mindset.</span>
+            <span className="text-charcoal-300 font-normal"> — then </span>
+            <span className="text-zinc-50">build the thing myself.</span>
           </motion.h1>
 
           {/* Subtitle */}

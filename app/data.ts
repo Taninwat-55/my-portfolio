@@ -16,11 +16,11 @@ export const personalInfo = {
 // ─── HERO / ABOUT COPY ────────────────────────────────────────────────────────
 
 export const siteContent = {
-  availability: "Open to Frontend Developer Roles",
+  availability: "Open to Product & Frontend Roles",
   heroIntro: "Hi, I'm Taninwat.",
-  heroLine: "I build fast, accessible interfaces with a product mindset.",
+  heroLine: "I make product decisions — then build the thing myself.",
   heroSubtitle:
-    "Frontend Developer with a Master's in Business & Economics. I ship real products with React and TypeScript, and I bring business context to every technical decision I make.",
+    "I've led teams, owned operations, and shipped real products — then coded the interface myself. Frontend developer by training, product thinker by instinct.",
   aboutP1:
     "I started from a business background, but I was drawn to the craft of building. I completed a Frontend Developer internship at Trailr.ai — an early-stage AI startup — where I architected the navigation system using React and Zustand, and bridged design vision with technical constraints during a full platform overhaul.",
   aboutP2:
@@ -94,11 +94,11 @@ export const experience = [
   {
     id: "work-1",
     type: "work",
-    role: "Head of Millennial Consulting (Volunteer)",
-    organization: "Volunteer Leadership",
+    role: "Head of Organization (Volunteer)",
+    organization: "Millennial Consulting",
     period: "2023 - 2025",
     description:
-      "Managed the delivery of multiple consulting projects simultaneously, coordinating cross-functional teams and keeping work on track against defined milestones. Developed strong habits around scope management, clear documentation, and communicating technical trade-offs to non-technical stakeholders.",
+      "Progressed from Head of Operations to Head of the entire Organization. Managed simultaneous consulting project deliveries, coordinated cross-functional teams, owned the budget, and onboarded members into an organization with no formal playbook — figuring out processes as the org scaled.",
   },
   {
     id: "work-2",
@@ -141,7 +141,7 @@ export const projects = [
     tech: ["Supabase RLS (Security)", "Role-Based Design", "React", "TypeScript", "PostgreSQL"],
     links: {
       demo: "https://bevisly.com/",
-      code: "https://github.com/Taninwat-55/bevis-mvp",
+      code: "",
     },
     image: "/assets/bevisly/Bevisly-Landing.webp",
   },

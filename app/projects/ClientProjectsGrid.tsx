@@ -20,6 +20,7 @@ type Project = (typeof projects)[number];
 
 function ProjectCard({ project }: { project: Project }) {
   const hasLiveDemo = project.links.demo && project.links.demo !== "#";
+  const hasCodeLink = !!project.links.code;
 
   return (
     <motion.article 
@@ -66,17 +67,27 @@ function ProjectCard({ project }: { project: Project }) {
 
         {/* Action row */}
         <div className="flex gap-2 mt-auto pt-5 border-t border-white/5">
-          <Button asChild variant="ghost" size="sm" className="flex-1">
-            <a
-              href={project.links.code}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`View ${project.title} source code`}
+          {hasCodeLink ? (
+            <Button asChild variant="ghost" size="sm" className="flex-1">
+              <a
+                href={project.links.code}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View ${project.title} source code`}
+              >
+                <Github />
+                Code
+              </a>
+            </Button>
+          ) : (
+            <div
+              aria-label="Source code private"
+              className="flex-1 inline-flex items-center justify-center gap-2 h-9 rounded-md text-xs font-mono uppercase tracking-wider text-charcoal-500 border border-white/5 bg-white/[0.02]"
             >
-              <Github />
-              Code
-            </a>
-          </Button>
+              <Lock size={12} />
+              Private
+            </div>
+          )}
 
           {hasLiveDemo ? (
             <Button asChild variant="default" size="sm" className="flex-1">
