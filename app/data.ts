@@ -22,7 +22,7 @@ export const siteContent = {
   heroSubtitle:
     "I've led teams, owned operations, and shipped real products — then coded the interface myself. Frontend developer by training, product thinker by instinct.",
   aboutP1:
-    "I started from a business background, but I was drawn to the craft of building. I completed a Frontend Developer internship at Trailr.ai — an early-stage AI startup — where I architected the navigation system using React and Zustand, and bridged design vision with technical constraints during a full platform overhaul.",
+    "I started from a business background, but I was drawn to the craft of building. At Trailr.ai — an early-stage AI startup — I architected the navigation system using React and Zustand, bridged design vision with technical constraints during a full platform overhaul, and transitioned from intern to equity partner with a signed shareholder agreement.",
   aboutP2:
     "I hold a Professional Bachelor in Frontend Development (in progress) alongside a Master of Science in Business & Economics from Uppsala University. I build with React, Next.js, TypeScript, and Tailwind — and I care deeply about performance, accessibility, and user experience. Having a business background means I don't just build features; I understand why they matter.",
   cvLink: "/assets/(Website)Taninwat_Kaewpankan_CV.pdf",
@@ -76,11 +76,11 @@ export const experience = [
   {
     id: "work-trailr",
     type: "work",
-    role: "Frontend Developer Intern",
+    role: "Frontend Developer → Partner (Equity)",
     organization: "Trailr.ai (Remote)",
-    period: "Sep 2025 - Dec 2025",
+    period: "Sep 2025 - Present",
     description:
-      "Built core UI features for an early-stage AI startup (pre-launch). Architected the navigation system using React & Zustand, implemented complex state flows, and resolved the gap between design specs and technical feasibility during a complete platform overhaul.",
+      "Joined as a frontend intern at an early-stage AI startup (pre-launch). Architected the navigation system using React & Zustand, bridged design specs and technical feasibility during a full platform overhaul, and transitioned to equity partner with a signed shareholder agreement.",
   },
   {
     id: "edu-1",
@@ -189,71 +189,6 @@ export const projects = [
       code: "https://github.com/Taninwat-55/rachabeautywellness",
     },
     image: "/assets/Racha_img.webp",
-  },
-  {
-    id: 4,
-    title: "Forum Web Application",
-    category: "Community",
-    description:
-      "A scalable discussion platform featuring full CRUD capabilities. Focused on database schema design and user-generated content flows.",
-    tech: ["React", "Express.js", "SQLite", "CRUD"],
-    links: {
-      demo: "https://forum-app-project-react.vercel.app",
-      code: "https://github.com/Taninwat-55/Forum-App-Project-React",
-    },
-    image: "/assets/Forum-img.webp",
-  },
-  {
-    id: 5,
-    title: "Voyager Travel Planner",
-    category: "Productivity",
-    description:
-      "A travel logistics tool simplifying itinerary creation. Focuses on intuitive UX for managing complex schedules and location data.",
-    tech: ["React", "Tailwind", "REST API"],
-    links: {
-      demo: "#",
-      code: "https://github.com/Taninwat-55/travel-planner-voyager",
-    },
-    image: "/assets/travel-plan.webp",
-  },
-  {
-    id: 6,
-    title: "Product List & Cart",
-    category: "E-Commerce",
-    description:
-      "A pixel-perfect implementation of shopping cart logic. Handles state persistence and complex array manipulations for cart updates.",
-    tech: ["JavaScript", "CSS", "HTML"],
-    links: {
-      demo: "https://taninwat-55.github.io/Product-list-with-cart/",
-      code: "https://github.com/Taninwat-55/Product-list-with-cart",
-    },
-    image: "/assets/Product-list-with-cart-img.webp",
-  },
-  {
-    id: 7,
-    title: "Interactive Sign-Up",
-    category: "CRO",
-    description:
-      "A conversion-optimized form focusing on client-side validation and error handling to reduce user drop-off rates.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    links: {
-      demo: "https://taninwat-55.github.io/Intro-component-with-sign-up-form/",
-      code: "https://github.com/Taninwat-55/Intro-component-with-sign-up-form",
-    },
-    image: "/assets/sign-up-form-project.webp",
-  },
-  {
-    id: 8,
-    title: "Trafiklab Transit App",
-    category: "Public Data",
-    description:
-      "Real-time public transport dashboard integrating with the Trafiklab API. Visualizes complex transit data for end-users.",
-    tech: ["React", "TypeScript", "Tailwind"],
-    links: {
-      demo: "https://react-trafiklab-app.vercel.app",
-      code: "https://github.com/Taninwat-55/react-trafiklab-app",
-    },
-    image: "/assets/Trafiklab-app-img.webp",
   },
 ];
 
