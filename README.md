@@ -75,11 +75,3 @@ npm run build   # Production build + type check
 See [`.agent/skills/content_manager/SKILL.md`](.agent/skills/content_manager/SKILL.md) for the workflow on adding new blog posts and projects.
 
 ---
-
-## CV Files
-
-Two mode-specific CVs live in `public/assets/`:
-- `(PM) Taninwat-Kaewpankan-CV.pdf` — Product Manager resume
-- `(frontend) Taninwat-Kaewpankan-CV.pdf` — Frontend Developer resume
-
-The correct CV is served automatically based on the active mode.

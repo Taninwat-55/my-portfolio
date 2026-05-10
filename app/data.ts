@@ -25,7 +25,7 @@ export const siteContent = {
     "I started from a business background, but I was drawn to the craft of building. I completed a Frontend Developer internship at Trailr.ai — an early-stage AI startup — where I architected the navigation system using React and Zustand, and bridged design vision with technical constraints during a full platform overhaul.",
   aboutP2:
     "I hold a Professional Bachelor in Frontend Development (in progress) alongside a Master of Science in Business & Economics from Uppsala University. I build with React, Next.js, TypeScript, and Tailwind — and I care deeply about performance, accessibility, and user experience. Having a business background means I don't just build features; I understand why they matter.",
-  cvLink: "/assets/(frontend) Taninwat-Kaewpankan-CV.pdf",
+  cvLink: "/assets/(Website)Taninwat_Kaewpankan_CV.pdf",
   cvLabel: "Download Resume",
 };
 
@@ -138,7 +138,13 @@ export const projects = [
     category: "SaaS Platform",
     description:
       "Built a full-stack SaaS platform from scratch using React, TypeScript, and Supabase. Implemented row-level security (RLS) policies for multi-role data isolation, designed the PostgreSQL schema, and architected the proof submission and review flows end-to-end.",
-    tech: ["Supabase RLS (Security)", "Role-Based Design", "React", "TypeScript", "PostgreSQL"],
+    tech: [
+      "Supabase RLS (Security)",
+      "Role-Based Design",
+      "React",
+      "TypeScript",
+      "PostgreSQL",
+    ],
     links: {
       demo: "https://bevisly.com/",
       code: "",

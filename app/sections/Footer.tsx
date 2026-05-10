@@ -185,7 +185,7 @@ export function Footer() {
                   aria-label="Open resume PDF in a new tab"
                 >
                   <FileDown size={14} strokeWidth={1.5} />
-                  Resume (PDF)
+                  CV (PDF)
                 </a>
               </li>
             </ul>
