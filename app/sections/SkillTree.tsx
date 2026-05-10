@@ -131,10 +131,16 @@ const CLASSES: ClassDef[] = [
           "Implementing end-to-end type safety between frontend, backend, and database layers.",
       },
       {
-        name: "Testing & Quality",
-        level: "Vitest & Playwright",
+        name: "Testing (Vitest)",
+        level: "Unit Testing",
         highlight:
-          "Maintaining 100% reliability with robust unit tests and browser-based automation suites.",
+          "Writing unit test suites that validate core logic — price conversion, state flows, and API adapter behaviour — so refactors don't break what's already working.",
+      },
+      {
+        name: "Supabase & PostgreSQL",
+        level: "Row-Level Security",
+        highlight:
+          "Designing multi-role schemas and writing RLS policies that enforce data isolation at the database layer — not the application layer.",
       },
       {
         name: "State Management",
