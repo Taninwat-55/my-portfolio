@@ -371,8 +371,8 @@ const stories: Story[] = [
     tech: ["React", "Zustand", "TypeScript", "Figma → Code"],
     image: null, // Keep for fallback
     images: [null, null, null], // 3 Placeholders
+    liveUrl: "https://www.trailr.ai/",
     gardenSlug: "shipping-at-trailr",
-    confidential: true,
   },
   {
     number: "02",
