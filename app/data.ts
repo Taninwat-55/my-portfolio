@@ -16,15 +16,15 @@ export const personalInfo = {
 // ─── HERO / ABOUT COPY ────────────────────────────────────────────────────────
 
 export const siteContent = {
-  availability: "Open to Product & Frontend Roles",
+  availability: "Open to Product Engineer & Technical PM Roles",
   heroIntro: "Hi, I'm Taninwat.",
   heroLine: "I make product decisions — then build the thing myself.",
   heroSubtitle:
-    "I've led teams, owned operations, and shipped real products — then coded the interface myself. Frontend developer by training, product thinker by instinct.",
+    "I've led teams, scoped features, and shipped real software — end to end. Business background. Frontend skills. Product instinct.",
   aboutP1:
-    "I started from a business background, but I was drawn to the craft of building. At Trailr.ai — an early-stage AI startup — I architected the navigation system using React and Zustand, bridged design vision with technical constraints during a full platform overhaul, and transitioned from intern to equity partner with a signed shareholder agreement.",
+    "At Trailr.ai — an early-stage AI startup — I joined as a frontend developer and transitioned to equity partner with a signed shareholder agreement. I architected the navigation system in React and Zustand, bridged design vision with technical constraints during a full platform overhaul, and owned product decisions from scoping to shipping.",
   aboutP2:
-    "I hold a Professional Bachelor in Frontend Development (in progress) alongside a Master of Science in Business & Economics from Uppsala University. I build with React, Next.js, TypeScript, and Tailwind — and I care deeply about performance, accessibility, and user experience. Having a business background means I don't just build features; I understand why they matter.",
+    "I hold a Professional Bachelor in Frontend Development (2026) alongside a Master of Science in Business & Economics from Uppsala University. I build with React, Next.js, TypeScript, and Tailwind — and I care deeply about performance, accessibility, and user experience. A business background means I don't just build features; I understand why they matter.",
   cvLink: "/assets/(Website)Taninwat_Kaewpankan_CV.pdf",
   cvLabel: "Download Resume",
 };
@@ -80,7 +80,7 @@ export const experience = [
     organization: "Trailr.ai (Remote)",
     period: "Sep 2025 - Present",
     description:
-      "Joined as a frontend intern at an early-stage AI startup (pre-launch). Architected the navigation system using React & Zustand, bridged design specs and technical feasibility during a full platform overhaul, and transitioned to equity partner with a signed shareholder agreement.",
+      "Grew from frontend developer to equity partner (signed shareholder agreement) at a pre-launch AI startup. Architected the navigation system using React & Zustand, bridged design specs and technical feasibility during a full platform overhaul, and made product and technical decisions with no senior dev oversight.",
   },
   {
     id: "edu-1",
@@ -137,7 +137,7 @@ export const projects = [
     title: "Bevisly",
     category: "SaaS Platform",
     description:
-      "Built a full-stack SaaS platform from scratch using React, TypeScript, and Supabase. Implemented row-level security (RLS) policies for multi-role data isolation, designed the PostgreSQL schema, and architected the proof submission and review flows end-to-end.",
+      "Problem: Proving real skills online is broken — endorsements mean nothing without evidence. Decision: Build a platform where proof is structured and verifiable. Built full-stack with React, TypeScript, and Supabase — designed the PostgreSQL schema, implemented row-level security (RLS) for multi-role data isolation, and architected the submission and review flows end-to-end.",
     tech: [
       "Supabase RLS (Security)",
       "Role-Based Design",
@@ -156,7 +156,7 @@ export const projects = [
     title: "Cinema Booking System",
     category: "Full Stack",
     description:
-      "Built a full-stack booking engine with real-time seat locking using React on the frontend and Node.js/SQLite on the backend. Implemented backend validation to handle concurrent requests and prevent double-booking at the data layer, not just the UI.",
+      "A collaborative school project that went deeper than the brief. Built a full-stack booking engine with React on the frontend and Node.js/SQLite on the backend. The interesting challenge: solved double-booking by handling seat locking and concurrent-request validation at the data layer — not the UI — so data integrity holds regardless of what the client does.",
     tech: ["React", "Node.js", "SQLite", "REST API"],
     links: {
       demo: "https://cinema-booking-system-project.vercel.app",
@@ -169,7 +169,7 @@ export const projects = [
     title: "Satoshi Standard",
     category: "FinTech",
     description:
-      "Built a live FinTech dashboard with React and Tailwind, integrating a real-time Bitcoin price API. Wrote a full unit test suite with Vitest to validate price conversion logic, and optimized the UI for fast re-renders on live data updates.",
+      "Problem: No lightweight tool let Bitcoin holders track purchasing power across currencies in real time. Built a live FinTech dashboard with React and Tailwind, integrating a real-time price API. Wrote a full Vitest unit test suite to validate conversion logic, and optimized re-renders for smooth live updates.",
     tech: ["React", "Tailwind", "Vitest", "API Integration"],
     links: {
       demo: "https://www.satoshi-standard.xyz/",
