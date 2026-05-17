@@ -42,7 +42,7 @@ const CLASSES: ClassDef[] = [
         name: "Figma & Prototyping",
         level: "Advanced",
         highlight:
-          "Building interactive prototypes in Figma that accurately mirror technical constraints and state logic.",
+          "Built Figma specs at Trailr that mapped directly to React component state — flagging infeasible transitions before a sprint closed.",
       },
       {
         name: "Systemic Design",
@@ -60,7 +60,7 @@ const CLASSES: ClassDef[] = [
         name: "Motion Engineering",
         level: "Framer Motion",
         highlight:
-          "Crafting tactile, fluid transitions that improve user engagement and provide clear feedback.",
+          "Designed the scroll-parallax and stagger systems on this portfolio — motion as communication, not decoration.",
       },
       {
         name: "Tailwind CSS",
@@ -122,7 +122,7 @@ const CLASSES: ClassDef[] = [
         name: "React 19 & Next.js",
         level: "App Router",
         highlight:
-          "Shipping with the React Compiler and Server Components for zero-bundle client logic.",
+          "Used across Bevisly (full-stack SaaS), Trailr (production navigation rebuild), and this portfolio — App Router, Server Components, Zustand.",
       },
       {
         name: "TypeScript",
@@ -140,7 +140,7 @@ const CLASSES: ClassDef[] = [
         name: "Supabase & PostgreSQL",
         level: "Row-Level Security",
         highlight:
-          "Designing multi-role schemas and writing RLS policies that enforce data isolation at the database layer — not the application layer.",
+          "Designed Bevisly's RLS schema: an employer literally cannot read another employer's data — enforced at the database, not the app.",
       },
       {
         name: "State Management",

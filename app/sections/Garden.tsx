@@ -37,7 +37,7 @@ export function Garden() {
           {/* Section header */}
           <div className="max-w-2xl mb-16">
             <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-ice-400 mb-5">
-              04 / Garden
+              05 / Garden
             </div>
             <h2 className="text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1] text-zinc-50 mb-5">
               Half engineering log,{" "}

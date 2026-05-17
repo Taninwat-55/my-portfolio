@@ -354,9 +354,9 @@ const stories: Story[] = [
     number: "01",
     slug: "trailr",
     title: "Trailr.ai",
-    category: "Frontend Internship",
-    role: "Frontend Developer Intern",
-    period: "Sep — Dec 2025",
+    category: "Equity Partner",
+    role: "Frontend Developer → Equity Partner",
+    period: "Sep 2025 — Present",
     context:
       "An early-stage Danish AI startup, pre-launch, mid-platform-overhaul.",
     problem:
@@ -367,7 +367,7 @@ const stories: Story[] = [
       "Bridged design and engineering at stand-up: surfaced technical constraints early instead of after a sprint closed, which cut rework on three flows",
     ],
     result:
-      "Shipped foundational UI for the platform relaunch. Walked away with production React experience in a small, ambiguous-spec environment — the closest analog there is to a Day 1 frontend hire.",
+      "Grew from intern to equity partner with a signed shareholder agreement. Production React experience in a zero-spec, early-stage environment — the kind of trust you earn, not apply for.",
     tech: ["React", "Zustand", "TypeScript", "Figma → Code"],
     image: null, // Keep for fallback
     images: [null, null, null], // 3 Placeholders
@@ -479,7 +479,7 @@ export function CaseStudies() {
             variants={fadeUp}
             className="font-mono text-[11px] tracking-[0.3em] uppercase text-ice-400 mb-5"
           >
-            03 / Case Studies
+            04 / Case Studies
           </motion.div>
           <motion.h2
             variants={fadeUp}

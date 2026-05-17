@@ -17,7 +17,7 @@ export const personalInfo = {
 
 export const siteContent = {
   availability: "Open to Product Engineer & Technical PM Roles",
-  heroIntro: "Hi, I'm Taninwat.",
+  heroIntro: "Hi, I'm Ice.",
   heroLine: "I make product decisions — then build the thing myself.",
   heroSubtitle:
     "I've led teams, scoped features, and shipped real software — end to end. Business background. Frontend skills. Product instinct.",
