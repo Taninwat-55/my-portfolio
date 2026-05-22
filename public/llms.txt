@@ -1,0 +1,52 @@
+# Taninwat Kaewpankan
+
+Software engineer based in Copenhagen, Denmark.
+Personal site: https://taninwatkaewpankan.xyz
+
+## About
+
+Taninwat Kaewpankan (goes by Ice) is a software engineer with a background in
+product thinking and entrepreneurship. Originally from Thailand, he moved to
+Sweden at 16, studied at Uppsala University (BA Game Design & Project
+Management, MSc Entrepreneurship), and now lives in Copenhagen, Denmark.
+
+He builds with React, TypeScript, Next.js, and Node.js. He is an equity partner
+at Trailr AI, a pre-launch AI startup where he led the frontend architecture
+and a full platform overhaul from design brief to shipped product.
+
+## Skills
+
+Frontend: React 19, Next.js (App Router), TypeScript, Tailwind CSS, Framer Motion
+Backend: Node.js, PostgreSQL, Supabase, REST APIs
+Tooling: Vitest, Playwright, GitHub Actions, Figma
+Approach: Product thinking, design systems, accessibility, performance
+
+## Projects
+
+- Bevisly (https://bevisly.com) — Skill verification platform. Full-stack:
+  React, TypeScript, Supabase, PostgreSQL with row-level security.
+- Satoshi Standard (https://www.satoshi-standard.xyz) — Bitcoin purchasing power
+  dashboard. React, Tailwind, real-time price API, full Vitest test suite.
+- Cinema Booking System (https://cinema-booking-system-project.vercel.app) —
+  Full-stack booking engine with concurrent seat-locking at the data layer.
+  React, Node.js, SQLite.
+- Racha Beauty & Wellness (https://rachabeautywellness.com) — Commercial site
+  built from scratch. 95+ Lighthouse score, measurable local SEO improvement.
+
+## Experience
+
+- Equity Partner & Frontend Developer, Trailr AI (Sep 2025 – Present)
+- Head of Organization, Millennial Consulting (2023 – 2025)
+- Business Development Intern, Spreadly (Jan 2023 – Mar 2023)
+
+## Education
+
+- Professional Program, Frontend Development — Jensen Yrkeshögskola (2024 – 2026)
+- MSc Business & Management (Entrepreneurship) — Uppsala University (2022 – 2023)
+- BA Game Design & Project Management — Uppsala University (2019 – 2022)
+
+## Links
+
+- LinkedIn: https://www.linkedin.com/in/taninwat-k-a187951aa/
+- GitHub: https://github.com/Taninwat-55
+- Email: taninwat.kaewpankan@gmail.com

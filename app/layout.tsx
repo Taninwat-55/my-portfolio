@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { MagneticCursor } from "./components/MagneticCursor";
 import "./globals.css";
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-dm-sans",
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -18,9 +20,19 @@ const personJsonLd = {
   name: "Taninwat Kaewpankan",
   alternateName: "Ice",
   url: "https://taninwatkaewpankan.xyz",
-  jobTitle: "Frontend Developer & Product Engineer",
+  jobTitle: "Software Engineer",
   description:
-    "Frontend Developer with a Master's in Business & Economics. I build fast, accessible interfaces with a product mindset.",
+    "Software engineer based in Copenhagen. I build with React, TypeScript, and Next.js — with product thinking built in.",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Copenhagen",
+    addressCountry: "DK",
+  },
+  worksFor: {
+    "@type": "Organization",
+    name: "Trailr AI",
+    url: "https://trailr.ai",
+  },
   alumniOf: [
     {
       "@type": "CollegeOrUniversity",
@@ -28,12 +40,22 @@ const personJsonLd = {
     },
   ],
   knowsAbout: [
-    "Frontend Development",
+    "Software Engineering",
     "React",
     "Next.js",
     "TypeScript",
-    "Tailwind CSS",
-    "Product Engineering",
+    "Node.js",
+    "PostgreSQL",
+    "Supabase",
+    "Frontend Development",
+    "Product Thinking",
+    "Startup",
+    "Copenhagen",
+  ],
+  workExample: [
+    { "@type": "WebSite", name: "Bevisly", url: "https://bevisly.com" },
+    { "@type": "WebSite", name: "Satoshi Standard", url: "https://www.satoshi-standard.xyz" },
+    { "@type": "WebSite", name: "Racha Beauty & Wellness", url: "https://rachabeautywellness.com" },
   ],
   sameAs: [
     "https://www.linkedin.com/in/taninwat-k-a187951aa/",
@@ -44,43 +66,35 @@ const personJsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://taninwatkaewpankan.xyz"),
   title: {
-    default: "Taninwat Kaewpankan | Frontend Developer & Product Engineer",
+    default: "Taninwat Kaewpankan | Software Engineer",
     template: "%s | Taninwat Kaewpankan",
   },
   description:
-    "Frontend Developer with a Master's in Business & Economics. I build fast, accessible interfaces with a product mindset.",
+    "Software engineer based in Copenhagen. I build with React, TypeScript, and Next.js — with product thinking built in.",
   keywords: [
-    "Frontend Developer",
+    "Software Engineer",
     "React",
     "Next.js",
     "TypeScript",
-    "Product Engineer",
+    "Node.js",
     "Copenhagen",
+    "Denmark",
   ],
   alternates: {
     canonical: "https://taninwatkaewpankan.xyz",
   },
   openGraph: {
-    title: "Taninwat Kaewpankan | Frontend Developer & Product Engineer",
-    description: "Building fast, accessible interfaces with a product mindset.",
+    title: "Taninwat Kaewpankan | Software Engineer",
+    description: "Software engineer based in Copenhagen. Building with React, TypeScript, and Next.js.",
     url: "https://taninwatkaewpankan.xyz",
     siteName: "Taninwat Kaewpankan Portfolio",
     locale: "en_US",
     type: "website",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Taninwat Kaewpankan",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Taninwat Kaewpankan | Frontend Developer & Product Engineer",
-    description: "Building fast, accessible interfaces with a product mindset.",
-    images: ["/og-image.png"],
+    title: "Taninwat Kaewpankan | Software Engineer",
+    description: "Software engineer based in Copenhagen. Building with React, TypeScript, and Next.js.",
   },
   icons: {
     icon: "/icon.png",
@@ -93,14 +107,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-charcoal-950 text-charcoal-100 selection:bg-ice-400/30 selection:text-ice-100`}
+        className={`${dmSans.variable} ${jetbrainsMono.variable} antialiased bg-sand-100 text-ink-900 selection:bg-clay-100 selection:text-clay-600`}
       >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
+        <MagneticCursor />
         {children}
         <GoogleTagManager gtmId="GTM-NJ6FFTVW" />
       </body>

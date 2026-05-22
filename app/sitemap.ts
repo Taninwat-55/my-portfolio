@@ -7,7 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Get all blog posts
     const posts = getSortedPostsData();
     const blogUrls = posts.map((post) => ({
-        url: `${baseUrl}/lab/${post.slug}`,
+        url: `${baseUrl}/garden/${post.slug}`,
         lastModified: new Date(post.date),
     }));
 

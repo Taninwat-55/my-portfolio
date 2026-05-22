@@ -1,29 +1,16 @@
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  Github,
-  Linkedin,
-  Mail,
-  MapPin,
-  FileDown,
-} from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import { ArrowUpRight, Github, Linkedin, Mail, MapPin, FileDown } from "lucide-react";
 import { personalInfo, siteContent } from "../data";
-import { CopenhagenClock } from "../components/CopenhagenClock";
+import { CopenhagenAtmosphere } from "../components/CopenhagenAtmosphere";
 
-// ─── Sitemap ────────────────────────────────────────────────────────────────
-// Absolute paths so the same footer works from any page (deep-links from
-// /garden or /projects still need to scroll into the homepage's anchored sections).
 const sitemap = [
   { label: "Top", href: "/" },
-  { label: "Identity", href: "/#journey" },
-  { label: "Case Studies", href: "/#case-studies" },
+  { label: "About", href: "/#about" },
+  { label: "What I do", href: "/#what-i-do" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Experience", href: "/#experience" },
   { label: "Garden", href: "/garden" },
-  { label: "Projects", href: "/projects" },
 ];
-
-// ─── Section ────────────────────────────────────────────────────────────────
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -32,87 +19,72 @@ export function Footer() {
     <footer
       id="contact"
       aria-label="Footer — contact and site map"
-      className="relative border-t border-white/5 overflow-hidden"
+      className="relative border-t border-border"
     >
-      {/* ambient glow at the top edge */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 w-[760px] h-[300px] rounded-full bg-ice-500/8 blur-[120px]"
-      />
+      <div className="container mx-auto px-6 max-w-5xl">
 
-      <div className="relative container mx-auto px-6 max-w-6xl">
-        {/* ── Final CTA band ──────────────────────────────────────────── */}
-        <div className="pt-28 md:pt-36 pb-20 md:pb-24">
-          <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-ice-400 mb-5">
-            06 / Let&apos;s talk
-          </div>
-          <h2 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05] text-zinc-50 mb-6 max-w-3xl">
-            Let&apos;s build{" "}
-            <span className="bg-gradient-to-r from-ice-200 via-ice-300 to-ice-500 bg-clip-text text-transparent">
-              something.
-            </span>
+        {/* CTA band */}
+        <div className="pt-24 md:pt-32 pb-16 md:pb-20">
+          <p className="text-sm font-medium text-clay-500 tracking-widest uppercase mb-8">
+            Contact
+          </p>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight text-ink-900 mb-5">
+            {siteContent.contactHeading}
           </h2>
-          <p className="text-lg text-charcoal-300 leading-relaxed max-w-2xl mb-10">
-            I&apos;m {siteContent.availability.toLowerCase()}. If you&apos;re hiring,
-            collaborating, or just want to talk shop — drop a line. I respond fast.
+          <p className="text-lg text-ink-500 leading-relaxed max-w-xl mb-10">
+            {siteContent.contactBody}
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Button asChild variant="default" size="lg">
-              <a
-                href={`mailto:${personalInfo.email}`}
-                aria-label={`Email ${personalInfo.email}`}
-              >
-                <Mail />
-                {personalInfo.email}
-              </a>
-            </Button>
-            <Button asChild variant="ghost" size="lg">
-              <a
-                href={siteContent.cvLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Open resume PDF"
-              >
-                <FileDown />
-                Resume
-              </a>
-            </Button>
+            <a
+              href={`mailto:${personalInfo.email}`}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-clay-500 text-white text-sm font-medium hover:bg-clay-600 transition-colors"
+            >
+              <Mail size={14} />
+              {personalInfo.email}
+            </a>
+            <a
+              href={personalInfo.socials.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border text-ink-700 text-sm font-medium hover:border-clay-400 hover:text-clay-500 transition-colors"
+            >
+              <Linkedin size={14} />
+              LinkedIn
+            </a>
           </div>
         </div>
 
-        {/* ── 3-column grid ───────────────────────────────────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-10 py-14 border-t border-white/5">
-          {/* Col 1 — name + location */}
+        {/* 3-column grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 py-12 border-t border-border">
+          {/* Col 1 */}
           <div>
-            <div className="font-bold text-2xl tracking-tighter text-zinc-50 mb-4">
-              TK<span className="text-ice-400">.</span>
+            <div className="font-bold text-2xl tracking-tighter text-ink-900 mb-4">
+              TK<span className="text-clay-500">.</span>
             </div>
-            <div className="text-zinc-200 font-medium mb-1.5">
-              {personalInfo.name}
-            </div>
-            <div className="text-charcoal-300 text-sm mb-4">
-              {personalInfo.role}
-            </div>
-            <div className="inline-flex items-center gap-2 text-charcoal-400 text-sm">
-              <MapPin size={14} strokeWidth={1.5} />
+            <div className="text-ink-700 font-medium mb-1">{personalInfo.name}</div>
+            <div className="text-ink-400 text-sm mb-4">{personalInfo.role}</div>
+            <div className="inline-flex items-center gap-2 text-ink-400 text-sm">
+              <MapPin size={13} strokeWidth={1.5} />
               {personalInfo.location}
             </div>
           </div>
 
           {/* Col 2 — sitemap */}
           <div>
-            <FooterHeading>Sitemap</FooterHeading>
+            <p className="text-xs font-medium text-ink-300 tracking-widest uppercase mb-5">
+              Sitemap
+            </p>
             <ul className="space-y-3">
               {sitemap.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="group inline-flex items-center gap-1 text-sm text-charcoal-200 hover:text-ice-300 transition-colors"
+                    className="group inline-flex items-center gap-1 text-sm text-ink-500 hover:text-clay-500 transition-colors"
                   >
                     {item.label}
                     <ArrowUpRight
-                      size={12}
+                      size={11}
                       className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
                     />
                   </Link>
@@ -121,18 +93,18 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Col 3 — connect */}
+          {/* Col 3 — elsewhere */}
           <div>
-            <FooterHeading>Elsewhere</FooterHeading>
+            <p className="text-xs font-medium text-ink-300 tracking-widest uppercase mb-5">
+              Elsewhere
+            </p>
             <ul className="space-y-3">
               <li>
                 <a
                   href={`mailto:${personalInfo.email}`}
-                  
-                  className="group inline-flex items-center gap-2 text-sm text-charcoal-200 hover:text-ice-300 transition-colors"
-                  aria-label={`Email ${personalInfo.email}`}
+                  className="inline-flex items-center gap-2 text-sm text-ink-500 hover:text-clay-500 transition-colors"
                 >
-                  <Mail size={14} strokeWidth={1.5} />
+                  <Mail size={13} strokeWidth={1.5} />
                   Email
                 </a>
               </li>
@@ -141,11 +113,9 @@ export function Footer() {
                   href={personalInfo.socials.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  
-                  className="group inline-flex items-center gap-2 text-sm text-charcoal-200 hover:text-ice-300 transition-colors"
-                  aria-label="LinkedIn profile"
+                  className="inline-flex items-center gap-2 text-sm text-ink-500 hover:text-clay-500 transition-colors"
                 >
-                  <Linkedin size={14} strokeWidth={1.5} />
+                  <Linkedin size={13} strokeWidth={1.5} />
                   LinkedIn
                 </a>
               </li>
@@ -154,11 +124,9 @@ export function Footer() {
                   href={personalInfo.socials.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  
-                  className="group inline-flex items-center gap-2 text-sm text-charcoal-200 hover:text-ice-300 transition-colors"
-                  aria-label="GitHub profile"
+                  className="inline-flex items-center gap-2 text-sm text-ink-500 hover:text-clay-500 transition-colors"
                 >
-                  <Github size={14} strokeWidth={1.5} />
+                  <Github size={13} strokeWidth={1.5} />
                   GitHub
                 </a>
               </li>
@@ -167,33 +135,22 @@ export function Footer() {
                   href={siteContent.cvLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 text-sm text-charcoal-200 hover:text-ice-300 transition-colors"
-                  aria-label="Open resume PDF in a new tab"
+                  className="inline-flex items-center gap-2 text-sm text-ink-500 hover:text-clay-500 transition-colors"
                 >
-                  <FileDown size={14} strokeWidth={1.5} />
-                  CV (PDF)
+                  <FileDown size={13} strokeWidth={1.5} />
+                  Resume (PDF)
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* ── Bottom bar ──────────────────────────────────────────────── */}
-        <div className="py-7 border-t border-white/5 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-zinc-400 font-mono text-[11px] tracking-wider uppercase">
-          <div>© {year} Taninwat Kaewpankan · Built with Next.js + Tailwind</div>
-          <CopenhagenClock />
-        </div>
+      </div>
+
+      {/* Atmosphere strip — full bleed */}
+      <div className="border-t border-border">
+        <CopenhagenAtmosphere year={year} />
       </div>
     </footer>
-  );
-}
-
-// ─── helpers ────────────────────────────────────────────────────────────────
-
-function FooterHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="font-mono text-[10px] tracking-[0.3em] uppercase text-ice-400 mb-5">
-      {children}
-    </div>
   );
 }

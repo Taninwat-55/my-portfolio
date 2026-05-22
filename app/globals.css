@@ -1,83 +1,70 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-dm-sans);
   --font-mono: var(--font-jetbrains-mono);
 
-  /* Deep charcoal — base / surface scale */
-  --color-charcoal-50: #f4f5f7;
-  --color-charcoal-100: #e4e6ea;
-  --color-charcoal-200: #c8ccd3;
-  --color-charcoal-300: #9aa1ad;
-  --color-charcoal-400: #6b7280;
-  --color-charcoal-500: #4a4f59;
-  --color-charcoal-600: #2f3239;
-  --color-charcoal-700: #1f2126;
-  --color-charcoal-800: #14161a;
-  --color-charcoal-900: #0d0f12;
-  --color-charcoal-950: #08090b;
+  /* Sand — warm off-white background scale */
+  --color-sand-50: #FDFCFB;
+  --color-sand-100: #F7F4F0;
+  --color-sand-200: #F0EDE8;
+  --color-sand-300: #E8E4DF;
 
-  /* Ice blue — accent scale (frosted, cold-blue family) */
-  --color-ice-50: #f0f9ff;
-  --color-ice-100: #e0f2fe;
-  --color-ice-200: #bae6fd;
-  --color-ice-300: #93d8f9;
-  --color-ice-400: #67c8f5;
-  --color-ice-500: #38b6ec;
-  --color-ice-600: #1f9bd1;
-  --color-ice-700: #1a7fac;
-  --color-ice-800: #1a648a;
-  --color-ice-900: #1a5572;
+  /* Ink — near-black text scale */
+  --color-ink-900: #1A1917;
+  --color-ink-700: #3D3A36;
+  --color-ink-500: #6B6560;
+  --color-ink-300: #9E9892;
+  --color-ink-100: #C8C3BC;
 
-  /* RPG class colors — muted, low-saturation. Used only inside SkillTree. */
-  --color-designer: #a899d4;   /* muted violet */
-  --color-strategist: #d8b06b; /* muted amber */
-  --color-builder: #79bea1;    /* muted emerald */
+  /* Clay — warm accent scale */
+  --color-clay-600: #A85C2E;
+  --color-clay-500: #C4713E;
+  --color-clay-400: #D4895A;
+  --color-clay-300: #E4A87A;
+  --color-clay-100: #F5E6D6;
+
+  /* Border & thread */
+  --color-border: #E2DDD8;
+  --color-thread: #D4CFC9;
 }
-
-/* Class-based dark mode */
-@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
   body {
-    background-color: var(--color-charcoal-950);
-    color: var(--color-charcoal-100);
+    background-color: var(--color-sand-100);
+    color: var(--color-ink-900);
     font-feature-settings: "ss01", "cv11";
   }
 
-
+  /* Hide OS cursor on pointer devices — replaced by MagneticCursor */
+  @media (pointer: fine) {
+    *, *::before, *::after {
+      cursor: none !important;
+    }
+  }
 }
 
 @layer utilities {
-  /* Subtle grid pattern — used as Hero background. Mask fades to transparent at edges */
-  .bg-grid-ice {
-    background-image:
-      linear-gradient(to right, rgba(103, 200, 245, 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(103, 200, 245, 0.06) 1px, transparent 1px);
-    background-size: 56px 56px;
-  }
-
   .mask-radial-fade {
     -webkit-mask-image: radial-gradient(ellipse at center, black 35%, transparent 75%);
     mask-image: radial-gradient(ellipse at center, black 35%, transparent 75%);
   }
 
-  /* Scrollbar — thin charcoal track, ice-blue thumb on hover */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: rgba(103, 200, 245, 0.18);
+    background-color: var(--color-thread);
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(103, 200, 245, 0.45);
+    background-color: var(--color-ink-100);
   }
 }

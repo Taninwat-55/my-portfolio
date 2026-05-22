@@ -4,7 +4,7 @@ import { Layers, Compass, Code2 } from "lucide-react";
 
 export const personalInfo = {
   name: "Taninwat Kaewpankan",
-  role: "Frontend Developer & Product Engineer",
+  role: "Software Engineer",
   location: "Copenhagen, Denmark",
   email: "taninwat.kaewpankan@gmail.com",
   socials: {
@@ -16,15 +16,41 @@ export const personalInfo = {
 // ─── HERO / ABOUT COPY ────────────────────────────────────────────────────────
 
 export const siteContent = {
-  availability: "Open to Product Engineer & Technical PM Roles",
-  heroIntro: "Hi, I'm Ice.",
-  heroLine: "I make product decisions — then build the thing myself.",
-  heroSubtitle:
-    "I've led teams, scoped features, and shipped real software — end to end. Business background. Frontend skills. Product instinct.",
-  aboutP1:
-    "At Trailr.ai — an early-stage AI startup — I joined as a frontend developer and transitioned to equity partner with a signed shareholder agreement. I architected the navigation system in React and Zustand, bridged design vision with technical constraints during a full platform overhaul, and owned product decisions from scoping to shipping.",
-  aboutP2:
-    "I hold a Professional Bachelor in Frontend Development (2026) alongside a Master of Science in Business & Economics from Uppsala University. I build with React, Next.js, TypeScript, and Tailwind — and I care deeply about performance, accessibility, and user experience. A business background means I don't just build features; I understand why they matter.",
+  availability: "Open to Software Engineering Roles in Copenhagen",
+
+  heroIntro: "Taninwat Kaewpankan",
+  heroLine: "Engineer. Builder. Thinker.",
+  heroSubtitle: "Software engineer who builds with product in mind.",
+
+  aboutStory: [
+    "I moved to Sweden at 16 with no Swedish and no plan. I learned the language, rebuilt my grades, and worked every job that would have me — cleaning, waiting tables, running a food truck, bartending, sorting packages through the night.",
+    "Somewhere between the food truck and the night shifts, I decided I wanted more.",
+    "Before Uppsala, there was York, England. I moved there alone — fully by choice, for the first time in my life. Eight months of living completely independently, pushing my English further, figuring out who I was when nobody knew me or had any expectations of me. I had planned to study there. Brexit made it complicated. Uppsala said yes. So I followed.",
+    "Uppsala University — one of Scandinavia's oldest. Not where I expected to end up, but I stopped questioning where life was sending me. Three years studying how interactive systems get designed and how projects actually get shipped. The most valuable thing wasn't any specific course — it was wearing the PM hat on real team projects, learning what it actually costs to take something from an idea to a finished thing. Then a Master's in Entrepreneurship. Because building was the only thing I ever kept coming back to.",
+    "Denmark wasn't the plan. But life pointed there, and I've learned not to argue with that. A new country, again. The same familiar question: what do I make of this? I found Millennial Consulting — walked in with zero onboarding and no context, figured it out alone, and ended up running the entire organization.",
+    "I wanted to become a more complete builder — someone who understands technical constraints, not just concepts. So I enrolled in a two-year professional program in frontend development at Jensen, which led me into an internship at Trailr AI. A few months later, I became an equity partner.",
+    "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language — just with a few more tools.",
+  ],
+
+  whatIDo: [
+    {
+      title: "Frontend Engineering",
+      body: "I build interfaces with React, TypeScript, and Next.js — from architecture decisions to the details that make something feel right to use. I'm comfortable going full-stack when the work calls for it: Node.js backends, REST APIs, PostgreSQL schemas and data layer logic. I care about what ships, not just what compiles.",
+    },
+    {
+      title: "Product & Design Thinking",
+      body: "I work well in the space between engineering and product. I can read a brief, ask why, push back when something doesn't add up, and still deliver. Understanding the problem usually changes how I build the solution.",
+    },
+    {
+      title: "Startup & AI-Native",
+      body: "I've never needed a playbook to get started. I use AI tools as a core part of how I work — not as a buzzword, but because it makes me faster and sharper. I move quickly, ask questions when stuck, and care more about shipping than perfecting.",
+    },
+  ],
+
+  contactHeading: "Let's talk.",
+  contactBody:
+    "If something here caught your attention — a project, a role, or just curiosity — I'd love to hear from you. No formal process needed. Just send an email and we'll go from there.",
+
   cvLink: "/assets/(Website)Taninwat_Kaewpankan_CV.pdf",
   cvLabel: "Download Resume",
 };
@@ -76,56 +102,56 @@ export const experience = [
   {
     id: "work-trailr",
     type: "work",
-    role: "Frontend Developer → Partner (Equity)",
+    role: "Frontend Developer → Equity Partner",
     organization: "Trailr.ai (Remote)",
-    period: "Sep 2025 - Present",
+    period: "Sep 2025 – Present",
     description:
-      "Grew from frontend developer to equity partner (signed shareholder agreement) at a pre-launch AI startup. Architected the navigation system using React & Zustand, bridged design specs and technical feasibility during a full platform overhaul, and made product and technical decisions with no senior dev oversight.",
+      "Joined as a frontend developer at a pre-launch AI startup, now an equity partner with a signed shareholder agreement — still contributing part-time to the platform I helped build. Architected the navigation system in React and Zustand, owned a full platform overhaul from design brief to shipped product, and made technical calls without a senior developer over my shoulder.",
   },
   {
     id: "edu-1",
     type: "education",
-    role: "Professional Bachelor, Frontend Development",
+    role: "Professional Program, Frontend Development",
     organization: "Jensen Yrkeshögskola",
-    period: "2024 - 2026",
+    period: "2024 – 2026",
     description:
-      "Specializing in modern web architecture, mastering React ecosystems, and performance optimization for scalable applications.",
+      "A two-year professional program in frontend engineering — React, TypeScript, Next.js, testing, and performance. Gave me the foundation to go deeper on my own.",
   },
   {
     id: "work-1",
     type: "work",
     role: "Head of Organization (Volunteer)",
     organization: "Millennial Consulting",
-    period: "2023 - 2025",
+    period: "2023 – 2025",
     description:
-      "Progressed from Head of Operations to Head of the entire Organization. Managed simultaneous consulting project deliveries, coordinated cross-functional teams, owned the budget, and onboarded members into an organization with no formal playbook — figuring out processes as the org scaled.",
+      "Walked in with no onboarding and no playbook. Went from Head of Operations to running the entire organization — managing consulting deliveries, coordinating teams, owning the budget, and building processes for an org that was figuring itself out as it grew.",
   },
   {
     id: "work-2",
     type: "work",
     role: "Business Development Intern",
     organization: "Spreadly (Remote)",
-    period: "Jan 2023 - Mar 2023",
+    period: "Jan 2023 – Mar 2023",
     description:
-      "Supported business expansion through market research and data analysis. Developed an understanding of how product features map to customer value — a perspective that now informs how I prioritize technical work.",
+      "Researched target companies and competitors, built tailored outreach materials for each prospect, and joined weekly strategy sessions with the founding team. An early look at how a startup operates before it finds its footing.",
   },
   {
     id: "edu-2",
     type: "education",
-    role: "MSc in Business & Management",
+    role: "MSc, Business & Management",
     organization: "Uppsala University",
-    period: "2022 - 2023",
+    period: "2022 – 2023",
     description:
-      "Specialized in Entrepreneurship. Focused on turning creative concepts into viable business models through strategic planning.",
+      "One year focused on entrepreneurship and strategy at one of Scandinavia's most prestigious universities. Reinforced how I think about products — not just whether they can be built, but whether they should be.",
   },
   {
     id: "edu-3",
     type: "education",
-    role: "BA in Game Design & Project Management",
+    role: "BA, Game Design & Project Management",
     organization: "Uppsala University",
-    period: "2019 - 2022",
+    period: "2019 – 2022",
     description:
-      "Combined interactive system design with agile project management. Learned to manage user engagement mechanics and iterative development cycles.",
+      "Three years studying interactive system design and how projects actually get shipped. The most valuable part was wearing the PM hat on real team projects — where good process is what separates a demo from a product.",
   },
 ];
 
@@ -137,7 +163,7 @@ export const projects = [
     title: "Bevisly",
     category: "SaaS Platform",
     description:
-      "Problem: Proving real skills online is broken — endorsements mean nothing without evidence. Decision: Build a platform where proof is structured and verifiable. Built full-stack with React, TypeScript, and Supabase — designed the PostgreSQL schema, implemented row-level security (RLS) for multi-role data isolation, and architected the submission and review flows end-to-end.",
+      "Endorsements online mean nothing without evidence. I built Bevisly to fix that — a platform where skill claims come with structured, verifiable proof. Full-stack: React and TypeScript on the front, Supabase and PostgreSQL on the back, with row-level security I designed to handle multi-role data isolation.",
     tech: [
       "Supabase RLS (Security)",
       "Role-Based Design",
@@ -156,7 +182,7 @@ export const projects = [
     title: "Cinema Booking System",
     category: "Full Stack",
     description:
-      "A collaborative school project that went deeper than the brief. Built a full-stack booking engine with React on the frontend and Node.js/SQLite on the backend. The interesting challenge: solved double-booking by handling seat locking and concurrent-request validation at the data layer — not the UI — so data integrity holds regardless of what the client does.",
+      "A school project that went further than it needed to. Built a full-stack cinema booking engine — React on the front, Node.js and SQLite on the back. The part I'm most proud of: seat locking and concurrent-request validation handled at the data layer, not the UI. Data integrity holds regardless of what the client does.",
     tech: ["React", "Node.js", "SQLite", "REST API"],
     links: {
       demo: "https://cinema-booking-system-project.vercel.app",
@@ -169,7 +195,7 @@ export const projects = [
     title: "Satoshi Standard",
     category: "FinTech",
     description:
-      "Problem: No lightweight tool let Bitcoin holders track purchasing power across currencies in real time. Built a live FinTech dashboard with React and Tailwind, integrating a real-time price API. Wrote a full Vitest unit test suite to validate conversion logic, and optimized re-renders for smooth live updates.",
+      "No lightweight tool existed for tracking Bitcoin purchasing power across currencies in real time. So I built one — a live dashboard in React and Tailwind, pulling from a real-time price API. Wrote a full Vitest unit test suite to validate conversion logic and kept re-renders smooth under live updates.",
     tech: ["React", "Tailwind", "Vitest", "API Integration"],
     links: {
       demo: "https://www.satoshi-standard.xyz/",
@@ -182,7 +208,7 @@ export const projects = [
     title: "Racha Beauty & Wellness",
     category: "Commercial",
     description:
-      "Problem: A local wellness business had no online presence. Solution: Built a fast, SEO-optimized website from scratch. Impact: Achieved 95+ Lighthouse scores and improved the business's visibility in local search results.",
+      "A local wellness business had no online presence. I built them one from scratch — fast, clean, SEO-optimized with Next.js. Ended up with 95+ Lighthouse scores and measurable improvement in local search visibility.",
     tech: ["Next.js", "SEO", "Analytics", "Tailwind"],
     links: {
       demo: "https://rachabeautywellness.com",
