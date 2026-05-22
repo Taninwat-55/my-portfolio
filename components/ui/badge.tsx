@@ -9,11 +9,11 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "border-white/5 bg-white/[0.02] text-charcoal-300",
+          "border-border bg-sand-200 text-ink-700",
         ice:
-          "border-ice-400/20 bg-ice-400/5 text-ice-200",
+          "border-clay-400/30 bg-clay-100/50 text-clay-600",
         outline:
-          "border-white/10 text-zinc-300",
+          "border-border text-ink-700",
       },
     },
     defaultVariants: {

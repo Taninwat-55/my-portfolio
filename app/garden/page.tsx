@@ -21,37 +21,31 @@ export default function GardenIndex() {
   const allPosts = getSortedPostsData();
 
   return (
-    <div className="min-h-screen bg-charcoal-950 text-charcoal-100">
+    <div className="min-h-screen bg-sand-100 text-ink-900">
       <SkipLink />
       <Navbar variant="simple" backLinkHref="/" backLinkText="Back to Home" />
 
       <main id="main-content" className="relative">
-        {/* ambient glow, off-center for visual rhythm */}
         <div
           aria-hidden
-          className="pointer-events-none absolute top-0 right-[-10%] w-[680px] h-[480px] rounded-full bg-ice-500/8 blur-[120px]"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-x-0 top-0 h-[60vh] bg-grid-ice mask-radial-fade opacity-50 pointer-events-none"
+          className="pointer-events-none absolute top-0 right-[-10%] w-[680px] h-[480px] rounded-full bg-clay-300/15 blur-[120px]"
         />
 
         <div className="relative container mx-auto px-6 pt-32 md:pt-40 pb-24 max-w-6xl">
           {/* Page header */}
           <div className="max-w-2xl mb-20">
-            <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-ice-400 mb-5">
+            <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-clay-500 mb-5">
               Garden — Interactive Writing
             </div>
-            <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05] text-zinc-50 mb-6">
+            <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05] text-ink-900 mb-6">
               Half engineering log,{" "}
-              <span className="bg-gradient-to-r from-ice-200 via-ice-300 to-ice-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-clay-600 via-clay-500 to-clay-300 bg-clip-text text-transparent">
                 half live experiment.
               </span>
             </h1>
-            <p className="text-lg text-charcoal-300 leading-relaxed">
-              Posts about frontend craft, product strategy, and the projects
-              I&apos;m thinking through. A few have small interactive tools
-              embedded right inside the text — open one to find out which.
+            <p className="text-lg text-ink-700 leading-relaxed">
+              Notes on building products — engineering, product thinking, and
+              the occasional tool that runs right inside the post.
             </p>
           </div>
 
@@ -62,31 +56,31 @@ export default function GardenIndex() {
                 key={post.slug}
                 href={`/garden/${post.slug}`}
                 aria-label={`Read: ${post.title}`}
-                className="group relative flex flex-col h-full p-6 md:p-8 rounded-2xl border border-white/5 bg-charcoal-900/40 backdrop-blur-sm hover:border-ice-400/30 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-ice-300 focus-visible:ring-offset-2 focus-visible:ring-offset-charcoal-950"
+                className="group relative flex flex-col h-full p-6 md:p-8 rounded-2xl border border-border bg-sand-200/70 hover:border-clay-400/50 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-500 focus-visible:ring-offset-2 focus-visible:ring-offset-sand-100"
               >
                 {/* Top: category + exit arrow */}
                 <div className="flex items-start justify-between gap-3 mb-6">
                   <Badge variant="ice">{post.category}</Badge>
                   <span
                     aria-hidden
-                    className="text-charcoal-500 group-hover:text-ice-300 transition-colors"
+                    className="text-ink-300 group-hover:text-clay-600 transition-colors"
                   >
                     <ArrowUpRight size={18} />
                   </span>
                 </div>
 
                 {/* Title */}
-                <h2 className="text-xl md:text-2xl font-semibold tracking-tight leading-snug text-zinc-50 group-hover:text-ice-100 transition-colors mb-3">
+                <h2 className="text-xl md:text-2xl font-semibold tracking-tight leading-snug text-ink-900 group-hover:text-clay-600 transition-colors mb-3">
                   {post.title}
                 </h2>
 
                 {/* Excerpt */}
-                <p className="text-sm md:text-[15px] text-charcoal-300 leading-relaxed mb-8 flex-grow">
+                <p className="text-sm md:text-[15px] text-ink-700 leading-relaxed mb-8 flex-grow">
                   {post.excerpt}
                 </p>
 
                 {/* Footer: date + read time */}
-                <div className="mt-auto pt-5 border-t border-white/5 flex items-center justify-between text-charcoal-400 font-mono text-[11px] tracking-wider uppercase">
+                <div className="mt-auto pt-5 border-t border-border flex items-center justify-between text-ink-500 font-mono text-[11px] tracking-wider uppercase">
                   <span>{post.date}</span>
                   <span className="inline-flex items-center gap-2">
                     <Clock size={12} strokeWidth={1.5} />

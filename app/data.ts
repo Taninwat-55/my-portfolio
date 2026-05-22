@@ -1,4 +1,3 @@
-import { Layers, Compass, Code2 } from "lucide-react";
 
 // ─── PERSONAL INFO ────────────────────────────────────────────────────────────
 
@@ -27,7 +26,7 @@ export const siteContent = {
     "Somewhere between the food truck and the night shifts, I decided I wanted more.",
     "Before Uppsala, there was York, England. I moved there alone — fully by choice, for the first time in my life. Eight months of living completely independently, pushing my English further, figuring out who I was when nobody knew me or had any expectations of me. I had planned to study there. Brexit made it complicated. Uppsala said yes. So I followed.",
     "Uppsala University — one of Scandinavia's oldest. Not where I expected to end up, but I stopped questioning where life was sending me. Three years studying how interactive systems get designed and how projects actually get shipped. The most valuable thing wasn't any specific course — it was wearing the PM hat on real team projects, learning what it actually costs to take something from an idea to a finished thing. Then a Master's in Entrepreneurship. Because building was the only thing I ever kept coming back to.",
-    "Denmark wasn't the plan. But life pointed there, and I've learned not to argue with that. A new country, again. The same familiar question: what do I make of this? I found Millennial Consulting — walked in with zero onboarding and no context, figured it out alone, and ended up running the entire organization.",
+    "Denmark wasn't the plan. But life pointed there, and I've learned not to argue with that. A new country, again. The same familiar question: what do I make of this? I found Millennial Consulting — joined the operations team, adapted quickly to how things worked, and eventually grew into leading the organization.",
     "I wanted to become a more complete builder — someone who understands technical constraints, not just concepts. So I enrolled in a two-year professional program in frontend development at Jensen, which led me into an internship at Trailr AI. A few months later, I became an equity partner.",
     "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language — just with a few more tools.",
   ],
@@ -55,47 +54,6 @@ export const siteContent = {
   cvLabel: "Download Resume",
 };
 
-// ─── SKILLS ───────────────────────────────────────────────────────────────────
-
-export const skills = [
-  {
-    id: "builder",
-    category: "Builder",
-    icon: Code2,
-    items: [
-      { name: "React 19 & Next.js (App Router)" },
-      { name: "TypeScript & Type-Safe APIs" },
-      { name: "Vitest & Playwright E2E" },
-      { name: "State Management (Zustand)" },
-      { name: "CI/CD Pipelines (GitHub Actions)" },
-    ],
-  },
-  {
-    id: "strategist",
-    category: "Strategist",
-    icon: Compass,
-    items: [
-      { name: "Product Discovery & Research" },
-      { name: "Technical Discovery & Scoping" },
-      { name: "Agile & Cross-functional Alignment" },
-      { name: "SEO & Performance Architecture" },
-      { name: "Responsive Design (Mobile-First)" },
-    ],
-  },
-  {
-    id: "designer",
-    category: "Designer",
-    icon: Layers,
-    items: [
-      { name: "Figma & Prototyping" },
-      { name: "Systemic Design (Design Systems)" },
-      { name: "A11y (WCAG 2.1 Compliance)" },
-      { name: "Motion Engineering (Framer)" },
-      { name: "Tailwind CSS (Variable-based)" },
-    ],
-  },
-];
-
 // ─── EXPERIENCE ───────────────────────────────────────────────────────────────
 
 export const experience = [
@@ -106,7 +64,7 @@ export const experience = [
     organization: "Trailr.ai (Remote)",
     period: "Sep 2025 – Present",
     description:
-      "Joined as a frontend developer at a pre-launch AI startup, now an equity partner with a signed shareholder agreement — still contributing part-time to the platform I helped build. Architected the navigation system in React and Zustand, owned a full platform overhaul from design brief to shipped product, and made technical calls without a senior developer over my shoulder.",
+      "Joined as a frontend developer at a pre-launch AI startup, now an equity partner with a signed shareholder agreement — still contributing part-time to the platform I helped build. Architected the navigation system in React and Zustand, owned a full platform overhaul from design brief to shipped product, and made technical decisions in a small team where everyone owned their domain.",
   },
   {
     id: "edu-1",
@@ -124,7 +82,7 @@ export const experience = [
     organization: "Millennial Consulting",
     period: "2023 – 2025",
     description:
-      "Walked in with no onboarding and no playbook. Went from Head of Operations to running the entire organization — managing consulting deliveries, coordinating teams, owning the budget, and building processes for an org that was figuring itself out as it grew.",
+      "Joined with no formal onboarding. Grew from Head of Operations to leading the organization — managing consulting deliveries, coordinating teams, owning the budget, and building processes for an org that was figuring itself out as it grew.",
   },
   {
     id: "work-2",
@@ -218,4 +176,3 @@ export const projects = [
   },
 ];
 
-export const featuredProjects = projects.slice(0, 3);

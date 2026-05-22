@@ -57,7 +57,7 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[60] bg-charcoal-950/60 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] bg-ink-900/20 backdrop-blur-sm"
             onClick={onClose}
             aria-hidden
           />
@@ -76,14 +76,14 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
             }}
             className="fixed z-[61] top-20 right-4 sm:right-8 md:right-12 w-[min(360px,calc(100vw-2rem))] origin-top-right"
           >
-            <div className="rounded-2xl border border-white/10 bg-charcoal-900/95 backdrop-blur-xl shadow-2xl shadow-black/40 overflow-hidden">
+            <div className="rounded-2xl border border-border bg-sand-50/95 backdrop-blur-xl shadow-xl shadow-ink-900/10 overflow-hidden">
               {/* Header */}
               <div className="flex items-center justify-between px-5 pt-5 pb-3">
                 <div>
-                  <div className="font-mono text-[10px] tracking-[0.25em] uppercase text-ice-400 mb-1">
+                  <div className="font-mono text-[10px] tracking-[0.25em] uppercase text-clay-500 mb-1">
                     Quick Actions
                   </div>
-                  <div className="text-sm text-charcoal-300">
+                  <div className="text-sm text-ink-700">
                     Let&apos;s work together
                   </div>
                 </div>
@@ -91,7 +91,7 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
                   type="button"
                   onClick={onClose}
                   aria-label="Close contact modal"
-                  className="p-1.5 rounded-lg text-charcoal-400 hover:text-zinc-100 hover:bg-white/5 transition-colors"
+                  className="p-1.5 rounded-lg text-ink-300 hover:text-ink-900 hover:bg-sand-200 transition-colors"
                 >
                   <X size={16} strokeWidth={1.5} />
                 </button>
@@ -103,24 +103,24 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-white/[0.04] transition-colors group"
+                  className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-sand-200 transition-colors group"
                 >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-ice-400/10 border border-ice-400/20 flex items-center justify-center transition-colors group-hover:bg-ice-400/15">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-clay-100 border border-clay-300/40 flex items-center justify-center transition-colors group-hover:bg-clay-100">
                     {copied ? (
-                      <Check size={18} strokeWidth={1.8} className="text-green-400" />
+                      <Check size={18} strokeWidth={1.8} className="text-clay-600" />
                     ) : (
-                      <Mail size={18} strokeWidth={1.5} className="text-ice-400" />
+                      <Mail size={18} strokeWidth={1.5} className="text-clay-500" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-zinc-100">
+                    <div className="text-sm font-medium text-ink-900">
                       {copied ? "Copied!" : "Copy Email"}
                     </div>
-                    <div className="text-[12px] text-charcoal-400 truncate">
+                    <div className="text-[12px] text-ink-500 truncate">
                       {personalInfo.email}
                     </div>
                   </div>
-                  <div className="flex-shrink-0 font-mono text-[9px] tracking-wider uppercase text-charcoal-500 group-hover:text-charcoal-300 transition-colors">
+                  <div className="flex-shrink-0 font-mono text-[9px] tracking-wider uppercase text-ink-300 group-hover:text-ink-500 transition-colors">
                     {copied ? "" : "1-click"}
                   </div>
                 </button>
@@ -130,21 +130,21 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
                   href={siteContent.cvLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-white/[0.04] transition-colors group"
+                  className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-sand-200 transition-colors group"
                   onClick={onClose}
                 >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-ice-400/10 border border-ice-400/20 flex items-center justify-center transition-colors group-hover:bg-ice-400/15">
-                    <FileDown size={18} strokeWidth={1.5} className="text-ice-400" />
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-clay-100 border border-clay-300/40 flex items-center justify-center transition-colors group-hover:bg-clay-100">
+                    <FileDown size={18} strokeWidth={1.5} className="text-clay-500" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-zinc-100">
+                    <div className="text-sm font-medium text-ink-900">
                       Download CV
                     </div>
-                    <div className="text-[12px] text-charcoal-400">
+                    <div className="text-[12px] text-ink-500">
                       PDF · Opens in new tab
                     </div>
                   </div>
-                  <div className="flex-shrink-0 font-mono text-[9px] tracking-wider uppercase text-charcoal-500 group-hover:text-charcoal-300 transition-colors">
+                  <div className="flex-shrink-0 font-mono text-[9px] tracking-wider uppercase text-ink-300 group-hover:text-ink-500 transition-colors">
                     PDF
                   </div>
                 </a>
@@ -154,29 +154,29 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
                   href={personalInfo.socials.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-white/[0.04] transition-colors group"
+                  className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-sand-200 transition-colors group"
                   onClick={onClose}
                 >
-                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-ice-400/10 border border-ice-400/20 flex items-center justify-center transition-colors group-hover:bg-ice-400/15">
-                    <Linkedin size={18} strokeWidth={1.5} className="text-ice-400" />
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-clay-100 border border-clay-300/40 flex items-center justify-center transition-colors group-hover:bg-clay-100">
+                    <Linkedin size={18} strokeWidth={1.5} className="text-clay-500" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-zinc-100">
+                    <div className="text-sm font-medium text-ink-900">
                       LinkedIn
                     </div>
-                    <div className="text-[12px] text-charcoal-400">
+                    <div className="text-[12px] text-ink-500">
                       Connect with me
                     </div>
                   </div>
-                  <div className="flex-shrink-0 font-mono text-[9px] tracking-wider uppercase text-charcoal-500 group-hover:text-charcoal-300 transition-colors">
+                  <div className="flex-shrink-0 font-mono text-[9px] tracking-wider uppercase text-ink-300 group-hover:text-ink-500 transition-colors">
                     Profile
                   </div>
                 </a>
               </div>
 
               {/* Footer hint */}
-              <div className="px-5 py-3 border-t border-white/5">
-                <div className="font-mono text-[10px] tracking-wider uppercase text-charcoal-500 text-center">
+              <div className="px-5 py-3 border-t border-border">
+                <div className="font-mono text-[10px] tracking-wider uppercase text-ink-300 text-center">
                   Press ESC to close
                 </div>
               </div>
