@@ -8,7 +8,17 @@ export const metadata: Metadata = {
   title: "Projects",
   description:
     "The full archive — web applications, experiments, and client work I've built using React, Next.js, and Node.js.",
+  alternates: {
+    canonical: "https://taninwatkaewpankan.xyz/projects",
+  },
   openGraph: {
+    title: "Projects | Taninwat Kaewpankan",
+    description:
+      "The full archive of web applications and client work built with React, Next.js, and TypeScript.",
+    url: "https://taninwatkaewpankan.xyz/projects",
+  },
+  twitter: {
+    card: "summary_large_image",
     title: "Projects | Taninwat Kaewpankan",
     description:
       "The full archive of web applications and client work built with React, Next.js, and TypeScript.",

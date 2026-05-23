@@ -28,13 +28,19 @@ export async function generateMetadata({
 
   if (!post) return { title: "Post Not Found" };
 
+  const url = `https://taninwatkaewpankan.xyz/garden/${slug}`;
+
   return {
     title: post.title,
     description: post.excerpt,
     authors: [{ name: post.author }],
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,
+      url,
       type: "article",
       publishedTime: post.date,
       authors: [post.author],

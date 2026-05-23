@@ -9,11 +9,21 @@ import { Badge } from "@/components/ui/badge";
 export const metadata: Metadata = {
   title: "Garden",
   description:
-    "Half engineering log, half live experiment. Writing on frontend craft, product strategy, and the projects I'm working on — some posts have interactive tools embedded.",
+    "Notes on building products — engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
+  alternates: {
+    canonical: "https://taninwatkaewpankan.xyz/garden",
+  },
   openGraph: {
     title: "Garden | Taninwat Kaewpankan",
     description:
-      "Half engineering log, half live experiment — interactive writing on frontend craft and product strategy.",
+      "Notes on building products — engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
+    url: "https://taninwatkaewpankan.xyz/garden",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Garden | Taninwat Kaewpankan",
+    description:
+      "Notes on building products — engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
   },
 };
 

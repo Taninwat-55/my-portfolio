@@ -80,9 +80,6 @@ export const metadata: Metadata = {
     "Copenhagen",
     "Denmark",
   ],
-  alternates: {
-    canonical: "https://taninwatkaewpankan.xyz",
-  },
   openGraph: {
     title: "Taninwat Kaewpankan | Software Engineer",
     description: "Software engineer based in Copenhagen. Building with React, TypeScript, and Next.js.",
