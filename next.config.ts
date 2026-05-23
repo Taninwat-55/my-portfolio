@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  outputFileTracingIncludes: {
+    '/sitemap.xml': ['./posts/**/*.mdx'],
+  },
   // Security headers for improved protection
   async headers() {
     return [
