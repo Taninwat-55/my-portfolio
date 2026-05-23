@@ -97,7 +97,7 @@ export const metadata: Metadata = {
     description: "Software engineer based in Copenhagen. Building with React, TypeScript, and Next.js.",
   },
   icons: {
-    icon: "/icon.png",
+    icon: "/icon.svg",
   },
 };
 
