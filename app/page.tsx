@@ -1,5 +1,6 @@
 import { Navbar } from "./components/Navbar";
 import { SkipLink } from "./components/SkipLink";
+import { ChatWidget } from "./components/ChatWidget";
 import { Hero } from "./sections/Hero";
 import { About } from "./sections/About";
 import { WhatIDo } from "./sections/WhatIDo";
@@ -23,6 +24,8 @@ export default function Home() {
         <Garden />
         <Footer />
       </main>
+
+      <ChatWidget />
     </div>
   );
 }
