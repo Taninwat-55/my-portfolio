@@ -2,7 +2,7 @@ import { createGroq } from "@ai-sdk/groq";
 import { streamText, convertToModelMessages } from "ai";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
-import { personalInfo, siteContent, experience, projects } from "@/app/data";
+import { personalInfo, siteContent, experience, projects, cases, chatbotContext } from "@/app/data";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -29,8 +29,23 @@ ${siteContent.whatIDo.map((w) => `${w.title}: ${w.body}`).join("\n\n")}
 == EXPERIENCE ==
 ${experience.map((e) => `- ${e.role} at ${e.organization} (${e.period}): ${e.description}`).join("\n")}
 
-== PROJECTS ==
+== FEATURED CASE STUDIES ==
+${cases.map((c) => `
+Project: ${c.title} (${c.tag})
+Summary: ${c.sub}
+Problem: ${c.challenge}
+How he built it: ${c.engineering}
+Stack: ${c.stack.join(", ")}
+Key results: ${c.metrics.map((m) => `${m.v} ${m.k}`).join(", ")}
+${c.links.demo ? `Live: ${c.links.demo}` : ""}
+${c.links.code ? `Code: ${c.links.code}` : ""}
+`.trim()).join("\n\n")}
+
+== OTHER PROJECTS ==
 ${projects.map((p) => `- ${p.title} (${p.category}): ${p.description} Tech: ${p.tech.join(", ")}`).join("\n")}
+
+== JOB SEARCH & CURRENT SITUATION ==
+${chatbotContext}
 
 == CONTACT ==
 Email: ${personalInfo.email}

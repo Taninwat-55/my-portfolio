@@ -4,7 +4,7 @@ import { useChat } from "@ai-sdk/react";
 import { isTextUIPart } from "ai";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, RotateCcw } from "lucide-react";
 
 const SUGGESTED_PROMPTS = [
   "What has he built?",
@@ -19,9 +19,16 @@ export function ChatWidget() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { messages, sendMessage, status } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat({
     onError: () => setHasError(true),
   });
+
+  const resetChat = () => {
+    setMessages([]);
+    setHasError(false);
+    setInputValue("");
+    inputRef.current?.focus();
+  };
 
   const isLoading = status === "submitted" || status === "streaming";
 
@@ -76,13 +83,25 @@ export function ChatWidget() {
                   </div>
                   <div className="text-sm text-ink-700">Ask about Taninwat</div>
                 </div>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="p-1.5 rounded-lg text-ink-300 hover:text-ink-900 hover:bg-sand-200 transition-colors"
-                  aria-label="Close chat"
-                >
-                  <X size={16} strokeWidth={1.5} />
-                </button>
+                <div className="flex items-center gap-1">
+                  {messages.length > 0 && (
+                    <button
+                      onClick={resetChat}
+                      className="p-1.5 rounded-lg text-ink-300 hover:text-ink-900 hover:bg-sand-200 transition-colors"
+                      aria-label="New chat"
+                      title="New chat"
+                    >
+                      <RotateCcw size={14} strokeWidth={1.5} />
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="p-1.5 rounded-lg text-ink-300 hover:text-ink-900 hover:bg-sand-200 transition-colors"
+                    aria-label="Close chat"
+                  >
+                    <X size={16} strokeWidth={1.5} />
+                  </button>
+                </div>
               </div>
 
               {/* Messages */}

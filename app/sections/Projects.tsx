@@ -197,20 +197,7 @@ function MiniCard({ c, index }: { c: CaseStudy; index: number }) {
       transition={{ duration: 0.6, delay: reduced ? 0 : index * 0.08, ease: EASE }}
       className="border border-border rounded-xl overflow-hidden bg-sand-50 hover:border-clay-300 transition-colors flex flex-col"
     >
-      <div className="relative aspect-video bg-sand-200 overflow-hidden">
-        {c.images[0] && (
-          <Image
-            src={c.images[0]}
-            alt={c.title}
-            fill
-            className="object-cover object-top"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        )}
-        <span className="absolute top-3 left-3 font-mono text-[10px] tracking-[0.14em] uppercase text-ink-700 bg-sand-50/80 backdrop-blur-sm border border-border px-2.5 py-1 rounded-full">
-          {c.tag}
-        </span>
-      </div>
+      <ImageSlider images={c.images} title={c.title} tag={c.tag} />
 
       <div className="p-5 flex flex-col flex-1">
         <h3 className="text-lg font-semibold text-ink-900 mb-1">{c.title}</h3>

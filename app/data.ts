@@ -200,7 +200,11 @@ export const cases: CaseStudy[] = [
     title: "Cinema Booking",
     sub: "A booking engine where data integrity holds regardless of the client.",
     featured: false,
-    images: ["/assets/cinema-project-img.webp"],
+    images: [
+      "/assets/cinema/cinema-index.png",
+      "/assets/cinema/cinema-movie-id.png",
+      "/assets/cinema/cinema-seat.png",
+    ],
     overview:
       "Full-stack cinema booking engine — React on the front, Node.js and SQLite on the back. The architecture centres on seat locking handled at the data layer, not the UI.",
     challenge:
@@ -256,7 +260,12 @@ export const cases: CaseStudy[] = [
     title: "Racha Beauty",
     sub: "From zero web presence to 95+ Lighthouse and local search visibility.",
     featured: false,
-    images: ["/assets/Racha_img.webp"],
+    images: [
+      "/assets/racha/Racha_img.webp",
+      "/assets/racha/about-racha.webp",
+      "/assets/racha/racha_services.webp",
+      "/assets/racha/racha-contact.webp",
+    ],
     overview:
       "A local wellness business had no online presence. I built one from scratch — fast, clean, SEO-optimised with Next.js and measurable improvement in local search rankings.",
     challenge:
@@ -277,6 +286,20 @@ export const cases: CaseStudy[] = [
     },
   },
 ];
+
+// ─── CHATBOT CONTEXT ──────────────────────────────────────────────────────────
+
+export const chatbotContext = `
+Taninwat is actively job searching as of June 2026. He just graduated from Jensen Yrkeshögskola's Frontend Developer program (May 2026) and is looking for his first professional role in tech — ideally something in frontend development, product, or a hybrid role where both design thinking and technical skills matter.
+
+He's based in Denmark and holds dual Thai-Swedish citizenship, so he can work anywhere in the EU/Schengen without visa complications. He's open to roles in Denmark, Sweden, or remote.
+
+He's honest about where he stands: his degree is a vocational frontend program, not a CS degree, so he doesn't pretend to be a systems engineer. What he does bring is genuine project delivery experience — he's shipped real products (a commercial client site, a full-stack booking system, a live SaaS platform), led an organisation as Head of Operations at Millennial Consulting, and holds a small equity stake at an early-stage AI startup (Trailr AI) as a partner.
+
+He works best in environments where he can own something end-to-end, figure things out without constant hand-holding, and collaborate closely with a small team. He's not looking for the biggest company — he's looking for the right fit.
+
+He's not currently receiving a salary from Trailr AI (equity-only until agreed milestones), so he's fully available for full-time employment in parallel.
+`.trim();
 
 // ─── PROJECTS ─────────────────────────────────────────────────────────────────
 
@@ -311,7 +334,7 @@ export const projects = [
       demo: "https://cinema-booking-system-project.vercel.app",
       code: "https://github.com/Taninwat-55/cinema-booking-system-project",
     },
-    image: "/assets/cinema-project-img.webp",
+    image: "/assets/cinema/cinema-index.png",
   },
   {
     id: 2,
@@ -337,7 +360,7 @@ export const projects = [
       demo: "https://rachabeautywellness.com",
       code: "https://github.com/Taninwat-55/rachabeautywellness",
     },
-    image: "/assets/Racha_img.webp",
+    image: "/assets/racha/Racha_img.webp",
   },
 ];
 
