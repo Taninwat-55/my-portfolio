@@ -39,6 +39,7 @@ export function Navbar({
               <div className="hidden md:flex gap-8 text-sm font-medium text-ink-400 items-center absolute left-1/2 -translate-x-1/2">
                 <a href="#about" className="hover:text-clay-500 transition-colors">About</a>
                 <a href="#what-i-do" className="hover:text-clay-500 transition-colors">What I do</a>
+                <a href="#skills" className="hover:text-clay-500 transition-colors">Skills</a>
                 <a href="#projects" className="hover:text-clay-500 transition-colors">Projects</a>
                 <a href="#experience" className="hover:text-clay-500 transition-colors">Experience</a>
                 <a href="#garden" className="hover:text-clay-500 transition-colors">Garden</a>
@@ -76,6 +77,7 @@ export function Navbar({
           <div className="md:hidden absolute top-16 left-0 w-full bg-sand-100 border-b border-border p-4 flex flex-col gap-2 shadow-sm">
             <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2.5 text-ink-700 hover:bg-sand-200 rounded-lg">About</a>
             <a href="#what-i-do" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2.5 text-ink-700 hover:bg-sand-200 rounded-lg">What I do</a>
+            <a href="#skills" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2.5 text-ink-700 hover:bg-sand-200 rounded-lg">Skills</a>
             <a href="#projects" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2.5 text-ink-700 hover:bg-sand-200 rounded-lg">Projects</a>
             <a href="#experience" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2.5 text-ink-700 hover:bg-sand-200 rounded-lg">Experience</a>
             <a href="#garden" onClick={() => setIsMenuOpen(false)} className="text-sm font-medium p-2.5 text-ink-700 hover:bg-sand-200 rounded-lg">Garden</a>

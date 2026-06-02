@@ -1,192 +1,294 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, ArrowUpRight, Github } from "lucide-react";
-import { projects } from "../data";
-import { Magnetic } from "../components/Magnetic";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, Github, ChevronLeft, ChevronRight } from "lucide-react";
+import { cases, type CaseStudy } from "../data";
 
-export function Projects() {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-  const selected = projects.find((p) => p.id === selectedId) ?? null;
+const EASE = [0.22, 1, 0.36, 1] as const;
+const SLIDE_DURATION = 4000;
+
+// ── Image slider ──────────────────────────────────────────────────────────────
+
+function ImageSlider({ images, title, tag }: { images: string[]; title: string; tag: string }) {
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const reduced = useReducedMotion() ?? false;
+
+  const go = useCallback((next: number, dir: number) => {
+    setDirection(dir);
+    setCurrent(next);
+  }, []);
+
+  const prev = () => go((current - 1 + images.length) % images.length, -1);
+  const next = useCallback(() => go((current + 1) % images.length, 1), [current, go, images.length]);
+
+  // Auto-advance
+  useEffect(() => {
+    if (images.length <= 1 || reduced) return;
+    const id = setInterval(next, SLIDE_DURATION);
+    return () => clearInterval(id);
+  }, [next, images.length, reduced]);
+
+  const variants = {
+    enter: (dir: number) => ({ x: dir > 0 ? "100%" : "-100%", opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (dir: number) => ({ x: dir > 0 ? "-100%" : "100%", opacity: 0 }),
+  };
 
   return (
-    <section id="projects" aria-label="Projects" className="py-24 md:py-32">
+    <div className="relative w-full aspect-[16/9] bg-sand-200 overflow-hidden rounded-t-[20px] group">
+
+      {/* Slides */}
+      <AnimatePresence initial={false} custom={direction} mode="popLayout">
+        <motion.div
+          key={current}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.45, ease: EASE }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={images[current]}
+            alt={`${title} screenshot ${current + 1}`}
+            fill
+            className="object-cover object-top"
+            sizes="(max-width: 768px) 100vw, 900px"
+            priority={current === 0}
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Tag pill */}
+      <span className="absolute top-4 left-4 z-10 font-mono text-[11px] tracking-[0.14em] uppercase text-ink-700 bg-sand-50/80 backdrop-blur-sm border border-border px-3 py-1.5 rounded-full">
+        {tag}
+      </span>
+
+      {/* Nav arrows — only when multiple images */}
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={prev}
+            aria-label="Previous screenshot"
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-sand-50/80 backdrop-blur-sm border border-border flex items-center justify-center text-ink-500 opacity-0 group-hover:opacity-100 hover:bg-sand-50 transition-all"
+          >
+            <ChevronLeft size={15} />
+          </button>
+          <button
+            onClick={next}
+            aria-label="Next screenshot"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-sand-50/80 backdrop-blur-sm border border-border flex items-center justify-center text-ink-500 opacity-0 group-hover:opacity-100 hover:bg-sand-50 transition-all"
+          >
+            <ChevronRight size={15} />
+          </button>
+
+          {/* Dot indicators */}
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => go(i, i > current ? 1 : -1)}
+                aria-label={`Screenshot ${i + 1}`}
+                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                  i === current ? "bg-sand-50 w-4" : "bg-sand-50/50"
+                }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ── Featured case study card ──────────────────────────────────────────────────
+
+function FeaturedCard({ c, index }: { c: CaseStudy; index: number }) {
+  const reduced = useReducedMotion() ?? false;
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-5%" }}
+      transition={{ duration: 0.7, delay: reduced ? 0 : index * 0.1, ease: EASE }}
+      className="border border-border rounded-[22px] overflow-hidden bg-sand-50 hover:border-clay-300 transition-colors mb-7"
+    >
+      <ImageSlider images={c.images} title={c.title} tag={c.tag} />
+
+      <div className="p-7 md:p-10">
+        <div className="font-mono text-[13px] text-clay-500 tracking-[0.1em] mb-3">
+          CASE STUDY · {c.n}
+        </div>
+
+        <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-ink-900 leading-tight mb-2">
+          {c.title}
+        </h3>
+        <p className="font-mono text-[13px] text-ink-400 mb-6">{c.sub}</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <h4 className="font-mono text-[11px] tracking-[0.14em] uppercase text-ink-300 mb-1.5">
+              The problem
+            </h4>
+            <p className="text-sm text-ink-600 leading-relaxed">{c.challenge}</p>
+          </div>
+          <div>
+            <h4 className="font-mono text-[11px] tracking-[0.14em] uppercase text-ink-300 mb-1.5">
+              How I built it
+            </h4>
+            <p className="text-sm text-ink-600 leading-relaxed">{c.engineering}</p>
+          </div>
+        </div>
+
+        {/* Metrics */}
+        <div className="flex flex-wrap gap-6 border-t border-b border-border py-4 mb-5">
+          {c.metrics.map((m) => (
+            <div key={m.k}>
+              <div className="text-2xl md:text-3xl font-bold tracking-tight text-ink-900">{m.v}</div>
+              <div className="font-mono text-[11px] tracking-[0.1em] uppercase text-ink-400">{m.k}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Stack + links */}
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap gap-2">
+            {c.stack.map((s) => (
+              <span key={s} className="font-mono text-[11px] text-ink-600 px-2.5 py-1 border border-border rounded-md bg-sand-100">
+                {s}
+              </span>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-3 shrink-0">
+            {c.links.demo && (
+              <a href={c.links.demo} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-clay-500 text-white text-sm font-medium hover:bg-clay-600 transition-colors">
+                <ArrowUpRight size={14} /> Live demo
+              </a>
+            )}
+            {c.links.code && (
+              <a href={c.links.code} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border text-ink-700 text-sm font-medium hover:border-clay-400 hover:text-clay-500 transition-colors">
+                <Github size={14} /> Source code
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+// ── Mini card ─────────────────────────────────────────────────────────────────
+
+function MiniCard({ c, index }: { c: CaseStudy; index: number }) {
+  const reduced = useReducedMotion() ?? false;
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-5%" }}
+      transition={{ duration: 0.6, delay: reduced ? 0 : index * 0.08, ease: EASE }}
+      className="border border-border rounded-xl overflow-hidden bg-sand-50 hover:border-clay-300 transition-colors flex flex-col"
+    >
+      <div className="relative aspect-video bg-sand-200 overflow-hidden">
+        {c.images[0] && (
+          <Image
+            src={c.images[0]}
+            alt={c.title}
+            fill
+            className="object-cover object-top"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        )}
+        <span className="absolute top-3 left-3 font-mono text-[10px] tracking-[0.14em] uppercase text-ink-700 bg-sand-50/80 backdrop-blur-sm border border-border px-2.5 py-1 rounded-full">
+          {c.tag}
+        </span>
+      </div>
+
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="text-lg font-semibold text-ink-900 mb-1">{c.title}</h3>
+        <p className="text-sm text-ink-500 leading-relaxed mb-4 flex-1">{c.sub}</p>
+
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {c.stack.slice(0, 4).map((s) => (
+            <span key={s} className="font-mono text-[11px] text-ink-600 px-2 py-0.5 border border-border rounded bg-sand-100">
+              {s}
+            </span>
+          ))}
+          {c.stack.length > 4 && (
+            <span className="font-mono text-[11px] text-ink-400 px-2 py-0.5">+{c.stack.length - 4}</span>
+          )}
+        </div>
+
+        <div className="flex gap-2">
+          {c.links.demo && (
+            <a href={c.links.demo} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-clay-500 text-white text-xs font-medium hover:bg-clay-600 transition-colors">
+              <ArrowUpRight size={12} /> Demo
+            </a>
+          )}
+          {c.links.code && (
+            <a href={c.links.code} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-border text-ink-700 text-xs font-medium hover:border-clay-400 hover:text-clay-500 transition-colors">
+              <Github size={12} /> Code
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+// ── Section ───────────────────────────────────────────────────────────────────
+
+export function Projects() {
+  const featured = cases.filter((c) => c.featured);
+  const mini = cases.filter((c) => !c.featured);
+
+  return (
+    <section id="projects" aria-label="Projects" className="py-24 md:py-32 border-t border-border">
       <div className="container mx-auto px-6 max-w-5xl">
 
-        {/* Section label */}
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-sm font-medium text-clay-500 tracking-widest uppercase mb-16"
+          transition={{ duration: 0.5, ease: EASE }}
+          className="text-sm font-medium text-clay-500 tracking-widest uppercase mb-4"
         >
-          Projects
+          Selected work
         </motion.p>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {projects.map((project, i) => (
-            <Magnetic key={project.id} strength={0.15}>
-            <motion.div
-              layoutId={`project-card-${project.id}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-5%" }}
-              transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              onClick={() => setSelectedId(project.id)}
-              className="group relative flex flex-col p-6 rounded-xl border border-border bg-sand-50 hover:border-clay-300 cursor-pointer transition-colors"
-            >
-              {/* Image */}
-              {project.image && (
-                <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-sand-200 mb-5">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
-              )}
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
+          className="text-3xl md:text-4xl font-bold tracking-tight text-ink-900 mb-16"
+        >
+          Built to solve real problems.
+        </motion.h2>
 
-              {/* Category */}
-              <span className="inline-flex self-start items-center px-2.5 py-1 rounded-full text-xs font-medium bg-clay-100 text-clay-600 mb-3">
-                {project.category}
-              </span>
+        {featured.map((c, i) => (
+          <FeaturedCard key={c.n} c={c} index={i} />
+        ))}
 
-              {/* Title */}
-              <h3 className="text-lg font-semibold text-ink-900 mb-2 group-hover:text-clay-600 transition-colors">
-                {project.title}
-              </h3>
-
-              {/* Description — truncated */}
-              <p className="text-sm text-ink-500 leading-relaxed line-clamp-2 mb-4">
-                {project.description}
-              </p>
-
-              {/* Tech tags */}
-              <div className="flex flex-wrap gap-1.5 mt-auto">
-                {project.tech.slice(0, 3).map((t) => (
-                  <span
-                    key={t}
-                    className="px-2 py-0.5 rounded text-[11px] font-medium bg-sand-300 text-ink-500"
-                  >
-                    {t}
-                  </span>
-                ))}
-                {project.tech.length > 3 && (
-                  <span className="px-2 py-0.5 rounded text-[11px] text-ink-400">
-                    +{project.tech.length - 3} more
-                  </span>
-                )}
-              </div>
-            </motion.div>
-            </Magnetic>
-          ))}
-        </div>
-      </div>
-
-      {/* Expanded overlay */}
-      <AnimatePresence>
-        {selected && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedId(null)}
-              className="fixed inset-0 z-40 bg-ink-900/40 backdrop-blur-sm"
-            />
-
-            {/* Expanded card */}
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 pointer-events-none">
-              <motion.div
-                layoutId={`project-card-${selected.id}`}
-                className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-sand-50 rounded-2xl border border-border shadow-xl pointer-events-auto"
-              >
-                {/* Close button */}
-                <button
-                  onClick={() => setSelectedId(null)}
-                  aria-label="Close"
-                  className="absolute top-4 right-4 z-10 p-2 rounded-full bg-sand-200 text-ink-500 hover:bg-sand-300 transition-colors"
-                >
-                  <X size={16} />
-                </button>
-
-                {/* Image */}
-                {selected.image && (
-                  <div className="relative w-full aspect-video rounded-t-2xl overflow-hidden bg-sand-200">
-                    <Image
-                      src={selected.image}
-                      alt={selected.title}
-                      fill
-                      className="object-cover"
-                      sizes="672px"
-                    />
-                  </div>
-                )}
-
-                <div className="p-6 md:p-8">
-                  {/* Category */}
-                  <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-clay-100 text-clay-600 mb-4">
-                    {selected.category}
-                  </span>
-
-                  {/* Title */}
-                  <h2 className="text-2xl font-bold text-ink-900 mb-4">{selected.title}</h2>
-
-                  {/* Full description */}
-                  <p className="text-sm leading-relaxed text-ink-600 mb-6">
-                    {selected.description}
-                  </p>
-
-                  {/* Tech tags */}
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {selected.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="px-2.5 py-1 rounded text-xs font-medium bg-sand-200 text-ink-600"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex flex-wrap gap-3">
-                    {selected.links.demo && (
-                      <a
-                        href={selected.links.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-clay-500 text-white text-sm font-medium hover:bg-clay-600 transition-colors"
-                      >
-                        <ArrowUpRight size={14} />
-                        Live demo
-                      </a>
-                    )}
-                    {selected.links.code && (
-                      <a
-                        href={selected.links.code}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border text-ink-700 text-sm font-medium hover:border-clay-400 hover:text-clay-500 transition-colors"
-                      >
-                        <Github size={14} />
-                        Source code
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </>
+        {mini.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+            {mini.map((c, i) => (
+              <MiniCard key={c.n} c={c} index={i} />
+            ))}
+          </div>
         )}
-      </AnimatePresence>
+
+      </div>
     </section>
   );
 }

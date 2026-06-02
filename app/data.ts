@@ -3,7 +3,7 @@
 
 export const personalInfo = {
   name: "Taninwat Kaewpankan",
-  role: "Software Engineer",
+  role: "Frontend & Product Engineer",
   location: "Copenhagen, Denmark",
   email: "taninwat.kaewpankan@gmail.com",
   socials: {
@@ -15,7 +15,7 @@ export const personalInfo = {
 // ─── HERO / ABOUT COPY ────────────────────────────────────────────────────────
 
 export const siteContent = {
-  availability: "Open to Software Engineering Roles in Copenhagen",
+  availability: "Open to Frontend & Product roles",
 
   heroIntro: "Taninwat Kaewpankan",
   heroLine: "Engineer. Builder. Thinker.",
@@ -52,6 +52,15 @@ export const siteContent = {
 
   cvLink: "/assets/Taninwat_Kaewpankan_CV_Frontend.pdf",
   cvLabel: "Download Resume",
+
+  heroHook: ["I make complex systems feel calm, fast & human."],
+  heroHookAccents: new Set(["calm,", "fast", "human."]),
+  heroPhilosophy:
+    "I build fast, accessible interfaces — and care about the details that make them feel right.",
+  techMarquee: [
+    "React", "Next.js", "TypeScript", "Tailwind CSS",
+    "Node.js", "Accessibility", "Performance", "Design Systems",
+  ],
 };
 
 // ─── EXPERIENCE ───────────────────────────────────────────────────────────────
@@ -110,6 +119,162 @@ export const experience = [
     period: "2019 – 2022",
     description:
       "Three years studying interactive system design and how projects actually get shipped. The most valuable part was wearing the PM hat on real team projects — where good process is what separates a demo from a product.",
+  },
+];
+
+// ─── SKILLS ───────────────────────────────────────────────────────────────────
+
+export const skills = [
+  {
+    group: "Frontend",
+    items: [
+      ["React", 3], ["Next.js", 3], ["TypeScript", 3],
+      ["Tailwind CSS", 3], ["HTML / CSS", 3], ["Framer Motion", 2],
+    ] as [string, number][],
+  },
+  {
+    group: "Backend & Data",
+    items: [
+      ["Node.js", 2], ["Express", 2], ["PostgreSQL", 2],
+      ["REST / WS", 2], ["Prisma", 2],
+    ] as [string, number][],
+  },
+  {
+    group: "Craft & Tools",
+    items: [
+      ["Accessibility", 3], ["Performance", 3], ["Git / GitHub", 3],
+      ["Figma", 2], ["Testing", 2],
+    ] as [string, number][],
+  },
+];
+
+// ─── CASE STUDIES ─────────────────────────────────────────────────────────────
+
+export interface CaseStudy {
+  n: string;
+  tag: string;
+  title: string;
+  sub: string;
+  featured: boolean;
+  images: string[];  // 1–3 screenshots; tiled automatically
+  overview: string;
+  challenge: string;
+  stackWhy: string;
+  engineering: string;
+  metrics: { v: string; k: string }[];
+  stack: string[];
+  links: { demo: string; code: string };
+}
+
+export const cases: CaseStudy[] = [
+  {
+    n: "01",
+    tag: "SaaS Platform",
+    title: "Bevisly",
+    sub: "Turn skill claims into structured, verifiable proof.",
+    featured: true,
+    images: [
+      "/assets/bevisly/Bevisly-Landing.webp",
+      "/assets/bevisly/bevisly-candidate.webp",
+      "/assets/bevisly/bevisly-employer-kanban.webp",
+    ],
+    overview:
+      "A platform where skill claims come with structured, verifiable proof — built full-stack with Supabase, PostgreSQL, and a row-level security model designed for multi-role data isolation.",
+    challenge:
+      "Endorsements online mean nothing without evidence. The hard part wasn't the UI — it was designing multi-role data isolation at the database layer so no client-side logic could ever compromise it.",
+    stackWhy:
+      "Supabase for RLS-based multi-role auth so security lives in the database, not the frontend. React and TypeScript on the front so the data model surfaces cleanly in the component tree. Next.js for SSR and SEO.",
+    engineering:
+      "Designed the RLS policies before writing a single line of UI — security-first, components second. Kept re-renders tight with co-located state and minimal prop drilling.",
+    metrics: [
+      { v: "RLS", k: "Database security" },
+      { v: "8+", k: "AI features" },
+      { v: "100", k: "SEO score" },
+    ],
+    stack: ["React", "TypeScript", "Vite", "Supabase", "Tailwind CSS", "Vitest"],
+    links: { demo: "https://bevisly.com/", code: "https://github.com/Taninwat-55/Bevisly" },
+  },
+  {
+    n: "02",
+    tag: "Full Stack",
+    title: "Cinema Booking",
+    sub: "A booking engine where data integrity holds regardless of the client.",
+    featured: false,
+    images: ["/assets/cinema-project-img.webp"],
+    overview:
+      "Full-stack cinema booking engine — React on the front, Node.js and SQLite on the back. The architecture centres on seat locking handled at the data layer, not the UI.",
+    challenge:
+      "Concurrent seat reservation is a classic race condition. Any client-side locking approach fails under load — the lock has to live in the database. Most student projects skip this entirely.",
+    stackWhy:
+      "Node.js and SQLite for lightweight transactions; React for a seat-map UI that had to be fast and visually precise; a clean REST boundary so the backend stays testable in isolation.",
+    engineering:
+      "Implemented optimistic concurrency control in SQLite — a transaction checks seat availability and locks atomically, so two simultaneous bookings for the same seat cannot both succeed.",
+    metrics: [
+      { v: "0", k: "Race conditions" },
+      { v: "100%", k: "Data integrity" },
+      { v: "60fps", k: "Seat map render" },
+    ],
+    stack: ["React", "Node.js", "SQLite", "REST API"],
+    links: {
+      demo: "https://cinema-booking-system-project.vercel.app",
+      code: "https://github.com/Taninwat-55/cinema-booking-system-project",
+    },
+  },
+  {
+    n: "03",
+    tag: "FinTech",
+    title: "Satoshi Standard",
+    sub: "Live Bitcoin purchasing-power dashboard across every major currency.",
+    featured: true,
+    images: [
+      "/assets/satoshi-standard/satoshi-dashboard.webp",
+      "/assets/satoshi-standard/Dashboard.webp",
+      "/assets/satoshi-standard/Address_watcher.webp",
+    ],
+    overview:
+      "Real-time dashboard tracking Bitcoin purchasing power across currencies. Live price API with a full Vitest unit-test suite covering all conversion logic.",
+    challenge:
+      "Real-time price feeds cause constant re-renders across the entire component tree. The UI had to stay smooth while data was always moving — and the maths had to stay correct when I refactored.",
+    stackWhy:
+      "React and Tailwind for the live UI; Vitest to pin the conversion logic so refactors can't silently break numbers users depend on. No heavyweight state library — co-located state was enough.",
+    engineering:
+      "Pushed all derived math into selectors; only cells with changed values re-render. The test suite runs against pure conversion functions, not the UI, so coverage is fast and reliable.",
+    metrics: [
+      { v: "3", k: "Price APIs" },
+      { v: "Groq AI", k: "Streaming chat" },
+      { v: "Vitest", k: "Test suite" },
+    ],
+    stack: ["React", "TypeScript", "Tailwind", "Vitest", "API Integration"],
+    links: {
+      demo: "https://www.satoshi-standard.xyz/",
+      code: "https://github.com/Taninwat-55/Satoshi-Standard",
+    },
+  },
+  {
+    n: "04",
+    tag: "Commercial",
+    title: "Racha Beauty",
+    sub: "From zero web presence to 95+ Lighthouse and local search visibility.",
+    featured: false,
+    images: ["/assets/Racha_img.webp"],
+    overview:
+      "A local wellness business had no online presence. I built one from scratch — fast, clean, SEO-optimised with Next.js and measurable improvement in local search rankings.",
+    challenge:
+      "Small local businesses rarely have a budget for ongoing maintenance, so the site had to be fast out of the box with no CDN tuning, no ops team, and zero ongoing technical overhead.",
+    stackWhy:
+      "Next.js for server-rendering and automatic image optimisation; Tailwind for a design system the client could understand visually; structured data markup so Google reads the business correctly.",
+    engineering:
+      "Scored 95+ across all Lighthouse categories on first deploy. Used next/image throughout, structured data for local business schema, and a zero-JavaScript-for-content approach.",
+    metrics: [
+      { v: "95+", k: "Lighthouse score" },
+      { v: "#1", k: "Local search rank" },
+      { v: "0", k: "JS for content" },
+    ],
+    stack: ["Next.js", "Tailwind", "SEO", "Analytics", "Schema.org"],
+    links: {
+      demo: "https://rachabeautywellness.com",
+      code: "https://github.com/Taninwat-55/rachabeautywellness",
+    },
   },
 ];
 
