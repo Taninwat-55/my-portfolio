@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Github, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, Github, ChevronLeft, ChevronRight, FileText } from "lucide-react";
 import { cases, type CaseStudy } from "../data";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -175,6 +175,12 @@ function FeaturedCard({ c, index }: { c: CaseStudy; index: number }) {
               <a href={c.links.code} target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border text-ink-700 text-sm font-medium hover:border-clay-400 hover:text-clay-500 transition-colors">
                 <Github size={14} /> Source code
+              </a>
+            )}
+            {c.links.docs && (
+              <a href={c.links.docs} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border text-ink-700 text-sm font-medium hover:border-clay-400 hover:text-clay-500 transition-colors">
+                <FileText size={14} /> Read PRD
               </a>
             )}
           </div>

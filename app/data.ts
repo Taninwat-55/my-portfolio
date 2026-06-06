@@ -3,7 +3,7 @@
 
 export const personalInfo = {
   name: "Taninwat Kaewpankan",
-  role: "Frontend & Product Engineer",
+  role: "Product Engineer",
   location: "Copenhagen, Denmark",
   email: "taninwat.kaewpankan@gmail.com",
   socials: {
@@ -15,11 +15,11 @@ export const personalInfo = {
 // ─── HERO / ABOUT COPY ────────────────────────────────────────────────────────
 
 export const siteContent = {
-  availability: "Open to Frontend & Product roles",
+  availability: "Open to Product Engineer roles",
 
   heroIntro: "Taninwat Kaewpankan",
   heroLine: "Engineer. Builder. Thinker.",
-  heroSubtitle: "Software engineer who builds with product in mind.",
+  heroSubtitle: "Product engineer who ships end-to-end.",
 
   aboutStory: [
     "I moved to Sweden at 16 with no Swedish and no plan. I learned the language, rebuilt my grades, and worked every job that would have me — cleaning, waiting tables, running a food truck, bartending, sorting packages through the night.",
@@ -33,8 +33,8 @@ export const siteContent = {
 
   whatIDo: [
     {
-      title: "Frontend Engineering",
-      body: "I build interfaces with React, TypeScript, and Next.js — from architecture decisions to the details that make something feel right to use. I'm comfortable going full-stack when the work calls for it: Node.js backends, REST APIs, PostgreSQL schemas and data layer logic. I care about what ships, not just what compiles.",
+      title: "Full-Stack Engineering",
+      body: "I build end-to-end — React and Next.js on the front, Node.js, PostgreSQL, and Prisma on the back, AWS Lambda for background work, and AI pipelines where the product needs them. I don't stop at the UI boundary. I care about what ships, not just what compiles.",
     },
     {
       title: "Product & Design Thinking",
@@ -50,16 +50,16 @@ export const siteContent = {
   contactBody:
     "If something here caught your attention — a project, a role, or just curiosity — I'd love to hear from you. No formal process needed. Just send an email and we'll go from there.",
 
-  cvLink: "/assets/Taninwat_Kaewpankan_CV_Frontend.pdf",
+  cvLink: "/assets/Taninwat_Kaewpankan_CV_Product.pdf",
   cvLabel: "Download Resume",
 
-  heroHook: ["I make complex systems feel calm, fast & human."],
-  heroHookAccents: new Set(["calm,", "fast", "human."]),
+  heroHook: ["I take products from brief to live."],
+  heroHookAccents: new Set(["brief", "live."]),
   heroPhilosophy:
-    "I build fast, accessible interfaces — and care about the details that make them feel right.",
+    "I move from brief to shipped — fast, product-sharp, and sweating the right details.",
   techMarquee: [
     "React", "Next.js", "TypeScript", "Tailwind CSS",
-    "Node.js", "Accessibility", "Performance", "Design Systems",
+    "PostgreSQL", "Prisma", "AI SDK", "AWS Lambda",
   ],
 };
 
@@ -73,7 +73,7 @@ export const experience = [
     organization: "Trailr.ai (Remote)",
     period: "Sep 2025 – Present",
     description:
-      "Joined as a frontend developer at an early-stage AI startup, now an equity partner with a signed shareholder agreement. Took on a full navigation overhaul in React and Zustand, owned product discovery for a platform-wide UI/UX redesign, and shipped features continuously as the platform grew from early days to having real clients.",
+      "Joined as a frontend developer at an early-stage AI startup, now an equity partner with a signed shareholder agreement. Took on a full navigation overhaul in React and Zustand, owned product discovery for a platform-wide UI/UX redesign, and shipped features continuously as the platform grew from early days to real clients. The product direction work landed in enterprise trials with Nordisk Film and DR.",
   },
   {
     id: "edu-1",
@@ -129,21 +129,21 @@ export const skills = [
     group: "Frontend",
     items: [
       ["React", 3], ["Next.js", 3], ["TypeScript", 3],
-      ["Tailwind CSS", 3], ["HTML / CSS", 3], ["Framer Motion", 2],
+      ["Tailwind CSS", 3], ["HTML / CSS", 3], ["AI SDK", 2],
     ] as [string, number][],
   },
   {
     group: "Backend & Data",
     items: [
-      ["Node.js", 2], ["Express", 2], ["PostgreSQL", 2],
-      ["REST / WS", 2], ["Prisma", 2],
+      ["Node.js", 2], ["PostgreSQL", 2], ["Prisma", 2],
+      ["REST / WS", 2], ["AWS Lambda", 2],
     ] as [string, number][],
   },
   {
     group: "Craft & Tools",
     items: [
-      ["Accessibility", 3], ["Performance", 3], ["Git / GitHub", 3],
-      ["Figma", 2], ["Testing", 2],
+      ["Performance", 3], ["Git / GitHub", 3], ["Figma", 2],
+      ["Analytics", 2], ["Accessibility", 2],
     ] as [string, number][],
   },
 ];
@@ -163,12 +163,39 @@ export interface CaseStudy {
   engineering: string;
   metrics: { v: string; k: string }[];
   stack: string[];
-  links: { demo: string; code: string };
+  links: { demo: string; code: string; docs?: string };
 }
 
 export const cases: CaseStudy[] = [
   {
     n: "01",
+    tag: "AI SaaS",
+    title: "MockMate",
+    sub: "Paste a job description. Get a tailored interview. Get graded like a hiring panel would.",
+    featured: true,
+    images: [
+      "/assets/mockmate/mockmate-landing.png",
+      "/assets/mockmate/mockmate-dashboard.png",
+      "/assets/mockmate/mockmate-feedback.png",
+    ],
+    overview:
+      "A full-stack AI interview platform: paste a job description, answer tailored technical questions from an AI interviewer, and receive a structured graded report — built with Next.js, Google Gemini, Prisma, and AWS Lambda for background processing.",
+    challenge:
+      "Interview prep tools ask you to read, not do. The real problem was designing an AI pipeline that ingests any job description, generates role-specific technical questions, and grades answers the way a hiring panel would — with depth, clarity, and gap analysis — not just correct or incorrect.",
+    stackWhy:
+      "Next.js App Router for full-stack delivery in one repo. Google Gemini via the Vercel AI SDK for streaming question generation and answer grading. AWS Lambda for heavy grading jobs so the UI never blocks. Prisma for a typed data layer. PDF.js to parse uploaded resumes. PostHog to see where users drop off.",
+    engineering:
+      "Built an AI pipeline: JD upload → Gemini parses role requirements → generates targeted questions → streams answers → grading runs in AWS Lambda with structured Zod-validated output. Resume uploads are parsed with PDF.js and fed into the question-generation context so questions match the candidate's actual background.",
+    metrics: [
+      { v: "Live", k: "Product" },
+      { v: "Gemini", k: "Interview engine" },
+      { v: "Lambda", k: "Background grading" },
+    ],
+    stack: ["Next.js", "TypeScript", "AWS Lambda", "Shadcn/UI"],
+    links: { demo: "https://mockmate.space/", code: "https://github.com/Taninwat-55/mockmate", docs: "https://github.com/Taninwat-55/mockmate/blob/main/docs/PRD.md" },
+  },
+  {
+    n: "02",
     tag: "SaaS Platform",
     title: "Bevisly",
     sub: "Turn skill claims into structured, verifiable proof.",
@@ -181,11 +208,11 @@ export const cases: CaseStudy[] = [
     overview:
       "A platform where skill claims come with structured, verifiable proof — built full-stack with Supabase, PostgreSQL, and a row-level security model designed for multi-role data isolation.",
     challenge:
-      "Endorsements online mean nothing without evidence. The hard part wasn't the UI — it was designing multi-role data isolation at the database layer so no client-side logic could ever compromise it.",
+      "Skills are claimed everywhere and verified nowhere. The product problem was making endorsements mean something. The technical problem was designing multi-role data isolation at the database layer — so the security model is a constraint, not a client-side hope.",
     stackWhy:
       "Supabase for RLS-based multi-role auth so security lives in the database, not the frontend. React and TypeScript on the front so the data model surfaces cleanly in the component tree. Next.js for SSR and SEO.",
     engineering:
-      "Designed the RLS policies before writing a single line of UI — security-first, components second. Kept re-renders tight with co-located state and minimal prop drilling.",
+      "Owned the product end-to-end: defined the two-role model (candidate and employer), designed RLS policies before writing a single line of UI, and shipped 8+ AI features on top of a security layer most side projects skip entirely.",
     metrics: [
       { v: "RLS", k: "Database security" },
       { v: "8+", k: "AI features" },
@@ -195,7 +222,37 @@ export const cases: CaseStudy[] = [
     links: { demo: "https://bevisly.com/", code: "https://github.com/Taninwat-55/Bevisly" },
   },
   {
-    n: "02",
+    n: "03",
+    tag: "FinTech",
+    title: "Satoshi Standard",
+    sub: "Live Bitcoin purchasing-power dashboard across every major currency.",
+    featured: true,
+    images: [
+      "/assets/satoshi-standard/satoshi-dashboard.webp",
+      "/assets/satoshi-standard/Dashboard.webp",
+      "/assets/satoshi-standard/Address_watcher.webp",
+    ],
+    overview:
+      "Real-time dashboard tracking Bitcoin purchasing power across currencies. Live price API with a full Vitest unit-test suite covering all conversion logic.",
+    challenge:
+      "No clean tool existed for tracking Bitcoin's real purchasing power across currencies in one place. The technical constraint was making a live-data UI stay responsive when price feeds update constantly — and keeping the conversion logic correct when the data model changed.",
+    stackWhy:
+      "React and Tailwind for the live UI; Vitest to pin the conversion logic so refactors can't silently break numbers users depend on. No heavyweight state library — co-located state was enough.",
+    engineering:
+      "Identified the product gap, scoped the feature set, and shipped it. Pushed all derived math into selectors so only cells with changed values re-render. The test suite runs against pure conversion functions so coverage is fast and the maths stays trusted across iterations.",
+    metrics: [
+      { v: "3", k: "Price APIs" },
+      { v: "Groq AI", k: "Streaming chat" },
+      { v: "Vitest", k: "Test suite" },
+    ],
+    stack: ["React", "TypeScript", "Tailwind", "Vitest", "API Integration"],
+    links: {
+      demo: "https://www.satoshi-standard.xyz/",
+      code: "https://github.com/Taninwat-55/Satoshi-Standard",
+    },
+  },
+  {
+    n: "04",
     tag: "Full Stack",
     title: "Cinema Booking",
     sub: "A booking engine where data integrity holds regardless of the client.",
@@ -225,37 +282,7 @@ export const cases: CaseStudy[] = [
     },
   },
   {
-    n: "03",
-    tag: "FinTech",
-    title: "Satoshi Standard",
-    sub: "Live Bitcoin purchasing-power dashboard across every major currency.",
-    featured: true,
-    images: [
-      "/assets/satoshi-standard/satoshi-dashboard.webp",
-      "/assets/satoshi-standard/Dashboard.webp",
-      "/assets/satoshi-standard/Address_watcher.webp",
-    ],
-    overview:
-      "Real-time dashboard tracking Bitcoin purchasing power across currencies. Live price API with a full Vitest unit-test suite covering all conversion logic.",
-    challenge:
-      "Real-time price feeds cause constant re-renders across the entire component tree. The UI had to stay smooth while data was always moving — and the maths had to stay correct when I refactored.",
-    stackWhy:
-      "React and Tailwind for the live UI; Vitest to pin the conversion logic so refactors can't silently break numbers users depend on. No heavyweight state library — co-located state was enough.",
-    engineering:
-      "Pushed all derived math into selectors; only cells with changed values re-render. The test suite runs against pure conversion functions, not the UI, so coverage is fast and reliable.",
-    metrics: [
-      { v: "3", k: "Price APIs" },
-      { v: "Groq AI", k: "Streaming chat" },
-      { v: "Vitest", k: "Test suite" },
-    ],
-    stack: ["React", "TypeScript", "Tailwind", "Vitest", "API Integration"],
-    links: {
-      demo: "https://www.satoshi-standard.xyz/",
-      code: "https://github.com/Taninwat-55/Satoshi-Standard",
-    },
-  },
-  {
-    n: "04",
+    n: "05",
     tag: "Commercial",
     title: "Racha Beauty",
     sub: "From zero web presence to 95+ Lighthouse and local search visibility.",
@@ -290,11 +317,11 @@ export const cases: CaseStudy[] = [
 // ─── CHATBOT CONTEXT ──────────────────────────────────────────────────────────
 
 export const chatbotContext = `
-Taninwat is actively job searching as of June 2026. He just graduated from Jensen Yrkeshögskola's Frontend Developer program (May 2026) and is looking for his first professional role in tech — ideally something in frontend development, product, or a hybrid role where both design thinking and technical skills matter.
+Taninwat is actively job searching as of June 2026. He just graduated from Jensen Yrkeshögskola's Frontend Developer program (May 2026) and is looking for his first professional role in tech — ideally a Product Engineer role — a position where he can own delivery end-to-end: shaping product direction, building the thing, and iterating on real feedback. He's comfortable going full-stack when the work calls for it.
 
 He's based in Denmark and holds dual Thai-Swedish citizenship, so he can work anywhere in the EU/Schengen without visa complications. He's open to roles in Denmark, Sweden, or remote.
 
-He's honest about where he stands: his degree is a vocational frontend program, not a CS degree, so he doesn't pretend to be a systems engineer. What he does bring is genuine project delivery experience — he's shipped real products (a commercial client site, a full-stack booking system, a live SaaS platform), led an organisation as Head of Operations at Millennial Consulting, and holds a small equity stake at an early-stage AI startup (Trailr AI) as a partner.
+He's honest about where he stands: his degree is a vocational frontend program, not a CS degree, so he doesn't pretend to be a systems engineer. What he does bring is genuine project delivery experience — he's shipped real products (Bevisly — a skill-verification SaaS; MockMate — an AI interview platform; a commercial client site; a full-stack booking system), led an organisation as Head of Operations at Millennial Consulting, and holds a small equity stake at an early-stage AI startup (Trailr AI) as a partner.
 
 He works best in environments where he can own something end-to-end, figure things out without constant hand-holding, and collaborate closely with a small team. He's not looking for the biggest company — he's looking for the right fit.
 
@@ -304,6 +331,19 @@ He's not currently receiving a salary from Trailr AI (equity-only until agreed m
 // ─── PROJECTS ─────────────────────────────────────────────────────────────────
 
 export const projects = [
+  {
+    id: 98,
+    title: "MockMate",
+    category: "AI SaaS",
+    description:
+      "Paste a job description. Answer questions from an AI interviewer. Get graded like a real hiring panel would. Built full-stack with Next.js, Google Gemini, Prisma, and AWS Lambda — PDF resume parsing, structured AI grading, and PostHog to track where the product actually needs work.",
+    tech: ["Next.js", "TypeScript", "Google Gemini", "Prisma", "AWS Lambda", "PostHog"],
+    links: {
+      demo: "https://mockmate.space/",
+      code: "https://github.com/Taninwat-55/mockmate",
+    },
+    image: "/assets/mockmate/mockmate-landing.png",
+  },
   {
     id: 99,
     title: "Bevisly",
@@ -324,19 +364,6 @@ export const projects = [
     image: "/assets/bevisly/Bevisly-Landing.webp",
   },
   {
-    id: 1,
-    title: "Cinema Booking System",
-    category: "Full Stack",
-    description:
-      "A school project that went further than it needed to. Built a full-stack cinema booking engine — React on the front, Node.js and SQLite on the back. The part I'm most proud of: seat locking and concurrent-request validation handled at the data layer, not the UI. Data integrity holds regardless of what the client does.",
-    tech: ["React", "Node.js", "SQLite", "REST API"],
-    links: {
-      demo: "https://cinema-booking-system-project.vercel.app",
-      code: "https://github.com/Taninwat-55/cinema-booking-system-project",
-    },
-    image: "/assets/cinema/cinema-index.png",
-  },
-  {
     id: 2,
     title: "Satoshi Standard",
     category: "FinTech",
@@ -348,6 +375,19 @@ export const projects = [
       code: "https://github.com/Taninwat-55/Satoshi-Standard",
     },
     image: "/assets/satoshi-standard/satoshi-dashboard.webp",
+  },
+  {
+    id: 1,
+    title: "Cinema Booking System",
+    category: "Full Stack",
+    description:
+      "A school project that went further than it needed to. Built a full-stack cinema booking engine — React on the front, Node.js and SQLite on the back. The part I'm most proud of: seat locking and concurrent-request validation handled at the data layer, not the UI. Data integrity holds regardless of what the client does.",
+    tech: ["React", "Node.js", "SQLite", "REST API"],
+    links: {
+      demo: "https://cinema-booking-system-project.vercel.app",
+      code: "https://github.com/Taninwat-55/cinema-booking-system-project",
+    },
+    image: "/assets/cinema/cinema-index.png",
   },
   {
     id: 3,
