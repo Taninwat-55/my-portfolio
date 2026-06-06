@@ -21,9 +21,9 @@ const personJsonLd = {
   image: "https://taninwatkaewpankan.xyz/opengraph-image",
   alternateName: "Ice",
   url: "https://taninwatkaewpankan.xyz",
-  jobTitle: "Software Engineer",
+  jobTitle: "Product Engineer",
   description:
-    "Software engineer based in Copenhagen. I build with React, TypeScript, and Next.js — with product thinking built in.",
+    "Product engineer based in Copenhagen. I take products from brief to live — React, TypeScript, Next.js, and full-stack thinking built in.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Copenhagen",
@@ -41,14 +41,14 @@ const personJsonLd = {
     },
   ],
   knowsAbout: [
-    "Software Engineering",
+    "Product Engineering",
     "React",
     "Next.js",
     "TypeScript",
     "Node.js",
     "PostgreSQL",
     "Supabase",
-    "Frontend Development",
+    "Full-Stack Development",
     "Product Thinking",
     "Startup",
     "Copenhagen",
@@ -67,13 +67,13 @@ const personJsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://taninwatkaewpankan.xyz"),
   title: {
-    default: "Taninwat Kaewpankan | Software Engineer",
+    default: "Taninwat Kaewpankan | Product Engineer",
     template: "%s | Taninwat Kaewpankan",
   },
   description:
-    "Software engineer based in Copenhagen. I build with React, TypeScript, and Next.js — with product thinking built in.",
+    "Product engineer based in Copenhagen. I take products from brief to live — React, TypeScript, Next.js, and full-stack thinking built in.",
   keywords: [
-    "Software Engineer",
+    "Product Engineer",
     "React",
     "Next.js",
     "TypeScript",
@@ -82,8 +82,8 @@ export const metadata: Metadata = {
     "Denmark",
   ],
   openGraph: {
-    title: "Taninwat Kaewpankan | Software Engineer",
-    description: "Software engineer based in Copenhagen. Building with React, TypeScript, and Next.js.",
+    title: "Taninwat Kaewpankan | Product Engineer",
+    description: "Product engineer based in Copenhagen. Building end-to-end with React, TypeScript, and Next.js.",
     url: "https://taninwatkaewpankan.xyz",
     siteName: "Taninwat Kaewpankan Portfolio",
     locale: "en_US",
@@ -91,8 +91,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Taninwat Kaewpankan | Software Engineer",
-    description: "Software engineer based in Copenhagen. Building with React, TypeScript, and Next.js.",
+    title: "Taninwat Kaewpankan | Product Engineer",
+    description: "Product engineer based in Copenhagen. Building end-to-end with React, TypeScript, and Next.js.",
   },
   icons: {
     icon: "/icon.svg",

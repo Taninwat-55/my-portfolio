@@ -1,11 +1,11 @@
 # Taninwat Kaewpankan
 
-Software engineer based in Copenhagen, Denmark.
+Product engineer based in Copenhagen, Denmark.
 Personal site: https://taninwatkaewpankan.xyz
 
 ## About
 
-Taninwat Kaewpankan (goes by Ice) is a software engineer with a background in
+Taninwat Kaewpankan (goes by Ice) is a product engineer with a background in
 product thinking and entrepreneurship. Originally from Thailand, he moved to
 Sweden at 16, studied at Uppsala University (BA Game Design & Project
 Management, MSc Entrepreneurship), and now lives in Copenhagen, Denmark.
@@ -23,7 +23,11 @@ Approach: Product thinking, design systems, accessibility, performance
 
 ## Projects
 
-- Bevisly (https://bevisly.com) — Skill verification platform. Full-stack:
+- MockMate (https://mockmate.io) — AI mock interview platform. Joined as frontend
+  developer, now equity partner. Owned full navigation overhaul and product
+  discovery for a platform-wide UI/UX redesign. React, TypeScript, Zustand.
+- Bevisly (https://bevisly.com) — Skill verification platform. Owned end-to-end:
+  defined the two-role model, designed RLS policies, shipped 8+ AI features.
   React, TypeScript, Supabase, PostgreSQL with row-level security.
 - Satoshi Standard (https://www.satoshi-standard.xyz) — Bitcoin purchasing power
   dashboard. React, Tailwind, real-time price API, full Vitest test suite.
@@ -35,7 +39,7 @@ Approach: Product thinking, design systems, accessibility, performance
 
 ## Experience
 
-- Equity Partner & Frontend Developer, Trailr AI (Sep 2025 – Present)
+- Equity Partner & Product Engineer, Trailr AI (Sep 2025 – Present)
 - Head of Organization, Millennial Consulting (2023 – 2025)
 - Business Development Intern, Spreadly (Jan 2023 – Mar 2023)
 
