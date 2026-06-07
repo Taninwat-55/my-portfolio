@@ -87,10 +87,19 @@ function ContactForm() {
     if (Object.keys(errs).length > 0) return;
 
     setSubmitting(true);
-    // TODO: POST to /api/contact or Formspree endpoint
-    await new Promise((r) => setTimeout(r, 800));
-    setSubmitting(false);
-    setSent(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
+      setSent(true);
+    } catch {
+      setErrors({ message: "Something went wrong — try emailing me directly." });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const fieldBase =
