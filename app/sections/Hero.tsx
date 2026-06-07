@@ -83,7 +83,7 @@ function CharacterBubble({ reduced }: { reduced: boolean }) {
       <motion.div
         animate={reduced ? {} : { y: [0, -14, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="relative w-44 h-[315px] lg:w-[240px] lg:h-[427px] rounded-3xl overflow-hidden"
+        className="relative w-44 h-[315px] lg:w-60 lg:h-[427px] rounded-3xl overflow-hidden"
         style={{
           background: "#59918A",
           boxShadow:
