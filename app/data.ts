@@ -255,7 +255,7 @@ export const cases: CaseStudy[] = [
     n: "04",
     tag: "Full Stack",
     title: "Cinema Booking",
-    sub: "A booking engine where data integrity holds regardless of the client.",
+    sub: "My first full-stack project — a complete booking system built with a team of students at Jensen.",
     featured: false,
     images: [
       "/assets/cinema/cinema-index.png",
@@ -263,19 +263,19 @@ export const cases: CaseStudy[] = [
       "/assets/cinema/cinema-seat.png",
     ],
     overview:
-      "Full-stack cinema booking engine — React on the front, Node.js and SQLite on the back. The architecture centres on seat locking handled at the data layer, not the UI.",
+      "A team project from Jensen — full-stack cinema booking engine with React on the front and Node.js + PostgreSQL on the back. Covers the full flow: browse movies, pick a showing, select seats, confirm a booking, and manage it from a user account.",
     challenge:
-      "Concurrent seat reservation is a classic race condition. Any client-side locking approach fails under load — the lock has to live in the database. Most student projects skip this entirely.",
+      "The main learning challenge was keeping client and server in sync across a multi-step booking flow — seat availability, auth state, booking confirmation — without the project falling apart at the seams. For a first full-stack build, that coordination was the hard part.",
     stackWhy:
-      "Node.js and SQLite for lightweight transactions; React for a seat-map UI that had to be fast and visually precise; a clean REST boundary so the backend stays testable in isolation.",
+      "React for the UI, Node.js for the API, PostgreSQL for persistence. Structured around a clean model/controller/route separation so each layer stayed focused and testable in isolation.",
     engineering:
-      "Implemented optimistic concurrency control in SQLite — a transaction checks seat availability and locks atomically, so two simultaneous bookings for the same seat cannot both succeed.",
+      "Built the full REST API from scratch: auth with role-based access (admin and user), seat selection tied to a specific showing, booking creation with confirmation number, history, and cancellation. My first time owning a server, a database schema, and a client simultaneously.",
     metrics: [
-      { v: "0", k: "Race conditions" },
-      { v: "100%", k: "Data integrity" },
-      { v: "60fps", k: "Seat map render" },
+      { v: "PostgreSQL", k: "Database" },
+      { v: "Auth", k: "Admin + user roles" },
+      { v: "Full-stack", k: "React + Node.js" },
     ],
-    stack: ["React", "Node.js", "SQLite", "REST API"],
+    stack: ["React", "Node.js", "PostgreSQL", "REST API"],
     links: {
       demo: "https://cinema-booking-system-project.vercel.app",
       code: "https://github.com/Taninwat-55/cinema-booking-system-project",
@@ -359,7 +359,7 @@ export const projects = [
     ],
     links: {
       demo: "https://bevisly.com/",
-      code: "",
+      code: "https://github.com/Taninwat-55/Bevisly",
     },
     image: "/assets/bevisly/Bevisly-Landing.webp",
   },
@@ -381,8 +381,8 @@ export const projects = [
     title: "Cinema Booking System",
     category: "Full Stack",
     description:
-      "A school project that went further than it needed to. Built a full-stack cinema booking engine — React on the front, Node.js and SQLite on the back. The part I'm most proud of: seat locking and concurrent-request validation handled at the data layer, not the UI. Data integrity holds regardless of what the client does.",
-    tech: ["React", "Node.js", "SQLite", "REST API"],
+      "My first full-stack team project at Jensen. Built a cinema booking engine — React on the front, Node.js and PostgreSQL on the back. Covers the complete flow: browse movies, pick a showing, select seats, confirm, and manage bookings from a user account. Role-based auth for both admin and regular users.",
+    tech: ["React", "Node.js", "PostgreSQL", "REST API"],
     links: {
       demo: "https://cinema-booking-system-project.vercel.app",
       code: "https://github.com/Taninwat-55/cinema-booking-system-project",

@@ -23,7 +23,7 @@ const BADGES = [
   { label: "Copenhagen, DK",   top: "84%", left: "-44%", delay: 0.3 },
   { label: "Product-sharp",    top: "16%", right: "-50%", delay: 0.9 },
   { label: "Full-stack",       top: "50%", right: "-44%", delay: 0.4 },
-  { label: "Enterprise clients",top: "78%",right: "-54%", delay: 1.4 },
+  { label: "Nordisk Film · DR", top: "78%",right: "-54%", delay: 1.4 },
 ];
 
 function FloatingBadge({
