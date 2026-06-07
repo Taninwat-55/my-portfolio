@@ -16,15 +16,14 @@ const fadeUp = {
   },
 };
 
-// Floating skill badges that orbit the character
 const BADGES = [
-  { label: "React",        top: "8%",  left: "-42%", delay: 0 },
-  { label: "TypeScript",   top: "30%", left: "-50%", delay: 0.6 },
-  { label: "Next.js",      top: "62%", left: "-44%", delay: 1.1 },
-  { label: "Tailwind",     top: "84%", left: "-30%", delay: 0.3 },
-  { label: "Accessibility",top: "16%", right: "-52%", delay: 0.9 },
-  { label: "Performance",  top: "50%", right: "-54%", delay: 0.4 },
-  { label: "Supabase",     top: "78%", right: "-44%", delay: 1.4 },
+  { label: "Ships end-to-end", top: "8%",  left: "-52%", delay: 0 },
+  { label: "0 → 1 Builder",    top: "32%", left: "-52%", delay: 0.6 },
+  { label: "Equity Partner",   top: "62%", left: "-50%", delay: 1.1 },
+  { label: "Copenhagen, DK",   top: "84%", left: "-44%", delay: 0.3 },
+  { label: "Product-sharp",    top: "16%", right: "-50%", delay: 0.9 },
+  { label: "Full-stack",       top: "50%", right: "-44%", delay: 0.4 },
+  { label: "Enterprise clients",top: "78%",right: "-54%", delay: 1.4 },
 ];
 
 function FloatingBadge({
