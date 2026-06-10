@@ -122,7 +122,7 @@ export default function OgImage() {
             display: "flex",
           }}
         >
-          Product Engineer
+          Product &amp; Project Coordinator
         </div>
 
         <div

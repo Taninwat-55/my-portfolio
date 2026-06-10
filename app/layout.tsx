@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { MagneticCursor } from "./components/MagneticCursor";
+import { ModeProvider } from "./components/ModeContext";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -21,9 +22,9 @@ const personJsonLd = {
   image: "https://taninwatkaewpankan.xyz/opengraph-image",
   alternateName: "Ice",
   url: "https://taninwatkaewpankan.xyz",
-  jobTitle: "Product Engineer",
+  jobTitle: "Product Generalist & Engineer",
   description:
-    "Product engineer based in Copenhagen. I take products from brief to live — React, TypeScript, Next.js, and full-stack thinking built in.",
+    "Product generalist based in Copenhagen — project coordination, product thinking, and frontend engineering.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Copenhagen",
@@ -41,6 +42,10 @@ const personJsonLd = {
     },
   ],
   knowsAbout: [
+    "Project Coordination",
+    "Product Management",
+    "Agile / Scrum",
+    "Stakeholder Management",
     "Product Engineering",
     "React",
     "Next.js",
@@ -67,23 +72,25 @@ const personJsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://taninwatkaewpankan.xyz"),
   title: {
-    default: "Taninwat Kaewpankan | Product Engineer",
+    default: "Taninwat Kaewpankan | Product & Project Coordinator",
     template: "%s | Taninwat Kaewpankan",
   },
   description:
-    "Product engineer based in Copenhagen. I take products from brief to live — React, TypeScript, Next.js, and full-stack thinking built in.",
+    "Product generalist based in Copenhagen — project coordination, product thinking, and frontend engineering.",
   keywords: [
+    "Project Coordinator",
+    "Junior Product Manager",
+    "Associate Product Manager",
+    "Project Management",
     "Product Engineer",
     "React",
-    "Next.js",
     "TypeScript",
-    "Node.js",
     "Copenhagen",
     "Denmark",
   ],
   openGraph: {
-    title: "Taninwat Kaewpankan | Product Engineer",
-    description: "Product engineer based in Copenhagen. Building end-to-end with React, TypeScript, and Next.js.",
+    title: "Taninwat Kaewpankan | Product & Project Coordinator",
+    description: "Product generalist based in Copenhagen — project coordination, product thinking, and frontend engineering.",
     url: "https://taninwatkaewpankan.xyz",
     siteName: "Taninwat Kaewpankan Portfolio",
     locale: "en_US",
@@ -91,8 +98,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Taninwat Kaewpankan | Product Engineer",
-    description: "Product engineer based in Copenhagen. Building end-to-end with React, TypeScript, and Next.js.",
+    title: "Taninwat Kaewpankan | Product & Project Coordinator",
+    description: "Product generalist based in Copenhagen — project coordination, product thinking, and frontend engineering.",
   },
   icons: {
     icon: "/icon.svg",
@@ -114,7 +121,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
         <MagneticCursor />
-        {children}
+        <ModeProvider>{children}</ModeProvider>
         <GoogleTagManager gtmId="GTM-NJ6FFTVW" />
       </body>
     </html>

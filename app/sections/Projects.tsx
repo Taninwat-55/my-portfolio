@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Github, ChevronLeft, ChevronRight, FileText } from "lucide-react";
-import { cases, type CaseStudy } from "../data";
+import { cases, siteContent, type CaseStudy } from "../data";
+import { useMode } from "../components/ModeContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const SLIDE_DURATION = 4000;
@@ -105,10 +106,29 @@ function ImageSlider({ images, title, tag }: { images: string[]; title: string; 
   );
 }
 
+// ── Text-forward header (for cases without screenshots, e.g. Trailr) ──────────
+
+function TextForwardHeader({ tag, title }: { tag: string; title: string }) {
+  return (
+    <div className="relative w-full aspect-[16/9] overflow-hidden rounded-t-[20px] bg-gradient-to-br from-clay-100 via-sand-100 to-sand-200 flex items-center justify-center">
+      <span className="absolute top-4 left-4 z-10 font-mono text-[11px] tracking-[0.14em] uppercase text-ink-700 bg-sand-50/80 backdrop-blur-sm border border-border px-3 py-1.5 rounded-full">
+        {tag}
+      </span>
+      <span aria-hidden className="font-bold text-4xl md:text-6xl tracking-tight text-clay-500/25 select-none px-6 text-center">
+        {title}
+      </span>
+    </div>
+  );
+}
+
 // ── Featured case study card ──────────────────────────────────────────────────
 
 function FeaturedCard({ c, index }: { c: CaseStudy; index: number }) {
   const reduced = useReducedMotion() ?? false;
+  const mode = useMode();
+  const isPm = mode === "pm";
+  const buildLabel = isPm ? "The decisions" : "How I built it";
+  const buildBody = isPm && c.pmEngineering ? c.pmEngineering : c.engineering;
 
   return (
     <motion.article
@@ -118,7 +138,11 @@ function FeaturedCard({ c, index }: { c: CaseStudy; index: number }) {
       transition={{ duration: 0.7, delay: reduced ? 0 : index * 0.1, ease: EASE }}
       className="border border-border rounded-[22px] overflow-hidden bg-sand-50 hover:border-clay-300 transition-colors mb-7"
     >
-      <ImageSlider images={c.images} title={c.title} tag={c.tag} />
+      {c.images.length > 0 ? (
+        <ImageSlider images={c.images} title={c.title} tag={c.tag} />
+      ) : (
+        <TextForwardHeader tag={c.tag} title={c.title} />
+      )}
 
       <div className="p-7 md:p-10">
         <div className="font-mono text-[13px] text-clay-500 tracking-[0.1em] mb-3">
@@ -139,9 +163,9 @@ function FeaturedCard({ c, index }: { c: CaseStudy; index: number }) {
           </div>
           <div>
             <h4 className="font-mono text-[11px] tracking-[0.14em] uppercase text-ink-300 mb-1.5">
-              How I built it
+              {buildLabel}
             </h4>
-            <p className="text-sm text-ink-600 leading-relaxed">{c.engineering}</p>
+            <p className="text-sm text-ink-600 leading-relaxed">{buildBody}</p>
           </div>
         </div>
 
@@ -168,7 +192,7 @@ function FeaturedCard({ c, index }: { c: CaseStudy; index: number }) {
             {c.links.demo && (
               <a href={c.links.demo} target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-clay-500 text-white text-sm font-medium hover:bg-clay-600 transition-colors">
-                <ArrowUpRight size={14} /> Live demo
+                <ArrowUpRight size={14} /> {c.links.demoLabel ?? "Live demo"}
               </a>
             )}
             {c.links.code && (
@@ -242,8 +266,13 @@ function MiniCard({ c, index }: { c: CaseStudy; index: number }) {
 // ── Section ───────────────────────────────────────────────────────────────────
 
 export function Projects() {
-  const featured = cases.filter((c) => c.featured);
-  const mini = cases.filter((c) => !c.featured);
+  const mode = useMode();
+  const { featuredCaseIds, miniCaseIds, projectsHeading } = siteContent[mode];
+  const byId = new Map(cases.map((c) => [c.id, c]));
+  const resolve = (ids: string[]) =>
+    ids.map((id) => byId.get(id)).filter((c): c is CaseStudy => Boolean(c));
+  const featured = resolve(featuredCaseIds);
+  const mini = resolve(miniCaseIds);
 
   return (
     <section id="projects" aria-label="Projects" className="py-24 md:py-32 border-t border-border">
@@ -266,7 +295,7 @@ export function Projects() {
           transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
           className="text-3xl md:text-4xl font-bold tracking-tight text-ink-900 mb-16"
         >
-          Built to solve real problems.
+          {projectsHeading}
         </motion.h2>
 
         {featured.map((c, i) => (

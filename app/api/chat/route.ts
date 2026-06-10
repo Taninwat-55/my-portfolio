@@ -24,7 +24,7 @@ Keep responses under 150 words unless a detailed answer clearly requires more.
 ${siteContent.aboutStory.join("\n\n")}
 
 == WHAT HE DOES ==
-${siteContent.whatIDo.map((w) => `${w.title}: ${w.body}`).join("\n\n")}
+${siteContent.dev.whatIDo.map((w) => `${w.title}: ${w.body}`).join("\n\n")}
 
 == EXPERIENCE ==
 ${experience.map((e) => `- ${e.role} at ${e.organization} (${e.period}): ${e.description}`).join("\n")}

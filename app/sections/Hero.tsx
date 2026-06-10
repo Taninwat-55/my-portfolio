@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import { ArrowDown, Linkedin, Mail } from "lucide-react";
 import { personalInfo, siteContent } from "../data";
 import { Magnetic } from "../components/Magnetic";
+import { useMode } from "../components/ModeContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -16,15 +17,7 @@ const fadeUp = {
   },
 };
 
-const BADGES = [
-  { label: "Ships end-to-end", top: "8%",  left: "-52%", delay: 0 },
-  { label: "0 → 1 Builder",    top: "32%", left: "-52%", delay: 0.6 },
-  { label: "Equity Partner",   top: "62%", left: "-50%", delay: 1.1 },
-  { label: "Copenhagen, DK",   top: "84%", left: "-44%", delay: 0.3 },
-  { label: "Product-sharp",    top: "16%", right: "-50%", delay: 0.9 },
-  { label: "Full-stack",       top: "50%", right: "-44%", delay: 0.4 },
-  { label: "Nordisk Film · DR", top: "78%",right: "-54%", delay: 1.4 },
-];
+type Badge = { label: string; top: string; left?: string; right?: string; delay: number };
 
 function FloatingBadge({
   label,
@@ -62,11 +55,11 @@ function FloatingBadge({
 }
 
 // ── Character — Option B: frosted glass container with glow ───────────────────
-function CharacterBubble({ reduced }: { reduced: boolean }) {
+function CharacterBubble({ reduced, badges }: { reduced: boolean; badges: Badge[] }) {
   return (
     <div className="relative mx-auto lg:mx-0 shrink-0 mt-10 lg:mt-0">
       {/* Floating badges */}
-      {BADGES.map((b) => {
+      {badges.map((b) => {
         const { label, delay, top, ...pos } = b;
         return (
           <FloatingBadge
@@ -127,7 +120,8 @@ function CharacterBubble({ reduced }: { reduced: boolean }) {
 // ── Marquee ────────────────────────────────────────────────────────────────────
 function TechMarquee() {
   const reduced = useReducedMotion() ?? false;
-  const items = [...siteContent.techMarquee, ...siteContent.techMarquee];
+  const mode = useMode();
+  const items = [...siteContent[mode].techMarquee, ...siteContent[mode].techMarquee];
 
   return (
     <div
@@ -162,6 +156,8 @@ function TechMarquee() {
 // ── Section ────────────────────────────────────────────────────────────────────
 export function Hero() {
   const prefersReducedMotion = useReducedMotion() ?? false;
+  const mode = useMode();
+  const c = siteContent[mode];
   const { scrollY } = useScroll();
 
   const contentOpacity = useTransform(
@@ -204,7 +200,7 @@ export function Hero() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-clay-500 opacity-60" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-clay-500" />
                 </span>
-                <span className="text-sm text-ink-500">{siteContent.availability}</span>
+                <span className="text-sm text-ink-500">{c.availability}</span>
               </motion.div>
 
               <motion.p
@@ -218,12 +214,12 @@ export function Hero() {
                 variants={fadeUp}
                 className="font-sans text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] text-ink-900 mb-5 max-w-xl"
               >
-                {siteContent.heroHook.map((line, li) => (
+                {c.heroHook.map((line, li) => (
                   <span key={li} className="block">
                     {line.split(" ").map((word, wi) => (
                       <span
                         key={wi}
-                        className={siteContent.heroHookAccents.has(word) ? "text-clay-500" : undefined}
+                        className={c.heroHookAccents.includes(word) ? "text-clay-500" : undefined}
                       >
                         {word}{" "}
                       </span>
@@ -236,7 +232,7 @@ export function Hero() {
                 variants={fadeUp}
                 className="text-base md:text-lg text-ink-500 max-w-sm leading-relaxed mb-12"
               >
-                {siteContent.heroPhilosophy}
+                {c.heroPhilosophy}
               </motion.p>
 
               <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3">
@@ -265,7 +261,7 @@ export function Hero() {
 
             {/* Right: character with floating badges */}
             <motion.div variants={fadeUp}>
-              <CharacterBubble reduced={prefersReducedMotion} />
+              <CharacterBubble reduced={prefersReducedMotion} badges={c.badges} />
             </motion.div>
           </div>
         </motion.div>

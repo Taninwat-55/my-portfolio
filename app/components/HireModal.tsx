@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, FileDown, Linkedin, Check, X } from "lucide-react";
 import { personalInfo, siteContent } from "../data";
+import { useMode } from "./ModeContext";
 
 interface HireModalProps {
   isOpen: boolean;
@@ -12,6 +13,8 @@ interface HireModalProps {
 
 export function HireModal({ isOpen, onClose }: HireModalProps) {
   const [copied, setCopied] = useState(false);
+  const mode = useMode();
+  const cvLink = siteContent[mode].cvLink;
 
   // Close on Escape key
   useEffect(() => {
@@ -127,7 +130,7 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
 
                 {/* Download CV */}
                 <a
-                  href={siteContent.cvLink}
+                  href={cvLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-sand-200 transition-colors group"

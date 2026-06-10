@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import { experience } from "../data";
+import { useMode } from "../components/ModeContext";
 
 export function ExperienceTimeline() {
+  const mode = useMode();
   return (
     <section
       id="experience"
@@ -34,6 +36,9 @@ export function ExperienceTimeline() {
           <div className="space-y-10">
             {experience.map((entry, index) => {
               const isWork = entry.type === "work";
+              const pmDescription = (entry as { pmDescription?: string }).pmDescription;
+              const description =
+                mode === "pm" && pmDescription ? pmDescription : entry.description;
 
               return (
                 <motion.div
@@ -74,7 +79,7 @@ export function ExperienceTimeline() {
                     {entry.organization} · {entry.period}
                   </div>
                   <p className="text-sm leading-relaxed text-ink-500 max-w-2xl">
-                    {entry.description}
+                    {description}
                   </p>
                 </motion.div>
               );

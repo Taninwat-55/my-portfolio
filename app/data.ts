@@ -3,7 +3,6 @@
 
 export const personalInfo = {
   name: "Taninwat Kaewpankan",
-  role: "Product Engineer",
   location: "Copenhagen, Denmark",
   email: "taninwat.kaewpankan@gmail.com",
   socials: {
@@ -14,23 +13,103 @@ export const personalInfo = {
 
 // ─── HERO / ABOUT COPY ────────────────────────────────────────────────────────
 
-export const siteContent = {
-  availability: "Open to Product Engineer roles",
+export type Mode = "pm" | "dev";
 
-  heroIntro: "Taninwat Kaewpankan",
-  heroLine: "Engineer. Builder. Thinker.",
-  heroSubtitle: "Product engineer who ships end-to-end.",
+type SkillItem = [name: string, level: number];
+type SkillColumn = { group: string; items: SkillItem[] };
+type Badge = { label: string; top: string; left?: string; right?: string; delay: number };
 
-  aboutStory: [
-    "I moved to Sweden at 16 with no Swedish and no plan. I learned the language, rebuilt my grades, and worked every job that would have me — cleaning, waiting tables, running a food truck, bartending, sorting packages through the night.",
-    "Somewhere between the food truck and the night shifts, I decided I wanted more.",
-    "Before Uppsala, there was York, England. I moved there alone — fully by choice, for the first time in my life. Eight months of living completely independently, pushing my English further, figuring out who I was when nobody knew me or had any expectations of me. I had planned to study there. Brexit made it complicated. Uppsala said yes. So I followed.",
-    "Uppsala University — one of Scandinavia's oldest. Not where I expected to end up, but I stopped questioning where life was sending me. Three years studying how interactive systems get designed and how projects actually get shipped. The most valuable thing wasn't any specific course — it was wearing the PM hat on real team projects, learning what it actually costs to take something from an idea to a finished thing. Then a Master's in Entrepreneurship. Because building was the only thing I ever kept coming back to.",
-    "Denmark wasn't the plan. But life pointed there, and I've learned not to argue with that. A new country, again. The same familiar question: what do I make of this? I found Millennial Consulting — joined the operations team, adapted quickly to how things worked, and eventually grew into leading the organization.",
-    "I wanted to become a more complete builder — someone who understands technical constraints, not just concepts. So I enrolled in a two-year professional program in frontend development at Jensen, which led me into an internship at Trailr AI. A few months later, I became an equity partner. I graduated from Jensen in May 2026.",
-    "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language — just with a few more tools.",
+// Mode-specific copy. `dev` = the canonical/base content the chatbot reads;
+// `pm` = the project-coordination / junior-PM narrative (default mode on the site).
+interface ModeContent {
+  roleLabel: string;
+  availability: string;
+  heroHook: string[];
+  heroHookAccents: string[];
+  heroPhilosophy: string;
+  cvLink: string;
+  whatIDo: { title: string; body: string }[];
+  skills: SkillColumn[];
+  badges: Badge[];
+  featuredSlugs: string[];
+  techMarquee: string[];
+  projectsHeading: string;
+  featuredCaseIds: string[];  // large case-study cards, in order
+  miniCaseIds: string[];      // small "also built" cards, in order
+}
+
+const pmContent: ModeContent = {
+  roleLabel: "Product & Project Coordinator",
+  availability: "Open to project coordination & junior PM roles",
+  heroHook: ["I figure out what to build — then make sure it ships."],
+  heroHookAccents: ["build", "ships."],
+  heroPhilosophy:
+    "Product judgment proven by shipping; delivery proven across four cycles of client work. Technical enough to talk directly with developers.",
+  cvLink: "/assets/Taninwat_Kaewpankan_CV_PM.pdf",
+  whatIDo: [
+    {
+      title: "Product & Project Coordination",
+      body: "I keep work moving: scoping, prioritization, stakeholder alignment, and delivery. At Millennial Consulting I grew from operations team member to Head of Organization across four cycles, coordinating up to five simultaneous client projects each cycle with no full-time staff.",
+    },
+    {
+      title: "Product Thinking",
+      body: "I start from the problem, not the feature list. On my own products I've owned every product decision — what to build, what to cut, and why. The ghosting-score mechanism in Bevisly and the two-flow AI design in MockMate came from that work.",
+    },
+    {
+      title: "AI-Native Execution",
+      body: "I use AI tools as a core part of how I work: I do the product thinking, direct AI for implementation speed, and review everything that ships. It means I can prototype my own ideas instead of just describing them.",
+    },
   ],
+  skills: [
+    {
+      group: "Product & Delivery",
+      items: [
+        ["Prioritization", 3], ["Roadmapping", 3], ["Agile / Scrum", 3],
+        ["Stakeholder Management", 3], ["Project Management (Google certified)", 3],
+      ],
+    },
+    {
+      group: "Research & Communication",
+      items: [
+        ["Competitive Research", 3], ["User Journeys & Personas", 3],
+        ["Documentation / PRDs", 3], ["Workshop Facilitation", 3],
+        ["English / Swedish (fluent) · Danish (learning)", 3],
+      ],
+    },
+    {
+      group: "Technical (working level)",
+      items: [
+        ["React / TypeScript", 2], ["SQL / PostgreSQL", 2], ["Git / GitHub", 2],
+        ["Figma", 2], ["Analytics", 2],
+      ],
+    },
+  ],
+  badges: [
+    { label: "Runs projects A→Z",   top: "8%",  left: "-52%", delay: 0 },
+    { label: "Google PM certified", top: "32%", left: "-52%", delay: 0.6 },
+    { label: "Agile & Scrum",       top: "62%", left: "-50%", delay: 1.1 },
+    { label: "Kanban",              top: "84%", left: "-44%", delay: 0.3 },
+    { label: "Prototypes in code",  top: "16%", right: "-50%", delay: 0.9 },
+    { label: "Roadmapping",         top: "78%", right: "-54%", delay: 1.4 },
+  ],
+  featuredSlugs: ["mvp-prioritization", "bridging-stakeholders-engineers", "leading-volunteers"],
+  techMarquee: [
+    "Prioritization", "Roadmapping", "Agile / Scrum", "Stakeholder Management",
+    "User Research", "PRDs & Specs", "Figma", "Analytics", "React / TypeScript", "SQL",
+  ],
+  projectsHeading: "Where I drive outcomes.",
+  featuredCaseIds: ["millennial", "trailr"],
+  miniCaseIds: ["mockmate", "bevisly", "satoshi", "cinema", "racha"],
+};
 
+const devContent: ModeContent = {
+  roleLabel: "Product Engineer",
+  availability: "Open to Product Engineer roles",
+  heroHook: ["I take products from brief to live."],
+  heroHookAccents: ["brief", "live."],
+  heroPhilosophy:
+    "I move from brief to shipped — fast, product-sharp, and sweating the right details.",
+  cvLink: "/assets/Taninwat_Kaewpankan_CV_Product.pdf",
   whatIDo: [
     {
       title: "Full-Stack Engineering",
@@ -45,22 +124,71 @@ export const siteContent = {
       body: "I've never needed a playbook to get started. I use AI tools as a core part of how I work — not as a buzzword, but because it makes me faster and sharper. I move quickly, ask questions when stuck, and care more about shipping than perfecting.",
     },
   ],
+  skills: [
+    {
+      group: "Frontend",
+      items: [
+        ["React", 3], ["Next.js", 3], ["TypeScript", 3],
+        ["Tailwind CSS", 3], ["HTML / CSS", 3], ["AI SDK", 2],
+      ],
+    },
+    {
+      group: "Backend & Data",
+      items: [
+        ["Node.js", 2], ["PostgreSQL", 2], ["Prisma", 2],
+        ["REST / WS", 2], ["AWS Lambda", 2],
+      ],
+    },
+    {
+      group: "Craft & Tools",
+      items: [
+        ["Performance", 3], ["Git / GitHub", 3], ["Figma", 2],
+        ["Analytics", 2], ["Accessibility", 2],
+      ],
+    },
+  ],
+  badges: [
+    { label: "Ships end-to-end",         top: "8%",  left: "-52%", delay: 0 },
+    { label: "0 → 1 Builder",            top: "32%", left: "-52%", delay: 0.6 },
+    { label: "Early team · Trailr AI",   top: "62%", left: "-50%", delay: 1.1 },
+    { label: "Copenhagen, DK",           top: "84%", left: "-44%", delay: 0.3 },
+    { label: "Product-sharp",            top: "16%", right: "-50%", delay: 0.9 },
+    { label: "Full-stack",               top: "50%", right: "-44%", delay: 0.4 },
+    { label: "Nordisk Film · DR pilots", top: "78%", right: "-54%", delay: 1.4 },
+  ],
+  featuredSlugs: ["bevisly", "shipping-at-trailr", "speed-as-strategy"],
+  techMarquee: [
+    "React", "Next.js", "TypeScript", "Tailwind CSS",
+    "PostgreSQL", "Prisma", "AI SDK", "AWS Lambda",
+  ],
+  projectsHeading: "Built to solve real problems.",
+  featuredCaseIds: ["mockmate", "bevisly", "satoshi"],
+  miniCaseIds: ["cinema", "racha"],
+};
+
+export const siteContent = {
+  // ── Shared across modes ──
+  heroIntro: "Taninwat Kaewpankan",
+
+  aboutStory: [
+    "I moved to Sweden at 16 with no Swedish and no plan. I learned the language, rebuilt my grades, and worked every job that would have me — cleaning, waiting tables, running a food truck, bartending, sorting packages through the night.",
+    "Somewhere between the food truck and the night shifts, I decided I wanted more.",
+    "Before Uppsala, there was York, England. I moved there alone — fully by choice, for the first time in my life. Eight months of living completely independently, pushing my English further, figuring out who I was when nobody knew me or had any expectations of me. I had planned to study there. Brexit made it complicated. Uppsala said yes. So I followed.",
+    "Uppsala University — one of Scandinavia's oldest. Not where I expected to end up, but I stopped questioning where life was sending me. Three years studying how interactive systems get designed and how projects actually get shipped. The most valuable thing wasn't any specific course — it was wearing the PM hat on real team projects, learning what it actually costs to take something from an idea to a finished thing. Then a Master's in Entrepreneurship. Because building was the only thing I ever kept coming back to.",
+    "Denmark wasn't the plan. But life pointed there, and I've learned not to argue with that. A new country, again. The same familiar question: what do I make of this? I found Millennial Consulting — joined the operations team, adapted quickly to how things worked, and eventually grew into leading the organization.",
+    "I wanted to become a more complete builder — someone who understands technical constraints, not just concepts. So I enrolled in a two-year professional program in frontend development at Jensen, which led me into an internship at Trailr AI. After graduating, I stayed on part-time as an early team member with equity warrants. I graduated from Jensen in May 2026.",
+    "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language — just with a few more tools.",
+  ],
 
   contactHeading: "Let's talk.",
   contactBody:
     "If something here caught your attention — a project, a role, or just curiosity — I'd love to hear from you. No formal process needed. Just send an email and we'll go from there.",
 
-  cvLink: "/assets/Taninwat_Kaewpankan_CV_Product.pdf",
   cvLabel: "Download Resume",
 
-  heroHook: ["I take products from brief to live."],
-  heroHookAccents: new Set(["brief", "live."]),
-  heroPhilosophy:
-    "I move from brief to shipped — fast, product-sharp, and sweating the right details.",
-  techMarquee: [
-    "React", "Next.js", "TypeScript", "Tailwind CSS",
-    "PostgreSQL", "Prisma", "AI SDK", "AWS Lambda",
-  ],
+  // ── Mode-specific ──
+  pm: pmContent,
+  dev: devContent,
 };
 
 // ─── EXPERIENCE ───────────────────────────────────────────────────────────────
@@ -69,11 +197,13 @@ export const experience = [
   {
     id: "work-trailr",
     type: "work",
-    role: "Frontend Developer → Equity Partner",
+    role: "Frontend Developer → Product Engineer (part-time)",
     organization: "Trailr.ai (Remote)",
     period: "Sep 2025 – Present",
     description:
-      "Joined as a frontend developer at an early-stage AI startup, now an equity partner with a signed shareholder agreement. Took on a full navigation overhaul in React and Zustand, owned product discovery for a platform-wide UI/UX redesign, and shipped features continuously as the platform grew from early days to real clients. The product direction work landed in enterprise trials with Nordisk Film and DR.",
+      "Joined as a frontend intern at an early-stage AI startup; after graduating, continued part-time with equity warrants. Led the redesign of the platform's UI/UX — benchmarked direct and indirect competitors, synthesized findings into a design direction, and scoped the work to what the existing backend could support, cutting features rather than forcing backend changes. Took on a full navigation overhaul in React and Zustand. The platform secured enterprise trials with Nordisk Film and DR during this period.",
+    pmDescription:
+      "Led the redesign of the platform's UI/UX — benchmarked direct and indirect competitors, synthesized findings into a design direction, and scoped the work to what the existing backend could support, cutting features rather than forcing backend changes. Joined as a frontend intern; after graduating, continued part-time with equity warrants. Also took on a full navigation overhaul in React and Zustand. The platform secured enterprise trials with Nordisk Film and DR during this period.",
   },
   {
     id: "edu-1",
@@ -92,6 +222,8 @@ export const experience = [
     period: "2023 – 2025",
     description:
       "Joined with no formal onboarding. Grew from Head of Operations to leading the organization — managing consulting deliveries, coordinating teams, owning the budget, and building processes for an org that was figuring itself out as it grew.",
+    pmDescription:
+      "Grew across four cycles from operations team member to Head of Operations to Head of Organization, coordinating around five simultaneous client projects per cycle with no full-time staff. Introduced a hybrid Agile/waterfall process — fixed milestones for clients, flexible mentor sessions for teams — ran it in parallel until it proved itself, and saw it adopted org-wide. Coordinated partner-firm workshops (PwC, BearingPoint, EY-Parthenon, Round) and staffed teams to projects.",
   },
   {
     id: "work-2",
@@ -122,57 +254,32 @@ export const experience = [
   },
 ];
 
-// ─── SKILLS ───────────────────────────────────────────────────────────────────
-
-export const skills = [
-  {
-    group: "Frontend",
-    items: [
-      ["React", 3], ["Next.js", 3], ["TypeScript", 3],
-      ["Tailwind CSS", 3], ["HTML / CSS", 3], ["AI SDK", 2],
-    ] as [string, number][],
-  },
-  {
-    group: "Backend & Data",
-    items: [
-      ["Node.js", 2], ["PostgreSQL", 2], ["Prisma", 2],
-      ["REST / WS", 2], ["AWS Lambda", 2],
-    ] as [string, number][],
-  },
-  {
-    group: "Craft & Tools",
-    items: [
-      ["Performance", 3], ["Git / GitHub", 3], ["Figma", 2],
-      ["Analytics", 2], ["Accessibility", 2],
-    ] as [string, number][],
-  },
-];
-
 // ─── CASE STUDIES ─────────────────────────────────────────────────────────────
 
 export interface CaseStudy {
+  id: string;  // referenced by ModeContent featuredCaseIds / miniCaseIds
   n: string;
   tag: string;
   title: string;
   sub: string;
-  featured: boolean;
-  images: string[];  // 1–3 screenshots; tiled automatically
+  images: string[];  // 0 = text-forward card; 1+ = screenshot slider
   overview: string;
   challenge: string;
   stackWhy: string;
   engineering: string;
+  pmEngineering?: string;  // PM-mode "The decisions" copy; falls back to `engineering`
   metrics: { v: string; k: string }[];
   stack: string[];
-  links: { demo: string; code: string; docs?: string };
+  links: { demo: string; code: string; docs?: string; demoLabel?: string };
 }
 
 export const cases: CaseStudy[] = [
   {
+    id: "mockmate",
     n: "01",
     tag: "AI SaaS",
     title: "MockMate",
     sub: "Paste a job description. Get a tailored interview. Get graded like a hiring panel would.",
-    featured: true,
     images: [
       "/assets/mockmate/mockmate-landing.png",
       "/assets/mockmate/mockmate-dashboard.png",
@@ -186,6 +293,8 @@ export const cases: CaseStudy[] = [
       "Next.js App Router for full-stack delivery in one repo. Google Gemini via the Vercel AI SDK for streaming question generation and answer grading. AWS Lambda for heavy grading jobs so the UI never blocks. Prisma for a typed data layer. PDF.js to parse uploaded resumes. PostHog to see where users drop off.",
     engineering:
       "Built an AI pipeline: JD upload → Gemini parses role requirements → generates targeted questions → streams answers → grading runs in AWS Lambda with structured Zod-validated output. Resume uploads are parsed with PDF.js and fed into the question-generation context so questions match the candidate's actual background.",
+    pmEngineering:
+      "Owned the product end to end: deliberately separated the AI into two flows — a live interview conversation and a separate grading pass — because mixing them made feedback inconsistent. Prioritized reliability (answers persist before AI processing, so a failed call never loses work) and kept the completion screen instant by pushing email delivery to a background job.",
     metrics: [
       { v: "Live", k: "Product" },
       { v: "Gemini", k: "Interview engine" },
@@ -195,11 +304,11 @@ export const cases: CaseStudy[] = [
     links: { demo: "https://mockmate.space/", code: "https://github.com/Taninwat-55/mockmate", docs: "https://github.com/Taninwat-55/mockmate/blob/main/docs/PRD.md" },
   },
   {
+    id: "bevisly",
     n: "02",
     tag: "SaaS Platform",
     title: "Bevisly",
     sub: "Turn skill claims into structured, verifiable proof.",
-    featured: true,
     images: [
       "/assets/bevisly/Bevisly-Landing.webp",
       "/assets/bevisly/bevisly-candidate.webp",
@@ -212,7 +321,9 @@ export const cases: CaseStudy[] = [
     stackWhy:
       "Supabase for RLS-based multi-role auth so security lives in the database, not the frontend. React and TypeScript on the front so the data model surfaces cleanly in the component tree. Next.js for SSR and SEO.",
     engineering:
-      "Owned the product end-to-end: defined the two-role model (candidate and employer), designed RLS policies before writing a single line of UI, and shipped 8+ AI features on top of a security layer most side projects skip entirely.",
+      "Owned the product end-to-end: defined the two-role model (candidate and employer), chose database-level row security over application-level checks, and designed those policies before writing UI, then shipped 8+ AI features on top of a security layer most side projects skip entirely.",
+    pmEngineering:
+      "Mapped personas, core journeys, and constraints before building. Defined the two-role model and chose database-level security over application-level checks. Designed the Employer Responsibility Score and Candidate Reliability Score to make ghosting visible and costly — an incentive-design decision, not a feature request.",
     metrics: [
       { v: "RLS", k: "Database security" },
       { v: "8+", k: "AI features" },
@@ -222,11 +333,11 @@ export const cases: CaseStudy[] = [
     links: { demo: "https://bevisly.com/", code: "https://github.com/Taninwat-55/Bevisly" },
   },
   {
+    id: "satoshi",
     n: "03",
     tag: "FinTech",
     title: "Satoshi Standard",
     sub: "Live Bitcoin purchasing-power dashboard across every major currency.",
-    featured: true,
     images: [
       "/assets/satoshi-standard/satoshi-dashboard.webp",
       "/assets/satoshi-standard/Dashboard.webp",
@@ -240,6 +351,8 @@ export const cases: CaseStudy[] = [
       "React and Tailwind for the live UI; Vitest to pin the conversion logic so refactors can't silently break numbers users depend on. No heavyweight state library — co-located state was enough.",
     engineering:
       "Identified the product gap, scoped the feature set, and shipped it. Pushed all derived math into selectors so only cells with changed values re-render. The test suite runs against pure conversion functions so coverage is fast and the maths stays trusted across iterations.",
+    pmEngineering:
+      "Identified the product gap, scoped a deliberately small feature set, and shipped it. The product call: show prices in sats so amounts feel like real money — the entire thesis is one UX decision.",
     metrics: [
       { v: "3", k: "Price APIs" },
       { v: "Groq AI", k: "Streaming chat" },
@@ -252,11 +365,11 @@ export const cases: CaseStudy[] = [
     },
   },
   {
+    id: "cinema",
     n: "04",
     tag: "Full Stack",
     title: "Cinema Booking",
     sub: "My first full-stack project — a complete booking system built with a team of students at Jensen.",
-    featured: false,
     images: [
       "/assets/cinema/cinema-index.png",
       "/assets/cinema/cinema-movie-id.png",
@@ -282,11 +395,11 @@ export const cases: CaseStudy[] = [
     },
   },
   {
+    id: "racha",
     n: "05",
     tag: "Commercial",
     title: "Racha Beauty",
     sub: "From zero web presence to 95+ Lighthouse and local search visibility.",
-    featured: false,
     images: [
       "/assets/racha/Racha_img.webp",
       "/assets/racha/about-racha.webp",
@@ -312,16 +425,82 @@ export const cases: CaseStudy[] = [
       code: "https://github.com/Taninwat-55/rachabeautywellness",
     },
   },
+
+  // ── PM-mode case studies (team/coordination contexts) ──
+  {
+    id: "millennial",
+    n: "01",
+    tag: "Operations & Delivery",
+    title: "Millennial Consulting",
+    sub: "Coordinating a 25-consultant student consultancy across simultaneous client projects.",
+    images: [
+      "/assets/millennial/Millennial_Fall2024.webp",
+      "/assets/millennial/Millennial_Spring2025.webp",
+      "/assets/millennial/spring2025_ice-break.webp",
+      "/assets/millennial/fall2024_hot-seat.webp",
+    ],
+    overview:
+      "A student-run strategy consultancy under the non-profit Station in Copenhagen, delivering pro-bono projects to real startups in 8-week cycles. Across four cycles I grew from operations team member to Head of Operations to Head of Organization.",
+    challenge:
+      "Every 8-week cycle ran ~5 client projects and 25–28 consultants in parallel — with no full-time staff and volunteers who could walk away at any time. The hard part was never a single project; it was keeping simultaneous engagements, student teams, partner firms, and clients aligned and delivering on time, in an org where authority was earned, not assigned.",
+    stackWhy:
+      "Process over tooling — lightweight structure the volunteers would actually adopt, plus partner-firm workshops to level the teams up.",
+    engineering:
+      "Spent my first two cycles as an operations team member learning how delivery actually worked, then led operations as Operations Manager, and ran the whole organization in my final cycle. I introduced a hybrid Agile/waterfall process — fixed milestones clients could rely on, flexible mentor sessions so teams could pivot on feedback — and ran it in parallel until it earned its place and was adopted org-wide. I staffed teams to projects, coordinated partner-firm workshops (PwC, BearingPoint, EY-Parthenon, Round), and led by enablement rather than micromanagement.",
+    metrics: [
+      { v: "5", k: "Clients / cycle (parallel)" },
+      { v: "4 cycles", k: "Member → Head of Org" },
+      { v: "Org-wide", k: "Process I introduced" },
+    ],
+    stack: ["Agile / Scrum", "Stakeholder Management", "Team Staffing", "Workshop Facilitation", "Process Design"],
+    links: {
+      demo: "https://www.millennialconsulting.dk",
+      code: "",
+      demoLabel: "Visit website",
+    },
+  },
+  {
+    id: "trailr",
+    n: "02",
+    tag: "Product · AI Startup",
+    title: "Trailr AI",
+    sub: "Leading a platform redesign at an early-stage AI video startup.",
+    images: [
+      "/assets/trailr/trailr-hero.webp",
+      "/assets/trailr/trailr-clip-generator.webp",
+      "/assets/trailr/trailr-screening-room.webp",
+      "/assets/trailr/trailr-story-builder.webp",
+    ],
+    overview:
+      "An early-stage AI video platform that secured enterprise trials with Nordisk Film and DR. I joined as a frontend intern and, after graduating, continued part-time with equity warrants — owning the product side of a full UI/UX redesign.",
+    challenge:
+      "The platform had grown feature-first and the UX had drifted. The real constraint: improve the product meaningfully without forcing backend changes a small team couldn't afford. The job was deciding what was worth building against what the existing backend could actually support.",
+    stackWhy:
+      "Product judgment over raw output — competitor research to find the gaps, ruthless scoping to ship within real constraints.",
+    engineering:
+      "Benchmarked direct and indirect competitors, synthesized the findings into a single design direction, and scoped ruthlessly to the backend's limits — cutting features rather than forcing rewrites. When the navigation proved convoluted, I led a 'click-reduction' overhaul — pulling Settings and Feedback out of the primary workspace so screening and building stayed front-and-centre. After the Nordisk Film pitch surfaced a need to make the AI less of a black box, I pushed for a 'thinking' UI that streams the model's reasoning word-by-word — trading a flashy result for the transparency enterprise clients actually trust. Throughout, I worked directly with the founder and engineers to sequence what shipped.",
+    metrics: [
+      { v: "Nordisk Film · DR", k: "Enterprise trials" },
+      { v: "Full redesign", k: "Scoped to backend" },
+      { v: "Nav overhaul", k: "Shipped" },
+    ],
+    stack: ["Competitive Research", "Product Scoping", "UI/UX Direction", "React", "Zustand"],
+    links: {
+      demo: "https://trailr.ai",
+      code: "",
+      demoLabel: "Visit Trailr",
+    },
+  },
 ];
 
 // ─── CHATBOT CONTEXT ──────────────────────────────────────────────────────────
 
 export const chatbotContext = `
-Taninwat is actively job searching as of June 2026. He just graduated from Jensen Yrkeshögskola's Frontend Developer program (May 2026) and is looking for his first professional role in tech — ideally a Product Engineer role — a position where he can own delivery end-to-end: shaping product direction, building the thing, and iterating on real feedback. He's comfortable going full-stack when the work calls for it.
+Taninwat is actively job searching as of June 2026. He just graduated from Jensen Yrkeshögskola's Frontend Developer program (May 2026) and is looking for his first professional role in tech — primarily project coordination, junior PM, or product-adjacent roles at small companies — and also open to Product Engineer roles. He wants a position where he can own delivery end-to-end: shaping product direction, building the thing, and iterating on real feedback. He's comfortable going full-stack when the work calls for it.
 
 He's based in Denmark and holds dual Thai-Swedish citizenship, so he can work anywhere in the EU/Schengen without visa complications. He's open to roles in Denmark, Sweden, or remote.
 
-He's honest about where he stands: his degree is a vocational frontend program, not a CS degree, so he doesn't pretend to be a systems engineer. What he does bring is genuine project delivery experience — he's shipped real products (Bevisly — a skill-verification SaaS; MockMate — an AI interview platform; a commercial client site; a full-stack booking system), led an organisation as Head of Operations at Millennial Consulting, and holds a small equity stake at an early-stage AI startup (Trailr AI) as a partner.
+He's honest about where he stands: his degree is a vocational frontend program, not a CS degree, so he doesn't pretend to be a systems engineer. What he does bring is genuine project delivery experience — he's shipped real products (Bevisly — a skill-verification SaaS; MockMate — an AI interview platform; a commercial client site; a full-stack booking system), led an organisation as Head of Operations at Millennial Consulting, and holds equity warrants at an early-stage AI startup (Trailr AI), where he contributes part-time.
 
 He works best in environments where he can own something end-to-end, figure things out without constant hand-holding, and collaborate closely with a small team. He's not looking for the biggest company — he's looking for the right fit.
 

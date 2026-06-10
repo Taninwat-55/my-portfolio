@@ -2,8 +2,11 @@
 
 import { motion } from "framer-motion";
 import { siteContent } from "../data";
+import { useMode } from "../components/ModeContext";
 
 export function WhatIDo() {
+  const mode = useMode();
+  const whatIDo = siteContent[mode].whatIDo;
   return (
     <section id="what-i-do" aria-label="What I Do" className="py-24 md:py-32 bg-sand-200">
       <div className="container mx-auto px-6 max-w-5xl">
@@ -20,7 +23,7 @@ export function WhatIDo() {
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
-          {siteContent.whatIDo.map((item, i) => (
+          {whatIDo.map((item, i) => (
             <motion.div
               key={item.title}
               initial={{ opacity: 0, y: 20 }}

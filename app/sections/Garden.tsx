@@ -1,18 +1,25 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Clock } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { getPostData, type Post } from "../lib/posts";
+import { siteContent } from "../data";
 import { GardenAnimator } from "./GardenAnimator";
+import { GardenFeatured, type FeaturedPost } from "./GardenFeatured";
 
-const FEATURED_SLUGS = [
-  "bevisly",
-  "shipping-at-trailr",
-  "speed-as-strategy",
-] as const;
+function resolveFeatured(slugs: string[]): FeaturedPost[] {
+  return slugs
+    .map((slug) => getPostData(slug))
+    .filter((p): p is Post => p !== null)
+    .map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      category: p.category,
+      readTime: p.readTime,
+    }));
+}
 
 export function Garden() {
-  const featured = FEATURED_SLUGS.map((slug) => getPostData(slug)).filter(
-    (p): p is Post => p !== null
-  );
+  const pmFeatured = resolveFeatured(siteContent.pm.featuredSlugs);
+  const devFeatured = resolveFeatured(siteContent.dev.featuredSlugs);
 
   return (
     <section
@@ -36,11 +43,7 @@ export function Garden() {
           </div>
 
           {/* Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-            {featured.map((post) => (
-              <PostCard key={post.slug} post={post} />
-            ))}
-          </div>
+          <GardenFeatured pm={pmFeatured} dev={devFeatured} />
 
           {/* CTA */}
           <div>
@@ -56,33 +59,5 @@ export function Garden() {
         </GardenAnimator>
       </div>
     </section>
-  );
-}
-
-function PostCard({ post }: { post: Post }) {
-  return (
-    <Link
-      href={`/garden/${post.slug}`}
-      aria-label={`Read: ${post.title}`}
-      className="group flex flex-col h-full p-6 rounded-xl border border-border bg-sand-50 hover:border-clay-300 transition-colors"
-    >
-      <div className="flex items-start justify-between gap-3 mb-5">
-        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-clay-100 text-clay-600">
-          {post.category}
-        </span>
-        <span aria-hidden className="text-ink-300 group-hover:text-clay-500 transition-colors">
-          <ArrowUpRight size={16} />
-        </span>
-      </div>
-
-      <h3 className="text-base font-semibold leading-snug text-ink-900 group-hover:text-clay-600 transition-colors mb-auto">
-        {post.title}
-      </h3>
-
-      <div className="mt-6 pt-5 border-t border-border flex items-center gap-2 text-ink-300 text-xs">
-        <Clock size={11} strokeWidth={1.5} />
-        <span>{post.readTime}</span>
-      </div>
-    </Link>
   );
 }

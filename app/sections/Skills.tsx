@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { skills } from "../data";
+import { siteContent } from "../data";
+import { useMode } from "../components/ModeContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -22,6 +23,8 @@ function SkillDots({ level }: { level: number }) {
 
 export function Skills() {
   const reduced = useReducedMotion() ?? false;
+  const mode = useMode();
+  const skills = siteContent[mode].skills;
 
   return (
     <section id="skills" aria-label="Skills" className="py-24 md:py-32 border-t border-border">

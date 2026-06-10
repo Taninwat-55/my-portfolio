@@ -1,7 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowUpRight, Github, Linkedin, Mail, MapPin, FileDown } from "lucide-react";
 import { personalInfo, siteContent } from "../data";
-// personalInfo.email used in Elsewhere; siteContent.cvLink used in Elsewhere
+import { useMode } from "../components/ModeContext";
 import { CopenhagenAtmosphere } from "../components/CopenhagenAtmosphere";
 
 const sitemap = [
@@ -17,6 +19,8 @@ const sitemap = [
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const mode = useMode();
+  const { roleLabel, cvLink } = siteContent[mode];
 
   return (
     <footer
@@ -33,7 +37,7 @@ export function Footer() {
               TK<span className="text-clay-500">.</span>
             </div>
             <div className="text-ink-700 font-medium mb-1">{personalInfo.name}</div>
-            <div className="text-ink-400 text-sm mb-4">{personalInfo.role}</div>
+            <div className="text-ink-400 text-sm mb-4">{roleLabel}</div>
             <div className="inline-flex items-center gap-2 text-ink-400 text-sm">
               <MapPin size={13} strokeWidth={1.5} />
               {personalInfo.location}
@@ -102,7 +106,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href={siteContent.cvLink}
+                  href={cvLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm text-ink-500 hover:text-clay-500 transition-colors"
