@@ -22,7 +22,7 @@ const personJsonLd = {
   image: "https://taninwatkaewpankan.xyz/opengraph-image",
   alternateName: "Ice",
   url: "https://taninwatkaewpankan.xyz",
-  jobTitle: "Product Generalist & Engineer",
+  jobTitle: "Product & Project Coordinator",
   description:
     "Product generalist based in Copenhagen — project coordination, product thinking, and frontend engineering.",
   address: {

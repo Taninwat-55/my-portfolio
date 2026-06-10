@@ -1,46 +1,70 @@
 # Taninwat Kaewpankan
 
-Product engineer based in Copenhagen, Denmark.
+Product & Project Coordinator based in Copenhagen, Denmark — a product
+generalist who codes.
 Personal site: https://taninwatkaewpankan.xyz
 
 ## About
 
-Taninwat Kaewpankan (goes by Ice) is a product engineer with a background in
-product thinking and entrepreneurship. Originally from Thailand, he moved to
-Sweden at 16, studied at Uppsala University (BA Game Design & Project
-Management, MSc Entrepreneurship), and now lives in Copenhagen, Denmark.
+Taninwat Kaewpankan (goes by Ice) is a product generalist based in Copenhagen —
+project coordination, product thinking, and frontend engineering. Originally
+from Thailand, he moved to Sweden at 16, studied at Uppsala University (BA Game
+Design & Project Management, MSc Entrepreneurship), and now lives in Copenhagen,
+Denmark.
 
-He builds with React, TypeScript, Next.js, and Node.js. He is an equity partner
-at Trailr AI, a pre-launch AI startup where he led the frontend architecture
-and a full platform overhaul from design brief to shipped product.
+He figures out what to build, then makes sure it ships — coordinating teams and
+delivery, shaping product direction, and building the thing himself when the
+work calls for it (React, TypeScript, Next.js, Node.js). He led a 25-consultant
+student consultancy as Head of Organization, and contributes part-time to the
+early-stage AI startup Trailr AI under equity warrants, where he owned the
+product side of a full platform UI/UX redesign.
+
+He's honest about where he stands: his degree is a vocational frontend program,
+not a CS degree. What he brings is genuine end-to-end delivery experience —
+coordinating simultaneous projects and shipping real products.
 
 ## Skills
 
+Coordination & Product: Project Coordination, Product Management, Agile / Scrum,
+  Stakeholder Management, Process Design, Workshop Facilitation, Product Thinking
 Frontend: React 19, Next.js (App Router), TypeScript, Tailwind CSS, Framer Motion
 Backend: Node.js, PostgreSQL, Supabase, REST APIs
 Tooling: Vitest, Playwright, GitHub Actions, Figma
-Approach: Product thinking, design systems, accessibility, performance
+Approach: Design systems, accessibility, performance
 
 ## Projects
 
-- MockMate (https://mockmate.io) — AI mock interview platform. Joined as frontend
-  developer, now equity partner. Owned full navigation overhaul and product
-  discovery for a platform-wide UI/UX redesign. React, TypeScript, Zustand.
+- Millennial Consulting (https://www.millennialconsulting.dk) — Student-run
+  strategy consultancy delivering pro-bono projects in 8-week cycles. Coordinated
+  ~5 parallel client projects per cycle across 25–28 volunteer consultants; grew
+  from operations team member to Head of Operations to Head of Organization.
+  Introduced a hybrid Agile/waterfall process that was adopted org-wide.
+- Trailr AI (https://trailr.ai) — Early-stage AI video platform that secured
+  enterprise trials with Nordisk Film and DR. Owned the product side of a full
+  UI/UX redesign: benchmarked competitors, set a design direction, and scoped
+  ruthlessly to what the existing backend could support — cutting features rather
+  than forcing rewrites. Led a navigation overhaul in React and Zustand.
+- MockMate (https://mockmate.space) — AI mock interview platform: paste a job
+  description, answer tailored questions from an AI interviewer, get a structured
+  graded report. Owned the product end to end. Next.js, Google Gemini, Prisma,
+  AWS Lambda.
 - Bevisly (https://bevisly.com) — Skill verification platform. Owned end-to-end:
-  defined the two-role model, designed RLS policies, shipped 8+ AI features.
-  React, TypeScript, Supabase, PostgreSQL with row-level security.
+  defined the two-role model, designed row-level-security policies, shipped 8+ AI
+  features. React, TypeScript, Supabase, PostgreSQL with row-level security.
 - Satoshi Standard (https://www.satoshi-standard.xyz) — Bitcoin purchasing power
   dashboard. React, Tailwind, real-time price API, full Vitest test suite.
 - Cinema Booking System (https://cinema-booking-system-project.vercel.app) —
   Full-stack booking engine with concurrent seat-locking at the data layer.
-  React, Node.js, SQLite.
+  React, Node.js, PostgreSQL.
 - Racha Beauty & Wellness (https://rachabeautywellness.com) — Commercial site
   built from scratch. 95+ Lighthouse score, measurable local SEO improvement.
 
 ## Experience
 
-- Equity Partner & Product Engineer, Trailr AI (Sep 2025 – Present)
-- Head of Organization, Millennial Consulting (2023 – 2025)
+- Frontend Developer → Product Engineer (part-time), Trailr AI (Sep 2025 – Present)
+  Joined as a frontend intern; after graduating, continued part-time with equity
+  warrants.
+- Head of Organization (Volunteer), Millennial Consulting (2023 – 2025)
 - Business Development Intern, Spreadly (Jan 2023 – Mar 2023)
 
 ## Education
