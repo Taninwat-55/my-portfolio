@@ -69,7 +69,7 @@ Approach: Design systems, accessibility, performance
 
 ## Education
 
-- Professional Program, Frontend Development — Jensen Yrkeshögskola (2024 – 2026)
+- Higher Vocational Diploma in Frontend Development (2-year program) — Jensen Yrkeshögskola (2024 – 2026)
 - MSc Business & Management (Entrepreneurship) — Uppsala University (2022 – 2023)
 - BA Game Design & Project Management — Uppsala University (2019 – 2022)
 

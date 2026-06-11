@@ -176,7 +176,7 @@ export const siteContent = {
     "Before Uppsala, there was York, England. I moved there alone — fully by choice, for the first time in my life. Eight months of living completely independently, pushing my English further, figuring out who I was when nobody knew me or had any expectations of me. I had planned to study there. Brexit made it complicated. Uppsala said yes. So I followed.",
     "Uppsala University — one of Scandinavia's oldest. Not where I expected to end up, but I stopped questioning where life was sending me. Three years studying how interactive systems get designed and how projects actually get shipped. The most valuable thing wasn't any specific course — it was wearing the PM hat on real team projects, learning what it actually costs to take something from an idea to a finished thing. Then a Master's in Entrepreneurship. Because building was the only thing I ever kept coming back to.",
     "Denmark wasn't the plan. But life pointed there, and I've learned not to argue with that. A new country, again. The same familiar question: what do I make of this? I found Millennial Consulting — joined the operations team, adapted quickly to how things worked, and eventually grew into leading the organization.",
-    "I wanted to become a more complete builder — someone who understands technical constraints, not just concepts. So I enrolled in a two-year professional program in frontend development at Jensen, which led me into an internship at Trailr AI. After graduating, I stayed on part-time as an early team member with equity warrants. I graduated from Jensen in May 2026.",
+    "I wanted to become a more complete builder — someone who understands technical constraints, not just concepts. So I enrolled in a Higher Vocational Diploma in Frontend Development at Jensen, which led me into an internship at Trailr AI. After graduating, I stayed on part-time as an early team member with equity warrants. I graduated from Jensen in May 2026.",
     "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language — just with a few more tools.",
   ],
 
@@ -208,11 +208,11 @@ export const experience = [
   {
     id: "edu-1",
     type: "education",
-    role: "Professional Program, Frontend Development",
+    role: "Higher Vocational Diploma in Frontend Development (2-year program)",
     organization: "Jensen Yrkeshögskola",
     period: "2024 – 2026",
     description:
-      "A two-year professional program in frontend engineering — React, TypeScript, Next.js, testing, and performance. Graduated May 2026. Gave me the foundation to go deeper on my own.",
+      "A Higher Vocational Diploma in Frontend Development (2-year program) — React, TypeScript, Next.js, testing, and performance. Graduated May 2026. Gave me the foundation to go deeper on my own.",
   },
   {
     id: "work-1",
@@ -281,9 +281,9 @@ export const cases: CaseStudy[] = [
     title: "MockMate",
     sub: "Paste a job description. Get a tailored interview. Get graded like a hiring panel would.",
     images: [
-      "/assets/mockmate/mockmate-landing.png",
-      "/assets/mockmate/mockmate-dashboard.png",
-      "/assets/mockmate/mockmate-feedback.png",
+      "/assets/mockmate/mockmate-landing.webp",
+      "/assets/mockmate/mockmate-dashboard.webp",
+      "/assets/mockmate/mockmate-feedback.webp",
     ],
     overview:
       "A full-stack AI interview platform: paste a job description, answer tailored technical questions from an AI interviewer, and receive a structured graded report — built with Next.js, Google Gemini, Prisma, and AWS Lambda for background processing.",
@@ -371,9 +371,9 @@ export const cases: CaseStudy[] = [
     title: "Cinema Booking",
     sub: "My first full-stack project — a complete booking system built with a team of students at Jensen.",
     images: [
-      "/assets/cinema/cinema-index.png",
-      "/assets/cinema/cinema-movie-id.png",
-      "/assets/cinema/cinema-seat.png",
+      "/assets/cinema/cinema-index.webp",
+      "/assets/cinema/cinema-movie-id.webp",
+      "/assets/cinema/cinema-seat.webp",
     ],
     overview:
       "A team project from Jensen — full-stack cinema booking engine with React on the front and Node.js + PostgreSQL on the back. Covers the full flow: browse movies, pick a showing, select seats, confirm a booking, and manage it from a user account.",
@@ -496,7 +496,7 @@ export const cases: CaseStudy[] = [
 // ─── CHATBOT CONTEXT ──────────────────────────────────────────────────────────
 
 export const chatbotContext = `
-Taninwat is actively job searching as of June 2026. He just graduated from Jensen Yrkeshögskola's Frontend Developer program (May 2026) and is looking for his first professional role in tech — primarily project coordination, junior PM, or product-adjacent roles at small companies — and also open to Product Engineer roles. He wants a position where he can own delivery end-to-end: shaping product direction, building the thing, and iterating on real feedback. He's comfortable going full-stack when the work calls for it.
+Taninwat is actively job searching as of June 2026. He just earned his Higher Vocational Diploma in Frontend Development (2-year program) from Jensen Yrkeshögskola (May 2026) and is looking for his first professional role in tech — primarily project coordination, junior PM, or product-adjacent roles at small companies — and also open to Product Engineer roles. He wants a position where he can own delivery end-to-end: shaping product direction, building the thing, and iterating on real feedback. He's comfortable going full-stack when the work calls for it.
 
 He's based in Denmark and holds dual Thai-Swedish citizenship, so he can work anywhere in the EU/Schengen without visa complications. He's open to roles in Denmark, Sweden, or remote.
 
@@ -521,7 +521,7 @@ export const projects = [
       demo: "https://mockmate.space/",
       code: "https://github.com/Taninwat-55/mockmate",
     },
-    image: "/assets/mockmate/mockmate-landing.png",
+    image: "/assets/mockmate/mockmate-landing.webp",
   },
   {
     id: 99,
@@ -566,7 +566,7 @@ export const projects = [
       demo: "https://cinema-booking-system-project.vercel.app",
       code: "https://github.com/Taninwat-55/cinema-booking-system-project",
     },
-    image: "/assets/cinema/cinema-index.png",
+    image: "/assets/cinema/cinema-index.webp",
   },
   {
     id: 3,
