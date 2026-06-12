@@ -26,28 +26,29 @@ function getDayLabel(hour: number): string {
   return "Evening in Copenhagen";
 }
 
+// Dark-native takes on each period — same moods, tinted into the #0C0C0C theme.
 const CONFIGS: Record<Period, AtmosphereConfig> = {
   night: {
-    bg: "linear-gradient(to right, #1E1B18, #252018)",
+    bg: "linear-gradient(to right, #0C0C0C, #15110B)",
     color: "#C8A882",
     icon: <Moon size={14} strokeWidth={1.5} />,
     label: "Night in Copenhagen",
   },
   dawn: {
-    bg: "linear-gradient(to right, #FFE4C4, #FECFA0)",
-    color: "#7A4A25",
+    bg: "linear-gradient(to right, #110D09, #1F150C)",
+    color: "#EFC195",
     icon: <Sunrise size={14} strokeWidth={1.5} />,
     label: "Dawn over Copenhagen",
   },
   day: {
-    bg: "linear-gradient(to right, #F7F4F0, #F0EDE8)",
-    color: "#6B6560",
+    bg: "linear-gradient(to right, #0C0C0C, #0F1417)",
+    color: "#A9CADD",
     icon: <Sun size={14} strokeWidth={1.5} />,
     label: "",
   },
   dusk: {
-    bg: "linear-gradient(to right, #F5C87A, #E8965A)",
-    color: "#5C3318",
+    bg: "linear-gradient(to right, #130C07, #241307)",
+    color: "#E8965A",
     icon: <Sunset size={14} strokeWidth={1.5} />,
     label: "Dusk in Copenhagen",
   },
@@ -92,6 +93,7 @@ export function CopenhagenAtmosphere({ year }: { year: number }) {
         .catch(() => {});
     };
     update();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount flag to avoid SSR/client time mismatch
     setMounted(true);
     const id = setInterval(update, 60_000);
     return () => clearInterval(id);
@@ -106,6 +108,7 @@ export function CopenhagenAtmosphere({ year }: { year: number }) {
       style={{
         background: mounted ? config.bg : CONFIGS.day.bg,
         color: mounted ? config.color : CONFIGS.day.color,
+        borderTop: "1px solid rgba(215, 226, 234, 0.08)",
         transition: "background 2s ease, color 1s ease",
       }}
       className="w-full px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs tracking-wide"
@@ -115,7 +118,7 @@ export function CopenhagenAtmosphere({ year }: { year: number }) {
         <span>© {year} Taninwat Kaewpankan</span>
         {mounted && blockHeight !== null && (
           <>
-            <span className="opacity-50">//</span>
+            <span className="opacity-50">{"//"}</span>
             <motion.span
               key={blockHeight}
               initial={{ opacity: 0.5 }}
