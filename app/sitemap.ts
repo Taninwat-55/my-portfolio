@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getSortedPostsData } from './lib/posts';
+import { cases } from './data';
 
 export const dynamic = 'force-static';
 
@@ -15,6 +16,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.7,
     }));
 
+    const caseUrls = cases.map((c) => ({
+        url: `${baseUrl}/cases/${c.id}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+    }));
+
     return [
         {
             url: baseUrl,
@@ -28,6 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: "weekly" as const,
             priority: 0.8,
         },
+        ...caseUrls,
         ...blogUrls,
     ];
 }

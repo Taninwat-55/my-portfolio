@@ -1,23 +1,22 @@
 # Taninwat Kaewpankan
 
-Product & Project Coordinator based in Copenhagen, Denmark — a product
-generalist who codes.
+Product Engineer & Project Coordinator based in Copenhagen, Denmark — a
+builder who ships.
 Personal site: https://taninwatkaewpankan.xyz
 
 ## About
 
-Taninwat Kaewpankan (goes by Ice) is a product generalist based in Copenhagen —
-project coordination, product thinking, and frontend engineering. Originally
-from Thailand, he moved to Sweden at 16, studied at Uppsala University (BA Game
-Design & Project Management, MSc Entrepreneurship), and now lives in Copenhagen,
-Denmark.
+Taninwat Kaewpankan (goes by Ice) is a product engineer and project coordinator
+based in Copenhagen — frontend engineering, product thinking, and delivery.
+Originally from Thailand, he moved to Sweden at 16, studied at Uppsala
+University (BA Game Design & Project Management, MSc Entrepreneurship), and now
+lives in Copenhagen, Denmark.
 
-He figures out what to build, then makes sure it ships — coordinating teams and
-delivery, shaping product direction, and building the thing himself when the
-work calls for it (React, TypeScript, Next.js, Node.js). He led a 25-consultant
-student consultancy as Head of Organization, and contributes part-time to the
-early-stage AI startup Trailr AI under equity warrants, where he owned the
-product side of a full platform UI/UX redesign.
+He builds web products end-to-end (React, TypeScript, Next.js, Node.js) and
+keeps delivery on track — shaping product direction, scoping work, and shipping
+it himself. He led a 25-consultant student consultancy as Head of Organization,
+and contributes part-time to the early-stage AI startup Trailr AI under equity
+warrants, where he owned the product side of a full platform UI/UX redesign.
 
 He's honest about where he stands: his degree is a vocational frontend program,
 not a CS degree. What he brings is genuine end-to-end delivery experience —
@@ -25,9 +24,9 @@ coordinating simultaneous projects and shipping real products.
 
 ## Skills
 
+Frontend: React 19, Next.js (App Router), TypeScript, Tailwind CSS, Framer Motion
 Coordination & Product: Project Coordination, Product Management, Agile / Scrum,
   Stakeholder Management, Process Design, Workshop Facilitation, Product Thinking
-Frontend: React 19, Next.js (App Router), TypeScript, Tailwind CSS, Framer Motion
 Backend: Node.js, PostgreSQL, Supabase, REST APIs
 Tooling: Vitest, Playwright, GitHub Actions, Figma
 Approach: Design systems, accessibility, performance

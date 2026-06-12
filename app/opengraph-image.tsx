@@ -9,7 +9,7 @@ export default function OgImage() {
       style={{
         width: 1200,
         height: 630,
-        background: "#F7F4F0",
+        background: "#0C0C0C",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -27,12 +27,12 @@ export default function OgImage() {
           width: 560,
           height: 560,
           borderRadius: "50%",
-          background: "rgba(196, 113, 62, 0.10)",
+          background: "rgba(196, 113, 62, 0.16)",
           filter: "blur(80px)",
           display: "flex",
         }}
       />
-      {/* Subtle glow bottom-left */}
+      {/* Cool glow bottom-left */}
       <div
         style={{
           position: "absolute",
@@ -41,7 +41,7 @@ export default function OgImage() {
           width: 360,
           height: 360,
           borderRadius: "50%",
-          background: "rgba(212, 137, 90, 0.07)",
+          background: "rgba(215, 226, 234, 0.08)",
           filter: "blur(60px)",
           display: "flex",
         }}
@@ -55,7 +55,7 @@ export default function OgImage() {
           justifyContent: "space-between",
         }}
       >
-        {/* TK mark */}
+        {/* Ice mark */}
         <div
           style={{
             display: "flex",
@@ -64,15 +64,14 @@ export default function OgImage() {
             width: 52,
             height: 52,
             borderRadius: 12,
-            background: "#1A1917",
-            fontSize: 19,
+            background: "#D7E2EA",
+            fontSize: 17,
             fontWeight: 700,
-            color: "#F7F4F0",
+            color: "#0C0C0C",
             letterSpacing: "-0.5px",
-            fontFamily: "Georgia, serif",
           }}
         >
-          TK
+          ICE
         </div>
 
         {/* Availability pill */}
@@ -83,8 +82,8 @@ export default function OgImage() {
             gap: 9,
             padding: "9px 20px",
             borderRadius: 100,
-            border: "1px solid #D4CFC9",
-            background: "#F0EDE8",
+            border: "1px solid rgba(215, 226, 234, 0.2)",
+            background: "rgba(255, 255, 255, 0.04)",
           }}
         >
           <div
@@ -101,7 +100,7 @@ export default function OgImage() {
               fontSize: 12,
               letterSpacing: "0.14em",
               textTransform: "uppercase",
-              color: "#6B6560",
+              color: "rgba(215, 226, 234, 0.6)",
               fontFamily: "monospace",
             }}
           >
@@ -122,35 +121,34 @@ export default function OgImage() {
             display: "flex",
           }}
         >
-          Product &amp; Project Coordinator
+          Product Engineer &amp; Project Coordinator
         </div>
 
         <div
           style={{
-            fontSize: 80,
-            fontWeight: 700,
+            fontSize: 84,
+            fontWeight: 800,
             lineHeight: 0.95,
             letterSpacing: "-3px",
-            color: "#1A1917",
-            fontFamily: "Georgia, serif",
+            textTransform: "uppercase",
+            color: "#BBCCD7",
             display: "flex",
             flexDirection: "column",
           }}
         >
-          <span>Taninwat</span>
-          <span>Kaewpankan</span>
+          <span>Hi, i&apos;m Ice</span>
         </div>
 
         <div
           style={{
             fontSize: 22,
-            color: "#3D3A36",
+            color: "rgba(215, 226, 234, 0.75)",
             lineHeight: 1.55,
             marginTop: 4,
             display: "flex",
           }}
         >
-          Engineer who builds with product in mind.
+          Taninwat Kaewpankan — shipping things that actually matter.
         </div>
 
         {/* Tech tags */}
@@ -162,10 +160,10 @@ export default function OgImage() {
                 display: "flex",
                 padding: "6px 14px",
                 borderRadius: 6,
-                border: "1px solid #E2DDD8",
-                background: "#F0EDE8",
+                border: "1px solid rgba(215, 226, 234, 0.15)",
+                background: "rgba(255, 255, 255, 0.04)",
                 fontSize: 13,
-                color: "#6B6560",
+                color: "rgba(215, 226, 234, 0.6)",
                 fontFamily: "monospace",
                 letterSpacing: "0.04em",
               }}
@@ -181,7 +179,7 @@ export default function OgImage() {
         style={{
           fontSize: 14,
           letterSpacing: "0.1em",
-          color: "#9E9892",
+          color: "rgba(215, 226, 234, 0.4)",
           fontFamily: "monospace",
           display: "flex",
         }}

@@ -1,294 +1,119 @@
 "use client";
 
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { ArrowDown, Linkedin, Mail } from "lucide-react";
-import { personalInfo, siteContent } from "../data";
-import { Magnetic } from "../components/Magnetic";
-import { useMode } from "../components/ModeContext";
+import { useState } from "react";
+import Image from "next/image";
+import { FadeIn } from "../components/FadeIn";
+import { Magnet } from "../components/Magnet";
+import { ContactButton } from "../components/ContactButton";
+import { HireModal } from "../components/HireModal";
+import { siteContent } from "../data";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const NAV_LINKS = [
+  { label: "About", href: "#about" },
+  { label: "Work", href: "#work" },
+  { label: "Projects", href: "#projects" },
+];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: EASE },
-  },
-};
+const navLinkClasses =
+  "text-frost font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem] hover:opacity-70 transition-opacity duration-200";
 
-type Badge = { label: string; top: string; left?: string; right?: string; delay: number };
-
-function FloatingBadge({
-  label,
-  style,
-  delay,
-  reduced,
-}: {
-  label: string;
-  style: React.CSSProperties;
-  delay: number;
-  reduced: boolean;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.7 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.8 + delay, duration: 0.5, ease: EASE }}
-      className="absolute"
-      style={style}
-    >
-      <motion.div
-        animate={reduced ? {} : { y: [0, -5, 0] }}
-        transition={{
-          duration: 3 + delay * 0.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: delay,
-        }}
-        className="whitespace-nowrap font-mono text-[11px] tracking-wide text-ink-600 bg-sand-50/90 backdrop-blur-sm border border-border px-2.5 py-1 rounded-full shadow-sm"
-      >
-        {label}
-      </motion.div>
-    </motion.div>
-  );
-}
-
-// ── Character — Option B: frosted glass container with glow ───────────────────
-function CharacterBubble({ reduced, badges }: { reduced: boolean; badges: Badge[] }) {
-  return (
-    <div className="relative mx-auto lg:mx-0 shrink-0 mt-10 lg:mt-0">
-      {/* Floating badges */}
-      {badges.map((b) => {
-        const { label, delay, top, ...pos } = b;
-        return (
-          <FloatingBadge
-            key={label}
-            label={label}
-            style={{ top, ...pos } as React.CSSProperties}
-            delay={delay}
-            reduced={reduced}
-          />
-        );
-      })}
-
-      {/* Glass container */}
-      <motion.div
-        animate={reduced ? {} : { y: [0, -14, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="relative w-44 h-[315px] lg:w-60 lg:h-[427px] rounded-3xl overflow-hidden"
-        style={{
-          background: "#59918A",
-          boxShadow:
-            "0 0 0 1px rgba(255,255,255,0.18), " +
-            "0 8px 32px rgba(89,145,138,0.50), " +
-            "0 0 80px 20px rgba(89,145,138,0.20)",
-        }}
-      >
-        <video
-          src="/character.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          aria-label="Animated avatar"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-
-        {/* Frosted vignette at edges */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, transparent 48%, rgba(247,244,240,0.10) 68%, rgba(247,244,240,0.28) 100%)",
-          }}
-        />
-
-        {/* Top glass highlight */}
-        <div
-          className="absolute inset-x-4 top-0 h-px pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent, rgba(255,255,255,0.6) 40%, rgba(255,255,255,0.6) 60%, transparent)",
-          }}
-        />
-      </motion.div>
-    </div>
-  );
-}
-
-// ── Marquee ────────────────────────────────────────────────────────────────────
-function TechMarquee() {
-  const reduced = useReducedMotion() ?? false;
-  const mode = useMode();
-  const items = [...siteContent[mode].techMarquee, ...siteContent[mode].techMarquee];
-
-  return (
-    <div
-      aria-hidden
-      className="relative overflow-hidden border-t border-b border-border py-4"
-      style={{
-        WebkitMaskImage:
-          "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)",
-        maskImage:
-          "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)",
-      }}
-    >
-      <motion.div
-        className="flex gap-14 w-max"
-        animate={reduced ? {} : { x: ["0%", "-50%"] }}
-        transition={{ duration: 34, repeat: Infinity, ease: "linear" }}
-      >
-        {items.map((item, i) => (
-          <span
-            key={i}
-            className="font-mono text-sm text-ink-300 tracking-wide whitespace-nowrap inline-flex items-center gap-14"
-          >
-            {item}
-            <span className="text-clay-400 text-xs">✦</span>
-          </span>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
-
-// ── Section ────────────────────────────────────────────────────────────────────
 export function Hero() {
-  const prefersReducedMotion = useReducedMotion() ?? false;
-  const mode = useMode();
-  const c = siteContent[mode];
-  const { scrollY } = useScroll();
-
-  const contentOpacity = useTransform(
-    scrollY,
-    [0, 400],
-    prefersReducedMotion ? [1, 1] : [1, 0]
-  );
-  const contentY = useTransform(
-    scrollY,
-    [0, 400],
-    prefersReducedMotion ? [0, 0] : [0, -40]
-  );
-
-  const handleScrollDown = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    document.getElementById("about")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <section aria-label="Hero" className="relative min-h-screen flex flex-col justify-between overflow-hidden">
-
-      {/* Main content */}
-      <div className="relative z-10 w-full container mx-auto px-6 max-w-5xl flex-1 flex flex-col justify-center py-24">
-        <motion.div
-          style={{ opacity: contentOpacity, y: contentY }}
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
-          }}
+    <section
+      className="relative h-screen flex flex-col"
+      style={{ overflowX: "clip" }}
+    >
+      {/* Navbar */}
+      <FadeIn delay={0} y={-20}>
+        <nav
+          aria-label="Main navigation"
+          className="flex items-center justify-between px-6 md:px-10 pt-6 md:pt-8"
         >
-          <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
+          {NAV_LINKS.map((link) => (
+            <a key={link.label} href={link.href} className={navLinkClasses}>
+              {link.label}
+            </a>
+          ))}
+          <button
+            type="button"
+            onClick={() => setContactOpen(true)}
+            className={navLinkClasses}
+          >
+            Contact
+          </button>
+        </nav>
+      </FadeIn>
 
-            {/* Left: text */}
-            <div className="flex-1 flex flex-col items-start">
+      {/* Hero heading */}
+      <div className="overflow-hidden">
+        <FadeIn delay={0.15} y={40}>
+          <h1 className="hero-heading w-full text-center font-black uppercase tracking-tight leading-none whitespace-nowrap text-[14vw] sm:text-[15vw] md:text-[16vw] lg:text-[17.5vw] mt-6 sm:mt-4 md:-mt-5">
+            Hi, i&apos;m Ice
+          </h1>
+        </FadeIn>
+      </div>
 
-              <motion.div variants={fadeUp} className="flex items-center gap-2.5 mb-10">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-clay-500 opacity-60" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-clay-500" />
-                </span>
-                <span className="text-sm text-ink-500">{c.availability}</span>
-              </motion.div>
+      {/* Frost glow behind the portrait */}
+      <div
+        aria-hidden
+        className="absolute left-1/2 -translate-x-1/2 bottom-[-10%] w-130 h-130 md:w-180 md:h-180 rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(142, 201, 232, 0.16) 0%, rgba(142, 201, 232, 0.05) 45%, transparent 70%)",
+        }}
+      />
 
-              <motion.p
-                variants={fadeUp}
-                className="text-sm font-medium text-ink-400 tracking-widest uppercase mb-2"
-              >
-                {siteContent.heroIntro}
-              </motion.p>
+      {/* Hero portrait */}
+      <div className="absolute left-1/2 -translate-x-1/2 z-10 w-70 sm:w-90 md:w-110 lg:w-130 top-1/2 -translate-y-1/2 sm:top-auto sm:translate-y-0 sm:bottom-0">
+        <FadeIn delay={0.6} y={30}>
+          <Magnet
+            padding={150}
+            strength={3}
+            activeTransition="transform 0.3s ease-out"
+            inactiveTransition="transform 0.6s ease-in-out"
+          >
+            <Image
+              src="/assets/Ice_3D_Avatar.webp"
+              alt="3D avatar of Ice — Taninwat Kaewpankan"
+              width={1040}
+              height={1040}
+              priority
+              className="w-full h-auto select-none"
+              draggable={false}
+            />
+          </Magnet>
+        </FadeIn>
+      </div>
 
-              <motion.h1
-                variants={fadeUp}
-                className="font-sans text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] text-ink-900 mb-5 max-w-xl"
-              >
-                {c.heroHook.map((line, li) => (
-                  <span key={li} className="block">
-                    {line.split(" ").map((word, wi) => (
-                      <span
-                        key={wi}
-                        className={c.heroHookAccents.includes(word) ? "text-clay-500" : undefined}
-                      >
-                        {word}{" "}
-                      </span>
-                    ))}
-                  </span>
-                ))}
-              </motion.h1>
-
-              <motion.p
-                variants={fadeUp}
-                className="text-base md:text-lg text-ink-500 max-w-sm leading-relaxed mb-12"
-              >
-                {c.heroPhilosophy}
-              </motion.p>
-
-              <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-3">
-                <Magnetic>
-                  <a
-                    href={`mailto:${personalInfo.email}`}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-clay-500 text-white text-sm font-medium hover:bg-clay-600 transition-colors"
-                  >
-                    <Mail size={14} />
-                    Get in touch
-                  </a>
-                </Magnetic>
-                <Magnetic>
-                  <a
-                    href={personalInfo.socials.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border text-ink-700 text-sm font-medium hover:border-clay-400 hover:text-clay-500 transition-colors"
-                  >
-                    <Linkedin size={14} />
-                    LinkedIn
-                  </a>
-                </Magnetic>
-              </motion.div>
+      {/* Bottom bar */}
+      <div className="relative z-20 mt-auto flex justify-between items-end px-6 md:px-10 pb-7 sm:pb-8 md:pb-10 pointer-events-none">
+        <FadeIn delay={0.35} y={20} className="pointer-events-auto">
+          <div className="flex flex-col items-start gap-3 sm:gap-4">
+            <div className="flex items-center gap-2.5 rounded-full border border-frost/15 bg-white/3 backdrop-blur-sm px-4 py-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-clay-500 opacity-60" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-clay-500" />
+              </span>
+              <span className="text-[9px] sm:text-[10px] tracking-[0.22em] uppercase text-frost/60 whitespace-nowrap">
+                Open to work · Copenhagen
+              </span>
             </div>
-
-            {/* Right: character with floating badges */}
-            <motion.div variants={fadeUp}>
-              <CharacterBubble reduced={prefersReducedMotion} badges={c.badges} />
-            </motion.div>
+            <p
+              className="text-frost font-light uppercase tracking-wide leading-snug max-w-40 sm:max-w-55 md:max-w-65"
+              style={{ fontSize: "clamp(0.75rem, 1.4vw, 1.5rem)" }}
+            >
+              {siteContent.heroTagline}
+            </p>
           </div>
-        </motion.div>
+        </FadeIn>
+        <FadeIn delay={0.5} y={20} className="pointer-events-auto">
+          <ContactButton />
+        </FadeIn>
       </div>
 
-      {/* Marquee strip */}
-      <div className="relative z-10 w-full">
-        <TechMarquee />
-      </div>
-
-      {/* Scroll hint */}
-      <motion.a
-        href="#about"
-        onClick={handleScrollDown}
-        aria-label="Scroll down"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 0.8 }}
-        className="absolute bottom-20 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 text-ink-300 hover:text-ink-500 transition-colors"
-      >
-        <motion.div
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDown size={15} />
-        </motion.div>
-      </motion.a>
+      <HireModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
     </section>
   );
 }

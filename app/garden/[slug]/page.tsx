@@ -8,7 +8,6 @@ import remarkGfm from "remark-gfm";
 import { getPostData, getSortedPostsData } from "../../lib/posts";
 import { Navbar } from "../../components/Navbar";
 import { SkipLink } from "../../components/SkipLink";
-import { Badge } from "@/components/ui/badge";
 import { SatsConverter } from "../../components/post-tools/SatsConverter";
 
 // ─── Static params + metadata ──────────────────────────────────────────────
@@ -61,34 +60,34 @@ export async function generateMetadata({
 const mdxComponents = {
   h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
-      className="text-2xl md:text-3xl font-semibold tracking-tight text-ink-900 mt-16 mb-5 scroll-mt-24"
+      className="text-2xl md:text-3xl font-medium tracking-tight text-frost mt-16 mb-5 scroll-mt-24"
       {...props}
     />
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
-      className="text-xl md:text-2xl font-semibold tracking-tight text-ink-900 mt-12 mb-4 scroll-mt-24"
+      className="text-xl md:text-2xl font-medium tracking-tight text-frost mt-12 mb-4 scroll-mt-24"
       {...props}
     />
   ),
   h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h4 className="text-lg font-semibold text-ink-900 mt-10 mb-3" {...props} />
+    <h4 className="text-lg font-medium text-frost mt-10 mb-3" {...props} />
   ),
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
     <p
-      className="text-[17px] md:text-[18px] text-ink-700 leading-[1.75] mb-7"
+      className="text-[17px] md:text-[18px] text-frost/75 font-light leading-[1.75] mb-7"
       {...props}
     />
   ),
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
     <ul
-      className="list-disc pl-6 space-y-3 mb-8 marker:text-clay-500 text-ink-700 text-[17px] md:text-[18px] leading-[1.7]"
+      className="list-disc pl-6 space-y-3 mb-8 marker:text-clay-500 text-frost/75 font-light text-[17px] md:text-[18px] leading-[1.7]"
       {...props}
     />
   ),
   ol: (props: React.OlHTMLAttributes<HTMLOListElement>) => (
     <ol
-      className="list-decimal pl-6 space-y-3 mb-8 marker:text-clay-500 marker:font-mono text-ink-700 text-[17px] md:text-[18px] leading-[1.7]"
+      className="list-decimal pl-6 space-y-3 mb-8 marker:text-clay-500 text-frost/75 font-light text-[17px] md:text-[18px] leading-[1.7]"
       {...props}
     />
   ),
@@ -96,14 +95,14 @@ const mdxComponents = {
     <li className="pl-1" {...props} />
   ),
   strong: (props: React.HTMLAttributes<HTMLElement>) => (
-    <strong className="font-semibold text-ink-900" {...props} />
+    <strong className="font-medium text-frost" {...props} />
   ),
   em: (props: React.HTMLAttributes<HTMLElement>) => (
-    <em className="text-ink-700 italic" {...props} />
+    <em className="text-frost/80 italic" {...props} />
   ),
   blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
-      className="my-8 pl-5 border-l-2 border-clay-400/60 bg-clay-100/40 py-3 pr-4 rounded-r-md text-ink-700 italic [&>p]:text-ink-700 [&>p]:mb-0"
+      className="my-8 pl-5 border-l-2 border-clay-500/60 bg-clay-500/5 py-3 pr-4 rounded-r-md text-frost/70 italic [&>p]:text-frost/70 [&>p]:mb-0"
       {...props}
     />
   ),
@@ -114,7 +113,7 @@ const mdxComponents = {
         href={href}
         target={external ? "_blank" : undefined}
         rel={external ? "noopener noreferrer" : undefined}
-        className="text-clay-600 underline decoration-clay-400/30 underline-offset-4 hover:decoration-clay-500 hover:text-clay-500 transition-colors"
+        className="text-clay-300 underline decoration-clay-500/40 underline-offset-4 hover:decoration-clay-500 hover:text-clay-500 transition-colors"
         {...rest}
       />
     );
@@ -128,7 +127,7 @@ const mdxComponents = {
     if (isInline) {
       return (
         <code
-          className="font-mono text-[0.9em] px-1.5 py-0.5 rounded bg-sand-300 border border-border text-clay-600"
+          className="font-mono text-[0.9em] px-1.5 py-0.5 rounded bg-white/6 border border-frost/10 text-clay-300"
           {...rest}
         >
           {children}
@@ -143,16 +142,16 @@ const mdxComponents = {
   },
   pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
     <pre
-      className="my-8 p-5 rounded-xl bg-ink-900 border border-thread overflow-x-auto font-mono text-sm leading-relaxed text-sand-100"
+      className="my-8 p-5 rounded-xl bg-night-800 border border-frost/10 overflow-x-auto font-mono text-sm leading-relaxed text-frost"
       {...props}
     />
   ),
-  hr: () => <hr className="my-14 border-0 h-px bg-border" />,
+  hr: () => <hr className="my-14 border-0 h-px bg-frost/10" />,
   img: ({ alt, ...rest }: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       alt={alt ?? ""}
-      className="my-8 w-full rounded-xl border border-border"
+      className="my-8 w-full rounded-xl border border-frost/10"
       {...rest}
     />
   ),
@@ -192,9 +191,9 @@ export default async function GardenPost({
   };
 
   return (
-    <div className="min-h-screen bg-sand-100 text-ink-900">
+    <div className="min-h-screen bg-night-900 text-frost">
       <SkipLink />
-      <Navbar variant="simple" backLinkHref="/garden" backLinkText="Back to the Garden" />
+      <Navbar backLinkHref="/garden" backLinkText="Back to the Garden" />
 
       <script
         type="application/ld+json"
@@ -202,28 +201,25 @@ export default async function GardenPost({
       />
 
       <main id="main-content" className="relative">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[760px] h-[420px] rounded-full bg-clay-300/15 blur-[120px]"
-        />
-
         <article className="relative container mx-auto px-6 pt-32 md:pt-40 pb-24 max-w-3xl">
           {/* ── Header ─────────────────────────────────────────────── */}
           <header className="mb-14 md:mb-20">
             <div className="mb-6">
-              <Badge variant="ice">{post.category}</Badge>
+              <span className="inline-block text-clay-500 bg-clay-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1">
+                {post.category}
+              </span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-8 leading-[1.05] tracking-tight text-ink-900">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-8 leading-[1.05] tracking-tight text-frost">
               {post.title}
             </h1>
 
-            <p className="text-lg md:text-xl text-ink-700 leading-relaxed mb-10 max-w-2xl">
+            <p className="text-lg md:text-xl text-frost/70 font-light leading-relaxed mb-10 max-w-2xl">
               {post.excerpt}
             </p>
 
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-6 border-t border-border font-mono text-[11px] tracking-wider uppercase text-ink-500">
-              <span className="text-clay-600">{post.author}</span>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-6 border-t border-frost/10 text-[11px] tracking-wider uppercase text-frost/40">
+              <span className="text-clay-500">{post.author}</span>
               <span className="inline-flex items-center gap-2">
                 <Calendar size={12} strokeWidth={1.5} />
                 {post.date}
@@ -249,10 +245,10 @@ export default async function GardenPost({
           </div>
 
           {/* ── Footer ─────────────────────────────────────────────── */}
-          <footer className="mt-20 pt-10 border-t border-border flex items-center justify-between gap-4 flex-wrap">
+          <footer className="mt-20 pt-10 border-t border-frost/10 flex items-center justify-between gap-4 flex-wrap">
             <Link
               href="/garden"
-              className="group inline-flex items-center gap-2 text-sm font-medium text-ink-700 hover:text-clay-600 transition-colors"
+              className="group inline-flex items-center gap-2 text-sm font-medium text-frost/70 hover:text-clay-300 transition-colors"
             >
               <ArrowLeft
                 size={16}
@@ -263,7 +259,7 @@ export default async function GardenPost({
 
             <Link
               href="/"
-              className="text-sm font-mono uppercase tracking-wider text-ink-500 hover:text-clay-600 transition-colors"
+              className="text-sm uppercase tracking-wider text-frost/40 hover:text-clay-300 transition-colors"
             >
               taninwatkaewpankan.xyz
             </Link>

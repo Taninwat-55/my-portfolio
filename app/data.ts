@@ -11,164 +11,16 @@ export const personalInfo = {
   },
 };
 
-// ─── HERO / ABOUT COPY ────────────────────────────────────────────────────────
-
-export type Mode = "pm" | "dev";
-
-type SkillItem = [name: string, level: number];
-type SkillColumn = { group: string; items: SkillItem[] };
-type Badge = { label: string; top: string; left?: string; right?: string; delay: number };
-
-// Mode-specific copy. `dev` = the canonical/base content the chatbot reads;
-// `pm` = the project-coordination / junior-PM narrative (default mode on the site).
-interface ModeContent {
-  roleLabel: string;
-  availability: string;
-  heroHook: string[];
-  heroHookAccents: string[];
-  heroPhilosophy: string;
-  cvLink: string;
-  whatIDo: { title: string; body: string }[];
-  skills: SkillColumn[];
-  badges: Badge[];
-  featuredSlugs: string[];
-  techMarquee: string[];
-  projectsHeading: string;
-  featuredCaseIds: string[];  // large case-study cards, in order
-  miniCaseIds: string[];      // small "also built" cards, in order
-}
-
-const pmContent: ModeContent = {
-  roleLabel: "Product & Project Coordinator",
-  availability: "Open to project coordination & junior PM roles",
-  heroHook: ["I figure out what to build — then make sure it ships."],
-  heroHookAccents: ["build", "ships."],
-  heroPhilosophy:
-    "Product judgment proven by shipping; delivery proven across four cycles of client work. Technical enough to talk directly with developers.",
-  cvLink: "/assets/Taninwat_Kaewpankan_CV_PM.pdf",
-  whatIDo: [
-    {
-      title: "Product & Project Coordination",
-      body: "I keep work moving: scoping, prioritization, stakeholder alignment, and delivery. At Millennial Consulting I grew from operations team member to Head of Organization across four cycles, coordinating up to five simultaneous client projects each cycle with no full-time staff.",
-    },
-    {
-      title: "Product Thinking",
-      body: "I start from the problem, not the feature list. On my own products I've owned every product decision — what to build, what to cut, and why. The ghosting-score mechanism in Bevisly and the two-flow AI design in MockMate came from that work.",
-    },
-    {
-      title: "AI-Native Execution",
-      body: "I use AI tools as a core part of how I work: I do the product thinking, direct AI for implementation speed, and review everything that ships. It means I can prototype my own ideas instead of just describing them.",
-    },
-  ],
-  skills: [
-    {
-      group: "Product & Delivery",
-      items: [
-        ["Prioritization", 3], ["Roadmapping", 3], ["Agile / Scrum", 3],
-        ["Stakeholder Management", 3], ["Project Management (Google certified)", 3],
-      ],
-    },
-    {
-      group: "Research & Communication",
-      items: [
-        ["Competitive Research", 3], ["User Journeys & Personas", 3],
-        ["Documentation / PRDs", 3], ["Workshop Facilitation", 3],
-        ["English / Swedish (fluent) · Danish (learning)", 3],
-      ],
-    },
-    {
-      group: "Technical (working level)",
-      items: [
-        ["React / TypeScript", 2], ["SQL / PostgreSQL", 2], ["Git / GitHub", 2],
-        ["Figma", 2], ["Analytics", 2],
-      ],
-    },
-  ],
-  badges: [
-    { label: "Runs projects A→Z",   top: "8%",  left: "-52%", delay: 0 },
-    { label: "Google PM certified", top: "32%", left: "-52%", delay: 0.6 },
-    { label: "Agile & Scrum",       top: "62%", left: "-50%", delay: 1.1 },
-    { label: "Kanban",              top: "84%", left: "-44%", delay: 0.3 },
-    { label: "Prototypes in code",  top: "16%", right: "-50%", delay: 0.9 },
-    { label: "Roadmapping",         top: "78%", right: "-54%", delay: 1.4 },
-  ],
-  featuredSlugs: ["mvp-prioritization", "bridging-stakeholders-engineers", "leading-volunteers"],
-  techMarquee: [
-    "Prioritization", "Roadmapping", "Agile / Scrum", "Stakeholder Management",
-    "User Research", "PRDs & Specs", "Figma", "Analytics", "React / TypeScript", "SQL",
-  ],
-  projectsHeading: "Where I drive outcomes.",
-  featuredCaseIds: ["millennial", "trailr"],
-  miniCaseIds: ["mockmate", "bevisly", "satoshi", "cinema", "racha"],
-};
-
-const devContent: ModeContent = {
-  roleLabel: "Product Engineer",
-  availability: "Open to Product Engineer roles",
-  heroHook: ["I take products from brief to live."],
-  heroHookAccents: ["brief", "live."],
-  heroPhilosophy:
-    "I move from brief to shipped — fast, product-sharp, and sweating the right details.",
-  cvLink: "/assets/Taninwat_Kaewpankan_CV_Product.pdf",
-  whatIDo: [
-    {
-      title: "Full-Stack Engineering",
-      body: "I build end-to-end — React and Next.js on the front, Node.js, PostgreSQL, and Prisma on the back, AWS Lambda for background work, and AI pipelines where the product needs them. I don't stop at the UI boundary. I care about what ships, not just what compiles.",
-    },
-    {
-      title: "Product & Design Thinking",
-      body: "I work well in the space between engineering and product. I can read a brief, ask why, push back when something doesn't add up, and still deliver. Understanding the problem usually changes how I build the solution.",
-    },
-    {
-      title: "Startup & AI-Native",
-      body: "I've never needed a playbook to get started. I use AI tools as a core part of how I work — not as a buzzword, but because it makes me faster and sharper. I move quickly, ask questions when stuck, and care more about shipping than perfecting.",
-    },
-  ],
-  skills: [
-    {
-      group: "Frontend",
-      items: [
-        ["React", 3], ["Next.js", 3], ["TypeScript", 3],
-        ["Tailwind CSS", 3], ["HTML / CSS", 3], ["AI SDK", 2],
-      ],
-    },
-    {
-      group: "Backend & Data",
-      items: [
-        ["Node.js", 2], ["PostgreSQL", 2], ["Prisma", 2],
-        ["REST / WS", 2], ["AWS Lambda", 2],
-      ],
-    },
-    {
-      group: "Craft & Tools",
-      items: [
-        ["Performance", 3], ["Git / GitHub", 3], ["Figma", 2],
-        ["Analytics", 2], ["Accessibility", 2],
-      ],
-    },
-  ],
-  badges: [
-    { label: "Ships end-to-end",         top: "8%",  left: "-52%", delay: 0 },
-    { label: "0 → 1 Builder",            top: "32%", left: "-52%", delay: 0.6 },
-    { label: "Early team · Trailr AI",   top: "62%", left: "-50%", delay: 1.1 },
-    { label: "Copenhagen, DK",           top: "84%", left: "-44%", delay: 0.3 },
-    { label: "Product-sharp",            top: "16%", right: "-50%", delay: 0.9 },
-    { label: "Full-stack",               top: "50%", right: "-44%", delay: 0.4 },
-    { label: "Nordisk Film · DR pilots", top: "78%", right: "-54%", delay: 1.4 },
-  ],
-  featuredSlugs: ["bevisly", "shipping-at-trailr", "speed-as-strategy"],
-  techMarquee: [
-    "React", "Next.js", "TypeScript", "Tailwind CSS",
-    "PostgreSQL", "Prisma", "AI SDK", "AWS Lambda",
-  ],
-  projectsHeading: "Built to solve real problems.",
-  featuredCaseIds: ["mockmate", "bevisly", "satoshi"],
-  miniCaseIds: ["cinema", "racha"],
-};
+// ─── SITE CONTENT ─────────────────────────────────────────────────────────────
+// Single flat identity: Product Engineer & Project Coordinator.
 
 export const siteContent = {
-  // ── Shared across modes ──
-  heroIntro: "Taninwat Kaewpankan",
+  roleLabel: "Product Engineer & Project Coordinator",
+  availability: "Open to product engineer & junior frontend roles",
+  heroTagline:
+    "a product engineer driven by shipping things that actually matter",
+  cvLink: "/assets/Taninwat_Kaewpankan_CV_Product.pdf",
+  cvLabel: "Download Resume",
 
   aboutStory: [
     "I moved to Sweden at 16 with no Swedish and no plan. I learned the language, rebuilt my grades, and worked every job that would have me — cleaning, waiting tables, running a food truck, bartending, sorting packages through the night.",
@@ -180,15 +32,32 @@ export const siteContent = {
     "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language — just with a few more tools.",
   ],
 
-  contactHeading: "Let's talk.",
-  contactBody:
-    "If something here caught your attention — a project, a role, or just curiosity — I'd love to hear from you. No formal process needed. Just send an email and we'll go from there.",
+  // Scroll-revealed paragraph in the About section.
+  aboutAnimated:
+    "I build and coordinate digital products — shaping what to build, shipping the frontend myself, and keeping delivery on track. I love working with small teams that want to move fast and ship things that actually matter. Let's build something incredible together!",
 
-  cvLabel: "Download Resume",
-
-  // ── Mode-specific ──
-  pm: pmContent,
-  dev: devContent,
+  whatIDo: [
+    {
+      title: "Product Management & Coordination",
+      body: "Keeping work moving end-to-end — scoping, prioritization, stakeholder alignment, and delivery. At Millennial Consulting I progressed rapidly over four cycles: starting in operations, advancing to Operations Manager, and ultimately serving as Head of Organization — helping coordinate and deliver around 20 client projects with no full-time staff.",
+    },
+    {
+      title: "Frontend Development",
+      body: "Building fast, accessible web products with React, Next.js, and TypeScript. I care about what ships and how it actually feels — not just whether it compiles.",
+    },
+    {
+      title: "Product",
+      body: "Starting from the problem, not the feature list. I own product decisions — what to build, what to cut, and why — then validate them by prototyping and shipping.",
+    },
+    {
+      title: "AI-Native",
+      body: "Using AI as a core part of how I work: the product thinking is mine, AI accelerates implementation, and everything that ships gets reviewed. It means I can move fast without cutting corners.",
+    },
+    {
+      title: "Web Design & Development",
+      body: "Building modern, user-friendly websites that attract visitors and turn them into customers through clean design and strong layouts.",
+    },
+  ],
 };
 
 // ─── EXPERIENCE ───────────────────────────────────────────────────────────────
@@ -202,8 +71,6 @@ export const experience = [
     period: "Sep 2025 – Present",
     description:
       "Joined as a frontend intern at an early-stage AI startup; after graduating, continued part-time with equity warrants. Led the redesign of the platform's UI/UX — benchmarked direct and indirect competitors, synthesized findings into a design direction, and scoped the work to what the existing backend could support, cutting features rather than forcing backend changes. Took on a full navigation overhaul in React and Zustand. The platform secured enterprise trials with Nordisk Film and DR during this period.",
-    pmDescription:
-      "Led the redesign of the platform's UI/UX — benchmarked direct and indirect competitors, synthesized findings into a design direction, and scoped the work to what the existing backend could support, cutting features rather than forcing backend changes. Joined as a frontend intern; after graduating, continued part-time with equity warrants. Also took on a full navigation overhaul in React and Zustand. The platform secured enterprise trials with Nordisk Film and DR during this period.",
   },
   {
     id: "edu-1",
@@ -221,9 +88,7 @@ export const experience = [
     organization: "Millennial Consulting",
     period: "2023 – 2025",
     description:
-      "Joined with no formal onboarding. Grew from Head of Operations to leading the organization — managing consulting deliveries, coordinating teams, owning the budget, and building processes for an org that was figuring itself out as it grew.",
-    pmDescription:
-      "Grew across four cycles from operations team member to Head of Operations to Head of Organization, coordinating around five simultaneous client projects per cycle with no full-time staff. Introduced a hybrid Agile/waterfall process — fixed milestones for clients, flexible mentor sessions for teams — ran it in parallel until it proved itself, and saw it adopted org-wide. Coordinated partner-firm workshops (PwC, BearingPoint, EY-Parthenon, Round) and staffed teams to projects.",
+      "Grew across four cycles from operations team member to Operations Manager to Head of Organization, coordinating around five simultaneous client projects per cycle with no full-time staff. Introduced a hybrid Agile/waterfall process — fixed milestones for clients, flexible mentor sessions for teams — ran it in parallel until it proved itself, and saw it adopted org-wide. Coordinated partner-firm workshops (PwC, BearingPoint, EY-Parthenon, Round) and staffed teams to projects.",
   },
   {
     id: "work-2",
@@ -257,17 +122,16 @@ export const experience = [
 // ─── CASE STUDIES ─────────────────────────────────────────────────────────────
 
 export interface CaseStudy {
-  id: string;  // referenced by ModeContent featuredCaseIds / miniCaseIds
+  id: string;
   n: string;
   tag: string;
   title: string;
   sub: string;
-  images: string[];  // 0 = text-forward card; 1+ = screenshot slider
+  images: string[];
   overview: string;
   challenge: string;
   stackWhy: string;
   engineering: string;
-  pmEngineering?: string;  // PM-mode "The decisions" copy; falls back to `engineering`
   metrics: { v: string; k: string }[];
   stack: string[];
   links: { demo: string; code: string; docs?: string; demoLabel?: string };
@@ -275,162 +139,9 @@ export interface CaseStudy {
 
 export const cases: CaseStudy[] = [
   {
-    id: "mockmate",
-    n: "01",
-    tag: "AI SaaS",
-    title: "MockMate",
-    sub: "Paste a job description. Get a tailored interview. Get graded like a hiring panel would.",
-    images: [
-      "/assets/mockmate/mockmate-landing.webp",
-      "/assets/mockmate/mockmate-dashboard.webp",
-      "/assets/mockmate/mockmate-feedback.webp",
-    ],
-    overview:
-      "A full-stack AI interview platform: paste a job description, answer tailored technical questions from an AI interviewer, and receive a structured graded report — built with Next.js, Google Gemini, Prisma, and AWS Lambda for background processing.",
-    challenge:
-      "Interview prep tools ask you to read, not do. The real problem was designing an AI pipeline that ingests any job description, generates role-specific technical questions, and grades answers the way a hiring panel would — with depth, clarity, and gap analysis — not just correct or incorrect.",
-    stackWhy:
-      "Next.js App Router for full-stack delivery in one repo. Google Gemini via the Vercel AI SDK for streaming question generation and answer grading. AWS Lambda for heavy grading jobs so the UI never blocks. Prisma for a typed data layer. PDF.js to parse uploaded resumes. PostHog to see where users drop off.",
-    engineering:
-      "Built an AI pipeline: JD upload → Gemini parses role requirements → generates targeted questions → streams answers → grading runs in AWS Lambda with structured Zod-validated output. Resume uploads are parsed with PDF.js and fed into the question-generation context so questions match the candidate's actual background.",
-    pmEngineering:
-      "Owned the product end to end: deliberately separated the AI into two flows — a live interview conversation and a separate grading pass — because mixing them made feedback inconsistent. Prioritized reliability (answers persist before AI processing, so a failed call never loses work) and kept the completion screen instant by pushing email delivery to a background job.",
-    metrics: [
-      { v: "Live", k: "Product" },
-      { v: "Gemini", k: "Interview engine" },
-      { v: "Lambda", k: "Background grading" },
-    ],
-    stack: ["Next.js", "TypeScript", "AWS Lambda", "Shadcn/UI"],
-    links: { demo: "https://mockmate.space/", code: "https://github.com/Taninwat-55/mockmate", docs: "https://github.com/Taninwat-55/mockmate/blob/main/docs/PRD.md" },
-  },
-  {
-    id: "bevisly",
-    n: "02",
-    tag: "SaaS Platform",
-    title: "Bevisly",
-    sub: "Turn skill claims into structured, verifiable proof.",
-    images: [
-      "/assets/bevisly/Bevisly-Landing.webp",
-      "/assets/bevisly/bevisly-candidate.webp",
-      "/assets/bevisly/bevisly-employer-kanban.webp",
-    ],
-    overview:
-      "A platform where skill claims come with structured, verifiable proof — built full-stack with Supabase, PostgreSQL, and a row-level security model designed for multi-role data isolation.",
-    challenge:
-      "Skills are claimed everywhere and verified nowhere. The product problem was making endorsements mean something. The technical problem was designing multi-role data isolation at the database layer — so the security model is a constraint, not a client-side hope.",
-    stackWhy:
-      "Supabase for RLS-based multi-role auth so security lives in the database, not the frontend. React and TypeScript on the front so the data model surfaces cleanly in the component tree. Next.js for SSR and SEO.",
-    engineering:
-      "Owned the product end-to-end: defined the two-role model (candidate and employer), chose database-level row security over application-level checks, and designed those policies before writing UI, then shipped 8+ AI features on top of a security layer most side projects skip entirely.",
-    pmEngineering:
-      "Mapped personas, core journeys, and constraints before building. Defined the two-role model and chose database-level security over application-level checks. Designed the Employer Responsibility Score and Candidate Reliability Score to make ghosting visible and costly — an incentive-design decision, not a feature request.",
-    metrics: [
-      { v: "RLS", k: "Database security" },
-      { v: "8+", k: "AI features" },
-      { v: "100", k: "SEO score" },
-    ],
-    stack: ["React", "TypeScript", "Vite", "Supabase", "Tailwind CSS", "Vitest"],
-    links: { demo: "https://bevisly.com/", code: "https://github.com/Taninwat-55/Bevisly" },
-  },
-  {
-    id: "satoshi",
-    n: "03",
-    tag: "FinTech",
-    title: "Satoshi Standard",
-    sub: "Live Bitcoin purchasing-power dashboard across every major currency.",
-    images: [
-      "/assets/satoshi-standard/satoshi-dashboard.webp",
-      "/assets/satoshi-standard/Dashboard.webp",
-      "/assets/satoshi-standard/Address_watcher.webp",
-    ],
-    overview:
-      "Real-time dashboard tracking Bitcoin purchasing power across currencies. Live price API with a full Vitest unit-test suite covering all conversion logic.",
-    challenge:
-      "No clean tool existed for tracking Bitcoin's real purchasing power across currencies in one place. The technical constraint was making a live-data UI stay responsive when price feeds update constantly — and keeping the conversion logic correct when the data model changed.",
-    stackWhy:
-      "React and Tailwind for the live UI; Vitest to pin the conversion logic so refactors can't silently break numbers users depend on. No heavyweight state library — co-located state was enough.",
-    engineering:
-      "Identified the product gap, scoped the feature set, and shipped it. Pushed all derived math into selectors so only cells with changed values re-render. The test suite runs against pure conversion functions so coverage is fast and the maths stays trusted across iterations.",
-    pmEngineering:
-      "Identified the product gap, scoped a deliberately small feature set, and shipped it. The product call: show prices in sats so amounts feel like real money — the entire thesis is one UX decision.",
-    metrics: [
-      { v: "3", k: "Price APIs" },
-      { v: "Groq AI", k: "Streaming chat" },
-      { v: "Vitest", k: "Test suite" },
-    ],
-    stack: ["React", "TypeScript", "Tailwind", "Vitest", "API Integration"],
-    links: {
-      demo: "https://www.satoshi-standard.xyz/",
-      code: "https://github.com/Taninwat-55/Satoshi-Standard",
-    },
-  },
-  {
-    id: "cinema",
-    n: "04",
-    tag: "Full Stack",
-    title: "Cinema Booking",
-    sub: "My first full-stack project — a complete booking system built with a team of students at Jensen.",
-    images: [
-      "/assets/cinema/cinema-index.webp",
-      "/assets/cinema/cinema-movie-id.webp",
-      "/assets/cinema/cinema-seat.webp",
-    ],
-    overview:
-      "A team project from Jensen — full-stack cinema booking engine with React on the front and Node.js + PostgreSQL on the back. Covers the full flow: browse movies, pick a showing, select seats, confirm a booking, and manage it from a user account.",
-    challenge:
-      "The main learning challenge was keeping client and server in sync across a multi-step booking flow — seat availability, auth state, booking confirmation — without the project falling apart at the seams. For a first full-stack build, that coordination was the hard part.",
-    stackWhy:
-      "React for the UI, Node.js for the API, PostgreSQL for persistence. Structured around a clean model/controller/route separation so each layer stayed focused and testable in isolation.",
-    engineering:
-      "Built the full REST API from scratch: auth with role-based access (admin and user), seat selection tied to a specific showing, booking creation with confirmation number, history, and cancellation. My first time owning a server, a database schema, and a client simultaneously.",
-    metrics: [
-      { v: "PostgreSQL", k: "Database" },
-      { v: "Auth", k: "Admin + user roles" },
-      { v: "Full-stack", k: "React + Node.js" },
-    ],
-    stack: ["React", "Node.js", "PostgreSQL", "REST API"],
-    links: {
-      demo: "https://cinema-booking-system-project.vercel.app",
-      code: "https://github.com/Taninwat-55/cinema-booking-system-project",
-    },
-  },
-  {
-    id: "racha",
-    n: "05",
-    tag: "Commercial",
-    title: "Racha Beauty",
-    sub: "From zero web presence to 95+ Lighthouse and local search visibility.",
-    images: [
-      "/assets/racha/Racha_img.webp",
-      "/assets/racha/about-racha.webp",
-      "/assets/racha/racha_services.webp",
-      "/assets/racha/racha-contact.webp",
-    ],
-    overview:
-      "A local wellness business had no online presence. I built one from scratch — fast, clean, SEO-optimised with Next.js and measurable improvement in local search rankings.",
-    challenge:
-      "Small local businesses rarely have a budget for ongoing maintenance, so the site had to be fast out of the box with no CDN tuning, no ops team, and zero ongoing technical overhead.",
-    stackWhy:
-      "Next.js for server-rendering and automatic image optimisation; Tailwind for a design system the client could understand visually; structured data markup so Google reads the business correctly.",
-    engineering:
-      "Scored 95+ across all Lighthouse categories on first deploy. Used next/image throughout, structured data for local business schema, and a zero-JavaScript-for-content approach.",
-    metrics: [
-      { v: "95+", k: "Lighthouse score" },
-      { v: "#1", k: "Local search rank" },
-      { v: "0", k: "JS for content" },
-    ],
-    stack: ["Next.js", "Tailwind", "SEO", "Analytics", "Schema.org"],
-    links: {
-      demo: "https://rachabeautywellness.com",
-      code: "https://github.com/Taninwat-55/rachabeautywellness",
-    },
-  },
-
-  // ── PM-mode case studies (team/coordination contexts) ──
-  {
     id: "millennial",
     n: "01",
-    tag: "Operations & Delivery",
+    tag: "Management",
     title: "Millennial Consulting",
     sub: "Coordinating a 25-consultant student consultancy across simultaneous client projects.",
     images: [
@@ -440,7 +151,7 @@ export const cases: CaseStudy[] = [
       "/assets/millennial/fall2024_hot-seat.webp",
     ],
     overview:
-      "A student-run strategy consultancy under the non-profit Station in Copenhagen, delivering pro-bono projects to real startups in 8-week cycles. Across four cycles I grew from operations team member to Head of Operations to Head of Organization.",
+      "A student-run strategy consultancy under the non-profit Station in Copenhagen, delivering pro-bono projects to real startups in 8-week cycles. Across four cycles I grew from operations team member to Operations Manager to Head of Organization.",
     challenge:
       "Every 8-week cycle ran ~5 client projects and 25–28 consultants in parallel — with no full-time staff and volunteers who could walk away at any time. The hard part was never a single project; it was keeping simultaneous engagements, student teams, partner firms, and clients aligned and delivering on time, in an org where authority was earned, not assigned.",
     stackWhy:
@@ -462,7 +173,7 @@ export const cases: CaseStudy[] = [
   {
     id: "trailr",
     n: "02",
-    tag: "Product · AI Startup",
+    tag: "Product",
     title: "Trailr AI",
     sub: "Leading a platform redesign at an early-stage AI video startup.",
     images: [
@@ -491,16 +202,242 @@ export const cases: CaseStudy[] = [
       demoLabel: "Visit Trailr",
     },
   },
+  {
+    id: "bevisly",
+    n: "03",
+    tag: "Full-Stack",
+    title: "Bevisly",
+    sub: "Turn skill claims into structured, verifiable proof.",
+    images: [
+      "/assets/bevisly/Bevisly-Landing.webp",
+      "/assets/bevisly/bevisly-candidate.webp",
+      "/assets/bevisly/bevisly-employer-kanban.webp",
+    ],
+    overview:
+      "A platform where skill claims come with structured, verifiable proof — built full-stack with Supabase, PostgreSQL, and a row-level security model designed for multi-role data isolation.",
+    challenge:
+      "Skills are claimed everywhere and verified nowhere. The product problem was making endorsements mean something. The technical problem was designing multi-role data isolation at the database layer — so the security model is a constraint, not a client-side hope.",
+    stackWhy:
+      "Supabase for RLS-based multi-role auth so security lives in the database, not the frontend. React and TypeScript on the front so the data model surfaces cleanly in the component tree. Next.js for SSR and SEO.",
+    engineering:
+      "Owned the product end-to-end: defined the two-role model (candidate and employer), chose database-level row security over application-level checks, and designed those policies before writing UI, then shipped 8+ AI features on top of a security layer most side projects skip entirely. Designed the Employer Responsibility Score and Candidate Reliability Score to make ghosting visible and costly — an incentive-design decision, not a feature request.",
+    metrics: [
+      { v: "RLS", k: "Database security" },
+      { v: "8+", k: "AI features" },
+      { v: "100", k: "SEO score" },
+    ],
+    stack: ["React", "TypeScript", "Vite", "Supabase", "Tailwind CSS", "Vitest"],
+    links: { demo: "https://bevisly.com/", code: "https://github.com/Taninwat-55/Bevisly" },
+  },
+  {
+    id: "mockmate",
+    n: "04",
+    tag: "Full-Stack",
+    title: "MockMate",
+    sub: "Paste a job description. Get a tailored interview. Get graded like a hiring panel would.",
+    images: [
+      "/assets/mockmate/mockmate-landing.webp",
+      "/assets/mockmate/mockmate-dashboard.webp",
+      "/assets/mockmate/mockmate-feedback.webp",
+    ],
+    overview:
+      "A full-stack AI interview platform: paste a job description, answer tailored technical questions from an AI interviewer, and receive a structured graded report — built with Next.js, Google Gemini, Prisma, and AWS Lambda for background processing.",
+    challenge:
+      "Interview prep tools ask you to read, not do. The real problem was designing an AI pipeline that ingests any job description, generates role-specific technical questions, and grades answers the way a hiring panel would — with depth, clarity, and gap analysis — not just correct or incorrect.",
+    stackWhy:
+      "Next.js App Router for full-stack delivery in one repo. Google Gemini via the Vercel AI SDK for streaming question generation and answer grading. AWS Lambda for heavy grading jobs so the UI never blocks. Prisma for a typed data layer. PDF.js to parse uploaded resumes. PostHog to see where users drop off.",
+    engineering:
+      "Built an AI pipeline: JD upload → Gemini parses role requirements → generates targeted questions → streams answers → grading runs in AWS Lambda with structured Zod-validated output. Deliberately separated the AI into two flows — a live interview conversation and a separate grading pass — because mixing them made feedback inconsistent. Answers persist before AI processing, so a failed call never loses work.",
+    metrics: [
+      { v: "Live", k: "Product" },
+      { v: "Gemini", k: "Interview engine" },
+      { v: "Lambda", k: "Background grading" },
+    ],
+    stack: ["Next.js", "TypeScript", "AWS Lambda", "Shadcn/UI"],
+    links: { demo: "https://mockmate.space/", code: "https://github.com/Taninwat-55/mockmate", docs: "https://github.com/Taninwat-55/mockmate/blob/main/docs/PRD.md" },
+  },
+  {
+    id: "satoshi",
+    n: "05",
+    tag: "FinTech",
+    title: "Satoshi Standard",
+    sub: "Live Bitcoin purchasing-power dashboard across every major currency.",
+    images: [
+      "/assets/satoshi-standard/satoshi-dashboard.webp",
+      "/assets/satoshi-standard/Dashboard.webp",
+      "/assets/satoshi-standard/Address_watcher.webp",
+    ],
+    overview:
+      "Real-time dashboard tracking Bitcoin purchasing power across currencies. Live price API with a full Vitest unit-test suite covering all conversion logic.",
+    challenge:
+      "No clean tool existed for tracking Bitcoin's real purchasing power across currencies in one place. The technical constraint was making a live-data UI stay responsive when price feeds update constantly — and keeping the conversion logic correct when the data model changed.",
+    stackWhy:
+      "React and Tailwind for the live UI; Vitest to pin the conversion logic so refactors can't silently break numbers users depend on. No heavyweight state library — co-located state was enough.",
+    engineering:
+      "Identified the product gap, scoped the feature set, and shipped it. Pushed all derived math into selectors so only cells with changed values re-render. The test suite runs against pure conversion functions so coverage is fast and the maths stays trusted across iterations.",
+    metrics: [
+      { v: "3", k: "Price APIs" },
+      { v: "Groq AI", k: "Streaming chat" },
+      { v: "Vitest", k: "Test suite" },
+    ],
+    stack: ["React", "TypeScript", "Tailwind", "Vitest", "API Integration"],
+    links: {
+      demo: "https://www.satoshi-standard.xyz/",
+      code: "https://github.com/Taninwat-55/Satoshi-Standard",
+    },
+  },
+  {
+    id: "cinema",
+    n: "06",
+    tag: "Full-Stack",
+    title: "Cinema Booking",
+    sub: "My first full-stack project — a complete booking system built with a team of students at Jensen.",
+    images: [
+      "/assets/cinema/cinema-index.webp",
+      "/assets/cinema/cinema-movie-id.webp",
+      "/assets/cinema/cinema-seat.webp",
+    ],
+    overview:
+      "A team project from Jensen — full-stack cinema booking engine with React on the front and Node.js + PostgreSQL on the back. Covers the full flow: browse movies, pick a showing, select seats, confirm a booking, and manage it from a user account.",
+    challenge:
+      "The main learning challenge was keeping client and server in sync across a multi-step booking flow — seat availability, auth state, booking confirmation — without the project falling apart at the seams. For a first full-stack build, that coordination was the hard part.",
+    stackWhy:
+      "React for the UI, Node.js for the API, PostgreSQL for persistence. Structured around a clean model/controller/route separation so each layer stayed focused and testable in isolation.",
+    engineering:
+      "Built the full REST API from scratch: auth with role-based access (admin and user), seat selection tied to a specific showing, booking creation with confirmation number, history, and cancellation. My first time owning a server, a database schema, and a client simultaneously.",
+    metrics: [
+      { v: "PostgreSQL", k: "Database" },
+      { v: "Auth", k: "Admin + user roles" },
+      { v: "Full-stack", k: "React + Node.js" },
+    ],
+    stack: ["React", "Node.js", "PostgreSQL", "REST API"],
+    links: {
+      demo: "https://cinema-booking-system-project.vercel.app",
+      code: "https://github.com/Taninwat-55/cinema-booking-system-project",
+    },
+  },
+  {
+    id: "racha",
+    n: "07",
+    tag: "Commercial",
+    title: "Racha Beauty",
+    sub: "From zero web presence to 95+ Lighthouse and local search visibility.",
+    images: [
+      "/assets/racha/Racha_img.webp",
+      "/assets/racha/about-racha.webp",
+      "/assets/racha/racha_services.webp",
+      "/assets/racha/racha-contact.webp",
+    ],
+    overview:
+      "A local wellness business had no online presence. I built one from scratch — fast, clean, SEO-optimised with Next.js and measurable improvement in local search rankings.",
+    challenge:
+      "Small local businesses rarely have a budget for ongoing maintenance, so the site had to be fast out of the box with no CDN tuning, no ops team, and zero ongoing technical overhead.",
+    stackWhy:
+      "Next.js for server-rendering and automatic image optimisation; Tailwind for a design system the client could understand visually; structured data markup so Google reads the business correctly.",
+    engineering:
+      "Scored 95+ across all Lighthouse categories on first deploy. Used next/image throughout, structured data for local business schema, and a zero-JavaScript-for-content approach.",
+    metrics: [
+      { v: "95+", k: "Lighthouse score" },
+      { v: "#1", k: "Local search rank" },
+      { v: "0", k: "JS for content" },
+    ],
+    stack: ["Next.js", "Tailwind", "SEO", "Analytics", "Schema.org"],
+    links: {
+      demo: "https://rachabeautywellness.com",
+      code: "https://github.com/Taninwat-55/rachabeautywellness",
+    },
+  },
+];
+
+// ─── HOMEPAGE PROJECT CARDS ───────────────────────────────────────────────────
+// The 4 sticky-stacking cards in the Projects section.
+
+export interface ProjectCard {
+  number: string;
+  title: string;
+  category: string;
+  buttonLabel: string;
+  href: string;
+  external: boolean;
+  images: [string, string, string]; // [col1-top, col1-bottom, col2-tall]
+}
+
+export const projectCards: ProjectCard[] = [
+  {
+    number: "01",
+    title: "Millennial Consulting",
+    category: "Management",
+    buttonLabel: "View Case",
+    href: "/cases/millennial",
+    external: false,
+    images: [
+      "/assets/millennial/Millennial_Spring2025.webp",
+      "/assets/millennial/fall2024_hot-seat.webp",
+      "/assets/millennial/Millennial_Fall2024.webp",
+    ],
+  },
+  {
+    number: "02",
+    title: "Trailr AI",
+    category: "Product",
+    buttonLabel: "View Case",
+    href: "/cases/trailr",
+    external: false,
+    images: [
+      "/assets/trailr/trailr-hero.webp",
+      "/assets/trailr/trailr-clip-generator.webp",
+      "/assets/trailr/trailr-screening-room.webp",
+    ],
+  },
+  {
+    number: "03",
+    title: "Bevisly",
+    category: "Full-Stack",
+    buttonLabel: "Live Demo",
+    href: "https://bevisly.com",
+    external: true,
+    images: [
+      "/assets/bevisly/Bevisly-Landing.webp",
+      "/assets/bevisly/bevisly-employer-kanban.webp",
+      "/assets/bevisly/bevisly-candidate.webp",
+    ],
+  },
+  {
+    number: "04",
+    title: "MockMate",
+    category: "Full-Stack",
+    buttonLabel: "Live Demo",
+    href: "https://mockmate.space",
+    external: true,
+    images: [
+      "/assets/mockmate/mockmate-landing.webp",
+      "/assets/mockmate/mockmate-dashboard.webp",
+      "/assets/mockmate/mockmate-feedback.webp",
+    ],
+  },
+];
+
+// ─── MARQUEE IMAGES ───────────────────────────────────────────────────────────
+
+export const marqueeImages = [
+  "/assets/mockmate/mockmate-landing.webp",
+  "/assets/trailr/trailr-story-builder.webp",
+  "/assets/bevisly/Bevisly-Landing.webp",
+  "/assets/satoshi-standard/satoshi-dashboard.webp",
+  "/assets/trailr/trailr-screening-room.webp",
+  "/assets/mockmate/mockmate-dashboard.webp",
+  "/assets/millennial/Millennial_Spring2025.webp",
+  "/assets/bevisly/bevisly-employer-kanban.webp",
 ];
 
 // ─── CHATBOT CONTEXT ──────────────────────────────────────────────────────────
 
 export const chatbotContext = `
-Taninwat is actively job searching as of June 2026. He just earned his Higher Vocational Diploma in Frontend Development (2-year program) from Jensen Yrkeshögskola (May 2026) and is looking for his first professional role in tech — primarily project coordination, junior PM, or product-adjacent roles at small companies — and also open to Product Engineer roles. He wants a position where he can own delivery end-to-end: shaping product direction, building the thing, and iterating on real feedback. He's comfortable going full-stack when the work calls for it.
+Taninwat is actively job searching as of June 2026. He just earned his Higher Vocational Diploma in Frontend Development (2-year program) from Jensen Yrkeshögskola (May 2026) and is looking for his first professional role in tech — primarily product engineer, junior frontend developer, or product-adjacent roles at small companies. He wants a position where he can own delivery end-to-end: shaping product direction, building the thing, and iterating on real feedback. He's comfortable going full-stack when the work calls for it.
 
 He's based in Denmark and holds dual Thai-Swedish citizenship, so he can work anywhere in the EU/Schengen without visa complications. He's open to roles in Denmark, Sweden, or remote.
 
-He's honest about where he stands: his degree is a vocational frontend program, not a CS degree, so he doesn't pretend to be a systems engineer. What he does bring is genuine project delivery experience — he's shipped real products (Bevisly — a skill-verification SaaS; MockMate — an AI interview platform; a commercial client site; a full-stack booking system), led an organisation as Head of Operations at Millennial Consulting, and holds equity warrants at an early-stage AI startup (Trailr AI), where he contributes part-time.
+He's honest about where he stands: his degree is a vocational frontend program, not a CS degree, so he doesn't pretend to be a systems engineer. What he does bring is genuine project delivery experience — he's shipped real products (Bevisly — a skill-verification SaaS; MockMate — an AI interview platform; a commercial client site; a full-stack booking system), led an organisation as Head of Organization at Millennial Consulting, and holds equity warrants at an early-stage AI startup (Trailr AI), where he contributes part-time.
 
 He works best in environments where he can own something end-to-end, figure things out without constant hand-holding, and collaborate closely with a small team. He's not looking for the biggest company — he's looking for the right fit.
 
@@ -582,4 +519,3 @@ export const projects = [
     image: "/assets/racha/Racha_img.webp",
   },
 ];
-

@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import { DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Kanit, JetBrains_Mono } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
-import { MagneticCursor } from "./components/MagneticCursor";
-import { ModeProvider } from "./components/ModeContext";
 import "./globals.css";
 
-const dmSans = DM_Sans({
+const kanit = Kanit({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-kanit",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -22,9 +20,9 @@ const personJsonLd = {
   image: "https://taninwatkaewpankan.xyz/opengraph-image",
   alternateName: "Ice",
   url: "https://taninwatkaewpankan.xyz",
-  jobTitle: "Product & Project Coordinator",
+  jobTitle: "Product Engineer & Project Coordinator",
   description:
-    "Product generalist based in Copenhagen — project coordination, product thinking, and frontend engineering.",
+    "Product engineer and project coordinator based in Copenhagen — building and shipping web products with React, Next.js, and TypeScript.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Copenhagen",
@@ -42,11 +40,8 @@ const personJsonLd = {
     },
   ],
   knowsAbout: [
-    "Project Coordination",
-    "Product Management",
-    "Agile / Scrum",
-    "Stakeholder Management",
     "Product Engineering",
+    "Frontend Development",
     "React",
     "Next.js",
     "TypeScript",
@@ -54,12 +49,16 @@ const personJsonLd = {
     "PostgreSQL",
     "Supabase",
     "Full-Stack Development",
+    "Project Coordination",
+    "Agile / Scrum",
+    "Stakeholder Management",
     "Product Thinking",
     "Startup",
     "Copenhagen",
   ],
   workExample: [
     { "@type": "WebSite", name: "Bevisly", url: "https://bevisly.com" },
+    { "@type": "WebSite", name: "MockMate", url: "https://mockmate.space" },
     { "@type": "WebSite", name: "Satoshi Standard", url: "https://www.satoshi-standard.xyz" },
     { "@type": "WebSite", name: "Racha Beauty & Wellness", url: "https://rachabeautywellness.com" },
   ],
@@ -72,34 +71,36 @@ const personJsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://taninwatkaewpankan.xyz"),
   title: {
-    default: "Taninwat Kaewpankan | Product & Project Coordinator",
-    template: "%s | Taninwat Kaewpankan",
+    default: "Ice · Taninwat Kaewpankan — Product Engineer & Project Coordinator",
+    template: "%s | Ice — Taninwat Kaewpankan",
   },
   description:
-    "Product generalist based in Copenhagen — project coordination, product thinking, and frontend engineering.",
+    "Ice (Taninwat Kaewpankan) is a product engineer and project coordinator in Copenhagen — building and shipping web products with React, Next.js, and TypeScript.",
   keywords: [
-    "Project Coordinator",
-    "Junior Product Manager",
-    "Associate Product Manager",
-    "Project Management",
     "Product Engineer",
+    "Junior Frontend Developer",
+    "Frontend Developer",
+    "Project Coordinator",
     "React",
+    "Next.js",
     "TypeScript",
     "Copenhagen",
     "Denmark",
   ],
   openGraph: {
-    title: "Taninwat Kaewpankan | Product & Project Coordinator",
-    description: "Product generalist based in Copenhagen — project coordination, product thinking, and frontend engineering.",
+    title: "Ice · Taninwat Kaewpankan — Product Engineer & Project Coordinator",
+    description:
+      "Product engineer and project coordinator in Copenhagen — building and shipping web products with React, Next.js, and TypeScript.",
     url: "https://taninwatkaewpankan.xyz",
-    siteName: "Taninwat Kaewpankan Portfolio",
+    siteName: "Ice — Taninwat Kaewpankan",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Taninwat Kaewpankan | Product & Project Coordinator",
-    description: "Product generalist based in Copenhagen — project coordination, product thinking, and frontend engineering.",
+    title: "Ice · Taninwat Kaewpankan — Product Engineer & Project Coordinator",
+    description:
+      "Product engineer and project coordinator in Copenhagen — building and shipping web products with React, Next.js, and TypeScript.",
   },
   icons: {
     icon: "/icon.svg",
@@ -114,14 +115,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${dmSans.variable} ${jetbrainsMono.variable} antialiased bg-sand-100 text-ink-900 selection:bg-clay-100 selection:text-clay-600`}
+        className={`${kanit.variable} ${jetbrainsMono.variable} antialiased bg-night-900 text-frost`}
       >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-        <MagneticCursor />
-        <ModeProvider>{children}</ModeProvider>
+        {children}
         <GoogleTagManager gtmId="GTM-NJ6FFTVW" />
       </body>
     </html>

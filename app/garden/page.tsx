@@ -4,7 +4,6 @@ import { ArrowUpRight, Clock } from "lucide-react";
 import { getSortedPostsData } from "../lib/posts";
 import { Navbar } from "../components/Navbar";
 import { SkipLink } from "../components/SkipLink";
-import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
   title: "Garden",
@@ -14,14 +13,14 @@ export const metadata: Metadata = {
     canonical: "https://taninwatkaewpankan.xyz/garden",
   },
   openGraph: {
-    title: "Garden | Taninwat Kaewpankan",
+    title: "Garden | Ice — Taninwat Kaewpankan",
     description:
       "Notes on building products — engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
     url: "https://taninwatkaewpankan.xyz/garden",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Garden | Taninwat Kaewpankan",
+    title: "Garden | Ice — Taninwat Kaewpankan",
     description:
       "Notes on building products — engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
   },
@@ -31,29 +30,24 @@ export default function GardenIndex() {
   const allPosts = getSortedPostsData();
 
   return (
-    <div className="min-h-screen bg-sand-100 text-ink-900">
+    <div className="min-h-screen bg-night-900 text-frost">
       <SkipLink />
-      <Navbar variant="simple" backLinkHref="/" backLinkText="Back to Home" />
+      <Navbar backLinkHref="/" backLinkText="Back to Home" />
 
       <main id="main-content" className="relative">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute top-0 right-[-10%] w-[680px] h-[480px] rounded-full bg-clay-300/15 blur-[120px]"
-        />
-
         <div className="relative container mx-auto px-6 pt-32 md:pt-40 pb-24 max-w-6xl">
           {/* Page header */}
-          <div className="max-w-2xl mb-20">
-            <div className="font-mono text-[11px] tracking-[0.3em] uppercase text-clay-500 mb-5">
+          <div className="max-w-3xl mb-20">
+            <div className="text-[11px] tracking-[0.3em] uppercase text-clay-500 mb-5">
               Garden — Interactive Writing
             </div>
-            <h1 className="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.05] text-ink-900 mb-6">
-              Half engineering log,{" "}
-              <span className="bg-gradient-to-r from-clay-600 via-clay-500 to-clay-300 bg-clip-text text-transparent">
-                half live experiment.
-              </span>
+            <h1
+              className="hero-heading font-black uppercase tracking-tight leading-none mb-6"
+              style={{ fontSize: "clamp(2.6rem, 8vw, 100px)" }}
+            >
+              Garden
             </h1>
-            <p className="text-lg text-ink-700 leading-relaxed">
+            <p className="text-lg text-frost/70 font-light leading-relaxed">
               Notes on building products — engineering, product thinking, and
               the occasional tool that runs right inside the post.
             </p>
@@ -66,31 +60,33 @@ export default function GardenIndex() {
                 key={post.slug}
                 href={`/garden/${post.slug}`}
                 aria-label={`Read: ${post.title}`}
-                className="group relative flex flex-col h-full p-6 md:p-8 rounded-2xl border border-border bg-sand-200/70 hover:border-clay-400/50 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-500 focus-visible:ring-offset-2 focus-visible:ring-offset-sand-100"
+                className="group relative flex flex-col h-full p-6 md:p-8 rounded-2xl bg-white/3 border border-frost/10 hover:border-frost/25 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900"
               >
                 {/* Top: category + exit arrow */}
                 <div className="flex items-start justify-between gap-3 mb-6">
-                  <Badge variant="ice">{post.category}</Badge>
+                  <span className="inline-block text-clay-500 bg-clay-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1">
+                    {post.category}
+                  </span>
                   <span
                     aria-hidden
-                    className="text-ink-300 group-hover:text-clay-600 transition-colors"
+                    className="text-frost/30 group-hover:text-clay-500 transition-colors"
                   >
                     <ArrowUpRight size={18} />
                   </span>
                 </div>
 
                 {/* Title */}
-                <h2 className="text-xl md:text-2xl font-semibold tracking-tight leading-snug text-ink-900 group-hover:text-clay-600 transition-colors mb-3">
+                <h2 className="text-xl md:text-2xl font-medium tracking-tight leading-snug text-frost group-hover:text-clay-300 transition-colors mb-3">
                   {post.title}
                 </h2>
 
                 {/* Excerpt */}
-                <p className="text-sm md:text-[15px] text-ink-700 leading-relaxed mb-8 flex-grow">
+                <p className="text-sm md:text-[15px] text-frost/60 font-light leading-relaxed mb-8 flex-grow">
                   {post.excerpt}
                 </p>
 
                 {/* Footer: date + read time */}
-                <div className="mt-auto pt-5 border-t border-border flex items-center justify-between text-ink-500 font-mono text-[11px] tracking-wider uppercase">
+                <div className="mt-auto pt-5 border-t border-frost/10 flex items-center justify-between text-frost/40 text-[11px] tracking-wider uppercase">
                   <span>{post.date}</span>
                   <span className="inline-flex items-center gap-2">
                     <Clock size={12} strokeWidth={1.5} />

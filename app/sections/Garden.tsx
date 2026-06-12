@@ -1,63 +1,66 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getPostData, type Post } from "../lib/posts";
-import { siteContent } from "../data";
-import { GardenAnimator } from "./GardenAnimator";
-import { GardenFeatured, type FeaturedPost } from "./GardenFeatured";
-
-function resolveFeatured(slugs: string[]): FeaturedPost[] {
-  return slugs
-    .map((slug) => getPostData(slug))
-    .filter((p): p is Post => p !== null)
-    .map((p) => ({
-      slug: p.slug,
-      title: p.title,
-      category: p.category,
-      readTime: p.readTime,
-    }));
-}
+import { getSortedPostsData } from "../lib/posts";
+import { FadeIn } from "../components/FadeIn";
 
 export function Garden() {
-  const pmFeatured = resolveFeatured(siteContent.pm.featuredSlugs);
-  const devFeatured = resolveFeatured(siteContent.dev.featuredSlugs);
+  const posts = getSortedPostsData().slice(0, 3);
 
   return (
     <section
       id="garden"
-      aria-label="Garden — writing"
-      className="relative py-24 md:py-32 border-t border-border bg-sand-200"
+      className="relative z-10 bg-night-900 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 px-5 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-32 pb-20"
     >
-      <div className="container mx-auto px-6 max-w-5xl">
-        <GardenAnimator>
-          {/* Header */}
-          <div className="max-w-xl mb-14">
-            <p className="text-sm font-medium text-clay-500 tracking-widest uppercase mb-5">
-              Garden
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight text-ink-900 mb-4">
-              Things I&apos;ve been thinking through.
-            </h2>
-            <p className="text-base text-ink-500 leading-relaxed">
-              A few pieces on building, shipping, and the decisions in between. Some have interactive tools embedded inside.
-            </p>
-          </div>
+      <FadeIn delay={0} y={40}>
+        <h2
+          className="hero-heading font-black uppercase leading-none tracking-tight text-center"
+          style={{ fontSize: "clamp(3rem, 12vw, 160px)" }}
+        >
+          Garden
+        </h2>
+      </FadeIn>
 
-          {/* Cards */}
-          <GardenFeatured pm={pmFeatured} dev={devFeatured} />
+      <FadeIn delay={0.15} y={20}>
+        <p className="text-frost/50 font-light text-center text-sm tracking-widest uppercase mt-4 mb-16 sm:mb-20">
+          thoughts on product, coordination, and building
+        </p>
+      </FadeIn>
 
-          {/* CTA */}
-          <div>
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+        {posts.map((post, i) => (
+          <FadeIn key={post.slug} delay={i * 0.12} y={30}>
             <Link
-              href="/garden"
-              aria-label="Browse all garden notes"
-              className="inline-flex items-center gap-2 text-sm font-medium text-clay-500 hover:text-clay-600 transition-colors group"
+              href={`/garden/${post.slug}`}
+              className="block h-full rounded-2xl p-6 md:p-7 bg-white/3 border border-frost/10 hover:border-frost/25 hover:scale-[1.01] transition-all duration-200 ease-out"
             >
-              Browse all
-              <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+              <span className="inline-block text-clay-500 bg-clay-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1 mb-3">
+                {post.category}
+              </span>
+              <h3 className="text-frost font-medium text-lg leading-snug mb-2">
+                {post.title}
+              </h3>
+              <p className="text-frost/40 text-xs font-light uppercase tracking-wider mb-3">
+                {post.date}
+              </p>
+              <p className="text-frost/60 text-sm font-light leading-relaxed line-clamp-3">
+                {post.excerpt}
+              </p>
             </Link>
-          </div>
-        </GardenAnimator>
+          </FadeIn>
+        ))}
       </div>
+
+      <FadeIn delay={0.3} y={20}>
+        <div className="flex justify-center mt-12 sm:mt-16">
+          <Link
+            href="/garden"
+            className="inline-flex items-center gap-2 text-frost/60 hover:text-frost transition-colors text-sm tracking-wider uppercase"
+          >
+            All posts
+            <ArrowRight size={16} strokeWidth={1.5} />
+          </Link>
+        </div>
+      </FadeIn>
     </section>
   );
 }
