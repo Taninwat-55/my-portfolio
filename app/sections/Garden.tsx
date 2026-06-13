@@ -33,7 +33,7 @@ export function Garden() {
               href={`/garden/${post.slug}`}
               className="block h-full rounded-2xl p-6 md:p-7 bg-white/3 border border-frost/10 hover:border-frost/25 hover:scale-[1.01] transition-all duration-200 ease-out"
             >
-              <span className="inline-block text-clay-500 bg-clay-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1 mb-3">
+              <span className="inline-block text-crystal-500 bg-crystal-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1 mb-3">
                 {post.category}
               </span>
               <h3 className="text-frost font-medium text-lg leading-snug mb-2">

@@ -50,7 +50,7 @@ function Section({ label, children }: { label: string; children: React.ReactNode
   return (
     <FadeIn y={30}>
       <div className="mb-12 md:mb-16">
-        <div className="text-clay-500 text-xs tracking-[0.25em] uppercase mb-4">
+        <div className="text-crystal-500 text-xs tracking-[0.25em] uppercase mb-4">
           {label}
         </div>
         <p className="text-frost/80 font-light leading-relaxed text-base md:text-lg max-w-3xl">
@@ -107,7 +107,7 @@ export default async function CasePage({
         {/* Header */}
         <header className="mb-14 md:mb-20">
           <FadeIn y={20}>
-            <span className="inline-block text-clay-500 bg-clay-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1 mb-6">
+            <span className="inline-block text-crystal-500 bg-crystal-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1 mb-6">
               {caseStudy.tag}
             </span>
           </FadeIn>
@@ -207,7 +207,7 @@ export default async function CasePage({
         {/* Stack */}
         <FadeIn y={20}>
           <div className="mb-14 md:mb-20">
-            <div className="text-clay-500 text-xs tracking-[0.25em] uppercase mb-4">
+            <div className="text-crystal-500 text-xs tracking-[0.25em] uppercase mb-4">
               Stack & Skills
             </div>
             <div className="flex flex-wrap gap-2">

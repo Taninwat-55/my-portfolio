@@ -78,7 +78,7 @@ export function ChatWidget() {
               {/* Header */}
               <div className="flex items-center justify-between px-5 py-4 border-b border-frost/10 shrink-0">
                 <div>
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-clay-500 mb-0.5">
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-crystal-500 mb-0.5">
                     AI Assistant
                   </div>
                   <div className="text-sm text-frost">Ask about Taninwat</div>
@@ -140,7 +140,7 @@ export function ChatWidget() {
                       <div
                         className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${
                           msg.role === "user"
-                            ? "bg-clay-500 text-white rounded-br-sm"
+                            ? "bg-crystal-500 text-night-900 rounded-br-sm"
                             : "bg-white/6 text-frost rounded-bl-sm"
                         }`}
                       >
@@ -200,12 +200,12 @@ export function ChatWidget() {
         className={`flex items-center justify-center w-12 h-12 rounded-full transition-colors ${
           isOpen
             ? "bg-night-800 text-frost border border-frost/15"
-            : "bg-clay-500 text-white"
+            : "bg-crystal-500 text-night-900"
         }`}
         style={{
           boxShadow: isOpen
             ? "0 8px 24px rgba(0, 0, 0, 0.4)"
-            : "0 8px 24px rgba(196, 113, 62, 0.45)",
+            : "0 8px 24px rgba(127, 200, 227, 0.45)",
         }}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.95 }}

@@ -81,13 +81,13 @@ const mdxComponents = {
   ),
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
     <ul
-      className="list-disc pl-6 space-y-3 mb-8 marker:text-clay-500 text-frost/75 font-light text-[17px] md:text-[18px] leading-[1.7]"
+      className="list-disc pl-6 space-y-3 mb-8 marker:text-crystal-500 text-frost/75 font-light text-[17px] md:text-[18px] leading-[1.7]"
       {...props}
     />
   ),
   ol: (props: React.OlHTMLAttributes<HTMLOListElement>) => (
     <ol
-      className="list-decimal pl-6 space-y-3 mb-8 marker:text-clay-500 text-frost/75 font-light text-[17px] md:text-[18px] leading-[1.7]"
+      className="list-decimal pl-6 space-y-3 mb-8 marker:text-crystal-500 text-frost/75 font-light text-[17px] md:text-[18px] leading-[1.7]"
       {...props}
     />
   ),
@@ -102,7 +102,7 @@ const mdxComponents = {
   ),
   blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
-      className="my-8 pl-5 border-l-2 border-clay-500/60 bg-clay-500/5 py-3 pr-4 rounded-r-md text-frost/70 italic [&>p]:text-frost/70 [&>p]:mb-0"
+      className="my-8 pl-5 border-l-2 border-crystal-500/60 bg-crystal-500/5 py-3 pr-4 rounded-r-md text-frost/70 italic [&>p]:text-frost/70 [&>p]:mb-0"
       {...props}
     />
   ),
@@ -113,7 +113,7 @@ const mdxComponents = {
         href={href}
         target={external ? "_blank" : undefined}
         rel={external ? "noopener noreferrer" : undefined}
-        className="text-clay-300 underline decoration-clay-500/40 underline-offset-4 hover:decoration-clay-500 hover:text-clay-500 transition-colors"
+        className="text-crystal-300 underline decoration-crystal-500/40 underline-offset-4 hover:decoration-crystal-500 hover:text-crystal-500 transition-colors"
         {...rest}
       />
     );
@@ -127,7 +127,7 @@ const mdxComponents = {
     if (isInline) {
       return (
         <code
-          className="font-mono text-[0.9em] px-1.5 py-0.5 rounded bg-white/6 border border-frost/10 text-clay-300"
+          className="font-mono text-[0.9em] px-1.5 py-0.5 rounded bg-white/6 border border-frost/10 text-crystal-300"
           {...rest}
         >
           {children}
@@ -205,7 +205,7 @@ export default async function GardenPost({
           {/* ── Header ─────────────────────────────────────────────── */}
           <header className="mb-14 md:mb-20">
             <div className="mb-6">
-              <span className="inline-block text-clay-500 bg-clay-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1">
+              <span className="inline-block text-crystal-500 bg-crystal-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1">
                 {post.category}
               </span>
             </div>
@@ -219,7 +219,7 @@ export default async function GardenPost({
             </p>
 
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-6 border-t border-frost/10 text-[11px] tracking-wider uppercase text-frost/40">
-              <span className="text-clay-500">{post.author}</span>
+              <span className="text-crystal-500">{post.author}</span>
               <span className="inline-flex items-center gap-2">
                 <Calendar size={12} strokeWidth={1.5} />
                 {post.date}
@@ -248,7 +248,7 @@ export default async function GardenPost({
           <footer className="mt-20 pt-10 border-t border-frost/10 flex items-center justify-between gap-4 flex-wrap">
             <Link
               href="/garden"
-              className="group inline-flex items-center gap-2 text-sm font-medium text-frost/70 hover:text-clay-300 transition-colors"
+              className="group inline-flex items-center gap-2 text-sm font-medium text-frost/70 hover:text-crystal-300 transition-colors"
             >
               <ArrowLeft
                 size={16}
@@ -259,7 +259,7 @@ export default async function GardenPost({
 
             <Link
               href="/"
-              className="text-sm uppercase tracking-wider text-frost/40 hover:text-clay-300 transition-colors"
+              className="text-sm uppercase tracking-wider text-frost/40 hover:text-crystal-300 transition-colors"
             >
               taninwatkaewpankan.xyz
             </Link>

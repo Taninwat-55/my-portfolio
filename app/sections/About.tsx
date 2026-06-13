@@ -135,7 +135,7 @@ export function About() {
                 className="overflow-hidden w-full"
               >
                 <div className="max-w-2xl mx-auto pt-12 sm:pt-14 text-left">
-                  <div className="text-clay-500 text-[10px] tracking-[0.3em] uppercase mb-8">
+                  <div className="text-crystal-500 text-[10px] tracking-[0.3em] uppercase mb-8">
                     The long version
                   </div>
                   <div className="space-y-6">

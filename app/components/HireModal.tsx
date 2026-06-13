@@ -89,7 +89,7 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
                     className="rounded-full border border-frost/15 bg-night-900 object-cover"
                   />
                   <div>
-                    <div className="text-[10px] tracking-[0.25em] uppercase text-clay-500 mb-1">
+                    <div className="text-[10px] tracking-[0.25em] uppercase text-crystal-500 mb-1">
                       Quick Actions
                     </div>
                     <div className="text-sm text-frost">
@@ -115,11 +115,11 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
                   onClick={handleCopyEmail}
                   className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-white/5 transition-colors group"
                 >
-                  <div className="shrink-0 w-10 h-10 rounded-xl bg-clay-500/10 border border-clay-500/30 flex items-center justify-center">
+                  <div className="shrink-0 w-10 h-10 rounded-xl bg-crystal-500/10 border border-crystal-500/30 flex items-center justify-center">
                     {copied ? (
-                      <Check size={18} strokeWidth={1.8} className="text-clay-300" />
+                      <Check size={18} strokeWidth={1.8} className="text-crystal-300" />
                     ) : (
-                      <Mail size={18} strokeWidth={1.5} className="text-clay-500" />
+                      <Mail size={18} strokeWidth={1.5} className="text-crystal-500" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -143,8 +143,8 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
                   className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-white/5 transition-colors group"
                   onClick={onClose}
                 >
-                  <div className="shrink-0 w-10 h-10 rounded-xl bg-clay-500/10 border border-clay-500/30 flex items-center justify-center">
-                    <FileDown size={18} strokeWidth={1.5} className="text-clay-500" />
+                  <div className="shrink-0 w-10 h-10 rounded-xl bg-crystal-500/10 border border-crystal-500/30 flex items-center justify-center">
+                    <FileDown size={18} strokeWidth={1.5} className="text-crystal-500" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium text-frost">
@@ -167,8 +167,8 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
                   className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-white/5 transition-colors group"
                   onClick={onClose}
                 >
-                  <div className="shrink-0 w-10 h-10 rounded-xl bg-clay-500/10 border border-clay-500/30 flex items-center justify-center">
-                    <Linkedin size={18} strokeWidth={1.5} className="text-clay-500" />
+                  <div className="shrink-0 w-10 h-10 rounded-xl bg-crystal-500/10 border border-crystal-500/30 flex items-center justify-center">
+                    <Linkedin size={18} strokeWidth={1.5} className="text-crystal-500" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium text-frost">

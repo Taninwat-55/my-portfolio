@@ -20,7 +20,7 @@ export function Navbar({
           className="font-bold text-xl tracking-tighter shrink-0 text-frost"
           aria-label="Home"
         >
-          Ice<span className="text-clay-500">.</span>
+          Ice<span className="text-crystal-500">.</span>
         </Link>
 
         <Link

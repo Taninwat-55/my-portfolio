@@ -38,7 +38,7 @@ export default function GardenIndex() {
         <div className="relative container mx-auto px-6 pt-32 md:pt-40 pb-24 max-w-6xl">
           {/* Page header */}
           <div className="max-w-3xl mb-20">
-            <div className="text-[11px] tracking-[0.3em] uppercase text-clay-500 mb-5">
+            <div className="text-[11px] tracking-[0.3em] uppercase text-crystal-500 mb-5">
               Garden — Interactive Writing
             </div>
             <h1
@@ -60,23 +60,23 @@ export default function GardenIndex() {
                 key={post.slug}
                 href={`/garden/${post.slug}`}
                 aria-label={`Read: ${post.title}`}
-                className="group relative flex flex-col h-full p-6 md:p-8 rounded-2xl bg-white/3 border border-frost/10 hover:border-frost/25 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900"
+                className="group relative flex flex-col h-full p-6 md:p-8 rounded-2xl bg-white/3 border border-frost/10 hover:border-frost/25 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900"
               >
                 {/* Top: category + exit arrow */}
                 <div className="flex items-start justify-between gap-3 mb-6">
-                  <span className="inline-block text-clay-500 bg-clay-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1">
+                  <span className="inline-block text-crystal-500 bg-crystal-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1">
                     {post.category}
                   </span>
                   <span
                     aria-hidden
-                    className="text-frost/30 group-hover:text-clay-500 transition-colors"
+                    className="text-frost/30 group-hover:text-crystal-500 transition-colors"
                   >
                     <ArrowUpRight size={18} />
                   </span>
                 </div>
 
                 {/* Title */}
-                <h2 className="text-xl md:text-2xl font-medium tracking-tight leading-snug text-frost group-hover:text-clay-300 transition-colors mb-3">
+                <h2 className="text-xl md:text-2xl font-medium tracking-tight leading-snug text-frost group-hover:text-crystal-300 transition-colors mb-3">
                   {post.title}
                 </h2>
 

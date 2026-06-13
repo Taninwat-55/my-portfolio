@@ -39,7 +39,7 @@ function Card({
               {card.number}
             </span>
             <div className="flex flex-col gap-1">
-              <span className="text-clay-500 text-xs sm:text-sm uppercase tracking-widest">
+              <span className="text-crystal-500 text-xs sm:text-sm uppercase tracking-widest">
                 {card.category}
               </span>
               <h3

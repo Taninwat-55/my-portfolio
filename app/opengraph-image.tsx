@@ -116,7 +116,7 @@ export default function OgImage() {
             fontSize: 13,
             letterSpacing: "0.25em",
             textTransform: "uppercase",
-            color: "#C4713E",
+            color: "#7FC8E3",
             fontFamily: "monospace",
             display: "flex",
           }}

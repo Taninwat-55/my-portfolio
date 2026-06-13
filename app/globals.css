@@ -12,7 +12,13 @@
   /* Frost — cool light text scale */
   --color-frost: #D7E2EA;
 
-  /* Clay — warm terracotta accent scale */
+  /* Crystal — icy accent scale (primary UI accent) */
+  --color-crystal-600: #3E8FB0;
+  --color-crystal-500: #7FC8E3;
+  --color-crystal-400: #9BD6EC;
+  --color-crystal-300: #B6E2F2;
+
+  /* Clay — warm terracotta (kept for the single "open to work" spark) */
   --color-clay-600: #A85C2E;
   --color-clay-500: #C4713E;
   --color-clay-400: #D4895A;

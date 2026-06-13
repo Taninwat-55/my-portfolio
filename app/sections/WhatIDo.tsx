@@ -28,7 +28,7 @@ export function WhatIDo() {
               }}
             >
               <span
-                className="font-black leading-none shrink-0 text-transparent transition-colors duration-300 group-hover:text-clay-500 [-webkit-text-stroke:2px_#0C0C0C]"
+                className="font-black leading-none shrink-0 text-transparent transition-colors duration-300 group-hover:text-crystal-600 [-webkit-text-stroke:2px_#0C0C0C]"
                 style={{ fontSize: "clamp(3rem, 10vw, 140px)" }}
               >
                 {String(i + 1).padStart(2, "0")}
