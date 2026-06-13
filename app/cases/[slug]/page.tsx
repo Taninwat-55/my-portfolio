@@ -71,9 +71,36 @@ export default async function CasePage({
 
   if (!caseStudy) notFound();
 
+  const baseUrl = "https://taninwatkaewpankan.xyz";
+  const caseUrl = `${baseUrl}/cases/${caseStudy.id}`;
+  const sameAs = [caseStudy.links.demo, caseStudy.links.code].filter(Boolean);
+
+  const creativeWorkJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: caseStudy.title,
+    headline: caseStudy.sub,
+    description: caseStudy.overview,
+    url: caseUrl,
+    image: `${baseUrl}${caseStudy.images[0]}`,
+    about: caseStudy.tag,
+    keywords: caseStudy.stack.join(", "),
+    creator: {
+      "@type": "Person",
+      name: "Taninwat Kaewpankan",
+      alternateName: "Ice",
+      url: baseUrl,
+    },
+    ...(sameAs.length ? { sameAs } : {}),
+  };
+
   return (
     <div className="min-h-screen bg-night-900 text-frost">
       <SkipLink />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(creativeWorkJsonLd) }}
+      />
       <Navbar backLinkHref="/#projects" backLinkText="Back to Projects" />
 
       <main id="main-content" className="container mx-auto px-6 pt-28 md:pt-36 pb-24 max-w-5xl">
