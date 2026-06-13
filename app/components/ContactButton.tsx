@@ -24,7 +24,7 @@ export function ContactButton({ label = "Contact Me", className = "" }: ContactB
           outline: "2px solid #FFFFFF",
           outlineOffset: "-3px",
         }}
-        className={`rounded-full text-white font-medium uppercase tracking-widest px-8 py-3 sm:px-10 sm:py-3.5 md:px-12 md:py-4 text-xs sm:text-sm md:text-base transition-transform duration-200 hover:scale-[1.04] active:scale-[0.98] ${className}`}
+        className={`whitespace-nowrap rounded-full text-white font-medium uppercase tracking-widest px-8 py-3 sm:px-10 sm:py-3.5 md:px-12 md:py-4 text-xs sm:text-sm md:text-base transition-transform duration-200 hover:scale-[1.04] active:scale-[0.98] ${className}`}
       >
         {label}
       </button>

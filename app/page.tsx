@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { SkipLink } from "./components/SkipLink";
 import { ChatWidget } from "./components/ChatWidget";
 import { CopenhagenAtmosphere } from "./components/CopenhagenAtmosphere";
@@ -7,6 +8,10 @@ import { About } from "./sections/About";
 import { WhatIDo } from "./sections/WhatIDo";
 import { Projects } from "./sections/Projects";
 import { Garden } from "./sections/Garden";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "https://taninwatkaewpankan.xyz" },
+};
 
 export default function Home() {
   return (
