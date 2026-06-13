@@ -9,38 +9,51 @@ import { AnimatedText } from "../components/AnimatedText";
 import { ContactButton } from "../components/ContactButton";
 import { siteContent } from "../data";
 
-const CORNER_IMAGES = [
+// Asymmetric, staggered, gently rotated — each object drifts on its own rhythm.
+const FLOATING_OBJECTS = [
   {
     src: "/assets/about/compass.webp",
     alt: "3D compass icon",
     className:
-      "absolute top-[4%] left-[1%] sm:left-[2%] md:left-[4%] w-30 sm:w-40 md:w-52.5",
+      "absolute top-[5%] left-[2%] sm:left-[3%] md:left-[6%] w-28 sm:w-36 md:w-48",
     delay: 0.1,
     x: -80,
-  },
-  {
-    src: "/assets/about/crystal.webp",
-    alt: "3D geometric crystal object",
-    className:
-      "absolute bottom-[8%] left-[3%] sm:left-[6%] md:left-[10%] w-25 sm:w-35 md:w-45",
-    delay: 0.25,
-    x: -80,
+    rotate: -12,
+    floatY: 16,
+    floatDur: 6.5,
   },
   {
     src: "/assets/about/laptop.webp",
     alt: "3D laptop icon",
     className:
-      "absolute top-[4%] right-[1%] sm:right-[2%] md:right-[4%] w-30 sm:w-40 md:w-52.5",
-    delay: 0.15,
+      "absolute top-[18%] right-[1%] sm:right-[2%] md:right-[3%] w-32 sm:w-44 md:w-56",
+    delay: 0.18,
     x: 80,
+    rotate: 9,
+    floatY: 22,
+    floatDur: 7.5,
+  },
+  {
+    src: "/assets/about/crystal.webp",
+    alt: "3D geometric crystal object",
+    className:
+      "absolute bottom-[16%] left-[4%] sm:left-[7%] md:left-[13%] w-20 sm:w-28 md:w-36",
+    delay: 0.3,
+    x: -80,
+    rotate: 8,
+    floatY: 13,
+    floatDur: 5.5,
   },
   {
     src: "/assets/about/plant.webp",
     alt: "3D plant group",
     className:
-      "absolute bottom-[8%] right-[3%] sm:right-[6%] md:right-[10%] w-32.5 sm:w-42.5 md:w-55",
-    delay: 0.3,
+      "absolute bottom-[5%] right-[4%] sm:right-[7%] md:right-[9%] w-36 sm:w-48 md:w-64",
+    delay: 0.25,
     x: 80,
+    rotate: -7,
+    floatY: 18,
+    floatDur: 8,
   },
 ];
 
@@ -52,18 +65,29 @@ export function About() {
       id="about"
       className="relative min-h-screen flex items-center justify-center px-5 sm:px-8 md:px-10 py-20 bg-night-900"
     >
-      {/* Decorative corner objects */}
-      {CORNER_IMAGES.map((img) => (
+      {/* Decorative floating objects — asymmetric, drifting */}
+      {FLOATING_OBJECTS.map((img) => (
         <div key={img.src} className={img.className} aria-hidden>
           <FadeIn delay={img.delay} x={img.x} y={0} duration={0.9}>
-            <Image
-              src={img.src}
-              alt={img.alt}
-              width={420}
-              height={420}
-              className="w-full h-auto select-none"
-              draggable={false}
-            />
+            <motion.div
+              animate={{ y: [0, -img.floatY, 0] }}
+              transition={{
+                duration: img.floatDur,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: img.delay,
+              }}
+              style={{ rotate: img.rotate }}
+            >
+              <Image
+                src={img.src}
+                alt={img.alt}
+                width={420}
+                height={420}
+                className="w-full h-auto select-none drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
+                draggable={false}
+              />
+            </motion.div>
           </FadeIn>
         </div>
       ))}

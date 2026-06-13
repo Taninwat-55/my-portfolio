@@ -18,9 +18,9 @@ export function ContactButton({ label = "Contact Me", className = "" }: ContactB
         onClick={() => setIsOpen(true)}
         style={{
           background:
-            "linear-gradient(123deg, #1A0A00 7%, #C4713E 37%, #8B3E10 72%, #E8965A 100%)",
+            "linear-gradient(123deg, #08161D 7%, #4F93B0 37%, #29586B 72%, #A9D6E8 100%)",
           boxShadow:
-            "0px 4px 4px rgba(196, 113, 62, 0.25), 4px 4px 12px #8B3E10 inset",
+            "0px 4px 16px rgba(142, 201, 232, 0.30), 4px 4px 12px #29586B inset",
           outline: "2px solid #FFFFFF",
           outlineOffset: "-3px",
         }}
