@@ -12,12 +12,9 @@
     "@ai-sdk/groq": "^3.0.39",
     "@ai-sdk/react": "^3.0.193",
     "@next/third-parties": "^16.0.6",
-    "@radix-ui/react-slot": "^1.2.4",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "ai": "^6.0.191",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
     "framer-motion": "^12.23.25",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.555.0",
@@ -28,8 +25,7 @@
     "react-dom": "^19.2.1",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
-    "resend": "^6.12.4",
-    "tailwind-merge": "^3.4.0"
+    "resend": "^6.12.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",
