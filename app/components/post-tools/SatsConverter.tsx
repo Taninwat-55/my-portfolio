@@ -21,7 +21,7 @@ const QUICK_PICKS = [
 
 export function SatsConverter({
   rate = 67_000,
-  caption = `Rate locked at $${(67_000).toLocaleString("en-US")}/BTC for this article — adjust the inputs to play.`,
+  caption = `Rate locked at $${(67_000).toLocaleString("en-US")}/BTC for this article. Adjust the inputs to play.`,
 }: SatsConverterProps) {
   const [sats, setSats] = useState(100_000);
   const ref = useRef<HTMLDivElement>(null);

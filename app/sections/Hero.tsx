@@ -140,6 +140,10 @@ export function Hero() {
                 Ice
               </span>
             </h1>
+            {/* The identity, stated plainly. Was previously only visible to the chatbot. */}
+            <p className="mt-3 sm:mt-4 ml-1 sm:ml-2 font-medium uppercase tracking-[0.2em] text-frost/70 text-[10px] sm:text-xs md:text-sm lg:text-base">
+              {siteContent.roleLabel}
+            </p>
           </FadeIn>
         </div>
 
@@ -147,8 +151,8 @@ export function Hero() {
         <FadeIn delay={0.45} y={20}>
           <div className="mt-5 sm:mt-6 flex flex-col items-start gap-6 sm:gap-7">
             <p
-              className="text-frost font-light uppercase tracking-wide leading-snug max-w-55 md:max-w-72"
-              style={{ fontSize: "clamp(0.75rem, 1.3vw, 1.4rem)" }}
+              className="text-frost font-light tracking-wide leading-snug max-w-64 md:max-w-md"
+              style={{ fontSize: "clamp(0.85rem, 1.7vw, 1.7rem)" }}
             >
               {siteContent.heroTagline}
             </p>

@@ -2,7 +2,7 @@ import { createGroq } from "@ai-sdk/groq";
 import { streamText, convertToModelMessages } from "ai";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
-import { personalInfo, siteContent, experience, projects, cases, chatbotContext } from "@/app/data";
+import { personalInfo, siteContent, experience, cases, chatbotContext } from "@/app/data";
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -15,7 +15,7 @@ const groq = createGroq({
 });
 
 const SYSTEM_PROMPT = `You are a helpful assistant representing ${personalInfo.name}, a ${siteContent.roleLabel} based in ${personalInfo.location}.
-He builds and ships web products — React, Next.js, TypeScript — and also leads product and project delivery: scoping, prioritization, stakeholder alignment, shipping. He can talk directly with developers because he is one.
+He builds and ships web products (React, Next.js, TypeScript) and also leads product and project delivery: scoping, prioritization, stakeholder alignment, shipping. He can talk directly with developers because he is one.
 Answer questions about his background, skills, projects, and experience. Be conversational, concise, and honest.
 If asked something you don't know about him, say so rather than making things up.
 Don't be overly promotional — be genuine and grounded.
@@ -41,9 +41,6 @@ Key results: ${c.metrics.map((m) => `${m.v} ${m.k}`).join(", ")}
 ${c.links.demo ? `Live: ${c.links.demo}` : ""}
 ${c.links.code ? `Code: ${c.links.code}` : ""}
 `.trim()).join("\n\n")}
-
-== OTHER PROJECTS ==
-${projects.map((p) => `- ${p.title} (${p.category}): ${p.description} Tech: ${p.tech.join(", ")}`).join("\n")}
 
 == JOB SEARCH & CURRENT SITUATION ==
 ${chatbotContext}

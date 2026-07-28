@@ -1,25 +1,25 @@
 # Taninwat Kaewpankan
 
-Product Engineer & Project Coordinator based in Copenhagen, Denmark — a
+Product Engineer & Project Coordinator based in Copenhagen, Denmark. A
 builder who ships.
 Personal site: https://taninwatkaewpankan.xyz
 
 ## About
 
 Taninwat Kaewpankan (goes by Ice) is a product engineer and project coordinator
-based in Copenhagen — frontend engineering, product thinking, and delivery.
+based in Copenhagen: frontend engineering, product thinking, and delivery.
 Originally from Thailand, he moved to Sweden at 16, studied at Uppsala
-University (BA Game Design & Project Management, MSc Entrepreneurship), and now
-lives in Copenhagen, Denmark.
+University (BA Game Design & Project Management, MSc Business & Management), and
+now lives in Copenhagen, Denmark.
 
 He builds web products end-to-end (React, TypeScript, Next.js, Node.js) and
-keeps delivery on track — shaping product direction, scoping work, and shipping
-it himself. He led a 25-consultant student consultancy as Head of Organization,
+keeps delivery on track: shaping product direction, scoping work, and shipping
+it himself. He led a 20+ consultant student consultancy as Head of Organization,
 and contributes part-time to the early-stage AI startup Trailr AI under equity
 warrants, where he owned the product side of a full platform UI/UX redesign.
 
 He's honest about where he stands: his degree is a vocational frontend program,
-not a CS degree. What he brings is genuine end-to-end delivery experience —
+not a CS degree. What he brings is genuine end-to-end delivery experience:
 coordinating simultaneous projects and shipping real products.
 
 ## Skills
@@ -33,34 +33,34 @@ Approach: Design systems, accessibility, performance
 
 ## Projects
 
-- Millennial Consulting (https://www.millennialconsulting.dk) — Student-run
+- Millennial Consulting (https://www.millennialconsulting.dk): Student-run
   strategy consultancy delivering pro-bono projects in 8-week cycles. Coordinated
-  ~5 parallel client projects per cycle across 25–28 volunteer consultants; grew
-  from operations team member to Head of Operations to Head of Organization.
+  ~5 parallel client projects per cycle across 20+ volunteer consultants; grew
+  from Operations Assistant to Operations Manager to Head of Organization.
   Introduced a hybrid Agile/waterfall process that was adopted org-wide.
-- Trailr AI (https://trailr.ai) — Early-stage AI video platform that secured
+- Trailr AI (https://trailr.ai): Early-stage AI video platform that secured
   enterprise trials with Nordisk Film and DR. Owned the product side of a full
   UI/UX redesign: benchmarked competitors, set a design direction, and scoped
-  ruthlessly to what the existing backend could support — cutting features rather
+  ruthlessly to what the existing backend could support, cutting features rather
   than forcing rewrites. Led a navigation overhaul in React and Zustand.
-- MockMate (https://mockmate.space) — AI mock interview platform: paste a job
+- MockMate (https://mockmate.space): AI mock interview platform: paste a job
   description, answer tailored questions from an AI interviewer, get a structured
   graded report. Owned the product end to end. Next.js, Google Gemini, Prisma,
   AWS Lambda.
-- Bevisly (https://bevisly.com) — Skill verification platform. Owned end-to-end:
+- Bevisly (https://bevisly.com): Skill verification platform. Owned end-to-end:
   defined the two-role model, designed row-level-security policies, shipped 8+ AI
   features. React, TypeScript, Supabase, PostgreSQL with row-level security.
-- Satoshi Standard (https://www.satoshi-standard.xyz) — Bitcoin purchasing power
+- Satoshi Standard (https://www.satoshi-standard.xyz): Bitcoin purchasing power
   dashboard. React, Tailwind, real-time price API, full Vitest test suite.
-- Cinema Booking System (https://cinema-booking-system-project.vercel.app) —
+- Cinema Booking System (https://cinema-booking-system-project.vercel.app):
   Full-stack booking engine with concurrent seat-locking at the data layer.
   React, Node.js, PostgreSQL.
-- Racha Beauty & Wellness (https://rachabeautywellness.com) — Commercial site
+- Racha Beauty & Wellness (https://rachabeautywellness.com): Commercial site
   built from scratch. 95+ Lighthouse score, measurable local SEO improvement.
 
 ## Experience
 
-- Frontend Developer → Product Engineer (part-time), Trailr AI (Sep 2025 – Present)
+- Frontend Developer to Product Engineer (part-time), Trailr AI (Sep 2025 – Present)
   Joined as a frontend intern; after graduating, continued part-time with equity
   warrants.
 - Head of Organization (Volunteer), Millennial Consulting (2023 – 2025)
@@ -68,9 +68,9 @@ Approach: Design systems, accessibility, performance
 
 ## Education
 
-- Higher Vocational Diploma in Frontend Development (2-year program) — Jensen Yrkeshögskola (2024 – 2026)
-- MSc Business & Management (Entrepreneurship) — Uppsala University (2022 – 2023)
-- BA Game Design & Project Management — Uppsala University (2019 – 2022)
+- Higher Vocational Diploma in Frontend Development (2-year program), Jensen Yrkeshögskola (2024 – 2026)
+- MSc Business & Management (Entrepreneurship), Uppsala University (2022 – 2023)
+- BA Game Design & Project Management, Uppsala University (2019 – 2022)
 
 ## Links
 

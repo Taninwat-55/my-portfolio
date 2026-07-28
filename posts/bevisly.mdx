@@ -11,13 +11,13 @@ Hiring is broken. Candidates send hundreds of résumés into a void, often getti
 
 I built **Bevisly** to fix this.
 
-Bevisly is a **proof-based hiring platform** that turns real work into verified experience. Instead of a CV, candidates submit a "Proof Task"—a short, real-world project. Employers review the actual output, not just the claim.
+Bevisly is a **proof-based hiring platform** that turns real work into verified experience. Instead of a CV, candidates submit a "Proof Task": a short, real-world project. Employers review the actual output, not just the claim.
 
 As a Product Engineer, I didn't just want to build a pretty UI. I wanted to architect a secure, scalable system that could handle the complexity of a two-sided marketplace. Here is how I built it.
 
 ### The Challenge: Security in a Multi-Role System
 
-The biggest technical challenge was handling three distinct user roles—**Candidate**, **Employer**, and **Admin**—without creating a spaghetti code mess of `if/else` statements in the API layer.
+The biggest technical challenge was handling three distinct user roles (**Candidate**, **Employer**, and **Admin**) without creating a spaghetti code mess of `if/else` statements in the API layer.
 
 My solution was to push security down to the database level using **PostgreSQL Row Level Security (RLS)** via Supabase.
 
@@ -29,7 +29,7 @@ This ensures that even if a frontend bug exposed an API endpoint, the database i
 
 ### Architecting the "Talent Board"
 
-One of the core features for employers is the **Talent Manager**—a Kanban-style board to track candidates through stages (New, Shortlisted, Interview, Hired).
+One of the core features for employers is the **Talent Manager**: a Kanban-style board to track candidates through stages (New, Shortlisted, Interview, Hired).
 
 This wasn't just a simple list. It needed to:
 1.  **Support Drag-and-Drop:** I utilized `@dnd-kit` for a performant, accessible drag-and-drop experience.

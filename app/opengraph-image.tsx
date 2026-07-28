@@ -148,7 +148,7 @@ export default function OgImage() {
             display: "flex",
           }}
         >
-          Taninwat Kaewpankan — shipping things that actually matter.
+          Taninwat Kaewpankan · I keep projects on track and build the product myself.
         </div>
 
         {/* Tech tags */}

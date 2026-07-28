@@ -7,6 +7,7 @@ import { Marquee } from "./sections/Marquee";
 import { About } from "./sections/About";
 import { WhatIDo } from "./sections/WhatIDo";
 import { Projects } from "./sections/Projects";
+import { CV } from "./sections/CV";
 import { Garden } from "./sections/Garden";
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function Home() {
         <About />
         <WhatIDo />
         <Projects />
+        <CV />
         <Garden />
       </main>
 

@@ -8,21 +8,21 @@ import { SkipLink } from "../components/SkipLink";
 export const metadata: Metadata = {
   title: "Garden",
   description:
-    "Notes on building products — engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
+    "Notes on building products, engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
   alternates: {
     canonical: "https://taninwatkaewpankan.xyz/garden",
   },
   openGraph: {
     title: "Garden | Ice — Taninwat Kaewpankan",
     description:
-      "Notes on building products — engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
+      "Notes on building products, engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
     url: "https://taninwatkaewpankan.xyz/garden",
   },
   twitter: {
     card: "summary_large_image",
     title: "Garden | Ice — Taninwat Kaewpankan",
     description:
-      "Notes on building products — engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
+      "Notes on building products, engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
   },
 };
 
@@ -48,7 +48,7 @@ export default function GardenIndex() {
               Garden
             </h1>
             <p className="text-lg text-frost/70 font-light leading-relaxed">
-              Notes on building products — engineering, product thinking, and
+              Notes on building products, engineering, product thinking, and
               the occasional tool that runs right inside the post.
             </p>
           </div>

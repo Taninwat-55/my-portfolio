@@ -165,21 +165,7 @@ export default async function CasePage({
           </FadeIn>
         </header>
 
-        {/* Hero image */}
-        <FadeIn y={40}>
-          <div className="relative w-full overflow-hidden rounded-[28px] md:rounded-[40px] border border-frost/10 mb-14 md:mb-20 aspect-[16/9]">
-            <Image
-              src={caseStudy.images[0]}
-              alt={`${caseStudy.title} — main screenshot`}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 1024px"
-              className="object-cover"
-            />
-          </div>
-        </FadeIn>
-
-        {/* Metrics */}
+        {/* Outcome strip — surfaced above the hero image so the result lands before any scroll */}
         <FadeIn y={30}>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14 md:mb-20">
             {caseStudy.metrics.map((m) => (
@@ -195,6 +181,20 @@ export default async function CasePage({
                 </div>
               </div>
             ))}
+          </div>
+        </FadeIn>
+
+        {/* Hero image */}
+        <FadeIn y={40}>
+          <div className="relative w-full overflow-hidden rounded-[28px] md:rounded-[40px] border border-frost/10 mb-14 md:mb-20 aspect-[16/9]">
+            <Image
+              src={caseStudy.images[0]}
+              alt={`${caseStudy.title}, main screenshot`}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              className="object-cover"
+            />
           </div>
         </FadeIn>
 
@@ -231,7 +231,7 @@ export default async function CasePage({
                 <div className="relative w-full overflow-hidden rounded-[24px] border border-frost/10 aspect-[16/10]">
                   <Image
                     src={src}
-                    alt={`${caseStudy.title} — screenshot ${i + 2}`}
+                    alt={`${caseStudy.title}, screenshot ${i + 2}`}
                     fill
                     sizes="(max-width: 768px) 100vw, 512px"
                     className="object-cover"
@@ -246,7 +246,7 @@ export default async function CasePage({
         <FadeIn y={30}>
           <div className="flex flex-col items-center gap-6 pt-10 border-t border-frost/10 text-center">
             <p className="text-frost/60 font-light max-w-md">
-              Want to talk about this project — or one we could build together?
+              Want to talk about this project, or one we could build together?
             </p>
             <ContactButton />
           </div>

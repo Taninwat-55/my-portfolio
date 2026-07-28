@@ -22,7 +22,7 @@ const personJsonLd = {
   url: "https://taninwatkaewpankan.xyz",
   jobTitle: "Product Engineer & Project Coordinator",
   description:
-    "Product engineer and project coordinator based in Copenhagen — building and shipping web products with React, Next.js, and TypeScript.",
+    "Product engineer and project coordinator based in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Copenhagen",
@@ -75,10 +75,9 @@ export const metadata: Metadata = {
     template: "%s | Ice — Taninwat Kaewpankan",
   },
   description:
-    "Ice (Taninwat Kaewpankan) is a product engineer and project coordinator in Copenhagen — building and shipping web products with React, Next.js, and TypeScript.",
+    "Ice (Taninwat Kaewpankan) is a product engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
   keywords: [
     "Product Engineer",
-    "Junior Frontend Developer",
     "Frontend Developer",
     "Project Coordinator",
     "React",
@@ -90,7 +89,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Ice · Taninwat Kaewpankan — Product Engineer & Project Coordinator",
     description:
-      "Product engineer and project coordinator in Copenhagen — building and shipping web products with React, Next.js, and TypeScript.",
+      "Product engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
     url: "https://taninwatkaewpankan.xyz",
     siteName: "Ice — Taninwat Kaewpankan",
     locale: "en_US",
@@ -100,7 +99,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ice · Taninwat Kaewpankan — Product Engineer & Project Coordinator",
     description:
-      "Product engineer and project coordinator in Copenhagen — building and shipping web products with React, Next.js, and TypeScript.",
+      "Product engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
   },
   icons: {
     icon: "/icon.svg",

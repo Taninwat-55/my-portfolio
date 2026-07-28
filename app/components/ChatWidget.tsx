@@ -160,7 +160,7 @@ export function ChatWidget() {
 
                 {hasError && (
                   <p className="text-[12px] text-frost/40 text-center py-2">
-                    Limit reached — come back in an hour.
+                    Limit reached. Come back in an hour.
                   </p>
                 )}
 

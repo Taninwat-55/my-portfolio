@@ -83,7 +83,7 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
                 <div className="flex items-center gap-3">
                   <Image
                     src="/assets/Ice_3D_Avatar.webp"
-                    alt="Ice — 3D avatar"
+                    alt="Ice, 3D avatar"
                     width={48}
                     height={48}
                     className="rounded-full border border-frost/15 bg-night-900 object-cover"
@@ -135,29 +135,36 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
                   </div>
                 </button>
 
-                {/* Download CV */}
-                <a
-                  href={siteContent.cvLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-white/5 transition-colors group"
-                  onClick={onClose}
-                >
-                  <div className="shrink-0 w-10 h-10 rounded-xl bg-crystal-500/10 border border-crystal-500/30 flex items-center justify-center">
-                    <FileDown size={18} strokeWidth={1.5} className="text-crystal-500" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-frost">
-                      Download CV
+                {/* Download CV — one general version */}
+                <div className="px-3 py-3 rounded-xl">
+                  <div className="flex items-center gap-3.5">
+                    <div className="shrink-0 w-10 h-10 rounded-xl bg-crystal-500/10 border border-crystal-500/30 flex items-center justify-center">
+                      <FileDown size={18} strokeWidth={1.5} className="text-crystal-500" />
                     </div>
-                    <div className="text-[12px] text-frost/50">
-                      PDF · Opens in new tab
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-frost">
+                        Download CV
+                      </div>
+                      <div className="text-[12px] text-frost/50">
+                        One page, PDF
+                      </div>
                     </div>
                   </div>
-                  <div className="shrink-0 text-[9px] tracking-wider uppercase text-frost/30 group-hover:text-frost/60 transition-colors">
-                    PDF
+                  <div className="mt-2.5 flex gap-2 pl-[52px]">
+                    {siteContent.cvs.map((cv) => (
+                      <a
+                        key={cv.href}
+                        href={cv.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={onClose}
+                        className="flex-1 text-center text-[12px] font-medium text-frost/80 rounded-lg border border-frost/15 bg-white/3 px-2 py-1.5 hover:border-crystal-500/50 hover:text-frost transition-colors"
+                      >
+                        {cv.label}
+                      </a>
+                    ))}
                   </div>
-                </a>
+                </div>
 
                 {/* LinkedIn */}
                 <a

@@ -11,9 +11,9 @@ excerpt: "How I helped architect the core UI/UX for an unreleased AI video platf
 
 ---
 
-Working at a registered startup in Denmark is a unique experience. Unlike established corporate roles, you aren't just a cog in a machine—you are building the machine itself.
+Working at a registered startup in Denmark is a unique experience. Unlike established corporate roles, you aren't just a cog in a machine. You are building the machine itself.
 
-I joined **[Trailr.ai](https://www.trailr.ai/)** as a frontend intern — an early-stage startup building an AI co-pilot for film trailer production.
+I joined **[Trailr.ai](https://www.trailr.ai/)** as a frontend intern. It's an early-stage startup building an AI co-pilot for film trailer production.
 
 Here are the engineering challenges we solved and the product decisions that shaped its launch.
 
@@ -36,11 +36,11 @@ The biggest technical hurdle was navigation. Trailr isn't a simple static websit
 
 I was tasked with implementing a new **Sidebar & Navigation System**. The challenge? Keeping the UI in sync with the URL and the server state without excessive re-renders.
 
-I learned that `useEffect` is often a trap. Instead, I dove deep into **Zustand** for global client state and paired it with **React Query** for server state. Balancing these two was tricky—invalidating caches at the right moment to prevent the UI from showing stale data taught me more about React lifecycles than any tutorial ever could.
+I learned that `useEffect` is often a trap. Instead, I dove deep into **Zustand** for global client state and paired it with **React Query** for server state. Balancing these two was tricky. Invalidating caches at the right moment to prevent the UI from showing stale data taught me more about React lifecycles than any tutorial ever could.
 
 ### The "Bloat" Discovery
 
-In my first week, I conducted a "Codebase Tour" to understand the existing architecture. I found what the team called "bloat"—leftover code from previous iterations and half-finished integrations.
+In my first week, I conducted a "Codebase Tour" to understand the existing architecture. I found what the team called "bloat": leftover code from previous iterations and half-finished integrations.
 
 As a junior, my instinct was to ignore it. But a Product Engineer asks: _"Is this slowing us down?"_
 
