@@ -38,16 +38,16 @@ export const siteContent = {
 
   whatIDo: [
     {
-      title: "Project Coordination & Delivery",
-      body: "Keeping work moving end to end: scoping, prioritization, stakeholder alignment, and delivery. At Millennial Consulting I moved up over four cycles, from Operations Assistant to Operations Manager to Head of Organization, helping coordinate and deliver around 20 client projects with no full-time staff.",
+      title: "Engineering",
+      body: "React, Next.js, and TypeScript on the frontend; Node.js, Express, and PostgreSQL on the backend. I own the data model, the API, and the UI end to end. AI speeds up the loop; the architecture calls and the final review are mine.",
     },
     {
       title: "Product Decisions",
       body: "Starting from the problem, not the feature list. I own what gets built, what gets cut, and why, then validate by prototyping and shipping. At Trailr that meant scoping a full redesign to what the existing backend could support, cutting features rather than forcing rewrites.",
     },
     {
-      title: "Building It",
-      body: "Shipping the thing myself with React, Next.js, and TypeScript. AI speeds up the build; the product thinking and the final review stay mine. I care about what ships and how it actually feels, not just whether it compiles.",
+      title: "Project Coordination & Delivery",
+      body: "Keeping work moving end to end: scoping, prioritization, stakeholder alignment, and delivery. At Millennial Consulting I moved up over four cycles, from Operations Assistant to Operations Manager to Head of Organization, helping coordinate and deliver around 20 client projects with no full-time staff.",
     },
   ],
 };
@@ -67,21 +67,9 @@ export interface CvEntry {
 export const cvData = {
   title: "(AI-Native) Product Engineer & Project Coordinator",
   summary:
-    "Project coordinator who builds. Over four cycles at Millennial Consulting I grew from Operations Assistant to Head of Organization, coordinating ~20 client engagements with 90%+ client satisfaction each cycle and no full-time staff. I also ship the product myself in React, Next.js, and TypeScript, most recently at Trailr AI, where I scoped a full platform redesign to what the existing backend could support. Running the delivery and building the thing are the same job to me.",
+    "Full-stack builder who also runs the delivery. I ship in React, Next.js, and TypeScript on the frontend, Node.js, Express, and PostgreSQL on the backend, most recently at Trailr AI, where I owned a full platform redesign scoped to what the existing backend could support. Before that, four cycles at Millennial Consulting, growing from Operations Assistant to Head of Organization and coordinating ~20 client engagements with no full-time staff. Building the thing and running the delivery are the same job to me.",
 
   skills: [
-    {
-      label: "Operations & Product",
-      items: [
-        "Client Relations",
-        "Recruitment & Onboarding",
-        "Requirements Gathering",
-        "Process Design",
-        "Stakeholder Communication",
-        "Agile / Scrum",
-        "Cross-functional Collaboration",
-      ],
-    },
     {
       label: "Technical",
       items: [
@@ -102,6 +90,18 @@ export const cvData = {
         "Accessibility (WCAG)",
         "Claude Code",
         "AI-Assisted Prototyping",
+      ],
+    },
+    {
+      label: "Operations & Product",
+      items: [
+        "Client Relations",
+        "Recruitment & Onboarding",
+        "Requirements Gathering",
+        "Process Design",
+        "Stakeholder Communication",
+        "Agile / Scrum",
+        "Cross-functional Collaboration",
       ],
     },
   ],
@@ -496,19 +496,6 @@ export interface ProjectCard {
 export const projectCards: ProjectCard[] = [
   {
     number: "01",
-    title: "Millennial Consulting",
-    category: "Management",
-    buttonLabel: "View Case",
-    href: "/cases/millennial",
-    external: false,
-    images: [
-      "/assets/millennial/Millennial_Spring2025.webp",
-      "/assets/millennial/fall2024_hot-seat.webp",
-      "/assets/millennial/Millennial_Fall2024.webp",
-    ],
-  },
-  {
-    number: "02",
     title: "Trailr AI",
     category: "Product",
     buttonLabel: "View Case",
@@ -521,7 +508,7 @@ export const projectCards: ProjectCard[] = [
     ],
   },
   {
-    number: "03",
+    number: "02",
     title: "Bevisly",
     category: "Full-Stack",
     buttonLabel: "Live Demo",
@@ -534,7 +521,7 @@ export const projectCards: ProjectCard[] = [
     ],
   },
   {
-    number: "04",
+    number: "03",
     title: "MockMate",
     category: "Full-Stack",
     buttonLabel: "Live Demo",
@@ -544,6 +531,19 @@ export const projectCards: ProjectCard[] = [
       "/assets/mockmate/mockmate-landing.webp",
       "/assets/mockmate/mockmate-dashboard.webp",
       "/assets/mockmate/mockmate-feedback.webp",
+    ],
+  },
+  {
+    number: "04",
+    title: "Millennial Consulting",
+    category: "Management",
+    buttonLabel: "View Case",
+    href: "/cases/millennial",
+    external: false,
+    images: [
+      "/assets/millennial/Millennial_Spring2025.webp",
+      "/assets/millennial/fall2024_hot-seat.webp",
+      "/assets/millennial/Millennial_Fall2024.webp",
     ],
   },
 ];
