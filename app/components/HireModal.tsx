@@ -140,36 +140,31 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
                   </div>
                 </button>
 
-                {/* Download CV — one general version */}
-                <div className="px-3 py-3 rounded-xl">
-                  <div className="flex items-center gap-3.5">
-                    <div className="shrink-0 w-10 h-10 rounded-xl bg-crystal-500/10 border border-crystal-500/30 flex items-center justify-center">
-                      <FileDown size={18} strokeWidth={1.5} className="text-crystal-500" />
+                {/* Download CV — the whole row is the action now, matching Copy
+                    Email and LinkedIn. The nested button underneath was a second
+                    tap target for the only thing the row already meant. */}
+                <a
+                  href={siteContent.cv.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={onClose}
+                  className="w-full flex items-center gap-3.5 px-3 py-3 rounded-xl text-left hover:bg-white/5 transition-colors group"
+                >
+                  <div className="shrink-0 w-10 h-10 rounded-xl bg-crystal-500/10 border border-crystal-500/30 flex items-center justify-center">
+                    <FileDown size={18} strokeWidth={1.5} className="text-crystal-500" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium text-frost">
+                      {siteContent.cv.label}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-frost">
-                        Download CV
-                      </div>
-                      <div className="text-[12px] text-frost/50">
-                        One page, PDF
-                      </div>
+                    <div className="text-[12px] text-frost/50">
+                      One page, PDF
                     </div>
                   </div>
-                  <div className="mt-2.5 flex gap-2 pl-[52px]">
-                    {siteContent.cvs.map((cv) => (
-                      <a
-                        key={cv.href}
-                        href={cv.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={onClose}
-                        className="flex-1 text-center text-[12px] font-medium text-frost/80 rounded-lg border border-frost/15 bg-white/3 px-2 py-1.5 hover:border-crystal-500/50 hover:text-frost transition-colors"
-                      >
-                        {cv.label}
-                      </a>
-                    ))}
+                  <div className="shrink-0 text-[9px] tracking-wider uppercase text-frost/30 group-hover:text-frost/60 transition-colors">
+                    PDF
                   </div>
-                </div>
+                </a>
 
                 {/* LinkedIn */}
                 <a

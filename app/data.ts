@@ -6,7 +6,7 @@ export const personalInfo = {
   location: "Copenhagen, Denmark",
   email: "taninwat.kaewpankan@gmail.com",
   socials: {
-    linkedin: "https://www.linkedin.com/in/taninwat-k-a187951aa/",
+    linkedin: "https://www.linkedin.com/in/taninwat-k-ice2539/",
     github: "https://github.com/Taninwat-55",
   },
 };
@@ -32,7 +32,9 @@ export const siteContent = {
   },
   // One general CV. Role-tailored versions get sent directly, not offered here —
   // a visitor picking between three versions is a visitor guessing at the identity.
-  cvs: [{ label: "Download CV", href: "/assets/Taninwat_Kaewpankan_CV.pdf" }],
+  // Singular, not an array: there was only ever one entry, and both call sites
+  // were working around the list rather than using it.
+  cv: { label: "Download CV", href: "/assets/Taninwat_Kaewpankan_CV.pdf" },
 
   aboutStory: [
     "I moved to Sweden at 16 with no Swedish and no plan. I learned the language, rebuilt my grades, and worked every job that would have me. Cleaning, waiting tables, running a food truck, bartending, sorting packages through the night.",

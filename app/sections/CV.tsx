@@ -12,7 +12,7 @@ import { FileDown } from "lucide-react";
 import { SectionHeading } from "../components/SectionHeading";
 import { cvData, siteContent, type CvEntry } from "../data";
 
-const CV_HREF = siteContent.cvs[0].href;
+const CV_HREF = siteContent.cv.href;
 
 // The veil. Scroll pulls it down from 12% to 55% of the sheet and no further —
 // the rest is what the download is for. Deliberate: see the CTA copy.

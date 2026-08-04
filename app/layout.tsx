@@ -71,7 +71,7 @@ const personJsonLd = {
     { "@type": "WebSite", name: "Racha Beauty & Wellness", url: "https://rachabeautywellness.com" },
   ],
   sameAs: [
-    "https://www.linkedin.com/in/taninwat-k-a187951aa/",
+    "https://www.linkedin.com/in/taninwat-k-ice2539/",
     "https://github.com/Taninwat-55",
   ],
 };
