@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Kanit, JetBrains_Mono } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { personalInfo, siteContent } from "./data";
 import "./globals.css";
 
 // Only the weights the app actually uses. next/font emits a <link rel="preload">
@@ -24,11 +25,11 @@ const jetbrainsMono = JetBrains_Mono({
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Taninwat Kaewpankan",
+  name: personalInfo.name,
   image: "https://taninwatkaewpankan.xyz/opengraph-image",
-  alternateName: "Ice",
+  alternateName: personalInfo.nickname,
   url: "https://taninwatkaewpankan.xyz",
-  jobTitle: "Frontend Engineer & Project Coordinator",
+  jobTitle: siteContent.roleLabel,
   description:
     "Frontend engineer and project coordinator based in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
   address: {
@@ -70,16 +71,18 @@ const personJsonLd = {
     { "@type": "WebSite", name: "Satoshi Standard", url: "https://www.satoshi-standard.xyz" },
     { "@type": "WebSite", name: "Racha Beauty & Wellness", url: "https://rachabeautywellness.com" },
   ],
-  sameAs: [
-    "https://www.linkedin.com/in/taninwat-k-ice2539/",
-    "https://github.com/Taninwat-55",
-  ],
+  sameAs: [personalInfo.socials.linkedin, personalInfo.socials.github],
 };
+
+// One string, three consumers. Previously duplicated across the metadata
+// default, the Open Graph card and the Twitter card, which is how a title
+// change turns into a three-line edit that is easy to half-finish.
+const SITE_TITLE = `${personalInfo.nickname} · ${personalInfo.name} — ${siteContent.roleLabel}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://taninwatkaewpankan.xyz"),
   title: {
-    default: "Ice · Taninwat Kaewpankan — Frontend Engineer & Project Coordinator",
+    default: SITE_TITLE,
     template: "%s | Ice — Taninwat Kaewpankan",
   },
   description:
@@ -96,7 +99,7 @@ export const metadata: Metadata = {
     "Denmark",
   ],
   openGraph: {
-    title: "Ice · Taninwat Kaewpankan — Frontend Engineer & Project Coordinator",
+    title: SITE_TITLE,
     description:
       "Frontend engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
     url: "https://taninwatkaewpankan.xyz",
@@ -106,7 +109,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ice · Taninwat Kaewpankan — Frontend Engineer & Project Coordinator",
+    title: SITE_TITLE,
     description:
       "Frontend engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
   },

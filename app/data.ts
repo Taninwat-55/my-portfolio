@@ -3,6 +3,9 @@
 
 export const personalInfo = {
   name: "Taninwat Kaewpankan",
+  // The site brands itself around the nickname, so anything that talks to
+  // visitors needs to know the two names are one person.
+  nickname: "Ice",
   location: "Copenhagen, Denmark",
   email: "taninwat.kaewpankan@gmail.com",
   socials: {
