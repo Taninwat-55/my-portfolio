@@ -87,27 +87,44 @@ export const cvData = {
   summary:
     "Frontend engineer who also runs the delivery. React, Next.js, and TypeScript are my depth, most recently at Trailr AI, where I owned a full platform redesign scoped to what the existing backend could support. I work full-stack too — Node.js, Express, and PostgreSQL — and I am clear that the backend is the newer half of my toolkit. Before Trailr, four cycles at Millennial Consulting, growing from Operations Assistant to Head of Organization and coordinating ~20 client engagements with no full-time staff. Building the thing and running the delivery are the same job to me.",
 
+  // Four technical groups mirroring the PDF, plus the operations group the PDF
+  // has no room for. A one-page CV has to cut; the page does not.
   skills: [
     {
-      label: "Technical",
+      label: "Languages",
+      items: ["TypeScript", "JavaScript", "Python", "SQL", "HTML5", "CSS3"],
+    },
+    {
+      label: "Frontend",
       items: [
         "React",
         "Next.js",
-        "TypeScript",
-        "JavaScript",
-        "HTML & CSS",
-        "Tailwind CSS",
+        "TailwindCSS",
+        "Zustand",
+        "Redux",
+        "Responsive Design",
+        "Accessibility (WCAG)",
+      ],
+    },
+    {
+      label: "Backend & Databases",
+      items: [
         "Node.js",
         "Express.js",
         "REST APIs",
-        "Auth & Authorization",
-        "Zustand",
         "PostgreSQL",
-        "Git & GitHub",
-        "CI/CD (Vitest & GitHub Actions)",
-        "Accessibility (WCAG)",
+        "Authentication & Authorization (JWT/OAuth)",
+      ],
+    },
+    {
+      label: "Tools & AI",
+      items: [
+        "Git/GitHub",
+        "Vitest",
+        "CI/CD (GitHub Actions)",
         "Claude Code",
-        "AI-Assisted Prototyping",
+        "AI Prototyping",
+        "Webflow",
       ],
     },
     {
@@ -139,7 +156,7 @@ export const cvData = {
     },
     {
       org: "Millennial Consulting",
-      role: "Operations Assistant → Operations Manager → Head of Organization",
+      role: "Operations Assistant → Operations Manager → Head of Organization (Volunteer)",
       period: "Sep 2023 – May 2025",
       place: "Copenhagen, Denmark",
       bullets: [
@@ -154,7 +171,7 @@ export const cvData = {
   projects: [
     {
       org: "Bevisly",
-      role: "Personal Project",
+      role: "Personal Project (React, TypeScript, Tailwind, Supabase, Vitest)",
       period: "Aug 2025 – Present",
       place: "Copenhagen, Denmark",
       bullets: [
@@ -164,7 +181,7 @@ export const cvData = {
     },
     {
       org: "MockMate",
-      role: "Personal Project",
+      role: "Personal Project (Next.js, Neon PostgreSQL + Prisma, Tailwind)",
       period: "May 2026 – Present",
       place: "Copenhagen, Denmark",
       bullets: [
