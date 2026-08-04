@@ -1,6 +1,6 @@
 # Taninwat Kaewpankan — Portfolio
 
-Single-page portfolio for **Ice** — Product Engineer & Project Coordinator, Copenhagen.
+Single-page portfolio for **Ice** — Frontend Engineer & Project Coordinator, Copenhagen.
 
 🌐 **Live:** [taninwatkaewpankan.xyz](https://taninwatkaewpankan.xyz)
 
@@ -8,7 +8,7 @@ Single-page portfolio for **Ice** — Product Engineer & Project Coordinator, Co
 
 ## Current state — July 2026
 
-One flat identity: **Product Engineer & Project Coordinator**. The old PM/Dev mode
+One flat identity: **Frontend Engineer & Project Coordinator**. The old PM/Dev mode
 toggle was removed; there is no longer any mode system, `ModeContext`, or
 role-specific content variant. If you find a reference to one, it's stale.
 

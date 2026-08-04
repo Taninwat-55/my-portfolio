@@ -1,12 +1,12 @@
 # Taninwat Kaewpankan
 
-Product Engineer & Project Coordinator based in Copenhagen, Denmark. A
+Frontend Engineer & Project Coordinator based in Copenhagen, Denmark. A
 builder who ships.
 Personal site: https://taninwatkaewpankan.xyz
 
 ## About
 
-Taninwat Kaewpankan (goes by Ice) is a product engineer and project coordinator
+Taninwat Kaewpankan (goes by Ice) is a frontend engineer and project coordinator
 based in Copenhagen: frontend engineering, product thinking, and delivery.
 Originally from Thailand, he moved to Sweden at 16, studied at Uppsala
 University (BA Game Design & Project Management, MSc Business & Management), and
