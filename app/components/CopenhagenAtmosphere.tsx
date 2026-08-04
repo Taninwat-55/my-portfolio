@@ -122,7 +122,10 @@ export function CopenhagenAtmosphere({ year }: { year: number }) {
             <motion.span
               key={blockHeight}
               initial={{ opacity: 0.5 }}
-              animate={{ opacity: [0.5, 1, 0.5] }}
+              // whileInView so the pulse stops while the footer is scrolled away,
+              // which is most of the time.
+              whileInView={{ opacity: [0.5, 1, 0.5] }}
+              viewport={{ once: false }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
               className="font-mono tabular-nums"
             >

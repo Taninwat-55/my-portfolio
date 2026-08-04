@@ -210,7 +210,7 @@ export default async function GardenPost({
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-8 leading-[1.05] tracking-tight text-frost">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-[1.05] tracking-tight text-frost">
               {post.title}
             </h1>
 

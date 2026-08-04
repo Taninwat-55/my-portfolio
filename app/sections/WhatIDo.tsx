@@ -1,6 +1,7 @@
 "use client";
 
 import { FadeIn } from "../components/FadeIn";
+import { SectionHeading } from "../components/SectionHeading";
 import { siteContent } from "../data";
 
 export function WhatIDo() {
@@ -9,14 +10,13 @@ export function WhatIDo() {
       id="work"
       className="relative bg-white rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32"
     >
-      <FadeIn delay={0} y={40}>
-        <h2
-          className="text-night-900 font-black uppercase leading-none tracking-tight text-center mb-16 sm:mb-20 md:mb-28"
-          style={{ fontSize: "clamp(3rem, 12vw, 160px)" }}
-        >
-          What I Do
-        </h2>
-      </FadeIn>
+      <SectionHeading
+        eyebrow="Capabilities"
+        title="What I Do"
+        tone="dark"
+        titleClassName="text-night-900"
+        className="mb-16 sm:mb-20 md:mb-28"
+      />
 
       <div className="max-w-5xl mx-auto">
         {siteContent.whatIDo.map((item, i) => (

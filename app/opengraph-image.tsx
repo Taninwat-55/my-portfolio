@@ -121,7 +121,7 @@ export default function OgImage() {
             display: "flex",
           }}
         >
-          Product Engineer &amp; Project Coordinator
+          Frontend Engineer &amp; Project Coordinator
         </div>
 
         <div

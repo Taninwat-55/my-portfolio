@@ -12,12 +12,24 @@ export const personalInfo = {
 };
 
 // ─── SITE CONTENT ─────────────────────────────────────────────────────────────
-// Single flat identity: Product Engineer & Project Coordinator.
+// Single flat identity: Frontend Engineer & Project Coordinator.
+// Frontend leads because that is where the depth actually is. Full-stack and
+// product work are real too; whatIDo below is where the honest detail about
+// relative depth lives, rather than hedging every label.
 
 export const siteContent = {
-  roleLabel: "Product Engineer & Project Coordinator",
-  heroTagline:
-    "I keep projects on track and build the product myself. That mix is the point.",
+  roleLabel: "Frontend Engineer & Project Coordinator",
+  // Bottom-corner blocks in the hero. The hero composition puts the scrolling
+  // name in the middle and everything else in the corners, so these lines carry
+  // the whole "who / what / where" job on the first screen.
+  heroCorners: {
+    left: [
+      "Frontend Engineer",
+      "Full-stack builder",
+      "Project Coordinator",
+    ],
+    right: { status: "Open to work", place: "Copenhagen, Denmark" },
+  },
   // One general CV. Role-tailored versions get sent directly, not offered here —
   // a visitor picking between three versions is a visitor guessing at the identity.
   cvs: [{ label: "Download CV", href: "/assets/Taninwat_Kaewpankan_CV.pdf" }],
@@ -38,16 +50,20 @@ export const siteContent = {
 
   whatIDo: [
     {
-      title: "Engineering",
-      body: "React, Next.js, and TypeScript on the frontend; Node.js, Express, and PostgreSQL on the backend. I own the data model, the API, and the UI end to end. AI speeds up the loop; the architecture calls and the final review are mine.",
+      title: "Frontend Engineering",
+      body: "React, Next.js, and TypeScript are where I am strongest and where I would want to be judged. Accessible, responsive interfaces, and the parts that never show up in a screenshot: keyboard paths, reduced-motion, Lighthouse budgets, and what the page does on a slow connection.",
+    },
+    {
+      title: "Full-Stack Development",
+      body: "I can take a feature the whole way — Node.js, Express, and PostgreSQL, data model to API to UI — and I have shipped it. The backend is the newer half of my toolkit, so I scope it honestly: I will own the slice end to end, and I will tell you where I would want review rather than guess in silence.",
     },
     {
       title: "Product Decisions",
-      body: "Starting from the problem, not the feature list. I own what gets built, what gets cut, and why, then validate by prototyping and shipping. At Trailr that meant scoping a full redesign to what the existing backend could support, cutting features rather than forcing rewrites.",
+      body: "Starting from the problem, not the feature list. What gets built, what gets cut, and why, then validated by prototyping and shipping. At Trailr that meant scoping a full redesign to what the existing backend could support, cutting features rather than forcing rewrites.",
     },
     {
       title: "Project Coordination & Delivery",
-      body: "Keeping work moving end to end: scoping, prioritization, stakeholder alignment, and delivery. At Millennial Consulting I moved up over four cycles, from Operations Assistant to Operations Manager to Head of Organization, helping coordinate and deliver around 20 client projects with no full-time staff.",
+      body: "Scoping, prioritization, stakeholder alignment, and actually landing the work. At Millennial Consulting I moved up over four cycles, from Operations Assistant to Operations Manager to Head of Organization, helping coordinate and deliver around 20 client projects with no full-time staff.",
     },
   ],
 };
@@ -65,9 +81,9 @@ export interface CvEntry {
 }
 
 export const cvData = {
-  title: "(AI-Native) Product Engineer & Project Coordinator",
+  title: "Frontend Engineer & Project Coordinator",
   summary:
-    "Full-stack builder who also runs the delivery. I ship in React, Next.js, and TypeScript on the frontend, Node.js, Express, and PostgreSQL on the backend, most recently at Trailr AI, where I owned a full platform redesign scoped to what the existing backend could support. Before that, four cycles at Millennial Consulting, growing from Operations Assistant to Head of Organization and coordinating ~20 client engagements with no full-time staff. Building the thing and running the delivery are the same job to me.",
+    "Frontend engineer who also runs the delivery. React, Next.js, and TypeScript are my depth, most recently at Trailr AI, where I owned a full platform redesign scoped to what the existing backend could support. I work full-stack too — Node.js, Express, and PostgreSQL — and I am clear that the backend is the newer half of my toolkit. Before Trailr, four cycles at Millennial Consulting, growing from Operations Assistant to Head of Organization and coordinating ~20 client engagements with no full-time staff. Building the thing and running the delivery are the same job to me.",
 
   skills: [
     {
@@ -450,9 +466,9 @@ export const cases: CaseStudy[] = [
   {
     id: "racha",
     n: "07",
-    tag: "Commercial",
+    tag: "Client Work",
     title: "Racha Beauty",
-    sub: "From zero web presence to 95+ Lighthouse and local search visibility.",
+    sub: "A paying client's first website: 95+ Lighthouse, Danish-language, no maintenance budget.",
     images: [
       "/assets/racha/Racha_img.webp",
       "/assets/racha/about-racha.webp",
@@ -460,19 +476,19 @@ export const cases: CaseStudy[] = [
       "/assets/racha/racha-contact.webp",
     ],
     overview:
-      "A local wellness business had no online presence. I built one from scratch: fast, clean, SEO-optimised with Next.js and measurable improvement in local search rankings.",
+      "A wellness studio in Næstved had no website at all, just a Facebook page. I built their first one: a Danish-language site covering treatments, prices, a gallery and an enquiry form. My first paid client project.",
     challenge:
-      "Small local businesses rarely have a budget for ongoing maintenance, so the site had to be fast out of the box with no CDN tuning, no ops team, and zero ongoing technical overhead.",
+      "A small local business has no budget for ongoing maintenance and nobody to call when something breaks. The site had to be fast on first deploy, cheap to host, and keep working without me — especially the contact form, since that is the only channel enquiries arrive through.",
     stackWhy:
-      "Next.js for server-rendering and automatic image optimisation. Tailwind for a design system the client could understand visually. Structured data markup so Google reads the business correctly.",
+      "React with Vite for a fast build and a small bundle. React Router for the Danish URLs the client wanted (/behandlinger, /kontakt). Tailwind so she could react to something visual instead of a spec. react-helmet-async for per-page titles and descriptions.",
     engineering:
-      "Scored 95+ across all Lighthouse categories on first deploy. Used next/image throughout, structured data for local business schema, and a zero-JavaScript-for-content approach.",
+      "95+ Lighthouse on first deploy. Every route is code-split with lazy() and Suspense behind a loader, all imagery is WebP, and an ErrorBoundary stops one failure from blanking the site. The contact form posts to Web3Forms and falls back to a Google Form if that request fails — on a site with no backend, a dropped enquiry is a lost customer.",
     metrics: [
       { v: "95+", k: "Lighthouse score" },
-      { v: "#1", k: "Local search rank" },
-      { v: "0", k: "JS for content" },
+      { v: "First", k: "Paid client project" },
+      { v: "2 paths", k: "Contact form fallback" },
     ],
-    stack: ["Next.js", "Tailwind", "SEO", "Analytics", "Schema.org"],
+    stack: ["React", "Vite", "React Router", "Tailwind", "Web3Forms", "Schema.org"],
     links: {
       demo: "https://rachabeautywellness.com",
       code: "https://github.com/Taninwat-55/rachabeautywellness",
@@ -481,7 +497,7 @@ export const cases: CaseStudy[] = [
 ];
 
 // ─── HOMEPAGE PROJECT CARDS ───────────────────────────────────────────────────
-// The 4 sticky-stacking cards in the Projects section.
+// The sticky-stacking cards in the Projects section.
 
 export interface ProjectCard {
   number: string;
@@ -546,6 +562,19 @@ export const projectCards: ProjectCard[] = [
       "/assets/millennial/Millennial_Fall2024.webp",
     ],
   },
+  {
+    number: "05",
+    title: "Racha Beauty",
+    category: "Client Work",
+    buttonLabel: "View Case",
+    href: "/cases/racha",
+    external: false,
+    images: [
+      "/assets/racha/about-racha.webp",
+      "/assets/racha/racha_services.webp",
+      "/assets/racha/Racha_img.webp",
+    ],
+  },
 ];
 
 // ─── MARQUEE IMAGES ───────────────────────────────────────────────────────────
@@ -564,7 +593,7 @@ export const marqueeImages = [
 // ─── CHATBOT CONTEXT ──────────────────────────────────────────────────────────
 
 export const chatbotContext = `
-Taninwat is actively job searching as of July 2026. He recently earned his Higher Vocational Diploma in Frontend Development (2-year program) from Jensen Yrkeshögskola (May 2026). He targets product, product engineer, and frontend roles at small companies, where he can own delivery end to end: shaping product direction, building the thing, and iterating on real feedback. He's comfortable going full-stack when the work calls for it.
+Taninwat is actively job searching as of July 2026. He recently earned his Higher Vocational Diploma in Frontend Development (2-year program) from Jensen Yrkeshögskola (May 2026). He targets frontend engineering roles first, and is equally open to product engineer or full-stack roles at small companies where he can own delivery end to end: shaping product direction, building the thing, and iterating on real feedback. Frontend is his depth — React, Next.js, TypeScript. He works full-stack too (Node.js, Express, PostgreSQL) and is straightforward that the backend is the newer half of his toolkit rather than overselling it.
 
 He's based in Denmark and holds dual Thai-Swedish citizenship, so he can work anywhere in the EU/Schengen without visa complications. He's open to roles in Denmark, Sweden, or remote.
 

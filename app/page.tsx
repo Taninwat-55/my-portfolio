@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SkipLink } from "./components/SkipLink";
 import { ChatWidget } from "./components/ChatWidget";
 import { CopenhagenAtmosphere } from "./components/CopenhagenAtmosphere";
+import { PillNav } from "./components/PillNav";
 import { Hero } from "./sections/Hero";
 import { Marquee } from "./sections/Marquee";
 import { About } from "./sections/About";
@@ -21,6 +22,7 @@ export default function Home() {
       style={{ overflowX: "clip" }}
     >
       <SkipLink />
+      <PillNav />
 
       {/* Film grain — sits under modals/chat (z-50+) but over content */}
       <div

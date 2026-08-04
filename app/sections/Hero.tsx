@@ -1,167 +1,127 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  useReducedMotion,
-} from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { FadeIn } from "../components/FadeIn";
-import { Magnet } from "../components/Magnet";
-import { ContactButton } from "../components/ContactButton";
-import { HireModal } from "../components/HireModal";
-import { siteContent } from "../data";
+import { personalInfo, siteContent } from "../data";
 
-const NAV_LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
-  { label: "Projects", href: "#projects" },
-];
-
-const navLinkClasses =
-  "text-frost font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem] hover:opacity-70 transition-opacity duration-200";
-
+/**
+ * Single-composition hero: the name scrolls across the frame, the cut-out
+ * portrait sits on top of it, and every other detail is pushed to a corner.
+ *
+ * The layering is the whole point — because the portrait has a transparent
+ * background, letters travel into the body and emerge on the other side rather
+ * than passing in front. That only works with a strict z-order:
+ *
+ *   halo (z-auto) → name marquee (z-10) → portrait (z-20) → chrome (z-30)
+ *
+ * The middle of the frame is deliberately left empty. The "Say hi" CTA lives in
+ * the fixed <PillNav />, which floats over this section and stays reachable.
+ */
 export function Hero() {
-  const [contactOpen, setContactOpen] = useState(false);
-
-  // Gaze tilt — the portrait leans toward the cursor on two axes so the flat
-  // render reads as if it's tracking you. Disabled for reduced-motion users.
   const reduceMotion = useReducedMotion();
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-  const springX = useSpring(pointerX, { stiffness: 90, damping: 22, mass: 0.5 });
-  const springY = useSpring(pointerY, { stiffness: 90, damping: 22, mass: 0.5 });
-  const rotateY = useTransform(springX, [-0.5, 0.5], [-4.5, 4.5]);
-  const rotateX = useTransform(springY, [-0.5, 0.5], [3.5, -3.5]);
-
-  useEffect(() => {
-    if (reduceMotion) return;
-    const onMove = (e: PointerEvent) => {
-      pointerX.set(e.clientX / window.innerWidth - 0.5);
-      pointerY.set(e.clientY / window.innerHeight - 0.5);
-    };
-    window.addEventListener("pointermove", onMove);
-    return () => window.removeEventListener("pointermove", onMove);
-  }, [reduceMotion, pointerX, pointerY]);
 
   return (
-    <section
-      className="relative h-screen flex flex-col"
-      style={{ overflowX: "clip" }}
-    >
-      {/* Navbar */}
-      <FadeIn delay={0} y={-20}>
-        <nav
-          aria-label="Main navigation"
-          className="relative z-30 flex items-center justify-between px-6 md:px-10 pt-6 md:pt-8"
-        >
-          {NAV_LINKS.map((link) => (
-            <a key={link.label} href={link.href} className={navLinkClasses}>
-              {link.label}
-            </a>
-          ))}
-          <button
-            type="button"
-            onClick={() => setContactOpen(true)}
-            className={navLinkClasses}
-          >
-            Contact
-          </button>
-        </nav>
-      </FadeIn>
+    <section className="relative h-[100dvh] w-full overflow-hidden">
+      {/* The marquee below is decorative and prints the name twice, so it is
+          hidden from assistive tech and the real heading lives here. */}
+      <h1 className="sr-only">
+        {personalInfo.name} — {siteContent.roleLabel}
+      </h1>
 
-      {/* Frost glow behind the portrait — pulled to the right */}
+      {/* Halo behind the subject — centred now that the portrait is centred, so
+          it reads as a rim light rather than a stray glow in the corner. */}
       <div
         aria-hidden
-        className="absolute right-[-12%] bottom-[-12%] w-130 h-130 md:w-180 md:h-180 rounded-full pointer-events-none"
+        className="absolute left-1/2 bottom-[-10%] w-130 h-130 -translate-x-1/2 rounded-full pointer-events-none md:w-180 md:h-180"
         style={{
           background:
             "radial-gradient(circle, rgba(142, 201, 232, 0.16) 0%, rgba(142, 201, 232, 0.05) 45%, transparent 70%)",
         }}
       />
 
-      {/* Hero portrait — offset right, cropped by the viewport edge */}
-      <div className="absolute z-10 w-56 right-[-16%] top-[14%] sm:top-auto sm:bottom-0 sm:right-[-6%] sm:w-80 md:right-[-2%] md:w-[34vw] lg:right-[3%] lg:w-[36vw]">
-        <FadeIn delay={0.6} y={30}>
-          <motion.div
-            style={{
-              rotateX: reduceMotion ? 0 : rotateX,
-              rotateY: reduceMotion ? 0 : rotateY,
-              transformPerspective: 900,
-              transformStyle: "preserve-3d",
-            }}
-          >
-            <Magnet
-              padding={150}
-              strength={3}
-              activeTransition="transform 0.3s ease-out"
-              inactiveTransition="transform 0.6s ease-in-out"
-            >
-              <Image
-                src="/assets/Ice_3D_Avatar.webp"
-                alt="3D avatar of Ice — Taninwat Kaewpankan"
-                width={1040}
-                height={1040}
-                priority
-                className="w-full h-auto select-none"
-                draggable={false}
-              />
-            </Magnet>
-          </motion.div>
-        </FadeIn>
-      </div>
-
-      {/* Left cluster — vertically centered in the negative space */}
-      <div className="relative z-20 my-auto px-6 md:px-10 py-8">
-        {/* Status pill */}
-        <FadeIn delay={0.3} y={20}>
-          <div className="mb-5 sm:mb-7 flex w-fit items-center gap-2.5 rounded-full border border-frost/15 bg-white/3 backdrop-blur-sm px-4 py-2">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-clay-500 opacity-60" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-clay-500" />
-            </span>
-            <span className="text-[9px] sm:text-[10px] tracking-[0.22em] uppercase text-frost/60 whitespace-nowrap">
-              Open to work · Copenhagen
-            </span>
-          </div>
-        </FadeIn>
-
-        {/* Stacked name */}
-        <div className="overflow-hidden">
-          <FadeIn delay={0.15} y={40}>
-            <h1 className="text-left">
-              <span className="block ml-1 sm:ml-2 font-medium uppercase tracking-[0.18em] text-frost/55 text-sm sm:text-base md:text-xl">
-                Hi, I&apos;m
-              </span>
-              <span className="frost-text block font-black uppercase tracking-tight leading-[0.78] text-[30vw] sm:text-[25vw] md:text-[22vw] lg:text-[20vw]">
-                Ice
-              </span>
-            </h1>
-            {/* The identity, stated plainly. Was previously only visible to the chatbot. */}
-            <p className="mt-3 sm:mt-4 ml-1 sm:ml-2 font-medium uppercase tracking-[0.2em] text-frost/70 text-[10px] sm:text-xs md:text-sm lg:text-base">
-              {siteContent.roleLabel}
-            </p>
-          </FadeIn>
-        </div>
-
-        {/* Tagline + contact — stacked beneath the name */}
-        <FadeIn delay={0.45} y={20}>
-          <div className="mt-5 sm:mt-6 flex flex-col items-start gap-6 sm:gap-7">
-            <p
-              className="text-frost font-light tracking-wide leading-snug max-w-64 md:max-w-md"
-              style={{ fontSize: "clamp(0.85rem, 1.7vw, 1.7rem)" }}
-            >
-              {siteContent.heroTagline}
-            </p>
-            <ContactButton />
+      {/* Name marquee (z-10). Vertical position is tuned per breakpoint so the
+          band crosses the chest rather than the face — the portrait's head sits
+          higher as the image grows, so the band moves up with it. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-[58vh] z-10 overflow-hidden sm:top-[52vh] md:top-[50vh]"
+      >
+        <FadeIn delay={0.5} y={0}>
+          <div className="hero-marquee flex w-max whitespace-nowrap font-black uppercase leading-[0.78] tracking-tight text-frost/90 text-[14vh] sm:text-[18vh] md:text-[20vh]">
+            <span className="pr-[6vw]">Taninwat — Kaewpankan&nbsp;</span>
+            <span className="pr-[6vw]">Taninwat — Kaewpankan&nbsp;</span>
           </div>
         </FadeIn>
       </div>
 
-      <HireModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
+      {/* Portrait (z-20) — centred and bottom-anchored, sized by height so the
+          3:4 cutout always fits the viewport vertically instead of being cropped
+          by a full-bleed object-cover. pointer-events-none keeps the decorative
+          layer from swallowing clicks.
+
+          This used to tilt toward the cursor on two axes. Removed: a pointermove
+          listener driving two springs on a large drop-shadowed image repainted
+          the filter on every mouse move, and on a straight-on formal headshot the
+          effect read closer to a wobble than a gaze. */}
+      <div className="pointer-events-none absolute bottom-0 left-1/2 z-20 -translate-x-1/2">
+        <FadeIn delay={0.3} y={30}>
+          <Image
+            src="/assets/Ice-Portrait.webp"
+            alt="Portrait of Taninwat “Ice” Kaewpankan"
+            width={1792}
+            height={2384}
+            priority
+            sizes="(min-width: 1024px) 45vw, (min-width: 768px) 60vw, 80vw"
+            className="h-[70vh] w-auto max-w-none select-none drop-shadow-[0_18px_40px_rgba(0,0,0,0.55)] sm:h-[80vh] md:h-[88vh]"
+            draggable={false}
+          />
+        </FadeIn>
+      </div>
+
+      {/* Rule above the corner blocks, drawn from the left after everything else
+          has landed. z-10 keeps it in the same plane as the marquee so it passes
+          BEHIND the portrait rather than cutting across the blazer. */}
+      <motion.div
+        aria-hidden
+        initial={{ scaleX: reduceMotion ? 1 : 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{
+          delay: reduceMotion ? 0 : 1.2,
+          duration: reduceMotion ? 0 : 1.1,
+          ease: [0.76, 0, 0.24, 1],
+        }}
+        style={{ originX: 0 }}
+        className="absolute inset-x-6 bottom-24 z-10 h-0.5 bg-frost/70 sm:inset-x-10 sm:bottom-28"
+      />
+
+      {/* Corner blocks (z-30) — who / what on the left, where / availability on
+          the right. These carry the whole first screen now that the middle is
+          left empty. */}
+      <div className="absolute inset-x-0 bottom-0 z-30 flex items-end justify-between gap-6 px-6 pb-5 text-xs leading-relaxed sm:px-10 sm:pb-8 sm:text-sm">
+        <FadeIn delay={1.4} y={20}>
+          <div className="text-frost/80">
+            {siteContent.heroCorners.left.map((line) => (
+              <div key={line}>{line}</div>
+            ))}
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={1.55} y={20}>
+          {/* Right padding steps around the fixed chat bubble (48px at 24px from
+              each edge), which otherwise sits on top of these two lines. */}
+          <div className="text-right text-frost/80 pr-14 sm:pr-10">
+            <div className="flex items-center justify-end gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-clay-500 opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-clay-500" />
+              </span>
+              {siteContent.heroCorners.right.status}
+            </div>
+            <div>{siteContent.heroCorners.right.place}</div>
+          </div>
+        </FadeIn>
+      </div>
     </section>
   );
 }

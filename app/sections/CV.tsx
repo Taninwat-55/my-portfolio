@@ -9,7 +9,7 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import { FileDown } from "lucide-react";
-import { FadeIn } from "../components/FadeIn";
+import { SectionHeading } from "../components/SectionHeading";
 import { cvData, siteContent, type CvEntry } from "../data";
 
 const CV_HREF = siteContent.cvs[0].href;
@@ -94,18 +94,13 @@ export function CV() {
       aria-labelledby="cv-heading"
       className="relative z-10 bg-night-900 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 px-4 sm:px-6 md:px-10 pt-20 sm:pt-24 md:pt-32 pb-16"
     >
-      <FadeIn delay={0} y={40}>
-        <h2
-          id="cv-heading"
-          className="frost-text font-black uppercase leading-none tracking-tight text-center mb-4"
-          style={{ fontSize: "clamp(3rem, 12vw, 160px)" }}
-        >
-          CV
-        </h2>
-        <p className="text-center text-frost/40 text-xs sm:text-sm uppercase tracking-[0.2em]">
-          {cvData.title}
-        </p>
-      </FadeIn>
+      <SectionHeading
+        id="cv-heading"
+        eyebrow="Track Record"
+        title="CV"
+        subtitle={cvData.title}
+        titleClassName="frost-text"
+      />
 
       {/* Scroll runway — gives the pinned sheet room to unveil */}
       <div ref={runwayRef} className="relative h-[170vh] sm:h-[200vh] mt-10">

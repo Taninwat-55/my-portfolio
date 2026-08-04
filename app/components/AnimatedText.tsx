@@ -41,7 +41,9 @@ export function AnimatedText({ text, className, style }: AnimatedTextProps) {
   const total = text.length;
 
   return (
-    <p ref={ref} className={className} style={style}>
+    // relative rather than leaving it to callers: useScroll measures this element,
+    // and a static target makes framer fall back to incorrect offsets.
+    <p ref={ref} className={`relative ${className ?? ""}`} style={style}>
       {words.map(({ word, start }, wi) => {
         return (
           <span key={wi} className="inline-block">

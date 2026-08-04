@@ -81,13 +81,18 @@ export function HireModal({ isOpen, onClose }: HireModalProps) {
               {/* Header */}
               <div className="flex items-start justify-between px-5 pt-5 pb-3">
                 <div className="flex items-center gap-3">
-                  <Image
-                    src="/assets/Ice_3D_Avatar.webp"
-                    alt="Ice, 3D avatar"
-                    width={48}
-                    height={48}
-                    className="rounded-full border border-frost/15 bg-night-900 object-cover"
-                  />
+                  {/* Zoom-cropped to the head — a plain object-cover square
+                      taken from a 3:4 portrait lands on the chest. */}
+                  <div className="relative shrink-0 h-12 w-12 overflow-hidden rounded-full border border-frost/15 bg-night-900">
+                    <Image
+                      src="/assets/Ice-Portrait.webp"
+                      alt="Portrait of Taninwat “Ice” Kaewpankan"
+                      width={1792}
+                      height={2384}
+                      sizes="80px"
+                      className="absolute left-1/2 -top-0.5 w-[165%] max-w-none -translate-x-1/2"
+                    />
+                  </div>
                   <div>
                     <div className="text-[10px] tracking-[0.25em] uppercase text-crystal-500 mb-1">
                       Quick Actions

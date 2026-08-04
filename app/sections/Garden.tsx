@@ -2,49 +2,86 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getSortedPostsData } from "../lib/posts";
 import { FadeIn } from "../components/FadeIn";
+import { SectionHeading } from "../components/SectionHeading";
+
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+/**
+ * Formats an ISO date string without touching Date, so the output can't shift by
+ * a day depending on the runtime's timezone.
+ */
+function formatPostDate(iso: string): string {
+  const [year, month, day] = iso.split("-");
+  const monthName = MONTHS[Number(month) - 1];
+  if (!monthName || !year || !day) return iso;
+  return `${monthName} ${Number(day)}, ${year}`;
+}
 
 export function Garden() {
-  const posts = getSortedPostsData().slice(0, 3);
+  const posts = getSortedPostsData().slice(0, 4);
 
   return (
     <section
       id="garden"
       className="relative z-10 bg-night-900 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 px-5 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-32 pb-20"
     >
-      <FadeIn delay={0} y={40}>
-        <h2
-          className="hero-heading font-black uppercase leading-none tracking-tight text-center"
-          style={{ fontSize: "clamp(3rem, 12vw, 160px)" }}
-        >
-          Garden
-        </h2>
-      </FadeIn>
+      <SectionHeading
+        eyebrow="Writing"
+        title="Garden"
+        subtitle="Thoughts on product, coordination, and building"
+        className="mb-16 sm:mb-20"
+      />
 
-      <FadeIn delay={0.15} y={20}>
-        <p className="text-frost/50 font-light text-center text-sm tracking-widest uppercase mt-4 mb-16 sm:mb-20">
-          thoughts on product, coordination, and building
-        </p>
-      </FadeIn>
-
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+      {/* Horizontal pills rather than a card grid: for text-first content the
+          scannable row wins, and read time is a far more useful affordance than
+          a truncated excerpt. */}
+      <div className="mx-auto flex max-w-6xl flex-col gap-3 sm:gap-4">
         {posts.map((post, i) => (
-          <FadeIn key={post.slug} delay={i * 0.12} y={30}>
+          <FadeIn key={post.slug} delay={i * 0.1} y={20}>
             <Link
               href={`/garden/${post.slug}`}
-              className="block h-full rounded-2xl p-6 md:p-7 bg-white/3 border border-frost/10 hover:border-frost/25 hover:scale-[1.01] transition-all duration-200 ease-out"
+              className="group flex items-center gap-4 rounded-[32px] border border-frost/10 bg-white/3 px-5 py-4 transition-colors duration-200 hover:border-frost/25 hover:bg-white/6 sm:gap-6 sm:rounded-full sm:px-7 sm:py-5"
             >
-              <span className="inline-block text-crystal-500 bg-crystal-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1 mb-3">
+              <span className="shrink-0 rounded-full bg-crystal-500/10 px-3 py-1 text-[10px] uppercase tracking-wider text-crystal-500">
                 {post.category}
               </span>
-              <h3 className="text-frost font-medium text-lg leading-snug mb-2">
+
+              <h3 className="min-w-0 flex-1 text-sm font-medium leading-snug text-frost line-clamp-2 sm:truncate sm:text-base">
                 {post.title}
               </h3>
-              <p className="text-frost/40 text-xs font-light uppercase tracking-wider mb-3">
-                {post.date}
-              </p>
-              <p className="text-frost/60 text-sm font-light leading-relaxed line-clamp-3">
-                {post.excerpt}
-              </p>
+
+              <span className="hidden shrink-0 text-xs text-frost/40 sm:block">
+                {post.readTime}
+              </span>
+
+              <span
+                aria-hidden
+                className="hidden h-1 w-1 shrink-0 rounded-full bg-frost/20 md:block"
+              />
+
+              <span className="hidden shrink-0 text-xs text-frost/40 md:block">
+                {formatPostDate(post.date)}
+              </span>
+
+              <ArrowRight
+                size={16}
+                strokeWidth={1.5}
+                aria-hidden
+                className="shrink-0 text-frost/30 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-frost"
+              />
             </Link>
           </FadeIn>
         ))}

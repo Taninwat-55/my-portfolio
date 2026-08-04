@@ -3,14 +3,22 @@ import { Kanit, JetBrains_Mono } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
 
+// Only the weights the app actually uses. next/font emits a <link rel="preload">
+// per weight, so the two unused ones (600, 800) were downloading and preloading
+// files nothing rendered — which is exactly what the console warnings were about.
+// light 300 · normal 400 · medium 500 · bold 700 · black 900
 const kanit = Kanit({
   subsets: ["latin"],
   variable: "--font-kanit",
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "700", "900"],
 });
+// Not preloaded: mono only appears in the footer's block-height counter and in
+// garden post code blocks, none of which are needed for first paint. Preloading it
+// meant the browser fetched a font it wouldn't use for seconds, if at all.
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
+  preload: false,
 });
 
 const personJsonLd = {
@@ -20,9 +28,9 @@ const personJsonLd = {
   image: "https://taninwatkaewpankan.xyz/opengraph-image",
   alternateName: "Ice",
   url: "https://taninwatkaewpankan.xyz",
-  jobTitle: "Product Engineer & Project Coordinator",
+  jobTitle: "Frontend Engineer & Project Coordinator",
   description:
-    "Product engineer and project coordinator based in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
+    "Frontend engineer and project coordinator based in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Copenhagen",
@@ -40,8 +48,8 @@ const personJsonLd = {
     },
   ],
   knowsAbout: [
-    "Product Engineering",
     "Frontend Development",
+    "Product Engineering",
     "React",
     "Next.js",
     "TypeScript",
@@ -71,14 +79,15 @@ const personJsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://taninwatkaewpankan.xyz"),
   title: {
-    default: "Ice · Taninwat Kaewpankan — Product Engineer & Project Coordinator",
+    default: "Ice · Taninwat Kaewpankan — Frontend Engineer & Project Coordinator",
     template: "%s | Ice — Taninwat Kaewpankan",
   },
   description:
-    "Ice (Taninwat Kaewpankan) is a product engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
+    "Ice (Taninwat Kaewpankan) is a frontend engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
   keywords: [
-    "Product Engineer",
+    "Frontend Engineer",
     "Frontend Developer",
+    "Product Engineer",
     "Project Coordinator",
     "React",
     "Next.js",
@@ -87,9 +96,9 @@ export const metadata: Metadata = {
     "Denmark",
   ],
   openGraph: {
-    title: "Ice · Taninwat Kaewpankan — Product Engineer & Project Coordinator",
+    title: "Ice · Taninwat Kaewpankan — Frontend Engineer & Project Coordinator",
     description:
-      "Product engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
+      "Frontend engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
     url: "https://taninwatkaewpankan.xyz",
     siteName: "Ice — Taninwat Kaewpankan",
     locale: "en_US",
@@ -97,9 +106,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ice · Taninwat Kaewpankan — Product Engineer & Project Coordinator",
+    title: "Ice · Taninwat Kaewpankan — Frontend Engineer & Project Coordinator",
     description:
-      "Product engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
+      "Frontend engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
   },
   icons: {
     icon: "/icon.svg",

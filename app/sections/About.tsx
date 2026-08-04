@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { FadeIn } from "../components/FadeIn";
 import { AnimatedText } from "../components/AnimatedText";
+import { SectionHeading } from "../components/SectionHeading";
 import { siteContent } from "../data";
 
 // Clustered as a loose still-life on one side — overlapping, staggered,
@@ -55,6 +56,7 @@ const FLOATING_OBJECTS = [
 
 export function About() {
   const [storyOpen, setStoryOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   return (
     <section
@@ -70,8 +72,15 @@ export function About() {
           {FLOATING_OBJECTS.map((img) => (
             <div key={img.src} className={img.className}>
               <FadeIn delay={img.delay} x={img.x} y={0} duration={0.9}>
+                {/* whileInView rather than animate: these four objects each ran
+                    an infinite float forever, including while the section was
+                    scrolled far off screen. Now the loop only ticks when About is
+                    actually visible, and never for reduced-motion users. */}
                 <motion.div
-                  animate={{ y: [0, -img.floatY, 0] }}
+                  whileInView={
+                    reduceMotion ? undefined : { y: [0, -img.floatY, 0] }
+                  }
+                  viewport={{ once: false, margin: "100px" }}
                   transition={{
                     duration: img.floatDur,
                     repeat: Infinity,
@@ -96,14 +105,12 @@ export function About() {
 
         {/* Right on desktop, below cluster on mobile: the text column */}
         <div className="flex flex-col items-start gap-8 sm:gap-10">
-          <FadeIn delay={0} y={40}>
-            <h2
-              className="hero-heading text-left font-black uppercase leading-none tracking-tight"
-              style={{ fontSize: "clamp(3rem, 10vw, 140px)" }}
-            >
-              About me
-            </h2>
-          </FadeIn>
+          <SectionHeading
+            eyebrow="Who I Am"
+            title="About me"
+            align="left"
+            titleSize="clamp(3rem, 10vw, 140px)"
+          />
 
           <AnimatedText
             text={siteContent.aboutAnimated}

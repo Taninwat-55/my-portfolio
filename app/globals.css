@@ -36,6 +36,15 @@
   html {
     color-scheme: dark;
     background-color: #0C0C0C;
+    scroll-behavior: smooth;
+    /* Keeps the fixed pill nav from covering the top of an anchored section. */
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
   body {
     background-color: #0C0C0C;
@@ -70,21 +79,12 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 22px rgba(142, 201, 232, 0.22));
-    animation:
-      frost-shimmer 7s ease-in-out 1.4s infinite,
-      frost-in 1.3s cubic-bezier(0.25, 0.1, 0.25, 1) both;
-  }
-
-  @keyframes frost-shimmer {
-    0% {
-      background-position: 130% 0, 0 0;
-    }
-    50% {
-      background-position: -30% 0, 0 0;
-    }
-    100% {
-      background-position: 130% 0, 0 0;
-    }
+    /* The reveal runs once. A perpetual background-position sweep used to run
+       alongside it, but animating background-position repaints the whole text
+       node every frame — forever, and offscreen — for a glint most visitors
+       never caught. The static ice gradient is the part that was doing the work.
+       The sweep layer stays parked at 130% so the gradient is unaffected. */
+    animation: frost-in 1.3s cubic-bezier(0.25, 0.1, 0.25, 1) both;
   }
 
   @keyframes frost-in {
@@ -102,6 +102,30 @@
     .frost-text {
       animation: none;
       filter: drop-shadow(0 0 22px rgba(142, 201, 232, 0.22));
+    }
+  }
+
+  /* Hero name marquee. The track holds two identical halves, so translating it
+     by -50% lands exactly on the start of the second copy and loops seamlessly. */
+  .hero-marquee {
+    animation: hero-marquee 30s linear infinite;
+    /* Promotes the track to its own layer so the perpetual scroll composites
+       instead of repainting a viewport-wide block of 20vh type. */
+    will-change: transform;
+  }
+
+  @keyframes hero-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-marquee {
+      animation: none;
     }
   }
 

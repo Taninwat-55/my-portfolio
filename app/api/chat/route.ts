@@ -4,11 +4,48 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { personalInfo, siteContent, experience, cases, chatbotContext } from "@/app/data";
 
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(10, "1 h"),
-  analytics: false,
-});
+// Built defensively: Redis.fromEnv() throws if the credentials are absent, and
+// this runs at module scope, so an unconfigured environment used to break the
+// route at import time rather than at request time.
+const ratelimit = (() => {
+  if (
+    !process.env.UPSTASH_REDIS_REST_URL ||
+    !process.env.UPSTASH_REDIS_REST_TOKEN
+  ) {
+    console.warn("[chat] Upstash credentials missing — rate limiting disabled.");
+    return null;
+  }
+  try {
+    return new Ratelimit({
+      redis: Redis.fromEnv(),
+      limiter: Ratelimit.slidingWindow(10, "1 h"),
+      analytics: false,
+    });
+  } catch (error) {
+    console.error("[chat] could not construct rate limiter:", error);
+    return null;
+  }
+})();
+
+/**
+ * Returns false only when the limiter positively says the caller is over quota.
+ *
+ * If the limiter itself is unreachable — the free-tier Upstash database being
+ * reclaimed after inactivity is the realistic case, and it happened — we allow
+ * the request and log loudly. Failing closed here would mean a deleted Redis
+ * instance silently takes the chatbot offline, which is the bug this replaces.
+ * Groq enforces its own per-key limits, so this is not the only line of defence.
+ */
+async function withinRateLimit(ip: string): Promise<boolean> {
+  if (!ratelimit) return true;
+  try {
+    const { success } = await ratelimit.limit(ip);
+    return success;
+  } catch (error) {
+    console.error("[chat] rate limiter unreachable, allowing request:", error);
+    return true;
+  }
+}
 
 const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
@@ -56,24 +93,32 @@ export async function POST(request: Request) {
     request.headers.get("x-real-ip") ??
     "anonymous";
 
-  const { success } = await ratelimit.limit(ip);
-
-  if (!success) {
+  if (!(await withinRateLimit(ip))) {
     return new Response(
       JSON.stringify({ error: "Rate limit reached. Come back in an hour." }),
       { status: 429, headers: { "Content-Type": "application/json" } }
     );
   }
 
-  const { messages } = await request.json();
-  const modelMessages = await convertToModelMessages(messages);
+  // Anything below can fail on bad input or an upstream outage. Without this the
+  // widget just receives an opaque 500 and shows nothing useful.
+  try {
+    const { messages } = await request.json();
+    const modelMessages = await convertToModelMessages(messages);
 
-  const result = await streamText({
-    model: groq("llama-3.3-70b-versatile"),
-    system: SYSTEM_PROMPT,
-    messages: modelMessages,
-    maxOutputTokens: 400,
-  });
+    const result = await streamText({
+      model: groq("llama-3.3-70b-versatile"),
+      system: SYSTEM_PROMPT,
+      messages: modelMessages,
+      maxOutputTokens: 400,
+    });
 
-  return result.toUIMessageStreamResponse();
+    return result.toUIMessageStreamResponse();
+  } catch (error) {
+    console.error("[chat] request failed:", error);
+    return new Response(
+      JSON.stringify({ error: "The assistant is unavailable right now." }),
+      { status: 502, headers: { "Content-Type": "application/json" } }
+    );
+  }
 }

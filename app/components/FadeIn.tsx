@@ -2,43 +2,33 @@
 
 import { motion } from "framer-motion";
 
-// Motion components are cached per element type so they are not recreated
-// (and remounted) on every render.
-const motionCache = new Map<React.ElementType, React.ElementType>();
-
-function getMotionComponent(as: React.ElementType): React.ElementType {
-  let component = motionCache.get(as);
-  if (!component) {
-    component = motion.create(as);
-    motionCache.set(as, component);
-  }
-  return component;
-}
-
 interface FadeInProps {
   children: React.ReactNode;
   delay?: number;
   duration?: number;
   x?: number;
   y?: number;
-  as?: React.ElementType;
   className?: string;
 }
 
+/**
+ * Scroll-triggered fade/slide wrapper.
+ *
+ * This used to accept an `as` prop and build the motion component at runtime via
+ * motion.create(), cached in a module-level Map. Nothing in the app ever passed
+ * `as`, so every instance was a div anyway — the machinery bought no flexibility
+ * and cost a dynamically-created component type on every distinct element.
+ */
 export function FadeIn({
   children,
   delay = 0,
   duration = 0.7,
   x = 0,
   y = 30,
-  as = "div",
   className,
 }: FadeInProps) {
-  const Component = getMotionComponent(as);
-
   return (
-    // eslint-disable-next-line react-hooks/static-components -- components are cached at module level, never recreated
-    <Component
+    <motion.div
       initial={{ opacity: 0, x, y }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: "50px", amount: 0 }}
@@ -46,6 +36,6 @@ export function FadeIn({
       className={className}
     >
       {children}
-    </Component>
+    </motion.div>
   );
 }
