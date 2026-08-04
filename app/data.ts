@@ -49,6 +49,14 @@ export const siteContent = {
     "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language, just with a few more tools.",
   ],
 
+  // Anchored along the bottom of the About section, echoing the hero corners.
+  // Every value here traces to aboutStory or the CV — nothing is inferred.
+  aboutFacts: [
+    { label: "Path", value: "Thailand → Sweden → England → Denmark" },
+    { label: "Languages", value: "Thai, Swedish, English, Danish" },
+    { label: "Based", value: "Copenhagen since 2023 · EU citizen" },
+  ],
+
   // Scroll-revealed paragraph in the About section.
   aboutAnimated:
     "Here is how I work. I write a clear spec, break it into small steps, then check the result myself. That is different from prompting an AI and hoping. I use AI to move faster, but the product thinking and the final review are mine. I like small teams that want to move fast and ship things that actually matter. Let's build something together.",
