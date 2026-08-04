@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Kanit, JetBrains_Mono } from "next/font/google";
+import { Kanit, JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { personalInfo, siteContent } from "./data";
 import "./globals.css";
@@ -19,6 +19,17 @@ const kanit = Kanit({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
+  preload: false,
+});
+
+// Display serif, italic only — used as a counterpoint to Kanit for the small
+// amount of sentence-case "voice" text: section subtitles, the story signature,
+// and case-study straplines. Not preloaded, because none of it is above the fold.
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  variable: "--font-instrument-serif",
   preload: false,
 });
 
@@ -126,7 +137,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${kanit.variable} ${jetbrainsMono.variable} antialiased bg-night-900 text-frost`}
+        className={`${kanit.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} antialiased bg-night-900 text-frost`}
       >
         <script
           type="application/ld+json"

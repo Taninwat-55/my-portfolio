@@ -70,10 +70,14 @@ export function SectionHeading({
         </h2>
       </FadeIn>
 
+      {/* Display serif rather than a third tracked-out sans line. The eyebrow is
+          already small uppercase sans, so repeating that register underneath the
+          title read as two labels stacked around a heading. Sentence-case italic
+          serif gives the block three distinct voices instead. */}
       {subtitle && (
         <FadeIn delay={0.16} y={20} className="mt-4">
           <p
-            className={`text-xs uppercase tracking-[0.2em] sm:text-sm ${subtitleColor}`}
+            className={`font-display italic text-lg sm:text-xl md:text-2xl ${subtitleColor}`}
           >
             {subtitle}
           </p>

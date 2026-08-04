@@ -3,6 +3,9 @@
 @theme {
   --font-sans: var(--font-kanit);
   --font-mono: var(--font-jetbrains-mono);
+  /* Italic-only display serif. Pair it with the `italic` utility — the loaded
+     face declares font-style: italic, so it will not match upright text. */
+  --font-display: var(--font-instrument-serif);
 
   /* Night — dark surface scale */
   --color-night-900: #0C0C0C;

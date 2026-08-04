@@ -120,7 +120,7 @@ export default async function CasePage({
             </h1>
           </FadeIn>
           <FadeIn delay={0.2} y={20}>
-            <p className="text-frost/70 font-light text-lg md:text-xl max-w-2xl leading-relaxed">
+            <p className="text-frost/70 font-display italic text-xl md:text-2xl max-w-2xl leading-relaxed">
               {caseStudy.sub}
             </p>
           </FadeIn>

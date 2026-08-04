@@ -158,7 +158,7 @@ export function About() {
                         </p>
                       ))}
                     </div>
-                    <div className="mt-10 text-frost/40 text-sm font-light italic">
+                    <div className="mt-10 text-frost/40 font-display italic text-lg">
                       — Ice
                     </div>
                   </div>
