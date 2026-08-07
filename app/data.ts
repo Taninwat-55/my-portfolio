@@ -320,7 +320,7 @@ export const cases: CaseStudy[] = [
     n: "01",
     tag: "Management",
     title: "Millennial Consulting",
-    sub: "Coordinating a 20+ consultant student consultancy across simultaneous client projects.",
+    sub: "Coordinating a 25+ consultant student consultancy across simultaneous client projects.",
     images: [
       "/assets/millennial/Millennial_Fall2024.webp",
       "/assets/millennial/Millennial_Spring2025.webp",
@@ -330,17 +330,24 @@ export const cases: CaseStudy[] = [
     overview:
       "A student-run strategy consultancy under the non-profit Station in Copenhagen, delivering pro-bono projects to real startups in 8-week cycles. Across four cycles I grew from Operations Assistant to Operations Manager to Head of Organization.",
     challenge:
-      "Every 8-week cycle ran about 5 client projects and 20+ consultants in parallel, with no full-time staff and volunteers who could walk away at any time. The hard part was never a single project. It was keeping simultaneous engagements, student teams, partner firms, and clients aligned and delivering on time, in an org where authority was earned, not assigned.",
+      "Every 8-week cycle ran 5–6 client projects and 25+ consultants in parallel, with no full-time staff and volunteers who could walk away at any time. The hard part was never a single project. It was keeping simultaneous engagements, student teams, partner firms, and clients aligned and delivering on time, in an org where authority was earned, not assigned.",
     stackWhy:
-      "Process over tooling. Lightweight structure the volunteers would actually adopt, plus partner-firm workshops to level the teams up.",
+      "Process over tooling. Lightweight structure the volunteers would actually adopt, partner-firm workshops to level the teams up, and a willingness to absorb whatever role went vacant.",
     engineering:
-      "Spent my first two cycles as an Operations Assistant learning how delivery actually worked, then led operations as Operations Manager, and ran the whole organization in my final cycle. I introduced a hybrid Agile/waterfall process: fixed milestones clients could rely on, flexible mentor sessions so teams could pivot on feedback. I ran it in parallel until it earned its place and was adopted org-wide. I staffed teams to projects, coordinated partner-firm workshops (Deloitte, Accenture, EY-Parthenon, PwC, BearingPoint, Round), and led by enablement rather than micromanagement.",
+      "Spent my first two cycles as an Operations Assistant learning how delivery actually worked, then led operations as Operations Manager, and ran the whole organization in my final cycle. I built the student project booklet every cycle, collecting and summarizing client details, scope, mentors and contacts from BD and HR. I introduced a hybrid Agile/waterfall process: fixed milestones clients could rely on, flexible mentor sessions so teams could pivot on feedback. I ran it in parallel until it earned its place and was adopted org-wide, and added a lightweight Scrum and Kanban setup so the org could track activities and internal files. When leadership turnover was high I onboarded new HR people myself with no head in place, redistributed work, and kept the cycles running. In the final cycle I took over budget tracking and adjustments under Station's monthly limit after the finance lead left, and handled two client dissatisfaction cases by finding the communication gap and escalating when it needed escalating. I staffed teams of 25+ consultants across 5–6 parallel projects, coordinated partner-firm workshops (Deloitte, Accenture, EY-Parthenon, PwC, BearingPoint, Round), and led by enablement rather than micromanagement.",
     metrics: [
-      { v: "5", k: "Clients / cycle (parallel)" },
+      { v: "5–6", k: "Clients / cycle (parallel)" },
       { v: "4 cycles", k: "Member → Head of Org" },
       { v: "Org-wide", k: "Process I introduced" },
     ],
-    stack: ["Agile / Scrum", "Stakeholder Management", "Team Staffing", "Workshop Facilitation", "Process Design"],
+    stack: [
+      "Agile / Scrum / Kanban",
+      "Stakeholder Management",
+      "Team Staffing",
+      "Workshop Facilitation",
+      "Process Design",
+      "Budget Tracking",
+    ],
     links: {
       demo: "https://www.millennialconsulting.dk",
       code: "",
@@ -362,7 +369,7 @@ export const cases: CaseStudy[] = [
     overview:
       "An early-stage AI video platform that secured enterprise trials with Nordisk Film and DR. I joined as a frontend intern and, after graduating, continued part-time with equity warrants, owning the product side of a full UI/UX redesign.",
     challenge:
-      "The platform had grown feature-first and the UX had drifted. The real constraint: improve the product meaningfully without forcing backend changes a small team couldn't afford. The job was deciding what was worth building against what the existing backend could actually support.",
+      "The platform had grown feature-first and the UX had drifted. Most requests arrived as rough briefs with no formal specs. The real constraint: improve the product meaningfully without forcing backend changes a small team couldn't afford. The job was deciding what was worth building against what the existing backend could actually support.",
     stackWhy:
       "Product judgment over raw output. Competitor research to find the gaps, ruthless scoping to ship within real constraints.",
     engineering:
@@ -372,7 +379,7 @@ export const cases: CaseStudy[] = [
       { v: "Full redesign", k: "Scoped to backend" },
       { v: "Nav overhaul", k: "Shipped" },
     ],
-    stack: ["Competitive Research", "Product Scoping", "UI/UX Direction", "React", "Zustand"],
+    stack: ["Competitive Research", "Product Scoping", "UI/UX Direction", "React"],
     links: {
       demo: "https://trailr.ai",
       code: "",

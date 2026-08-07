@@ -14,7 +14,7 @@ now lives in Copenhagen, Denmark.
 
 He builds web products end-to-end (React, TypeScript, Next.js, Node.js) and
 keeps delivery on track: shaping product direction, scoping work, and shipping
-it himself. He led a 20+ consultant student consultancy as Head of Organization,
+it himself. He led a 25+ consultant student consultancy as Head of Organization,
 and contributes part-time to the early-stage AI startup Trailr AI under equity
 warrants, where he owned the product side of a full platform UI/UX redesign.
 
@@ -35,14 +35,16 @@ Approach: Design systems, accessibility, performance
 
 - Millennial Consulting (https://www.millennialconsulting.dk): Student-run
   strategy consultancy delivering pro-bono projects in 8-week cycles. Coordinated
-  ~5 parallel client projects per cycle across 20+ volunteer consultants; grew
+  5–6 parallel client projects per cycle across 25+ volunteer consultants; grew
   from Operations Assistant to Operations Manager to Head of Organization.
-  Introduced a hybrid Agile/waterfall process that was adopted org-wide.
+  Introduced a hybrid Agile/waterfall process that was adopted org-wide, plus a
+  lightweight Scrum and Kanban system for internal tracking. Took over budget
+  tracking in the final cycle when the finance lead left.
 - Trailr AI (https://trailr.ai): Early-stage AI video platform that secured
   enterprise trials with Nordisk Film and DR. Owned the product side of a full
   UI/UX redesign: benchmarked competitors, set a design direction, and scoped
   ruthlessly to what the existing backend could support, cutting features rather
-  than forcing rewrites. Led a navigation overhaul in React and Zustand.
+  than forcing rewrites. Led a click-reduction navigation overhaul in React.
 - MockMate (https://mockmate.space): AI mock interview platform: paste a job
   description, answer tailored questions from an AI interviewer, get a structured
   graded report. Owned the product end to end. Next.js, Google Gemini, Prisma,
