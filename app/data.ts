@@ -322,8 +322,8 @@ export const cases: CaseStudy[] = [
     title: "Millennial Consulting",
     sub: "Coordinating a 25+ consultant student consultancy across simultaneous client projects.",
     images: [
-      "/assets/millennial/Millennial_Fall2024.webp",
       "/assets/millennial/Millennial_Spring2025.webp",
+      "/assets/millennial/Millennial_Fall2024.webp",
       "/assets/millennial/spring2025_ice-break.webp",
       "/assets/millennial/fall2024_hot-seat.webp",
     ],
