@@ -24,6 +24,26 @@ const checkRateLimit = createRateLimiter({
   window: "1 h",
 });
 
+/**
+ * A second limiter keyed on nothing, so it bounds total sends regardless of who
+ * is asking.
+ *
+ * The per-IP limit above is only as good as the IP, and the IP comes from
+ * headers. That is a reasonable throttle but a poor last line of defence: get
+ * the header parsing wrong — as this route originally did — and the per-IP cap
+ * silently becomes no cap at all. This one cannot be escaped by rotating
+ * anything, so the worst case for a determined caller is 20 emails an hour
+ * rather than an exhausted Resend quota and a burnt domain reputation.
+ *
+ * 20/hour is far above real demand for a freelance enquiry form. If it ever
+ * trips legitimately that is a good problem, and the number is one line.
+ */
+const checkGlobalLimit = createRateLimiter({
+  prefix: "rl:enquiry:global",
+  limit: 20,
+  window: "1 h",
+});
+
 const mailtoHint = `Email me directly at ${personalInfo.email}.`;
 
 export async function POST(req: NextRequest) {
@@ -60,6 +80,26 @@ export async function POST(req: NextRequest) {
   // form would be impossible to test.
   if (verdict === "unavailable" && process.env.NODE_ENV === "production") {
     console.error("[rl:enquiry] limiter unavailable — refusing to send.");
+    return NextResponse.json(
+      { error: `The form is briefly unavailable. ${mailtoHint}` },
+      { status: 503 }
+    );
+  }
+
+  // Backstop. Deliberately checked after the per-IP limit so that one abusive
+  // caller burns their own quota first and a flood has to get past both.
+  const globalVerdict = await checkGlobalLimit("all");
+
+  if (globalVerdict === "limited") {
+    console.error("[rl:enquiry:global] hourly ceiling reached — refusing.");
+    return NextResponse.json(
+      { error: `The form is busy right now. ${mailtoHint}` },
+      { status: 429 }
+    );
+  }
+
+  if (globalVerdict === "unavailable" && process.env.NODE_ENV === "production") {
+    console.error("[rl:enquiry:global] limiter unavailable — refusing to send.");
     return NextResponse.json(
       { error: `The form is briefly unavailable. ${mailtoHint}` },
       { status: 503 }
