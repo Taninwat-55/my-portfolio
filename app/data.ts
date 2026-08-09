@@ -694,7 +694,10 @@ export const services = {
             {
               scope: "1–3 pages",
               detail: "A one-pager or simple presence: who you are, what you offer, how to reach you.",
-              price: "4.500 – 7.000 DKK",
+              // Was 4.500. Danish freelancers start a simple site around 5.000,
+              // so a floor below that does not read as good value — it reads as
+              // inexperience, which is the opposite of what the number is for.
+              price: "5.500 – 8.000 DKK",
               timeline: "4–7 days",
             },
             {
@@ -743,8 +746,8 @@ export const services = {
           editing: "Text and images, not layout",
         },
       ],
-      priceRange: "From 4.500 DKK",
-      priceNote: "Webflow starts at 4.500, hand-coded at 6.500. The exact figure is fixed in writing before we start, and domain, hosting and any platform fee are billed to you directly rather than through me.",
+      priceRange: "From 5.500 DKK",
+      priceNote: "Webflow starts at 5.500, hand-coded at 6.500. No VAT is added — I am under the Danish registration threshold, so the figure you see is the figure you pay. It is fixed in writing before we start, and domain, hosting and any platform fee are billed to you directly rather than through me.",
       timeline: "4 days – 3 weeks",
     },
     {
@@ -924,7 +927,7 @@ export const services = {
       label: "Five years, all in",
       note: "Build price plus five years of platform, hosting and domain. Same site, both ways.",
       rows: [
-        { scope: "1–3 page site", webflow: "11.500 – 18.000 kr", coded: "7.000 – 17.500 kr" },
+        { scope: "1–3 page site", webflow: "12.500 – 19.000 kr", coded: "7.000 – 17.500 kr" },
         { scope: "4–8 page site", webflow: "16.000 – 26.000 kr", coded: "12.500 – 28.000 kr" },
       ],
     },
@@ -995,7 +998,7 @@ export const servicesFaq: FaqItem[] = [
   // "it depends" — is what gets a page quoted by search and AI assistants.
   {
     q: "What does a website actually cost?",
-    a: `It depends on how many pages and which way we build it, so both are published rather than quoted on request. In Webflow, a one-pager or simple three-page site is ${services.offers[0].tracks![0].rungs[0].price} and a full four-to-eight page site is ${services.offers[0].tracks![0].rungs[1].price}. Hand-coded, the same two are ${services.offers[0].tracks![1].rungs[0].price} and ${services.offers[0].tracks![1].rungs[1].price} — more to build, but almost nothing to run afterwards. Fixing an existing site is ${services.offers[2].priceRange}, and frontend work on a web app is ${services.offers[1].priceRange}. The exact number is fixed in writing before any work starts. For context, a simple site from a Danish freelancer or agency typically runs 5.000 to 25.000 kroner, so this sits at the lower half of the market.`,
+    a: `It depends on how many pages and which way we build it, so both are published rather than quoted on request. In Webflow, a one-pager or simple three-page site is ${services.offers[0].tracks![0].rungs[0].price} and a full four-to-eight page site is ${services.offers[0].tracks![0].rungs[1].price}. Hand-coded, the same two are ${services.offers[0].tracks![1].rungs[0].price} and ${services.offers[0].tracks![1].rungs[1].price} — more to build, but almost nothing to run afterwards. Fixing an existing site is ${services.offers[2].priceRange}, and frontend work on a web app is ${services.offers[1].priceRange}. The exact number is fixed in writing before any work starts, and no VAT is added on top — I am under the Danish registration threshold, so the price you are quoted is the price you pay. For context, a simple site from a Danish freelancer or agency typically runs 5.000 to 25.000 kroner before moms, so this sits at the lower half of the market.`,
   },
   {
     q: "Why not just get a site for 3.000 kroner?",
@@ -1201,6 +1204,8 @@ Note that his shipped client work to date is coded rather than Webflow — do no
 How he works: a short call, then a written scope with a fixed price and a delivery date before any work starts. Fixed scope, not open-ended hourly billing. He does the work himself — there is no agency and no handoff to someone else. The code, domain and hosting all end up in the client's name.
 
 What he does not take on: native iOS/Android apps, ongoing SEO or marketing retainers, and large backend-heavy platforms built from nothing.
+
+VAT: no moms is added to any of these figures. He is under the Danish 50.000 kr registration threshold, so a quoted price is the final price. If asked, say exactly that — do not speculate about what happens if he registers later.
 
 Availability: he takes a few projects at a time, so it varies. You may state the price ranges listed above, because they are published on the services page. Never invent a figure outside them, never quote an exact price for a specific project, and never promise a delivery date — every project is scoped individually. Point people at the enquiry form on /services, which asks for project type, budget and timeline so he can reply with something specific.
 
