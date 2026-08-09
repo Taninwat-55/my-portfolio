@@ -5,10 +5,24 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { HireModal } from "./HireModal";
 
-const NAV_LINKS = [
-  { label: "About", id: "about" },
+type NavLink = {
+  label: string;
+  /** Hash target on this page. Its presence opts the item into scroll-spy. */
+  id?: string;
+  /** Cross-page route. Mutually exclusive with `id`. */
+  href?: string;
+  /** Dropped below sm. The pill has ~328px at 360px and this list is full. */
+  compactHidden?: boolean;
+};
+
+// "About" is the cheapest item to drop on narrow screens: the page scrolls
+// straight into it, whereas Work, Projects and Services are the actual
+// navigation. Without this the pill wraps at 360px once Services is added.
+const NAV_LINKS: NavLink[] = [
+  { label: "About", id: "about", compactHidden: true },
   { label: "Work", id: "work" },
   { label: "Projects", id: "projects" },
+  { label: "Services", href: "/services" },
 ];
 
 /**
@@ -43,9 +57,11 @@ export function PillNav() {
   // Scroll-spy — whichever section crosses the middle band of the viewport owns
   // the active pill. Nothing is active while the hero fills the screen.
   useEffect(() => {
-    const sections = NAV_LINKS.map(({ id }) =>
-      document.getElementById(id)
-    ).filter((el): el is HTMLElement => el !== null);
+    const sections = NAV_LINKS.filter(
+      (link): link is NavLink & { id: string } => Boolean(link.id)
+    )
+      .map(({ id }) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
 
     if (sections.length === 0) return;
 
@@ -67,7 +83,10 @@ export function PillNav() {
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 md:pt-6">
+      {/* px-2 below sm, not px-4. Measured: with Services added the pill needs
+          291px, and px-4 leaves only 288px at a 320px viewport — it wrapped by
+          three pixels. px-2 gives 304px and ~13px of headroom. */}
+      <div className="fixed inset-x-0 top-0 z-50 flex justify-center px-2 pt-4 sm:px-4 md:pt-6">
         <nav
           aria-label="Main navigation"
           className={`inline-flex max-w-full items-center gap-0.5 rounded-full border border-frost/10 bg-night-800/70 p-1.5 backdrop-blur-md transition-shadow duration-300 sm:gap-1 ${
@@ -85,13 +104,32 @@ export function PillNav() {
           <span aria-hidden className="mx-0.5 hidden h-5 w-px bg-frost/15 sm:block" />
 
           {NAV_LINKS.map((link) => {
+            const base = `rounded-full px-2 py-1.5 text-xs whitespace-nowrap transition-colors sm:px-4 sm:py-2 sm:text-sm ${
+              link.compactHidden ? "hidden sm:inline-block" : ""
+            }`;
+
+            // A route rather than an anchor, so scroll-spy can never mark it
+            // active. It gets a standing accent instead of sitting there
+            // looking like a permanently dead pill.
+            if (link.href) {
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`${base} text-crystal-500 hover:bg-night-700/60 hover:text-crystal-300`}
+                >
+                  {link.label}
+                </Link>
+              );
+            }
+
             const isActive = activeId === link.id;
             return (
               <a
                 key={link.id}
                 href={`#${link.id}`}
                 aria-current={isActive ? "true" : undefined}
-                className={`rounded-full px-2 py-1.5 text-xs whitespace-nowrap transition-colors sm:px-4 sm:py-2 sm:text-sm ${
+                className={`${base} ${
                   isActive
                     ? "bg-night-700 text-frost"
                     : "text-frost/60 hover:bg-night-700/60 hover:text-frost"

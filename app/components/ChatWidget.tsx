@@ -5,27 +5,57 @@ import { isTextUIPart } from "ai";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Loader2, RotateCcw } from "lucide-react";
+import { chatPrompts } from "../data";
 
-const SUGGESTED_PROMPTS = [
-  "What has he built?",
-  "What's his background?",
-  "Is he open to work?",
-];
+/**
+ * Two audiences visit this site, and they do not open the chat with the same
+ * question. The "services" variant runs on /services, where the visitor is a
+ * prospective client rather than a recruiter.
+ */
+type ChatVariant = "portfolio" | "services";
 
-export function ChatWidget() {
+const COPY: Record<ChatVariant, { title: string; intro: string }> = {
+  portfolio: {
+    title: "Ask about Taninwat",
+    intro:
+      "Hi! I know Taninwat's work, background, and projects. What would you like to know?",
+  },
+  services: {
+    title: "Ask about working together",
+    intro:
+      "Hi! I can answer questions about the services, how projects run, and what things typically cost.",
+  },
+};
+
+/**
+ * Only a genuine rate-limit response should shut the input down. Everything else
+ * — a dropped connection, an upstream hiccup — is recoverable and clears on the
+ * next send. This used to be a single sticky boolean, which meant one transient
+ * 502 permanently disabled the widget behind a "Limit reached" message that was
+ * usually a lie.
+ */
+type ChatError = null | "limit" | "transient";
+
+export function ChatWidget({ variant = "portfolio" }: { variant?: ChatVariant }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [chatError, setChatError] = useState<ChatError>(null);
   const [inputValue, setInputValue] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const copy = COPY[variant];
+  const prompts = chatPrompts[variant];
+
   const { messages, sendMessage, setMessages, status } = useChat({
-    onError: () => setHasError(true),
+    onError: (error) =>
+      setChatError(/rate limit/i.test(error.message) ? "limit" : "transient"),
   });
+
+  const isRateLimited = chatError === "limit";
 
   const resetChat = () => {
     setMessages([]);
-    setHasError(false);
+    setChatError(null);
     setInputValue("");
     inputRef.current?.focus();
   };
@@ -50,8 +80,10 @@ export function ChatWidget() {
 
   const submit = () => {
     const text = inputValue.trim();
-    if (!text || isLoading || hasError) return;
+    if (!text || isLoading || isRateLimited) return;
     setInputValue("");
+    // A transient failure clears on retry; only a rate limit persists.
+    setChatError(null);
     sendMessage({ text });
   };
 
@@ -81,7 +113,7 @@ export function ChatWidget() {
                   <div className="text-[10px] tracking-[0.25em] uppercase text-crystal-500 mb-0.5">
                     AI Assistant
                   </div>
-                  <div className="text-sm text-frost">Ask about Taninwat</div>
+                  <div className="text-sm text-frost">{copy.title}</div>
                 </div>
                 <div className="flex items-center gap-1">
                   {messages.length > 0 && (
@@ -109,11 +141,10 @@ export function ChatWidget() {
                 {messages.length === 0 && (
                   <div className="space-y-3">
                     <p className="text-[13px] text-frost/60 leading-relaxed">
-                      Hi! I know Taninwat&apos;s work, background, and projects.
-                      What would you like to know?
+                      {copy.intro}
                     </p>
                     <div className="flex flex-col gap-1.5">
-                      {SUGGESTED_PROMPTS.map((prompt) => (
+                      {prompts.map((prompt) => (
                         <button
                           key={prompt}
                           onClick={() => sendMessage({ text: prompt })}
@@ -158,9 +189,11 @@ export function ChatWidget() {
                   </div>
                 )}
 
-                {hasError && (
+                {chatError && (
                   <p className="text-[12px] text-frost/40 text-center py-2">
-                    Limit reached. Come back in an hour.
+                    {isRateLimited
+                      ? "Limit reached. Come back in an hour."
+                      : "Something went wrong — try sending that again."}
                   </p>
                 )}
 
@@ -175,13 +208,13 @@ export function ChatWidget() {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder={hasError ? "Limit reached" : "Ask anything..."}
-                    disabled={isLoading || hasError}
+                    placeholder={isRateLimited ? "Limit reached" : "Ask anything..."}
+                    disabled={isLoading || isRateLimited}
                     className="flex-1 bg-transparent text-[13px] text-frost placeholder:text-frost/30 outline-none disabled:opacity-50"
                   />
                   <button
                     onClick={submit}
-                    disabled={!inputValue.trim() || isLoading || hasError}
+                    disabled={!inputValue.trim() || isLoading || isRateLimited}
                     className="p-1 text-frost/60 hover:text-frost disabled:opacity-30 transition-colors shrink-0"
                     aria-label="Send message"
                   >

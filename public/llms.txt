@@ -22,6 +22,43 @@ He's honest about where he stands: his degree is a vocational frontend program,
 not a CS degree. What he brings is genuine end-to-end delivery experience:
 coordinating simultaneous projects and shipping real products.
 
+## Services
+
+Alongside looking for employment, Ice takes on a small number of freelance
+client projects for small businesses, startups, and solo founders.
+Details, published price ranges, and an enquiry form:
+https://taninwatkaewpankan.xyz/services
+
+- Small-Business Website, in Danish, English or Swedish. Priced by build method,
+  because the two genuinely differ:
+    · Webflow — 4.500–7.000 DKK for 1–3 pages, 9.000–15.000 DKK for 4–8 pages.
+      Then roughly 1.300–2.100 DKK a year for the Webflow site plan. Best when
+      the client wants to edit prices and photos themselves.
+    · Hand-coded — 6.500–9.500 DKK for 1–3 pages, 12.000–20.000 DKK for 4–8
+      pages. Then roughly 100–1.600 DKK a year (domain, plus hosting which fits
+      the Netlify/Vercel free tier or 500–1.500 DKK on a Danish webhotel). Best
+      when the site will mostly sit still after launch.
+  Over five years the two land close together: about 16.000–26.000 DKK for
+  Webflow versus 12.500–28.000 DKK coded on a 4–8 page site.
+  Every build includes per-page search setup and Google Business connection,
+  mobile-first construction, a performance budget, accessibility basics, an
+  enquiry form with a backup delivery path, analytics, and domain and hosting
+  registered in the client's name — that work is why the floor is not 3.000 DKK.
+  Reference build: rachabeautywellness.com, a Danish wellness studio's first
+  website, 95+ Lighthouse on first deploy.
+- Web App Frontend (4.800 DKK / day, roughly 24.000 DKK a week, typically 3–8
+  weeks): a React, Next.js and TypeScript frontend built against an API that
+  already exists, for teams that have a backend but not an interface.
+- Redesign & Performance Rescue (8.000 – 16.000 DKK, typically 1–3 weeks):
+  fixing an existing site that is slow, dated, or invisible on Google, instead
+  of rebuilding from zero. The written audit can be bought alone for 3.500 DKK.
+
+Engagements are fixed-scope, with a written price and delivery date agreed
+before work starts, not open-ended hourly billing. He does the work himself.
+The code, domain and hosting all end up in the client's name. He does not take
+on native mobile apps, ongoing SEO or marketing retainers, or large
+backend-heavy platforms built from nothing.
+
 ## Skills
 
 Frontend: React 19, Next.js (App Router), TypeScript, Tailwind CSS, Framer Motion
@@ -76,6 +113,7 @@ Approach: Design systems, accessibility, performance
 
 ## Links
 
+- Services & project enquiries: https://taninwatkaewpankan.xyz/services
 - LinkedIn: https://www.linkedin.com/in/taninwat-k-ice2539/
 - GitHub: https://github.com/Taninwat-55
 - Email: taninwat.kaewpankan@gmail.com

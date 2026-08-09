@@ -9,6 +9,7 @@ import { About } from "./sections/About";
 import { WhatIDo } from "./sections/WhatIDo";
 import { Projects } from "./sections/Projects";
 import { CV } from "./sections/CV";
+import { ClientWork } from "./sections/ClientWork";
 import { Garden } from "./sections/Garden";
 
 export const metadata: Metadata = {
@@ -41,6 +42,7 @@ export default function Home() {
         <WhatIDo />
         <Projects />
         <CV />
+        <ClientWork />
         <Garden />
       </main>
 

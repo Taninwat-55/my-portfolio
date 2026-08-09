@@ -39,7 +39,10 @@ progression is the stronger story.
 - **Garden** — MDX-powered writing at `/garden/[slug]`, with interactive post tools
 - **AI chatbot** — floating widget answering questions about Ice's background,
   grounded in `chatbotContext` + `experience` from `data.ts`
-- **Contact form** — Resend-backed, rate-limited
+- **Services page** — `/services`, the freelance offer: packaged services with
+  published price ranges, process, FAQ, and a project enquiry form
+- **Enquiry form** — Resend-backed, validated, honeypot-trapped, and rate-limited
+  via Upstash (fails closed — see `app/api/services-enquiry/route.ts`)
 - **SEO** — JSON-LD, Open Graph images, sitemap, robots.txt, `llms.txt`
 
 ---
@@ -82,10 +85,15 @@ app/
 │   └── post-tools/         # Interactive widgets embedded in MDX posts
 ├── cases/[slug]/           # Case study pages
 ├── garden/                 # Blog listing + [slug] pages
+├── services/               # Freelance sales page + enquiry form
 ├── api/
-│   ├── chat/               # Groq-backed chatbot
-│   └── contact/            # Resend + Upstash rate limit
-├── lib/posts.ts            # MDX loading
+│   ├── chat/               # Groq-backed chatbot (limiter fails open)
+│   └── services-enquiry/   # Resend + Upstash rate limit (fails closed)
+├── lib/
+│   ├── posts.ts            # MDX loading
+│   ├── rate-limit.ts       # Shared Upstash limiter factory
+│   ├── request-ip.ts       # Shared client-IP resolution
+│   └── services-enquiry.ts # Shared enquiry validation (client + server)
 ├── data.ts                 # ALL site content — single source of truth
 └── page.tsx                # Homepage composition
 posts/                      # MDX blog posts
