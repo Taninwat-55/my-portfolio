@@ -1,11 +1,12 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
-import { personalInfo } from "@/app/data";
+import { personalInfo, enquiryInbox } from "@/app/data";
 import { getClientIp } from "@/app/lib/request-ip";
 import { createRateLimiter } from "@/app/lib/rate-limit";
 import {
   validateEnquiry,
   singleLine,
+  escapeHtml,
   optionLabel,
   FIELD_LIMITS,
   type EnquiryFields,
@@ -112,16 +113,47 @@ export async function POST(req: NextRequest) {
       `Sent from the /services enquiry form`,
     ].join("\n");
 
+    // Sent multipart. The text part is what most filters read and what shows in
+    // a notification preview; the HTML part is what makes it scannable in an
+    // inbox. Every interpolated value is escaped — this is a stranger's input
+    // being rendered as markup in a mail client.
+    const row = (label: string, value: string) => `
+      <tr>
+        <td style="padding:6px 16px 6px 0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#767676;white-space:nowrap;vertical-align:top;">${label}</td>
+        <td style="padding:6px 0;font-size:15px;color:#111111;vertical-align:top;">${value}</td>
+      </tr>`;
+
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+
+    const html = `
+<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#111111;line-height:1.55;max-width:560px;">
+  <p style="margin:0 0 6px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#767676;">New project enquiry</p>
+  <h1 style="margin:0 0 20px;font-size:20px;font-weight:600;">${safeName}${company ? ` <span style="font-weight:400;color:#767676;">· ${escapeHtml(company)}</span>` : ""}</h1>
+  <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;width:100%;margin:0 0 22px;">
+    ${row("Email", `<a href="mailto:${safeEmail}" style="color:#1a6c8c;">${safeEmail}</a>`)}
+    ${row("Project", escapeHtml(projectType))}
+    ${row("Budget", escapeHtml(optionLabel("budget", enquiry.budget)))}
+    ${row("Timeline", escapeHtml(optionLabel("timeline", enquiry.timeline)))}
+  </table>
+  <div style="border-top:1px solid #e6e6e6;padding-top:16px;">
+    <p style="margin:0 0 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#767676;">Message</p>
+    <div style="font-size:15px;white-space:pre-wrap;">${escapeHtml(message)}</div>
+  </div>
+  <p style="margin:24px 0 0;font-size:12px;color:#9a9a9a;">Sent from the /services enquiry form. Replying to this email goes straight to ${safeName}.</p>
+</div>`.trim();
+
     // No acknowledgement email goes back to the enquirer. That would turn this
     // into a machine that emails arbitrary addresses on an anonymous POST — a
     // spam-relay primitive with our domain on the envelope. The success panel
     // on the page does that job instead.
     const { data, error } = await resend.emails.send({
       from: "Services Enquiry <hello@taninwatkaewpankan.xyz>",
-      to: personalInfo.email,
+      to: enquiryInbox,
       replyTo: email,
       subject,
       text,
+      html,
     });
 
     if (error) {

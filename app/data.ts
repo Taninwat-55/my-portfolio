@@ -14,6 +14,22 @@ export const personalInfo = {
   },
 };
 
+/**
+ * Where /services enquiries are delivered.
+ *
+ * Deliberately a separate name from personalInfo.email even though the value is
+ * currently identical: one is the address shown to visitors, the other is where
+ * a form submission is routed. They are different concerns and will diverge the
+ * moment enquiries should stop landing in a personal inbox.
+ *
+ * Before changing this to something like hello@taninwatkaewpankan.xyz: verifying
+ * a domain in Resend authorises SENDING from that domain, it does not create a
+ * mailbox. Pointing this at an address with no inbound mail, forwarding rule or
+ * mailbox behind it would drop every enquiry silently, with the form still
+ * reporting success. Set up receiving first, send a test, then change this line.
+ */
+export const enquiryInbox = personalInfo.email;
+
 // ─── SITE CONTENT ─────────────────────────────────────────────────────────────
 // Single flat identity: Frontend Engineer & Project Coordinator.
 // Frontend leads because that is where the depth actually is. Full-stack and

@@ -106,6 +106,22 @@ export function validateEnquiry(input: unknown): EnquiryErrors {
 export const singleLine = (value: string) =>
   value.replace(/[\r\n]+/g, " ").trim();
 
+/**
+ * Escapes user input before it goes into the HTML email body.
+ *
+ * singleLine above protects the *headers*; this protects the *body*. Without
+ * it, a submitted name of `<img src=x onerror=...>` would be interpolated raw
+ * into markup that then renders in an email client. Anything a stranger typed
+ * must pass through here before reaching the HTML template.
+ */
+export const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
 /** Turns a stored option value back into its human label for the email body. */
 export function optionLabel(
   group: keyof typeof servicesEnquiryOptions,
