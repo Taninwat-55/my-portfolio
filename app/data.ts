@@ -1008,6 +1008,15 @@ export const servicesFaq: FaqItem[] = [
     q: "What is the real difference in cost between Webflow and coded?",
     a: `Webflow is cheaper to build and costs a little every month. Hand-coded is more to build and costs almost nothing to keep. Concretely, on a four-to-eight page site: Webflow is ${services.offers[0].tracks![0].rungs[1].price} to build plus roughly 1.400 to 2.200 kroner a year, and coded is ${services.offers[0].tracks![1].rungs[1].price} to build plus roughly 100 to 1.600 kroner a year. Over five years that is about 16.000 to 26.000 against 12.500 to 28.000 — close enough that the money should not decide it. What should decide it is whether you want to edit the site yourself. If yes, Webflow. If it will mostly sit still once it is live, coded.`,
   },
+  // Deliberately a FAQ rather than a line on the offer card. To the buyer this
+  // page is written for, "React · Next.js · TypeScript" is noise, and jargon in
+  // the money section reads as "this will be complicated and I will not
+  // understand it". Collapsed, it costs the non-technical reader nothing and is
+  // there instantly for anyone checking whether they would be locked in.
+  {
+    q: "What do you build it with, and could another developer take it over?",
+    a: "Hand-coded sites are built with React and Next.js in TypeScript, styled with Tailwind CSS, and hosted on Netlify or Vercel. Forms go through a service like Resend so messages reach you even though there is no server to maintain. If we build in Webflow instead, the site lives in Webflow and there is no code to hand over at all. The part that actually matters: these are mainstream tools, not anything invented here. Any React developer can open the repository and continue, which is deliberate — you should be able to replace me without replacing your website. Racha Beauty's site is React and Tailwind, and the full stack for every project I have built is listed on its case study page.",
+  },
   {
     q: "Do I have to pay a monthly fee for Webflow?",
     a: "Only if we build it in Webflow, and you pay it directly rather than through me — I do not mark up other people's invoices. A Webflow site plan is roughly 1.300 to 2.100 kroner a year and covers hosting, security and the visual editor. A coded site has no platform fee. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though I will not pretend a company's free tier is a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. Either way the domain is about 100 kroner, in your name.",
