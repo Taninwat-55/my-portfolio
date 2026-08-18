@@ -783,7 +783,7 @@ quote the positioning. Building them before this settles means writing twice.*
 
 - [x] **20. [S] Demote Garden below the CTA.** ✅ *`c5a8e8a`* — satisfied by the new section's CTA footer.
 
-- [ ] **20b. [P] [C] Reframe VAT as "ekskl. moms", behind one flag.** ⚠️ **Bigger
+- [x] **20b. [P] [C] Reframe VAT as "ekskl. moms", behind one flag.** ✅ *flip `VAT_REGISTERED` in `data.ts` when the CVR lands; `llms.txt` and `data.th.ts` are the two manual sites.* ⚠️ **Bigger
   than "one constant" — the framing is the actual problem.** Ice plans to register a
   CVR after a few more clients, so this *will* flip.
 
