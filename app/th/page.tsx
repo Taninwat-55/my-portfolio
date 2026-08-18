@@ -229,6 +229,8 @@ export default function ThaiPage() {
                     <div
                       key={src}
                       className="relative overflow-hidden rounded-2xl border border-frost/10"
+                      // Racha's own capture size, because this box shows her site
+                      // specifically. /projects uses a uniform card ratio instead.
                       style={{ aspectRatio: "1600 / 1005" }}
                     >
                       <Image

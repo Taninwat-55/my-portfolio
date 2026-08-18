@@ -97,13 +97,17 @@ export default function ProjectsPage() {
                     href={`/cases/${project.id}`}
                     className="group flex h-full flex-col overflow-hidden rounded-3xl border border-frost/10 bg-white/3 transition-colors hover:border-frost/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900"
                   >
-                    {/* Ratio box + fill, matching /services and Projects.tsx.
-                        Declaring width/height against a differently-shaped file is
-                        what left a wrong-sized placeholder on /th. */}
-                    <div
-                      className="relative overflow-hidden border-b border-frost/10"
-                      style={{ aspectRatio: "1600 / 1005" }}
-                    >
+                    {/* Uniform 16:9 by design — a grid of cards at seven different
+                        heights reads as broken. The source screenshots span 1.59:1
+                        (racha, mockmate) to 1.96:1 (millennial), so object-cover
+                        crops a little either way and 16:9 sits near the middle where
+                        it crops least. This is a CARD ratio, not any image's own
+                        ratio — do not "correct" it to a specific file's dimensions.
+
+                        Ratio box + fill, never width/height: declaring dimensions
+                        that disagree with the file is what left a wrong-shaped
+                        placeholder on /th. */}
+                    <div className="relative aspect-[16/9] overflow-hidden border-b border-frost/10">
                       <Image
                         src={project.images[0]}
                         alt={`${project.title} — ${project.tag} project`}

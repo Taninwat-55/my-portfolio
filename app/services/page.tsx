@@ -751,7 +751,14 @@ export default function ServicesPage() {
             <FadeIn y={30}>
               <div className="rounded-2xl bg-white/3 border border-frost/10 overflow-hidden">
                 <div className="grid grid-cols-1 md:grid-cols-2">
-                  <div className="relative aspect-[4/3] md:aspect-auto md:min-h-full">
+                  {/* The container carries the screenshot's own ratio, and does
+                      NOT stretch. It used to be `md:aspect-auto md:min-h-full`,
+                      which made the box as tall as the text column beside it — so
+                      object-cover scaled a 1600x1005 screenshot up to fill a tall
+                      narrow area and you saw a hugely magnified crop of the hero
+                      instead of the website. A screenshot only proves anything if
+                      you can see the whole page. */}
+                  <div className="relative aspect-[1600/1005] w-full self-start">
                     <Image
                       src={proofCase.images[0]}
                       alt={`${proofCase.title} website homepage`}
