@@ -8,6 +8,7 @@ import { Marquee } from "./sections/Marquee";
 import { About } from "./sections/About";
 import { WhatIDo } from "./sections/WhatIDo";
 import { Projects } from "./sections/Projects";
+import { HowItWorks } from "./sections/HowItWorks";
 import { EmploymentBand } from "./sections/EmploymentBand";
 import { Garden } from "./sections/Garden";
 
@@ -40,6 +41,7 @@ export default function Home() {
         <About />
         <WhatIDo />
         <Projects />
+        <HowItWorks />
         <EmploymentBand />
         <Garden />
       </main>

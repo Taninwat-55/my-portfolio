@@ -120,10 +120,10 @@ export function Hero() {
                 Deliberately NOT the ContactButton/HireModal pair — that offers a
                 CV download, which is the wrong thing to hand a paying client. */}
             <Link
-              href={siteContent.heroCorners.cta.href}
+              href={siteContent.primaryCta.href}
               className="group mt-3.5 inline-flex items-center gap-1.5 rounded-full bg-frost px-5 py-2.5 text-xs font-medium whitespace-nowrap text-night-900 transition-colors hover:bg-crystal-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900 sm:text-sm"
             >
-              {siteContent.heroCorners.cta.label}
+              {siteContent.primaryCta.label}
               <ArrowUpRight
                 size={14}
                 strokeWidth={2}

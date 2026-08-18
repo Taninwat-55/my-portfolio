@@ -67,11 +67,24 @@ export const siteContent = {
   heroCorners: {
     left: ["Websites & web app frontends", "Built solo, in Copenhagen"],
     right: { status: "Available for projects", place: "Copenhagen, Denmark" },
-    // The primary action on the first screen. Points at the enquiry form rather
-    // than opening HireModal, which offers a CV download — the wrong artefact
-    // for the reader this page is now written for.
-    cta: { label: "Start a project", href: "/services#enquiry" },
   },
+
+  /**
+   * The one action the homepage asks for, defined once.
+   *
+   * Started life inside heroCorners, then HowItWorks needed the same button at the
+   * bottom of the page. Two literals for one action is two things that can drift,
+   * so it lives here and both sections read it.
+   *
+   * Points at the enquiry form rather than opening HireModal, which offers a CV
+   * download — the wrong artefact for the reader this page is written for.
+   *
+   * The pill nav deliberately says "Enquire" instead: it sits right next to the
+   * hero button, and two identical labels touching each other read as a mistake.
+   * At the bottom of the page, repeating the label is correct — same action, same
+   * words, thousands of pixels apart.
+   */
+  primaryCta: { label: "Start a project", href: "/services#enquiry" },
   // One general CV. Role-tailored versions get sent directly, not offered here —
   // a visitor picking between three versions is a visitor guessing at the identity.
   // Singular, not an array: there was only ever one entry, and both call sites
@@ -1032,6 +1045,34 @@ export const services = {
     verdict:
       "The build costs the same either way, so the only real question is what happens after launch. On the likely setup — a Webflow plan paid annually against a coded site on free hosting — Webflow works out roughly 6.000 kroner more over five years, and what you are buying for that is the ability to change your own prices, photos and opening hours whenever you like. If you will actually use it, it pays for itself the first handful of times you edit something instead of asking me. If the site will mostly sit still once it is up, it is money spent on a feature you will not touch, and coded is the cheaper way to own it. I will tell you which one I think you are on the call — and since the build price is the same to me either way, I have no reason to push you toward one.",
   },
+
+  /**
+   * The shortest honest form of the terms, for the homepage. The prices are
+   * already up there (siteContent.homeOffers); what was missing was what
+   * surrounds them.
+   *
+   * ⚠️ THE VAT LINE IS DUPLICATED, AND IT IS CONDITIONAL ON A FACT THAT WILL
+   * CHANGE. "No VAT added" holds only while Ice is under the Danish 50.000 kr
+   * registration threshold. The moment he crosses it, every one of these becomes
+   * false at the same time:
+   *
+   *   - offers[0].priceNote            (this file)
+   *   - servicesFaq "What does a website actually cost?"
+   *   - servicesFaq "Why not just get a site for 3.000 kroner?"  (implied floor)
+   *   - servicesContext               (chatbot grounding, this file)
+   *   - public/llms.txt
+   *   - services.termsShort           (here)
+   *
+   * Kept as a short label rather than a restated claim to limit the damage, but
+   * six copies of a conditional fact is a bug waiting to happen. There is a
+   * PLAN.md item to consolidate them behind one constant — do that before
+   * changing any of them individually.
+   */
+  termsShort: [
+    "Fixed price, agreed in writing before anything starts",
+    "No VAT added — the figure you see is the figure you pay",
+    "Domain, hosting and code all end up in your name",
+  ],
 
   cta: {
     eyebrow: "Next Step",
