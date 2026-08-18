@@ -169,6 +169,7 @@ export const cvData = {
         "Claude Code",
         "AI Prototyping",
         "Webflow",
+        "Framer",
       ],
     },
     {
@@ -713,7 +714,7 @@ export const services = {
               timeline: "+ 2–4 days each",
             },
           ],
-          runningCost: "≈ 1.400 – 2.200 kr / year",
+          runningCost: "≈ 1.250 – 2.050 kr / year",
           editing: "Everything, visually",
         },
         {
@@ -897,9 +898,9 @@ export const services = {
     rows: [
       {
         label: "Platform fee",
-        webflow: "≈ 1.300 – 2.100 kr",
+        webflow: "≈ 1.150 – 1.950 kr",
         coded: "0 kr",
-        why: "Webflow charges a monthly site plan. A hand-coded site has no platform underneath it, so there is nothing to subscribe to.",
+        why: "Webflow charges a monthly site plan: around 1.150 kr a year on Basic and 1.950 kr on Premium if you pay annually, and roughly half again as much if you pay month to month. A hand-coded site has no platform underneath it, so there is nothing to subscribe to.",
       },
       {
         label: "Hosting",
@@ -927,8 +928,8 @@ export const services = {
       label: "Five years, all in",
       note: "Build price plus five years of platform, hosting and domain. Same site, both ways.",
       rows: [
-        { scope: "1–3 page site", webflow: "12.500 – 19.000 kr", coded: "7.000 – 17.500 kr" },
-        { scope: "4–8 page site", webflow: "16.000 – 26.000 kr", coded: "12.500 – 28.000 kr" },
+        { scope: "1–3 page site", webflow: "11.500 – 18.500 kr", coded: "7.000 – 17.500 kr" },
+        { scope: "4–8 page site", webflow: "15.000 – 25.500 kr", coded: "12.500 – 28.000 kr" },
       ],
     },
     verdict:
@@ -1006,7 +1007,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "What is the real difference in cost between Webflow and coded?",
-    a: `Webflow is cheaper to build and costs a little every month. Hand-coded is more to build and costs almost nothing to keep. Concretely, on a four-to-eight page site: Webflow is ${services.offers[0].tracks![0].rungs[1].price} to build plus roughly 1.400 to 2.200 kroner a year, and coded is ${services.offers[0].tracks![1].rungs[1].price} to build plus roughly 100 to 1.600 kroner a year. Over five years that is about 16.000 to 26.000 against 12.500 to 28.000 — close enough that the money should not decide it. What should decide it is whether you want to edit the site yourself. If yes, Webflow. If it will mostly sit still once it is live, coded.`,
+    a: `Webflow is cheaper to build and costs a little every month. Hand-coded is more to build and costs almost nothing to keep. Concretely, on a four-to-eight page site: Webflow is ${services.offers[0].tracks![0].rungs[1].price} to build plus roughly 1.250 to 2.050 kroner a year, and coded is ${services.offers[0].tracks![1].rungs[1].price} to build plus roughly 100 to 1.600 kroner a year. Over five years that is about 15.000 to 25.500 against 12.500 to 28.000 — close enough that the money should not decide it. What should decide it is whether you want to edit the site yourself. If yes, Webflow. If it will mostly sit still once it is live, coded.`,
   },
   // Deliberately a FAQ rather than a line on the offer card. To the buyer this
   // page is written for, "React · Next.js · TypeScript" is noise, and jargon in
@@ -1019,7 +1020,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Do I have to pay a monthly fee for Webflow?",
-    a: "Only if we build it in Webflow, and you pay it directly rather than through me — I do not mark up other people's invoices. A Webflow site plan is roughly 1.300 to 2.100 kroner a year and covers hosting, security and the visual editor. A coded site has no platform fee. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though I will not pretend a company's free tier is a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. Either way the domain is about 100 kroner, in your name.",
+    a: "Only if we build it in Webflow, and you pay it directly rather than through me — I do not mark up other people's invoices. A Webflow site plan is roughly 1.150 to 1.950 kroner a year and covers hosting, security and the visual editor. A coded site has no platform fee. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though I will not pretend a company's free tier is a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. Either way the domain is about 100 kroner, in your name.",
   },
   {
     q: "Can I update the website myself afterwards?",

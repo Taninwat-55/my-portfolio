@@ -32,13 +32,14 @@ https://taninwatkaewpankan.xyz/services
 - Small-Business Website, in Danish, English or Swedish. Priced by build method,
   because the two genuinely differ:
     · Webflow — 5.500–8.000 DKK for 1–3 pages, 9.000–15.000 DKK for 4–8 pages.
-      Then roughly 1.300–2.100 DKK a year for the Webflow site plan. Best when
-      the client wants to edit prices and photos themselves.
+      Then roughly 1.150–1.950 DKK a year for the Webflow site plan on annual
+      billing, more if billed monthly. Best when the client wants to edit
+      prices and photos themselves.
     · Hand-coded — 6.500–9.500 DKK for 1–3 pages, 12.000–20.000 DKK for 4–8
       pages. Then roughly 100–1.600 DKK a year (domain, plus hosting which fits
       the Netlify/Vercel free tier or 500–1.500 DKK on a Danish webhotel). Best
       when the site will mostly sit still after launch.
-  Over five years the two land close together: about 16.000–26.000 DKK for
+  Over five years the two land close together: about 15.000–25.500 DKK for
   Webflow versus 12.500–28.000 DKK coded on a 4–8 page site.
   No VAT is added to any of these figures — he is under the Danish 50.000 kr
   registration threshold, so a quoted price is the final price.
