@@ -88,7 +88,21 @@ const personJsonLd = {
 // One string, three consumers. Previously duplicated across the metadata
 // default, the Open Graph card and the Twitter card, which is how a title
 // change turns into a three-line edit that is easy to half-finish.
-const SITE_TITLE = `${personalInfo.nickname} · ${personalInfo.name} — ${siteContent.roleLabel}`;
+//
+// siteTagline rather than roleLabel: this is what a person reads in a browser tab
+// and a search result, and the site now leads with what it offers rather than
+// with a job title. roleLabel is still the structured answer — it stays on
+// Person.jobTitle in the JSON-LD above, on /services, in the chatbot prompt, and
+// as the /cv heading.
+const SITE_TITLE = `${personalInfo.nickname} · ${personalInfo.name} — ${siteContent.siteTagline}`;
+
+// The description had the same problem the title had, and worse: TWO near-identical
+// recruiter-framed sentences across three consumers — one on metadata.description,
+// a slightly different one pasted into both the Open Graph and Twitter cards. One
+// string now, rewritten client-first to match the new title, keeping the
+// React/Next.js/TypeScript terms a recruiter searches for.
+const SITE_DESCRIPTION =
+  "Ice (Taninwat Kaewpankan) builds websites and web app frontends from Copenhagen. React, Next.js, TypeScript. Published prices, fixed scope, written quote first.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://taninwatkaewpankan.xyz"),
@@ -96,9 +110,15 @@ export const metadata: Metadata = {
     default: SITE_TITLE,
     template: "%s | Ice — Taninwat Kaewpankan",
   },
-  description:
-    "Ice (Taninwat Kaewpankan) is a frontend engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
+  description: SITE_DESCRIPTION,
+  // Both audiences, deliberately. The engineer terms are what a recruiter
+  // searches; the Danish terms are what a business owner actually types, and the
+  // site is now written for them first.
   keywords: [
+    "Web Developer Copenhagen",
+    "freelance web developer Copenhagen",
+    "freelance webudvikler København",
+    "hjemmeside til lille virksomhed",
     "Frontend Engineer",
     "Frontend Developer",
     "Product Engineer",
@@ -111,8 +131,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: SITE_TITLE,
-    description:
-      "Frontend engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
+    description: SITE_DESCRIPTION,
     url: "https://taninwatkaewpankan.xyz",
     siteName: "Ice — Taninwat Kaewpankan",
     locale: "en_US",
@@ -121,8 +140,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: SITE_TITLE,
-    description:
-      "Frontend engineer and project coordinator in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
+    description: SITE_DESCRIPTION,
   },
   icons: {
     icon: "/icon.svg",

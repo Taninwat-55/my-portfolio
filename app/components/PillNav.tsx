@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { HireModal } from "./HireModal";
 
 type NavLink = {
   label: string;
@@ -15,25 +14,35 @@ type NavLink = {
   compactHidden?: boolean;
 };
 
-// "About" is the cheapest item to drop on narrow screens: the page scrolls
-// straight into it, whereas Work, Projects and Services are the actual
-// navigation. Without this the pill wraps at 360px once Services is added.
+// About and CV are the cheapest items to drop on narrow screens. The page
+// scrolls straight into About, and CV is a secondary audience reachable from the
+// employment band either way — whereas Work, Projects and Services are the
+// actual navigation for the reader this page is now written for. Without this
+// the pill wraps below sm, where it has ~304px to play with.
 const NAV_LINKS: NavLink[] = [
-  { label: "About", id: "about", compactHidden: true },
   { label: "Work", id: "work" },
   { label: "Projects", id: "projects" },
   { label: "Services", href: "/services" },
+  { label: "About", id: "about", compactHidden: true },
+  { label: "CV", href: "/cv", compactHidden: true },
 ];
 
 /**
  * Floating pill navigation for the homepage.
  *
  * Fixed rather than in-flow on purpose: the old hero nav scrolled away, which
- * put "Say hi" out of reach for anyone reading further down the page. Subpages
+ * put the CTA out of reach for anyone reading further down the page. Subpages
  * keep their own <Navbar />, which does a different job (back-links).
+ *
+ * The CTA used to open HireModal, which offers a CV download — the wrong artefact
+ * for the client this page is now written for. It links to the enquiry form
+ * instead, and HireModal moved to /cv where its email/CV/LinkedIn set belongs.
+ *
+ * "Enquire" rather than "Start a project": it is the same width as the "Say hi"
+ * it replaces, so the ~13px of headroom measured at 320px does not regress, and
+ * it avoids two identically-labelled CTAs on the same screen as the hero button.
  */
 export function PillNav() {
-  const [contactOpen, setContactOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const scrolledRef = useRef(false);
@@ -142,22 +151,21 @@ export function PillNav() {
 
           <span aria-hidden className="mx-0.5 hidden h-5 w-px bg-frost/15 sm:block" />
 
-          <button
-            type="button"
-            onClick={() => setContactOpen(true)}
+          <Link
+            href="/services#enquiry"
             className="group inline-flex shrink-0 items-center gap-1 rounded-full bg-frost px-3 py-1.5 text-xs font-medium whitespace-nowrap text-night-900 transition-colors hover:bg-crystal-300 sm:px-4 sm:py-2 sm:text-sm"
           >
-            Say hi
+            Enquire
             <ArrowUpRight
               size={14}
               strokeWidth={2}
+              aria-hidden
               className="transition-transform duration-200 group-hover:translate-x-px group-hover:-translate-y-px"
             />
-          </button>
+          </Link>
         </nav>
       </div>
 
-      <HireModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
     </>
   );
 }

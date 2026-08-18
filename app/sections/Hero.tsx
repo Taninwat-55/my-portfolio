@@ -30,8 +30,11 @@ export function Hero() {
     <section className="relative h-[100dvh] w-full overflow-hidden">
       {/* The marquee below is decorative and prints the name twice, so it is
           hidden from assistive tech and the real heading lives here. */}
+      {/* siteTagline, not roleLabel: this is the page's accessible heading, read
+          by a person, and it should match what the visible corner block says.
+          roleLabel stays the structured job title in JSON-LD and on /cv. */}
       <h1 className="sr-only">
-        {personalInfo.name} — {siteContent.roleLabel}
+        {personalInfo.name} — {siteContent.siteTagline}
       </h1>
 
       {/* Halo behind the subject — centred now that the portrait is centred, so

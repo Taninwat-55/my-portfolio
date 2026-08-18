@@ -30,6 +30,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         // Above the case pages: it is the commercial page, not a write-up.
         { path: '/services', changeFrequency: "monthly" as const, priority: 0.9 },
         { path: '/garden', changeFrequency: "weekly" as const, priority: 0.8 },
+        // Below /services: a secondary audience now that / is written for clients,
+        // but the canonical home for the CV text since it left the homepage.
+        { path: '/cv', changeFrequency: "monthly" as const, priority: 0.7 },
     ];
 
     const staticUrls = staticRoutes.map(({ path, changeFrequency, priority }) => ({

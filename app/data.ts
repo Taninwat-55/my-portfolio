@@ -37,7 +37,23 @@ export const enquiryInbox = personalInfo.email;
 // relative depth lives, rather than hedging every label.
 
 export const siteContent = {
+  /**
+   * The job title. Stays a job title on purpose: it feeds schema.org
+   * Person.jobTitle in layout.tsx and services/page.tsx, the chatbot's system
+   * prompt, and the /cv page heading — all places where "Frontend Engineer &
+   * Project Coordinator" is the accurate, structured answer.
+   */
   roleLabel: "Frontend Engineer & Project Coordinator",
+  /**
+   * The human-facing tagline, used only where a person reads it: the browser
+   * tab, the search result, and the homepage's screen-reader h1.
+   *
+   * Separate from roleLabel because the two do different jobs. A recruiter's ATS
+   * and a Google searcher want different sentences, and the homepage is now
+   * written for the searcher. Kept short so SITE_TITLE lands around 55
+   * characters and survives a search result without being truncated.
+   */
+  siteTagline: "Web developer in Copenhagen",
   // Bottom-corner blocks in the hero. The hero composition puts the scrolling
   // name in the middle and everything else in the corners, so these lines carry
   // the whole "who / what / where" job on the first screen.
@@ -81,8 +97,20 @@ export const siteContent = {
   ],
 
   // Scroll-revealed paragraph in the About section.
+  //
+  // This used to be the AI-workflow paragraph — clear spec, small steps, review
+  // it myself. Good copy, but written for an engineer assessing craft, and the
+  // homepage is now read by someone deciding whether to hand over money. That
+  // reader has a different question: who am I actually dealing with, and what
+  // happens if it goes wrong. The original is preserved as howIWork below and
+  // renders on /cv, in front of the audience it was written for.
   aboutAnimated:
-    "Here is how I work. I write a clear spec, break it into small steps, then check the result myself. That is different from prompting an AI and hoping. I use AI to move faster, but the product thinking and the final review are mine. I like small teams that want to move fast and ship things that actually matter. Let's build something together.",
+    "One person, not an agency. You talk to me, I do the work, and I am the one accountable if something breaks. I am based in Copenhagen and I work in Danish, English and Swedish. Before anything starts you get a written scope and a fixed price, and at the end everything is in your name — the domain, the hosting, the code. If I am not the right person for what you need, I will tell you on the first call and point you somewhere better.",
+
+  // The old aboutAnimated copy, kept and moved rather than deleted. Renders on
+  // /cv, where "how does he actually work" is the question being asked.
+  howIWork:
+    "Here is how I work. I write a clear spec, break it into small steps, then check the result myself. That is different from prompting an AI and hoping. I use AI to move faster, but the product thinking and the final review are mine. I like small teams that want to move fast and ship things that actually matter.",
 
   whatIDo: [
     {
@@ -142,12 +170,18 @@ export const siteContent = {
     },
   ],
 
-  // The one place the recruiter page acknowledges freelance. Deliberately quiet:
-  // stated as evidence of range, not as a second job hunt running in parallel.
-  freelanceBand: {
-    eyebrow: "Freelance",
-    line: "I also take on a small number of client projects — websites and web app frontends for small businesses and startups.",
-    cta: "See what I offer",
+  // The mirror image of what used to be here. This was the one place a
+  // recruiter-facing homepage acknowledged freelance; now that the homepage is
+  // written for clients, it is the one place that acknowledges employment.
+  //
+  // Deliberately quiet, for the same reason it always was: stated as a fact
+  // about availability rather than as a second search running in parallel. A
+  // client should not come away wondering whether the person they are about to
+  // hire is halfway out the door.
+  employmentBand: {
+    eyebrow: "Employment",
+    line: "Alongside client work I am open to full-time frontend roles. My track record, skills and references are all on one page.",
+    cta: "See my CV",
   },
 };
 
@@ -1274,7 +1308,7 @@ The honest advice is to choose on whether the client wants to edit the site them
 
 Every build, either way, includes per-page search setup and Google Business connection, mobile-first construction, a performance budget, accessibility basics, an enquiry form with a backup delivery path, analytics, and domain and hosting in the client's name. If someone asks why it is not 3.000 kroner, that list is the answer: a template shop skips it, and it is the part that makes the site actually get found and convert.
 
-Note that his shipped client work to date is coded rather than Webflow — do not claim Webflow case studies until there are some.
+Note that his shipped client work to date is hand-coded. Webflow and Framer are both in his skill list, but neither has a shipped client project behind it yet — do not claim Webflow or Framer case studies until there are some.
 
 How he works: a short call, then a written scope with a fixed price and a delivery date before any work starts. Fixed scope, not open-ended hourly billing. He does the work himself — there is no agency and no handoff to someone else. The code, domain and hosting all end up in the client's name.
 
