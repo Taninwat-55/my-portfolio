@@ -965,7 +965,7 @@ quote the positioning. Building them before this settles means writing twice.*
     Worst possible position on the one screen that has to make a first impression.
     Item 37 may resolve this by itself, so sequence 37 first.
 
-- [ ] **39. [C] Stop "fixed price" reading as the only option.** Ice: *"what if some
+- [x] **39. [C] Stop "fixed price" reading as the only option.** ✅ *and it was not only wording — the chatbot and `llms.txt` were denying the day rate we sell.* Ice: *"what if some
   people want to pay hourly?"* Fair — `termsShort` states it as an absolute, and the
   offer 01 copy implies scope pricing is the only way in. Offer 02 is already a day
   rate, so the capability exists and is simply invisible from offer 01. One line
