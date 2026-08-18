@@ -751,21 +751,40 @@ export default function ServicesPage() {
             <FadeIn y={30}>
               <div className="rounded-2xl bg-white/3 border border-frost/10 overflow-hidden">
                 <div className="grid grid-cols-1 md:grid-cols-2">
-                  {/* The container carries the screenshot's own ratio, and does
-                      NOT stretch. It used to be `md:aspect-auto md:min-h-full`,
-                      which made the box as tall as the text column beside it — so
-                      object-cover scaled a 1600x1005 screenshot up to fill a tall
-                      narrow area and you saw a hugely magnified crop of the hero
-                      instead of the website. A screenshot only proves anything if
-                      you can see the whole page. */}
-                  <div className="relative aspect-[1600/1005] w-full self-start">
-                    <Image
-                      src={proofCase.images[0]}
-                      alt={`${proofCase.title} website homepage`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 512px"
-                      className="object-cover"
-                    />
+                  {/* A stack that fills the row, rather than one image that either
+                      stretches or leaves a void.
+
+                      This started as a single `md:aspect-auto md:min-h-full` box, so
+                      object-cover blew one 1600x1005 screenshot up to fill a column
+                      as tall as the text beside it and you saw a magnified crop of
+                      the hero. Pinning it to the screenshot's own ratio fixed the
+                      magnification but left a large empty area under it, because the
+                      text column is roughly twice as tall.
+
+                      Three images on flex-1 solve both without any fragile height
+                      maths: they divide whatever height the row has, so the column is
+                      always full, and each one is only lightly cropped instead of one
+                      being cropped enormously. The count is capped at 3 so a case with
+                      more screenshots does not turn this into a contact sheet. */}
+                  <div className="flex flex-col gap-2 self-stretch p-2 md:gap-3 md:p-3">
+                    {proofCase.images.slice(0, 3).map((src, i) => (
+                      <div
+                        key={src}
+                        className="relative min-h-40 flex-1 overflow-hidden rounded-xl"
+                      >
+                        <Image
+                          src={src}
+                          alt={
+                            i === 0
+                              ? `${proofCase.title} website homepage`
+                              : `${proofCase.title} website, page ${i + 1}`
+                          }
+                          fill
+                          sizes="(max-width: 768px) 100vw, 512px"
+                          className="object-cover object-top"
+                        />
+                      </div>
+                    ))}
                   </div>
 
                   <div className="p-6 md:p-10">

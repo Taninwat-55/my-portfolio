@@ -1264,10 +1264,14 @@ export const projectCards: ProjectCard[] = [
     buttonLabel: "View Case",
     href: "/cases/racha",
     external: false,
+    // Landing page in the tall slot, not the small one. The bento puts col2 at
+    // full card height, so whatever sits there is the card's real showcase — and
+    // "Velkommen til Racha" is the view that reads as a finished website at a
+    // glance. The About page it swapped with survives fine as a thumbnail.
     images: [
-      "/assets/racha/racha-landing.webp",
-      "/assets/racha/racha-services.webp",
       "/assets/racha/racha-about.webp",
+      "/assets/racha/racha-services.webp",
+      "/assets/racha/racha-landing.webp",
     ],
   },
   {
