@@ -11,7 +11,7 @@ import {
   servicesProcess,
   cases,
 } from "../data";
-import { thContent as th } from "../data.th";
+import { thContent as th, thUnits } from "../data.th";
 
 const BASE_URL = "https://taninwatkaewpankan.xyz";
 const PAGE_URL = `${BASE_URL}/th`;
@@ -169,7 +169,9 @@ export default function ThaiPage() {
               <div className="flex flex-col divide-y divide-frost/10 border-y border-frost/10">
                 {services.offers[0].priceLadder?.map((rung) => (
                   <div key={rung.scope} className="flex items-baseline justify-between gap-4 py-4">
-                    <span className="text-base font-medium text-frost">{rung.scope}</span>
+                    <span className="text-base font-medium text-frost">
+                      {thUnits(rung.scope)}
+                    </span>
                     <span className="shrink-0 whitespace-nowrap text-base font-medium tabular-nums text-frost/85">
                       {rung.price}
                     </span>
@@ -287,8 +289,8 @@ export default function ThaiPage() {
                         {servicesProcess[i]?.n}
                       </span>
                       {/* Duration read from servicesProcess — a number, not copy. */}
-                      <span className="text-[11px] uppercase tracking-wider text-frost/30">
-                        {servicesProcess[i]?.duration}
+                      <span className="text-[11px] tracking-wider text-frost/30">
+                        {thUnits(servicesProcess[i]?.duration ?? "")}
                       </span>
                     </div>
                     <h3 className="mb-2 text-lg font-medium text-frost">{step.title}</h3>

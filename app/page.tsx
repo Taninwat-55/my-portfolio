@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SkipLink } from "./components/SkipLink";
 import { ChatWidget } from "./components/ChatWidget";
+import { LanguageOffer } from "./components/LanguageOffer";
 import { CopenhagenAtmosphere } from "./components/CopenhagenAtmosphere";
 import { PillNav } from "./components/PillNav";
 import { Hero } from "./sections/Hero";
@@ -60,6 +61,7 @@ export default function Home() {
       </div>
 
       <ChatWidget />
+      <LanguageOffer />
     </div>
   );
 }

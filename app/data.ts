@@ -70,6 +70,21 @@ export const siteContent = {
   },
 
   /**
+   * Every language the site has a real page in.
+   *
+   * Append to this and both the nav chip and the browser-language offer pick the
+   * new page up — nothing else needs editing when /da ships.
+   *
+   * Exists because /th was unreachable: hreflang lets Google serve the Thai page
+   * to a Thai-language searcher, but a Thai visitor who landed on / had no signal
+   * it existed at all, which is exactly the person it was written for.
+   */
+  languages: [
+    { code: "en", label: "English", href: "/" },
+    { code: "th", label: "ไทย", href: "/th" },
+  ],
+
+  /**
    * The one action the homepage asks for, defined once.
    *
    * Started life inside heroCorners, then HowItWorks needed the same button at the

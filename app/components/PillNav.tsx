@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { siteContent } from "../data";
 
 type NavLink = {
   label: string;
@@ -14,18 +15,22 @@ type NavLink = {
   compactHidden?: boolean;
 };
 
-// About and CV are the cheapest items to drop on narrow screens. The page
-// scrolls straight into About, and CV is a secondary audience reachable from the
-// employment band either way — whereas Work, Projects and Services are the
-// actual navigation for the reader this page is now written for. Without this
-// the pill wraps below sm, where it has ~304px to play with.
+// Below sm the pill has ~304px, so most of this list has to go. What stays is
+// Projects and Services — proof and offer. Work joins About and CV in the compact
+// cut because the page scrolls straight into it a moment later, and the room it
+// frees is spent on the language chip, which must be reachable on a phone: the
+// audience /th was written for is overwhelmingly mobile, and a language link they
+// cannot see is the same as no language link.
 const NAV_LINKS: NavLink[] = [
-  { label: "Work", id: "work" },
+  { label: "Work", id: "work", compactHidden: true },
   { label: "Projects", id: "projects" },
   { label: "Services", href: "/services" },
   { label: "About", id: "about", compactHidden: true },
   { label: "CV", href: "/cv", compactHidden: true },
 ];
+
+/** Every language other than the one this nav is rendered in. */
+const OTHER_LANGUAGES = siteContent.languages.filter((l) => l.code !== "en");
 
 /**
  * Floating pill navigation for the homepage.
@@ -150,6 +155,19 @@ export function PillNav() {
           })}
 
           <span aria-hidden className="mx-0.5 hidden h-5 w-px bg-frost/15 sm:block" />
+
+          {/* Never compactHidden. See the note on NAV_LINKS. */}
+          {OTHER_LANGUAGES.map((language) => (
+            <Link
+              key={language.code}
+              href={language.href}
+              lang={language.code}
+              hrefLang={language.code}
+              className="shrink-0 rounded-full px-2 py-1.5 text-xs whitespace-nowrap text-frost/60 transition-colors hover:bg-night-700/60 hover:text-frost sm:px-3 sm:py-2 sm:text-sm"
+            >
+              {language.label}
+            </Link>
+          ))}
 
           <Link
             href="/services#enquiry"

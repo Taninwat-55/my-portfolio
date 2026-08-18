@@ -18,6 +18,35 @@ import type { EnquiryMessages } from "./lib/services-enquiry";
  * is the bug.
  */
 
+/**
+ * Translates the unit WORD in a scope or duration without copying its numbers.
+ *
+ * "1–3 pages" → "1–3 หน้า". The point is that the numerals keep coming from
+ * `services` / `servicesProcess`, so a page count or a timeline that changes there
+ * changes here too. A hand-written Thai "1–3 หน้า" would have gone stale silently
+ * the first time the ladder moved — which is the whole failure mode the "nothing
+ * numeric in this file" rule exists to prevent.
+ *
+ * Longest keys first: "weeks" must match before "week", "days" before "day".
+ */
+const UNIT_WORDS: [string, string][] = [
+  ["Add-ons", "เพิ่มเติม"],
+  ["pages", "หน้า"],
+  ["weeks", "สัปดาห์"],
+  ["week", "สัปดาห์"],
+  ["days", "วัน"],
+  ["day", "วัน"],
+  ["min", "นาที"],
+  ["each", "ต่อรายการ"],
+];
+
+export function thUnits(value: string): string {
+  return UNIT_WORDS.reduce(
+    (out, [en, thai]) => out.replace(en, thai),
+    value
+  );
+}
+
 export const thContent = {
   /** Shown in <html>-adjacent wrapper and hreflang. */
   locale: "th",
