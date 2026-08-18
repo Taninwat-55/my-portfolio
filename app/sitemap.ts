@@ -29,6 +29,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { path: '', changeFrequency: "weekly" as const, priority: 1.0 },
         // Above the case pages: it is the commercial page, not a write-up.
         { path: '/services', changeFrequency: "monthly" as const, priority: 0.9 },
+        // Above /cv and /garden: it is the hub every case study hangs off, and
+        // the reason none of them can be orphaned again.
+        { path: '/projects', changeFrequency: "monthly" as const, priority: 0.8 },
         { path: '/garden', changeFrequency: "weekly" as const, priority: 0.8 },
         // Below /services: a secondary audience now that / is written for clients,
         // but the canonical home for the CV text since it left the homepage.

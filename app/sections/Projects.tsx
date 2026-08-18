@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { LiveProjectButton } from "../components/LiveProjectButton";
 import { SectionHeading } from "../components/SectionHeading";
@@ -157,6 +159,24 @@ export function Projects() {
           progress={scrollYProgress}
         />
       ))}
+
+      {/* The only route into /projects — the pill nav keeps pointing at this
+          section's hash so it retains scroll-spy. Deliberately after the deck: a
+          visitor who scrolled all three cards is the one who wants more. */}
+      <div className="mt-12 flex justify-center sm:mt-16">
+        <Link
+          href="/projects"
+          className="group inline-flex items-center gap-2 rounded-full border border-frost/30 px-7 py-3 text-sm font-medium uppercase tracking-widest text-frost/70 transition-colors hover:border-frost/60 hover:text-frost focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900"
+        >
+          See all projects
+          <ArrowRight
+            size={15}
+            strokeWidth={1.5}
+            aria-hidden
+            className="transition-transform duration-200 group-hover:translate-x-0.5"
+          />
+        </Link>
+      </div>
     </section>
   );
 }

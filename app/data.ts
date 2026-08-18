@@ -1233,7 +1233,18 @@ export const servicesEnquiryOptions = {
 } as const;
 
 // ─── HOMEPAGE PROJECT CARDS ───────────────────────────────────────────────────
-// The sticky-stacking cards in the Projects section.
+// The sticky-stacking cards in the Projects section — a FEATURED selection, not
+// the full list. Everything with a case study is on /projects, which maps over
+// `cases` so nothing can be orphaned by omission again. Two entries were, for a
+// while: satoshi and cinema were linked from nowhere on the site.
+//
+// This stays curated and separate from `cases` on purpose. Some cards point at a
+// live site rather than a case study (Bevisly), which is an editorial call about
+// what a visitor should see first — not duplication waiting to be collapsed.
+//
+// Three rather than five. Client work, product, and full-stack range in one
+// screenful each, and it takes the sticky deck from roughly 425vh to 255vh, which
+// the homepage needed after gaining the offers list and HowItWorks.
 
 export interface ProjectCard {
   number: string;
@@ -1283,32 +1294,6 @@ export const projectCards: ProjectCard[] = [
       "/assets/bevisly/Bevisly-Landing.webp",
       "/assets/bevisly/bevisly-employer-kanban.webp",
       "/assets/bevisly/bevisly-candidate.webp",
-    ],
-  },
-  {
-    number: "04",
-    title: "MockMate",
-    category: "Full-Stack",
-    buttonLabel: "Live Demo",
-    href: "https://mockmate.space",
-    external: true,
-    images: [
-      "/assets/mockmate/mockmate-landing.webp",
-      "/assets/mockmate/mockmate-dashboard.webp",
-      "/assets/mockmate/mockmate-feedback.webp",
-    ],
-  },
-  {
-    number: "05",
-    title: "Millennial Consulting",
-    category: "Management",
-    buttonLabel: "View Case",
-    href: "/cases/millennial",
-    external: false,
-    images: [
-      "/assets/millennial/Millennial_Spring2025.webp",
-      "/assets/millennial/fall2024_hot-seat.webp",
-      "/assets/millennial/Millennial_Fall2024.webp",
     ],
   },
 ];

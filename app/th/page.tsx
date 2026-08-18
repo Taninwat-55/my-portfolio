@@ -214,16 +214,33 @@ export default function ThaiPage() {
 
               <FadeIn y={24}>
                 <div className="grid grid-cols-2 gap-3">
-                  {racha.images.slice(0, 2).map((src) => (
-                    <Image
+                  {/* `fill` inside a ratio box, which is the pattern /services and
+                      Projects.tsx already use for these exact files. The first
+                      version declared width={800} height={600} — a 4:3 placeholder
+                      against a 1600x1005 (1.59:1) image — so the two boxes could
+                      never match heights and every load shifted layout. When one
+                      image did not paint, the empty box that remained was that
+                      wrong-shaped placeholder.
+
+                      Real alt text, not alt="". These carry the argument of the
+                      section, and an empty alt is also why the failure was silent:
+                      nothing described what was missing. */}
+                  {racha.images.slice(0, 2).map((src, i) => (
+                    <div
                       key={src}
-                      src={src}
-                      alt=""
-                      width={800}
-                      height={600}
-                      sizes="(min-width: 768px) 360px, 45vw"
-                      className="h-auto w-full rounded-2xl border border-frost/10 object-cover"
-                    />
+                      className="relative overflow-hidden rounded-2xl border border-frost/10"
+                      style={{ aspectRatio: "1600 / 1005" }}
+                    >
+                      <Image
+                        src={src}
+                        alt={`${racha.title} — ${
+                          i === 0 ? th.proof.altHome : th.proof.altTreatments
+                        }`}
+                        fill
+                        sizes="(min-width: 768px) 360px, 45vw"
+                        className="object-cover"
+                      />
+                    </div>
                   ))}
                 </div>
               </FadeIn>

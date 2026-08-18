@@ -104,6 +104,14 @@ export const thContent = {
     body: "Racha Beauty & Wellness เป็นร้านนวดของคนไทยที่เมือง Næstved เดิมมีแค่เพจเฟซบุ๊ก ผมทำเว็บไซต์ภาษาเดนมาร์กให้ทั้งเว็บ มีรายการนวด ราคา รูปร้าน และฟอร์มติดต่อ เจ้าของร้านไม่มีงบจ่ายค่าดูแลรายเดือน ผมจึงทำให้มันอยู่ได้เองโดยไม่ต้องมีผมคอยแก้ และตั้งแต่เปิดมาก็ยังใช้งานได้ปกติ",
     quoteLabel: "คำพูดของเจ้าของร้าน",
     /**
+     * Alt text for the two proof screenshots. Not decorative: they are the
+     * evidence the section rests on, so a screen-reader user needs them — and a
+     * real alt is also what makes a failed image load visible instead of leaving
+     * an unexplained empty box, which is exactly how the first version broke.
+     */
+    altHome: "หน้าแรกของเว็บไซต์",
+    altTreatments: "หน้ารายการนวดและราคา",
+    /**
      * Racha approved these words in ENGLISH. The Thai below is a translation, and
      * it is labelled as one on the page rather than presented as her own wording.
      *
