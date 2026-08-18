@@ -752,15 +752,29 @@ quote the positioning. Building them before this settles means writing twice.*
   in Danish, English and Swedish."). Keep `aboutFacts` and keep the full story
   behind the existing "Read my story" collapsible.
 
-- [ ] **17. [H] Regenerate the CV PDF — two changes in one pass.**
-  `public/assets/Taninwat_Kaewpankan_CV.pdf`:
-  1. **Remove the phone number.** It is still in there while the site policy is
-     email + city only. Moving the CV to its own page makes it more prominent, so
-     fix the leak in the same pass.
-  2. **Add Framer** to the tools list. `cvData` carries an explicit contract in
-     its header comment — *"Mirrors the downloadable PDF one-to-one so the page
-     and the file can't drift"* — and the page now lists Framer while the PDF does
-     not. Known, additive, recorded drift as of 2026-08-18.
+- [ ] **17. [H] Regenerate the CV PDF — reconcile it with `cvData`.**
+  `public/assets/Taninwat_Kaewpankan_CV.pdf`. **Verified against both pages on
+  2026-08-22**, which corrected one item and found another:
+
+  1. ~~Remove the phone number.~~ ❌ **Wrong — there is no phone number in the
+     PDF.** Contact is email, LinkedIn, GitHub, Website. This claim came from a
+     stale note and was repeated for several sessions without anyone opening the
+     file. Corrected in memory.
+  2. **Add Framer** to the tools list. `cvData.skills` "Tools & AI" lists it; the
+     PDF stops at Webflow.
+  3. ➕ **The job title disagrees, and this is the one that matters.** The PDF says
+     *"Software Engineer | Frontend Focus"*; the site says *"Frontend Engineer &
+     Project Coordinator"* (`cvData.title` and `siteContent.roleLabel`). A recruiter
+     reading both gets two identities — and Ice has said himself he is *"not truly
+     a pure SWE, more a web developer"*, so **the PDF is the overclaiming one**.
+     Pick one and make both say it.
+
+  Intentional and fine: the PDF omits the "Operations & Product" skill group and
+  the Languages row, because a one-page CV has to cut. Already documented.
+
+  ⚠️ `cvData`'s header comment claims it mirrors the PDF one-to-one. **Nothing
+  enforces that** — the PDF is made by hand outside the repo — so the comment is a
+  promise, not a mechanism. Check both whenever either changes.
 
 - [x] **17b. [C] Extend the overclaim guard to Framer.** ✅ *`a5ff868`*
   `data.ts` already carries *"his shipped client work to date is coded rather than
