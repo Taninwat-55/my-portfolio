@@ -735,6 +735,9 @@ export const services = {
       "Your site works but is slow, dated, or invisible on Google.",
       "You want one person who is accountable, not an agency with a project manager between you and the work.",
       "You want to own the result outright when it is finished.",
+      // The niche, stated on the English page too — a Thai owner who lands here
+      // first should find the Thai page rather than bounce.
+      "You run a Thai-owned business in Denmark or Sweden and would rather run the whole project in Thai — there is a page in Thai at /th.",
     ],
     notFit: [
       "You need a native iOS or Android app.",
@@ -899,7 +902,7 @@ export const services = {
     // costs more than it wins.
     headline:
       "Her customers can now see every treatment and price without messaging first.",
-    body: "Racha had a Facebook page and nothing else. I built her a Danish-language site covering treatments, prices, a gallery and an enquiry form. She has no budget for maintenance and nobody to call when something breaks, so the site was built to keep running without me — and it has.",
+    body: "Racha is a Thai-owned wellness studio in Næstved, and she had a Facebook page and nothing else. I built her a Danish-language site covering treatments, prices, a gallery and an enquiry form. She has no budget for maintenance and nobody to call when something breaks, so the site was built to keep running without me — and it has.",
     // Retitles the case study's metric keys for a non-technical reader. The
     // values are untouched; only the wording changes.
     plainLabels: {

@@ -13,7 +13,15 @@ import { EmploymentBand } from "./sections/EmploymentBand";
 import { Garden } from "./sections/Garden";
 
 export const metadata: Metadata = {
-  alternates: { canonical: "https://taninwatkaewpankan.xyz" },
+  alternates: {
+    canonical: "https://taninwatkaewpankan.xyz",
+    // Reciprocates the declaration on /th. hreflang is ignored unless both
+    // pages point at each other.
+    languages: {
+      en: "https://taninwatkaewpankan.xyz",
+      th: "https://taninwatkaewpankan.xyz/th",
+    },
+  },
 };
 
 export default function Home() {

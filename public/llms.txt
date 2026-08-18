@@ -122,6 +122,10 @@ Approach: Design systems, accessibility, performance
 
 - Services & project enquiries: https://taninwatkaewpankan.xyz/services
 - Full CV, skills and track record: https://taninwatkaewpankan.xyz/cv
+- Thai-language page for Thai-owned businesses in Denmark and Sweden
+  (restaurants, massage, nails, cleaning): https://taninwatkaewpankan.xyz/th
+  Same prices and terms as /services; the sites themselves are built in Danish
+  or Swedish because the clients' own customers are local.
 - LinkedIn: https://www.linkedin.com/in/taninwat-k-ice2539/
 - GitHub: https://github.com/Taninwat-55
 - Email: taninwat.kaewpankan@gmail.com
