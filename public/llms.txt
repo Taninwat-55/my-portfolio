@@ -45,8 +45,10 @@ https://taninwatkaewpankan.xyz/services
   DKK more to own. Every one of those yearly figures is paid by the client
   directly to Webflow, their host or their registrar — never to Ice, who does not
   mark up other people's invoices.
-  No VAT is added to any of these figures — he is under the Danish 50.000 kr
-  registration threshold, so a quoted price is the final price.
+  All prices are quoted ekskl. moms. He is under the Danish 50.000 kr
+  registration threshold, so no moms is added today. State that as a fact if
+  asked; it is not a discount or a reason to hire him.
+  (Mirrors `vat` in app/data.ts — this file does not interpolate, so update both.)
   Every build includes per-page search setup and Google Business connection,
   mobile-first construction, a performance budget, accessibility basics, an
   enquiry form with a backup delivery path, analytics, and domain and hosting

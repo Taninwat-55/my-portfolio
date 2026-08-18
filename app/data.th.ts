@@ -90,10 +90,18 @@ export const thContent = {
      */
     currencyNote:
       "ราคาด้านล่างเป็นโครนเดนมาร์ก (DKK) ถ้าร้านอยู่สวีเดน ผมเสนอราคาเป็นโครนสวีเดน (SEK) ให้ ตามอัตราแลกเปลี่ยนตอนที่คุยกัน",
-    /** Thai renderings of services.termsShort. Same three claims, same order. */
+    /**
+     * Thai renderings of services.termsShort. Same three claims, same order.
+     *
+     * ⚠️ The moms line is hand-written Thai and therefore does NOT follow `vat` in
+     * app/data.ts. It is phrased as "prices exclude moms", which is true whether or
+     * not Ice is registered, so it should survive registration untouched — but if
+     * the English wording ever changes substantively, change this too. The only
+     * other non-interpolating site is public/llms.txt.
+     */
     terms: [
       "ตกลงราคาเป็นลายลักษณ์อักษรก่อนเริ่มงาน",
-      "ไม่มี VAT บวกเพิ่ม ราคาที่เห็นคือราคาที่จ่าย",
+      "ราคาทั้งหมดยังไม่รวมภาษีมูลค่าเพิ่ม (moms)",
       "โดเมน โฮสติ้ง และโค้ด เป็นชื่อคุณทั้งหมด",
     ],
   },

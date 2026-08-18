@@ -729,6 +729,53 @@ export interface ServiceOffer {
   buildMethodNote?: string;
 }
 
+/**
+ * Everything the site says about moms, in one place.
+ *
+ * WHY THIS EXISTS. The claim used to be written out in six places, and the real
+ * hazard was not the duplication — it was the phrasing. "No VAT is added, the
+ * figure you see is the figure you pay" was sold as a REASON TO BUY. Ice will
+ * register for moms once turnover passes the Danish 50.000 kr threshold, and
+ * withdrawing a stated benefit reads as a 25% price rise even though it is not
+ * one: a moms-registered business client deducts moms, so their real cost does
+ * not move. Only consumers and unregistered buyers actually pay more.
+ *
+ * So prices are quoted "ekskl. moms" — the Danish B2B convention — which is true
+ * in BOTH states. Registering then changes a sentence, not a number, and not the
+ * argument for hiring him.
+ *
+ * TO REGISTER: flip `registered` to true. That updates offers[0].priceNote, the
+ * pricing FAQ, termsShort and the chatbot grounding automatically.
+ *
+ * TWO PLACES DO NOT INTERPOLATE and must be edited by hand at the same time:
+ *   - public/llms.txt          (static file, no build step)
+ *   - app/data.th.ts           (hand-written Thai, see thContent.pricing.terms)
+ */
+const VAT_REGISTERED = false;
+
+export const vat = {
+  registered: VAT_REGISTERED,
+
+  /**
+   * Safe standalone label: accurate whether or not he is registered, so the
+   * short surfaces never need touching.
+   */
+  shortLabel: "ekskl. moms (VAT)",
+
+  /** One sentence, for anywhere with room for it. */
+  note: VAT_REGISTERED
+    ? "All prices are ekskl. moms, so 25% is added at invoicing — which a moms-registered business deducts again."
+    : "All prices are ekskl. moms. I am under the Danish registration threshold, so no moms is added today.",
+
+  /**
+   * What the chatbot is allowed to say. Deliberately instructs it not to sell the
+   * current state, because that is the habit this whole object exists to break.
+   */
+  briefing: VAT_REGISTERED
+    ? "Prices are quoted ekskl. moms, so 25% moms is added at invoicing. For a moms-registered business client that is deductible and therefore cost-neutral — say so if asked."
+    : "Prices are quoted ekskl. moms. He is under the Danish 50.000 kr registration threshold, so no moms is added today. State it as a fact if asked; never present it as a discount or a reason to hire him, and do not speculate about when he might register.",
+} as const;
+
 export const services = {
   intro: {
     eyebrow: "Freelance & Client Work",
@@ -826,7 +873,7 @@ export const services = {
       buildMethodNote:
         "The same price whether I build it in Webflow or code it from scratch. What the build method changes is what the site costs to keep afterwards, and whether you can edit it yourself — that is the next section.",
       priceRange: "From 6.500 DKK",
-      priceNote: "The same price whichever way we build it. No VAT is added — I am under the Danish registration threshold, so the figure you see is the figure you pay. It is fixed in writing before we start, and domain, hosting and any platform fee are billed to you directly rather than through me.",
+      priceNote: `The same price whichever way we build it. ${vat.note} It is fixed in writing before we start, and domain, hosting and any platform fee are billed to you directly rather than through me.`,
       timeline: "1 – 3 weeks",
     },
     {
@@ -1089,26 +1136,13 @@ export const services = {
    * already up there (siteContent.homeOffers); what was missing was what
    * surrounds them.
    *
-   * ⚠️ THE VAT LINE IS DUPLICATED, AND IT IS CONDITIONAL ON A FACT THAT WILL
-   * CHANGE. "No VAT added" holds only while Ice is under the Danish 50.000 kr
-   * registration threshold. The moment he crosses it, every one of these becomes
-   * false at the same time:
-   *
-   *   - offers[0].priceNote            (this file)
-   *   - servicesFaq "What does a website actually cost?"
-   *   - servicesFaq "Why not just get a site for 3.000 kroner?"  (implied floor)
-   *   - servicesContext               (chatbot grounding, this file)
-   *   - public/llms.txt
-   *   - services.termsShort           (here)
-   *
-   * Kept as a short label rather than a restated claim to limit the damage, but
-   * six copies of a conditional fact is a bug waiting to happen. There is a
-   * PLAN.md item to consolidate them behind one constant — do that before
-   * changing any of them individually.
+   * The moms line reads from `vat` above rather than restating the claim, and it
+   * uses the short label, which is true whether or not he is registered. This line
+   * therefore survives registration untouched.
    */
   termsShort: [
     "Fixed price, agreed in writing before anything starts",
-    "No VAT added — the figure you see is the figure you pay",
+    `All prices ${vat.shortLabel}`,
     "Domain, hosting and code all end up in your name",
   ],
 
@@ -1175,7 +1209,7 @@ export const servicesFaq: FaqItem[] = [
   // "it depends" — is what gets a page quoted by search and AI assistants.
   {
     q: "What does a website actually cost?",
-    a: `It depends on how many pages, and the answer is published rather than quoted on request. A one-pager or simple three-page site is ${services.offers[0].priceLadder![0].price}, and a full four-to-eight page site is ${services.offers[0].priceLadder![1].price}. That is the price whether I build it in Webflow or code it from scratch — the build method changes what the site costs to keep, not what it costs to make. Fixing an existing site is ${services.offers[2].priceRange}, and frontend work on a web app is ${services.offers[1].priceRange}. The exact number is fixed in writing before any work starts, and no VAT is added on top — I am under the Danish registration threshold, so the price you are quoted is the price you pay. For context, a simple site from a Danish freelancer or agency typically runs 5.000 to 25.000 kroner before moms, so this sits at the lower half of the market.`,
+    a: `It depends on how many pages, and the answer is published rather than quoted on request. A one-pager or simple three-page site is ${services.offers[0].priceLadder![0].price}, and a full four-to-eight page site is ${services.offers[0].priceLadder![1].price}. That is the price whether I build it in Webflow or code it from scratch — the build method changes what the site costs to keep, not what it costs to make. Fixing an existing site is ${services.offers[2].priceRange}, and frontend work on a web app is ${services.offers[1].priceRange}. The exact number is fixed in writing before any work starts. ${vat.note} For context, a simple site from a Danish freelancer or agency typically runs 5.000 to 25.000 kroner before moms, so this sits at the lower half of the market.`,
   },
   {
     q: "Why not just get a site for 3.000 kroner?",
@@ -1382,7 +1416,7 @@ How he works: a short call, then a written scope with a fixed price and a delive
 
 What he does not take on: native iOS/Android apps, ongoing SEO or marketing retainers, and large backend-heavy platforms built from nothing.
 
-VAT: no moms is added to any of these figures. He is under the Danish 50.000 kr registration threshold, so a quoted price is the final price. If asked, say exactly that — do not speculate about what happens if he registers later.
+VAT: ${vat.briefing}
 
 Availability: he takes a few projects at a time, so it varies. You may state the price ranges listed above, because they are published on the services page. Never invent a figure outside them, never quote an exact price for a specific project, and never promise a delivery date — every project is scoped individually. Point people at the enquiry form on /services, which asks for project type, budget and timeline so he can reply with something specific.
 
