@@ -16,8 +16,17 @@ type NavLink = {
 
 // No compactHidden any more. The whole list shows at every width because it now
 // lives in a full-screen panel rather than a pill competing for ~304px.
+//
+// "Work" used to be here, pointing at #work. It was removed because it had quietly
+// become a second route to the same idea: item 11 turned that section from a
+// capability list ("What I Do", which "Work" described accurately) into three
+// purchasable offers, and its own eyebrow now reads "Services". So the menu offered
+// "Work" and "Services" as separate destinations while both meant services — and
+// the section is only a preview of /services anyway, with per-offer links into it.
+//
+// Four items, four distinct intents: proof, what you can buy, who you are dealing
+// with, and hire full-time.
 const NAV_LINKS: NavLink[] = [
-  { label: "Work", id: "work" },
   { label: "Projects", id: "projects" },
   { label: "Services", href: "/services" },
   { label: "About", id: "about" },

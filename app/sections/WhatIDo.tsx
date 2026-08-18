@@ -27,7 +27,11 @@ import { siteContent, services } from "../data";
 export function WhatIDo() {
   return (
     <section
-      id="work"
+      // Renamed from "work": the section is three purchasable offers, and an
+      // anchor called #work on something whose eyebrow says "Services" misleads
+      // anyone deep-linking or reading the markup. Nothing linked to #work except
+      // the nav item that was removed with it.
+      id="offers"
       className="relative bg-white rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32"
     >
       <SectionHeading
