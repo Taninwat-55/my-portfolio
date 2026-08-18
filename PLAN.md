@@ -2,8 +2,9 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** In progress — Block 1, item 4 shipped.
-**Next up:** items 1 + 2 + 3 as one session (collapse the price tracks).
+**Status:** In progress — Block 1 done except items 6 and 8.
+**Next up:** Block 2 (items 9–12, the homepage flip). Item 11 is now unblocked —
+it quotes the ladder that landed in `28ec667`.
 
 > This file is the source of truth for the overhaul. The item numbers here
 > supersede any numbering used in chat.
@@ -17,6 +18,53 @@
 ---
 
 ## Progress log
+
+### 2026-08-18 (later)
+
+**Items 1 + 2 + 3 — Collapse the price tracks into one ladder** ✅ `28ec667`
+
+`app/data.ts`, `app/services/page.tsx`, `public/llms.txt`. Net −15 lines despite
+added copy, because the two-card block collapsed into the existing table.
+
+- **Item 1** — `tracks` (two price ladders) replaced by `priceLadder` (one,
+  priced by scope) + `buildMethodNote`. Adopted the coded prices and the coded
+  timelines. `priceRange` → "From 6.500 DKK".
+- **Item 2** — every dependent surface moved with it: `priceNote`, four FAQ
+  entries (one retitled to "Webflow or coded from scratch — which should I
+  choose?", since cost is no longer the difference), `servicesContext`,
+  `DESCRIPTION`, and the `llms.txt` services block. `opengraph-image.tsx` needed
+  nothing — it reads `priceRange`.
+- **Item 3** — new `runningCosts.paidTo`, rendered as its own band under the
+  table rather than the footnote it was. Every recurring figure now names its
+  recipient.
+- **Structural, decided in session:** the two build cards merged into the
+  running-costs table (they duplicated it once prices were gone), and `fiveYear`
+  dropped the build price to show running cost only.
+
+**The verdict flipped, and that is the real consequence.** "Over five years the
+two land close together" was only true while Webflow's build price was lower.
+With identical build prices Webflow is simply the more expensive site to own, so
+the page now says that and frames the difference as what editing it yourself
+costs. The ~6.000 kr figure is deliberately qualified as *the likely setup* —
+comparing the extremes gives ~2.250–5.750, and an unqualified number is one that
+fails checking.
+
+**Verified:** build + lint clean; `tracks` gone from `app/`; both JSON-LD blocks
+parse and `FAQPage` picked up the retitled question automatically; ladder,
+Best-if row, paid-to band, five-year pair and verdict all confirmed in the
+prerendered `/services` HTML.
+
+- ⚠️ **Not verified: the 360px visual pass.** The Chrome extension was not
+  connected, so no screenshot was taken. Substituted a width proxy — every
+  narrow-cell value is now ≤20 chars against the 19-char max that already
+  shipped in that layout. **Worth an eyeball on a real phone.**
+- ✅ **Discharged:** item 4's "provisional five-year figures" caveat. They were
+  recomputed from scratch here and are no longer derived from stale build prices.
+- ⏸ **Still open:** item 6 (Webflow copy) waits on the item 5 test. Item 8 (day
+  rate) remains a one-line change, deliberately left out of this session.
+- 🔒 **Hardened:** the chatbot's platform-fee lookup now matches on
+  `label === "Platform fee"` instead of `rows[1]`, so reordering the table cannot
+  silently change a published figure.
 
 ### 2026-08-18
 
@@ -106,7 +154,7 @@ Tags: **[P]** pricing · **[S]** structure · **[C]** copy · **[N]** new build 
 *Do first. Everything downstream quotes these numbers, and both landing pages
 quote the positioning. Building them before this settles means writing twice.*
 
-- [ ] **1. [P] Collapse the two price tracks into one ladder.**
+- [x] **1. [P] Collapse the two price tracks into one ladder.** ✅ *`28ec667`*
   `app/data.ts` → `services.offers[0].tracks`. New ladder:
   - 1–3 pages: **6.500 – 9.500 DKK**
   - 4–8 pages: **12.000 – 20.000 DKK**
@@ -116,13 +164,13 @@ quote the positioning. Building them before this settles means writing twice.*
   want to live with this site" section, not a price fork. Delete the
   `tracks[].rungs[].price` fork; keep `bestFor`, `runningCost`, `editing`.
 
-- [ ] **2. [P] Update everything that interpolates from `tracks`.**
+- [x] **2. [P] Update everything that interpolates from `tracks`.** ✅ *`28ec667`*
   `priceRange`, `priceNote`, `runningCosts.fiveYear` table, and the three pricing
   FAQs in `servicesFaq` (the "what does a website cost", "why not 3.000 kr", and
   "Webflow vs coded cost difference" entries) all read from `tracks` — they move
   together or they contradict each other.
 
-- [ ] **3. [P] [C] Name the recipient on every recurring number.** ⚠️ *Trust fix, not an accuracy fix.*
+- [x] **3. [P] [C] Name the recipient on every recurring number.** ✅ *`28ec667`*
   The current card says "THEN, PER YEAR — ≈ 100 – 1.600 kr / year" with **no
   recipient named anywhere**. Combined with "pay more to build, almost nothing to
   *keep*", it reads as "he charges me every year forever" — the exact fear that
