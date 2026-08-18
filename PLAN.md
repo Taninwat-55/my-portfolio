@@ -2,10 +2,10 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** In progress — `/th` shipped. Remaining: `/da` (blocked), items 6, 8, 17.
-**Next up:** `/da` — but item 28 blocks it until a native Danish proofreader is found.
-**⚠️ Needs your eyes:** proofread every Thai string in `app/data.th.ts`. Plus `/th`
-and the `HowItWorks` slab have never been seen at any viewport.
+**Status:** In progress — `/th` shipped and reachable. Next code work: item 35.
+**Next up:** item 35 — `/projects` route. Ice's calls: **3 featured, nav keeps the hash.**
+**⚠️ Needs your eyes:** proofread every Thai string in `app/data.th.ts`. Plus `/th`,
+the `HowItWorks` slab and the new nav chip have never been seen at any viewport.
 **⚠️ Your homework:** item 17 (CV PDF), 33 (care plan), 5 (Webflow test), 31 (FB groups).
 
 > This file is the source of truth for the overhaul. The item numbers here
@@ -20,6 +20,62 @@ and the `HowItWorks` slab have never been seen at any viewport.
 ---
 
 ## Progress log
+
+### 2026-08-20 (later)
+
+**Items 30b + 25b — making `/th` reachable** ✅ `e346d00`
+
+Ice's question — *"how do people access my Thai version?"* — was the right one, and
+deferring 30b had been a mistake. 11 files, +502/−11.
+
+- **The nav chip** (`ไทย`) is permanent and **never hidden on mobile**, since the
+  audience is overwhelmingly on phones and a link they cannot see is no link.
+  Below `sm` the room comes from dropping `Work`, which the page scrolls into a
+  moment later. `siteContent.languages` is now one array — **`/da` will need no
+  component changes.**
+- **The offer banner** shows only to browsers set to Thai, and is written in Thai
+  because an English sentence is the one thing that reader may not parse.
+  **It offers, it never redirects** — a redirect breaks the back button, hides the
+  English page from someone who wanted it, and reads as serving different content
+  to different clients.
+- 🔒 **The banner is a store, not an effect.** `navigator` and `localStorage` are
+  genuinely external state. The first version used `useEffect` + `setState`, which
+  lint correctly flagged, and which also **got dismissal wrong** — state reset on
+  client-side navigation so the banner returned after being dismissed.
+
+**⭐ The biggest find was not on the list.** `Kanit` is the site's body font *and a
+Thai typeface* — but it was loaded `subsets: ["latin"]`. **Every Thai character on
+`/th` was falling through to a generic system font**, so the page was not rendering
+in the site's own type at all. One word fixes it, and `next/font` emits per-subset
+files with a `unicode-range`, so Latin-only visitors download nothing extra.
+Verified all five weights now ship a `U+E01-E5B` file.
+
+**Item 25b — the Thai share card** (`/th/opengraph-image`). Matters more than the
+other two cards: `/th`'s channel is a pasted link, so for most of its audience the
+card *is* the page. It inherited the English root card until now.
+
+- Needs a **bundled font**: satori reads ttf/otf/woff but **not woff2**,
+  `next/font` exposes none of its files, and all it caches is woff2. Kanit rather
+  than Noto so the card matches the page. Taken from the canonical `google/fonts`
+  repo, because the CSS endpoint serves woff2 to modern clients and **EOT** to old
+  ones — never a usable ttf. **OFL 1.1, licence bundled** as it requires;
+  provenance in `assets/fonts/README.md`.
+- **Rendered and visually checked** — Thai glyphs correct, tone marks positioned,
+  no tofu.
+
+**➕ Building the card exposed a bug on the page itself:** price scopes read
+`"1–3 pages"` in English on `/th`. Fixed by translating the unit *word* and leaving
+numerals sourced from `services` — a hand-written `"1–3 หน้า"` would have gone stale
+the first time the ladder moved, which is the exact failure the
+no-numerals-in-`data.th` rule exists to prevent. Same for step durations.
+**Visible body text on `/th` is now entirely Thai** (verified against `<main>` only;
+the earlier grep hit false positives in the RSC payload and CSS class names).
+
+- ⚠️ **Still unseen at any viewport:** `/th`, the `HowItWorks` slab, and the new nav
+  chip. The chip is the one worth checking — it spends the compact budget that was
+  measured at ~13px of headroom.
+- ⚠️ **Thai proofread still outstanding** and still the gate on sharing the link.
+- ✅ **Closed:** 30b, 25b. Item 30 is now fully done rather than partial.
 
 ### 2026-08-20
 
@@ -571,8 +627,7 @@ quote the positioning. Building them before this settles means writing twice.*
 
 - [x] **25. [N] Build `/th` — Thai landing page.** ✅ *`d5faf81`* — **awaiting Ice's Thai proofread.**
 
-- [ ] **25b. [N] Thai OG share card.** Needs a bundled Thai font; `next/og` has none,
-  so Thai renders as tofu boxes. High value — `/th`'s channel is being shared.
+- [x] **25b. [N] Thai OG share card.** ✅ *`e346d00`* — bundled Kanit (OFL), rendered and visually verified.
   - Covers **Denmark AND Sweden**. Do not write "in Denmark" anywhere.
   - Built to be **shared in a Facebook group**, not to rank on Google — that's
     how this community actually finds things. Strong OG preview image,
@@ -603,7 +658,7 @@ quote the positioning. Building them before this settles means writing twice.*
 
 - [x] **30. [S] hreflang + `lang`.** ✅ *`d5faf81`* — reciprocated both ways.
 
-- [ ] **30b. [S] Make `/th` discoverable.** ⚠️ **Was wrongly deferred — this is a
+- [x] **30b. [S] Make `/th` discoverable.** ✅ *`e346d00`* — nav chip + Thai-browser offer banner. ⚠️ **Was wrongly deferred — this is a
   defect, not a nicety.** Ice caught it: *"how do people access my Thai version?"*
 
   The reasoning for deferring it ("the channel is Facebook, not on-site") covered
@@ -676,16 +731,16 @@ quote the positioning. Building them before this settles means writing twice.*
   - **Homepage keeps the sticky-stack section** as *featured* work, with a
     "See all projects →" button into `/projects`.
 
-  **Decision needed: how many stay featured?** Recommend **3**. The current five
+  **✅ Decided by Ice: 3 featured, and the nav keeps the `#projects` hash.**
+
+  **How many stay featured?** **3**, confirmed. The current five
   sticky cards occupy roughly 425vh of scrolling on their own, and the homepage has
   grown by two sections since (`HowItWorks`, plus the offers list). Racha ·
   Trailr · Bevisly covers client work, product and full-stack range in three.
   Ice's call — five still works, it is just long.
 
-  **Also decide:** whether the pill nav's `Projects` keeps pointing at the homepage
-  hash (`#projects`, with scroll-spy) or becomes a route to `/projects`. Keeping the
-  hash preserves scroll-spy; switching costs it but makes the nav consistent with
-  `Services` and `CV`.
+  **Nav:** keeps the `#projects` hash and its scroll-spy, confirmed. `/projects` is
+  reached from the section's "See all projects →" button, not from the pill.
 
 ---
 
