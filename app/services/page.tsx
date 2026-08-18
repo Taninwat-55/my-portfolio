@@ -25,7 +25,7 @@ const PAGE_URL = `${BASE_URL}/services`;
 // competing page says "contact us for a quote". A description that answers the
 // question in the SERP earns the click, and gives answer engines something
 // concrete enough to quote.
-const DESCRIPTION = `Freelance web development in Copenhagen. Small-business websites ${services.offers[0].priceRange}, built in Webflow or coded from scratch. Also web app frontends and redesign work. Published prices, fixed scope, written quote before anything starts.`;
+const DESCRIPTION = `Freelance web development in Copenhagen. Small-business websites ${services.offers[0].priceRange}, the same price in Webflow or coded from scratch. Also web app frontends and redesign work. Published prices, fixed scope, written quote before anything starts.`;
 
 export const metadata: Metadata = {
   title: "Services",
@@ -363,78 +363,44 @@ export default function ServicesPage() {
                     </div>
                   </div>
 
-                  {/* The two build routes, priced separately. A page that shows
-                      one number for "a website" leaves the client to discover
-                      the monthly fee later; showing both side by side is the
-                      only way they can choose before they contact me. */}
-                  {offer.tracks && (
+                  {/* One ladder, priced by scope alone. There used to be two of
+                      these side by side, one per build method; see the note on
+                      ServiceOffer in data.ts for why that was a mistake. */}
+                  {offer.priceLadder && (
                     <div className="mt-8 border-t border-frost/10 pt-8">
                       <div className="text-crystal-500 text-[10px] tracking-[0.25em] uppercase mb-5">
-                        Two ways to build it, priced separately
+                        Priced by scope
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-                        {offer.tracks.map((track) => (
-                          <div
-                            key={track.id}
-                            className="flex flex-col rounded-xl border border-frost/10 bg-white/3 p-5 md:p-6"
-                          >
-                            <h4
-                              className="text-frost font-medium uppercase tracking-tight"
-                              style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)" }}
-                            >
-                              {track.name}
-                            </h4>
-                            <p className="mt-1.5 text-frost/70 font-display italic text-base leading-relaxed">
-                              {track.oneLiner}
-                            </p>
-                            <p className="mt-3 text-frost/45 font-light text-xs leading-relaxed">
-                              <span className="text-frost/60">Best if:</span> {track.bestFor}
-                            </p>
-
-                            <div className="mt-5 flex flex-col divide-y divide-frost/10 border-t border-frost/10">
-                              {track.rungs.map((rung) => (
-                                <div key={rung.scope} className="py-3">
-                                  {/* Both nowrap: at 320px inside the card
-                                      "1–3 pages" was breaking after the dash. */}
-                                  <div className="flex items-baseline justify-between gap-3">
-                                    <span className="whitespace-nowrap text-frost font-medium text-sm">
-                                      {rung.scope}
-                                    </span>
-                                    <span className="shrink-0 whitespace-nowrap text-frost/85 font-medium text-sm tabular-nums">
-                                      {rung.price}
-                                    </span>
-                                  </div>
-                                  <p className="mt-1 text-frost/40 font-light text-xs leading-relaxed">
-                                    {rung.detail}
-                                  </p>
-                                  <p className="mt-1 text-frost/30 font-light text-[11px] uppercase tracking-wider">
-                                    {rung.timeline}
-                                  </p>
-                                </div>
-                              ))}
+                      <div className="flex flex-col divide-y divide-frost/10 border-y border-frost/10">
+                        {offer.priceLadder.map((rung) => (
+                          <div key={rung.scope} className="py-3.5">
+                            {/* Both nowrap: at 320px "1–3 pages" was breaking
+                                after the dash. */}
+                            <div className="flex items-baseline justify-between gap-3">
+                              <span className="whitespace-nowrap text-frost font-medium text-sm sm:text-base">
+                                {rung.scope}
+                              </span>
+                              <span className="shrink-0 whitespace-nowrap text-frost/85 font-medium text-sm sm:text-base tabular-nums">
+                                {rung.price}
+                              </span>
                             </div>
-
-                            <dl className="mt-auto space-y-2 border-t border-frost/10 pt-4">
-                              <div className="flex items-baseline justify-between gap-3">
-                                <dt className="text-frost/40 text-[10px] uppercase tracking-[0.2em]">
-                                  Then, per year
-                                </dt>
-                                <dd className="shrink-0 text-frost/80 text-sm tabular-nums">
-                                  {track.runningCost}
-                                </dd>
-                              </div>
-                              <div className="flex items-baseline justify-between gap-3">
-                                <dt className="text-frost/40 text-[10px] uppercase tracking-[0.2em]">
-                                  You can edit
-                                </dt>
-                                <dd className="shrink-0 text-frost/60 text-xs text-right max-w-[55%]">
-                                  {track.editing}
-                                </dd>
-                              </div>
-                            </dl>
+                            <p className="mt-1 max-w-xl text-frost/45 font-light text-xs sm:text-sm leading-relaxed">
+                              {rung.detail}
+                            </p>
+                            <p className="mt-1 text-frost/30 font-light text-[11px] uppercase tracking-wider">
+                              {rung.timeline}
+                            </p>
                           </div>
                         ))}
                       </div>
+
+                      {/* Points at the running-cost section rather than forking
+                          the price, which is the whole change. */}
+                      {offer.buildMethodNote && (
+                        <p className="mt-5 max-w-2xl text-frost/55 font-light text-sm leading-relaxed">
+                          {offer.buildMethodNote}
+                        </p>
+                      )}
                     </div>
                   )}
 
@@ -602,6 +568,16 @@ export default function ServicesPage() {
                 </table>
               </div>
 
+              {/* Who actually receives the yearly money. A band of its own
+                  rather than a footnote: "then, per year — 100 to 1.600 kr" with
+                  no recipient named reads as "he bills me every year forever",
+                  which is the exact fear that stops people hiring a developer. */}
+              <div className="border-t border-frost/10 px-5 py-5 sm:px-6">
+                <p className="max-w-3xl text-frost/75 font-light leading-relaxed text-sm sm:text-[15px]">
+                  {services.runningCosts.paidTo}
+                </p>
+              </div>
+
               {/* The number that actually matters, and the one no competing
                   quote will show you: build price plus five years of running
                   cost, same site both ways. */}
@@ -614,30 +590,27 @@ export default function ServicesPage() {
                     {services.runningCosts.fiveYear.note}
                   </span>
                 </div>
-                <div className="divide-y divide-frost/10 border-y border-frost/10">
-                  {services.runningCosts.fiveYear.rows.map((row) => (
-                    <div
-                      key={row.scope}
-                      className="flex flex-col gap-2 py-3.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
-                    >
-                      <span className="text-frost text-sm font-medium">{row.scope}</span>
-                      <div className="flex gap-6 sm:gap-10">
-                        <span className="text-frost/75 text-sm tabular-nums">
-                          <span className="text-frost/35 text-[10px] uppercase tracking-[0.2em] mr-2">
-                            Webflow
-                          </span>
-                          {row.webflow}
-                        </span>
-                        <span className="text-frost/75 text-sm tabular-nums">
-                          <span className="text-frost/35 text-[10px] uppercase tracking-[0.2em] mr-2">
-                            Coded
-                          </span>
-                          {row.coded}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                {/* Two figures, not four. The build price no longer varies by
+                    build method, so including it buried a ~6.000 kr difference
+                    inside a ~12.000 kr spread. */}
+                <dl className="grid grid-cols-1 gap-3 border-y border-frost/10 py-4 sm:grid-cols-2 sm:gap-6">
+                  <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-1.5">
+                    <dt className="text-frost/35 text-[10px] uppercase tracking-[0.2em]">
+                      Webflow
+                    </dt>
+                    <dd className="text-frost font-medium text-base sm:text-lg tabular-nums">
+                      {services.runningCosts.fiveYear.webflow}
+                    </dd>
+                  </div>
+                  <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-1.5">
+                    <dt className="text-frost/35 text-[10px] uppercase tracking-[0.2em]">
+                      Coded
+                    </dt>
+                    <dd className="text-frost font-medium text-base sm:text-lg tabular-nums">
+                      {services.runningCosts.fiveYear.coded}
+                    </dd>
+                  </div>
+                </dl>
 
                 <p className="mt-5 text-frost/70 font-light leading-relaxed text-sm sm:text-[15px] max-w-3xl">
                   {services.runningCosts.verdict}

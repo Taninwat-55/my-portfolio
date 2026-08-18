@@ -593,30 +593,36 @@ export interface ServiceOffer {
   /**
    * Everything below applies to offer 01 only.
    *
-   * Two things forced this shape. First, a price defined purely by page count
-   * invites the obvious question "so what am I actually paying for?" — a
-   * template shop will do five pages for 3.000 kr, and the honest answer is
-   * that the pages are not the work. includedInEvery is that answer, stated
-   * before anyone has to ask for it.
+   * A price defined purely by page count invites the obvious question "so what
+   * am I actually paying for?" — a template shop will do five pages for 3.000
+   * kr, and the honest answer is that the pages are not the work.
+   * includedInEvery is that answer, stated before anyone has to ask for it.
    *
-   * Second, Webflow and a coded build genuinely do not cost the same to make,
-   * and pretending otherwise to keep the page tidy would be a lie the client
-   * pays for. Webflow is structurally quicker — no deploy pipeline, no build
-   * config, a visual CMS out of the box — so it is priced lower to build and
-   * higher to keep. Coded is the reverse. Showing both, with the five-year
-   * total, is the only way a non-technical buyer can choose on fit rather than
-   * on whichever number is smaller today.
+   * There used to be two price ladders here, one for Webflow and one for a
+   * coded build, on the theory that Webflow is quicker to make and should
+   * therefore cost less. That was removed deliberately, for three reasons.
+   * It discounted the build method with no shipped client work behind it, so a
+   * client choosing on price bought the slowest work at the lowest rate. It
+   * priced my cost rather than their outcome, which invites negotiation on
+   * hours. And the cheaper figure anchored first, with the monthly platform fee
+   * arriving later — the most trust-damaging possible moment on a page whose
+   * entire argument is that its numbers are honest.
+   *
+   * So the price is the same either way, and the build method decides what the
+   * site costs to KEEP and whether the client can edit it. That comparison
+   * lives in runningCosts below, because it is a question a non-technical buyer
+   * can actually answer. It also means there is no financial reason to steer
+   * anyone toward either option — which the page now says out loud, because it
+   * is the strongest thing the single price buys.
    */
   includedInEvery?: { label: string; body: string; items: string[] };
-  tracks?: {
-    id: string;
-    name: string;
-    oneLiner: string;
-    bestFor: string;
-    rungs: { scope: string; detail: string; price: string; timeline: string }[];
-    runningCost: string;
-    editing: string;
-  }[];
+  /**
+   * The single price ladder. Priced by scope alone; build method deliberately
+   * does not appear here.
+   */
+  priceLadder?: { scope: string; detail: string; price: string; timeline: string }[];
+  /** One line pointing from the price down to the running-cost comparison. */
+  buildMethodNote?: string;
 }
 
 export const services = {
@@ -684,72 +690,37 @@ export const services = {
           "Domain and hosting registered in your name, and a walkthrough at handover so nothing depends on me afterwards",
         ],
       },
-      tracks: [
+      priceLadder: [
         {
-          id: "webflow",
-          name: "Webflow",
-          oneLiner: "Pay less to build, a little every month to keep.",
-          bestFor:
-            "You want to change your own prices, photos and opening hours without calling anyone.",
-          rungs: [
-            {
-              scope: "1–3 pages",
-              detail: "A one-pager or simple presence: who you are, what you offer, how to reach you.",
-              // Was 4.500. Danish freelancers start a simple site around 5.000,
-              // so a floor below that does not read as good value — it reads as
-              // inexperience, which is the opposite of what the number is for.
-              price: "5.500 – 8.000 DKK",
-              timeline: "4–7 days",
-            },
-            {
-              scope: "4–8 pages",
-              detail: "A full site: services, prices, gallery, about, and an enquiry form.",
-              price: "9.000 – 15.000 DKK",
-              timeline: "1.5–2.5 weeks",
-            },
-            {
-              scope: "Add-ons",
-              detail: "A second language, online booking, or a blog you post to yourself.",
-              price: "+ 2.500 – 6.000 DKK",
-              timeline: "+ 2–4 days each",
-            },
-          ],
-          runningCost: "≈ 1.250 – 2.050 kr / year",
-          editing: "Everything, visually",
+          scope: "1–3 pages",
+          detail: "A one-pager or simple presence: who you are, what you offer, how to reach you.",
+          // The floor sits above the Danish freelance entry point on purpose. A
+          // simple site starts around 5.000 kr here, and pricing below that
+          // reads as inexperience rather than as value.
+          price: "6.500 – 9.500 DKK",
+          timeline: "1–2 weeks",
         },
         {
-          id: "coded",
-          name: "Coded from scratch",
-          oneLiner: "Pay more to build, almost nothing to keep.",
-          bestFor:
-            "You will rarely touch it once it is live, and you would rather not pay a subscription forever.",
-          rungs: [
-            {
-              scope: "1–3 pages",
-              detail: "The same site, hand-built: faster, lighter, and no platform underneath it.",
-              price: "6.500 – 9.500 DKK",
-              timeline: "1–2 weeks",
-            },
-            {
-              scope: "4–8 pages",
-              detail: "A full site with custom behaviour that a page builder cannot do cleanly.",
-              price: "12.000 – 20.000 DKK",
-              timeline: "2–3 weeks",
-            },
-            {
-              scope: "Add-ons",
-              detail: "A second language, online booking, or a blog you post to yourself.",
-              price: "+ 3.000 – 8.000 DKK",
-              timeline: "+ 3–5 days each",
-            },
-          ],
-          runningCost: "≈ 100 – 1.600 kr / year",
-          editing: "Text and images, not layout",
+          scope: "4–8 pages",
+          detail: "A full site: services, prices, gallery, about, and an enquiry form.",
+          price: "12.000 – 20.000 DKK",
+          timeline: "2–3 weeks",
+        },
+        {
+          scope: "Add-ons",
+          detail: "A second language, online booking, or a blog you post to yourself.",
+          price: "+ 3.000 – 8.000 DKK",
+          timeline: "+ 3–5 days each",
         },
       ],
-      priceRange: "From 5.500 DKK",
-      priceNote: "Webflow starts at 5.500, hand-coded at 6.500. No VAT is added — I am under the Danish registration threshold, so the figure you see is the figure you pay. It is fixed in writing before we start, and domain, hosting and any platform fee are billed to you directly rather than through me.",
-      timeline: "4 days – 3 weeks",
+      // These are the hand-built timelines even though Webflow is usually
+      // quicker. A published timeline the build method can beat is a promise
+      // that gets kept; the reverse is one that gets broken.
+      buildMethodNote:
+        "The same price whether I build it in Webflow or code it from scratch. What the build method changes is what the site costs to keep afterwards, and whether you can edit it yourself — that is the next section.",
+      priceRange: "From 6.500 DKK",
+      priceNote: "The same price whichever way we build it. No VAT is added — I am under the Danish registration threshold, so the figure you see is the figure you pay. It is fixed in writing before we start, and domain, hosting and any platform fee are billed to you directly rather than through me.",
+      timeline: "1 – 3 weeks",
     },
     {
       id: "app-frontend",
@@ -893,9 +864,28 @@ export const services = {
   runningCosts: {
     eyebrow: "After Launch",
     title: "What it costs to keep",
-    lead: "The build is a one-off. This is what you pay every year afterwards, and it depends on which way we build it.",
-    note: "Approximate, in DKK per year, and billed to you directly rather than through me — I do not mark up other people's invoices. Webflow prices in dollars and changed its plans in May 2026, so treat that column as a close estimate rather than a quote.",
+    lead: "The build price is the same whichever way we build it. This is the part that differs: what you pay every year after launch, and whether you can edit the site yourself.",
+    note: "Approximate, in DKK per year. Webflow prices in dollars and changed its plans in May 2026, so treat that column as a close estimate rather than a quote.",
+    /**
+     * Stated as a full sentence, directly under the table, rather than as the
+     * footnote it used to be.
+     *
+     * "Then, per year: 100 – 1.600 kr" with no recipient named reads, to a
+     * nervous small-business owner, as "he charges me every year forever" —
+     * which is the exact fear that stops people hiring a developer at all. The
+     * money genuinely goes to third parties, so say so where the numbers are.
+     */
+    paidTo:
+      "Every figure here is paid to Webflow, your host or your domain registrar — directly, and in your name. None of it comes to me, and I do not mark up other people's invoices. After handover I do not invoice you again unless you ask me for more work.",
     rows: [
+      // Leads the table because it is the only row that answers the question
+      // the client is actually trying to answer. The rest is arithmetic.
+      {
+        label: "Best if…",
+        webflow: "You edit it yourself",
+        coded: "It will sit still",
+        why: "Webflow suits you if you want to change your own prices, photos and opening hours without calling anyone. Coded suits you if you will rarely touch it once it is live and would rather not pay a subscription forever.",
+      },
       {
         label: "Platform fee",
         webflow: "≈ 1.150 – 1.950 kr",
@@ -916,24 +906,40 @@ export const services = {
       },
       {
         label: "Editing it yourself",
-        webflow: "Included",
-        coded: "Text yes, layout no",
+        webflow: "Everything",
+        coded: "Text and images",
         why: "Webflow gives you a visual editor. On a coded site you can change text and images, but a new section means calling a developer.",
       },
     ],
-    // Build price plus five years of running cost. Worth publishing because the
-    // cheaper build is not the cheaper site, and a client comparing only the
-    // first number is being quietly misled by every quote they will receive.
+    /**
+     * Five years of RUNNING cost only — the build price is identical both ways,
+     * so including it buried a ~6.000 kr difference inside a ~12.000 kr spread
+     * and made the comparison harder to read, not easier.
+     *
+     * Webflow: 5 × (platform 1.150–1.950 + domain ~100) = 6.250 – 10.250.
+     * Coded:   5 × (hosting 0–1.500 + domain ~100)      =   500 –  8.000.
+     */
     fiveYear: {
-      label: "Five years, all in",
-      note: "Build price plus five years of platform, hosting and domain. Same site, both ways.",
-      rows: [
-        { scope: "1–3 page site", webflow: "11.500 – 18.500 kr", coded: "7.000 – 17.500 kr" },
-        { scope: "4–8 page site", webflow: "15.000 – 25.500 kr", coded: "12.500 – 28.000 kr" },
-      ],
+      label: "Five years of running cost",
+      note: "The build price is the same either way, so this is the only part that differs.",
+      webflow: "6.250 – 10.250 kr",
+      coded: "500 – 8.000 kr",
     },
+    /**
+     * Rewritten when the two price ladders collapsed into one. The old version
+     * opened "over five years the two land close together, and that is the
+     * point" — true only while Webflow's build price was lower. With identical
+     * build prices Webflow is simply the more expensive site to own, and the
+     * page has to say that plainly or it is selling something.
+     *
+     * The difference figure is qualified on purpose. 6.000 kr is the LIKELY
+     * setup (Webflow Basic billed annually, against a coded site on a free
+     * hosting tier). Compare the extremes and it ranges from about 2.250 to
+     * 5.750, so an unqualified "6.000 kr" would be a number that fails checking
+     * — on the one section whose whole job is to survive being checked.
+     */
     verdict:
-      "Over five years the two land close together, and that is the point: choose on how you want to live with the site, not on which number is smaller on day one. If you want to change your own prices, photos and opening hours, Webflow earns its subscription back the first handful of times you do it instead of asking me. If the site will mostly sit still once it is up, hand-coded costs less to own and there is no monthly bill at all. On a small site that never changes, coded is clearly the cheaper way to own it.",
+      "The build costs the same either way, so the only real question is what happens after launch. On the likely setup — a Webflow plan paid annually against a coded site on free hosting — Webflow works out roughly 6.000 kroner more over five years, and what you are buying for that is the ability to change your own prices, photos and opening hours whenever you like. If you will actually use it, it pays for itself the first handful of times you edit something instead of asking me. If the site will mostly sit still once it is up, it is money spent on a feature you will not touch, and coded is the cheaper way to own it. I will tell you which one I think you are on the call — and since the build price is the same to me either way, I have no reason to push you toward one.",
   },
 
   cta: {
@@ -999,15 +1005,15 @@ export const servicesFaq: FaqItem[] = [
   // "it depends" — is what gets a page quoted by search and AI assistants.
   {
     q: "What does a website actually cost?",
-    a: `It depends on how many pages and which way we build it, so both are published rather than quoted on request. In Webflow, a one-pager or simple three-page site is ${services.offers[0].tracks![0].rungs[0].price} and a full four-to-eight page site is ${services.offers[0].tracks![0].rungs[1].price}. Hand-coded, the same two are ${services.offers[0].tracks![1].rungs[0].price} and ${services.offers[0].tracks![1].rungs[1].price} — more to build, but almost nothing to run afterwards. Fixing an existing site is ${services.offers[2].priceRange}, and frontend work on a web app is ${services.offers[1].priceRange}. The exact number is fixed in writing before any work starts, and no VAT is added on top — I am under the Danish registration threshold, so the price you are quoted is the price you pay. For context, a simple site from a Danish freelancer or agency typically runs 5.000 to 25.000 kroner before moms, so this sits at the lower half of the market.`,
+    a: `It depends on how many pages, and the answer is published rather than quoted on request. A one-pager or simple three-page site is ${services.offers[0].priceLadder![0].price}, and a full four-to-eight page site is ${services.offers[0].priceLadder![1].price}. That is the price whether I build it in Webflow or code it from scratch — the build method changes what the site costs to keep, not what it costs to make. Fixing an existing site is ${services.offers[2].priceRange}, and frontend work on a web app is ${services.offers[1].priceRange}. The exact number is fixed in writing before any work starts, and no VAT is added on top — I am under the Danish registration threshold, so the price you are quoted is the price you pay. For context, a simple site from a Danish freelancer or agency typically runs 5.000 to 25.000 kroner before moms, so this sits at the lower half of the market.`,
   },
   {
     q: "Why not just get a site for 3.000 kroner?",
-    a: "You can, and for some businesses that is genuinely the right call — if you need a placeholder page and nothing more, a template builder will do it cheaper than I will. What you usually do not get at that price is the part that makes the site earn its money: search setup written per page so you turn up when someone searches your town and your service, a performance budget so it opens fast on mobile data, accessibility basics, an enquiry form with a backup delivery path, and analytics so you can tell whether any of it is working. That work is the same amount of work whether the site has three pages or eight, which is why the starting price is where it is. If your budget is firmly under 5.000, say so in the enquiry form — I will tell you honestly whether to spend it with me or somewhere else.",
+    a: "You can, and for some businesses that is genuinely the right call — if you need a placeholder page and nothing more, a template builder will do it cheaper than I will. What you usually do not get at that price is the part that makes the site earn its money: search setup written per page so you turn up when someone searches your town and your service, a performance budget so it opens fast on mobile data, accessibility basics, an enquiry form with a backup delivery path, and analytics so you can tell whether any of it is working. That work is the same amount of work whether the site has three pages or eight, which is why the starting price is where it is. If your budget is firmly under 6.500, say so in the enquiry form — I will tell you honestly whether to spend it with me or somewhere else.",
   },
   {
-    q: "What is the real difference in cost between Webflow and coded?",
-    a: `Webflow is cheaper to build and costs a little every month. Hand-coded is more to build and costs almost nothing to keep. Concretely, on a four-to-eight page site: Webflow is ${services.offers[0].tracks![0].rungs[1].price} to build plus roughly 1.250 to 2.050 kroner a year, and coded is ${services.offers[0].tracks![1].rungs[1].price} to build plus roughly 100 to 1.600 kroner a year. Over five years that is about 15.000 to 25.500 against 12.500 to 28.000 — close enough that the money should not decide it. What should decide it is whether you want to edit the site yourself. If yes, Webflow. If it will mostly sit still once it is live, coded.`,
+    q: "Webflow or coded from scratch — which should I choose?",
+    a: `The build price is identical, so this is not a money question in the way people expect. What differs is the year after. A Webflow site costs roughly 1.250 to 2.050 kroner a year and you can change anything yourself in a visual editor. A coded site costs roughly 100 to 1.600 kroner a year, has no platform fee at all, and you can edit text and images but not the layout. Over five years that is about 6.250 to 10.250 kroner against 500 to 8.000 — so on the likely setup, Webflow works out around 6.000 kroner more to own. That money buys you independence from me for small changes. If you will genuinely use it, take Webflow. If the site will mostly sit still once it is live, take coded and keep the 6.000. I will give you my honest read on the call, and because the build price is the same to me either way, I have no reason to talk you into one.`,
   },
   // Deliberately a FAQ rather than a line on the offer card. To the buyer this
   // page is written for, "React · Next.js · TypeScript" is noise, and jargon in
@@ -1020,7 +1026,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Do I have to pay a monthly fee for Webflow?",
-    a: "Only if we build it in Webflow, and you pay it directly rather than through me — I do not mark up other people's invoices. A Webflow site plan is roughly 1.150 to 1.950 kroner a year and covers hosting, security and the visual editor. A coded site has no platform fee. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though I will not pretend a company's free tier is a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. Either way the domain is about 100 kroner, in your name.",
+    a: "Only if we build it in Webflow, and it does not change what the build costs. You pay it directly rather than through me — I do not mark up other people's invoices. A Webflow site plan is roughly 1.150 to 1.950 kroner a year and covers hosting, security and the visual editor. A coded site has no platform fee. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though I will not pretend a company's free tier is a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. Either way the domain is about 100 kroner, in your name.",
   },
   {
     q: "Can I update the website myself afterwards?",
@@ -1198,14 +1204,16 @@ ${services.offers
 
 Proof: rachabeautywellness.com, a Danish-language site he built end to end for a wellness studio in Næstved that had only a Facebook page. 95+ Lighthouse on first deploy, and it has run since launch without maintenance.
 
-A small-business website is priced by build method, because the two genuinely differ. You may quote these figures — they are published on the services page:
+A small-business website is priced by scope alone. The price is the SAME whether it is built in Webflow or coded from scratch — never quote two different build prices, and never suggest one build method is cheaper to commission than the other. You may quote these figures, they are published on the services page:
 ${services.offers[0]
-  .tracks!.map(
-    (t) =>
-      `- ${t.name}: ${t.rungs[0].price} for ${t.rungs[0].scope}, ${t.rungs[1].price} for ${t.rungs[1].scope}. Then ${t.runningCost} to run. Best if: ${t.bestFor}`
-  )
+  .priceLadder!.map((r) => `- ${r.scope}: ${r.price} (typically ${r.timeline})`)
   .join("\n")}
-Over five years the two land close together, so the honest advice is to choose on whether the client wants to edit the site themselves (Webflow) or wants it to sit still and cost almost nothing to keep (coded) — not on the build price alone.
+
+What the build method changes is the year after launch, not the build price. Webflow costs roughly ${services.runningCosts.rows.find((r) => r.label === "Platform fee")!.webflow} a year for the site plan and the client can edit anything visually. A coded site has no platform fee and costs roughly 100 – 1.600 kr a year for hosting and domain, and the client can edit text and images but not layout. Over five years that is about ${services.runningCosts.fiveYear.webflow} against ${services.runningCosts.fiveYear.coded}, so on the likely setup Webflow is around 6.000 kr more to own. Always qualify that figure as the likely setup rather than stating it flatly — comparing the extremes gives a range, not one number.
+
+All of those yearly costs are paid by the client directly to Webflow, their host and their registrar. None of it is paid to Ice, and he does not mark up other people's invoices. If someone worries about an ongoing bill from him, say that plainly.
+
+The honest advice is to choose on whether the client wants to edit the site themselves, not on cost — and because the build price is identical, Ice has no financial reason to prefer either option.
 
 Every build, either way, includes per-page search setup and Google Business connection, mobile-first construction, a performance budget, accessibility basics, an enquiry form with a backup delivery path, analytics, and domain and hosting in the client's name. If someone asks why it is not 3.000 kroner, that list is the answer: a template shop skips it, and it is the part that makes the site actually get found and convert.
 
