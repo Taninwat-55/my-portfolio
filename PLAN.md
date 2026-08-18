@@ -2,9 +2,9 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** In progress — Block 1 done except items 6 and 8.
-**Next up:** Block 2 (items 9–12, the homepage flip). Item 11 is now unblocked —
-it quotes the ladder that landed in `28ec667`.
+**Status:** In progress — Blocks 1 and 2 done except items 6 and 8.
+**Next up:** Block 3 (items 13–17, page surgery) — `/cv` gets its own route.
+**⚠️ Needs your eyes:** the hero at 360 / 768 / desktop, see the log below.
 
 > This file is the source of truth for the overhaul. The item numbers here
 > supersede any numbering used in chat.
@@ -18,6 +18,68 @@ it quotes the ladder that landed in `28ec667`.
 ---
 
 ## Progress log
+
+### 2026-08-19
+
+**Items 21 + 22 — Racha's testimonial published** ✅ `b11ad9e`
+
+She picked draft 3 and edited it herself ("reliable" is her word), then agreed to
+a grammar pass: one typo, one `and` to close the list, one comma moved. No claim
+added, removed or strengthened. `approvedOn: "2026-08-18"`.
+
+- **Credited to the business**, `Racha Beauty & Wellness · Wellness studio,
+  Næstved`. Approving words and approving publication of your own name are two
+  different consents and only the first was given. A named business with a live
+  site is checkable anyway, which is where the weight comes from.
+- **Blanket permission to embellish was declined.** She offered it; taking it
+  would have made the quote *worse*. "Professional", "highly recommend" etc. are
+  what every invented testimonial says. Her four claims are specific and all four
+  are verifiable against the live site. If more warmth is wanted, ask her for
+  another sentence in her own words — do not write one for her.
+- The reasoning is recorded in the comment above the field. **That comment is the
+  audit trail** — keep it current if the quote ever changes.
+- No render work needed: `services/page.tsx` already had the conditional
+  `<figure>`. The original comment was accurate.
+
+**Items 9 + 10 + 11 + 12 — the homepage flip** ✅ `b11ad9e`
+
+- **Item 9** — hero corners: job titles → `"Websites & web app frontends"` /
+  `"Built solo, in Copenhagen"`, and `"Open to work"` → `"Available for
+  projects"`. To a business, "open to work" says *between jobs*, which invites
+  negotiating the price down.
+- **Item 10** — a filled `"Start a project"` → `/services#enquiry` in the
+  bottom-left block. **Not** centred: the portrait is bottom-anchored at up to
+  88vh, so centred content lands on the face. **Not** `ContactButton`, which opens
+  the CV-download modal — wrong artefact for a paying client.
+- **Item 11** — capability list → three buyable offers with published starting
+  prices, linking to the `/services` anchors.
+- **Item 12** — Racha Beauty now leads the project cards (`01`), ahead of the
+  product work. `cases[].n` left alone; it orders a different, longer list.
+
+- ⚠️ **NOT VERIFIED — the hero at real viewport widths.** The browser extension
+  was unavailable again. The rule moved from `bottom-24 sm:bottom-28` to
+  `bottom-32 sm:bottom-40` because the taller left block would otherwise have had
+  the rule cut through the button — **but those offsets were derived from class
+  values (~109px of content at base, ~131px at `sm`), not measured.** What *is*
+  confirmed: the DOM nests the CTA inside the left block, and the rule kept `z-10`
+  against the portrait's `z-20` so it still passes behind the blazer.
+  **Please check at 360 / 768 / desktop: does the button clear the rule?**
+- 🔒 **Near-miss worth remembering:** item 11 nearly repurposed `whatIDo`, which
+  is also the chatbot's capability grounding (`app/api/chat/route.ts`). That would
+  have silently stripped the bot's knowledge of what Ice can do. `whatIDo` stays;
+  the new `homeOffers` sits alongside it and stores only an offer id, looking the
+  price up from `services.offers` at render so the homepage cannot quote a stale
+  figure.
+- ➕ **Spawned — new item 12b:** decide whether `roleLabel` gets a client-first
+  rewrite. It looked like part of item 9, but it feeds six places including
+  `layout.tsx`'s `SITE_TITLE` (the whole site's tab and SEO title), JSON-LD
+  `jobTitle` in two files, and the chatbot system prompt. Until then the hero's
+  `sr-only` h1 still says "Frontend Engineer & Project Coordinator" while the
+  visible corner says "Websites & web app frontends" — both true, mildly
+  inconsistent, parked deliberately. **Belongs with item 13.**
+- ➕ **Note for item 15:** the homepage now shows two filled CTAs with different
+  destinations — `PillNav`'s "Say hi" → `HireModal` (CV download) and the hero's
+  "Start a project" → enquiry. Not broken, but item 15 should converge them.
 
 ### 2026-08-18 (later)
 
@@ -230,7 +292,7 @@ quote the positioning. Building them before this settles means writing twice.*
 
 ### Block 2 — Homepage identity
 
-- [ ] **9. [C] Hero corners: job titles → positioning.**
+- [x] **9. [C] Hero corners: job titles → positioning.** ✅ *`b11ad9e`*
   `app/data.ts` → `siteContent.heroCorners`.
   - Left: `"Websites & web app frontends"` / `"Built solo, in Copenhagen"`
   - Right: `"Open to work"` → **`"Available for projects"`** (keep the pulsing dot)
@@ -238,17 +300,17 @@ quote the positioning. Building them before this settles means writing twice.*
   *Why:* "Open to work" tells a paying client you're between jobs and invites
   them to negotiate down.
 
-- [ ] **10. [N] Hero centre: value line + primary CTA.**
+- [x] **10. [N] Hero CTA — placed in the bottom-left block, not centred.** ✅ *`b11ad9e`*
   `app/sections/Hero.tsx`. The middle is deliberately empty today. A client site
   needs an offer and a button there — `Start a project` / `View work`. This is
   the one structural thing to lift from the AI-designer reference.
 
-- [ ] **11. [C] Rewrite `whatIDo` from five capabilities to three offers.**
+- [x] **11. [C] Three offers on the homepage (via new `homeOffers`; `whatIDo` kept).** ✅ *`b11ad9e`*
   Current copy is recruiter honesty — *"the backend is the newer half of my
   toolkit"*, *"where I would want to be judged"* — and exactly wrong for a buyer.
   Replace with the three `/services` offers, each with a from-price and a link.
 
-- [ ] **12. [S] Reorder `projectCards` — Racha Beauty leads.**
+- [x] **12. [S] Reorder `projectCards` — Racha Beauty leads.** ✅ *`b11ad9e`*
   Currently #5. For a client, paying-client work goes first, product work second.
 
 ### Block 3 — Page surgery
@@ -306,7 +368,7 @@ quote the positioning. Building them before this settles means writing twice.*
 
 ### Block 5 — Proof *(highest value on the whole list)*
 
-- [ ] **21. [H] Get Racha's approval on the literal sentence.** 🔥
+- [x] **21. [H] Get Racha's approval on the literal sentence.** ✅ *2026-08-18*
   See **Appendix B** for the full kit — three drafted quotes in Thai and English,
   the message to send, and what to capture. Ideally she writes her own in Thai.
   Then fill `services.testimonial` with `{ text, author, role, approvedOn }`.
@@ -314,7 +376,7 @@ quote the positioning. Building them before this settles means writing twice.*
   *Rules:* if she edits it, publish her version **word for word** — do not polish
   it. If she goes quiet, let it go; no chasing.
 
-- [ ] **22. [C] Publish the testimonial** once item 21 lands. The `/services` page
+- [x] **22. [C] Publish the testimonial** ✅ *`b11ad9e`* once item 21 lands. The `/services` page
   already renders the block conditionally, so there is nothing to uncomment.
 
 - [ ] **23. [H] Ask Racha for the Facebook groups + two referrals.**
