@@ -762,12 +762,13 @@ quote the positioning. Building them before this settles means writing twice.*
      file. Corrected in memory.
   2. **Add Framer** to the tools list. `cvData.skills` "Tools & AI" lists it; the
      PDF stops at Webflow.
-  3. ➕ **The job title disagrees, and this is the one that matters.** The PDF says
-     *"Software Engineer | Frontend Focus"*; the site says *"Frontend Engineer &
-     Project Coordinator"* (`cvData.title` and `siteContent.roleLabel`). A recruiter
-     reading both gets two identities — and Ice has said himself he is *"not truly
-     a pure SWE, more a web developer"*, so **the PDF is the overclaiming one**.
-     Pick one and make both say it.
+  3. ➕ **Change the heading to `Frontend Developer`.** ✅ *Decided and shipped on the
+     site side; the PDF is the only half left.* It said *"Software Engineer |
+     Frontend Focus"*, which overclaims — Ice has said himself he is not a pure SWE.
+     The site now says **Frontend Developer** in `roleLabel`, `cvData.title` and the
+     summary. Chosen over "Web Developer" on money: Denmark files both under DISCO-08
+     2513, but frontend-udvikler medians ~51.900 kr/month against a webudvikler
+     starting ~31.500 and reaching ~42.250 after ten years.
 
   Intentional and fine: the PDF omits the "Operations & Product" skill group and
   the Languages row, because a one-page CV has to cut. Already documented.
