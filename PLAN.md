@@ -835,10 +835,6 @@ quote the positioning. Building them before this settles means writing twice.*
 - [x] **22. [C] Publish the testimonial** ✅ *`b11ad9e`* once item 21 lands. The `/services` page
   already renders the block conditionally, so there is nothing to uncomment.
 
-- [ ] **23. [H] Ask Racha for the Facebook groups + two referrals.**
-  Separate message, sent *after* she says yes. This is the entire go-to-market
-  strategy, asked in one line, by the person best placed to answer.
-
 ### Block 6 — Languages & niche
 *Sequenced after Blocks 1–2: both pages quote the prices and the positioning.*
 
@@ -916,7 +912,9 @@ quote the positioning. Building them before this settles means writing twice.*
   shares with the English card, which weakens the one channel that does work.*
 
 - [ ] **31. [H] Find the 3–5 Facebook groups where Thai business owners in
-  DK/SE actually talk.** Item 23 may answer this for free.
+  DK/SE actually talk.** ⚠️ **On Ice alone now** — item 23 assumed Racha could point
+  at them and she could not, so it was dropped. This is still the distribution
+  channel `/th` was built for, and the page cannot do its job without it.
 
 - [ ] **32. [N] `/sv` — Swedish landing page. PARKED.**
   Cheapest page on the list to produce (fluent Swedish, no proofreading
