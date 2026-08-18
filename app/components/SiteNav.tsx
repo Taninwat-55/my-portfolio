@@ -336,18 +336,14 @@ export function SiteNav() {
               </ul>
 
               {/* No language link here — it lives in the bar, where it is visible
-                  without opening anything. */}
-              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-frost/10 pt-6 sm:mt-14">
-                <a
-                  href={siteContent.cv.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={close}
-                  className="text-sm text-frost/40 transition-colors hover:text-frost"
-                >
-                  {siteContent.cv.label}
-                </a>
-              </div>
+                  without opening anything.
+
+                  And no CV download either. This is the homepage menu, which after
+                  the client-first flip serves someone deciding whether to hire me
+                  for a project; a PDF of my employment history is the wrong artefact
+                  to hand them, the same reason the CTA stopped opening HireModal.
+                  The download lives on /cv, where the audience it is for already is,
+                  and in HireModal on that page. */}
             </nav>
           </motion.div>
         )}
