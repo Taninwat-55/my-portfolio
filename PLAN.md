@@ -22,6 +22,47 @@ seen at a real viewport — see the list in the latest log entry.
 
 ## Progress log
 
+### 2026-08-21 (later)
+
+**Image fixes from Ice's screenshots** ✅ `a292693`, `4b40431`
+
+- **`/services` proof image was magnified.** The container was
+  `md:aspect-auto md:min-h-full`, so it grew to the *text column's* height and
+  `object-cover` scaled a 1600×1005 screenshot up to fill a tall narrow box.
+- **Pinning it to its own ratio then left a large void**, since the text column is
+  roughly twice as tall. **Final shape: three screenshots on `flex-1`**, dividing
+  whatever height the row has. No fragile height maths, column always full, each
+  image only lightly cropped. Capped at 3 so a case with more does not become a
+  contact sheet.
+- ➕ **Found the same mistake in my own `/projects` page.** I had used `1600/1005`
+  for all seven cards, but that is Racha's ratio and the *narrowest* of the set
+  (sources span 1.59 to 1.96), so six of seven cropped hard. Now uniform
+  **`aspect-[16/9]`**, which is also what `/cases/[slug]` already used. Commented as
+  a **card** ratio so nobody "corrects" it to a file's dimensions.
+- **Racha's homepage card**: landing page moved to the tall `col2` slot. That slot is
+  the card's real showcase, and "Velkommen til Racha" reads as a finished website at
+  a glance.
+
+**🔍 The blank first image on `/th` — could not reproduce, and it is not server-side.**
+Verified exhaustively: source file valid VP8 1600×1005 *(opened it)*; optimizer
+returns **200 with valid bytes at every width in both dev and prod**; I **decoded the
+optimizer's own output and viewed it** — a perfect render; the two `<img>` tags are
+structurally identical apart from `src`; `srcSet` present with 6+ candidates.
+
+- **Two false alarms of my own worth remembering:** I reported "no srcset" and
+  earlier "no hreflang", both from **case-sensitive greps**. Next emits React's
+  camelCase (`srcSet`, `hrefLang`) into the HTML. **Grep case-insensitively for
+  attributes in built output.**
+- **Left with Ice:** hard reload (the optimizer URL did not change, so a soft reload
+  reuses a cached failure), then a private window with extensions off, then the
+  Network tab status for that URL — the one piece of evidence not available here.
+
+**➕ New Block 9, item 36** — Ice's tiered-pricing idea, recorded with the honest
+constraint: it cannot be shown as project examples, because there is one client
+project and inventing more would be fabricating case studies. Routed to an itemised
+add-on table plus capability proof from his own products, with the edit-fee question
+sent to item 33 and the CMS question to item 7 rather than becoming a third position.
+
 ### 2026-08-21
 
 **Item 35 — `/projects`, plus a `/th` bug fix** ✅ `92b9b85`
@@ -771,6 +812,46 @@ quote the positioning. Building them before this settles means writing twice.*
 - [ ] **34. [H] Later: the `.xyz` domain.**
   A `.xyz` on a personal-name domain is a small trust tax with Danish
   small-business clients. Not urgent.
+
+### Block 9 — Showing what more money buys
+
+- [ ] **36. [P] [C] Itemise the add-ons, so the price ladder reads as value.**
+  Ice's idea: show clients what a bigger budget actually gets them — payment
+  integration, a booking system, animation, a map, a CMS — rather than leaving
+  "Add-ons + 3.000 – 8.000 DKK" as one unexplained line. Right instinct: a ladder
+  with no visible reason to climb it reads as an arbitrary number.
+
+  ⚠️ **But not as project examples, which is how it was framed.** There is exactly
+  one client project. "Here is what 20.000 buys" needs builds that do not exist, and
+  inventing them would be fabricating case studies — the same line the testimonial
+  was held to for weeks. Three honest routes, in order of cost:
+
+  1. **An itemised add-on table** (recommended, and cheap). Each capability with its
+     own price, on `/services` under offer 01. Answers "what does more money buy"
+     directly, needs no new work, and turns one opaque line into the upsell it is
+     already trying to be.
+  2. **Capability proof from his own products.** He cannot show a client site with
+     auth or payments, but he *can* show Bevisly (multi-role auth, RLS, 8+ AI
+     features), MockMate (Gemini pipeline, Lambda) and Satoshi Standard (three live
+     price APIs). Honest framing: *"not on a client site yet — here it is on mine."*
+     Costs nothing but a paragraph, and every one is already a case study.
+  3. **Build a demo.** Real work, real weeks. Only worth it if 1 and 2 stop
+     converting.
+
+  **Two things Ice raised that belong elsewhere, not here:**
+
+  - **The 50–100 kr edit fee.** Flagging it rather than building it: a 100 kr invoice
+    costs more in admin and mental overhead than it earns, and it sits awkwardly
+    beside the published *"I build sites that do not need a monthly retainer"*. A
+    small block of hours, or a first year of text edits included, both price the same
+    work without an invoice per sentence. **This is item 33** (the care-plan
+    decision) — answer it there rather than inventing a third position.
+  - **CMS as a paid upgrade.** Already **item 7** (Decap / Sanity). Ice's instinct is
+    right and it strengthens the case: if self-editing is a priced add-on rather
+    than a Webflow-only feature, the free-CMS-on-a-coded-site route becomes a thing
+    he can *sell*, not just a cost he absorbs. Decide 7 first; 36's table quotes it.
+
+---
 
 ### Block 8 — Projects page
 
