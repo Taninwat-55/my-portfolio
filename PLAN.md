@@ -2,9 +2,10 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** In progress — Blocks 1 and 2 done except items 6 and 8.
-**Next up:** Block 3 (items 13–17, page surgery) — `/cv` gets its own route.
-**⚠️ Needs your eyes:** the hero at 360 / 768 / desktop, see the log below.
+**Status:** In progress — Blocks 1–3 done except items 6, 8 and 17.
+**Next up:** Block 4 (items 18–20, conversion) — homepage price band + process strip.
+**⚠️ Needs your eyes:** the hero *and* the pill nav at 320 / 360 / 768 / desktop.
+**⚠️ Your homework:** item 17 (CV PDF) and item 33 (care plan decision).
 
 > This file is the source of truth for the overhaul. The item numbers here
 > supersede any numbering used in chat.
@@ -18,6 +19,63 @@
 ---
 
 ## Progress log
+
+### 2026-08-19 (later)
+
+**Items 13, 14, 15, 16, 17b + 12b — Block 3, page surgery** ✅ `a5ff868`
+
+New `app/cv/page.tsx`; `app/sections/CV.tsx` deleted; `ClientWork.tsx` renamed to
+`EmploymentBand.tsx`. 10 files, +348/−258.
+
+**The CV veil was removed, and the reasoning matters more than the change.** It
+was a masked sheet showing ~half the text behind an "Unlock the full CV" prompt,
+built on the belief that hiding it visually preserved SEO value. That belief is
+**inverted**: search engines *discount* visually hidden text rather than rewarding
+it, so the upside never existed — and the mask hid nothing anyway, since every
+word was already crawlable in the HTML and read aloud in full by screen readers.
+It withheld the CV from sighted visitors only. **Visible text indexes better, so
+showing all of it serves the SEO goal *and* the recruiter.** Moving it off `/`
+also makes `/cv` the single canonical home for that text rather than leaving two
+near-duplicate pages. *If anyone is ever tempted to reinstate the veil, this is
+the paragraph to re-read.*
+
+- **Item 13** — `/cv` builds `○ (Static)`: dropping the mask took the 170–200vh
+  runway and four framer-motion hooks with it. Its `h1` is written directly, not
+  via `SectionHeading` (which renders an `h2`) — every page here has exactly one.
+- **Item 14** — the band now points `/` → `/cv` instead of `/` → `/services`.
+  Renamed, because `ClientWork` had become actively wrong. Still deliberately
+  quiet: a client should not wonder if the person they are hiring is leaving.
+- **Item 15** — CTA is `"Enquire"` → `/services#enquiry`. Same width as the
+  `"Say hi"` it replaced, so the documented ~13px of 320px headroom does not
+  regress, and it avoids two identically-labelled CTAs beside the hero button.
+  **`Projects` kept in the nav against the plan's list** — it is the portfolio and
+  the strongest proof for both audiences; `compactHidden` pays for it.
+  `HireModal` left the nav and now lives on `/cv` behind `ContactButton`.
+- **Item 16** — About now leads on accountability, scope and ownership. The
+  AI-workflow paragraph was **preserved, not deleted**, as `siteContent.howIWork`,
+  rendering on `/cv` where "how does he work" is the actual question.
+- **Item 17b** — the overclaim guard now names Webflow **and** Framer.
+- **Item 12b** — `roleLabel` **split, not rewritten**. It stays the structured job
+  title on `Person.jobTitle` ×2, in the chatbot prompt and as the `/cv` heading;
+  new `siteTagline` carries the human-facing version into the tab, the SERP and
+  the homepage `sr-only` h1 — closing the h1-vs-corner mismatch. `layout.tsx` also
+  had **two** near-identical recruiter descriptions across **three** consumers;
+  now one client-first string at 160 chars.
+
+**Verified:** build + lint clean; `/cv` static; one `h1` on every page; zero
+`cvData`-only strings left on `/` (so the move is clean and there is no duplicate
+content); `roleLabel` still live in all four intended places; `/cv` in
+`sitemap.xml` and `llms.txt`.
+
+- ⚠️ **NOT VERIFIED, and now two things:** the **pill nav at 320/360px** with five
+  links and the new CTA, and the **hero button clearing the rule** from `b11ad9e`.
+  The Chrome extension has been unavailable for three sessions. `npm run dev` and
+  a look at 320 / 360 / 768 / desktop closes both at once.
+- 💡 **Worth knowing:** `AnimatedText` splits its string into per-character spans,
+  so grepping built HTML for an About phrase returns zero even when it renders
+  fine. Strip tags before searching, or you will chase a ghost.
+- ⏸ **Open:** items 6 and 8 (Block 1), item 17 (CV PDF — **Framer in, phone
+  number out**), item 33 (care plan). Item 12b is now closed.
 
 ### 2026-08-19
 
@@ -315,21 +373,21 @@ quote the positioning. Building them before this settles means writing twice.*
 
 ### Block 3 — Page surgery
 
-- [ ] **13. [S] Move `app/sections/CV.tsx` to a new `/cv` route.**
+- [x] **13. [S] Move `app/sections/CV.tsx` to a new `/cv` route.** ✅ *`a5ff868`* — veil dropped, see log.
   Keep the section component; give it a page shell with `Navbar`. Add metadata +
   sitemap entry.
 
-- [ ] **14. [S] Invert `app/sections/ClientWork.tsx`.**
+- [x] **14. [S] Invert the band → `EmploymentBand.tsx`.** ✅ *`a5ff868`*
   From *"I also freelance →"* to *"Also open to full-time frontend roles →
   /cv"*. Same quiet band, opposite direction. Update
   `siteContent.freelanceBand` copy accordingly (or rename it).
 
-- [ ] **15. [S] Nav rewrite.** `app/components/PillNav.tsx` → `NAV_LINKS`.
+- [x] **15. [S] Nav rewrite.** ✅ *`a5ff868`* — `Projects` kept, CTA is "Enquire". `app/components/PillNav.tsx` → `NAV_LINKS`.
   `About · Work · Projects · Services` becomes **`Work · Services · About · CV`**.
   CTA button `Say hi` → **`Start a project`**. Re-check the 320px width maths —
   the current comment documents that the pill wraps by 3px at `px-4`.
 
-- [ ] **16. [C] Trim the About section.**
+- [x] **16. [C] Trim the About section.** ✅ *`a5ff868`* — old copy preserved as `howIWork`.
   `siteContent.aboutStory` is 7 paragraphs of immigration story. Reduce the
   visible block to ~4 sentences ("One person, not an agency. Copenhagen. I work
   in Danish, English and Swedish."). Keep `aboutFacts` and keep the full story
@@ -345,7 +403,7 @@ quote the positioning. Building them before this settles means writing twice.*
      and the file can't drift"* — and the page now lists Framer while the PDF does
      not. Known, additive, recorded drift as of 2026-08-18.
 
-- [ ] **17b. [C] Extend the overclaim guard to Framer.**
+- [x] **17b. [C] Extend the overclaim guard to Framer.** ✅ *`a5ff868`*
   `data.ts` already carries *"his shipped client work to date is coded rather than
   Webflow — do not claim Webflow case studies until there are some."* The skills
   list now names two builders with no shipped client work behind either. No live
