@@ -2,10 +2,10 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** In progress — Blocks 1–3 done except items 6, 8 and 17.
-**Next up:** Block 4 (items 18–20, conversion) — homepage price band + process strip.
-**⚠️ Needs your eyes:** the hero *and* the pill nav at 320 / 360 / 768 / desktop.
-**⚠️ Your homework:** item 17 (CV PDF) and item 33 (care plan decision).
+**Status:** In progress — Blocks 1–5 done except items 6, 8 and 17.
+**Next up:** Block 6 (items 24–31) — the niche: `/th`, then `/da`. Largest piece left.
+**⚠️ Needs your eyes:** three unverified layout changes now queued — see the log.
+**⚠️ Your homework:** item 17 (CV PDF), item 33 (care plan), item 5 (Webflow test).
 
 > This file is the source of truth for the overhaul. The item numbers here
 > supersede any numbering used in chat.
@@ -19,6 +19,51 @@
 ---
 
 ## Progress log
+
+### 2026-08-19 (later still)
+
+**Items 18 + 19 + 20 — Block 4, conversion** ✅ `c5a8e8a`
+
+New `app/sections/HowItWorks.tsx`, inserted between `Projects` and
+`EmploymentBand`. **Planned as three thin bands, shipped as one section**, because
+two of the three items had gone stale since they were written:
+
+- **Item 18 was redundant.** It called for a "From 6.500 DKK" band, but item 11 had
+  already put all three prices on the homepage — it would have cost a slab to
+  repeat itself. Reframed as a **terms strip**: fixed price in writing, no VAT,
+  everything in your name. That content existed only on `/services` and is the
+  sharpest anti-agency material available.
+- **Item 19** — the four `servicesProcess` steps, compressed by dropping
+  `step.body` and keeping `youGet`. Those four lines carry the story alone.
+  `/services` still renders the long version; verified both ways.
+- **Item 20 pointed at a CTA that did not exist.** Giving the new section a CTA
+  footer resolved it — `id="process"` now precedes `id="garden"` in the DOM, which
+  is what the item was actually asking for. No separate edit was needed.
+
+- 🔒 **`heroCorners.cta` → `siteContent.primaryCta`.** Two sections now ask for the
+  same action; two literals would have been two things able to drift. The nav keeps
+  "Enquire" because it is adjacent to the hero button — repeating the label at the
+  *bottom* of the page is correct.
+
+**Verified:** build + lint clean; `/` still `○ (Static)`; slab wrapper classes
+byte-identical to `Garden` and `EmploymentBand`; all four steps, durations and
+`youGet` lines plus the three terms present in the prerendered HTML; `step.body`
+prose absent from `/` and present on `/services`; `HowItWorks` hardcodes no price
+and no step text.
+
+- ⚠️ **THREE unverified layout changes now queued.** The Chrome extension has been
+  unavailable for four sessions, so none of these has been seen:
+  1. The **pill nav** at 320/360px — five links plus the new CTA (`a5ff868`)
+  2. The **hero button** clearing the horizontal rule (`b11ad9e`)
+  3. The **new slab's rounded top** sitting correctly over Projects (`c5a8e8a`)
+
+  One `npm run dev` pass at 320 / 360 / 768 / desktop closes all three. This is
+  the largest accumulated risk on the project right now.
+- ➕ **New item 20b:** consolidate the VAT statement. "No VAT added" is now stated
+  in **six** places, and it is conditional on Ice being under the Danish 50.000 kr
+  registration threshold — crossing it falsifies all six simultaneously. They
+  should sit behind one constant. Every location is listed in the comment above
+  `services.termsShort`. **Do this before changing any of them individually.**
 
 ### 2026-08-19 (later)
 
@@ -413,16 +458,21 @@ quote the positioning. Building them before this settles means writing twice.*
 
 ### Block 4 — Conversion
 
-- [ ] **18. [N] Homepage price band.**
+- [x] **18. [N] Homepage terms strip** (not a price band — see log). ✅ *`c5a8e8a`*
   *"From 6.500 DKK. Fixed price, in writing, before anything starts."* → `/services`.
   Published pricing is the sharpest weapon against agencies; hiding all of it
   behind a second page wastes it.
 
-- [ ] **19. [N] Homepage process strip.**
+- [x] **19. [N] Homepage process strip.** ✅ *`c5a8e8a`*
   The four `servicesProcess` steps (Call → Scope → Build → Handover), compressed.
   Kills the "what happens after I pay" fear before they leave the homepage.
 
-- [ ] **20. [S] Demote Garden below the CTA.**
+- [x] **20. [S] Demote Garden below the CTA.** ✅ *`c5a8e8a`* — satisfied by the new section's CTA footer.
+
+- [ ] **20b. [P] Consolidate the VAT statement behind one constant.**
+  "No VAT added" is stated in six places and is conditional on being under the
+  Danish 50.000 kr registration threshold. Crossing it falsifies all six at once.
+  Locations are listed in the comment above `services.termsShort`.
 
 ### Block 5 — Proof *(highest value on the whole list)*
 
