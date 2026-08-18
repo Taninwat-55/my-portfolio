@@ -838,8 +838,23 @@ export const services = {
         "Keyboard paths, screen-reader labels and reduced-motion handled as part of the build",
         "Reviewed pull requests, so nothing lands that your team has not seen",
       ],
-      priceRange: "4.800 DKK / day",
-      priceNote: "Roughly 24.000 DKK a week. Quoted as a fixed project price wherever the scope is clear enough to fix.",
+      /**
+       * 5.500 was 4.800. At a 7.5-hour day that moved 640 kr/h to about 730.
+       *
+       * The old figure sat in the middle of the Danish JUNIOR freelance band
+       * (550–750 kr/h) — but this offer is not sold to the same person as offer
+       * 01. A startup or product team benchmarks against agency and consultant
+       * rates (1.000–1.500 kr/h), and to that buyer 640 does not read as good
+       * value, it reads as a risk signal.
+       *
+       * Deliberately not higher. 5.500 is the top of the junior band and the
+       * bottom of mid, which is defensible on one year of professional frontend
+       * work plus one paying client. 6.500 would have been mid-market pricing
+       * without the years to answer for it. Revisit after two or three more
+       * client projects.
+       */
+      priceRange: "5.500 DKK / day",
+      priceNote: "Roughly 27.500 DKK a week. Quoted as a fixed project price wherever the scope is clear enough to fix, and by the day where it genuinely is not.",
       timeline: "3–8 weeks, or ongoing part-time",
     },
     {
