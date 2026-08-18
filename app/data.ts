@@ -599,7 +599,12 @@ export const cases: CaseStudy[] = [
     ],
     stack: ["React", "TypeScript", "Tailwind", "Vitest", "API Integration"],
     links: {
-      demo: "https://www.satoshi-standard.xyz/",
+      // The .xyz domain lapsed. This is Vercel's PRODUCTION alias, which follows
+      // every future deploy — deliberately not the deployment-specific URL
+      // (satoshi-standard-<hash>-...), which pins one build, can be garbage
+      // collected, and is deployment-protected: it answers 200 with a Vercel
+      // login page rather than the app.
+      demo: "https://satoshi-standard.vercel.app",
       code: "https://github.com/Taninwat-55/Satoshi-Standard",
     },
   },

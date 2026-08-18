@@ -96,7 +96,7 @@ Approach: Design systems, accessibility, performance
 - Bevisly (https://bevisly.com): Skill verification platform. Owned end-to-end:
   defined the two-role model, designed row-level-security policies, shipped 8+ AI
   features. React, TypeScript, Supabase, PostgreSQL with row-level security.
-- Satoshi Standard (https://www.satoshi-standard.xyz): Bitcoin purchasing power
+- Satoshi Standard (https://satoshi-standard.vercel.app): Bitcoin purchasing power
   dashboard. React, Tailwind, real-time price API, full Vitest test suite.
 - Cinema Booking System (https://cinema-booking-system-project.vercel.app):
   Full-stack booking engine with concurrent seat-locking at the data layer.

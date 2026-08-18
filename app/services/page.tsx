@@ -64,7 +64,7 @@ export const metadata: Metadata = {
  *
  * A different visitor than the homepage serves: usually non-technical, deciding
  * whether to spend money rather than whether to book an interview. Hence no
- * PillNav (its links are bare hashes that would be inert here), no HireModal
+ * SiteNav (its links are bare hashes that would be inert here), no HireModal
  * (it offers a CV download, which is the wrong artefact for this reader), and
  * no restatement of siteContent.whatIDo — that is a capability list written for
  * employers.

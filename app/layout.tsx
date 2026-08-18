@@ -84,7 +84,7 @@ const personJsonLd = {
   workExample: [
     { "@type": "WebSite", name: "Bevisly", url: "https://bevisly.com" },
     { "@type": "WebSite", name: "MockMate", url: "https://mockmate.space" },
-    { "@type": "WebSite", name: "Satoshi Standard", url: "https://www.satoshi-standard.xyz" },
+    { "@type": "WebSite", name: "Satoshi Standard", url: "https://satoshi-standard.vercel.app" },
     { "@type": "WebSite", name: "Racha Beauty & Wellness", url: "https://rachabeautywellness.com" },
   ],
   sameAs: [personalInfo.socials.linkedin, personalInfo.socials.github],
