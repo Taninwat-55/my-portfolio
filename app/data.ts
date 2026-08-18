@@ -784,11 +784,11 @@ export const services = {
     // block should read as availability anxiety — that is the whole reason
     // freelance lives on its own page instead of next to "Open to work".
     lead: "I take on a small number of selected client projects alongside my product work.",
-    body: "I build websites and web interfaces for businesses that need the thing to work, load fast, and keep working after I hand it over. Fixed scope, fixed price, agreed before anything starts. If I am not the right person for what you need, I will tell you on the first call.",
+    body: "I build websites and web interfaces for businesses that need the thing to work, load fast, and keep working after I hand it over. Fixed scope and a fixed price by default, agreed before anything starts. If I am not the right person for what you need, I will tell you on the first call.",
     chips: [
       "Copenhagen · remote across the EU",
       "Dansk · English · Svenska",
-      "Fixed scope, fixed price",
+      "Fixed price by default",
       "A few projects at a time",
     ],
   },
@@ -1141,7 +1141,7 @@ export const services = {
    * therefore survives registration untouched.
    */
   termsShort: [
-    "Fixed price, agreed in writing before anything starts",
+    "Fixed price by default, agreed in writing before anything starts",
     `All prices ${vat.shortLabel}`,
     "Domain, hosting and code all end up in your name",
   ],
@@ -1214,6 +1214,10 @@ export const servicesFaq: FaqItem[] = [
   {
     q: "Why not just get a site for 3.000 kroner?",
     a: "You can, and for some businesses that is genuinely the right call — if you need a placeholder page and nothing more, a template builder will do it cheaper than I will. What you usually do not get at that price is the part that makes the site earn its money: search setup written per page so you turn up when someone searches your town and your service, a performance budget so it opens fast on mobile data, accessibility basics, an enquiry form with a backup delivery path, and analytics so you can tell whether any of it is working. That work is the same amount of work whether the site has three pages or eight, which is why the starting price is where it is. If your budget is firmly under 6.500, say so in the enquiry form — I will tell you honestly whether to spend it with me or somewhere else.",
+  },
+  {
+    q: "Can I pay by the hour instead?",
+    a: `For a website I would rather you did not, and that is more for your protection than mine. A fixed price means you know the number before anything starts and I carry the risk if it takes longer than I estimated — billing by the hour moves that risk onto you, and you are the one who cannot see how long things ought to take. Where scope genuinely cannot be pinned down, a day rate is the honest shape and I do use one: ${services.offers[1].priceRange} for frontend work on a product, which is the second offer above. That fits ongoing work, an open-ended list of changes, or anything waiting on decisions nobody has made yet. What it is not is a cheaper way to buy a website — a fixed-price site will almost always cost you less than the same site billed by the day.`,
   },
   {
     q: "Webflow or coded from scratch — which should I choose?",
@@ -1412,7 +1416,7 @@ Every build, either way, includes per-page search setup and Google Business conn
 
 Note that his shipped client work to date is hand-coded. Webflow and Framer are both in his skill list, but neither has a shipped client project behind it yet — do not claim Webflow or Framer case studies until there are some.
 
-How he works: a short call, then a written scope with a fixed price and a delivery date before any work starts. Fixed scope, not open-ended hourly billing. He does the work himself — there is no agency and no handoff to someone else. The code, domain and hosting all end up in the client's name.
+How he works: a short call, then a written scope with a fixed price and a delivery date before any work starts. Fixed price is the default, and it is how a website is sold — the client knows the number before anything begins and Ice carries the risk if it runs long. Where scope genuinely cannot be pinned down, such as ongoing frontend work on a product or an open-ended list of changes, he bills by the day at ${services.offers[1].priceRange} instead. Never say he refuses hourly or time-based work: the day rate is a published offer on the same page. He does the work himself — there is no agency and no handoff to someone else. The code, domain and hosting all end up in the client's name.
 
 What he does not take on: native iOS/Android apps, ongoing SEO or marketing retainers, and large backend-heavy platforms built from nothing.
 

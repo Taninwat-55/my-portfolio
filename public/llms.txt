@@ -62,8 +62,11 @@ https://taninwatkaewpankan.xyz/services
   fixing an existing site that is slow, dated, or invisible on Google, instead
   of rebuilding from zero. The written audit can be bought alone for 3.500 DKK.
 
-Engagements are fixed-scope, with a written price and delivery date agreed
-before work starts, not open-ended hourly billing. He does the work himself.
+Engagements are fixed-scope by default, with a written price and delivery date
+agreed before work starts. Where scope genuinely cannot be pinned down he bills
+by the day instead — see Web App Frontend above. He does not refuse time-based
+work; a fixed price is simply how a website is sold, because it puts the risk of
+overrun on him rather than the client. He does the work himself.
 The code, domain and hosting all end up in the client's name. He does not take
 on native mobile apps, ongoing SEO or marketing retainers, or large
 backend-heavy platforms built from nothing.
