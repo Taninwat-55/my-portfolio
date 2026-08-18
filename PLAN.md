@@ -2,10 +2,11 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** In progress — Blocks 1–5 done except items 6, 8 and 17.
-**Next up:** Block 6 (items 24–31) — the niche: `/th`, then `/da`. Largest piece left.
-**⚠️ Needs your eyes:** three unverified layout changes now queued — see the log.
-**⚠️ Your homework:** item 17 (CV PDF), item 33 (care plan), item 5 (Webflow test).
+**Status:** In progress — `/th` shipped. Remaining: `/da` (blocked), items 6, 8, 17.
+**Next up:** `/da` — but item 28 blocks it until a native Danish proofreader is found.
+**⚠️ Needs your eyes:** proofread every Thai string in `app/data.th.ts`. Plus `/th`
+and the `HowItWorks` slab have never been seen at any viewport.
+**⚠️ Your homework:** item 17 (CV PDF), 33 (care plan), 5 (Webflow test), 31 (FB groups).
 
 > This file is the source of truth for the overhaul. The item numbers here
 > supersede any numbering used in chat.
@@ -19,6 +20,73 @@
 ---
 
 ## Progress log
+
+### 2026-08-20
+
+**Items 24 + 25 + 26, and 30 in part — the Thai page** ✅ `d5faf81`
+
+New `app/th/page.tsx` and `app/data.th.ts`; `ServicesEnquiryForm` parameterised.
+8 files, +730/−52.
+
+- **Item 24** — `audience.fit` now names the Thai-owned case and points at `/th`;
+  `services.proof` says Racha is Thai-owned, which is what turns one case study
+  into niche proof.
+- **Item 25** — `/th` is `○ (Static)`, ~a quarter the length of `/services`,
+  written to stand alone because its channel is a link pasted into a Facebook
+  group, not on-site navigation.
+- **Item 26** — the page's central line: the site gets built in Danish or Swedish
+  because the client's customers are local; the project is discussed in Thai
+  throughout. Keeps `/th` a sales layer rather than a product language.
+- **Item 30, partial** — `lang="th"` on the wrapper (App Router allows one
+  `<html>`, hard-coded `en`), hreflang reciprocated on `/` and `/th`, `/th` in
+  `sitemap.ts` and `llms.txt`. **No language switcher on `/`** — deliberate, since
+  the channel is Facebook and the pill nav's 320px budget is spent.
+
+**🔒 The enquiry form was parameterised, not duplicated.** Every visible string is
+injectable with English defaults, so `/services` is untouched and `/th` runs
+through the same component, validator and endpoint. Duplicating it would have
+duplicated the validation, honeypot, error summary and POST. Two constraints that
+must survive future edits:
+
+- **Option `value`s are never translated.** The server builds its allowlist from
+  them, so a translated value rejects every Thai enquiry. Labels only.
+- **Copy objects are plain strings with `{tokens}`, not functions.** The first
+  attempt used functions and would have failed — functions cannot be serialized
+  from a Server Component into a Client Component. Keep them plain and any page
+  can pass copy from the server.
+
+**Nothing numeric lives in `data.th.ts`.** Prices come from `services.offers`,
+durations from `servicesProcess`, metrics and screenshots from `cases[racha]`. A
+second-language page is exactly where a stale price would survive longest unseen.
+Sweden being the *larger* half of the market (~64k vs ~14k) also made DKK-only
+useless to most readers, so the page quotes DKK and offers SEK on request — with no
+published rate, which would be wrong within a month.
+
+**Racha's quote** shows the English she approved, with the Thai clearly labelled a
+translation. Ice confirmed she was asked and did not mind, so the permission is
+real — but she has never approved a specific Thai sentence. **If she sends her own
+Thai, replace it and drop the label.**
+
+**Verified:** build + lint clean; `/th` static; option values byte-identical across
+`/services` and `/th` and all present in `data.ts`; `/services` form still renders
+English (defaults hold); route handler still passes no messages; one `h1`;
+`lang="th"`; price ladder matches `/services`; hreflang reciprocated both ways
+*(rendered as `hrefLang` — React's attribute casing, and HTML attribute names are
+case-insensitive, so Googlebot reads it correctly)*; `/th` in `sitemap.xml`.
+
+- ⚠️ **PROOFREAD NEEDED — Ice only.** Every Thai string in `app/data.th.ts` is a
+  Claude draft. The politeness register especially is a judgement call. No
+  automated check covers this and the page should not be shared until it is done.
+- ⚠️ **Never seen at any viewport:** `/th` itself, plus the three from before (pill
+  nav at 320px is now ✅ confirmed by screenshots, hero rule and `HowItWorks` slab
+  are not).
+- ➕ **New item 25b:** Thai OG share card. Neither `opengraph-image.tsx` loads a
+  font, so `next/og` renders Thai as tofu boxes. Needs a bundled Thai font (Noto
+  Sans Thai). **Matters more than usual** — the page's whole channel is being
+  shared, and the share card is currently the English one.
+- ➕ **New item 30b:** language switcher on `/`.
+- ➕ **Extend item 20b:** the VAT claim now has three more homes in
+  `data.th.ts` (`pricing.terms`). Nine copies total.
 
 ### 2026-08-19 (later still)
 
@@ -494,14 +562,17 @@ quote the positioning. Building them before this settles means writing twice.*
 ### Block 6 — Languages & niche
 *Sequenced after Blocks 1–2: both pages quote the prices and the positioning.*
 
-- [ ] **24. [S] [C] Re-point the niche.**
+- [x] **24. [S] [C] Re-point the niche.** ✅ *`d5faf81`*
   Racha is **confirmed Thai-owned**, which means the existing case study is
   already niche proof: a Thai-owned wellness business in Scandinavia that had
   only a Facebook page → Danish-language site, 95+ Lighthouse, running
   unmaintained since launch. Update `services.proof` and `services.audience.fit`
   to point at the niche rather than at "small businesses" generally.
 
-- [ ] **25. [N] Build `/th` — Thai landing page.** 🔥
+- [x] **25. [N] Build `/th` — Thai landing page.** ✅ *`d5faf81`* — **awaiting Ice's Thai proofread.**
+
+- [ ] **25b. [N] Thai OG share card.** Needs a bundled Thai font; `next/og` has none,
+  so Thai renders as tofu boxes. High value — `/th`'s channel is being shared.
   - Covers **Denmark AND Sweden**. Do not write "in Denmark" anywhere.
   - Built to be **shared in a Facebook group**, not to rank on Google — that's
     how this community actually finds things. Strong OG preview image,
@@ -512,7 +583,7 @@ quote the positioning. Building them before this settles means writing twice.*
     original Thai.
   - Roughly a quarter of `/services`' content.
 
-- [ ] **26. [C] State on `/th` that the websites get built in Danish/Swedish.**
+- [x] **26. [C] State on `/th` that the websites get built in Danish/Swedish.** ✅ *`d5faf81`*
   The Thai page is a *sales* layer; their customers are Danish and Swedish. Being
   explicit keeps scope sane and is what they actually need.
 
@@ -530,7 +601,10 @@ quote the positioning. Building them before this settles means writing twice.*
   confident, honest line — put it near the top, not in an FAQ. And do not build a
   contact flow that promises Danish phone calls; offer written-first contact.
 
-- [ ] **30. [S] hreflang + language switcher.** Keep `/` English-only.
+- [x] **30. [S] hreflang + `lang`.** ✅ *`d5faf81`* — reciprocated both ways.
+
+- [ ] **30b. [S] Language switcher on `/`.** Deferred: `/th`'s channel is Facebook,
+  and the pill nav is at five links with its 320px budget spent.
 
 - [ ] **31. [H] Find the 3–5 Facebook groups where Thai business owners in
   DK/SE actually talk.** Item 23 may answer this for free.
