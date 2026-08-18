@@ -2,7 +2,7 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** All planned code work done except `/da` (blocked) and items 6, 8.
+**Status:** All planned code work done except `/da` (blocked) and item 6.
 **Next up:** nothing is unblocked. `/da` needs a native Danish proofreader (item 28);
 item 6 needs the Webflow test (item 5); item 8 is a one-liner whenever you want it.
 **⚠️ Needs your eyes:** proofread `app/data.th.ts`. Plus five things have never been
@@ -21,6 +21,47 @@ seen at a real viewport — see the list in the latest log entry.
 ---
 
 ## Progress log
+
+### 2026-08-22 (later)
+
+**Item 37 — the nav, plus two side fixes** ✅ `8f432fe`
+
+`PillNav` → **`SiteNav`**: a slim bar plus a full-screen panel behind a two-rule
+trigger. Panel links use the hero marquee's oversized uppercase type, so the menu
+reads as the site's own language rather than a borrowed component. **`compactHidden`
+is gone entirely** — nothing is hidden at any width now, which was the structural
+problem, not a styling one.
+
+- **The CTA and the language link stay in the bar**, not the panel. The CTA because
+  this page exists to produce that one action. The language link because **item 30b
+  exists so a Thai visitor sees a route to `/th` without interacting**, and one
+  buried behind an English "Menu" is barely better than none for a reader who may
+  not know that is where their language lives.
+- 🔒 **The new check helper caught me moving it into the panel.** First real use, and
+  it paid for itself immediately.
+- **Carried over and easy to lose:** scroll-spy, focus trap, `Escape`, scroll lock,
+  focus returned to the trigger on close, reduced-motion path.
+
+**➕ `scripts/check-html.mjs`** — the fix for a mistake made three times: reporting
+something missing that was present. `hreflang` and `srcset` because **React emits
+the JSX prop casing into the HTML**, and an interpolated count because **React
+separates values with comment nodes**. A plain grep is wrong for all three. The
+script strips comments *before* tags and matches attribute names case-insensitively.
+
+    node scripts/check-html.mjs find index "Or see all 7 projects"
+    node scripts/check-html.mjs attr th srcset
+    node scripts/check-html.mjs pages
+
+**➕ Satoshi Standard's `.xyz` lapsed.** Now points at Vercel's **production alias**,
+not the deployment URL Ice supplied — **that one is deployment-protected and answers
+`200` with a Vercel login page**, so every visitor would have hit a sign-in screen.
+It also pins one build and can be garbage collected. *Checking the status code alone
+would have shipped a broken link; checking the `<title>` caught it.*
+
+- ⚠️ **Needs a look, and it is interactive so HTML checks cannot cover it:** open and
+  close the panel, `Escape`, tab through it, check the trigger animates to an X, and
+  confirm the bar sits clear of the portrait at **744px** — the width where the old
+  pill crossed the eyes.
 
 ### 2026-08-22
 
@@ -865,7 +906,7 @@ quote the positioning. Building them before this settles means writing twice.*
 ### Block 10 — Navigation and hero polish
 *All from Ice's viewport pass, which closed most of the layout debt.*
 
-- [ ] **37. [N] Replace the pill nav with something better than a hamburger.**
+- [x] **37. [N] Replace the pill nav with something better than a hamburger.** ✅ *`8f432fe`* — **needs a look; it is interactive.**
   Ice's ask, and he is right that the pill is at its limit — five links plus a CTA
   plus a language chip, with `compactHidden` juggling three of them below `sm`.
 
