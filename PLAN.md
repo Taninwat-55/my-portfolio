@@ -603,8 +603,38 @@ quote the positioning. Building them before this settles means writing twice.*
 
 - [x] **30. [S] hreflang + `lang`.** ✅ *`d5faf81`* — reciprocated both ways.
 
-- [ ] **30b. [S] Language switcher on `/`.** Deferred: `/th`'s channel is Facebook,
-  and the pill nav is at five links with its 320px budget spent.
+- [ ] **30b. [S] Make `/th` discoverable.** ⚠️ **Was wrongly deferred — this is a
+  defect, not a nicety.** Ice caught it: *"how do people access my Thai version?"*
+
+  The reasoning for deferring it ("the channel is Facebook, not on-site") covered
+  the wrong half of the problem. What is actually true:
+
+  - **Search is partly covered.** hreflang is reciprocated, so Google can serve
+    `/th` to a Thai-language searcher, and `/th` is in the sitemap so it can rank
+    on Thai queries in its own right. That mechanism works.
+  - **On-site is completely broken.** A Thai visitor who lands on `/` — from a
+    Google result in English or Danish, a referral, or a business card — has **no
+    signal that `/th` exists at all.** That is precisely the person the page was
+    built for, and they bounce.
+
+  Two parts, both needed:
+
+  1. **An always-visible language link**, including below `sm`, since this audience
+    is overwhelmingly on phones. The pill nav has roughly 50px of headroom at
+    360px, which "ไทย" only just fits. Cheapest fix that stays honest: drop `Work`
+    from the compact set (the page scrolls straight into it) and spend the room on
+    the language link instead.
+  2. **A dismissible offer banner** shown only when `navigator.language` starts
+    with `th`: *"ดูหน้าภาษาไทย →"*. Highest-conversion pattern for exactly this
+    problem and it costs no nav space.
+    **Never auto-redirect** — it breaks the back button, hides the English page
+    from users who wanted it, and search engines treat language-based redirects as
+    cloaking risk. Offer, do not decide for them.
+
+  Build it for N languages, because `/da` will need the same affordance.
+
+  *Related: item 25b (Thai OG card) is the other half of this — `/th` currently
+  shares with the English card, which weakens the one channel that does work.*
 
 - [ ] **31. [H] Find the 3–5 Facebook groups where Thai business owners in
   DK/SE actually talk.** Item 23 may answer this for free.
@@ -626,6 +656,37 @@ quote the positioning. Building them before this settles means writing twice.*
   A `.xyz` on a personal-name domain is a small trust tax with Danish
   small-business clients. Not urgent.
 
+### Block 8 — Projects page
+
+- [ ] **35. [N] Give projects their own route, and feature a subset on `/`.**
+  Ice's idea, and it fixes a real defect rather than only improving the page.
+
+  **Two case studies are currently orphaned.** `cases` holds 7 entries but
+  `projectCards` shows 5, so **`/cases/satoshi` and `/cases/cinema` are linked from
+  nowhere on the site.** They build, they prerender, they sit in `sitemap.xml` — and
+  no human or crawler can reach them by following a link. The only mention of
+  Satoshi anywhere is a JSON-LD `workExample` pointing at the *external* live site,
+  not the case study. Orphan pages get minimal crawl priority and no internal link
+  equity, so this is an SEO leak as well as a dead end.
+
+  **The shape:**
+  - **`/projects`** — the full index, generated from `cases` so it can never fall
+    out of sync again. Every case links to `/cases/[slug]`. Add to `sitemap.ts` and
+    `llms.txt`.
+  - **Homepage keeps the sticky-stack section** as *featured* work, with a
+    "See all projects →" button into `/projects`.
+
+  **Decision needed: how many stay featured?** Recommend **3**. The current five
+  sticky cards occupy roughly 425vh of scrolling on their own, and the homepage has
+  grown by two sections since (`HowItWorks`, plus the offers list). Racha ·
+  Trailr · Bevisly covers client work, product and full-stack range in three.
+  Ice's call — five still works, it is just long.
+
+  **Also decide:** whether the pill nav's `Projects` keeps pointing at the homepage
+  hash (`#projects`, with scroll-spy) or becomes a route to `/projects`. Keeping the
+  hash preserves scroll-spy; switching costs it but makes the nav consistent with
+  `Services` and `CV`.
+
 ---
 
 ## 5. Suggested sequencing
@@ -639,8 +700,10 @@ quote the positioning. Building them before this settles means writing twice.*
 | **4 — Conversion** | 18, 19, 20 | Additive. Safe to ship incrementally. |
 | **5 — Proof** | 22, 23, 24 | Gated on item 21 landing. |
 | **6 — Thai** | 25, 26, 31 | The niche play. Highest leverage remaining. |
-| **7 — Danish** | 27, 28, 29, 30 | Gated on a native proofreader. |
-| **8 — Later** | 32, 34 | Parked. |
+| **7 — Discoverability** | 30b, 25b | `/th` exists but nothing points at it. Cheap, and it is what makes Block 6 actually pay off. |
+| **8 — Projects** | 35 | Fixes two orphaned case studies and shortens the homepage. |
+| **9 — Danish** | 27, 28, 29 | Gated on a native proofreader. |
+| **10 — Later** | 32, 34 | Parked. |
 
 ---
 
