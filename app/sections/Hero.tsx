@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { FadeIn } from "../components/FadeIn";
 import { personalInfo, siteContent } from "../data";
 
@@ -15,8 +17,11 @@ import { personalInfo, siteContent } from "../data";
  *
  *   halo (z-auto) → name marquee (z-10) → portrait (z-20) → chrome (z-30)
  *
- * The middle of the frame is deliberately left empty. The "Say hi" CTA lives in
- * the fixed <PillNav />, which floats over this section and stays reachable.
+ * The middle of the frame is deliberately left empty, and the primary CTA sits in
+ * the bottom-left block rather than centred over the composition. That is not
+ * only taste: the portrait is bottom-anchored at up to 88vh, so anything centred
+ * around a quarter of the way down lands on the face. Extending the corner
+ * language costs the composition nothing.
  */
 export function Hero() {
   const reduceMotion = useReducedMotion();
@@ -92,7 +97,10 @@ export function Hero() {
           ease: [0.76, 0, 0.24, 1],
         }}
         style={{ originX: 0 }}
-        className="absolute inset-x-6 bottom-24 z-10 h-0.5 bg-frost/70 sm:inset-x-10 sm:bottom-28"
+        // bottom-32/40 rather than 24/28: the left corner block grew a button,
+        // and at the old heights the rule cut straight through it. Measured from
+        // the class values as ~109px of content at base and ~131px at sm.
+        className="absolute inset-x-6 bottom-32 z-10 h-0.5 bg-frost/70 sm:inset-x-10 sm:bottom-40"
       />
 
       {/* Corner blocks (z-30) — who / what on the left, where / availability on
@@ -104,6 +112,22 @@ export function Hero() {
             {siteContent.heroCorners.left.map((line) => (
               <div key={line}>{line}</div>
             ))}
+
+            {/* Filled, because it is the primary action on the first screen.
+                Deliberately NOT the ContactButton/HireModal pair — that offers a
+                CV download, which is the wrong thing to hand a paying client. */}
+            <Link
+              href={siteContent.heroCorners.cta.href}
+              className="group mt-3.5 inline-flex items-center gap-1.5 rounded-full bg-frost px-5 py-2.5 text-xs font-medium whitespace-nowrap text-night-900 transition-colors hover:bg-crystal-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900 sm:text-sm"
+            >
+              {siteContent.heroCorners.cta.label}
+              <ArrowUpRight
+                size={14}
+                strokeWidth={2}
+                aria-hidden
+                className="transition-transform duration-200 group-hover:translate-x-px group-hover:-translate-y-px"
+              />
+            </Link>
           </div>
         </FadeIn>
 

@@ -41,13 +41,20 @@ export const siteContent = {
   // Bottom-corner blocks in the hero. The hero composition puts the scrolling
   // name in the middle and everything else in the corners, so these lines carry
   // the whole "who / what / where" job on the first screen.
+  //
+  // These were job titles ("Frontend Engineer / Full-stack builder / Project
+  // Coordinator") next to "Open to work". Both were read by the wrong visitor:
+  // to a business deciding whether to spend money, "open to work" says the
+  // person is between jobs, which invites them to negotiate the price down. It
+  // now states what is on offer and that it is available, which is true for a
+  // recruiter as well.
   heroCorners: {
-    left: [
-      "Frontend Engineer",
-      "Full-stack builder",
-      "Project Coordinator",
-    ],
-    right: { status: "Open to work", place: "Copenhagen, Denmark" },
+    left: ["Websites & web app frontends", "Built solo, in Copenhagen"],
+    right: { status: "Available for projects", place: "Copenhagen, Denmark" },
+    // The primary action on the first screen. Points at the enquiry form rather
+    // than opening HireModal, which offers a CV download — the wrong artefact
+    // for the reader this page is now written for.
+    cta: { label: "Start a project", href: "/services#enquiry" },
   },
   // One general CV. Role-tailored versions get sent directly, not offered here —
   // a visitor picking between three versions is a visitor guessing at the identity.
@@ -102,6 +109,36 @@ export const siteContent = {
     {
       title: "Client Work",
       body: "Taking a paying client from the first call to handover: working out what they actually need, quoting a fixed price, building it, and leaving them owning the result. I build in Webflow or in code, and I pick based on how the client wants to live with the site rather than which is faster for me. Racha Beauty has run since launch without maintenance.",
+    },
+  ],
+
+  /**
+   * The homepage's offer list — the three things a visitor can actually buy.
+   *
+   * Deliberately separate from whatIDo above rather than replacing it. whatIDo is
+   * the capability list written for a hiring manager, and it is also the
+   * chatbot's grounding in app/api/chat/route.ts, so repurposing that array would
+   * have silently stripped the chatbot's knowledge of what Ice can do. It is also
+   * the content /cv will need.
+   *
+   * Stores the offer id only. The price is looked up from services.offers at
+   * render time, so this section cannot quote a figure /services has changed.
+   */
+  homeOffers: [
+    {
+      offerId: "website",
+      title: "Small-Business Website",
+      body: "The site your business should already have: fast, findable, and yours outright at handover. Built in Danish, English or Swedish, with search setup and a performance budget included rather than sold as extras.",
+    },
+    {
+      offerId: "app-frontend",
+      title: "Web App Frontend",
+      body: "You have an API, a design, or a founder's sketch. I build the interface on top of it — React, Next.js and TypeScript, in your repository and your workflow, and a component set your team can keep building on after I am gone.",
+    },
+    {
+      offerId: "rescue",
+      title: "Redesign & Rescue",
+      body: "The site exists but it is slow, dated, or invisible on Google. You get a written audit in plain language, a prioritised list of fixes with what each one is worth, and an honest answer if starting over would cost you less.",
     },
   ],
 
@@ -764,19 +801,39 @@ export const services = {
   // cases[id === "racha"] at render time, so this section cannot drift from the
   // case study and cannot grow a metric that is not already in this file.
   // ── Client quote ────────────────────────────────────────────────────────
-  // Deliberately null, and it must STAY null until the client has read the
-  // exact words and said yes to them in writing.
+  // This was null for a long time on purpose: a quote may only go up once the
+  // client has read the EXACT words and agreed to them. "Write whatever you
+  // like and I'll back it up" is permission to draft, not approval of a
+  // sentence, and anything published on that basis is a fabricated testimonial
+  // no matter how kindly it was offered.
   //
-  // "Write whatever you like and I'll back it up if anyone asks" is not that.
-  // It is permission to draft, not approval of a specific sentence, and a quote
-  // published on that basis is a fabricated testimonial no matter how kindly it
-  // was offered. Draft it, send it, get a reply agreeing to it, keep the reply,
-  // then fill this in.
+  // What actually happened, 2026-08-18: Racha was sent three drafts, chose the
+  // third, and edited it herself — "reliable" is her word, not ours. She then
+  // agreed to a grammar pass. So one typo was fixed (lanuched), an "and" was
+  // added to close the list, and a comma moved. No claim was added, removed or
+  // strengthened; all four claims in the sentence are hers and all four are
+  // checkable against the live site.
   //
-  // To publish: set this object with { text, author, role, approvedOn }. The
-  // page renders the block only when it is non-null, so there is nothing to
-  // uncomment and nothing that can leak out half-finished.
-  testimonial: null as null | {
+  // She also offered blanket permission to embellish it. Declined, on the
+  // grounds that it would make the quote WORSE: "professional", "a pleasure to
+  // work with" and "highly recommend" are what every invented testimonial says,
+  // and specificity is the only thing that makes one credible. If more warmth
+  // is wanted, ask her for another sentence in her own words rather than
+  // writing one for her.
+  //
+  // Credited to the business rather than to her personally. Approving words and
+  // approving publication of your own name are two different consents, and only
+  // the first was given. A named business with a live site is checkable anyway,
+  // which is the part that carries the weight.
+  //
+  // If this ever needs replacing, the bar is the same: exact words, her
+  // agreement on record, and approvedOn set to the date of that agreement.
+  testimonial: {
+    text: "Ice built my shop's first website. It's fast, reliable and in Danish, and since it launched I haven't had to fix anything or pay anything extra.",
+    author: "Racha Beauty & Wellness",
+    role: "Wellness studio, Næstved",
+    approvedOn: "2026-08-18",
+  } as null | {
     text: string;
     author: string;
     role: string;
@@ -1098,6 +1155,19 @@ export interface ProjectCard {
 export const projectCards: ProjectCard[] = [
   {
     number: "01",
+    title: "Racha Beauty",
+    category: "Client Work",
+    buttonLabel: "View Case",
+    href: "/cases/racha",
+    external: false,
+    images: [
+      "/assets/racha/racha-landing.webp",
+      "/assets/racha/racha-services.webp",
+      "/assets/racha/racha-about.webp",
+    ],
+  },
+  {
+    number: "02",
     title: "Trailr AI",
     category: "Product",
     buttonLabel: "View Case",
@@ -1110,7 +1180,7 @@ export const projectCards: ProjectCard[] = [
     ],
   },
   {
-    number: "02",
+    number: "03",
     title: "Bevisly",
     category: "Full-Stack",
     buttonLabel: "Live Demo",
@@ -1123,7 +1193,7 @@ export const projectCards: ProjectCard[] = [
     ],
   },
   {
-    number: "03",
+    number: "04",
     title: "MockMate",
     category: "Full-Stack",
     buttonLabel: "Live Demo",
@@ -1136,7 +1206,7 @@ export const projectCards: ProjectCard[] = [
     ],
   },
   {
-    number: "04",
+    number: "05",
     title: "Millennial Consulting",
     category: "Management",
     buttonLabel: "View Case",
@@ -1146,19 +1216,6 @@ export const projectCards: ProjectCard[] = [
       "/assets/millennial/Millennial_Spring2025.webp",
       "/assets/millennial/fall2024_hot-seat.webp",
       "/assets/millennial/Millennial_Fall2024.webp",
-    ],
-  },
-  {
-    number: "05",
-    title: "Racha Beauty",
-    category: "Client Work",
-    buttonLabel: "View Case",
-    href: "/cases/racha",
-    external: false,
-    images: [
-      "/assets/racha/racha-landing.webp",
-      "/assets/racha/racha-services.webp",
-      "/assets/racha/racha-about.webp",
     ],
   },
 ];
