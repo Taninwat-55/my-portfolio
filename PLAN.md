@@ -2,11 +2,12 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** In progress — `/th` shipped and reachable. Next code work: item 35.
-**Next up:** item 35 — `/projects` route. Ice's calls: **3 featured, nav keeps the hash.**
-**⚠️ Needs your eyes:** proofread every Thai string in `app/data.th.ts`. Plus `/th`,
-the `HowItWorks` slab and the new nav chip have never been seen at any viewport.
-**⚠️ Your homework:** item 17 (CV PDF), 33 (care plan), 5 (Webflow test), 31 (FB groups).
+**Status:** All planned code work done except `/da` (blocked) and items 6, 8.
+**Next up:** nothing is unblocked. `/da` needs a native Danish proofreader (item 28);
+item 6 needs the Webflow test (item 5); item 8 is a one-liner whenever you want it.
+**⚠️ Needs your eyes:** proofread `app/data.th.ts`. Plus five things have never been
+seen at a real viewport — see the list in the latest log entry.
+**⚠️ Your homework:** 17 (CV PDF), 33 (care plan), 5 (Webflow test), 31 (FB groups).
 
 > This file is the source of truth for the overhaul. The item numbers here
 > supersede any numbering used in chat.
@@ -20,6 +21,66 @@ the `HowItWorks` slab and the new nav chip have never been seen at any viewport.
 ---
 
 ## Progress log
+
+### 2026-08-21
+
+**Item 35 — `/projects`, plus a `/th` bug fix** ✅ `92b9b85`
+
+New `app/projects/page.tsx`; `projectCards` trimmed to three; `/th` image block
+repaired. 7 files.
+
+**The orphan fix is the point.** `cases` held 7 entries and the homepage featured
+5, so **`/cases/satoshi` and `/cases/cinema` were linked from nowhere** — building,
+prerendering and sitting in `sitemap.xml` while unreachable by following any link.
+`/projects` **maps over `cases`**, so the fix is not "add the two missing ones", it
+is making missing ones impossible. **Verified as a set comparison:** all 7 ids
+resolve from `projects.html`.
+
+- **`projectCards` stays curated and separate**, not derived from `cases`. It looks
+  like the duplication that caused this, but the link targets differ *on purpose* —
+  Bevisly points at its live site rather than its case study, which is an editorial
+  call about what a visitor sees first.
+- **Featured: Racha · Trailr · Bevisly**, renumbered `01`–`03`. Takes the sticky
+  deck from ~425vh to ~255vh, which the homepage needed after gaining the offers
+  list and `HowItWorks`. The scale maths already read `projectCards.length` and
+  adapted with no change.
+- **Nav keeps `#projects`** and its scroll-spy, per Ice. "See all projects" sits
+  *after* the deck — someone who scrolled all three is the one who wants more.
+- ➕ **No number badge on `/projects`.** `cases[].n` numbers the array, and the page
+  sorts client work first, so it read `07 · 01 · 02` and looked broken. Renumbering
+  by display position would then disagree with the number the case page shows, so
+  the decoration went rather than the ordering.
+
+**🐛 The `/th` blank image was mine, introduced in `d5faf81`.** Recorded properly
+because the diagnosis is reusable:
+
+- The file was never the problem — all four Racha screenshots are valid VP8 at
+  1600×1005, and the same file renders on `/services`.
+- **Mine was the only block using `width`/`height` instead of `fill` inside a sized
+  container**, and the geometry proved it: the empty box measured **1.34** against
+  the loaded one's **1.58**, so it was the pre-load placeholder *at a ratio I had
+  declared wrong*. The two boxes could never have matched heights either, and every
+  load shifted layout.
+- **`alt=""` was the worse half.** Those screenshots carry the section's argument, so
+  a screen-reader user got nothing — and a failed load left an unexplained empty box
+  instead of a description, **which is why it failed silently.** Both now carry real
+  Thai alt text; zero empty alts remain on the page.
+- **Lesson worth keeping:** in this codebase, images go `fill` inside a container
+  with an explicit `aspect-ratio`. `/services` and `Projects.tsx` both already did.
+
+**Verified:** build + lint clean; `/projects` `○ (Static)`; all 7 cases reachable;
+exactly 3 homepage cards with Racha at `01`; one `h1` on all six pages; `#projects`
+hash and scroll-spy intact; both `/th` proof boxes share one ratio; `/projects` in
+`sitemap.xml` and `llms.txt`.
+
+- ⚠️ **Five things still never seen at a real viewport.** The browser extension has
+  been unavailable for five sessions. In rough order of risk:
+  1. **`/th`** — the whole page, including whether the image fix actually took
+  2. **`/projects`** — new page, two-column grid
+  3. The **`HowItWorks` slab** over Projects (`c5a8e8a`)
+  4. The **nav language chip** at 320px (`e346d00`)
+  5. The **hero rule** vs the CTA at ≥768px (`b11ad9e`) — lowest risk; the rule is
+     hidden behind the portrait below that width anyway
 
 ### 2026-08-20 (later)
 
@@ -713,7 +774,7 @@ quote the positioning. Building them before this settles means writing twice.*
 
 ### Block 8 — Projects page
 
-- [ ] **35. [N] Give projects their own route, and feature a subset on `/`.**
+- [x] **35. [N] Give projects their own route, and feature a subset on `/`.** ✅ *`92b9b85`*
   Ice's idea, and it fixes a real defect rather than only improving the page.
 
   **Two case studies are currently orphaned.** `cases` holds 7 entries but
