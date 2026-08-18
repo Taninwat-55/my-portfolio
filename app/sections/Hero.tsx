@@ -108,12 +108,23 @@ export function Hero() {
 
       {/* Corner blocks (z-30) — who / what on the left, where / availability on
           the right. These carry the whole first screen now that the middle is
-          left empty. */}
-      <div className="absolute inset-x-0 bottom-0 z-30 flex items-end justify-between gap-6 px-6 pb-5 text-xs leading-relaxed sm:px-10 sm:pb-8 sm:text-sm">
+          left empty.
+
+          They only sit in opposite corners from `sm` up. Below that there is not
+          enough room for two side-by-side columns: at 360px the left text wrapped
+          mid-phrase and the right column broke into four ragged right-aligned
+          lines that ran into it. Stacked, both read on single lines instead.
+
+          flex-col-reverse rather than reordering the markup: it puts availability
+          at the TOP of the stack and leaves the CTA as the last thing above the
+          thumb, while the DOM order stays left-then-right for `sm:flex-row`. */}
+      <div className="absolute inset-x-0 bottom-0 z-30 flex flex-col-reverse items-start gap-3.5 px-6 pb-5 text-xs leading-relaxed sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:px-10 sm:pb-8 sm:text-sm">
         <FadeIn delay={1.4} y={20}>
           <div className="text-frost/80">
             {siteContent.heroCorners.left.map((line) => (
-              <div key={line}>{line}</div>
+              <div key={line} className="whitespace-nowrap">
+                {line}
+              </div>
             ))}
 
             {/* Filled, because it is the primary action on the first screen.
@@ -135,17 +146,26 @@ export function Hero() {
         </FadeIn>
 
         <FadeIn delay={1.55} y={20}>
-          {/* Right padding steps around the fixed chat bubble (48px at 24px from
-              each edge), which otherwise sits on top of these two lines. */}
-          <div className="text-right text-frost/80 pr-14 sm:pr-10">
-            <div className="flex items-center justify-end gap-2">
+          {/* From `sm` this is the right-hand corner, so it right-aligns and steps
+              around the fixed chat bubble (48px at 24px from each edge). Stacked on
+              mobile it is left-aligned and sits above the CTA, so it clears the
+              bubble without any padding of its own.
+
+              nowrap on both lines: they are short enough to fit 360px once they
+              have the full width, and wrapping them was the whole defect. */}
+          <div className="text-left text-frost/80 sm:pr-10 sm:text-right">
+            <div className="flex items-center gap-2 sm:justify-end">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-clay-500 opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-clay-500" />
               </span>
-              {siteContent.heroCorners.right.status}
+              <span className="whitespace-nowrap">
+                {siteContent.heroCorners.right.status}
+              </span>
             </div>
-            <div>{siteContent.heroCorners.right.place}</div>
+            <div className="whitespace-nowrap">
+              {siteContent.heroCorners.right.place}
+            </div>
           </div>
         </FadeIn>
       </div>
