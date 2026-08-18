@@ -22,6 +22,36 @@ seen at a real viewport — see the list in the latest log entry.
 
 ## Progress log
 
+### 2026-08-22
+
+**Item 8 — day rate raised, and `/projects` made findable** ✅ `6a2ce7b`
+
+- **4.800 → 5.500 DKK/day** (≈640 → ≈730 kr/h at 7.5h). Researched: the Danish
+  freelance **junior** band is 550–750 kr/h, mid is 1.000–1.400, agency web work
+  1.100–1.300. The old figure sat mid-junior, but offer 02 is sold to startups who
+  benchmark against consultant rates — where 640 reads as a risk signal, not value.
+  **Deliberately not 6.500**: 5.500 is top-of-junior/bottom-of-mid, which one year of
+  professional frontend work plus one paying client can answer for.
+- **`/projects` was unreachable in practice.** Ice could not find it, correctly: the
+  only link sat *after* three sticky cards (~255vh of scroll) and the next section
+  pulls up 40px over it, so it lived in a sliver nobody reaches. Added one under the
+  section heading — also simply the better place, since arriving is when you decide
+  whether to scroll the deck or jump to the list. Bottom link kept, with clearance.
+
+**✅ Viewport debt largely closed by Ice's pass.** Of the five:
+1. `/th` image — **fixed, confirmed by Ice**
+2. `/projects` — reachable now, but **the page itself is still unseen**
+3. `HowItWorks` slab — **confirmed good**
+4. Nav chip at 320px — **confirmed working**, but Ice wants the whole nav rethought → item 37
+5. Hero — **two defects found** → item 38
+
+- 💡 **Third variant of the same false alarm:** I reported the new link missing because
+  React splits interpolated text with `<!-- -->` separators. Together with `srcSet`
+  and `hrefLang`, the rule is: **when checking built HTML, strip tags and comments
+  first, and match case-insensitively.**
+- ➕ **New items 37, 38, 39**, and **20b substantially rewritten** — the VAT problem is
+  the *framing*, not the constant. See the item.
+
 ### 2026-08-21 (later)
 
 **Image fixes from Ice's screenshots** ✅ `a292693`, `4b40431`
@@ -695,10 +725,29 @@ quote the positioning. Building them before this settles means writing twice.*
 
 - [x] **20. [S] Demote Garden below the CTA.** ✅ *`c5a8e8a`* — satisfied by the new section's CTA footer.
 
-- [ ] **20b. [P] Consolidate the VAT statement behind one constant.**
-  "No VAT added" is stated in six places and is conditional on being under the
-  Danish 50.000 kr registration threshold. Crossing it falsifies all six at once.
-  Locations are listed in the comment above `services.termsShort`.
+- [ ] **20b. [P] [C] Reframe VAT as "ekskl. moms", behind one flag.** ⚠️ **Bigger
+  than "one constant" — the framing is the actual problem.** Ice plans to register a
+  CVR after a few more clients, so this *will* flip.
+
+  The claim now lives in **nine** places, but the real hazard is how it is phrased:
+  *"No VAT is added — the figure you see is the figure you pay"* is sold as a
+  **benefit**. Reversing a benefit reads as a 25% price rise, even when it is not.
+
+  **What is actually true:** most Danish business clients are VAT-registered and
+  **deduct moms, so a 25% addition is cost-neutral to them.** It only bites
+  consumers and unregistered buyers. So the change is far less dramatic than it
+  feels — provided the page never framed "no moms" as the reason to buy.
+
+  **The fix, done now rather than at registration:**
+  1. Quote every price **ekskl. moms**, the Danish B2B norm. Numbers never change
+     when he registers.
+  2. One `services.vat` object holding `{ registered: boolean, note: string }`, with
+     all nine sites reading from it. Registering becomes a one-line flip.
+  3. Drop "the figure you see is the figure you pay" as a *selling point*. Keep it
+     as a factual note while it holds.
+
+  **Do this before the CVR, not after.** Afterwards it is a visible price rise;
+  beforehand it is housekeeping nobody notices.
 
 ### Block 5 — Proof *(highest value on the whole list)*
 
@@ -812,6 +861,45 @@ quote the positioning. Building them before this settles means writing twice.*
 - [ ] **34. [H] Later: the `.xyz` domain.**
   A `.xyz` on a personal-name domain is a small trust tax with Danish
   small-business clients. Not urgent.
+
+### Block 10 — Navigation and hero polish
+*All from Ice's viewport pass, which closed most of the layout debt.*
+
+- [ ] **37. [N] Replace the pill nav with something better than a hamburger.**
+  Ice's ask, and he is right that the pill is at its limit — five links plus a CTA
+  plus a language chip, with `compactHidden` juggling three of them below `sm`.
+
+  **Recommended: a full-screen overlay driven by a minimal mark.** Not three lines —
+  something quieter (two short rules, a 2×2 dot grid, or just the word `Menu`).
+  Opening it fills the viewport and sets the links in the **same oversized uppercase
+  type as the hero marquee**, which is the site's actual signature. It matches the
+  design language rather than importing a generic pattern, and it **ends the width
+  problem permanently** — no more deciding which links survive at 320px.
+
+  Alternatives considered: a thin left vertical rail (very editorial, but rotated
+  labels cost readability and it eats mobile width); a bottom dock on mobile
+  (thumb-reachable and app-like, but less distinctive — pairs with the overlay
+  rather than replacing it).
+
+  **Must not lose in the rewrite:** scroll-spy on the hash links, the language link
+  being reachable on mobile, keyboard focus trapping while open, `Escape` to close,
+  and `prefers-reduced-motion`. The current pill does all of these.
+
+- [ ] **38. [S] Hero corner blocks at the extremes.** Two things from Ice's shots:
+  - **360px:** the right block wraps to four ragged lines — *"Available for /
+    projects / Copenhagen, / Denmark"* — squeezed by the `pr-14` that dodges the chat
+    bubble, and it collides visually with the portrait.
+  - **744px (iPad Mini):** the nav pill sits **directly across the portrait's eyes.**
+    Worst possible position on the one screen that has to make a first impression.
+    Item 37 may resolve this by itself, so sequence 37 first.
+
+- [ ] **39. [C] Stop "fixed price" reading as the only option.** Ice: *"what if some
+  people want to pay hourly?"* Fair — `termsShort` states it as an absolute, and the
+  offer 01 copy implies scope pricing is the only way in. Offer 02 is already a day
+  rate, so the capability exists and is simply invisible from offer 01. One line
+  ("fixed price by default; by the day where scope genuinely cannot be fixed") plus
+  a pointer between the two offers. `priceNote` on offer 02 already says this after
+  item 8 — surface it.
 
 ### Block 9 — Showing what more money buys
 
