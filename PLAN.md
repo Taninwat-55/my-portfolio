@@ -22,6 +22,23 @@ seen at a real viewport — see the list in the latest log entry.
 
 ## Progress log
 
+### 2026-08-22 (later still)
+
+**Item 38 — hero corners** ✅ (see git log)
+
+At 360px the two corner blocks fought over one row: left text wrapped mid-phrase,
+right column broke into four ragged right-aligned lines running into it. They now
+stack below `sm` via `flex-col-reverse` — availability on top, CTA last above the
+thumb — while the DOM order stays left-then-right for `sm:flex-row`.
+
+- **The rule needed no change**, despite the stack being taller: below `sm` the
+  portrait is wider than the viewport and sits at `z-20` against the rule's `z-10`,
+  so it is not visible at those widths at all.
+- ✅ **The 744px nav-over-the-eyes problem was resolved by item 37** — confirmed in
+  Ice's screenshot.
+- ✅ **Item 37 confirmed working by Ice:** panel, X animation, and the bar clears the
+  portrait.
+
 ### 2026-08-22 (later)
 
 **Item 37 — the nav, plus two side fixes** ✅ `8f432fe`
@@ -926,7 +943,7 @@ quote the positioning. Building them before this settles means writing twice.*
   being reachable on mobile, keyboard focus trapping while open, `Escape` to close,
   and `prefers-reduced-motion`. The current pill does all of these.
 
-- [ ] **38. [S] Hero corner blocks at the extremes.** Two things from Ice's shots:
+- [x] **38. [S] Hero corner blocks at the extremes.** ✅ *stacked below `sm`; the 744px nav overlap was resolved by item 37.* Two things from Ice's shots:
   - **360px:** the right block wraps to four ragged lines — *"Available for /
     projects / Copenhagen, / Denmark"* — squeezed by the `pr-14` that dodges the chat
     bubble, and it collides visually with the portrait.
