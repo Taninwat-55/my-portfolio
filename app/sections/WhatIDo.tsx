@@ -103,6 +103,30 @@ export function WhatIDo() {
             </FadeIn>
           );
         })}
+
+        {/* The section-level route onward. The per-offer links above go to one
+            offer each; this is the way to everything that does not fit on a
+            homepage — the full ladder, what is in every build, the running costs,
+            the handover list and the FAQ.
+
+            It exists because the menu now scrolls here rather than jumping to
+            /services, so this is the point where someone decides to go deeper. */}
+        <FadeIn delay={0.35} y={24}>
+          <div className="mt-4 flex justify-center sm:mt-8">
+            <Link
+              href="/services"
+              className="group inline-flex items-center gap-2 rounded-full border border-night-900/20 px-7 py-3 text-xs font-medium uppercase tracking-widest text-night-900/70 transition-colors hover:border-night-900/50 hover:text-night-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-600 focus-visible:ring-offset-2"
+            >
+              Full pricing, terms and FAQ
+              <ArrowRight
+                size={15}
+                strokeWidth={1.5}
+                aria-hidden
+                className="transition-transform duration-200 group-hover:translate-x-0.5"
+              />
+            </Link>
+          </div>
+        </FadeIn>
       </div>
     </section>
   );

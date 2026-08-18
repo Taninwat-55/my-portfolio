@@ -17,19 +17,28 @@ type NavLink = {
 // No compactHidden any more. The whole list shows at every width because it now
 // lives in a full-screen panel rather than a pill competing for ~304px.
 //
-// "Work" used to be here, pointing at #work. It was removed because it had quietly
-// become a second route to the same idea: item 11 turned that section from a
-// capability list ("What I Do", which "Work" described accurately) into three
-// purchasable offers, and its own eyebrow now reads "Services". So the menu offered
-// "Work" and "Services" as separate destinations while both meant services — and
-// the section is only a preview of /services anyway, with per-offer links into it.
+// THE MENU IS A TABLE OF CONTENTS, IN PAGE ORDER. Two things were wrong before.
 //
-// Four items, four distinct intents: proof, what you can buy, who you are dealing
-// with, and hire full-time.
+// The order did not match the page: About is the first section after the hero but
+// sat third in the menu, so the menu implied a structure the page did not have.
+//
+// And the behaviour was mixed. "Services" jumped straight to /services while its
+// neighbours scrolled, which is what made the old "Work" item feel like it was
+// redirecting — clicking two adjacent items did categorically different things. One
+// item scrolling and the next teleporting is the inconsistency, not the extra click.
+//
+// So everything with a section scrolls to it, and each of those sections carries its
+// own link onward to the fuller page. CV is the single exception because it has no
+// homepage section, and it is marked with an arrow so that is visible before you
+// click rather than after.
+//
+// Garden is deliberately absent: it is post-conversion reading, and a menu is more
+// useful when it is short than when it is complete.
 const NAV_LINKS: NavLink[] = [
-  { label: "Projects", id: "projects" },
-  { label: "Services", href: "/services" },
   { label: "About", id: "about" },
+  { label: "Services", id: "offers" },
+  { label: "Projects", id: "projects" },
+  { label: "How it works", id: "process" },
   { label: "CV", href: "/cv" },
 ];
 
@@ -280,6 +289,16 @@ export function SiteNav() {
                       >
                         {link.label}
                       </span>
+                      {/* Only on the item that leaves the page, so the one
+                          exception to "everything scrolls" announces itself. */}
+                      {link.href && (
+                        <ArrowUpRight
+                          size={20}
+                          strokeWidth={2}
+                          aria-hidden
+                          className="mt-1 shrink-0 self-center text-crystal-500/60 sm:size-7"
+                        />
+                      )}
                     </>
                   );
 
