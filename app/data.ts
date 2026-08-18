@@ -40,10 +40,27 @@ export const siteContent = {
   /**
    * The job title. Stays a job title on purpose: it feeds schema.org
    * Person.jobTitle in layout.tsx and services/page.tsx, the chatbot's system
-   * prompt, and the /cv page heading — all places where "Frontend Engineer &
-   * Project Coordinator" is the accurate, structured answer.
+   * prompt, and the /cv page heading.
+   *
+   * ONE searchable title, not a hybrid. It was "Frontend Engineer & Project
+   * Coordinator", which is accurate but unsearchable — recruiters and ATS filters
+   * query "Frontend Developer", never a slash title, and a hybrid reads as not
+   * having decided. The coordination half has not been dropped, it has moved one
+   * line down into cvData.summary, where a human reads it and it becomes range
+   * rather than indecision.
+   *
+   * "Developer" over "Engineer" because it is the common posting title in Denmark
+   * and Sweden and the honest fit for a vocational diploma plus a year in; the
+   * upgrade is available later at no cost.
+   *
+   * NOT "Web Developer", despite that being the freelance word. Denmark files both
+   * under the same DISCO-08 code, so the work is identical on paper — but
+   * frontend-udvikler runs a median around 51.900 kr/month against a webudvikler
+   * starting near 31.500 and reaching only ~42.250 after ten years. Same job,
+   * roughly 20k a month of anchoring. siteTagline carries "web developer" for the
+   * client-facing side, which is the audience that actually searches for it.
    */
-  roleLabel: "Frontend Engineer & Project Coordinator",
+  roleLabel: "Frontend Developer",
   /**
    * The human-facing tagline, used only where a person reads it: the browser
    * tab, the search result, and the homepage's screen-reader h1.
@@ -226,9 +243,11 @@ export interface CvEntry {
 }
 
 export const cvData = {
-  title: "Frontend Engineer & Project Coordinator",
+  // Matches roleLabel and the PDF. See the note on roleLabel for why it is a
+  // single searchable title rather than the hybrid it used to be.
+  title: "Frontend Developer",
   summary:
-    "Frontend engineer who also runs the delivery. React, Next.js, and TypeScript are my depth, most recently at Trailr AI, where I owned a full platform redesign scoped to what the existing backend could support. I work full-stack too — Node.js, Express, and PostgreSQL — and I am clear that the backend is the newer half of my toolkit. Before Trailr, four cycles at Millennial Consulting, growing from Operations Assistant to Head of Organization and coordinating ~20 client engagements with no full-time staff. Building the thing and running the delivery are the same job to me.",
+    "Frontend developer who also runs the delivery. React, Next.js, and TypeScript are my depth, most recently at Trailr AI, where I owned a full platform redesign scoped to what the existing backend could support. I work full-stack too — Node.js, Express, and PostgreSQL — and I am clear that the backend is the newer half of my toolkit. Before Trailr, four cycles at Millennial Consulting, growing from Operations Assistant to Head of Organization and coordinating ~20 client engagements with no full-time staff. Building the thing and running the delivery are the same job to me.",
 
   // Four technical groups mirroring the PDF, plus the operations group the PDF
   // has no room for. A one-page CV has to cut; the page does not.
