@@ -36,10 +36,13 @@ https://taninwatkaewpankan.xyz/services
     · Add-ons (a second language, online booking, a blog) — +3.000–8.000 DKK each.
   The build method changes what the site costs to KEEP, not what it costs to
   make. Webflow is roughly 1.150–1.950 DKK a year for the site plan on annual
-  billing (more if billed monthly) and the client can edit everything visually.
+  billing (more if billed monthly), and editing their own text and images is
+  included in that — Webflow made client access free on every plan in August 2026.
   A coded site has no platform fee: roughly 100–1.600 DKK a year for the domain
   plus hosting, which fits the Netlify/Vercel free tier or costs 500–1.500 DKK
-  on a Danish webhotel, and the client can edit text and images but not layout.
+  on a Danish webhotel. Since there is no platform plan to include anything,
+  self-editing on a coded site is a one-off add-on Ice sets up instead, after
+  which it costs nothing a year. Neither route lets the client move the layout.
   Over five years of running cost that is about 6.250–10.250 DKK for Webflow
   against 500–8.000 DKK coded, so on the likely setup Webflow is around 6.000
   DKK more to own. Every one of those yearly figures is paid by the client

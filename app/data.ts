@@ -1090,9 +1090,9 @@ export const services = {
       // the client is actually trying to answer. The rest is arithmetic.
       {
         label: "Best if…",
-        webflow: "You edit it yourself",
-        coded: "It will sit still",
-        why: "Webflow suits you if you want to change your own prices, photos and opening hours without calling anyone. Coded suits you if you will rarely touch it once it is live and would rather not pay a subscription forever.",
+        webflow: "You want it managed",
+        coded: "You want no yearly bill",
+        why: "Both ways you can change your own text and images, so that is not what decides it. Webflow suits you if you would rather pay a little every year for a platform somebody else maintains, with editing built in. Coded suits you if you would rather pay nothing every year and treat self-editing as a one-off piece of setup.",
       },
       {
         label: "Platform fee",
@@ -1114,9 +1114,9 @@ export const services = {
       },
       {
         label: "Editing it yourself",
-        webflow: "Everything",
-        coded: "Text and images",
-        why: "Webflow gives you a visual editor. On a coded site you can change text and images, but a new section means calling a developer.",
+        webflow: "Included",
+        coded: "Optional add-on",
+        why: "Webflow retired its old editor in August 2026 and replaced it with free client seats, so editing your own text and images no longer costs extra on any plan — it comes with the site plan you are already paying for. A coded site has no plan, so there is nothing to include: I set up a free editor on it instead, once, as an add-on. Neither route lets you rearrange the layout yourself; that is still a call to me.",
       },
     ],
     /**
@@ -1147,7 +1147,7 @@ export const services = {
      * — on the one section whose whole job is to survive being checked.
      */
     verdict:
-      "The build costs the same either way, so the only real question is what happens after launch. On the likely setup — a Webflow plan paid annually against a coded site on free hosting — Webflow works out roughly 6.000 kroner more over five years, and what you are buying for that is the ability to change your own prices, photos and opening hours whenever you like. If you will actually use it, it pays for itself the first handful of times you edit something instead of asking me. If the site will mostly sit still once it is up, it is money spent on a feature you will not touch, and coded is the cheaper way to own it. I will tell you which one I think you are on the call — and since the build price is the same to me either way, I have no reason to push you toward one.",
+      "The build costs the same either way, so the only real question is what happens after launch. Both ways you can change your own text and images — that is not the difference, whatever you may have read elsewhere. On Webflow it is included, because the plan you are paying for covers it. On a coded site there is no plan to pay, so editing is a one-off piece of setup instead. On the likely setup Webflow works out roughly 6.000 kroner more over five years, and what that buys is a platform somebody else maintains with editing already in it; coded trades that for no yearly bill at all. Where the two genuinely part company is structured content — a menu, a treatment list, a blog you post to yourself — which needs a CMS either way: Webflow's higher plan, or a build on the coded side. I will tell you which one I think you are on the call — and since the build price is the same to me either way, I have no reason to push you toward one.",
   },
 
   /**
@@ -1240,7 +1240,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Webflow or coded from scratch — which should I choose?",
-    a: `The build price is identical, so this is not a money question in the way people expect. What differs is the year after. A Webflow site costs roughly 1.250 to 2.050 kroner a year and you can change anything yourself in a visual editor. A coded site costs roughly 100 to 1.600 kroner a year, has no platform fee at all, and you can edit text and images but not the layout. Over five years that is about 6.250 to 10.250 kroner against 500 to 8.000 — so on the likely setup, Webflow works out around 6.000 kroner more to own. That money buys you independence from me for small changes. If you will genuinely use it, take Webflow. If the site will mostly sit still once it is live, take coded and keep the 6.000. I will give you my honest read on the call, and because the build price is the same to me either way, I have no reason to talk you into one.`,
+    a: `The build price is identical, so this is not a money question in the way people expect. What differs is the year after. A Webflow site costs roughly 1.250 to 2.050 kroner a year, and editing your own text and images is included in that — Webflow made client access free on every plan in August 2026. A coded site costs roughly 100 to 1.600 kroner a year with no platform fee at all, and because there is no plan to include anything, self-editing is a one-off add-on I set up instead. Neither lets you move the layout around yourself. Over five years that is about 6.250 to 10.250 kroner against 500 to 8.000 — so on the likely setup, Webflow works out around 6.000 kroner more to own. That money buys you independence from me for small changes. If you will genuinely use it, take Webflow. If the site will mostly sit still once it is live, take coded and keep the 6.000. I will give you my honest read on the call, and because the build price is the same to me either way, I have no reason to talk you into one.`,
   },
   // Deliberately a FAQ rather than a line on the offer card. To the buyer this
   // page is written for, "React · Next.js · TypeScript" is noise, and jargon in
@@ -1253,11 +1253,11 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Do I have to pay a monthly fee for Webflow?",
-    a: "Only if we build it in Webflow, and it does not change what the build costs. You pay it directly rather than through me — I do not mark up other people's invoices. A Webflow site plan is roughly 1.150 to 1.950 kroner a year and covers hosting, security and the visual editor. A coded site has no platform fee. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though I will not pretend a company's free tier is a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. Either way the domain is about 100 kroner, in your name.",
+    a: "Only if we build it in Webflow, and it does not change what the build costs. You pay it directly rather than through me — I do not mark up other people's invoices. A Webflow site plan is roughly 1.150 to 1.950 kroner a year and covers hosting, security and your own editing access. A coded site has no platform fee. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though I will not pretend a company's free tier is a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. Either way the domain is about 100 kroner, in your name.",
   },
   {
     q: "Can I update the website myself afterwards?",
-    a: "Yes, and that is partly what decides how it gets built. If editing it yourself matters to you, I build it in Webflow, where you can change text, prices and images from a visual editor without touching code. If you would rather have maximum speed, custom features and no monthly platform fee, I code it from scratch and hand you a simple way to edit the text. Either way you get a walkthrough at handover, and either way you are not locked into paying me for small changes.",
+    a: "Yes, either way — and this used to be the thing that decided Webflow versus coded, but as of August 2026 it is not. Webflow made client editing free on every plan, so building there means you get access to change text, prices and images as part of the plan you are already paying for. A coded site has no plan, so I set up a free editor on it instead as a one-off add-on, after which it costs nothing a year to keep. What neither gives you is moving the layout around yourself — a new section is still a call to me. Content you post to repeatedly, like a menu or a treatment list, is a CMS and priced separately on both routes. Either way you get a walkthrough at handover, and either way you are not locked into paying me for small changes.",
   },
   {
     q: "Do you only work with clients in Copenhagen?",
@@ -1425,7 +1425,7 @@ ${services.offers[0]
   .priceLadder!.map((r) => `- ${r.scope}: ${r.price} (typically ${r.timeline})`)
   .join("\n")}
 
-What the build method changes is the year after launch, not the build price. Webflow costs roughly ${services.runningCosts.rows.find((r) => r.label === "Platform fee")!.webflow} a year for the site plan and the client can edit anything visually. A coded site has no platform fee and costs roughly 100 – 1.600 kr a year for hosting and domain, and the client can edit text and images but not layout. Over five years that is about ${services.runningCosts.fiveYear.webflow} against ${services.runningCosts.fiveYear.coded}, so on the likely setup Webflow is around 6.000 kr more to own. Always qualify that figure as the likely setup rather than stating it flatly — comparing the extremes gives a range, not one number.
+What the build method changes is the year after launch, not the build price. Webflow costs roughly ${services.runningCosts.rows.find((r) => r.label === "Platform fee")!.webflow} a year for the site plan, and editing their own text and images is included in that — Webflow made client access free on every plan in August 2026. A coded site has no platform fee and costs roughly 100 – 1.600 kr a year for hosting and domain; with no plan to include anything, self-editing there is a one-off add-on Ice sets up instead. Neither route lets the client rearrange the layout. Never say Webflow is the only way to edit your own site: that stopped being true in August 2026. Over five years that is about ${services.runningCosts.fiveYear.webflow} against ${services.runningCosts.fiveYear.coded}, so on the likely setup Webflow is around 6.000 kr more to own. Always qualify that figure as the likely setup rather than stating it flatly — comparing the extremes gives a range, not one number.
 
 All of those yearly costs are paid by the client directly to Webflow, their host and their registrar. None of it is paid to Ice, and he does not mark up other people's invoices. If someone worries about an ongoing bill from him, say that plainly.
 
