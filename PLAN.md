@@ -3,6 +3,7 @@
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
 **Status:** All planned code work done except `/da` (blocked) and item 6.
+**In progress:** the Thai proofread — chunk 1 of 4 presented, awaiting Ice. See item 40.
 **Next up:** nothing is unblocked. `/da` needs a native Danish proofreader (item 28);
 item 6 needs the Webflow test (item 5); item 8 is a one-liner whenever you want it.
 **⚠️ Needs your eyes:** proofread `app/data.th.ts`. Plus five things have never been
@@ -702,7 +703,7 @@ quote the positioning. Building them before this settles means writing twice.*
   the same honesty caveat we already use for Netlify — a free tier is a company's
   policy, not a promise.
 
-- [ ] **8. [P] Raise the day rate.**
+- [x] **8. [P] Raise the day rate.** ✅ *`6a2ce7b`* — 4.800 → 5.500 DKK/day.
   4.800 kr/day ≈ 600–685 kr/hour — the absolute floor of the Danish freelance
   band (600–1.000 kr/h) for the scarcer skill. Move to **5.500 – 6.500 kr/day**
   and restate the weekly figure in `priceNote`.
@@ -932,6 +933,29 @@ quote the positioning. Building them before this settles means writing twice.*
 - [ ] **34. [H] Later: the `.xyz` domain.**
   A `.xyz` on a personal-name domain is a small trust tax with Danish
   small-business clients. Not urgent.
+
+### Block 11 — Thai proofread (in progress)
+
+- [ ] **40. [H] Proofread `app/data.th.ts` with Ice.** ⚠️ **The gate on sharing `/th`
+  anywhere.** 83 lines of live Thai copy, all Claude drafts. Being reviewed in four
+  chunks; **chunk 1 (the hero, 6 strings) was presented on 2026-08-20 and is awaiting
+  his corrections.** Remaining chunks: 2 pricing + proof, 3 process + contact,
+  4 form labels + validation messages.
+
+  **Four questions raised in chunk 1, still unanswered — ask these first on resume:**
+  1. **`ไอซ์`** — is that how Ice writes his own nickname in Thai? Appears in the
+     hero body and in Racha's translated quote.
+  2. **`ร้าน` in the h1.** Warm and concrete, but a cleaning business is not really a
+     ร้าน. Is `ธุรกิจไทย` more accurate even though colder?
+  3. **Politeness register is inconsistent across the file, and this is the biggest
+     issue.** The hero body ends `ครับ`; the "why me" list does not. Most validation
+     messages carry `ครับ`, two do not. **Get the rule from Ice, then apply it
+     everywhere in one pass** rather than string by string.
+  4. Do the two long hero paragraphs read naturally spoken, or like translated
+     English?
+
+  Extract every Thai string in file order with:
+  `grep -n '[ก-๙]' app/data.th.ts`
 
 ### Block 10 — Navigation and hero polish
 *All from Ice's viewport pass, which closed most of the layout debt.*
