@@ -12,7 +12,32 @@ import {
   type EnquiryFields,
 } from "@/app/lib/services-enquiry";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+/**
+ * Built per request, not at module scope.
+ *
+ * `new Resend(undefined)` THROWS, and `next build` imports every route to collect
+ * page data — so a module-scope client made the build itself depend on a
+ * production secret. It passed wherever the key happened to be set and failed
+ * everywhere it was not: the first Netlify deploy-preview build died on exactly
+ * this, because Netlify scopes env vars per context and the preview context had
+ * none. A clean clone of this repo could not build either.
+ *
+ * A build should never need a runtime secret. rate-limit.ts already reached that
+ * conclusion for Upstash — same bug, same shape — which is why the failing log
+ * showed Upstash *warning* while Resend *threw*. This brings the two into line.
+ */
+function getResend(): Resend | null {
+  if (!process.env.RESEND_API_KEY) {
+    console.error("[enquiry] RESEND_API_KEY missing — cannot send.");
+    return null;
+  }
+  try {
+    return new Resend(process.env.RESEND_API_KEY);
+  } catch (error) {
+    console.error("[enquiry] could not construct Resend client:", error);
+    return null;
+  }
+}
 
 // Three an hour is generous for a human — one enquiry, plus one "sorry, I
 // forgot to mention" — and makes a flood impossible without a botnet.
@@ -187,6 +212,16 @@ export async function POST(req: NextRequest) {
     // into a machine that emails arbitrary addresses on an anonymous POST — a
     // spam-relay primitive with our domain on the envelope. The success panel
     // on the page does that job instead.
+    // A missing key is a server misconfiguration, not the visitor's problem, so
+    // it returns the same 500 and the same mailto fallback as a send failure.
+    const resend = getResend();
+    if (!resend) {
+      return NextResponse.json(
+        { error: `Could not send that. ${mailtoHint}` },
+        { status: 500 }
+      );
+    }
+
     const { data, error } = await resend.emails.send({
       from: "Services Enquiry <hello@taninwatkaewpankan.xyz>",
       to: enquiryInbox,
