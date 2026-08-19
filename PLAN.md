@@ -4,7 +4,7 @@
 **Owner:** Ice (Taninwat Kaewpankan)
 **Status:** All planned code work done except `/da` (blocked) and item 6.
 **In progress:** the Thai proofread — chunk 1 of 4 presented, awaiting Ice. See item 40.
-**Buildable now:** items 6 and 36, both unblocked on 2026-08-20.
+**Buildable now:** item 36 (add-on pricing). Item 6 shipped 2026-08-20.
 **Next up:** nothing is unblocked. `/da` needs a native Danish proofreader (item 28);
 item 6 needs the Webflow test (item 5); item 8 is a one-liner whenever you want it.
 **⚠️ Needs your eyes:** proofread `app/data.th.ts`. Plus five things have never been
@@ -706,7 +706,7 @@ quote the positioning. Building them before this settles means writing twice.*
         means they pay the site plan directly, which is already the published
         position ("billed to you directly, never through me").
 
-- [ ] **6. [C] Rewrite the Webflow section around what item 5 found.** ✅ *Unblocked.*
+- [x] **6. [C] Rewrite the Webflow section around what item 5 found.** ✅ *shipped — 7 places; the verdict claim was outright false after 4 Aug 2026.*
   Two things to land: **client editing is free and does not need a paid seat**, and
   the honest split is *"edit my text"* (any plan, free seat) versus *"manage a
   structured list"* (needs CMS → Premium). The current copy implies editing itself is
