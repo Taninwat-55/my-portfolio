@@ -4,6 +4,7 @@
 **Owner:** Ice (Taninwat Kaewpankan)
 **Status:** All planned code work done except `/da` (blocked) and item 6.
 **In progress:** the Thai proofread — chunk 1 of 4 presented, awaiting Ice. See item 40.
+**Buildable now:** items 6 and 36, both unblocked on 2026-08-20.
 **Next up:** nothing is unblocked. `/da` needs a native Danish proofreader (item 28);
 item 6 needs the Webflow test (item 5); item 8 is a one-liner whenever you want it.
 **⚠️ Needs your eyes:** proofread `app/data.th.ts`. Plus five things have never been
@@ -685,22 +686,43 @@ quote the positioning. Building them before this settles means writing twice.*
   the item 5 test — Basic has no CMS, so if clients realistically need Premium
   the floor should be 1.950, not 1.150.
 
-- [ ] **5. [H] Webflow test — answer Q1.** *(Ice, 2026-08-17 AM)*
-  - [ ] **5a.** On **Basic** (no CMS) — can a client edit page text and swap
-        images? Or does *any* client editing require Premium?
-  - [ ] **5b.** Does giving the client editing access consume a **Workspace
-        seat**, and does that seat cost extra on top of the site plan?
-  - [ ] **5c.** What does the client's editing interface actually look like — is
-        it usable unaided by a 55-year-old restaurant owner? *(Most important
-        question for the niche; no pricing page will answer it.)*
+- [x] **5. [H] Webflow client editing — answered, 2026-08-20.** ⚠️ **The legacy
+  Editor was retired on 4 August 2026**, so anything written before this month
+  describes a product that no longer exists. Client Seats replaced it.
+  - [x] **5a. Yes, on any plan.** A free client seat edits page text and images.
+        **CMS collections are the thing gated behind Premium**, not editing itself —
+        so the real split is not Webflow-vs-coded, it is *"change my prices"* versus
+        *"manage a structured list"*. Most clients only ever want the first.
+  - [x] **5b. No — client seats are free** on all Workspace plans and included at
+        site level. Three roles: Marketer, Content editor, Reviewer.
+  - [x] **5c. Evidence leans positive**, which reverses the earlier assumption.
+        Practitioners handing sites to non-technical teams report the new Edit Mode
+        beats the old overlay: edits happen on the real page, there is a proper asset
+        panel, and they no longer fight animations or custom code. **Caveat: a
+        first-login hump.** ⏸ *Still worth Ice's own eyeball with a Thai shop owner
+        in mind — this is a judgement about his audience, not a fact search can
+        settle.*
+  - 💡 **Transfer beats inviting.** Handing the project to the client's own Workspace
+        means they pay the site plan directly, which is already the published
+        position ("billed to you directly, never through me").
 
-- [ ] **6. [C] Rewrite the Webflow section around the test results.** Blocked on item 5.
+- [ ] **6. [C] Rewrite the Webflow section around what item 5 found.** ✅ *Unblocked.*
+  Two things to land: **client editing is free and does not need a paid seat**, and
+  the honest split is *"edit my text"* (any plan, free seat) versus *"manage a
+  structured list"* (needs CMS → Premium). The current copy implies editing itself is
+  the Webflow advantage; it is not — the CMS is.
 
-- [ ] **7. [P] Decide on free CMS for coded sites (Q3).** Decap CMS is MIT,
-  free forever, git-based; Sanity's free tier covers a small-business site. Would
-  let us offer self-editing at **0 kr/year platform fee**, removing the strongest
-  reason to pick Webflow at this scale. Cost: build the integration once. Apply
-  the same honesty caveat we already use for Netlify — a free tier is a company's
+- [x] **7. [P] Free CMS on coded sites — YES, and it is a priced add-on.** ✅
+  *Decided 2026-08-20.* Decap (MIT, free forever, git-based) or Sanity's free tier.
+  Self-editing on a coded site at **0 kr/year platform fee**, which removes the
+  strongest remaining reason to pick Webflow at this scale.
+
+  **Not free labour, though.** It is repo config, auth, schemas, preview and
+  training — real hours, and agencies bill CMS setup as a line item with **training
+  billed separately on top**. Ice's framing was right: *a CMS is a feature, not a
+  courtesy.* Priced in item 36.
+
+  Keep the honesty caveat already used for Netlify: a free tier is a company's
   policy, not a promise.
 
 - [x] **8. [P] Raise the day rate.** ✅ *`6a2ce7b`* — 4.800 → 5.500 DKK/day.
@@ -998,7 +1020,24 @@ quote the positioning. Building them before this settles means writing twice.*
 
 ### Block 9 — Showing what more money buys
 
-- [ ] **36. [P] [C] Itemise the add-ons, so the price ladder reads as value.**
+- [ ] **36. [P] [C] Itemise the add-ons, at ONE price per add-on.** ✅ *Unblocked by
+  item 7.*
+
+  > **🔒 Price each add-on once, method-agnostic — do not split by Webflow vs coded.**
+  > The instinct will be "Webflow CMS is quicker to set up, so charge less". That is
+  > exactly the mistake **D3** fixed on the base price, and every reason applies again:
+  > the **outcome is identical** ("I can update my own content"), and the **ambush is
+  > identical** — cheaper to build, then Basic → Premium *forever*. One number; the
+  > method is a recommendation made on the call.
+  >
+  > The running-cost difference belongs in the **running-costs table**, where that
+  > story already lives. CMS then has the same shape as the whole Webflow-vs-coded
+  > argument — cheaper to build, more to keep, or the reverse — so it reinforces the
+  > page rather than complicating it.
+
+  **CMS is the first add-on to price**, since item 7 just decided it exists. It sits
+  inside the current `+3.000 – 8.000 DKK` band. Others to itemise: payment
+  integration, online booking, a map, a second language, animation.
   Ice's idea: show clients what a bigger budget actually gets them — payment
   integration, a booking system, animation, a map, a CMS — rather than leaving
   "Add-ons + 3.000 – 8.000 DKK" as one unexplained line. Right instinct: a ladder
