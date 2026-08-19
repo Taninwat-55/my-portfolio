@@ -1,19 +1,28 @@
 import type { Metadata } from "next";
 import { SkipLink } from "./components/SkipLink";
 import { ChatWidget } from "./components/ChatWidget";
+import { LanguageOffer } from "./components/LanguageOffer";
 import { CopenhagenAtmosphere } from "./components/CopenhagenAtmosphere";
-import { PillNav } from "./components/PillNav";
+import { SiteNav } from "./components/SiteNav";
 import { Hero } from "./sections/Hero";
 import { Marquee } from "./sections/Marquee";
 import { About } from "./sections/About";
 import { WhatIDo } from "./sections/WhatIDo";
 import { Projects } from "./sections/Projects";
-import { CV } from "./sections/CV";
-import { ClientWork } from "./sections/ClientWork";
+import { HowItWorks } from "./sections/HowItWorks";
+import { EmploymentBand } from "./sections/EmploymentBand";
 import { Garden } from "./sections/Garden";
 
 export const metadata: Metadata = {
-  alternates: { canonical: "https://taninwatkaewpankan.xyz" },
+  alternates: {
+    canonical: "https://taninwatkaewpankan.xyz",
+    // Reciprocates the declaration on /th. hreflang is ignored unless both
+    // pages point at each other.
+    languages: {
+      en: "https://taninwatkaewpankan.xyz",
+      th: "https://taninwatkaewpankan.xyz/th",
+    },
+  },
 };
 
 export default function Home() {
@@ -23,7 +32,7 @@ export default function Home() {
       style={{ overflowX: "clip" }}
     >
       <SkipLink />
-      <PillNav />
+      <SiteNav />
 
       {/* Film grain — sits under modals/chat (z-50+) but over content */}
       <div
@@ -41,8 +50,8 @@ export default function Home() {
         <About />
         <WhatIDo />
         <Projects />
-        <CV />
-        <ClientWork />
+        <HowItWorks />
+        <EmploymentBand />
         <Garden />
       </main>
 
@@ -52,6 +61,7 @@ export default function Home() {
       </div>
 
       <ChatWidget />
+      <LanguageOffer />
     </div>
   );
 }

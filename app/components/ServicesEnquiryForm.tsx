@@ -7,8 +7,10 @@ import {
   validateEnquiry,
   EMPTY_ENQUIRY,
   FIELD_LIMITS,
+  ENQUIRY_MESSAGES_EN,
   type EnquiryFields,
   type EnquiryErrors,
+  type EnquiryMessages,
 } from "../lib/services-enquiry";
 
 /**
@@ -21,7 +23,77 @@ import {
  *
  * Validation lives in app/lib/services-enquiry.ts and is shared with the route
  * handler, so the client and the server never disagree about what is valid.
+ *
+ * Every visible string is injectable via `copy`, defaulting to English, so /th can
+ * render this form in Thai without a second copy of it existing. Duplicating the
+ * form would have duplicated the validation, the honeypot, the error summary and
+ * the POST — four things that must not have two versions.
  */
+
+/**
+ * All plain strings, with {tokens} instead of functions, so the whole object can
+ * be handed straight from a Server Component to this Client Component. Functions
+ * cannot cross that boundary.
+ */
+export type EnquiryCopy = {
+  labels: Record<keyof EnquiryFields, string>;
+  /**
+   * Overrides the visible <option> text, keyed by the option VALUE.
+   *
+   * 🔒 Values themselves are never translated. app/lib/services-enquiry.ts builds
+   * its server-side allowlist from servicesEnquiryOptions, so a translated value
+   * would make the endpoint reject every submission from the translated form.
+   * Anything missing here falls back to the English label.
+   */
+  optionLabels?: Partial<
+    Record<"projectType" | "budget" | "timeline", Record<string, string>>
+  >;
+  chooseOne: string;
+  honeypotLabel: string;
+  budgetHint: string;
+  messageHint: string;
+  messagePlaceholder: string;
+  submit: string;
+  submitting: string;
+  submittingSr: string;
+  sentTitle: string;
+  sentBody: string;
+  sentUrgentPrefix: string;
+  fixOne: string;
+  /** Contains the literal token {n}. */
+  fixMany: string;
+  /** Contains the literal token {email}. */
+  sendFailed: string;
+  messages: EnquiryMessages;
+};
+
+export const ENQUIRY_COPY_EN: EnquiryCopy = {
+  labels: {
+    name: "Your name",
+    email: "Email",
+    company: "Business or company",
+    projectType: "What do you need?",
+    budget: "Rough budget",
+    timeline: "When do you need it?",
+    message: "About the project",
+  },
+  chooseOne: "Choose one…",
+  honeypotLabel: "Website",
+  budgetHint: "A rough band is fine — it just tells me what is realistic.",
+  messageHint: "A few sentences is plenty. Links to anything existing help.",
+  messagePlaceholder: "What does the business do, and what do you need built?",
+  submit: "Send enquiry",
+  submitting: "Sending…",
+  submittingSr: "Sending your enquiry",
+  sentTitle: "That is with me.",
+  sentBody:
+    "I read every enquiry myself and reply to all of them, including the ones I am not the right person for.",
+  sentUrgentPrefix: "If it is urgent, write to",
+  fixOne: "One thing to fix:",
+  fixMany: "{n} things to fix:",
+  sendFailed: "Could not send that. Email me directly at {email}.",
+  messages: ENQUIRY_MESSAGES_EN,
+};
 
 type Status = "idle" | "submitting" | "sent" | "failed";
 
@@ -65,17 +137,11 @@ const FIELD_ORDER: (keyof EnquiryFields)[] = [
   "message",
 ];
 
-const FIELD_LABELS: Record<keyof EnquiryFields, string> = {
-  name: "Your name",
-  email: "Email",
-  company: "Business or company",
-  projectType: "What do you need?",
-  budget: "Rough budget",
-  timeline: "When do you need it?",
-  message: "About the project",
-};
-
-export function ServicesEnquiryForm() {
+export function ServicesEnquiryForm({
+  copy = ENQUIRY_COPY_EN,
+}: {
+  copy?: EnquiryCopy;
+} = {}) {
   const [form, setForm] = useState<EnquiryFields>(EMPTY_ENQUIRY);
   const [errors, setErrors] = useState<EnquiryErrors>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -111,7 +177,7 @@ export function ServicesEnquiryForm() {
     e.preventDefault();
     if (status === "submitting") return;
 
-    const found = validateEnquiry(form);
+    const found = validateEnquiry(form, copy.messages);
     setErrors(found);
     setFormError(null);
 
@@ -160,7 +226,7 @@ export function ServicesEnquiryForm() {
       setStatus("failed");
       setFormError(
         (err as Error).message ||
-          `Could not send that. Email me directly at ${personalInfo.email}.`
+          copy.sendFailed.replace("{email}", personalInfo.email)
       );
       focusSummary();
     }
@@ -177,10 +243,9 @@ export function ServicesEnquiryForm() {
         <div className="flex h-12 w-12 items-center justify-center rounded-full border border-crystal-500/30 bg-crystal-500/10">
           <Check size={22} strokeWidth={1.6} className="text-crystal-300" />
         </div>
-        <p className="text-lg font-medium text-frost">That is with me.</p>
+        <p className="text-lg font-medium text-frost">{copy.sentTitle}</p>
         <p className="max-w-sm text-sm font-light leading-relaxed text-frost/60">
-          I read every enquiry myself and reply to all of them, including the
-          ones I am not the right person for. If it is urgent, write to{" "}
+          {copy.sentBody} {copy.sentUrgentPrefix}{" "}
           <a
             href={`mailto:${personalInfo.email}`}
             className="text-frost/80 underline underline-offset-4 transition-colors hover:text-crystal-300"
@@ -212,8 +277,8 @@ export function ServicesEnquiryForm() {
             <>
               <p className="mb-2 font-medium">
                 {errorList.length === 1
-                  ? "One thing to fix:"
-                  : `${errorList.length} things to fix:`}
+                  ? copy.fixOne
+                  : copy.fixMany.replace("{n}", String(errorList.length))}
               </p>
               <ul className="space-y-1">
                 {errorList.map((key) => (
@@ -222,7 +287,7 @@ export function ServicesEnquiryForm() {
                       href={`#enquiry-${key}`}
                       className="underline underline-offset-4 hover:text-clay-200"
                     >
-                      {FIELD_LABELS[key]}
+                      {copy.labels[key]}
                     </a>{" "}
                     — {errors[key]}
                   </li>
@@ -240,7 +305,7 @@ export function ServicesEnquiryForm() {
         aria-hidden="true"
         className="absolute left-[-9999px] top-0 h-px w-px overflow-hidden"
       >
-        <label htmlFor="enquiry-website">Website</label>
+        <label htmlFor="enquiry-website">{copy.honeypotLabel}</label>
         <input
           ref={honeypotRef}
           id="enquiry-website"
@@ -255,7 +320,7 @@ export function ServicesEnquiryForm() {
         {/* Name */}
         <div>
           <label htmlFor="enquiry-name" className={LABEL}>
-            {FIELD_LABELS.name}
+            {copy.labels.name}
           </label>
           <input
             id="enquiry-name"
@@ -280,7 +345,7 @@ export function ServicesEnquiryForm() {
         {/* Email */}
         <div>
           <label htmlFor="enquiry-email" className={LABEL}>
-            {FIELD_LABELS.email}
+            {copy.labels.email}
           </label>
           <input
             id="enquiry-email"
@@ -305,7 +370,7 @@ export function ServicesEnquiryForm() {
         {/* Company */}
         <div className="sm:col-span-2">
           <label htmlFor="enquiry-company" className={LABEL}>
-            {FIELD_LABELS.company}
+            {copy.labels.company}
             <span className={OPTIONAL}>optional</span>
           </label>
           <input
@@ -332,7 +397,7 @@ export function ServicesEnquiryForm() {
         {/* Project type */}
         <div className="sm:col-span-2">
           <label htmlFor="enquiry-projectType" className={LABEL}>
-            {FIELD_LABELS.projectType}
+            {copy.labels.projectType}
           </label>
           <div className="relative">
             <select
@@ -348,10 +413,10 @@ export function ServicesEnquiryForm() {
               disabled={submitting}
               className={fieldClass(Boolean(errors.projectType), SELECT_EXTRA)}
             >
-              <option value="">Choose one…</option>
+              <option value="">{copy.chooseOne}</option>
               {servicesEnquiryOptions.projectType.map((option) => (
                 <option key={option.value} value={option.value}>
-                  {option.label}
+                  {copy.optionLabels?.projectType?.[option.value] ?? option.label}
                 </option>
               ))}
             </select>
@@ -372,7 +437,7 @@ export function ServicesEnquiryForm() {
         {/* Budget */}
         <div>
           <label htmlFor="enquiry-budget" className={LABEL}>
-            {FIELD_LABELS.budget}
+            {copy.labels.budget}
           </label>
           <div className="relative">
             <select
@@ -386,10 +451,10 @@ export function ServicesEnquiryForm() {
               disabled={submitting}
               className={fieldClass(Boolean(errors.budget), SELECT_EXTRA)}
             >
-              <option value="">Choose one…</option>
+              <option value="">{copy.chooseOne}</option>
               {servicesEnquiryOptions.budget.map((option) => (
                 <option key={option.value} value={option.value}>
-                  {option.label}
+                  {copy.optionLabels?.budget?.[option.value] ?? option.label}
                 </option>
               ))}
             </select>
@@ -406,7 +471,7 @@ export function ServicesEnquiryForm() {
             </p>
           ) : (
             <p id="enquiry-budget-hint" className={HINT_TEXT}>
-              A rough band is fine — it just tells me what is realistic.
+              {copy.budgetHint}
             </p>
           )}
         </div>
@@ -414,7 +479,7 @@ export function ServicesEnquiryForm() {
         {/* Timeline */}
         <div>
           <label htmlFor="enquiry-timeline" className={LABEL}>
-            {FIELD_LABELS.timeline}
+            {copy.labels.timeline}
           </label>
           <div className="relative">
             <select
@@ -430,10 +495,10 @@ export function ServicesEnquiryForm() {
               disabled={submitting}
               className={fieldClass(Boolean(errors.timeline), SELECT_EXTRA)}
             >
-              <option value="">Choose one…</option>
+              <option value="">{copy.chooseOne}</option>
               {servicesEnquiryOptions.timeline.map((option) => (
                 <option key={option.value} value={option.value}>
-                  {option.label}
+                  {copy.optionLabels?.timeline?.[option.value] ?? option.label}
                 </option>
               ))}
             </select>
@@ -454,7 +519,7 @@ export function ServicesEnquiryForm() {
         {/* Message */}
         <div className="sm:col-span-2">
           <label htmlFor="enquiry-message" className={LABEL}>
-            {FIELD_LABELS.message}
+            {copy.labels.message}
           </label>
           <textarea
             id="enquiry-message"
@@ -467,7 +532,7 @@ export function ServicesEnquiryForm() {
             value={form.message}
             onChange={update("message")}
             disabled={submitting}
-            placeholder="What does the business do, and what do you need built?"
+            placeholder={copy.messagePlaceholder}
             className={fieldClass(
               Boolean(errors.message),
               "resize-y min-h-36 leading-relaxed"
@@ -479,7 +544,7 @@ export function ServicesEnquiryForm() {
             </p>
           ) : (
             <p id="enquiry-message-hint" className={HINT_TEXT}>
-              A few sentences is plenty. Links to anything existing help.
+              {copy.messageHint}
             </p>
           )}
         </div>
@@ -494,18 +559,18 @@ export function ServicesEnquiryForm() {
           {submitting ? (
             <>
               <Loader2 size={16} strokeWidth={1.8} className="animate-spin" />
-              Sending…
+              {copy.submitting}
             </>
           ) : (
             <>
-              Send enquiry
+              {copy.submit}
               <Send size={15} strokeWidth={1.8} />
             </>
           )}
         </button>
         {submitting && (
           <span role="status" className="sr-only">
-            Sending your enquiry
+            {copy.submittingSr}
           </span>
         )}
       </div>

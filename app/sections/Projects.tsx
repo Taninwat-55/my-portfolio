@@ -2,10 +2,12 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { LiveProjectButton } from "../components/LiveProjectButton";
 import { SectionHeading } from "../components/SectionHeading";
-import { projectCards, type ProjectCard } from "../data";
+import { projectCards, cases, type ProjectCard } from "../data";
 
 const cardRadius = "rounded-[40px] sm:rounded-[50px] md:rounded-[60px]";
 
@@ -140,13 +142,34 @@ export function Projects() {
     <section
       ref={containerRef}
       id="projects"
-      className="relative z-10 bg-night-900 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-6 md:px-10 pt-20 sm:pt-24 md:pt-32 pb-10"
+      className="relative z-10 bg-night-900 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 px-4 sm:px-6 md:px-10 pt-20 sm:pt-24 md:pt-32 pb-28"
     >
       <SectionHeading
         eyebrow="Selected Work"
         title="Projects"
-        className="mb-12 sm:mb-16 md:mb-20"
+        className="mb-6 sm:mb-8"
       />
+
+      {/* A second entry point, at the TOP. The one after the deck was
+          unfindable in practice: three sticky cards are ~255vh of scrolling, and
+          the next section pulls up over this one by 40px, so the link at the end
+          sat in a sliver nobody reaches. This is also just the better place for
+          it — arriving at the section is when you decide whether to scroll all
+          three or jump to the full list. */}
+      <div className="mb-12 flex justify-center sm:mb-16 md:mb-20">
+        <Link
+          href="/projects"
+          className="group inline-flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-frost/50 transition-colors hover:text-frost focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900"
+        >
+          Or see all {cases.length} projects
+          <ArrowRight
+            size={14}
+            strokeWidth={1.5}
+            aria-hidden
+            className="transition-transform duration-200 group-hover:translate-x-0.5"
+          />
+        </Link>
+      </div>
 
       {projectCards.map((card, i) => (
         <Card
@@ -157,6 +180,24 @@ export function Projects() {
           progress={scrollYProgress}
         />
       ))}
+
+      {/* The only route into /projects — the pill nav keeps pointing at this
+          section's hash so it retains scroll-spy. Deliberately after the deck: a
+          visitor who scrolled all three cards is the one who wants more. */}
+      <div className="relative z-20 mt-12 flex justify-center sm:mt-16">
+        <Link
+          href="/projects"
+          className="group inline-flex items-center gap-2 rounded-full border border-frost/30 px-7 py-3 text-sm font-medium uppercase tracking-widest text-frost/70 transition-colors hover:border-frost/60 hover:text-frost focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900"
+        >
+          See all projects
+          <ArrowRight
+            size={15}
+            strokeWidth={1.5}
+            aria-hidden
+            className="transition-transform duration-200 group-hover:translate-x-0.5"
+          />
+        </Link>
+      </div>
     </section>
   );
 }

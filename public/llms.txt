@@ -29,34 +29,47 @@ client projects for small businesses, startups, and solo founders.
 Details, published price ranges, and an enquiry form:
 https://taninwatkaewpankan.xyz/services
 
-- Small-Business Website, in Danish, English or Swedish. Priced by build method,
-  because the two genuinely differ:
-    · Webflow — 5.500–8.000 DKK for 1–3 pages, 9.000–15.000 DKK for 4–8 pages.
-      Then roughly 1.300–2.100 DKK a year for the Webflow site plan. Best when
-      the client wants to edit prices and photos themselves.
-    · Hand-coded — 6.500–9.500 DKK for 1–3 pages, 12.000–20.000 DKK for 4–8
-      pages. Then roughly 100–1.600 DKK a year (domain, plus hosting which fits
-      the Netlify/Vercel free tier or 500–1.500 DKK on a Danish webhotel). Best
-      when the site will mostly sit still after launch.
-  Over five years the two land close together: about 16.000–26.000 DKK for
-  Webflow versus 12.500–28.000 DKK coded on a 4–8 page site.
-  No VAT is added to any of these figures — he is under the Danish 50.000 kr
-  registration threshold, so a quoted price is the final price.
+- Small-Business Website, in Danish, English or Swedish. Priced by scope alone —
+  the same price whether it is built in Webflow or coded from scratch:
+    · 1–3 pages — 6.500–9.500 DKK, typically 1–2 weeks.
+    · 4–8 pages — 12.000–20.000 DKK, typically 2–3 weeks.
+    · Add-ons (a second language, online booking, a blog) — +3.000–8.000 DKK each.
+  The build method changes what the site costs to KEEP, not what it costs to
+  make. Webflow is roughly 1.150–1.950 DKK a year for the site plan on annual
+  billing (more if billed monthly), and editing their own text and images is
+  included in that — Webflow made client access free on every plan in August 2026.
+  A coded site has no platform fee: roughly 100–1.600 DKK a year for the domain
+  plus hosting, which fits the Netlify/Vercel free tier or costs 500–1.500 DKK
+  on a Danish webhotel. Since there is no platform plan to include anything,
+  self-editing on a coded site is a one-off add-on Ice sets up instead, after
+  which it costs nothing a year. Neither route lets the client move the layout.
+  Over five years of running cost that is about 6.250–10.250 DKK for Webflow
+  against 500–8.000 DKK coded, so on the likely setup Webflow is around 6.000
+  DKK more to own. Every one of those yearly figures is paid by the client
+  directly to Webflow, their host or their registrar — never to Ice, who does not
+  mark up other people's invoices.
+  All prices are quoted ekskl. moms. He is under the Danish 50.000 kr
+  registration threshold, so no moms is added today. State that as a fact if
+  asked; it is not a discount or a reason to hire him.
+  (Mirrors `vat` in app/data.ts — this file does not interpolate, so update both.)
   Every build includes per-page search setup and Google Business connection,
   mobile-first construction, a performance budget, accessibility basics, an
   enquiry form with a backup delivery path, analytics, and domain and hosting
   registered in the client's name — that work is why the floor is not 3.000 DKK.
   Reference build: rachabeautywellness.com, a Danish wellness studio's first
   website, 95+ Lighthouse on first deploy.
-- Web App Frontend (4.800 DKK / day, roughly 24.000 DKK a week, typically 3–8
+- Web App Frontend (5.500 DKK / day, roughly 27.500 DKK a week, typically 3–8
   weeks): a React, Next.js and TypeScript frontend built against an API that
   already exists, for teams that have a backend but not an interface.
 - Redesign & Performance Rescue (8.000 – 16.000 DKK, typically 1–3 weeks):
   fixing an existing site that is slow, dated, or invisible on Google, instead
   of rebuilding from zero. The written audit can be bought alone for 3.500 DKK.
 
-Engagements are fixed-scope, with a written price and delivery date agreed
-before work starts, not open-ended hourly billing. He does the work himself.
+Engagements are fixed-scope by default, with a written price and delivery date
+agreed before work starts. Where scope genuinely cannot be pinned down he bills
+by the day instead — see Web App Frontend above. He does not refuse time-based
+work; a fixed price is simply how a website is sold, because it puts the risk of
+overrun on him rather than the client. He does the work himself.
 The code, domain and hosting all end up in the client's name. He does not take
 on native mobile apps, ongoing SEO or marketing retainers, or large
 backend-heavy platforms built from nothing.
@@ -91,7 +104,7 @@ Approach: Design systems, accessibility, performance
 - Bevisly (https://bevisly.com): Skill verification platform. Owned end-to-end:
   defined the two-role model, designed row-level-security policies, shipped 8+ AI
   features. React, TypeScript, Supabase, PostgreSQL with row-level security.
-- Satoshi Standard (https://www.satoshi-standard.xyz): Bitcoin purchasing power
+- Satoshi Standard (https://satoshi-standard.vercel.app): Bitcoin purchasing power
   dashboard. React, Tailwind, real-time price API, full Vitest test suite.
 - Cinema Booking System (https://cinema-booking-system-project.vercel.app):
   Full-stack booking engine with concurrent seat-locking at the data layer.
@@ -116,6 +129,12 @@ Approach: Design systems, accessibility, performance
 ## Links
 
 - Services & project enquiries: https://taninwatkaewpankan.xyz/services
+- Every project with a write-up: https://taninwatkaewpankan.xyz/projects
+- Full CV, skills and track record: https://taninwatkaewpankan.xyz/cv
+- Thai-language page for Thai-owned businesses in Denmark and Sweden
+  (restaurants, massage, nails, cleaning): https://taninwatkaewpankan.xyz/th
+  Same prices and terms as /services; the sites themselves are built in Danish
+  or Swedish because the clients' own customers are local.
 - LinkedIn: https://www.linkedin.com/in/taninwat-k-ice2539/
 - GitHub: https://github.com/Taninwat-55
 - Email: taninwat.kaewpankan@gmail.com

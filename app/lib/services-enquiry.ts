@@ -59,44 +59,87 @@ const ALLOWED = {
 };
 
 /**
+ * The eight strings this validator can produce, injectable so a translated form
+ * gets translated errors without a second validator.
+ *
+ * Deliberately all plain strings, with {tokens} rather than functions. A copy
+ * object containing functions cannot be passed from a Server Component to a
+ * Client Component — Next.js refuses to serialize it — and that would have forced
+ * a client wrapper around every translated form.
+ *
+ * The alternative was duplicating validateEnquiry per language, which would have
+ * meant two definitions of what "valid" means — exactly the drift this module
+ * exists to prevent. The route handler passes nothing and stays English, which is
+ * right: those messages travel back over the API and end up in logs.
+ */
+export type EnquiryMessages = {
+  nameShort: string;
+  tooLong: string;
+  email: string;
+  projectType: string;
+  budget: string;
+  timeline: string;
+  messageShort: string;
+  /** Contains the literal token {max}, replaced with FIELD_LIMITS.message. */
+  messageLong: string;
+};
+
+export const ENQUIRY_MESSAGES_EN: EnquiryMessages = {
+  nameShort: "Tell me your name",
+  tooLong: "That is a bit long",
+  email: "I need a valid email to reply to",
+  projectType: "Pick the closest match",
+  budget: "Pick a range — a rough one is fine",
+  timeline: "When do you need it?",
+  messageShort: "A sentence or two about the project",
+  messageLong: "Keep it under {max} characters",
+};
+
+/**
  * Takes `unknown` rather than EnquiryFields on purpose — the server calls this
  * with a parsed JSON body that could be anything at all, including numbers and
  * objects where strings are expected.
  */
-export function validateEnquiry(input: unknown): EnquiryErrors {
+export function validateEnquiry(
+  input: unknown,
+  messages: EnquiryMessages = ENQUIRY_MESSAGES_EN
+): EnquiryErrors {
   const errors: EnquiryErrors = {};
   const source = (input ?? {}) as Record<string, unknown>;
   const read = (key: string) =>
     typeof source[key] === "string" ? (source[key] as string) : "";
 
   const name = read("name").trim();
-  if (name.length < NAME_MIN) errors.name = "Tell me your name";
-  else if (name.length > FIELD_LIMITS.name) errors.name = "That is a bit long";
+  if (name.length < NAME_MIN) errors.name = messages.nameShort;
+  else if (name.length > FIELD_LIMITS.name) errors.name = messages.tooLong;
 
   const email = read("email").trim();
   if (!EMAIL_RE.test(email) || email.length > FIELD_LIMITS.email) {
-    errors.email = "I need a valid email to reply to";
+    errors.email = messages.email;
   }
 
   if (read("company").trim().length > FIELD_LIMITS.company) {
-    errors.company = "That is a bit long";
+    errors.company = messages.tooLong;
   }
 
   if (!ALLOWED.projectType.has(read("projectType"))) {
-    errors.projectType = "Pick the closest match";
+    errors.projectType = messages.projectType;
   }
   if (!ALLOWED.budget.has(read("budget"))) {
-    errors.budget = "Pick a range — a rough one is fine";
+    errors.budget = messages.budget;
   }
   if (!ALLOWED.timeline.has(read("timeline"))) {
-    errors.timeline = "When do you need it?";
+    errors.timeline = messages.timeline;
   }
 
   const message = read("message").trim();
   if (message.length < MESSAGE_MIN) {
-    errors.message = "A sentence or two about the project";
+    errors.message = messages.messageShort;
   } else if (message.length > FIELD_LIMITS.message) {
-    errors.message = `Keep it under ${FIELD_LIMITS.message} characters`;
+    errors.message = messages.messageLong.replace(
+      "{max}",
+      String(FIELD_LIMITS.message)
+    );
   }
 
   return errors;
@@ -122,7 +165,13 @@ export const escapeHtml = (value: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
 
-/** Turns a stored option value back into its human label for the email body. */
+/**
+ * Turns a stored option value back into its human label for the email body.
+ *
+ * Always the English label, whichever language the form was in. That is
+ * deliberate: this output goes into the notification Ice reads, and a consistent
+ * inbox beats echoing the visitor's UI language back at him.
+ */
 export function optionLabel(
   group: keyof typeof servicesEnquiryOptions,
   value: string
