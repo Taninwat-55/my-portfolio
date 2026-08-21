@@ -724,6 +724,99 @@ export default function ServicesPage() {
           </div>
         </section>
 
+        {/* ── Aftercare ─────────────────────────────────────────────────── */}
+        {/* Directly after the running-cost table, because that section ends by
+            saying there is no yearly bill — and the obvious next question is
+            "so what happens when I want something changed?". Leaving that
+            unanswered is what made the old position feel incomplete.
+
+            Item 33. It is a prepaid block and an hourly rate, NOT a
+            subscription — see the reasoning on services.aftercare in data.ts
+            for why a monthly plan would contradict the section above it. */}
+        <section aria-labelledby="aftercare-heading" className="mb-14 md:mb-20">
+          <SectionHeading
+            id="aftercare-heading"
+            eyebrow={services.aftercare.eyebrow}
+            title={services.aftercare.title}
+            align="left"
+            titleClassName="text-frost"
+            titleSize="clamp(1.8rem, 5vw, 3.2rem)"
+            className="mb-6 md:mb-8"
+          />
+
+          <p className="mb-8 max-w-3xl text-frost/60 font-light text-sm sm:text-base leading-relaxed">
+            {services.aftercare.lead}
+          </p>
+
+          {/* Free and hourly side by side, then the block below at full width.
+              The block is the recommended answer, so it gets the emphasis of
+              its own row rather than being one of three equal columns — three
+              equal options reads as a pricing table and invites comparison
+              shopping between them, which is not the decision on offer. */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {(
+              [services.aftercare.free, services.aftercare.hourly] as {
+                label: string;
+                body: string;
+                price?: string;
+              }[]
+            ).map((tier) => (
+              <FadeIn key={tier.label} y={24}>
+                <div className="h-full rounded-2xl border border-frost/10 bg-white/3 p-6">
+                  <div className="mb-3 flex items-baseline justify-between gap-3">
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-crystal-500">
+                      {tier.label}
+                    </span>
+                    {tier.price && (
+                      <span className="shrink-0 whitespace-nowrap text-base font-medium tabular-nums text-frost">
+                        {tier.price}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-frost/60 font-light text-sm leading-relaxed">
+                    {tier.body}
+                  </p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+
+          <FadeIn y={24} delay={0.1}>
+            <div className="mt-4 rounded-2xl border border-crystal-500/25 bg-crystal-500/5 p-6">
+              <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                <span className="text-[10px] uppercase tracking-[0.25em] text-crystal-500">
+                  {services.aftercare.block.label}
+                </span>
+                <span className="flex items-baseline gap-3">
+                  <span className="whitespace-nowrap text-lg font-medium tabular-nums text-frost">
+                    {services.aftercare.block.price}
+                  </span>
+                  <span className="text-frost/40 font-light text-xs">
+                    {services.aftercare.block.unit}
+                  </span>
+                </span>
+              </div>
+              <p className="max-w-3xl text-frost/65 font-light text-sm leading-relaxed">
+                {services.aftercare.block.body}
+              </p>
+              <ul className="mt-5 grid grid-cols-1 gap-x-10 gap-y-2 border-t border-frost/10 pt-5 sm:grid-cols-2">
+                {services.aftercare.block.terms.map((term) => (
+                  <li
+                    key={term}
+                    className="relative pl-5 text-sm font-light leading-relaxed text-frost/60"
+                  >
+                    <span
+                      aria-hidden
+                      className="absolute left-0 top-[0.65em] h-1 w-1 rounded-full bg-crystal-500/60"
+                    />
+                    {term}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </FadeIn>
+        </section>
+
         {/* ── Handover and scope boundaries ─────────────────────────────── */}
         {/* Straight after Process, whose last step is handover. The "not in the
             price" column is the same move as the "Probably not" column further

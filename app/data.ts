@@ -1378,6 +1378,63 @@ export const services = {
   },
 
   /**
+   * ITEM 33, DECIDED 2026-08-21: a prepaid block of hours, and NO subscription.
+   *
+   * WHY NOT THE STANDARD PRODUCT. Danish agencies sell website care at 250 – 3.000
+   * kr a MONTH, typically 500 – 2.000. Read what is in those plans and they are all
+   * the same product: hosting, security patches, daily backups, WordPress core and
+   * plugin updates. That plan exists because WordPress rots. A Webflow site is
+   * maintained by Webflow, and a static site on Netlify has no plugins to patch —
+   * so selling a monthly plan here would mean charging for a problem this stack
+   * deliberately does not have, and it would undercut the exact technical choice
+   * that makes "no yearly bill" true in runningCosts. That is not a small
+   * inconsistency to accept for recurring revenue; it is the argument.
+   *
+   * SO THE PRODUCT IS CHANGES, NOT MAINTENANCE. That is also what clients actually
+   * want, and it closes the one thing the old position left dangling: what a
+   * ten-minute text change costs. "Call me and I will invoice you 100 kr" costs
+   * more in admin and awkwardness than it earns, so small changes are simply free
+   * and anything real is either billed hourly or drawn from a prepaid block.
+   *
+   * The block is the recommended answer and it is priced to be one: 480 kr an hour
+   * against 650 ad-hoc, roughly a quarter less, which is what makes prepaying a
+   * decision rather than a favour. 650 sits inside the Danish freelance band
+   * (550 – 750) and above offer 01's implied project rate, which is correct — ad-hoc
+   * work has no economies of scale and every change is a context switch.
+   *
+   * ⚠️ NOTHING HERE RENEWS. No subscription, no automatic billing, no monthly
+   * anything. If a future version of this grows a recurring charge, `paidTo` and
+   * the "no monthly retainer" claim in servicesFaq both become false and have to
+   * change in the same commit.
+   */
+  aftercare: {
+    eyebrow: "After Launch",
+    title: "If you want changes later",
+    lead: "Your site has no plugins to patch and nothing that rots — that is the point of building it this way, and it is why there is no monthly plan here to sell you. What people do want later is changes, so this is what those cost.",
+    free: {
+      label: "Free, just ask",
+      body: "A price, a phone number, an opening hour, a typo. Anything that takes me a few minutes is not worth either of us raising an invoice for, so I do not.",
+    },
+    hourly: {
+      label: "By the hour",
+      price: "650 DKK / hour",
+      body: "Billed in half hours, for anything bigger — new photos, a rewritten page, a seasonal menu. I tell you the estimate before I start, not after.",
+    },
+    block: {
+      label: "A block of hours",
+      price: "2.400 DKK",
+      unit: "5 hours · valid 12 months",
+      body: "Most of my clients never need this, and I would rather say so than sell you a subscription. But if you would rather not think about it every time you want something changed, buy a block up front and draw on it. Use it for anything: text, photos, prices, a new page, a question. I log what each change took and tell you what is left.",
+      terms: [
+        "Works out at 480 kroner an hour instead of 650",
+        "Unused hours roll over once, into a second year",
+        "No monthly bill, and nothing renews automatically",
+        "When it runs out you buy another or you do not — there is no default",
+      ],
+    },
+  },
+
+  /**
    * The shortest honest form of the terms, for the homepage. The prices are
    * already up there (siteContent.homeOffers); what was missing was what
    * surrounds them.
@@ -1492,7 +1549,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Do you maintain the site afterwards?",
-    a: "Not by default, and that is deliberate. I build sites that do not need a monthly retainer to keep working — Racha Beauty's site has run since launch without anyone touching it. If you do want ongoing changes, we agree an hourly rate or a small block of hours per month, and you can stop whenever you like.",
+    a: `Not by default, and that is deliberate. I build sites that do not need a monthly retainer to keep working — Racha Beauty's site has run since launch without anyone touching it, and there is no plan here for me to sell you. What I do not do is pretend that means you will never want anything changed. Small things — a price, an opening hour, a typo — are free, because a 100-kroner invoice costs us both more in admin than it is worth. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, with the estimate given before I start. And if you would rather not think about it each time, a block of ${services.aftercare.block.unit.split(" · ")[0]} costs ${services.aftercare.block.price} and you draw on it as you go, which works out cheaper per hour. Nothing renews, and there is no monthly anything.`,
   },
   {
     q: "Which languages can you work in?",
@@ -1659,6 +1716,10 @@ ${services.offers[0]
 ${services.offers[0].addOns!.included} Taking payment and anything involving logins are capabilities Ice has built on his own products — Bevisly and MockMate — rather than for a client. Say that plainly if asked; never imply a client build that does not exist.
 
 What the build method changes is the year after launch, not the build price. Webflow costs roughly ${services.runningCosts.rows.find((r) => r.label === "Platform fee")!.webflow} a year for the site plan, and editing their own text and images is included in that — Webflow made client access free on every plan in August 2026. A coded site has no platform fee and costs roughly 100 – 1.600 kr a year for hosting and domain; with no plan to include anything, self-editing there is a one-off add-on Ice sets up instead. Neither route lets the client rearrange the layout. Never say Webflow is the only way to edit your own site: that stopped being true in August 2026. Over five years that is about ${services.runningCosts.fiveYear.webflow} against ${services.runningCosts.fiveYear.coded}, so on the likely setup Webflow is around 6.000 kr more to own. Always qualify that figure as the likely setup rather than stating it flatly — comparing the extremes gives a range, not one number.
+
+There is NO maintenance subscription and Ice does not want one — say so plainly and do not invent one. Danish agencies sell website care at 250 – 3.000 kr a month, but that product is patching WordPress, and a Webflow site is maintained by Webflow while a static site has no plugins to patch. Charging monthly here would be charging for a problem this stack does not have.
+
+What he does have, for changes after launch: small things — a price, an opening hour, a typo — are FREE, because a 100 kr invoice costs more in admin than it earns. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, estimate given first. Or a prepaid block: ${services.aftercare.block.price} for ${services.aftercare.block.unit}, which works out at 480 kr an hour instead of 650 and rolls over once. Nothing renews, and there is no monthly anything — if someone asks about a retainer, that is the answer.
 
 All of those yearly costs are paid by the client directly to Webflow, their host and their registrar. None of it is paid to Ice, and he does not mark up other people's invoices. If someone worries about an ongoing bill from him, say that plainly.
 

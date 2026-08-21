@@ -24,6 +24,33 @@ seen at a real viewport — see the list in the latest log entry.
 
 ## Progress log
 
+### 2026-08-21 (evening, later)
+
+**Item 33 — care plan decided: prepaid hours, no subscription** ✅
+
+The research decided this rather than taste. Danish care plans run 250 – 3.000 kr a
+month and every one of them is a WordPress product — security patches, plugin
+updates, daily backups. Webflow maintains Webflow sites and a static site has no
+plugins to patch, so selling that monthly would be charging for a problem this
+stack does not have, on the page directly below the table arguing there is no
+yearly bill. That is not a small inconsistency to trade for recurring revenue; it
+is the argument itself.
+
+- **So the product is changes, not maintenance** — which is what clients want
+  anyway, and it closes the ten-minute-text-change question the old position left
+  open. Small changes free, 650 kr/h beyond that, or 2.400 kr for a 5-hour block
+  at an effective 480 kr/h.
+- 🔒 **Nothing renews.** If that ever changes, `runningCosts.paidTo` and the "no
+  monthly retainer" FAQ line both become false and must move in the same commit.
+  Checked as consistent across `data.ts`, the FAQ, the chatbot grounding and
+  `llms.txt`.
+- **The FAQ got precise.** It used to say "we agree an hourly rate or a small block
+  of hours per month" — vague, and "per month" quietly contradicted the
+  no-retainer claim two sentences earlier. It now names the figures.
+- ⚠️ Two of my own bugs caught on the way: an interpolation that would have
+  rendered "5 hours hours", and a union type where `free` has no price and
+  `hourly` does, which cannot narrow inside `.map`. TypeScript caught the second.
+
 ### 2026-08-21 (evening)
 
 **Items 27 and 29 — `/da`, built and deliberately invisible** ✅
@@ -1165,12 +1192,40 @@ quote the positioning. Building them before this settles means writing twice.*
 
 ### Block 7 — Open business decisions
 
-- [ ] **33. [H] Decide on an optional care plan (Q2).** *No longer blocks item 36
-  — that turned out to be a dependency I invented; see 36.*
-  Current position — *"Not by default, and that is deliberate"* — is honest and
-  sells well, but every month starts at zero kroner. An optional plan (backups,
-  updates, a small block of edit hours) is the standard freelancer stabiliser.
-  Not a recommendation; a decision to make consciously.
+- [x] **33. [H] Optional care plan — DECIDED: a prepaid block of hours, and NO
+  subscription.** ✅ *Ice's call, 2026-08-21.* Live on `/services` as its own
+  section, 15/15 checks.
+
+  **The market research is what settled it.** Danish agencies sell website care at
+  **250 – 3.000 kr a month**, typically 500 – 2.000. But read what is inside those
+  plans and they are all one product: hosting, security patches, daily backups,
+  **WordPress core and plugin updates**. That plan exists because WordPress rots.
+  A Webflow site is maintained by Webflow, and a static site on Netlify has no
+  plugins to patch — so a monthly plan here would charge for a problem this stack
+  deliberately does not have, and it would undercut the exact technical choice
+  that makes "no yearly bill" true in the section directly above it.
+
+  🔒 **So the product is CHANGES, not maintenance.** That is also what clients
+  actually want, and it closes the thing the old position left dangling — what a
+  ten-minute text change costs:
+
+  | | Price | |
+  |---|---|---|
+  | Small changes | **Free** | A price, an opening hour, a typo. A 100 kr invoice costs more in admin than it earns — this is the 50–100 kr edit fee question, answered. |
+  | Anything bigger | **650 DKK/h** | Billed in half hours, estimate given first. Inside the Danish freelance band (550–750) and above offer 01's implied project rate, which is correct: ad-hoc work has no economies of scale. |
+  | A block | **2.400 DKK** | 5 hours, 12 months, rolls over once. **480 kr/h against 650** — the discount is what makes prepaying a decision rather than a favour. |
+
+  ⚠️ **If a future version of this ever grows a recurring charge**, then
+  `runningCosts.paidTo` ("I do not invoice you again unless you ask me for more
+  work") and the "no monthly retainer" line in `servicesFaq` both become false and
+  must change in the same commit. Verified consistent across `data.ts`, the FAQ,
+  the chatbot grounding and `llms.txt`.
+
+  **Rejected:** an optional annual plan (real recurring revenue, but softens the
+  strongest line on the page, and launching a subscription product for one existing
+  client is premature); both together (two products to explain on a page that
+  already runs long); and doing nothing (leaves the edit-fee question open).
+
 
 - [x] **34. ~~Later: the `.xyz` domain.~~ ❌ DROPPED — Ice's call, 2026-08-21.**
   Already paid for, and he is aware of the trust tradeoff with Danish

@@ -159,6 +159,18 @@ Approach: Design systems, accessibility, performance
   Same prices and terms as /services, quoted in SEK on request. Ice is a Swedish
   citizen educated in Sweden and lives 35 minutes from Malmo by train, so
   meetings in Skane and the site itself are both in Swedish.
+- Changes after launch. There is NO maintenance subscription and this is a
+  deliberate choice, not an omission: the Danish market's care plans (250-3.000
+  DKK/month) are priced for patching WordPress, and a Webflow site is maintained
+  by Webflow while a static site has no plugins to patch. Instead:
+    · Small changes — a price, an opening hour, a typo — are free.
+    · Anything bigger — 650 DKK/hour, billed in half hours, estimate first.
+    · Or a prepaid block — 2.400 DKK for 5 hours, valid 12 months, which is
+      480 DKK/hour instead of 650. Unused hours roll over once.
+  Nothing renews and there is no monthly charge of any kind.
+
+## Links
+
 - LinkedIn: https://www.linkedin.com/in/taninwat-k-ice2539/
 - GitHub: https://github.com/Taninwat-55
 - Email: taninwat.kaewpankan@gmail.com
