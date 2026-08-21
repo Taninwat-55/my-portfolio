@@ -192,9 +192,14 @@ export function SiteNav() {
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 md:pt-6">
+      {/* An island, not a bar. It hugs its content and floats centred rather than
+          stretching to max-w-6xl — at desktop widths a full-width row put the
+          wordmark and the CTA in opposite corners with a hundred empty pixels
+          between them, which reads as a header rather than as something floating
+          over the composition. */}
+      <div className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 sm:px-6 md:pt-6">
         <div
-          className={`mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border px-3 py-2 transition-colors duration-300 sm:px-4 ${
+          className={`inline-flex max-w-full items-center gap-1.5 rounded-full border px-2 py-2 transition-colors duration-300 sm:gap-2 sm:px-3 ${
             scrolled || open
               ? "border-frost/10 bg-night-800/80 backdrop-blur-md"
               : "border-transparent bg-transparent"
@@ -207,6 +212,8 @@ export function SiteNav() {
           >
             Ice<span className="text-crystal-500">.</span>
           </Link>
+
+          <span aria-hidden className="mx-0.5 hidden h-5 w-px bg-frost/15 md:block" />
 
           {/* The links inline, from md up. Below that they live in the panel.
               A menu is the right answer only when there is no room for the thing
@@ -252,8 +259,10 @@ export function SiteNav() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* In the BAR, not the panel. Item 30b exists because a Thai visitor
+          <span aria-hidden className="mx-0.5 hidden h-5 w-px bg-frost/15 md:block" />
+
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {/* In the ISLAND, not the panel. Item 30b exists because a Thai visitor
                 landing on an English page had no signal /th existed, and "a link
                 they cannot see is the same as no link" applies just as much to one
                 hidden behind a menu — especially for a reader who may not know that
