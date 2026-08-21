@@ -36,6 +36,40 @@ export const enquiryInbox = personalInfo.email;
 // product work are real too; whatIDo below is where the honest detail about
 // relative depth lives, rather than hedging every label.
 
+/**
+ * The languages the site is published in.
+ *
+ * Extracted from siteContent rather than written inline because it needs a type
+ * annotation: written as an inline literal, "en" (which has no `offer`) and the
+ * others formed a union where the property existed on only some members, and
+ * every read of it failed to compile.
+ *
+ * Two things derive from this array, so adding a language here is most of the
+ * work of shipping one: the chips in SiteNav, and <LanguageOffer />.
+ */
+type SiteLanguage = {
+  code: string;
+  label: string;
+  href: string;
+  /**
+   * What <LanguageOffer /> says to a visitor whose browser is set to this
+   * language, written IN that language — an English sentence is the one thing
+   * that particular reader may not parse. Absent for "en", which is never
+   * offered because it is the default; a language without one is skipped rather
+   * than offered in English.
+   */
+  offer?: string;
+};
+
+const SITE_LANGUAGES: readonly SiteLanguage[] = [
+  { code: "en", label: "English", href: "/" },
+  { code: "th", label: "ไทย", href: "/th", offer: "ดูหน้าภาษาไทย" },
+  // Endonym, like ไทย above, rather than "SV" — a chip that names the language in
+  // that language is legible to the person who needs it without their having to
+  // know the site's conventions.
+  { code: "sv", label: "Svenska", href: "/sv", offer: "Se sidan på svenska" },
+];
+
 export const siteContent = {
   /**
    * The job title. Stays a job title on purpose: it feeds schema.org
@@ -96,10 +130,7 @@ export const siteContent = {
    * to a Thai-language searcher, but a Thai visitor who landed on / had no signal
    * it existed at all, which is exactly the person it was written for.
    */
-  languages: [
-    { code: "en", label: "English", href: "/" },
-    { code: "th", label: "ไทย", href: "/th" },
-  ],
+  languages: SITE_LANGUAGES,
 
   /**
    * The one action the homepage asks for, defined once.
@@ -688,6 +719,43 @@ export const cases: CaseStudy[] = [
       code: "https://github.com/Taninwat-55/rachabeautywellness",
     },
   },
+  // The only entry here with no client behind it, and it says so in the first
+  // sentence. Everything else on this page answers "would you ship for me"; this
+  // one answers "can you do motion work", which nothing else in the list shows.
+  // Its metrics are measured rather than framed as outcomes for that reason — an
+  // invented business result sitting beside Racha's real ones would cost more
+  // credibility than the entry is worth.
+  {
+    id: "lumina",
+    n: "08",
+    tag: "Motion & Craft",
+    title: "Lumina Spa",
+    sub: "A self-initiated scroll-choreography piece: ten animated sections, no build step, 10.8 KB over the wire.",
+    images: [
+      "/assets/lumina/lumina-hero.webp",
+      "/assets/lumina/lumina-arrival.webp",
+      "/assets/lumina/lumina-rituals.webp",
+      "/assets/lumina/lumina-experience.webp",
+    ],
+    overview:
+      "A landing page for a spa that does not exist. No client, no brief — I wanted to build the kind of scroll-choreographed site that usually arrives as a framework plus a few hundred kilobytes of JavaScript, and find out how far plain HTML, CSS and two libraries would get instead. Ten sections move with the scroll: a layered hero, a pinned arrival, oil cards, hand and stone compositions, water ripples, a horizontal ritual carousel and a sequential benefit reveal.",
+    challenge:
+      "Scroll animation is where responsive layout quietly breaks. The techniques that read as premium on a desktop — pinned sections, fixed viewport heights, multi-column grids — are the same ones that strand content off-screen on a phone, and they fail silently: nothing throws, the text is simply unreachable. Holding the whole thing to three static files with no build step meant every fix had to be a layout decision rather than a new dependency.",
+    stackWhy:
+      "GSAP with ScrollTrigger for scrubbed timelines and pinning, because CSS scroll-driven animations still cannot express scroll-linked easing reliably across browsers. Lenis for smooth scroll, with its scroll event wired into ScrollTrigger.update so the two share one scroll position instead of fighting over two. Both from CDN — no install, no bundler, no lockfile.",
+    engineering:
+      "A responsive audit turned up three real bugs, two of them the same mistake. A position: sticky element taller than the viewport pins at top: 0 and can never scroll its own bottom into view, so both pinned sections stranded their lower content below the fold on phones; the fix was to unpin them under 1100px and let them flow. The benefit list declared a two-column grid but had three children, so auto-placement dropped every paragraph into the 60px number gutter and wrapped it one word per line. Full-height sections moved to 100dvh with a 100vh fallback — except the four values the pinning maths reads, which stay in vh so the sticky range cannot reflow mid-scroll.",
+    metrics: [
+      { v: "10.8 KB", k: "Total page weight" },
+      { v: "Zero", k: "Build steps" },
+      { v: "10", k: "Scroll-driven sections" },
+    ],
+    stack: ["HTML", "CSS", "JavaScript", "GSAP", "ScrollTrigger", "Lenis"],
+    links: {
+      demo: "https://lumina-spa-sample.netlify.app",
+      code: "https://github.com/Taninwat-55/lumina-spa",
+    },
+  },
 ];
 
 // ─── SERVICES ─────────────────────────────────────────────────────────────────
@@ -746,6 +814,30 @@ export interface ServiceOffer {
   priceLadder?: { scope: string; detail: string; price: string; timeline: string }[];
   /** One line pointing from the price down to the running-cost comparison. */
   buildMethodNote?: string;
+  /**
+   * The itemised add-ons. Offer 01 only.
+   *
+   * 🔒 ONE PRICE PER ADD-ON, METHOD-AGNOSTIC. The instinct is "Webflow CMS is
+   * quicker to set up, so charge less for it" — which is exactly the mistake the
+   * note above describes on the base price, and every reason applies again: the
+   * OUTCOME is identical ("I can update my own content"), and the AMBUSH is
+   * identical (cheaper to build, then a higher plan forever). One number; the
+   * build method is a recommendation made on the call.
+   *
+   * Where the two methods genuinely differ is the RUNNING cost, and that story
+   * already has a home in runningCosts. So `note` on an item may say what it
+   * costs to keep — never what it costs to build.
+   */
+  addOns?: {
+    label: string;
+    body: string;
+    items: { name: string; price: string; body: string; note?: string }[];
+    /** What is deliberately NOT an add-on. */
+    includedLabel: string;
+    included: string;
+    /** Honest capability framing where there is no client work to point at. */
+    ownWork: string;
+  };
 }
 
 /**
@@ -794,6 +886,99 @@ export const vat = {
     ? "Prices are quoted ekskl. moms, so 25% moms is added at invoicing. For a moms-registered business client that is deductible and therefore cost-neutral — say so if asked."
     : "Prices are quoted ekskl. moms. He is under the Danish 50.000 kr registration threshold, so no moms is added today. State it as a fact if asked; never present it as a discount or a reason to hire him, and do not speculate about when he might register.",
 } as const;
+
+/**
+ * The add-ons for offer 01, and the band the price ladder shows for them.
+ *
+ * Lifted out of `services` so the ladder's "Add-ons" rung can be COMPUTED from
+ * this list rather than hand-kept in step with it. The rung used to read
+ * "+ 3.000 – 8.000 DKK" against no itemisation at all; once the items existed,
+ * a hand-typed band was one edit away from advertising a floor or ceiling that
+ * nothing behind it charged — on the one page whose whole argument is that the
+ * numbers survive checking.
+ *
+ * 🔒 ONE PRICE PER ADD-ON, METHOD-AGNOSTIC. Do not fork any of these by Webflow
+ * versus coded. The instinct is "Webflow's CMS is quicker to set up, so charge
+ * less" — the same mistake the base price already fixed, and every reason
+ * applies again: the OUTCOME is identical ("I can update my own content") and so
+ * is the AMBUSH (cheaper to build, then a higher plan forever). Where the two
+ * methods really differ is the RUNNING cost, which is what `note` is for.
+ */
+const WEBSITE_ADD_ONS: { name: string; price: string; body: string; note?: string }[] = [
+  {
+  name: "Edit your own text and images",
+  price: "3.000 DKK",
+  body: "A small editor built onto the site so you can change your opening hours, your prices and your photos yourself. Setup, your own login, and a recording of me walking through it.",
+  // The one place the running-cost story belongs on an add-on: it is
+  // about what it costs to KEEP, not what it costs to build.
+  note: "Free on Webflow, where it comes with the site plan you are already paying for. A coded site has no plan, so this is the one-off that replaces it — and then there is nothing to pay each year.",
+  },
+  {
+  name: "A list you manage yourself",
+  price: "3.500 DKK",
+  body: "Treatments, a menu, a team page, or a blog you post to yourself — anything where you add and remove entries rather than editing a fixed page. You get a simple form per entry instead of a page to lay out.",
+  note: "This is the one thing the two build methods really part company on afterwards: on Webflow it needs the higher site plan, roughly 800 kr a year more. On a coded site it is free to run.",
+  },
+  {
+  name: "A second language",
+  // The ONE add-on priced as a span rather than a figure, because it is
+  // the only one whose work genuinely tracks page count: every page has
+  // to exist twice, with its own address and its own search title. A
+  // flat number would be wrong at both ends — on a one-pager 4.500 was
+  // nearly the price of the whole site, and on an eight-pager it
+  // undercharged. The span is tied to the two rungs above it, not
+  // invented: 3.000 at 1–3 pages, 5.500 at 4–8.
+  //
+  // Still ONE price in the sense that matters: it does not fork by
+  // build method. The market model is proportional too — Danish
+  // agencies describe a second language as roughly doubling the
+  // content work rather than as a fixed fee.
+  price: "3.000 – 5.500 DKK",
+  body: "The whole site in a second language, with its own web addresses and its own page titles for search, so Google serves the right one to the right person — plus a switcher. Danish, English, Swedish or Thai. This is the one add-on that follows the size of the site, because every page has to exist twice.",
+  note: "The translation itself is not in this. A translation bureau charges around 1 kr a word and you pay them directly, so on a small site expect a separate bill of one to two thousand kroner. What I build is the structure around the words.",
+  },
+  {
+  name: "Online booking",
+  price: "3.500 DKK",
+  body: "A booking tool wired properly into the site and its design, with confirmation emails that work — rather than a grey box dropped onto a page. Building a booking engine from nothing is a different job and a different price.",
+  note: "The booking tool's own subscription is paid by you, directly, like the domain and the hosting.",
+  },
+  {
+  name: "Take payment online",
+  price: "5.000 DKK",
+  body: "Card, MobilePay, Apple Pay and Google Pay through Stripe, set up in your name and tested with real payments before it goes live. Suited to a handful of services or products — a full webshop is a bigger job than this.",
+  note: "Stripe's own fee is theirs and comes out of each payment — currently about 1,4% plus 1,80 kr on a European card. It never passes through me.",
+  },
+  {
+  name: "Motion and animation",
+  price: "2.500 DKK",
+  body: "Considered movement: sections arriving as you scroll, things that respond when you touch them. Built to go still for a visitor whose device asks for reduced motion, because for some people it is not a preference.",
+  },
+  {
+  name: "An extra page",
+  price: "1.800 DKK",
+  body: "Per page, beyond the eight. Same standard as the rest, so a ninth page is a line on an invoice rather than a new project.",
+  },
+];
+
+/**
+ * Formats the ladder band from the add-on list — the lowest and highest figure
+ * any add-on actually charges.
+ *
+ * Reads every number in every price, so an add-on priced as a span ("3.000 –
+ * 5.500 DKK", which the second-language one is) contributes both ends rather
+ * than being misparsed as one value.
+ */
+function addOnBand(items: { price: string }[]): string {
+  const figures = items.flatMap((item) =>
+    [...item.price.matchAll(/\d+(?:\.\d{3})*/g)].map((match) =>
+      Number(match[0].replace(/\./g, ""))
+    )
+  );
+  // Danish thousands separator, to match every other figure on the page.
+  const dk = (n: number) => n.toLocaleString("da-DK");
+  return `+ ${dk(Math.min(...figures))} – ${dk(Math.max(...figures))} DKK`;
+}
 
 export const services = {
   intro: {
@@ -881,9 +1066,13 @@ export const services = {
         },
         {
           scope: "Add-ons",
-          detail: "A second language, online booking, or a blog you post to yourself.",
-          price: "+ 3.000 – 8.000 DKK",
-          timeline: "+ 3–5 days each",
+          // Was "+ 3.000 – 8.000 DKK" against a one-line detail. A ladder with a
+          // wide unexplained band at the bottom reads as an arbitrary number, and
+          // gives someone with a bigger budget no visible reason to climb it. The
+          // band is now narrower AND every item behind it is priced below.
+          detail: "Priced one by one below, rather than as a band you have to ask about.",
+          price: addOnBand(WEBSITE_ADD_ONS),
+          timeline: "+ 2–4 days each",
         },
       ],
       // These are the hand-built timelines even though Webflow is usually
@@ -891,6 +1080,44 @@ export const services = {
       // that gets kept; the reverse is one that gets broken.
       buildMethodNote:
         "The same price whether I build it in Webflow or code it from scratch. What the build method changes is what the site costs to keep afterwards, and whether you can edit it yourself — that is the next section.",
+      /**
+       * Prices set against the Danish market rather than invented, August 2026.
+       * Where an agency publishes a band, this sits at or just under its floor:
+       * below the floor reads as inexperience, which is the same reasoning that
+       * put the base price above 5.000.
+       *
+       *   booking            agencies quote 3.000 – 10.000  → 3.500
+       *   payment setup      agencies quote 5.000 – 10.000  → 5.000
+       *   member login       agencies quote 5.000 – 15.000  → not offered, see ownWork
+       *   CRM/ERP            agencies quote 5.000 – 20.000  → not offered
+       *   second language    no market flat price; bureaus charge ~1 kr/word for
+       *                      the WORDS, which is a separate bill to a separate
+       *                      supplier. 4.500 is for the structure only.
+       *   self-editing       no market figure found. Derived from the ladder's own
+       *                      economics: offer 01 implies roughly 1.300–1.900 kr a
+       *                      working day, and this is a day and a half.
+       *   extra page         derived so it cannot undercut the ladder. The 4–8
+       *                      band spans 12.000–20.000, so a marginal page is
+       *                      about 2.000; 1.800 sits just inside that, and eight
+       *                      pages priced this way lands at ~19.200 against a
+       *                      20.000 ceiling.
+       */
+      addOns: {
+        label: "What more money buys",
+        body: "Each of these is one price, whichever way the site is built. Take one, take none, or add one later — none of them has to be decided now, and none of them changes the price of the pages themselves.",
+        items: WEBSITE_ADD_ONS,
+        includedLabel: "Not add-ons",
+        included: "A map with directions, a gallery, a contact form and a cookie and privacy page are in every build already. They take minutes, and charging for them would make the list above less believable rather than more profitable.",
+        /**
+         * Item 36 route 2, in one paragraph.
+         *
+         * Two of these capabilities have no client build behind them. Saying so
+         * is cheaper than the alternative and safer than the other alternative:
+         * inventing a case study is the line the testimonial was held to for
+         * weeks, and it is not crossed here for an upsell table.
+         */
+        ownWork: "Two of these — taking payment, and anything with logins — I have built on my own products rather than for a client. Bevisly runs multi-role accounts with row-level security, and MockMate runs a graded AI pipeline; both are written up under Projects, and you can go and use them. I would rather say that plainly than imply a client history I do not have.",
+      },
       priceRange: "From 6.500 DKK",
       priceNote: `The same price whichever way we build it. ${vat.note} It is fixed in writing before we start, and domain, hosting and any platform fee are billed to you directly rather than through me.`,
       timeline: "1 – 3 weeks",
@@ -1151,6 +1378,63 @@ export const services = {
   },
 
   /**
+   * ITEM 33, DECIDED 2026-08-21: a prepaid block of hours, and NO subscription.
+   *
+   * WHY NOT THE STANDARD PRODUCT. Danish agencies sell website care at 250 – 3.000
+   * kr a MONTH, typically 500 – 2.000. Read what is in those plans and they are all
+   * the same product: hosting, security patches, daily backups, WordPress core and
+   * plugin updates. That plan exists because WordPress rots. A Webflow site is
+   * maintained by Webflow, and a static site on Netlify has no plugins to patch —
+   * so selling a monthly plan here would mean charging for a problem this stack
+   * deliberately does not have, and it would undercut the exact technical choice
+   * that makes "no yearly bill" true in runningCosts. That is not a small
+   * inconsistency to accept for recurring revenue; it is the argument.
+   *
+   * SO THE PRODUCT IS CHANGES, NOT MAINTENANCE. That is also what clients actually
+   * want, and it closes the one thing the old position left dangling: what a
+   * ten-minute text change costs. "Call me and I will invoice you 100 kr" costs
+   * more in admin and awkwardness than it earns, so small changes are simply free
+   * and anything real is either billed hourly or drawn from a prepaid block.
+   *
+   * The block is the recommended answer and it is priced to be one: 480 kr an hour
+   * against 650 ad-hoc, roughly a quarter less, which is what makes prepaying a
+   * decision rather than a favour. 650 sits inside the Danish freelance band
+   * (550 – 750) and above offer 01's implied project rate, which is correct — ad-hoc
+   * work has no economies of scale and every change is a context switch.
+   *
+   * ⚠️ NOTHING HERE RENEWS. No subscription, no automatic billing, no monthly
+   * anything. If a future version of this grows a recurring charge, `paidTo` and
+   * the "no monthly retainer" claim in servicesFaq both become false and have to
+   * change in the same commit.
+   */
+  aftercare: {
+    eyebrow: "After Launch",
+    title: "If you want changes later",
+    lead: "Your site has no plugins to patch and nothing that rots — that is the point of building it this way, and it is why there is no monthly plan here to sell you. What people do want later is changes, so this is what those cost.",
+    free: {
+      label: "Free, just ask",
+      body: "A price, a phone number, an opening hour, a typo. Anything that takes me a few minutes is not worth either of us raising an invoice for, so I do not.",
+    },
+    hourly: {
+      label: "By the hour",
+      price: "650 DKK / hour",
+      body: "Billed in half hours, for anything bigger — new photos, a rewritten page, a seasonal menu. I tell you the estimate before I start, not after.",
+    },
+    block: {
+      label: "A block of hours",
+      price: "2.400 DKK",
+      unit: "5 hours · valid 12 months",
+      body: "Most of my clients never need this, and I would rather say so than sell you a subscription. But if you would rather not think about it every time you want something changed, buy a block up front and draw on it. Use it for anything: text, photos, prices, a new page, a question. I log what each change took and tell you what is left.",
+      terms: [
+        "Works out at 480 kroner an hour instead of 650",
+        "Unused hours roll over once, into a second year",
+        "No monthly bill, and nothing renews automatically",
+        "When it runs out you buy another or you do not — there is no default",
+      ],
+    },
+  },
+
+  /**
    * The shortest honest form of the terms, for the homepage. The prices are
    * already up there (siteContent.homeOffers); what was missing was what
    * surrounds them.
@@ -1257,7 +1541,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Can I update the website myself afterwards?",
-    a: "Yes, either way — and this used to be the thing that decided Webflow versus coded, but as of August 2026 it is not. Webflow made client editing free on every plan, so building there means you get access to change text, prices and images as part of the plan you are already paying for. A coded site has no plan, so I set up a free editor on it instead as a one-off add-on, after which it costs nothing a year to keep. What neither gives you is moving the layout around yourself — a new section is still a call to me. Content you post to repeatedly, like a menu or a treatment list, is a CMS and priced separately on both routes. Either way you get a walkthrough at handover, and either way you are not locked into paying me for small changes.",
+    a: "Yes, either way — and this used to be the thing that decided Webflow versus coded, but as of August 2026 it is not. Webflow made client editing free on every plan, so building there means you get access to change text, prices and images as part of the plan you are already paying for. A coded site has no plan, so I set up a free editor on it instead as a one-off add-on, after which it costs nothing a year to keep. What neither gives you is moving the layout around yourself — a new section is still a call to me. Content you post to repeatedly, like a menu or a treatment list, is a CMS: 3.500 kroner either way, and the only thing the two routes really differ on afterwards — on Webflow it needs the higher plan, about 800 kroner a year more, while on a coded site it is free to run. Self-editing on a coded site is 3.000 kroner as a one-off, and free on Webflow because the plan covers it. Either way you get a walkthrough at handover, and either way you are not locked into paying me for small changes.",
   },
   {
     q: "Do you only work with clients in Copenhagen?",
@@ -1265,7 +1549,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Do you maintain the site afterwards?",
-    a: "Not by default, and that is deliberate. I build sites that do not need a monthly retainer to keep working — Racha Beauty's site has run since launch without anyone touching it. If you do want ongoing changes, we agree an hourly rate or a small block of hours per month, and you can stop whenever you like.",
+    a: `Not by default, and that is deliberate. I build sites that do not need a monthly retainer to keep working — Racha Beauty's site has run since launch without anyone touching it, and there is no plan here for me to sell you. What I do not do is pretend that means you will never want anything changed. Small things — a price, an opening hour, a typo — are free, because a 100-kroner invoice costs us both more in admin than it is worth. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, with the estimate given before I start. And if you would rather not think about it each time, a block of ${services.aftercare.block.unit.split(" · ")[0]} costs ${services.aftercare.block.price} and you draw on it as you go, which works out cheaper per hour. Nothing renews, and there is no monthly anything.`,
   },
   {
     q: "Which languages can you work in?",
@@ -1425,7 +1709,17 @@ ${services.offers[0]
   .priceLadder!.map((r) => `- ${r.scope}: ${r.price} (typically ${r.timeline})`)
   .join("\n")}
 
+Add-ons are itemised and each has ONE price, the same whichever way the site is built. You may quote these; they are published on the services page:
+${services.offers[0]
+  .addOns!.items.map((a) => `- ${a.name}: ${a.price}${a.note ? ` (${a.note})` : ""}`)
+  .join("\n")}
+${services.offers[0].addOns!.included} Taking payment and anything involving logins are capabilities Ice has built on his own products — Bevisly and MockMate — rather than for a client. Say that plainly if asked; never imply a client build that does not exist.
+
 What the build method changes is the year after launch, not the build price. Webflow costs roughly ${services.runningCosts.rows.find((r) => r.label === "Platform fee")!.webflow} a year for the site plan, and editing their own text and images is included in that — Webflow made client access free on every plan in August 2026. A coded site has no platform fee and costs roughly 100 – 1.600 kr a year for hosting and domain; with no plan to include anything, self-editing there is a one-off add-on Ice sets up instead. Neither route lets the client rearrange the layout. Never say Webflow is the only way to edit your own site: that stopped being true in August 2026. Over five years that is about ${services.runningCosts.fiveYear.webflow} against ${services.runningCosts.fiveYear.coded}, so on the likely setup Webflow is around 6.000 kr more to own. Always qualify that figure as the likely setup rather than stating it flatly — comparing the extremes gives a range, not one number.
+
+There is NO maintenance subscription and Ice does not want one — say so plainly and do not invent one. Danish agencies sell website care at 250 – 3.000 kr a month, but that product is patching WordPress, and a Webflow site is maintained by Webflow while a static site has no plugins to patch. Charging monthly here would be charging for a problem this stack does not have.
+
+What he does have, for changes after launch: small things — a price, an opening hour, a typo — are FREE, because a 100 kr invoice costs more in admin than it earns. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, estimate given first. Or a prepaid block: ${services.aftercare.block.price} for ${services.aftercare.block.unit}, which works out at 480 kr an hour instead of 650 and rolls over once. Nothing renews, and there is no monthly anything — if someone asks about a retainer, that is the answer.
 
 All of those yearly costs are paid by the client directly to Webflow, their host and their registrar. None of it is paid to Ice, and he does not mark up other people's invoices. If someone worries about an ongoing bill from him, say that plainly.
 

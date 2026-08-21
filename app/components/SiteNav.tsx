@@ -12,6 +12,15 @@ type NavLink = {
   id?: string;
   /** Cross-page route. Mutually exclusive with `id`. */
   href?: string;
+  /**
+   * Bar-only label. The panel always uses `label`.
+   *
+   * "How it works" is 12 characters against 8 for its longest neighbour, so it
+   * alone set the width of the whole island. The panel has a full viewport and
+   * keeps the descriptive wording, where a nervous client reads it; the bar takes
+   * the compact one, which also matches the section's own `#process` anchor.
+   */
+  short?: string;
 };
 
 // No compactHidden any more. The whole list shows at every width because it now
@@ -38,7 +47,7 @@ const NAV_LINKS: NavLink[] = [
   { label: "About", id: "about" },
   { label: "Services", id: "offers" },
   { label: "Projects", id: "projects" },
-  { label: "How it works", id: "process" },
+  { label: "How it works", short: "Process", id: "process" },
   { label: "CV", href: "/cv" },
 ];
 
@@ -128,7 +137,7 @@ export function SiteNav() {
   // would just vanish behind `md:hidden` while `open` stayed true — leaving
   // document.body scroll-locked with nothing on screen to explain why.
   useEffect(() => {
-    const wide = window.matchMedia("(min-width: 768px)");
+    const wide = window.matchMedia("(min-width: 720px)");
     const onChange = () => {
       if (wide.matches) setOpen(false);
     };
@@ -192,9 +201,14 @@ export function SiteNav() {
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 md:pt-6">
+      {/* An island, not a bar. It hugs its content and floats centred rather than
+          stretching to max-w-6xl — at desktop widths a full-width row put the
+          wordmark and the CTA in opposite corners with a hundred empty pixels
+          between them, which reads as a header rather than as something floating
+          over the composition. */}
+      <div className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 sm:px-6 md:pt-6">
         <div
-          className={`mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border px-3 py-2 transition-colors duration-300 sm:px-4 ${
+          className={`inline-flex max-w-full items-center gap-1 rounded-full border px-2 py-1.5 transition-colors duration-300 sm:gap-1.5 sm:px-2.5 ${
             scrolled || open
               ? "border-frost/10 bg-night-800/80 backdrop-blur-md"
               : "border-transparent bg-transparent"
@@ -208,6 +222,8 @@ export function SiteNav() {
             Ice<span className="text-crystal-500">.</span>
           </Link>
 
+          <span aria-hidden className="hidden h-4 w-px bg-frost/15 min-[720px]:block" />
+
           {/* The links inline, from md up. Below that they live in the panel.
               A menu is the right answer only when there is no room for the thing
               it hides — at 768px and above there is, and a nav you can already see
@@ -215,25 +231,36 @@ export function SiteNav() {
               something the panel had taken away on wide screens: scroll-spy is
               visible again, so the bar shows you where you are while you scroll.
 
-              768px rather than 640px because "How it works" makes this row about
-              634px wide, which does not fit inside 640 minus padding. That does
-              put iPad Mini portrait (744px) on the panel — one clean breakpoint
-              rather than a magic number, and the panel is perfectly usable there. */}
+              720px, and that number is measured rather than picked. Narrowing the
+              island — "Process" out here instead of "How it works", tighter type
+              and padding — got the row to about 490px, and 640 worked until
+              Swedish added a second language chip and took it to about 556px. At
+              640 the island then spanned nearly the whole viewport, which is the
+              full-width-header look the island exists to avoid.
+
+              720 is where 556px still leaves a real margin either side. Its point
+              is iPad Mini portrait at 744px: the standard `md` (768) hands that
+              device the panel, and it is wide enough to deserve a nav it can
+              already see. Below 720 the panel takes over, where it belongs.
+
+              The chip stays "Svenska" rather than shrinking to "SV" — the endonym
+              is what a Swedish visitor recognises, and that is the whole job of
+              the chip. So the breakpoint moved instead of the label. */}
           <nav
             aria-label="Main navigation"
-            className="hidden items-center gap-0.5 md:flex lg:gap-1"
+            className="hidden items-center gap-0.5 min-[720px]:flex lg:gap-1"
           >
             {NAV_LINKS.map((link) => {
               const isActive = Boolean(link.id) && activeId === link.id;
               const base =
-                "rounded-full px-3 py-2 text-sm whitespace-nowrap transition-colors";
+                "rounded-full px-2.5 py-1.5 text-[13px] whitespace-nowrap transition-colors";
               return link.href ? (
                 <Link
                   key={link.label}
                   href={link.href}
                   className={`${base} text-frost/60 hover:bg-white/5 hover:text-frost`}
                 >
-                  {link.label}
+                  {link.short ?? link.label}
                 </Link>
               ) : (
                 <a
@@ -246,14 +273,16 @@ export function SiteNav() {
                       : "text-frost/60 hover:bg-white/5 hover:text-frost"
                   }`}
                 >
-                  {link.label}
+                  {link.short ?? link.label}
                 </a>
               );
             })}
           </nav>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* In the BAR, not the panel. Item 30b exists because a Thai visitor
+          <span aria-hidden className="hidden h-4 w-px bg-frost/15 min-[720px]:block" />
+
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            {/* In the ISLAND, not the panel. Item 30b exists because a Thai visitor
                 landing on an English page had no signal /th existed, and "a link
                 they cannot see is the same as no link" applies just as much to one
                 hidden behind a menu — especially for a reader who may not know that
@@ -265,7 +294,7 @@ export function SiteNav() {
                 href={language.href}
                 lang={language.code}
                 hrefLang={language.code}
-                className="shrink-0 px-1 text-sm text-frost/60 transition-colors hover:text-frost"
+                className="shrink-0 px-1 text-[13px] text-frost/60 transition-colors hover:text-frost"
               >
                 {language.label}
               </Link>
@@ -275,7 +304,7 @@ export function SiteNav() {
                 this page exists to produce. */}
             <Link
               href="/services#enquiry"
-              className="group inline-flex shrink-0 items-center gap-1 rounded-full bg-frost px-4 py-2 text-xs font-medium whitespace-nowrap text-night-900 transition-colors hover:bg-crystal-300 sm:text-sm"
+              className="group inline-flex shrink-0 items-center gap-1 rounded-full bg-frost px-3.5 py-1.5 text-xs font-medium whitespace-nowrap text-night-900 transition-colors hover:bg-crystal-300"
             >
               Enquire
               <ArrowUpRight
@@ -293,7 +322,7 @@ export function SiteNav() {
               aria-expanded={open}
               aria-controls="site-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-frost/15 text-frost transition-colors hover:border-frost/40 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 md:hidden"
+              className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-frost/15 text-frost transition-colors hover:border-frost/40 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 min-[720px]:hidden"
             >
               {/* Two rules, not three. A hamburger is the generic answer; this is
                   quieter and becomes an X on open. */}
@@ -326,7 +355,7 @@ export function SiteNav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: reduceMotion ? 0 : -12 }}
             transition={{ duration: reduceMotion ? 0 : 0.28, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed inset-0 z-40 flex flex-col justify-center bg-night-900/97 px-6 pt-24 pb-10 backdrop-blur-xl sm:px-10 md:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-center bg-night-900/97 px-6 pt-24 pb-10 backdrop-blur-xl sm:px-10 min-[720px]:hidden"
           >
             <nav aria-label="Menu" className="mx-auto w-full max-w-6xl">
               <ul className="flex flex-col gap-1 sm:gap-2">

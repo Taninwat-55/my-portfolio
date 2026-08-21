@@ -431,6 +431,65 @@ export default function ServicesPage() {
                     </div>
                   )}
 
+                  {/* The add-ons, itemised. Sits AFTER includedInEvery on
+                      purpose: the base value has to be established before the
+                      options read as options rather than as the real price
+                      arriving in instalments.
+
+                      One price per row, no Webflow/coded fork — see the lock note
+                      on ServiceOffer.addOns in data.ts. Where a row carries a
+                      `note` about cost, it is always about what the thing costs to
+                      KEEP, never to build. */}
+                  {offer.addOns && (
+                    <div className="mt-8 border-t border-frost/10 pt-8">
+                      <div className="text-crystal-500 text-[10px] tracking-[0.25em] uppercase mb-3">
+                        {offer.addOns.label}
+                      </div>
+                      <p className="mb-5 max-w-3xl text-frost/55 font-light text-sm leading-relaxed">
+                        {offer.addOns.body}
+                      </p>
+
+                      <div className="flex flex-col divide-y divide-frost/10 border-y border-frost/10">
+                        {offer.addOns.items.map((item) => (
+                          <div key={item.name} className="py-3.5">
+                            <div className="flex items-baseline justify-between gap-3">
+                              <span className="text-frost font-medium text-sm sm:text-base">
+                                {item.name}
+                              </span>
+                              <span className="shrink-0 whitespace-nowrap text-frost/85 font-medium text-sm sm:text-base tabular-nums">
+                                {item.price}
+                              </span>
+                            </div>
+                            <p className="mt-1 max-w-xl text-frost/45 font-light text-xs sm:text-sm leading-relaxed">
+                              {item.body}
+                            </p>
+                            {item.note && (
+                              /* Dimmer and set apart, because it is about the
+                                 running cost rather than the price above it —
+                                 the two must not read as one figure. */
+                              <p className="mt-2 max-w-xl border-l border-crystal-500/25 pl-3 text-frost/35 font-light text-xs leading-relaxed">
+                                {item.note}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-6 max-w-2xl">
+                        <div className="text-frost/40 text-[10px] uppercase tracking-[0.25em] mb-1.5">
+                          {offer.addOns.includedLabel}
+                        </div>
+                        <p className="text-frost/55 font-light text-sm leading-relaxed">
+                          {offer.addOns.included}
+                        </p>
+                      </div>
+
+                      <p className="mt-5 max-w-2xl text-frost/45 font-light text-sm leading-relaxed">
+                        {offer.addOns.ownWork}
+                      </p>
+                    </div>
+                  )}
+
                   {/* Price stays text-frost. An accent-coloured figure reads as
                       a sale banner rather than a rate. */}
                   <dl className="mt-8 pt-6 border-t border-frost/10 flex flex-col sm:flex-row sm:items-end gap-6 sm:gap-12">
@@ -663,6 +722,99 @@ export default function ServicesPage() {
               </FadeIn>
             ))}
           </div>
+        </section>
+
+        {/* ── Aftercare ─────────────────────────────────────────────────── */}
+        {/* Directly after the running-cost table, because that section ends by
+            saying there is no yearly bill — and the obvious next question is
+            "so what happens when I want something changed?". Leaving that
+            unanswered is what made the old position feel incomplete.
+
+            Item 33. It is a prepaid block and an hourly rate, NOT a
+            subscription — see the reasoning on services.aftercare in data.ts
+            for why a monthly plan would contradict the section above it. */}
+        <section aria-labelledby="aftercare-heading" className="mb-14 md:mb-20">
+          <SectionHeading
+            id="aftercare-heading"
+            eyebrow={services.aftercare.eyebrow}
+            title={services.aftercare.title}
+            align="left"
+            titleClassName="text-frost"
+            titleSize="clamp(1.8rem, 5vw, 3.2rem)"
+            className="mb-6 md:mb-8"
+          />
+
+          <p className="mb-8 max-w-3xl text-frost/60 font-light text-sm sm:text-base leading-relaxed">
+            {services.aftercare.lead}
+          </p>
+
+          {/* Free and hourly side by side, then the block below at full width.
+              The block is the recommended answer, so it gets the emphasis of
+              its own row rather than being one of three equal columns — three
+              equal options reads as a pricing table and invites comparison
+              shopping between them, which is not the decision on offer. */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {(
+              [services.aftercare.free, services.aftercare.hourly] as {
+                label: string;
+                body: string;
+                price?: string;
+              }[]
+            ).map((tier) => (
+              <FadeIn key={tier.label} y={24}>
+                <div className="h-full rounded-2xl border border-frost/10 bg-white/3 p-6">
+                  <div className="mb-3 flex items-baseline justify-between gap-3">
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-crystal-500">
+                      {tier.label}
+                    </span>
+                    {tier.price && (
+                      <span className="shrink-0 whitespace-nowrap text-base font-medium tabular-nums text-frost">
+                        {tier.price}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-frost/60 font-light text-sm leading-relaxed">
+                    {tier.body}
+                  </p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+
+          <FadeIn y={24} delay={0.1}>
+            <div className="mt-4 rounded-2xl border border-crystal-500/25 bg-crystal-500/5 p-6">
+              <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                <span className="text-[10px] uppercase tracking-[0.25em] text-crystal-500">
+                  {services.aftercare.block.label}
+                </span>
+                <span className="flex items-baseline gap-3">
+                  <span className="whitespace-nowrap text-lg font-medium tabular-nums text-frost">
+                    {services.aftercare.block.price}
+                  </span>
+                  <span className="text-frost/40 font-light text-xs">
+                    {services.aftercare.block.unit}
+                  </span>
+                </span>
+              </div>
+              <p className="max-w-3xl text-frost/65 font-light text-sm leading-relaxed">
+                {services.aftercare.block.body}
+              </p>
+              <ul className="mt-5 grid grid-cols-1 gap-x-10 gap-y-2 border-t border-frost/10 pt-5 sm:grid-cols-2">
+                {services.aftercare.block.terms.map((term) => (
+                  <li
+                    key={term}
+                    className="relative pl-5 text-sm font-light leading-relaxed text-frost/60"
+                  >
+                    <span
+                      aria-hidden
+                      className="absolute left-0 top-[0.65em] h-1 w-1 rounded-full bg-crystal-500/60"
+                    />
+                    {term}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </FadeIn>
         </section>
 
         {/* ── Handover and scope boundaries ─────────────────────────────── */}

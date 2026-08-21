@@ -24,6 +24,201 @@ seen at a real viewport — see the list in the latest log entry.
 
 ## Progress log
 
+### 2026-08-21 (evening, later)
+
+**Item 33 — care plan decided: prepaid hours, no subscription** ✅
+
+The research decided this rather than taste. Danish care plans run 250 – 3.000 kr a
+month and every one of them is a WordPress product — security patches, plugin
+updates, daily backups. Webflow maintains Webflow sites and a static site has no
+plugins to patch, so selling that monthly would be charging for a problem this
+stack does not have, on the page directly below the table arguing there is no
+yearly bill. That is not a small inconsistency to trade for recurring revenue; it
+is the argument itself.
+
+- **So the product is changes, not maintenance** — which is what clients want
+  anyway, and it closes the ten-minute-text-change question the old position left
+  open. Small changes free, 650 kr/h beyond that, or 2.400 kr for a 5-hour block
+  at an effective 480 kr/h.
+- 🔒 **Nothing renews.** If that ever changes, `runningCosts.paidTo` and the "no
+  monthly retainer" FAQ line both become false and must move in the same commit.
+  Checked as consistent across `data.ts`, the FAQ, the chatbot grounding and
+  `llms.txt`.
+- **The FAQ got precise.** It used to say "we agree an hourly rate or a small block
+  of hours per month" — vague, and "per month" quietly contradicted the
+  no-retainer claim two sentences earlier. It now names the figures.
+- ⚠️ Two of my own bugs caught on the way: an interpolation that would have
+  rendered "5 hours hours", and a union type where `free` has no price and
+  `hourly` does, which cannot narrow inside `.map`. TypeScript caught the second.
+
+### 2026-08-21 (evening)
+
+**Items 27 and 29 — `/da`, built and deliberately invisible** ✅
+
+The page exists and is unreachable: `noindex`, absent from the sitemap, no nav
+chip, no hreflang, no link from any other page. Verified as absent from all six
+other prerendered pages rather than assumed. 17/17 content checks on the page
+itself.
+
+- 🔒 **`DRAFT` in `app/da/page.tsx` is the publish switch** — it drives the noindex
+  and a visible draft banner together, so the page cannot be shared as finished by
+  accident. The remaining four steps to publish are in the comment above it, and
+  one of them widens the nav island with a fourth chip.
+- **Item 29 was folded in rather than done after**, because the meeting-language
+  line has to be in the draft the proofreader reads. Doing it later would mean a
+  second proofreading round for one paragraph.
+- **The real difficulty was not the Danish, it was the honesty.** Ice speaks Danish
+  at beginner level, on a page whose whole argument is that he does careful work.
+  So: the language note is in the hero rather than an FAQ, contact is written-first
+  with no phone number at all, and the one Danish-site claim in `why` is the
+  narrowest true version — one site, one client, still running.
+- ⚠️ **This is the one language file Ice cannot review himself**, unlike `/sv`. It
+  stays invisible until item 28 passes. `npm run copy da` is the thing to send.
+
+**`npm run copy <lang>`** prints any language file as numbered plain text. Item 28
+needed a deliverable and the two obvious candidates were both bad: a URL means
+describing where the problem is, and the source file means reading TypeScript.
+Nobody proofreads TypeScript. Works for `th` and `sv` too, so item 40 gets it free.
+
+**Item 31 dropped** on Ice's call. Worth being honest about the consequence: `/th`
+was written to be pasted into a group, and without one it rests on search alone —
+the weaker half for that audience. Nothing to fix; it just means `/th` will be
+slower than `/sv`, which was built for search from the start.
+
+### 2026-08-21 (later still)
+
+**Item 36 — the add-ons, itemised** ✅
+
+Seven add-ons with one price each on `/services`, replacing a `+ 3.000 – 8.000 DKK`
+band that explained nothing. Prices set against Danish agency figures rather than
+invented — see the table on the item for what each one is based on.
+
+- 🔒 **The band under the ladder is now computed from the items**, not typed. That
+  is the drift this item could most easily have created: itemise the add-ons, then
+  leave a hand-written band advertising a floor nothing charges. Same fix as the
+  CV PDF earlier today — derive it, do not promise to keep it in step.
+- 🔒 **One add-on is a span, and only one.** A second language is the only one whose
+  work tracks page count, because every page has to exist twice; a flat price was
+  nearly the cost of the whole site on a one-pager. It still does not fork by build
+  method, which is what the lock actually protects.
+- **Route 2 taken too**: payment and logins have no client build behind them, and
+  the page says so in a sentence and points at Bevisly and MockMate rather than
+  implying a client history. Cost one paragraph.
+- **Four other surfaces had to move with it** or they would have contradicted the
+  table: the pricing FAQ, the chatbot grounding, `llms.txt`, and the ladder rung.
+- ⚠️ **A patch script lifted the WRONG array.** The regex for `items: [` matched
+  `includedInEvery.items` — the first one at that indent — so it hoisted the seven
+  "in every build" strings into `WEBSITE_ADD_ONS` and pointed `includedInEvery` at
+  the add-ons constant. **TypeScript caught it immediately** (`Type 'string' is not
+  assignable to…`), which is the second time today a guard caught a scripted edit
+  going wrong. Unwound by line-anchored assertions rather than by reverting, since
+  `data.ts` held uncommitted work. Lesson: anchor on something unique to the target
+  (a neighbouring key, a known string), never on a structural token that repeats.
+- ⚠️ **Could not verify this visually.** `FadeIn` uses `whileInView`, so a headless
+  screenshot renders the page blank below the fold — `--force-prefers-reduced-motion`
+  only recovered the intro. Verified as 15/15 content checks in the prerendered HTML
+  instead. **The layout needs Ice's eyes on the preview.**
+
+### 2026-08-21 (later)
+
+**Item 32 — `/sv`, plus a bug on every share card the site has** ✅
+
+`/sv` is live: `app/data.sv.ts`, `app/sv/page.tsx`, `app/sv/opengraph-image.tsx`,
+in the sitemap, in `llms.txt`, and hreflang reciprocated three ways across `/`,
+`/th` and `/sv` (verified as a set comparison, not by eye). Static, lint clean.
+
+- **Aimed at Skåne — Malmö, Lund, Helsingborg, named in the copy on purpose**,
+  because unlike `/th` this is a search play: a Skåne owner googles "hemsida
+  småföretag Malmö" rather than asking a community. The argument is geography plus
+  language and both claims are real — 35 minutes from Malmö by train, and a Swedish
+  citizen educated in Sweden, so it is a native page rather than a translated one.
+- 🔒 **`svPrice()` is the one thing not to remove.** Swedish uses a space for
+  thousands and a comma for decimals, so a Swedish reader can parse the Danish
+  "6.500" as six and a half — three orders of magnitude wrong, on the one number
+  the page has to get right. It is a transform over the value from `services`, not
+  a retyped copy, so the "nothing numeric in a language file" rule still holds.
+- **`<LanguageOffer />` had a latent bug that a second language turned real:** the
+  banner text was hard-coded Thai, so a Swedish visitor would have been offered
+  `/sv` in Thai. The string now lives per-language in the registry.
+- `SITE_LANGUAGES` moved out of `siteContent` so it could carry a type. Written
+  inline, "en" (no `offer`) and the others formed a union where the property
+  existed on only some members and every read of it failed to compile.
+
+**All four OG share cards had a hard rectangular seam across them.** Found while
+checking `/sv`'s card, and it was on `/`, `/services` and `/th` too. Cause:
+satori clips `filter: blur()` to the element's bounding box, so the glow was cut
+off at a straight edge. Two radial gradients on the container give the intended
+look with no filtered element to clip — now in `app/lib/og-backdrop.ts`, which
+also removes four copies of the same two divs.
+
+**And the root card was still the entire pre-overhaul positioning.** Every string
+on it was hard-coded, so it read *"Frontend Engineer & Project Coordinator"*,
+*"Open to opportunities · Copenhagen"* and *"I keep projects on track and build
+the product myself"* — the retired title, the wording `data.ts` itself explains
+was dropped for inviting clients to negotiate the price down, and a recruiter-first
+tagline. On the card LinkedIn scrapes. Now read from `siteContent`. Same failure
+mode as item 17's PDF: a comment cannot keep two copies in sync.
+
+- ⚠️ **A patch script ate a container's opening tag** by anchoring a delete on
+  `<div` and scanning for `/>`; the multi-line container has no `/>` of its own,
+  so the scan ran into the first decoration div and took both as one block. Caught
+  by lint, restored from git — except `/sv`'s card, which was untracked and had to
+  be rewritten. The fix is anchoring on `position: "absolute"` plus a tag-balance
+  assertion. **`npm run build` said "Compiled successfully" with broken JSX in the
+  tree; `npm run lint` is what caught it.** Do not trust the build alone.
+
+**The nav island got narrower and moved to a 720px breakpoint.** `NavLink.short`
+shows "Process" in the bar while the panel keeps "How it works", which took the row
+from ~630px to ~490px. Then Swedish added a second chip and took it to ~556px, so
+640 was out — at that width the island spanned nearly the whole viewport, which is
+the full-width-header look it exists to avoid. 720 is where 556 still leaves a real
+margin, and it keeps iPad Mini portrait (744px) on the visible nav rather than the
+panel. The chip stays **"Svenska"**, not "SV" — the endonym is what a Swedish
+visitor recognises, so the breakpoint moved instead of the label.
+
+**`netlify.toml` no longer hardcodes `publish = ".next"`.** `@netlify/plugin-nextjs`
+sets the publish directory itself, so that key was at best ignored and at worst
+fighting the plugin on a version bump.
+
+**Items 27–29 resequenced.** Ice: *"I can't even access the da page. So, how can I
+proofread it?"* He is right and the old order was impossible — it wanted a
+proofreader before a single Danish sentence existed. `/da` now gets built first and
+kept unlisted until the copy passes.
+
+### 2026-08-21
+
+**Item 17 — the CV PDF, plus the nav island** ✅ `78de161`
+
+**The PDF is no longer made by hand.** `scripts/build-cv-pdf.mjs` renders `cvData`
+to HTML and prints it with headless Chrome — `npm run cv`. No new dependency:
+Chrome is already on the machine and Node 24 imports `data.ts` directly. That
+turns the "mirrors the PDF one-to-one" comment from a promise into a mechanism.
+Both known drifts closed automatically as a result: the heading is
+**Frontend Developer** and **Framer** is in the tools list, because both were
+already true in `cvData`.
+
+- **Single column, real text, standard headings**, because an ATS reads the
+  extracted text stream. Verified with `pdftotext`, which caught a defect the eye
+  cannot see: at the **0.14em** tracking the section headings started with, Chrome
+  emits them as separate glyph runs and every extractor reads **"S U M M A RY"** —
+  so an ATS scanning for section headings finds none of the six. Measured the
+  boundary rather than guessing (0.14 broke all six, 0.10 keeps all six) and
+  settled at **0.1em**, which looks the same. 🔒 **Do not widen it back for looks.**
+- Two more caught by the same pass: the GitHub URL broke mid-word across a line,
+  and **"EXPERIENCE" was orphaned** at the foot of page 1 with its content overleaf.
+- **Now includes the two things the hand-made file cut** — the Operations & Product
+  skills group and the Languages row. That was a one-page constraint; this is two
+  pages, and the operations history is the part of the range no other frontend
+  candidate has.
+- Final state: **2 pages, A4, 15/15 content checks**, no phone and no address.
+- ⚠️ Item 17's own first sub-item is left struck through on purpose — it recorded a
+  phone number that was never there. Worth keeping visible.
+
+**The nav is an island.** It hugs its content instead of stretching to `max-w-6xl`.
+Full width put the wordmark and the CTA in opposite corners with a hundred empty
+pixels between them, which reads as a page header; an island reads as something
+floating over the composition. Dividers return either side of the inline links.
+
 ### 2026-08-22 (later still)
 
 **Item 38 — hero corners** ✅ (see git log)
@@ -775,7 +970,7 @@ quote the positioning. Building them before this settles means writing twice.*
   in Danish, English and Swedish."). Keep `aboutFacts` and keep the full story
   behind the existing "Read my story" collapsible.
 
-- [ ] **17. [H] Regenerate the CV PDF — reconcile it with `cvData`.**
+- [x] **17. [H] Regenerate the CV PDF — reconcile it with `cvData`.** ✅ *`78de161`* — **now generated, not hand-made.**
   `public/assets/Taninwat_Kaewpankan_CV.pdf`. **Verified against both pages on
   2026-08-22**, which corrected one item and found another:
 
@@ -885,19 +1080,116 @@ quote the positioning. Building them before this settles means writing twice.*
   The Thai page is a *sales* layer; their customers are Danish and Swedish. Being
   explicit keeps scope sane and is what they actually need.
 
-- [ ] **27. [N] Build `/da` — Danish landing page.**
-  Danish small businesses. Own enquiry form. SEO targets:
-  `hjemmeside til [branche]`, `webudvikler København`, `hjemmeside pris`.
+- [x] **27. [N] Build `/da` — Danish landing page, UNLISTED.** ✅ *shipped
+  2026-08-21, invisible on purpose.* `app/data.da.ts` + `app/da/page.tsx`, static,
+  17/17 content checks.
 
-- [ ] **28. [C] Danish copy proofread by a native speaker.** ⚠️ **BLOCKING — do
-  not publish machine Danish.** A page whose whole argument is "I do careful
-  work" is destroyed by one clumsy Danish sentence. Danes spot it instantly.
+  **Reachable only by typing the URL.** `noindex, nofollow`; not in `sitemap.ts`;
+  not in `SITE_LANGUAGES`, so no nav chip and no browser-language banner; and **no
+  hreflang at all**, because declaring a language alternate for a page that tells
+  crawlers not to index it is a contradiction that would invite Google to serve
+  unproofread Danish to Danish searchers — the exact outcome item 28 exists to
+  prevent. Verified as absent from all six other prerendered pages.
 
-- [ ] **29. [C] Surface the meeting-language line prominently on `/da`, in Danish.**
-  The answer already exists, buried in `servicesFaq`: *"the language of the
-  meetings and the language of the website are two different things."* That's a
-  confident, honest line — put it near the top, not in an FAQ. And do not build a
-  contact flow that promises Danish phone calls; offer written-first contact.
+  🔒 **One flag publishes it: `DRAFT` in `app/da/page.tsx`.** It controls the
+  noindex AND a visible draft banner, so the page cannot be shared as finished by
+  accident — losing the banner is the same act as publishing. The four remaining
+  steps are listed in the comment above it.
+
+  ⚠️ **Step 3 of that list widens the nav island with a fourth language chip.** It
+  is at roughly 556px with three, against a 720px breakpoint. Re-measure before
+  assuming 720 still holds.
+
+
+- [ ] **42. [N] Secondary project cards on the homepage — 3 small ones under the
+  featured 3.** Ice's idea, 2026-08-21: *"typically people want to already see them
+  right away and not click into the link… maybe like a little card, not like the
+  featured ones."*
+
+  **The instinct is right, with one correction to the premise.** "See more at once"
+  is true for a RECRUITER and only half-true for a CLIENT — a salon owner wants one
+  business like hers and then the price, not eight projects. The homepage is
+  client-first, so this is not "show more equally": keep the three featured as the
+  narrative and add a compact row for range.
+
+  **The three: Lumina Spa · MockMate · Saep Fire Kitchen.** (Ice replaced Satoshi
+  Standard with Saep, 2026-08-21.)
+
+  - **Lumina Spa** is the one to argue for. Ten animated sections, no build step,
+    **10.8 KB over the wire.** That is not a side project, it is a live
+    demonstration of the exact thing he charges for — fast sites that load on
+    mobile data. Currently the site's best-hidden asset.
+  - **Saep Fire Kitchen** is a **Thai restaurant site**, which makes it unusually
+    on-target: `/th`'s entire audience is Thai-owned restaurants in Denmark and
+    Sweden, and right now that page proves the case with a massage salon. ⚠️ **It is
+    an INVENTED restaurant in Nørrebro, not a client.** It must be labelled as a
+    concept piece wherever it appears — showing an invented restaurant to a real
+    restaurant owner is fine only if nobody can mistake it for client work.
+  - **MockMate** — live, technical, needs no explanation.
+
+  **Deliberately NOT included:** Millennial Consulting (strong evidence, but of
+  management — dilutes next to code on a client-first page) and Cinema Booking
+  (self-described as "my first full-stack project… with a team of students"; honest,
+  and the weakest visible item sets the ceiling of the impression). Both stay on
+  `/projects`, where they cost nothing.
+
+  🔒 **The cards must look deliberately SECONDARY** — image, title, one line, tag.
+  Three across, roughly a third the height of a featured card, no big numbers. If
+  they look like the featured ones there is no "3 + 3", only **6 equal projects**,
+  and the curation disappears. The hierarchy is the entire point.
+
+  Derive from `cases` by id rather than retyping, so it cannot orphan or drift, and
+  slot it between the sticky deck and the existing "see all" link — which then reads
+  as the natural next step rather than the only one. Cost is about +40vh on a
+  homepage whose deck is ~255vh.
+
+  **Two blockers, both small:**
+
+  1. ⚠️ **Saep is not on `main` or on this branch.** It lives on
+     `add-saep-case-study` (`32cd536`, "Add Saep Fire Kitchen as case 09"), branched
+     from `5e2608c` — partway through the 2026-08-21 work. **The merge will conflict
+     in `app/data.ts`** (verified with `git merge-tree`). Merge or rebase it first;
+     `cases` becomes 9 entries.
+  2. ⚠️ **Saep has no live demo — `links.demo` is `""`.** A card whose job is to be
+     seen should go somewhere. It is a single self-contained HTML file with no build
+     step, so deploying it is minutes on Netlify or GitHub Pages. Do that before the
+     card ships, or the card sends people to a repo.
+
+- [ ] **28. [C] Danish copy proofread by a native speaker.** ⚠️ **STILL BLOCKING
+  PUBLICATION — but no longer blocking the build.** A page whose whole argument is
+  "I do careful work" is destroyed by one clumsy Danish sentence. Danes spot it in
+  the first line.
+
+  What changed is only the order: item 27 now produces the draft first, so the ask
+  to a Dane is a concrete one — *"read these forty sentences"* — rather than a
+  request to write a page. That is a far smaller favour, and a far easier one to
+  get said yes to.
+
+  ✅ **The deliverable now exists: `npm run copy da`.** Prints all 81 Danish lines
+  as numbered plain text grouped by section, so a corrector can reply "3.2 should
+  be X" and nothing has to be described twice. Works for `th` and `sv` too, so
+  item 40 gets the same thing.
+
+  Deliberately **not** a two-column table with the English alongside: a
+  proofreader given both columns checks fidelity to the English, while one given
+  only the Danish judges whether it reads like Danish — which is the actual
+  question. Send the text, and the URL only if they want to see it in place.
+
+
+- [x] **29. [C] Surface the meeting-language line prominently on `/da`, in Danish.**
+  ✅ *done inside item 27, which was the point of folding it in — it had to be in
+  the draft the proofreader reads, not a second round for one paragraph.*
+
+  In the hero, in a highlighted block, not an FAQ: *"Siden bliver på dansk — det er
+  dine kunder, der skal læse den, ikke mig. Selve samtalerne tager vi på engelsk…
+  Sproget i møderne og sproget på siden er to forskellige ting, og jeg vil hellere
+  sige det på forhånd end lade dig opdage det undervejs."*
+
+  And the second half honoured: **no phone number anywhere on the page** and a
+  written-first contact block, so nothing implies a Danish phone call. `why` also
+  makes the narrowest true claim available — one Danish site, one client, still
+  running — rather than anything that reads as Danish fluency.
+
 
 - [x] **30. [S] hreflang + `lang`.** ✅ *`d5faf81`* — reciprocated both ways.
 
@@ -934,27 +1226,66 @@ quote the positioning. Building them before this settles means writing twice.*
   *Related: item 25b (Thai OG card) is the other half of this — `/th` currently
   shares with the English card, which weakens the one channel that does work.*
 
-- [ ] **31. [H] Find the 3–5 Facebook groups where Thai business owners in
-  DK/SE actually talk.** ⚠️ **On Ice alone now** — item 23 assumed Racha could point
-  at them and she could not, so it was dropped. This is still the distribution
-  channel `/th` was built for, and the page cannot do its job without it.
+- [x] **31. ~~Find the 3–5 Facebook groups where Thai business owners in Denmark
+  and Sweden actually are.~~ ❌ DROPPED — Ice's call, 2026-08-21.**
+  Closed rather than deleted so it does not return as a fresh idea. ⚠️ Worth
+  being clear about the consequence: `/th` is live, indexed, and has a proper
+  Thai share card, but **it was built to be pasted into a group** — that was the
+  channel the whole page assumed. Without one it now rests on search alone, which
+  is the weaker half for that audience. Nothing to fix in code; it just means
+  `/th` will be slower than `/sv`, which was written for search from the start.
 
-- [ ] **32. [N] `/sv` — Swedish landing page. PARKED.**
-  Cheapest page on the list to produce (fluent Swedish, no proofreading
-  bottleneck, no language risk on calls), targeting Skåne — 35 min from
-  Copenhagen. Different market from `/th`. Revisit after `/th` proves the model.
+
+- [x] **32. [N] `/sv` — Swedish landing page.** ✅ *shipped* — no longer parked.
+  Ice's call on 2026-08-21: "if it doesn't take much effort and time, let's just
+  do it." It did not, and the reason is worth keeping — **Swedish has no
+  proofreading gate.** Ice writes it fluently, so he is the native reviewer and
+  the correction loop is a conversation rather than a dependency. That is the
+  whole difference between this and `/da`, which is still blocked on item 28.
+
 
 ### Block 7 — Open business decisions
 
-- [ ] **33. [H] Decide on an optional care plan (Q2).**
-  Current position — *"Not by default, and that is deliberate"* — is honest and
-  sells well, but every month starts at zero kroner. An optional plan (backups,
-  updates, a small block of edit hours) is the standard freelancer stabiliser.
-  Not a recommendation; a decision to make consciously.
+- [x] **33. [H] Optional care plan — DECIDED: a prepaid block of hours, and NO
+  subscription.** ✅ *Ice's call, 2026-08-21.* Live on `/services` as its own
+  section, 15/15 checks.
 
-- [ ] **34. [H] Later: the `.xyz` domain.**
-  A `.xyz` on a personal-name domain is a small trust tax with Danish
-  small-business clients. Not urgent.
+  **The market research is what settled it.** Danish agencies sell website care at
+  **250 – 3.000 kr a month**, typically 500 – 2.000. But read what is inside those
+  plans and they are all one product: hosting, security patches, daily backups,
+  **WordPress core and plugin updates**. That plan exists because WordPress rots.
+  A Webflow site is maintained by Webflow, and a static site on Netlify has no
+  plugins to patch — so a monthly plan here would charge for a problem this stack
+  deliberately does not have, and it would undercut the exact technical choice
+  that makes "no yearly bill" true in the section directly above it.
+
+  🔒 **So the product is CHANGES, not maintenance.** That is also what clients
+  actually want, and it closes the thing the old position left dangling — what a
+  ten-minute text change costs:
+
+  | | Price | |
+  |---|---|---|
+  | Small changes | **Free** | A price, an opening hour, a typo. A 100 kr invoice costs more in admin than it earns — this is the 50–100 kr edit fee question, answered. |
+  | Anything bigger | **650 DKK/h** | Billed in half hours, estimate given first. Inside the Danish freelance band (550–750) and above offer 01's implied project rate, which is correct: ad-hoc work has no economies of scale. |
+  | A block | **2.400 DKK** | 5 hours, 12 months, rolls over once. **480 kr/h against 650** — the discount is what makes prepaying a decision rather than a favour. |
+
+  ⚠️ **If a future version of this ever grows a recurring charge**, then
+  `runningCosts.paidTo` ("I do not invoice you again unless you ask me for more
+  work") and the "no monthly retainer" line in `servicesFaq` both become false and
+  must change in the same commit. Verified consistent across `data.ts`, the FAQ,
+  the chatbot grounding and `llms.txt`.
+
+  **Rejected:** an optional annual plan (real recurring revenue, but softens the
+  strongest line on the page, and launching a subscription product for one existing
+  client is premature); both together (two products to explain on a page that
+  already runs long); and doing nothing (leaves the edit-fee question open).
+
+
+- [x] **34. ~~Later: the `.xyz` domain.~~ ❌ DROPPED — Ice's call, 2026-08-21.**
+  Already paid for, and he is aware of the trust tradeoff with Danish
+  small-business clients. Closed rather than deleted so it does not get
+  re-raised as a new idea.
+
 
 ### Block 11 — Thai proofread (in progress)
 
@@ -1020,60 +1351,58 @@ quote the positioning. Building them before this settles means writing twice.*
 
 ### Block 9 — Showing what more money buys
 
-- [ ] **36. [P] [C] Itemise the add-ons, at ONE price per add-on.** ✅ *Unblocked by
-  item 7.*
+- [x] **36. [P] [C] Itemise the add-ons, at ONE price per add-on.** ✅ *shipped
+  2026-08-21.* Seven add-ons priced individually on `/services` under offer 01,
+  plus the two things that are deliberately **not** add-ons and one honest
+  paragraph about the capabilities with no client build behind them.
 
-  > **🔒 Price each add-on once, method-agnostic — do not split by Webflow vs coded.**
-  > The instinct will be "Webflow CMS is quicker to set up, so charge less". That is
-  > exactly the mistake **D3** fixed on the base price, and every reason applies again:
-  > the **outcome is identical** ("I can update my own content"), and the **ambush is
-  > identical** — cheaper to build, then Basic → Premium *forever*. One number; the
-  > method is a recommendation made on the call.
-  >
-  > The running-cost difference belongs in the **running-costs table**, where that
-  > story already lives. CMS then has the same shape as the whole Webflow-vs-coded
-  > argument — cheaper to build, more to keep, or the reverse — so it reinforces the
-  > page rather than complicating it.
+  **It did not need item 33 after all.** The dependency I claimed was the edit-fee
+  question, and this item's own text already scopes that out to 33. The add-on
+  table and the recurring-revenue decision are independent.
 
-  **CMS is the first add-on to price**, since item 7 just decided it exists. It sits
-  inside the current `+3.000 – 8.000 DKK` band. Others to itemise: payment
-  integration, online booking, a map, a second language, animation.
-  Ice's idea: show clients what a bigger budget actually gets them — payment
-  integration, a booking system, animation, a map, a CMS — rather than leaving
-  "Add-ons + 3.000 – 8.000 DKK" as one unexplained line. Right instinct: a ladder
-  with no visible reason to climb it reads as an arbitrary number.
+  Prices set against the Danish market rather than invented (searched
+  2026-08-21), sitting at or just under the agency floor — below it reads as
+  inexperience, the same reasoning that put the base price above 5.000:
 
-  ⚠️ **But not as project examples, which is how it was framed.** There is exactly
-  one client project. "Here is what 20.000 buys" needs builds that do not exist, and
-  inventing them would be fabricating case studies — the same line the testimonial
-  was held to for weeks. Three honest routes, in order of cost:
+  | Add-on | Price | Basis |
+  |---|---|---|
+  | Edit your own text and images | 3.000 | No market figure. Derived from offer 01's own economics (~1.300–1.900 kr/day), a day and a half. Free on Webflow. |
+  | A list you manage yourself | 3.500 | The item-7 CMS decision, priced. Needs Webflow's higher plan (~800 kr/yr) or is free to run on coded. |
+  | A second language | 3.000 – 5.500 | **The one span**, tied to the two rungs above it. |
+  | Online booking | 3.500 | Agencies quote 3.000 – 10.000. |
+  | Take payment online | 5.000 | Agencies quote 5.000 – 10.000. |
+  | Motion and animation | 2.500 | ~1 day. |
+  | An extra page | 1.800 | Derived so it cannot undercut the ladder: 8 pages this way lands at 19.200 against a 20.000 ceiling. |
 
-  1. **An itemised add-on table** (recommended, and cheap). Each capability with its
-     own price, on `/services` under offer 01. Answers "what does more money buy"
-     directly, needs no new work, and turns one opaque line into the upsell it is
-     already trying to be.
-  2. **Capability proof from his own products.** He cannot show a client site with
-     auth or payments, but he *can* show Bevisly (multi-role auth, RLS, 8+ AI
-     features), MockMate (Gemini pipeline, Lambda) and Satoshi Standard (three live
-     price APIs). Honest framing: *"not on a client site yet — here it is on mine."*
-     Costs nothing but a paragraph, and every one is already a case study.
-  3. **Build a demo.** Real work, real weeks. Only worth it if 1 and 2 stop
-     converting.
+  🔒 **A second language is priced as a span on purpose, and it is the only one.**
+  A flat figure was wrong at both ends — on a one-pager 4.500 was nearly the price
+  of the whole site, and on an eight-pager it undercharged. It is the only add-on
+  whose work genuinely tracks page count, because every page has to exist twice.
+  The market model is proportional too: Danish agencies describe a second language
+  as roughly doubling the content work, not as a fixed fee. **This is still "one
+  price" in the sense the lock means — it does not fork by build method.**
 
-  **Two things Ice raised that belong elsewhere, not here:**
+  🔒 **The ladder's band is COMPUTED from the items** (`addOnBand(WEBSITE_ADD_ONS)`),
+  not typed. It used to read `+ 3.000 – 8.000 DKK` against no itemisation; once the
+  items existed, a hand-typed band was one edit away from advertising a floor or
+  ceiling nothing behind it charged. Do not replace it with a literal.
 
-  - **The 50–100 kr edit fee.** Flagging it rather than building it: a 100 kr invoice
-    costs more in admin and mental overhead than it earns, and it sits awkwardly
-    beside the published *"I build sites that do not need a monthly retainer"*. A
-    small block of hours, or a first year of text edits included, both price the same
-    work without an invoice per sentence. **This is item 33** (the care-plan
-    decision) — answer it there rather than inventing a third position.
-  - **CMS as a paid upgrade.** Already **item 7** (Decap / Sanity). Ice's instinct is
-    right and it strengthens the case: if self-editing is a priced add-on rather
-    than a Webflow-only feature, the free-CMS-on-a-coded-site route becomes a thing
-    he can *sell*, not just a cost he absorbs. Decide 7 first; 36's table quotes it.
+  **Route 2 taken as well** (capability proof from his own products), in one
+  paragraph: taking payment and anything with logins have no client build behind
+  them, and the page says so and points at Bevisly and MockMate. Route 3 (build a
+  demo) not taken, correctly — it is weeks of work.
 
----
+  **Also updated so nothing contradicts the table:** the pricing FAQ now names the
+  CMS and self-editing figures instead of saying "priced separately"; the chatbot
+  grounding interpolates the whole list, so it can answer "how much for booking?"
+  and is told not to imply a client build that does not exist; `llms.txt` was
+  hand-edited, since it does not interpolate.
+
+  ⚠️ **Known gap: the table is English-only.** `/th` and `/sv` render the price
+  ladder, so they show the derived band — correct and non-contradictory, but not
+  itemised. Worth doing when `/da` lands and there are three language pages to
+  update at once.
+
 
 ### Block 8 — Projects page
 

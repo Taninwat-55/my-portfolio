@@ -33,8 +33,13 @@ function detect(): Language | null {
     : [navigator.language];
   const codes = preferred.map((tag) => tag.toLowerCase().split("-")[0]);
 
+  // Requires `offer` as well as a code match: a language with no sentence to
+  // show has nothing to offer with, and falling back to English defeats the point.
   const match = siteContent.languages.find(
-    (language) => language.code !== "en" && codes.includes(language.code)
+    (language) =>
+      language.code !== "en" &&
+      Boolean(language.offer) &&
+      codes.includes(language.code)
   );
   if (!match) return null;
 
@@ -109,8 +114,11 @@ export function LanguageOffer() {
         className="group inline-flex items-center gap-2 text-sm font-medium whitespace-nowrap text-frost transition-colors hover:text-crystal-300"
       >
         {/* Written in the language being offered — an English sentence is the one
-            thing this particular reader may not parse. */}
-        <span lang="th">ดูหน้าภาษาไทย</span>
+            thing this particular reader may not parse. Comes from the registry in
+            data.ts rather than being hard-coded here, which it was until Swedish
+            arrived and turned a shortcut into a bug: a Swedish visitor was being
+            offered /sv in Thai. */}
+        <span lang={offer.code}>{offer.offer ?? offer.label}</span>
         <ArrowRight
           size={15}
           strokeWidth={1.8}
