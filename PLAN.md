@@ -1101,6 +1101,60 @@ quote the positioning. Building them before this settles means writing twice.*
   assuming 720 still holds.
 
 
+- [ ] **42. [N] Secondary project cards on the homepage — 3 small ones under the
+  featured 3.** Ice's idea, 2026-08-21: *"typically people want to already see them
+  right away and not click into the link… maybe like a little card, not like the
+  featured ones."*
+
+  **The instinct is right, with one correction to the premise.** "See more at once"
+  is true for a RECRUITER and only half-true for a CLIENT — a salon owner wants one
+  business like hers and then the price, not eight projects. The homepage is
+  client-first, so this is not "show more equally": keep the three featured as the
+  narrative and add a compact row for range.
+
+  **The three: Lumina Spa · MockMate · Saep Fire Kitchen.** (Ice replaced Satoshi
+  Standard with Saep, 2026-08-21.)
+
+  - **Lumina Spa** is the one to argue for. Ten animated sections, no build step,
+    **10.8 KB over the wire.** That is not a side project, it is a live
+    demonstration of the exact thing he charges for — fast sites that load on
+    mobile data. Currently the site's best-hidden asset.
+  - **Saep Fire Kitchen** is a **Thai restaurant site**, which makes it unusually
+    on-target: `/th`'s entire audience is Thai-owned restaurants in Denmark and
+    Sweden, and right now that page proves the case with a massage salon. ⚠️ **It is
+    an INVENTED restaurant in Nørrebro, not a client.** It must be labelled as a
+    concept piece wherever it appears — showing an invented restaurant to a real
+    restaurant owner is fine only if nobody can mistake it for client work.
+  - **MockMate** — live, technical, needs no explanation.
+
+  **Deliberately NOT included:** Millennial Consulting (strong evidence, but of
+  management — dilutes next to code on a client-first page) and Cinema Booking
+  (self-described as "my first full-stack project… with a team of students"; honest,
+  and the weakest visible item sets the ceiling of the impression). Both stay on
+  `/projects`, where they cost nothing.
+
+  🔒 **The cards must look deliberately SECONDARY** — image, title, one line, tag.
+  Three across, roughly a third the height of a featured card, no big numbers. If
+  they look like the featured ones there is no "3 + 3", only **6 equal projects**,
+  and the curation disappears. The hierarchy is the entire point.
+
+  Derive from `cases` by id rather than retyping, so it cannot orphan or drift, and
+  slot it between the sticky deck and the existing "see all" link — which then reads
+  as the natural next step rather than the only one. Cost is about +40vh on a
+  homepage whose deck is ~255vh.
+
+  **Two blockers, both small:**
+
+  1. ⚠️ **Saep is not on `main` or on this branch.** It lives on
+     `add-saep-case-study` (`32cd536`, "Add Saep Fire Kitchen as case 09"), branched
+     from `5e2608c` — partway through the 2026-08-21 work. **The merge will conflict
+     in `app/data.ts`** (verified with `git merge-tree`). Merge or rebase it first;
+     `cases` becomes 9 entries.
+  2. ⚠️ **Saep has no live demo — `links.demo` is `""`.** A card whose job is to be
+     seen should go somewhere. It is a single self-contained HTML file with no build
+     step, so deploying it is minutes on Netlify or GitHub Pages. Do that before the
+     card ships, or the card sends people to a repo.
+
 - [ ] **28. [C] Danish copy proofread by a native speaker.** ⚠️ **STILL BLOCKING
   PUBLICATION — but no longer blocking the build.** A page whose whole argument is
   "I do careful work" is destroyed by one clumsy Danish sentence. Danes spot it in
