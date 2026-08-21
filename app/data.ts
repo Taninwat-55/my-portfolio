@@ -1704,6 +1704,64 @@ export const projectCards: ProjectCard[] = [
   },
 ];
 
+// ─── SECONDARY PROJECT CARDS ──────────────────────────────────────────────────
+
+/**
+ * The compact row under the featured three on the homepage. Item 42.
+ *
+ * IDS, NOT COPIES — and that is the whole design. Retyping title, blurb and image
+ * here is exactly what orphaned /cases/satoshi and /cases/cinema: two lists of
+ * projects that had to be kept in agreement by hand, and were not. These derive
+ * from `cases`, so a card cannot drift from its own case study, and a renamed id
+ * fails the build instead of quietly rendering a shorter row.
+ *
+ * WHY THREE MORE AND NOT SIX EQUAL PROJECTS. The featured deck is the narrative —
+ * client work, product, full-stack — and this row is range. "See more at once" is
+ * true for a recruiter and only half-true for a client, who wants one business like
+ * theirs and then the price, so the deck stays the argument and this stays a
+ * footnote to it.
+ *
+ * DELIBERATELY EXCLUDED: Millennial Consulting, which is strong evidence of
+ * management rather than of code, and Cinema Booking, a student team project. Both
+ * live on /projects, where they cost nothing — the weakest visible item sets the
+ * ceiling of the impression, and on a client-first homepage that ceiling matters
+ * more than completeness.
+ */
+const SECONDARY_CARD_IDS = ["lumina", "mockmate", "saep"] as const;
+
+export interface SecondaryProjectCard {
+  id: string;
+  title: string;
+  tag: string;
+  sub: string;
+  image: string;
+}
+
+export const secondaryProjectCards: SecondaryProjectCard[] =
+  SECONDARY_CARD_IDS.map((id) => {
+    const source = cases.find((c) => c.id === id);
+    if (!source) {
+      // Throwing is the point. This is static data with no environment behind it,
+      // so it either always throws or never does, and `next build` finds out
+      // immediately. A row meant to prove range that silently renders two cards
+      // is worse than a build that stops and names the id that moved.
+      throw new Error(
+        `secondaryProjectCards: no entry in \`cases\` with id "${id}".`,
+      );
+    }
+    return {
+      id: source.id,
+      title: source.title,
+      tag: source.tag,
+      // The case study's own one-liner, never a second copy of it. For Saep this
+      // also carries the concept-piece label, which is why that label sits at the
+      // START of its `sub` — the card clamps to three lines, and the one sentence
+      // that must survive clamping is "an invented Thai restaurant".
+      sub: source.sub,
+      image: source.images[0],
+    };
+  });
+
 // ─── MARQUEE IMAGES ───────────────────────────────────────────────────────────
 
 export const marqueeImages = [

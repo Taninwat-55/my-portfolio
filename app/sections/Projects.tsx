@@ -5,9 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { FadeIn } from "../components/FadeIn";
 import { LiveProjectButton } from "../components/LiveProjectButton";
 import { SectionHeading } from "../components/SectionHeading";
-import { projectCards, cases, type ProjectCard } from "../data";
+import {
+  projectCards,
+  secondaryProjectCards,
+  cases,
+  type ProjectCard,
+} from "../data";
 
 const cardRadius = "rounded-[40px] sm:rounded-[50px] md:rounded-[60px]";
 
@@ -181,9 +187,76 @@ export function Projects() {
         />
       ))}
 
-      {/* The only route into /projects — the pill nav keeps pointing at this
-          section's hash so it retains scroll-spy. Deliberately after the deck: a
-          visitor who scrolled all three cards is the one who wants more. */}
+      {/* ─── The secondary row. Item 42. ────────────────────────────────────
+          🔒 DELIBERATELY SUBORDINATE, and every choice here is that constraint:
+          tag, title and one clamped line — no big number, a 2xl radius against
+          the deck's 40–60px, a 16:9 thumbnail instead of a three-image bento,
+          and roughly a third the height of a featured card. If these ever read
+          as equals there is no "3 + 3", only six equal projects, and the
+          curation the deck is doing disappears. Anything that makes them bigger
+          defeats the reason they exist.
+
+          `relative z-20` for the same reason the link below it carries it: the
+          deck above is sticky and scales as it settles, so without its own
+          stacking context the last featured card rides over this row.
+
+          Cards link to /cases/[id], not to the live demos. The demos are one
+          click further on, on a page that can say "concept piece, not a client"
+          in full — and internal links are also what stopped /cases/satoshi and
+          /cases/cinema being orphans in the first place. */}
+      <div className="relative z-20 mt-14 sm:mt-20">
+        <h3 className="mb-5 text-center text-[0.65rem] font-medium uppercase tracking-[0.25em] text-frost/40 sm:mb-6 sm:text-xs">
+          Also built
+        </h3>
+
+        <ul className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
+          {secondaryProjectCards.map((card, i) => (
+            <FadeIn key={card.id} delay={i * 0.08} y={20}>
+              <li className="h-full list-none">
+                <Link
+                  href={`/cases/${card.id}`}
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-frost/10 bg-white/3 transition-colors hover:border-frost/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900"
+                >
+                  {/* Ratio box + fill, never width/height — declaring dimensions
+                      that disagree with the file is what left a wrong-shaped
+                      placeholder on /th. 16:9 is the CARD's ratio, matching
+                      /projects, not any one screenshot's. */}
+                  <div className="relative aspect-[16/9] overflow-hidden border-b border-frost/10">
+                    <Image
+                      src={card.image}
+                      alt={`${card.title} — ${card.tag} project`}
+                      fill
+                      sizes="(min-width: 640px) 360px, 90vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                  </div>
+
+                  <div className="flex flex-1 flex-col p-4 sm:p-5">
+                    <span className="text-[0.65rem] uppercase tracking-[0.25em] text-crystal-500">
+                      {card.tag}
+                    </span>
+                    <h4 className="mt-2 text-base font-medium text-frost">
+                      {card.title}
+                    </h4>
+                    {/* Clamped, not truncated per-card in the data: the blurb is
+                        the case study's own, and three lines holds the longest of
+                        them (Saep, 135 chars) at the narrowest column. */}
+                    <p className="mt-1.5 line-clamp-3 text-xs font-light leading-relaxed text-frost/60">
+                      {card.sub}
+                    </p>
+                  </div>
+                </Link>
+              </li>
+            </FadeIn>
+          ))}
+        </ul>
+      </div>
+
+      {/* Now the natural next step rather than the only one — the row above
+          answers "is there more?" and this answers "show me all of it".
+          The pill nav keeps pointing at this section's hash so it retains
+          scroll-spy. Deliberately after the deck: a visitor who scrolled all
+          three cards is the one who wants more. */}
       <div className="relative z-20 mt-12 flex justify-center sm:mt-16">
         <Link
           href="/projects"
