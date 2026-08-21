@@ -124,6 +124,19 @@ export function SiteNav() {
     return () => observer.disconnect();
   }, []);
 
+  // Crossing into md swaps the panel for the inline nav. Without this the panel
+  // would just vanish behind `md:hidden` while `open` stayed true — leaving
+  // document.body scroll-locked with nothing on screen to explain why.
+  useEffect(() => {
+    const wide = window.matchMedia("(min-width: 768px)");
+    const onChange = () => {
+      if (wide.matches) setOpen(false);
+    };
+    onChange();
+    wide.addEventListener("change", onChange);
+    return () => wide.removeEventListener("change", onChange);
+  }, []);
+
   const close = useCallback(() => {
     setOpen(false);
     // Return focus to the trigger, or a keyboard user is dropped at the top of
@@ -195,6 +208,50 @@ export function SiteNav() {
             Ice<span className="text-crystal-500">.</span>
           </Link>
 
+          {/* The links inline, from md up. Below that they live in the panel.
+              A menu is the right answer only when there is no room for the thing
+              it hides — at 768px and above there is, and a nav you can already see
+              is one fewer tap and one fewer thing to discover. It also brings back
+              something the panel had taken away on wide screens: scroll-spy is
+              visible again, so the bar shows you where you are while you scroll.
+
+              768px rather than 640px because "How it works" makes this row about
+              634px wide, which does not fit inside 640 minus padding. That does
+              put iPad Mini portrait (744px) on the panel — one clean breakpoint
+              rather than a magic number, and the panel is perfectly usable there. */}
+          <nav
+            aria-label="Main navigation"
+            className="hidden items-center gap-0.5 md:flex lg:gap-1"
+          >
+            {NAV_LINKS.map((link) => {
+              const isActive = Boolean(link.id) && activeId === link.id;
+              const base =
+                "rounded-full px-3 py-2 text-sm whitespace-nowrap transition-colors";
+              return link.href ? (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className={`${base} text-frost/60 hover:bg-white/5 hover:text-frost`}
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.label}
+                  href={`#${link.id}`}
+                  aria-current={isActive ? "true" : undefined}
+                  className={`${base} ${
+                    isActive
+                      ? "bg-white/8 text-frost"
+                      : "text-frost/60 hover:bg-white/5 hover:text-frost"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
+          </nav>
+
           <div className="flex items-center gap-2 sm:gap-3">
             {/* In the BAR, not the panel. Item 30b exists because a Thai visitor
                 landing on an English page had no signal /th existed, and "a link
@@ -236,7 +293,7 @@ export function SiteNav() {
               aria-expanded={open}
               aria-controls="site-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-frost/15 text-frost transition-colors hover:border-frost/40 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500"
+              className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-frost/15 text-frost transition-colors hover:border-frost/40 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 md:hidden"
             >
               {/* Two rules, not three. A hamburger is the generic answer; this is
                   quieter and becomes an X on open. */}
@@ -269,9 +326,9 @@ export function SiteNav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: reduceMotion ? 0 : -12 }}
             transition={{ duration: reduceMotion ? 0 : 0.28, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed inset-0 z-40 flex flex-col justify-center bg-night-900/97 px-6 pt-24 pb-10 backdrop-blur-xl sm:px-10"
+            className="fixed inset-0 z-40 flex flex-col justify-center bg-night-900/97 px-6 pt-24 pb-10 backdrop-blur-xl sm:px-10 md:hidden"
           >
-            <nav aria-label="Main navigation" className="mx-auto w-full max-w-6xl">
+            <nav aria-label="Menu" className="mx-auto w-full max-w-6xl">
               <ul className="flex flex-col gap-1 sm:gap-2">
                 {NAV_LINKS.map((link, i) => {
                   const isActive = Boolean(link.id) && activeId === link.id;
