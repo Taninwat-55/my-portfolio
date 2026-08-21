@@ -1,0 +1,245 @@
+import type { EnquiryMessages } from "./lib/services-enquiry";
+
+/**
+ * Danish copy for /da.
+ *
+ * ⚠️⚠️ DRAFTED BY CLAUDE. NOT PROOFREAD. NOT PUBLISHED. ⚠️⚠️
+ *
+ * Ice speaks Danish at beginner level, so unlike app/data.sv.ts he CANNOT be the
+ * reviewer here. This is the one language page that genuinely needs an outside
+ * native speaker — item 28 — and until that happens the page is deliberately
+ * unreachable from the site and excluded from search. See app/da/page.tsx.
+ *
+ * WHY IT EXISTS BEFORE THE PROOFREAD, which is the opposite of the original plan:
+ * Ice asked "I can't even access the da page, so how can I proofread it?" and he
+ * was right. You cannot proofread copy that does not exist, and asking a Dane to
+ * write a page is a much bigger favour than asking them to read forty sentences.
+ * So the draft comes first, and it stays invisible until it passes.
+ *
+ * To hand it to a proofreader: `npm run copy da` prints every string as plain
+ * readable text. Nobody proofreads TypeScript.
+ *
+ * NOTHING NUMERIC LIVES HERE, same rule as the Thai and Swedish files. Prices,
+ * timelines and metrics are read from `services` / `cases` / `servicesProcess` at
+ * render time. If you find yourself typing a number into this file, that is the bug.
+ *
+ * NO PRICE TRANSFORM NEEDED, unlike /sv. The prices in data.ts are already in
+ * Danish kroner written the Danish way — "6.500" with a dot for thousands — so
+ * they render correctly as-is. svPrice() exists only because Swedish uses a space
+ * for thousands and a Swedish reader can parse "6.500" as six and a half.
+ */
+
+/**
+ * Translates the unit WORD in a scope or duration without copying its numbers.
+ *
+ * "1–3 pages" → "1–3 sider". The numerals keep coming from `services` /
+ * `servicesProcess`, so a page count or timeline that changes there changes here.
+ *
+ * Longest keys first: "weeks" must match before "week", "days" before "day".
+ */
+const UNIT_WORDS: [string, string][] = [
+  ["Add-ons", "Tilvalg"],
+  ["pages", "sider"],
+  ["weeks", "uger"],
+  ["week", "uge"],
+  ["days", "dage"],
+  ["day", "dag"],
+  ["each", "pr. stk."],
+  ["min", "min."],
+];
+
+export function daUnits(value: string): string {
+  return UNIT_WORDS.reduce((out, [en, da]) => out.replace(en, da), value);
+}
+
+export const daContent = {
+  /** Used on the page wrapper. No hreflang yet — the page is not indexed. */
+  locale: "da",
+
+  meta: {
+    title: "Hjemmeside til små virksomheder — fast pris, du ejer det hele",
+    description:
+      "Jeg bygger hjemmesider til små virksomheder i Danmark. Fast pris aftalt skriftligt, før vi begynder, og du ejer domæne, hosting og kode.",
+  },
+
+  hero: {
+    eyebrow: "For små virksomheder i Danmark",
+    title: "Hjemmeside til din virksomhed",
+    lead: "Fast pris. Du ejer det hele. Ingen månedlige gebyrer, du ikke har bedt om.",
+    body: "Jeg hedder Ice. Jeg bygger hjemmesider til små virksomheder — selv, fra den første samtale til overleveringen. Intet bureau og ingen projektleder imellem: du taler med den, der faktisk bygger siden, og det er mig, der svarer, hvis noget går galt.",
+    /**
+     * ITEM 29, AND THE MOST IMPORTANT PARAGRAPH ON THE PAGE.
+     *
+     * The line already existed in servicesFaq — "the language of the meetings and
+     * the language of the website are two different things" — buried in an FAQ.
+     * On a Danish page it belongs at the top, because it is the single thing a
+     * Danish reader will otherwise discover at the worst possible moment.
+     *
+     * Stated as a strength rather than an apology, which it can be: the site
+     * genuinely will be in Danish, and there is a live Danish site to prove it.
+     * What is not on offer is a phone call in Danish, so the page does not
+     * promise one — see contact.writtenFirst.
+     */
+    languageNote:
+      "Siden bliver på dansk — det er dine kunder, der skal læse den, ikke mig. Selve samtalerne tager vi på engelsk, eller skriftligt på dansk, hvis du foretrækker det. Sproget i møderne og sproget på siden er to forskellige ting, og jeg vil hellere sige det på forhånd end lade dig opdage det undervejs.",
+  },
+
+  /** Why a Danish owner should pick him over a bureau or a template. */
+  why: {
+    heading: "Hvorfor mig",
+    items: [
+      "Fast pris aftalt skriftligt, før vi begynder. Der kommer ikke noget oveni bagefter.",
+      "Du ejer domæne, hosting og kode. Vil du skifte udvikler næste år, kan du gøre det med det samme — uden at spørge mig først.",
+      "Du taler med den, der bygger siden. Ingen sælger, ingen projektleder, ingen der giver opgaven videre til en anden.",
+      // Deliberately the narrowest true claim available. He has built one Danish
+      // site for one Danish client; the sentence says exactly that and no more.
+      "Jeg har bygget en hjemmeside på dansk til en dansk virksomhed før. Den kører stadig, og jeg har ikke været inde i den siden.",
+    ],
+  },
+
+  pricing: {
+    heading: "Priser",
+    lead: "Samme pris, uanset hvordan siden bygges. Det, der afgør prisen, er hvor mange sider du har brug for.",
+    /**
+     * Danish renderings of services.termsShort. Same three claims, same order.
+     *
+     * ⚠️ The moms line is hand-written Danish and therefore does NOT follow `vat`
+     * in app/data.ts. It is phrased as "prices exclude moms", which is true
+     * whether or not Ice is registered, so it survives registration untouched —
+     * but if the English wording changes substantively, change this too. The
+     * other non-interpolating sites are public/llms.txt, app/data.th.ts and
+     * app/data.sv.ts.
+     */
+    terms: [
+      "Fast pris aftalt skriftligt, før arbejdet begynder",
+      "Alle priser er ekskl. moms",
+      "Domæne, hosting og kode står i dit navn",
+    ],
+  },
+
+  proof: {
+    heading: "Et rigtigt eksempel",
+    /** Every metric and screenshot comes from cases[racha]; this is framing only. */
+    body: "Racha Beauty & Wellness er en massageklinik i Næstved. Før havde de kun en Facebookside. Jeg byggede hele hjemmesiden på dansk — behandlinger, priser, billeder og kontaktformular. Ejeren havde ikke plads i budgettet til et månedligt gebyr for vedligeholdelse, så jeg byggede siden, så den kan køre selv. Det har den gjort siden, uden at jeg har været inde i den.",
+    quoteLabel: "Hvad ejeren siger",
+    /** Not decorative: these screenshots are the evidence the section rests on. */
+    altHome: "Forsiden",
+    altTreatments: "Siden med behandlinger og priser",
+    /**
+     * Racha approved these words in ENGLISH. The Danish is labelled as a
+     * translation rather than presented as her wording — the same rule /th and
+     * /sv follow. She is a Danish business, so if she ever sends her own Danish
+     * sentence it replaces this and the label comes off; her own phrasing on a
+     * Danish page would be worth considerably more than a translation of it.
+     */
+    quoteTranslationLabel:
+      "(oversat fra det engelske original, som ejeren har godkendt)",
+    quoteDa:
+      "Ice byggede vores første hjemmeside. Den er hurtig, den virker, og den er på dansk — og siden den gik i luften, har vi ikke skullet ændre noget eller betale ekstra.",
+  },
+
+  process: {
+    heading: "Sådan foregår det",
+    /**
+     * Titles and the "you get" line per step, in the same order as
+     * servicesProcess. Durations are read from that array, not retyped.
+     */
+    steps: [
+      {
+        title: "Vi taler sammen",
+        youGet: "Et ærligt svar med det samme om, hvorvidt jeg er den rigtige til opgaven",
+      },
+      { title: "Tilbud", youGet: "Omfang og fast pris, skriftligt" },
+      { title: "Jeg bygger", youGet: "Et link, hvor du kan følge arbejdet, opdateret løbende" },
+      {
+        title: "Overlevering",
+        youGet: "Alt står i dit navn, og jeg viser dig, hvordan du selv retter teksten",
+      },
+    ],
+  },
+
+  contact: {
+    heading: "Skriv til mig",
+    body: "Fortæl kort, hvad virksomheden laver, og hvad du gerne vil have. Det er nok til at komme i gang. Er jeg ikke den rigtige til opgaven, siger jeg det direkte og henviser dig videre.",
+    emailLabel: "E-mail",
+    /**
+     * ITEM 29's second half: written-first contact, and NO promise of a Danish
+     * phone call. A contact flow that implies one sets up the exact discovery the
+     * hero note exists to prevent.
+     */
+    writtenFirst:
+      "Skriv gerne først — på dansk eller engelsk, alt efter hvad du har lyst til. Så kan jeg læse ordentligt, hvad du har brug for, inden vi taler sammen.",
+    orForm: "Eller udfyld formularen nedenfor. Jeg ser begge.",
+  },
+
+  backToEnglish: "English",
+
+  /**
+   * Form chrome, passed into ServicesEnquiryForm as its `copy` prop.
+   *
+   * 🔒 Only labels. The option VALUES stay exactly as servicesEnquiryOptions
+   * defines them, because app/lib/services-enquiry.ts builds its server-side
+   * allowlist from those values — a translated value would 400 every Danish
+   * enquiry. Labels are safe, values are the API contract.
+   */
+  form: {
+    labels: {
+      name: "Navn",
+      email: "E-mail",
+      company: "Virksomhed",
+      projectType: "Hvad har du brug for?",
+      budget: "Cirka budget",
+      timeline: "Hvornår har du brug for det?",
+      message: "Fortæl om virksomheden og hvad du gerne vil have",
+    },
+    optionLabels: {
+      projectType: {
+        "small-business-site": "Hjemmeside til virksomheden",
+        "web-app-frontend": "Frontend til en webapp",
+        "redesign-rescue": "Lave en eksisterende side om eller gøre den hurtigere",
+        "something-else": "Noget andet",
+      },
+      budget: {
+        "under-10k": "Under 10.000 kr.",
+        "10k-25k": "10.000 – 25.000 kr.",
+        "25k-50k": "25.000 – 50.000 kr.",
+        "50k-plus": "50.000 kr. og op",
+        "not-sure": "Ved det ikke endnu",
+      },
+      timeline: {
+        asap: "Så hurtigt som muligt",
+        "1-3-months": "Inden for 1–3 måneder",
+        later: "Senere i år",
+        exploring: "Ser mig bare omkring",
+      },
+    },
+    chooseOne: "Vælg én…",
+    messagePlaceholder: "Hvad laver virksomheden, og hvad vil du gerne have på siden?",
+    budgetHint: "Cirka er fint. Jeg skal bare vide, hvad der er muligt.",
+    messageHint:
+      "To eller tre sætninger er nok. Har du en eksisterende side eller en Facebookside, hjælper et link meget.",
+    submit: "Send",
+    submitting: "Sender…",
+    submittingSr: "Sender beskeden",
+    sentTitle: "Tak, jeg har modtaget den",
+    sentBody:
+      "Jeg læser alt selv og svarer på alle — også på opgaver, jeg ikke er den rigtige til.",
+    sentUrgentPrefix: "Er det hastende, så skriv til mig på",
+    fixOne: "Én ting skal rettes:",
+    fixMany: "{n} ting skal rettes:",
+    sendFailed: "Beskeden kunne ikke sendes. Skriv til mig på {email} i stedet.",
+    honeypotLabel: "Hjemmeside",
+  },
+
+  /** Danish versions of the eight validator messages. */
+  errors: {
+    nameShort: "Skriv dit navn",
+    tooLong: "Lidt for langt",
+    email: "Jeg har brug for en e-mail, jeg kan svare på",
+    projectType: "Vælg det, der passer bedst",
+    budget: "Et cirka-tal er nok",
+    timeline: "Hvornår har du brug for det?",
+    messageShort: "En eller to sætninger er nok",
+    messageLong: "Højst {max} tegn",
+  } satisfies EnquiryMessages,
+} as const;

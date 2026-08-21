@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "cv": "node scripts/build-cv-pdf.mjs"
+    "cv": "node scripts/build-cv-pdf.mjs",
+    "copy": "node scripts/export-copy.mjs"
   },
   "dependencies": {
     "@ai-sdk/groq": "^3.0.39",

@@ -24,6 +24,40 @@ seen at a real viewport — see the list in the latest log entry.
 
 ## Progress log
 
+### 2026-08-21 (evening)
+
+**Items 27 and 29 — `/da`, built and deliberately invisible** ✅
+
+The page exists and is unreachable: `noindex`, absent from the sitemap, no nav
+chip, no hreflang, no link from any other page. Verified as absent from all six
+other prerendered pages rather than assumed. 17/17 content checks on the page
+itself.
+
+- 🔒 **`DRAFT` in `app/da/page.tsx` is the publish switch** — it drives the noindex
+  and a visible draft banner together, so the page cannot be shared as finished by
+  accident. The remaining four steps to publish are in the comment above it, and
+  one of them widens the nav island with a fourth chip.
+- **Item 29 was folded in rather than done after**, because the meeting-language
+  line has to be in the draft the proofreader reads. Doing it later would mean a
+  second proofreading round for one paragraph.
+- **The real difficulty was not the Danish, it was the honesty.** Ice speaks Danish
+  at beginner level, on a page whose whole argument is that he does careful work.
+  So: the language note is in the hero rather than an FAQ, contact is written-first
+  with no phone number at all, and the one Danish-site claim in `why` is the
+  narrowest true version — one site, one client, still running.
+- ⚠️ **This is the one language file Ice cannot review himself**, unlike `/sv`. It
+  stays invisible until item 28 passes. `npm run copy da` is the thing to send.
+
+**`npm run copy <lang>`** prints any language file as numbered plain text. Item 28
+needed a deliverable and the two obvious candidates were both bad: a URL means
+describing where the problem is, and the source file means reading TypeScript.
+Nobody proofreads TypeScript. Works for `th` and `sv` too, so item 40 gets it free.
+
+**Item 31 dropped** on Ice's call. Worth being honest about the consequence: `/th`
+was written to be pasted into a group, and without one it rests on search alone —
+the weaker half for that audience. Nothing to fix; it just means `/th` will be
+slower than `/sv`, which was built for search from the start.
+
 ### 2026-08-21 (later still)
 
 **Item 36 — the add-ons, itemised** ✅
@@ -1019,23 +1053,25 @@ quote the positioning. Building them before this settles means writing twice.*
   The Thai page is a *sales* layer; their customers are Danish and Swedish. Being
   explicit keeps scope sane and is what they actually need.
 
-- [ ] **27. [N] Build `/da` — Danish landing page, UNLISTED at first.**
-  ⚠️ **RESEQUENCED 2026-08-21.** This was blocked on item 28, which was backwards,
-  and Ice named it exactly: *"I can't even access the da page. So, how can I
-  proofread it?"* **You cannot proofread copy that does not exist.** The old order
-  asked for a proofreader before there was a single Danish sentence to hand them.
+- [x] **27. [N] Build `/da` — Danish landing page, UNLISTED.** ✅ *shipped
+  2026-08-21, invisible on purpose.* `app/data.da.ts` + `app/da/page.tsx`, static,
+  17/17 content checks.
 
-  So: build it first, the same way `/th` and `/sv` were built — `app/data.da.ts`
-  holding every string, `app/da/page.tsx` rendering it, numbers read from
-  `services` rather than retyped. Then it can actually be read.
+  **Reachable only by typing the URL.** `noindex, nofollow`; not in `sitemap.ts`;
+  not in `SITE_LANGUAGES`, so no nav chip and no browser-language banner; and **no
+  hreflang at all**, because declaring a language alternate for a page that tells
+  crawlers not to index it is a contradiction that would invite Google to serve
+  unproofread Danish to Danish searchers — the exact outcome item 28 exists to
+  prevent. Verified as absent from all six other prerendered pages.
 
-  **Kept out of the sitemap, the nav chip and hreflang until item 28 passes.** The
-  page is reachable by URL so it can be reviewed, and invisible to Google and to
-  visitors so a machine-Danish draft is never the first impression. Publishing is
-  a three-line change once the copy is signed off.
+  🔒 **One flag publishes it: `DRAFT` in `app/da/page.tsx`.** It controls the
+  noindex AND a visible draft banner, so the page cannot be shared as finished by
+  accident — losing the banner is the same act as publishing. The four remaining
+  steps are listed in the comment above it.
 
-  SEO targets for when it does go live: `hjemmeside til [branche]`,
-  `webudvikler København`, `hjemmeside pris`.
+  ⚠️ **Step 3 of that list widens the nav island with a fourth language chip.** It
+  is at roughly 556px with three, against a 720px breakpoint. Re-measure before
+  assuming 720 still holds.
 
 
 - [ ] **28. [C] Danish copy proofread by a native speaker.** ⚠️ **STILL BLOCKING
@@ -1048,23 +1084,30 @@ quote the positioning. Building them before this settles means writing twice.*
   request to write a page. That is a far smaller favour, and a far easier one to
   get said yes to.
 
-  **Deliverable to hand over:** the strings out of `app/data.da.ts` as plain
-  readable text, not a URL and not a code file. Nobody proofreads TypeScript.
+  ✅ **The deliverable now exists: `npm run copy da`.** Prints all 81 Danish lines
+  as numbered plain text grouped by section, so a corrector can reply "3.2 should
+  be X" and nothing has to be described twice. Works for `th` and `sv` too, so
+  item 40 gets the same thing.
+
+  Deliberately **not** a two-column table with the English alongside: a
+  proofreader given both columns checks fidelity to the English, while one given
+  only the Danish judges whether it reads like Danish — which is the actual
+  question. Send the text, and the URL only if they want to see it in place.
 
 
-- [ ] **29. [C] Surface the meeting-language line prominently on `/da`, in Danish.**
-  The answer already exists, buried in `servicesFaq`: *"the language of the
-  meetings and the language of the website are two different things."* That is a
-  confident, honest line — put it near the top, not in an FAQ.
+- [x] **29. [C] Surface the meeting-language line prominently on `/da`, in Danish.**
+  ✅ *done inside item 27, which was the point of folding it in — it had to be in
+  the draft the proofreader reads, not a second round for one paragraph.*
 
-  Fold this into item 27 rather than doing it after: it is a hero block, so it has
-  to be in the draft that goes to the proofreader. Writing it later means a second
-  proofreading round for one paragraph.
+  In the hero, in a highlighted block, not an FAQ: *"Siden bliver på dansk — det er
+  dine kunder, der skal læse den, ikke mig. Selve samtalerne tager vi på engelsk…
+  Sproget i møderne og sproget på siden er to forskellige ting, og jeg vil hellere
+  sige det på forhånd end lade dig opdage det undervejs."*
 
-  And do not build a contact flow that promises Danish phone calls; offer
-  written-first contact. `/sv` does the mirror image of this and can be copied —
-  its hero block makes the geography claim, because for Sweden the language is not
-  the obstacle.
+  And the second half honoured: **no phone number anywhere on the page** and a
+  written-first contact block, so nothing implies a Danish phone call. `why` also
+  makes the narrowest true claim available — one Danish site, one client, still
+  running — rather than anything that reads as Danish fluency.
 
 
 - [x] **30. [S] hreflang + `lang`.** ✅ *`d5faf81`* — reciprocated both ways.
@@ -1102,10 +1145,15 @@ quote the positioning. Building them before this settles means writing twice.*
   *Related: item 25b (Thai OG card) is the other half of this — `/th` currently
   shares with the English card, which weakens the one channel that does work.*
 
-- [ ] **31. [H] Find the 3–5 Facebook groups where Thai business owners in
-  DK/SE actually talk.** ⚠️ **On Ice alone now** — item 23 assumed Racha could point
-  at them and she could not, so it was dropped. This is still the distribution
-  channel `/th` was built for, and the page cannot do its job without it.
+- [x] **31. ~~Find the 3–5 Facebook groups where Thai business owners in Denmark
+  and Sweden actually are.~~ ❌ DROPPED — Ice's call, 2026-08-21.**
+  Closed rather than deleted so it does not return as a fresh idea. ⚠️ Worth
+  being clear about the consequence: `/th` is live, indexed, and has a proper
+  Thai share card, but **it was built to be pasted into a group** — that was the
+  channel the whole page assumed. Without one it now rests on search alone, which
+  is the weaker half for that audience. Nothing to fix in code; it just means
+  `/th` will be slower than `/sv`, which was written for search from the start.
+
 
 - [x] **32. [N] `/sv` — Swedish landing page.** ✅ *shipped* — no longer parked.
   Ice's call on 2026-08-21: "if it doesn't take much effort and time, let's just
