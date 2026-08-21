@@ -756,6 +756,44 @@ export const cases: CaseStudy[] = [
       code: "https://github.com/Taninwat-55/lumina-spa",
     },
   },
+  {
+    id: "saep",
+    n: "09",
+    tag: "Motion & Craft",
+    title: "Saep Fire Kitchen",
+    sub: "A scroll-driven restaurant site where every ingredient is drawn in code, with no animation library underneath it.",
+    images: [
+      "/assets/saep/saep-hero.webp",
+      "/assets/saep/saep-phet.webp",
+      "/assets/saep/saep-balance.webp",
+      "/assets/saep/saep-menu.webp",
+    ],
+    overview:
+      "A site for an invented Thai fire kitchen in Nørrebro. Thai cooking balances five tastes and no dish tastes of one thing, so scrolling descends through them one pinned chapter at a time — spicy, sour, salty, sweet, aromatic — while that taste's ingredient draws itself on canvas and the page's accent colour travels with it. One self-contained HTML file: no framework, no libraries, no build step.",
+    challenge:
+      "Two problems, and the second one was the real one. The obvious challenge was building scroll choreography with nothing underneath it: no GSAP, no ScrollTrigger, no Lenis, which is what Lumina Spa leans on. The harder challenge was that a page like this cannot be reviewed by reading its source. A hand-drawn chilli is either recognisable or it isn't, and the only way to find out is to look at it.",
+    stackWhy:
+      "Nothing but the platform. One requestAnimationFrame loop, canvas 2D, and CSS custom properties — partly to show the animation library is a convenience rather than a requirement, and partly because a bundler buys you nothing on a page with no state, no routing and no data to fetch.",
+    engineering:
+      "The scroll engine writes exactly one number: a single loop sets a 0-to-1 progress value per section as a CSS custom property, and every bit of motion is CSS calc() off that value. No scroll listeners, no per-element style writes. The ingredients are procedural — bezier curves sampled to points, with progress controlling how much of the stroke set exists, which is what makes them appear to draw themselves. The accent colour is interpolated per frame rather than switched, and canvases repaint while it is still travelling; without that, a chapter's drawing keeps the previous chapter's colour the moment you stop scrolling. Because I couldn't review the drawings by reading them, I built a proofing harness that drives headless Chrome over the DevTools Protocol and renders every motif at 760px on one contact sheet. It paid for itself immediately: my first chilli cluster read unmistakably as a cannabis leaf, and the kaffir lime leaf read as a fish skeleton. Neither was visible at the size they appear on the page. The menu taught the same lesson from the visitor's side — I had shipped abstract circles as plates, when the thing anyone actually wants from a restaurant menu is to see the food, so each plate became a photograph with the kitchen's heat rating drawn around its rim as a gauge arc. prefers-reduced-motion unpins every section and renders each chapter in its finished state rather than freezing it mid-animation.",
+    metrics: [
+      { v: "0", k: "Animation libraries" },
+      { v: "5 tastes", k: "Pinned chapters, one CSS variable" },
+      { v: "1 file", k: "No build step" },
+    ],
+    stack: [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Canvas 2D",
+      "CSS Custom Properties",
+      "Chrome DevTools Protocol",
+    ],
+    links: {
+      demo: "",
+      code: "https://github.com/Taninwat-55/saep-fire-kitchen",
+    },
+  },
 ];
 
 // ─── SERVICES ─────────────────────────────────────────────────────────────────
