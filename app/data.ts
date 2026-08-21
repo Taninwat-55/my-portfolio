@@ -764,7 +764,7 @@ export const cases: CaseStudy[] = [
     n: "09",
     tag: "Motion & Craft",
     title: "Saep Fire Kitchen",
-    sub: "A scroll-driven restaurant site where every ingredient is drawn in code, with no animation library underneath it.",
+    sub: "A concept piece for an invented Thai restaurant: scroll-driven, every ingredient drawn in code, and no animation library underneath it.",
     images: [
       "/assets/saep/saep-hero.webp",
       "/assets/saep/saep-phet.webp",
