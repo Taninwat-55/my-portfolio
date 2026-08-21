@@ -986,9 +986,11 @@ quote the positioning. Building them before this settles means writing twice.*
   updates, a small block of edit hours) is the standard freelancer stabiliser.
   Not a recommendation; a decision to make consciously.
 
-- [ ] **34. [H] Later: the `.xyz` domain.**
-  A `.xyz` on a personal-name domain is a small trust tax with Danish
-  small-business clients. Not urgent.
+- [x] **34. ~~Later: the `.xyz` domain.~~ ❌ DROPPED — Ice's call, 2026-08-21.**
+  Already paid for, and he is aware of the trust tradeoff with Danish
+  small-business clients. Closed rather than deleted so it does not get
+  re-raised as a new idea.
+
 
 ### Block 11 — Thai proofread (in progress)
 

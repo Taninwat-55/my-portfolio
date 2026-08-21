@@ -1,6 +1,8 @@
+# No `publish` key on purpose. @netlify/plugin-nextjs transforms the build into
+# its own output and sets the publish directory itself, so hardcoding ".next"
+# here is at best ignored and at worst fights the plugin on a version bump.
 [build]
   command = "npm run build"
-  publish = ".next"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
