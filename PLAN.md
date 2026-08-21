@@ -24,6 +24,40 @@ seen at a real viewport — see the list in the latest log entry.
 
 ## Progress log
 
+### 2026-08-21
+
+**Item 17 — the CV PDF, plus the nav island** ✅ `78de161`
+
+**The PDF is no longer made by hand.** `scripts/build-cv-pdf.mjs` renders `cvData`
+to HTML and prints it with headless Chrome — `npm run cv`. No new dependency:
+Chrome is already on the machine and Node 24 imports `data.ts` directly. That
+turns the "mirrors the PDF one-to-one" comment from a promise into a mechanism.
+Both known drifts closed automatically as a result: the heading is
+**Frontend Developer** and **Framer** is in the tools list, because both were
+already true in `cvData`.
+
+- **Single column, real text, standard headings**, because an ATS reads the
+  extracted text stream. Verified with `pdftotext`, which caught a defect the eye
+  cannot see: at the **0.14em** tracking the section headings started with, Chrome
+  emits them as separate glyph runs and every extractor reads **"S U M M A RY"** —
+  so an ATS scanning for section headings finds none of the six. Measured the
+  boundary rather than guessing (0.14 broke all six, 0.10 keeps all six) and
+  settled at **0.1em**, which looks the same. 🔒 **Do not widen it back for looks.**
+- Two more caught by the same pass: the GitHub URL broke mid-word across a line,
+  and **"EXPERIENCE" was orphaned** at the foot of page 1 with its content overleaf.
+- **Now includes the two things the hand-made file cut** — the Operations & Product
+  skills group and the Languages row. That was a one-page constraint; this is two
+  pages, and the operations history is the part of the range no other frontend
+  candidate has.
+- Final state: **2 pages, A4, 15/15 content checks**, no phone and no address.
+- ⚠️ Item 17's own first sub-item is left struck through on purpose — it recorded a
+  phone number that was never there. Worth keeping visible.
+
+**The nav is an island.** It hugs its content instead of stretching to `max-w-6xl`.
+Full width put the wordmark and the CTA in opposite corners with a hundred empty
+pixels between them, which reads as a page header; an island reads as something
+floating over the composition. Dividers return either side of the inline links.
+
 ### 2026-08-22 (later still)
 
 **Item 38 — hero corners** ✅ (see git log)
@@ -775,7 +809,7 @@ quote the positioning. Building them before this settles means writing twice.*
   in Danish, English and Swedish."). Keep `aboutFacts` and keep the full story
   behind the existing "Read my story" collapsible.
 
-- [ ] **17. [H] Regenerate the CV PDF — reconcile it with `cvData`.**
+- [x] **17. [H] Regenerate the CV PDF — reconcile it with `cvData`.** ✅ *`78de161`* — **now generated, not hand-made.**
   `public/assets/Taninwat_Kaewpankan_CV.pdf`. **Verified against both pages on
   2026-08-22**, which corrected one item and found another:
 
