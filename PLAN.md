@@ -2,14 +2,31 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** All planned code work done except `/da` (blocked) and item 6.
+**Status:** Three items open in total — **42, 28, 40.** Everything else in §4 is
+ticked. `/da` is built and deliberately unlisted, waiting on item 28.
+**⚠️ BLOCKING THE MERGE — PR #3.** Two Netlify deploy-preview builds failed, at 38s
+and 44s, on `a37813c` and `984dc1b`. **Ruled out locally:** the missing preview env
+vars (`npm run build` passes with `GROQ_API_KEY` and both Upstash vars unset) and a
+module-scope client (`createGroq` resolves its key lazily; Resend and Upstash are
+already lazy). Both failures are pre-compile, which points at
+`@netlify/plugin-nextjs` being auto-installed against `next ^16.0.7`, or the
+`publish` key dropped in `5e2608c`. **Awaiting the deploy log — do not guess again.**
+🔒 **Do not merge to `main` until it is green.** The deploy preview and the
+production deploy are the same build, so a red preview is a red production.
 **In progress:** the Thai proofread — chunk 1 of 4 presented, awaiting Ice. See item 40.
-**Buildable now:** item 36 (add-on pricing). Item 6 shipped 2026-08-20.
-**Next up:** nothing is unblocked. `/da` needs a native Danish proofreader (item 28);
-item 6 needs the Webflow test (item 5); item 8 is a one-liner whenever you want it.
-**⚠️ Needs your eyes:** proofread `app/data.th.ts`. Plus five things have never been
-seen at a real viewport — see the list in the latest log entry.
-**⚠️ Your homework:** 17 (CV PDF), 33 (care plan), 5 (Webflow test), 31 (FB groups).
+**Buildable now:** **item 42** — both blockers cleared 2026-08-22, see the log entry.
+**Next up:** item 42, then the missing `/da` share card (an oversight, written up in
+the log entry below — it is not a numbered item yet).
+**⚠️ Needs your eyes:** the PR #3 deploy log. Then `app/data.th.ts` (item 40).
+**⚠️ Your homework:** item 28 — send the 81 lines from `npm run copy da` to a native
+Danish speaker. It is the longest-lead item on the list because it waits on a person,
+so it should start before item 42, not after.
+
+⚠️ **Known defect in this log, not yet fixed:** three entries below are dated
+`2026-08-22` but describe items 37, 38 and 8, whose commits are all authored
+`2026-08-18` (`8f432fe`, `6a2ce7b`). The log is newest-at-top otherwise, so those
+three blocks are also out of position. Left alone rather than silently reordered —
+correcting it means moving three blocks, and this file is the source of truth.
 
 > This file is the source of truth for the overhaul. The item numbers here
 > supersede any numbering used in chat.
@@ -23,6 +40,68 @@ seen at a real viewport — see the list in the latest log entry.
 ---
 
 ## Progress log
+
+### 2026-08-22
+
+**Item 42 unblocked — Saep merged, given a live demo, and labelled** ✅
+*`291d2bf`, `b617c4b`, `631566f`* — **item 42 itself is still open: the cards are
+not built.** This entry clears its two blockers and nothing more.
+
+**Blocker 1 was stale, not real.** This item recorded that merging
+`add-saep-case-study` "will conflict in `app/data.ts`", verified with `git
+merge-tree`. That was true when written and false by the time it was acted on:
+every later `data.ts` change on `nav-responsive` landed in the services/pricing
+region (hunks around 36, 783, 832, 918, 1187, 1462) while Saep appends after Lumina
+at ~758. Zero overlap. `git merge-tree` now reports a clean tree and the merge took
+no resolution at all. **The lesson is about the note, not the merge:** a predicted
+conflict is only true against the commit it was predicted on, so it needs
+re-checking before it is treated as work.
+
+- **Merged, not rebased** (`291d2bf`). Rebasing `add-saep-case-study` onto this
+  branch would have rewritten a pushed branch and needed a force-push; merging costs
+  one commit and no history rewrite. `cases` is now **9 entries**. The branch is
+  fully merged and can be deleted after PR #3 lands.
+- **Blocker 2 cleared** (`b617c4b`): `links.demo` was `""` and now points at
+  `saep-fire-kitchen.netlify.app`, verified HTTP 200 and rendering as the "Live
+  Project" button on `/cases/saep`.
+- **A stale comment the merge broke, caught in the same pass.** The note above
+  Lumina read "the only entry here with no client behind it" — false the moment
+  Saep landed, and not cosmetic: that comment is where the reasoning for *measured*
+  rather than invented metrics lives. It now covers both entries.
+- ⚠️ **The concept label was missing where it mattered most** (`631566f`).
+  `/projects` renders `tag` + `title` + `sub` and nothing else, so the "invented
+  restaurant" sentence — which lived only in `overview` — never reached that page.
+  Verified: `/projects` contained "Saep" and did not contain "invented". Saep's
+  `sub` now opens *"A concept piece for an invented Thai restaurant"*. Lumina needed
+  no equivalent fix; its sub already says "self-initiated". The homepage still
+  carries no label because Saep is not in `projectCards` yet — that arrives with
+  item 42's cards, against a `sub` that is already correct.
+
+**⚠️ Found on the way, not a numbered item yet: `/da` has no share card.**
+`app/da/` contains only `page.tsx`, while `/sv` and `/th` each have an
+`opengraph-image.tsx`. `/da`'s `openGraph` block sets title, description, url and
+locale but no image, so it inherits the root card — English, "Hi, i'm Ice" over a
+list of frameworks. `app/sv/opengraph-image.tsx` names that exact outcome as the
+wrong first impression for a Nordic shop owner, which is why that file exists.
+
+The reason it is an oversight rather than a decision: **the PUBLISH checklist inside
+`app/da/page.tsx` lists four steps — sitemap, `SITE_LANGUAGES`, hreflang — and never
+mentions the card.** Flip `DRAFT` to `false` and `/da` ships with an English card,
+silently. `noindex` is no protection either: the only way anyone reaches `/da` today
+is a pasted link, which is exactly when a card renders — so the Danish proofreader
+in item 28 is the first person who will see it. **Do it before sending item 28 out.**
+Cost is low: clone the Swedish card, swap `data.sv` → `data.da`, locale, alt. No font
+file — æ ø å are Latin-1 and next/og's default covers them, same as Swedish and
+unlike `/th`'s bundled Kanit. Add the missing fifth checklist step in the same commit
+so it cannot be forgotten twice.
+
+**Verification for all three commits.** `npm run build` and `npm run lint` both
+clean, run with `GROQ_API_KEY` and both Upstash vars unset to reproduce the Netlify
+preview context — 38 prerendered pages. `/cases/saep` prerenders, `sitemap.xml`
+includes it, `/projects` lists it, and `main ← nav-responsive` still merges with no
+conflicts. One false alarm worth recording: `check-html.mjs find cases/saep
+saep-fire-kitchen.netlify.app` reported MISS because the URL is an `href`, not text —
+`attr cases/saep href` found it. Fourth time that trap has been hit; the mode matters.
 
 ### 2026-08-21 (evening, later)
 
@@ -1143,17 +1222,30 @@ quote the positioning. Building them before this settles means writing twice.*
   as the natural next step rather than the only one. Cost is about +40vh on a
   homepage whose deck is ~255vh.
 
-  **Two blockers, both small:**
+  **✅ Both blockers cleared 2026-08-22 — this item is buildable now.** Full write-up
+  in the log entry; the short version:
 
-  1. ⚠️ **Saep is not on `main` or on this branch.** It lives on
-     `add-saep-case-study` (`32cd536`, "Add Saep Fire Kitchen as case 09"), branched
-     from `5e2608c` — partway through the 2026-08-21 work. **The merge will conflict
-     in `app/data.ts`** (verified with `git merge-tree`). Merge or rebase it first;
-     `cases` becomes 9 entries.
-  2. ⚠️ **Saep has no live demo — `links.demo` is `""`.** A card whose job is to be
-     seen should go somewhere. It is a single self-contained HTML file with no build
-     step, so deploying it is minutes on Netlify or GitHub Pages. Do that before the
-     card ships, or the card sends people to a repo.
+  1. ~~Saep is not on `main` or on this branch.~~ ✅ **Merged** — `291d2bf`, from
+     `add-saep-case-study` (`32cd536`). `cases` is **9 entries**. The predicted
+     `app/data.ts` conflict **never existed by the time it was acted on**: it was
+     verified against `5e2608c`, and every later `data.ts` change on this branch
+     landed in the services/pricing region while Saep appends after Lumina. Clean
+     merge, no resolution. Merged rather than rebased, to avoid force-pushing a
+     branch that was already on origin.
+  2. ~~Saep has no live demo.~~ ✅ **`links.demo` is now
+     `https://saep-fire-kitchen.netlify.app`** — `b617c4b`, verified HTTP 200 and
+     rendering as the "Live Project" button on `/cases/saep`.
+
+  **✅ The concept label is already in place for this item's benefit** — `631566f`.
+  Saep's `sub` opens *"A concept piece for an invented Thai restaurant"*, so the
+  card the cards will render is labelled before it exists. `/projects` was the gap:
+  it renders `tag` + `title` + `sub` only, so the `overview` sentence never reached
+  it. **Do not drop the label when writing the card markup** — the whole ⚠️ above
+  depends on it, and the card is the one place a real restaurant owner meets Saep.
+
+  **All three ids exist in `cases`** — `lumina`, `mockmate`, `saep` — so deriving by
+  id needs no new data. What is left is markup and the 🔒 hierarchy constraint above,
+  nothing else.
 
 - [ ] **28. [C] Danish copy proofread by a native speaker.** ⚠️ **STILL BLOCKING
   PUBLICATION — but no longer blocking the build.** A page whose whole argument is
