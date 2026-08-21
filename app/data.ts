@@ -688,6 +688,43 @@ export const cases: CaseStudy[] = [
       code: "https://github.com/Taninwat-55/rachabeautywellness",
     },
   },
+  // The only entry here with no client behind it, and it says so in the first
+  // sentence. Everything else on this page answers "would you ship for me"; this
+  // one answers "can you do motion work", which nothing else in the list shows.
+  // Its metrics are measured rather than framed as outcomes for that reason — an
+  // invented business result sitting beside Racha's real ones would cost more
+  // credibility than the entry is worth.
+  {
+    id: "lumina",
+    n: "08",
+    tag: "Motion & Craft",
+    title: "Lumina Spa",
+    sub: "A self-initiated scroll-choreography piece: ten animated sections, no build step, 10.8 KB over the wire.",
+    images: [
+      "/assets/lumina/lumina-hero.webp",
+      "/assets/lumina/lumina-arrival.webp",
+      "/assets/lumina/lumina-rituals.webp",
+      "/assets/lumina/lumina-experience.webp",
+    ],
+    overview:
+      "A landing page for a spa that does not exist. No client, no brief — I wanted to build the kind of scroll-choreographed site that usually arrives as a framework plus a few hundred kilobytes of JavaScript, and find out how far plain HTML, CSS and two libraries would get instead. Ten sections move with the scroll: a layered hero, a pinned arrival, oil cards, hand and stone compositions, water ripples, a horizontal ritual carousel and a sequential benefit reveal.",
+    challenge:
+      "Scroll animation is where responsive layout quietly breaks. The techniques that read as premium on a desktop — pinned sections, fixed viewport heights, multi-column grids — are the same ones that strand content off-screen on a phone, and they fail silently: nothing throws, the text is simply unreachable. Holding the whole thing to three static files with no build step meant every fix had to be a layout decision rather than a new dependency.",
+    stackWhy:
+      "GSAP with ScrollTrigger for scrubbed timelines and pinning, because CSS scroll-driven animations still cannot express scroll-linked easing reliably across browsers. Lenis for smooth scroll, with its scroll event wired into ScrollTrigger.update so the two share one scroll position instead of fighting over two. Both from CDN — no install, no bundler, no lockfile.",
+    engineering:
+      "A responsive audit turned up three real bugs, two of them the same mistake. A position: sticky element taller than the viewport pins at top: 0 and can never scroll its own bottom into view, so both pinned sections stranded their lower content below the fold on phones; the fix was to unpin them under 1100px and let them flow. The benefit list declared a two-column grid but had three children, so auto-placement dropped every paragraph into the 60px number gutter and wrapped it one word per line. Full-height sections moved to 100dvh with a 100vh fallback — except the four values the pinning maths reads, which stay in vh so the sticky range cannot reflow mid-scroll.",
+    metrics: [
+      { v: "10.8 KB", k: "Total page weight" },
+      { v: "Zero", k: "Build steps" },
+      { v: "10", k: "Scroll-driven sections" },
+    ],
+    stack: ["HTML", "CSS", "JavaScript", "GSAP", "ScrollTrigger", "Lenis"],
+    links: {
+      demo: "https://lumina-spa-sample.netlify.app",
+      code: "https://github.com/Taninwat-55/lumina-spa",
+    },
+  },
 ];
 
 // ─── SERVICES ─────────────────────────────────────────────────────────────────
