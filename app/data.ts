@@ -36,6 +36,40 @@ export const enquiryInbox = personalInfo.email;
 // product work are real too; whatIDo below is where the honest detail about
 // relative depth lives, rather than hedging every label.
 
+/**
+ * The languages the site is published in.
+ *
+ * Extracted from siteContent rather than written inline because it needs a type
+ * annotation: written as an inline literal, "en" (which has no `offer`) and the
+ * others formed a union where the property existed on only some members, and
+ * every read of it failed to compile.
+ *
+ * Two things derive from this array, so adding a language here is most of the
+ * work of shipping one: the chips in SiteNav, and <LanguageOffer />.
+ */
+type SiteLanguage = {
+  code: string;
+  label: string;
+  href: string;
+  /**
+   * What <LanguageOffer /> says to a visitor whose browser is set to this
+   * language, written IN that language — an English sentence is the one thing
+   * that particular reader may not parse. Absent for "en", which is never
+   * offered because it is the default; a language without one is skipped rather
+   * than offered in English.
+   */
+  offer?: string;
+};
+
+const SITE_LANGUAGES: readonly SiteLanguage[] = [
+  { code: "en", label: "English", href: "/" },
+  { code: "th", label: "ไทย", href: "/th", offer: "ดูหน้าภาษาไทย" },
+  // Endonym, like ไทย above, rather than "SV" — a chip that names the language in
+  // that language is legible to the person who needs it without their having to
+  // know the site's conventions.
+  { code: "sv", label: "Svenska", href: "/sv", offer: "Se sidan på svenska" },
+];
+
 export const siteContent = {
   /**
    * The job title. Stays a job title on purpose: it feeds schema.org
@@ -96,10 +130,7 @@ export const siteContent = {
    * to a Thai-language searcher, but a Thai visitor who landed on / had no signal
    * it existed at all, which is exactly the person it was written for.
    */
-  languages: [
-    { code: "en", label: "English", href: "/" },
-    { code: "th", label: "ไทย", href: "/th" },
-  ],
+  languages: SITE_LANGUAGES,
 
   /**
    * The one action the homepage asks for, defined once.

@@ -24,6 +24,72 @@ seen at a real viewport — see the list in the latest log entry.
 
 ## Progress log
 
+### 2026-08-21 (later)
+
+**Item 32 — `/sv`, plus a bug on every share card the site has** ✅
+
+`/sv` is live: `app/data.sv.ts`, `app/sv/page.tsx`, `app/sv/opengraph-image.tsx`,
+in the sitemap, in `llms.txt`, and hreflang reciprocated three ways across `/`,
+`/th` and `/sv` (verified as a set comparison, not by eye). Static, lint clean.
+
+- **Aimed at Skåne — Malmö, Lund, Helsingborg, named in the copy on purpose**,
+  because unlike `/th` this is a search play: a Skåne owner googles "hemsida
+  småföretag Malmö" rather than asking a community. The argument is geography plus
+  language and both claims are real — 35 minutes from Malmö by train, and a Swedish
+  citizen educated in Sweden, so it is a native page rather than a translated one.
+- 🔒 **`svPrice()` is the one thing not to remove.** Swedish uses a space for
+  thousands and a comma for decimals, so a Swedish reader can parse the Danish
+  "6.500" as six and a half — three orders of magnitude wrong, on the one number
+  the page has to get right. It is a transform over the value from `services`, not
+  a retyped copy, so the "nothing numeric in a language file" rule still holds.
+- **`<LanguageOffer />` had a latent bug that a second language turned real:** the
+  banner text was hard-coded Thai, so a Swedish visitor would have been offered
+  `/sv` in Thai. The string now lives per-language in the registry.
+- `SITE_LANGUAGES` moved out of `siteContent` so it could carry a type. Written
+  inline, "en" (no `offer`) and the others formed a union where the property
+  existed on only some members and every read of it failed to compile.
+
+**All four OG share cards had a hard rectangular seam across them.** Found while
+checking `/sv`'s card, and it was on `/`, `/services` and `/th` too. Cause:
+satori clips `filter: blur()` to the element's bounding box, so the glow was cut
+off at a straight edge. Two radial gradients on the container give the intended
+look with no filtered element to clip — now in `app/lib/og-backdrop.ts`, which
+also removes four copies of the same two divs.
+
+**And the root card was still the entire pre-overhaul positioning.** Every string
+on it was hard-coded, so it read *"Frontend Engineer & Project Coordinator"*,
+*"Open to opportunities · Copenhagen"* and *"I keep projects on track and build
+the product myself"* — the retired title, the wording `data.ts` itself explains
+was dropped for inviting clients to negotiate the price down, and a recruiter-first
+tagline. On the card LinkedIn scrapes. Now read from `siteContent`. Same failure
+mode as item 17's PDF: a comment cannot keep two copies in sync.
+
+- ⚠️ **A patch script ate a container's opening tag** by anchoring a delete on
+  `<div` and scanning for `/>`; the multi-line container has no `/>` of its own,
+  so the scan ran into the first decoration div and took both as one block. Caught
+  by lint, restored from git — except `/sv`'s card, which was untracked and had to
+  be rewritten. The fix is anchoring on `position: "absolute"` plus a tag-balance
+  assertion. **`npm run build` said "Compiled successfully" with broken JSX in the
+  tree; `npm run lint` is what caught it.** Do not trust the build alone.
+
+**The nav island got narrower and moved to a 720px breakpoint.** `NavLink.short`
+shows "Process" in the bar while the panel keeps "How it works", which took the row
+from ~630px to ~490px. Then Swedish added a second chip and took it to ~556px, so
+640 was out — at that width the island spanned nearly the whole viewport, which is
+the full-width-header look it exists to avoid. 720 is where 556 still leaves a real
+margin, and it keeps iPad Mini portrait (744px) on the visible nav rather than the
+panel. The chip stays **"Svenska"**, not "SV" — the endonym is what a Swedish
+visitor recognises, so the breakpoint moved instead of the label.
+
+**`netlify.toml` no longer hardcodes `publish = ".next"`.** `@netlify/plugin-nextjs`
+sets the publish directory itself, so that key was at best ignored and at worst
+fighting the plugin on a version bump.
+
+**Items 27–29 resequenced.** Ice: *"I can't even access the da page. So, how can I
+proofread it?"* He is right and the old order was impossible — it wanted a
+proofreader before a single Danish sentence existed. `/da` now gets built first and
+kept unlisted until the copy passes.
+
 ### 2026-08-21
 
 **Item 17 — the CV PDF, plus the nav island** ✅ `78de161`
@@ -919,19 +985,53 @@ quote the positioning. Building them before this settles means writing twice.*
   The Thai page is a *sales* layer; their customers are Danish and Swedish. Being
   explicit keeps scope sane and is what they actually need.
 
-- [ ] **27. [N] Build `/da` — Danish landing page.**
-  Danish small businesses. Own enquiry form. SEO targets:
-  `hjemmeside til [branche]`, `webudvikler København`, `hjemmeside pris`.
+- [ ] **27. [N] Build `/da` — Danish landing page, UNLISTED at first.**
+  ⚠️ **RESEQUENCED 2026-08-21.** This was blocked on item 28, which was backwards,
+  and Ice named it exactly: *"I can't even access the da page. So, how can I
+  proofread it?"* **You cannot proofread copy that does not exist.** The old order
+  asked for a proofreader before there was a single Danish sentence to hand them.
 
-- [ ] **28. [C] Danish copy proofread by a native speaker.** ⚠️ **BLOCKING — do
-  not publish machine Danish.** A page whose whole argument is "I do careful
-  work" is destroyed by one clumsy Danish sentence. Danes spot it instantly.
+  So: build it first, the same way `/th` and `/sv` were built — `app/data.da.ts`
+  holding every string, `app/da/page.tsx` rendering it, numbers read from
+  `services` rather than retyped. Then it can actually be read.
+
+  **Kept out of the sitemap, the nav chip and hreflang until item 28 passes.** The
+  page is reachable by URL so it can be reviewed, and invisible to Google and to
+  visitors so a machine-Danish draft is never the first impression. Publishing is
+  a three-line change once the copy is signed off.
+
+  SEO targets for when it does go live: `hjemmeside til [branche]`,
+  `webudvikler København`, `hjemmeside pris`.
+
+
+- [ ] **28. [C] Danish copy proofread by a native speaker.** ⚠️ **STILL BLOCKING
+  PUBLICATION — but no longer blocking the build.** A page whose whole argument is
+  "I do careful work" is destroyed by one clumsy Danish sentence. Danes spot it in
+  the first line.
+
+  What changed is only the order: item 27 now produces the draft first, so the ask
+  to a Dane is a concrete one — *"read these forty sentences"* — rather than a
+  request to write a page. That is a far smaller favour, and a far easier one to
+  get said yes to.
+
+  **Deliverable to hand over:** the strings out of `app/data.da.ts` as plain
+  readable text, not a URL and not a code file. Nobody proofreads TypeScript.
+
 
 - [ ] **29. [C] Surface the meeting-language line prominently on `/da`, in Danish.**
   The answer already exists, buried in `servicesFaq`: *"the language of the
-  meetings and the language of the website are two different things."* That's a
-  confident, honest line — put it near the top, not in an FAQ. And do not build a
-  contact flow that promises Danish phone calls; offer written-first contact.
+  meetings and the language of the website are two different things."* That is a
+  confident, honest line — put it near the top, not in an FAQ.
+
+  Fold this into item 27 rather than doing it after: it is a hero block, so it has
+  to be in the draft that goes to the proofreader. Writing it later means a second
+  proofreading round for one paragraph.
+
+  And do not build a contact flow that promises Danish phone calls; offer
+  written-first contact. `/sv` does the mirror image of this and can be copied —
+  its hero block makes the geography claim, because for Sweden the language is not
+  the obstacle.
+
 
 - [x] **30. [S] hreflang + `lang`.** ✅ *`d5faf81`* — reciprocated both ways.
 
@@ -973,10 +1073,13 @@ quote the positioning. Building them before this settles means writing twice.*
   at them and she could not, so it was dropped. This is still the distribution
   channel `/th` was built for, and the page cannot do its job without it.
 
-- [ ] **32. [N] `/sv` — Swedish landing page. PARKED.**
-  Cheapest page on the list to produce (fluent Swedish, no proofreading
-  bottleneck, no language risk on calls), targeting Skåne — 35 min from
-  Copenhagen. Different market from `/th`. Revisit after `/th` proves the model.
+- [x] **32. [N] `/sv` — Swedish landing page.** ✅ *shipped* — no longer parked.
+  Ice's call on 2026-08-21: "if it doesn't take much effort and time, let's just
+  do it." It did not, and the reason is worth keeping — **Swedish has no
+  proofreading gate.** Ice writes it fluently, so he is the native reviewer and
+  the correction loop is a conversation rather than a dependency. That is the
+  whole difference between this and `/da`, which is still blocked on item 28.
+
 
 ### Block 7 — Open business decisions
 

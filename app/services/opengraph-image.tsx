@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { ogBackdrop, OG_ACCENT } from "../lib/og-backdrop";
 import { services } from "../data";
 
 export const size = { width: 1200, height: 630 };
@@ -22,7 +23,7 @@ export default function ServicesOgImage() {
         style={{
           width: 1200,
           height: 630,
-          background: "#0C0C0C",
+          ...ogBackdrop(OG_ACCENT.crystal),
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -33,32 +34,6 @@ export default function ServicesOgImage() {
       >
         {/* Cool glow top-right — cooler than the root card's warm one, since
             clay is reserved for the "open to work" signal. */}
-        <div
-          style={{
-            position: "absolute",
-            top: -140,
-            right: -120,
-            width: 580,
-            height: 580,
-            borderRadius: "50%",
-            background: "rgba(127, 200, 227, 0.14)",
-            filter: "blur(90px)",
-            display: "flex",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: -100,
-            left: -80,
-            width: 380,
-            height: 380,
-            borderRadius: "50%",
-            background: "rgba(215, 226, 234, 0.07)",
-            filter: "blur(60px)",
-            display: "flex",
-          }}
-        />
 
         {/* Top row */}
         <div

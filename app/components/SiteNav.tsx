@@ -137,7 +137,7 @@ export function SiteNav() {
   // would just vanish behind `md:hidden` while `open` stayed true — leaving
   // document.body scroll-locked with nothing on screen to explain why.
   useEffect(() => {
-    const wide = window.matchMedia("(min-width: 640px)");
+    const wide = window.matchMedia("(min-width: 720px)");
     const onChange = () => {
       if (wide.matches) setOpen(false);
     };
@@ -222,7 +222,7 @@ export function SiteNav() {
             Ice<span className="text-crystal-500">.</span>
           </Link>
 
-          <span aria-hidden className="hidden h-4 w-px bg-frost/15 sm:block" />
+          <span aria-hidden className="hidden h-4 w-px bg-frost/15 min-[720px]:block" />
 
           {/* The links inline, from md up. Below that they live in the panel.
               A menu is the right answer only when there is no room for the thing
@@ -231,16 +231,24 @@ export function SiteNav() {
               something the panel had taken away on wide screens: scroll-spy is
               visible again, so the bar shows you where you are while you scroll.
 
-              640px, down from 768. Narrowing the island earned this: "Process"
-              replaces "How it works" out here, and the type and padding are
-              tighter, which brought the row from roughly 630px to roughly 490px —
-              inside 640 minus padding, measured in a headless browser rather than
-              estimated. That hands iPad Mini portrait (744px) the inline nav
-              instead of the panel, which was the one compromise in the previous
-              breakpoint. Below 640 the panel takes over, where it belongs. */}
+              720px, and that number is measured rather than picked. Narrowing the
+              island — "Process" out here instead of "How it works", tighter type
+              and padding — got the row to about 490px, and 640 worked until
+              Swedish added a second language chip and took it to about 556px. At
+              640 the island then spanned nearly the whole viewport, which is the
+              full-width-header look the island exists to avoid.
+
+              720 is where 556px still leaves a real margin either side. Its point
+              is iPad Mini portrait at 744px: the standard `md` (768) hands that
+              device the panel, and it is wide enough to deserve a nav it can
+              already see. Below 720 the panel takes over, where it belongs.
+
+              The chip stays "Svenska" rather than shrinking to "SV" — the endonym
+              is what a Swedish visitor recognises, and that is the whole job of
+              the chip. So the breakpoint moved instead of the label. */}
           <nav
             aria-label="Main navigation"
-            className="hidden items-center gap-0.5 sm:flex lg:gap-1"
+            className="hidden items-center gap-0.5 min-[720px]:flex lg:gap-1"
           >
             {NAV_LINKS.map((link) => {
               const isActive = Boolean(link.id) && activeId === link.id;
@@ -271,7 +279,7 @@ export function SiteNav() {
             })}
           </nav>
 
-          <span aria-hidden className="hidden h-4 w-px bg-frost/15 sm:block" />
+          <span aria-hidden className="hidden h-4 w-px bg-frost/15 min-[720px]:block" />
 
           <div className="flex items-center gap-1.5 sm:gap-2">
             {/* In the ISLAND, not the panel. Item 30b exists because a Thai visitor
@@ -314,7 +322,7 @@ export function SiteNav() {
               aria-expanded={open}
               aria-controls="site-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-frost/15 text-frost transition-colors hover:border-frost/40 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 sm:hidden"
+              className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-frost/15 text-frost transition-colors hover:border-frost/40 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 min-[720px]:hidden"
             >
               {/* Two rules, not three. A hamburger is the generic answer; this is
                   quieter and becomes an X on open. */}
@@ -347,7 +355,7 @@ export function SiteNav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: reduceMotion ? 0 : -12 }}
             transition={{ duration: reduceMotion ? 0 : 0.28, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed inset-0 z-40 flex flex-col justify-center bg-night-900/97 px-6 pt-24 pb-10 backdrop-blur-xl sm:px-10 sm:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-center bg-night-900/97 px-6 pt-24 pb-10 backdrop-blur-xl sm:px-10 min-[720px]:hidden"
           >
             <nav aria-label="Menu" className="mx-auto w-full max-w-6xl">
               <ul className="flex flex-col gap-1 sm:gap-2">

@@ -135,6 +135,11 @@ Approach: Design systems, accessibility, performance
   (restaurants, massage, nails, cleaning): https://taninwatkaewpankan.xyz/th
   Same prices and terms as /services; the sites themselves are built in Danish
   or Swedish because the clients' own customers are local.
+- Swedish-language page for small businesses in Skane (Malmo, Lund,
+  Helsingborg): https://taninwatkaewpankan.xyz/sv
+  Same prices and terms as /services, quoted in SEK on request. Ice is a Swedish
+  citizen educated in Sweden and lives 35 minutes from Malmo by train, so
+  meetings in Skane and the site itself are both in Swedish.
 - LinkedIn: https://www.linkedin.com/in/taninwat-k-ice2539/
 - GitHub: https://github.com/Taninwat-55
 - Email: taninwat.kaewpankan@gmail.com

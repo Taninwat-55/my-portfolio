@@ -16,11 +16,12 @@ import { Garden } from "./sections/Garden";
 export const metadata: Metadata = {
   alternates: {
     canonical: "https://taninwatkaewpankan.xyz",
-    // Reciprocates the declaration on /th. hreflang is ignored unless both
-    // pages point at each other.
+    // Reciprocates the declarations on /th and /sv. hreflang is ignored unless
+    // every variant names every other one, so all three lists must stay in sync.
     languages: {
       en: "https://taninwatkaewpankan.xyz",
       th: "https://taninwatkaewpankan.xyz/th",
+      sv: "https://taninwatkaewpankan.xyz/sv",
     },
   },
 };
