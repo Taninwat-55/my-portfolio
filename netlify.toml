@@ -1,8 +1,29 @@
-# No `publish` key on purpose. @netlify/plugin-nextjs transforms the build into
-# its own output and sets the publish directory itself, so hardcoding ".next"
-# here is at best ignored and at worst fights the plugin on a version bump.
+# `publish` IS REQUIRED. Do not remove it again.
+#
+# 5e2608c dropped it, reasoning that @netlify/plugin-nextjs sets the publish
+# directory itself so hardcoding ".next" is redundant. It does not, and the
+# omission is not harmless: with no key, Netlify's own default resolves publish to
+# the repo root, and the plugin then refuses that in its onBuild step.
+#
+#   Error: Your publish directory cannot be the same as the base directory of
+#          your site. Please check your build settings
+#   publish: /opt/build/repo
+#   publishOrigin: default
+#
+# WHY IT COST A DAY TO FIND. `next build` itself succeeded — compiled in 12.7s,
+# all 37 pages prerendered, build.command completed in 23.7s — and only then did
+# the plugin fail. A green build followed by a ~35s deploy failure looks exactly
+# like a missing-secret or Node-version problem, and both were investigated first.
+# Neither was involved: the build passes locally with GROQ_API_KEY and both Upstash
+# vars unset, and the failing production run had all four present.
+#
+# Three deploys died on this: the PR #3 previews for a37813c and 984dc1b, and the
+# production deploy of the merge itself (7436dcb) — which is how main came to be
+# merged in git while the live site stayed on 48802b6, missing /sv, /da, the
+# generated CV PDF, the nav island, the add-ons table and the aftercare section.
 [build]
   command = "npm run build"
+  publish = ".next"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
