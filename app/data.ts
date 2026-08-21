@@ -719,12 +719,15 @@ export const cases: CaseStudy[] = [
       code: "https://github.com/Taninwat-55/rachabeautywellness",
     },
   },
-  // The only entry here with no client behind it, and it says so in the first
-  // sentence. Everything else on this page answers "would you ship for me"; this
-  // one answers "can you do motion work", which nothing else in the list shows.
-  // Its metrics are measured rather than framed as outcomes for that reason — an
+  // The last two entries — Lumina and Saep — are the only ones with no client
+  // behind them, and each says so in its own first sentence. Everything else on
+  // this page answers "would you ship for me"; these two answer "can you do
+  // motion work", which nothing else in the list shows.
+  // Their metrics are measured rather than framed as outcomes for that reason — an
   // invented business result sitting beside Racha's real ones would cost more
-  // credibility than the entry is worth.
+  // credibility than the entries are worth. Saep is the sharper case: it is an
+  // invented Thai restaurant and /th sells to real Thai restaurant owners, so the
+  // "no client" sentence is load-bearing wherever it appears, not a disclaimer.
   {
     id: "lumina",
     n: "08",
@@ -790,7 +793,7 @@ export const cases: CaseStudy[] = [
       "Chrome DevTools Protocol",
     ],
     links: {
-      demo: "",
+      demo: "https://saep-fire-kitchen.netlify.app",
       code: "https://github.com/Taninwat-55/saep-fire-kitchen",
     },
   },
