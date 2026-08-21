@@ -431,6 +431,65 @@ export default function ServicesPage() {
                     </div>
                   )}
 
+                  {/* The add-ons, itemised. Sits AFTER includedInEvery on
+                      purpose: the base value has to be established before the
+                      options read as options rather than as the real price
+                      arriving in instalments.
+
+                      One price per row, no Webflow/coded fork — see the lock note
+                      on ServiceOffer.addOns in data.ts. Where a row carries a
+                      `note` about cost, it is always about what the thing costs to
+                      KEEP, never to build. */}
+                  {offer.addOns && (
+                    <div className="mt-8 border-t border-frost/10 pt-8">
+                      <div className="text-crystal-500 text-[10px] tracking-[0.25em] uppercase mb-3">
+                        {offer.addOns.label}
+                      </div>
+                      <p className="mb-5 max-w-3xl text-frost/55 font-light text-sm leading-relaxed">
+                        {offer.addOns.body}
+                      </p>
+
+                      <div className="flex flex-col divide-y divide-frost/10 border-y border-frost/10">
+                        {offer.addOns.items.map((item) => (
+                          <div key={item.name} className="py-3.5">
+                            <div className="flex items-baseline justify-between gap-3">
+                              <span className="text-frost font-medium text-sm sm:text-base">
+                                {item.name}
+                              </span>
+                              <span className="shrink-0 whitespace-nowrap text-frost/85 font-medium text-sm sm:text-base tabular-nums">
+                                {item.price}
+                              </span>
+                            </div>
+                            <p className="mt-1 max-w-xl text-frost/45 font-light text-xs sm:text-sm leading-relaxed">
+                              {item.body}
+                            </p>
+                            {item.note && (
+                              /* Dimmer and set apart, because it is about the
+                                 running cost rather than the price above it —
+                                 the two must not read as one figure. */
+                              <p className="mt-2 max-w-xl border-l border-crystal-500/25 pl-3 text-frost/35 font-light text-xs leading-relaxed">
+                                {item.note}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-6 max-w-2xl">
+                        <div className="text-frost/40 text-[10px] uppercase tracking-[0.25em] mb-1.5">
+                          {offer.addOns.includedLabel}
+                        </div>
+                        <p className="text-frost/55 font-light text-sm leading-relaxed">
+                          {offer.addOns.included}
+                        </p>
+                      </div>
+
+                      <p className="mt-5 max-w-2xl text-frost/45 font-light text-sm leading-relaxed">
+                        {offer.addOns.ownWork}
+                      </p>
+                    </div>
+                  )}
+
                   {/* Price stays text-frost. An accent-coloured figure reads as
                       a sale banner rather than a rate. */}
                   <dl className="mt-8 pt-6 border-t border-frost/10 flex flex-col sm:flex-row sm:items-end gap-6 sm:gap-12">

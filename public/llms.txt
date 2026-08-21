@@ -33,7 +33,26 @@ https://taninwatkaewpankan.xyz/services
   the same price whether it is built in Webflow or coded from scratch:
     · 1–3 pages — 6.500–9.500 DKK, typically 1–2 weeks.
     · 4–8 pages — 12.000–20.000 DKK, typically 2–3 weeks.
-    · Add-ons (a second language, online booking, a blog) — +3.000–8.000 DKK each.
+    · Add-ons — itemised, one price each, the same whichever way it is built:
+        - Edit your own text and images — 3.000 DKK one-off (free on Webflow,
+          where the site plan already covers it).
+        - A list you manage yourself, e.g. a menu, treatments, a blog — 3.500 DKK
+          (on Webflow this needs the higher plan, ~800 DKK/year more; on a coded
+          site it is free to run).
+        - A second language — 3.000–5.500 DKK for the structure, following the
+          number of pages, because every page has to exist twice. The translation
+          itself is a separate bill to a translation bureau, around 1 DKK/word.
+          This is the only add-on priced as a span rather than a flat figure.
+        - Online booking, an existing tool wired in properly — 3.500 DKK.
+        - Taking payment via Stripe (card, MobilePay, Apple/Google Pay) — 5.000 DKK.
+          Not a full webshop.
+        - Motion and animation — 2.500 DKK.
+        - An extra page beyond eight — 1.800 DKK per page.
+      A map, a gallery, a contact form and a cookie/privacy page are in every
+      build already and are not charged for. Taking payment and anything with
+      logins are capabilities Ice has built on his own products (Bevisly,
+      MockMate) rather than for a client — he says so rather than implying
+      otherwise.
   The build method changes what the site costs to KEEP, not what it costs to
   make. Webflow is roughly 1.150–1.950 DKK a year for the site plan on annual
   billing (more if billed monthly), and editing their own text and images is

@@ -24,6 +24,40 @@ seen at a real viewport — see the list in the latest log entry.
 
 ## Progress log
 
+### 2026-08-21 (later still)
+
+**Item 36 — the add-ons, itemised** ✅
+
+Seven add-ons with one price each on `/services`, replacing a `+ 3.000 – 8.000 DKK`
+band that explained nothing. Prices set against Danish agency figures rather than
+invented — see the table on the item for what each one is based on.
+
+- 🔒 **The band under the ladder is now computed from the items**, not typed. That
+  is the drift this item could most easily have created: itemise the add-ons, then
+  leave a hand-written band advertising a floor nothing charges. Same fix as the
+  CV PDF earlier today — derive it, do not promise to keep it in step.
+- 🔒 **One add-on is a span, and only one.** A second language is the only one whose
+  work tracks page count, because every page has to exist twice; a flat price was
+  nearly the cost of the whole site on a one-pager. It still does not fork by build
+  method, which is what the lock actually protects.
+- **Route 2 taken too**: payment and logins have no client build behind them, and
+  the page says so in a sentence and points at Bevisly and MockMate rather than
+  implying a client history. Cost one paragraph.
+- **Four other surfaces had to move with it** or they would have contradicted the
+  table: the pricing FAQ, the chatbot grounding, `llms.txt`, and the ladder rung.
+- ⚠️ **A patch script lifted the WRONG array.** The regex for `items: [` matched
+  `includedInEvery.items` — the first one at that indent — so it hoisted the seven
+  "in every build" strings into `WEBSITE_ADD_ONS` and pointed `includedInEvery` at
+  the add-ons constant. **TypeScript caught it immediately** (`Type 'string' is not
+  assignable to…`), which is the second time today a guard caught a scripted edit
+  going wrong. Unwound by line-anchored assertions rather than by reverting, since
+  `data.ts` held uncommitted work. Lesson: anchor on something unique to the target
+  (a neighbouring key, a known string), never on a structural token that repeats.
+- ⚠️ **Could not verify this visually.** `FadeIn` uses `whileInView`, so a headless
+  screenshot renders the page blank below the fold — `--force-prefers-reduced-motion`
+  only recovered the intro. Verified as 15/15 content checks in the prerendered HTML
+  instead. **The layout needs Ice's eyes on the preview.**
+
 ### 2026-08-21 (later)
 
 **Item 32 — `/sv`, plus a bug on every share card the site has** ✅
@@ -1083,7 +1117,8 @@ quote the positioning. Building them before this settles means writing twice.*
 
 ### Block 7 — Open business decisions
 
-- [ ] **33. [H] Decide on an optional care plan (Q2).**
+- [ ] **33. [H] Decide on an optional care plan (Q2).** *No longer blocks item 36
+  — that turned out to be a dependency I invented; see 36.*
   Current position — *"Not by default, and that is deliberate"* — is honest and
   sells well, but every month starts at zero kroner. An optional plan (backups,
   updates, a small block of edit hours) is the standard freelancer stabiliser.
@@ -1159,60 +1194,58 @@ quote the positioning. Building them before this settles means writing twice.*
 
 ### Block 9 — Showing what more money buys
 
-- [ ] **36. [P] [C] Itemise the add-ons, at ONE price per add-on.** ✅ *Unblocked by
-  item 7.*
+- [x] **36. [P] [C] Itemise the add-ons, at ONE price per add-on.** ✅ *shipped
+  2026-08-21.* Seven add-ons priced individually on `/services` under offer 01,
+  plus the two things that are deliberately **not** add-ons and one honest
+  paragraph about the capabilities with no client build behind them.
 
-  > **🔒 Price each add-on once, method-agnostic — do not split by Webflow vs coded.**
-  > The instinct will be "Webflow CMS is quicker to set up, so charge less". That is
-  > exactly the mistake **D3** fixed on the base price, and every reason applies again:
-  > the **outcome is identical** ("I can update my own content"), and the **ambush is
-  > identical** — cheaper to build, then Basic → Premium *forever*. One number; the
-  > method is a recommendation made on the call.
-  >
-  > The running-cost difference belongs in the **running-costs table**, where that
-  > story already lives. CMS then has the same shape as the whole Webflow-vs-coded
-  > argument — cheaper to build, more to keep, or the reverse — so it reinforces the
-  > page rather than complicating it.
+  **It did not need item 33 after all.** The dependency I claimed was the edit-fee
+  question, and this item's own text already scopes that out to 33. The add-on
+  table and the recurring-revenue decision are independent.
 
-  **CMS is the first add-on to price**, since item 7 just decided it exists. It sits
-  inside the current `+3.000 – 8.000 DKK` band. Others to itemise: payment
-  integration, online booking, a map, a second language, animation.
-  Ice's idea: show clients what a bigger budget actually gets them — payment
-  integration, a booking system, animation, a map, a CMS — rather than leaving
-  "Add-ons + 3.000 – 8.000 DKK" as one unexplained line. Right instinct: a ladder
-  with no visible reason to climb it reads as an arbitrary number.
+  Prices set against the Danish market rather than invented (searched
+  2026-08-21), sitting at or just under the agency floor — below it reads as
+  inexperience, the same reasoning that put the base price above 5.000:
 
-  ⚠️ **But not as project examples, which is how it was framed.** There is exactly
-  one client project. "Here is what 20.000 buys" needs builds that do not exist, and
-  inventing them would be fabricating case studies — the same line the testimonial
-  was held to for weeks. Three honest routes, in order of cost:
+  | Add-on | Price | Basis |
+  |---|---|---|
+  | Edit your own text and images | 3.000 | No market figure. Derived from offer 01's own economics (~1.300–1.900 kr/day), a day and a half. Free on Webflow. |
+  | A list you manage yourself | 3.500 | The item-7 CMS decision, priced. Needs Webflow's higher plan (~800 kr/yr) or is free to run on coded. |
+  | A second language | 3.000 – 5.500 | **The one span**, tied to the two rungs above it. |
+  | Online booking | 3.500 | Agencies quote 3.000 – 10.000. |
+  | Take payment online | 5.000 | Agencies quote 5.000 – 10.000. |
+  | Motion and animation | 2.500 | ~1 day. |
+  | An extra page | 1.800 | Derived so it cannot undercut the ladder: 8 pages this way lands at 19.200 against a 20.000 ceiling. |
 
-  1. **An itemised add-on table** (recommended, and cheap). Each capability with its
-     own price, on `/services` under offer 01. Answers "what does more money buy"
-     directly, needs no new work, and turns one opaque line into the upsell it is
-     already trying to be.
-  2. **Capability proof from his own products.** He cannot show a client site with
-     auth or payments, but he *can* show Bevisly (multi-role auth, RLS, 8+ AI
-     features), MockMate (Gemini pipeline, Lambda) and Satoshi Standard (three live
-     price APIs). Honest framing: *"not on a client site yet — here it is on mine."*
-     Costs nothing but a paragraph, and every one is already a case study.
-  3. **Build a demo.** Real work, real weeks. Only worth it if 1 and 2 stop
-     converting.
+  🔒 **A second language is priced as a span on purpose, and it is the only one.**
+  A flat figure was wrong at both ends — on a one-pager 4.500 was nearly the price
+  of the whole site, and on an eight-pager it undercharged. It is the only add-on
+  whose work genuinely tracks page count, because every page has to exist twice.
+  The market model is proportional too: Danish agencies describe a second language
+  as roughly doubling the content work, not as a fixed fee. **This is still "one
+  price" in the sense the lock means — it does not fork by build method.**
 
-  **Two things Ice raised that belong elsewhere, not here:**
+  🔒 **The ladder's band is COMPUTED from the items** (`addOnBand(WEBSITE_ADD_ONS)`),
+  not typed. It used to read `+ 3.000 – 8.000 DKK` against no itemisation; once the
+  items existed, a hand-typed band was one edit away from advertising a floor or
+  ceiling nothing behind it charged. Do not replace it with a literal.
 
-  - **The 50–100 kr edit fee.** Flagging it rather than building it: a 100 kr invoice
-    costs more in admin and mental overhead than it earns, and it sits awkwardly
-    beside the published *"I build sites that do not need a monthly retainer"*. A
-    small block of hours, or a first year of text edits included, both price the same
-    work without an invoice per sentence. **This is item 33** (the care-plan
-    decision) — answer it there rather than inventing a third position.
-  - **CMS as a paid upgrade.** Already **item 7** (Decap / Sanity). Ice's instinct is
-    right and it strengthens the case: if self-editing is a priced add-on rather
-    than a Webflow-only feature, the free-CMS-on-a-coded-site route becomes a thing
-    he can *sell*, not just a cost he absorbs. Decide 7 first; 36's table quotes it.
+  **Route 2 taken as well** (capability proof from his own products), in one
+  paragraph: taking payment and anything with logins have no client build behind
+  them, and the page says so and points at Bevisly and MockMate. Route 3 (build a
+  demo) not taken, correctly — it is weeks of work.
 
----
+  **Also updated so nothing contradicts the table:** the pricing FAQ now names the
+  CMS and self-editing figures instead of saying "priced separately"; the chatbot
+  grounding interpolates the whole list, so it can answer "how much for booking?"
+  and is told not to imply a client build that does not exist; `llms.txt` was
+  hand-edited, since it does not interpolate.
+
+  ⚠️ **Known gap: the table is English-only.** `/th` and `/sv` render the price
+  ladder, so they show the derived band — correct and non-contradictory, but not
+  itemised. Worth doing when `/da` lands and there are three language pages to
+  update at once.
+
 
 ### Block 8 — Projects page
 
