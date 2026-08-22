@@ -18,6 +18,17 @@ interface SectionHeadingProps {
   /** Overrides the default title clamp where a section wants a smaller cap. */
   titleSize?: string;
   className?: string;
+  /**
+   * Render the entrance in CSS rather than framer-motion. Set this when the
+   * heading can appear in the FIRST VIEWPORT on a phone.
+   *
+   * Forwarded straight to <FadeIn immediate>. It matters here because this
+   * component contributes three FadeIns of its own, so a single above-fold
+   * SectionHeading is enough to hold LCP hostage until hydration — on /services
+   * the "Who this is for" H2 measured LCP at 7.2s for exactly that reason, after
+   * the page header itself had already been fixed.
+   */
+  immediate?: boolean;
 }
 
 /**
@@ -36,6 +47,7 @@ export function SectionHeading({
   titleClassName = "hero-heading",
   titleSize = "clamp(3rem, 12vw, 160px)",
   className = "",
+  immediate = false,
 }: SectionHeadingProps) {
   const isCentered = align === "center";
 
@@ -49,7 +61,7 @@ export function SectionHeading({
         isCentered ? "items-center text-center" : "items-start text-left"
       } ${className}`}
     >
-      <FadeIn delay={0} y={20} className="mb-4 sm:mb-5">
+      <FadeIn immediate={immediate} delay={0} y={20} className="mb-4 sm:mb-5">
         <div className="flex items-center gap-3">
           <span aria-hidden className={`h-px w-8 ${ruleColor}`} />
           <span
@@ -60,7 +72,7 @@ export function SectionHeading({
         </div>
       </FadeIn>
 
-      <FadeIn delay={0.08} y={40}>
+      <FadeIn immediate={immediate} delay={0.08} y={40}>
         <h2
           id={id}
           className={`font-black uppercase leading-none tracking-tight ${titleClassName}`}
@@ -75,7 +87,7 @@ export function SectionHeading({
           title read as two labels stacked around a heading. Sentence-case italic
           serif gives the block three distinct voices instead. */}
       {subtitle && (
-        <FadeIn delay={0.16} y={20} className="mt-4">
+        <FadeIn immediate={immediate} delay={0.16} y={20} className="mt-4">
           <p
             className={`font-display italic text-lg sm:text-xl md:text-2xl ${subtitleColor}`}
           >

@@ -108,6 +108,51 @@
     }
   }
 
+  /* FIRST-SCREEN ENTRANCE — CSS, not framer-motion, and that is the entire point.
+     <FadeIn> server-renders opacity:0 and only animates once React has hydrated.
+     On a throttled phone that meant every above-fold element stayed invisible
+     until ~435 KB of JS had run. Measured LCP before/after, mobile at 4x CPU:
+
+       /            7928ms -> 1880ms
+       /da          6580ms -> see the log entry
+       /services    4372ms
+       /sv          3588ms
+       /th          3516ms
+
+     On the homepage the element deciding LCP was a 162x20 line of hero text,
+     while the portrait's `priority` preload was thrown away because the image also
+     sat at opacity 0 until hydration — so the biggest thing on screen could not
+     even be an LCP candidate.
+
+     A CSS animation starts at first paint. The choreography a human sees is
+     unchanged, delays included; it simply no longer waits for JavaScript.
+
+     Used via <FadeIn immediate>. Do NOT reach for it below the fold: there,
+     whileInView is the whole feature and being invisible until hydration costs
+     nothing, because the reader has not scrolled to it yet. */
+  .fade-enter {
+    animation: fade-enter 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+  }
+
+  @keyframes fade-enter {
+    from {
+      opacity: 0;
+      transform: translate(var(--fade-x, 0px), var(--fade-y, 0px));
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-enter {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   /* Hero name marquee. The track holds two identical halves, so translating it
      by -50% lands exactly on the start of the second copy and loops seamlessly. */
   .hero-marquee {
