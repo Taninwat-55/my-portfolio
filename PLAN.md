@@ -2,25 +2,26 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** Three items open in total — **42, 28, 40.** Everything else in §4 is
-ticked. `/da` is built and deliberately unlisted, waiting on item 28.
-**⚠️ BLOCKING THE MERGE — PR #3.** Two Netlify deploy-preview builds failed, at 38s
-and 44s, on `a37813c` and `984dc1b`. **Ruled out locally:** the missing preview env
-vars (`npm run build` passes with `GROQ_API_KEY` and both Upstash vars unset) and a
-module-scope client (`createGroq` resolves its key lazily; Resend and Upstash are
-already lazy). Both failures are pre-compile, which points at
-`@netlify/plugin-nextjs` being auto-installed against `next ^16.0.7`, or the
-`publish` key dropped in `5e2608c`. **Awaiting the deploy log — do not guess again.**
-🔒 **Do not merge to `main` until it is green.** The deploy preview and the
-production deploy are the same build, so a red preview is a red production.
+**Status:** Four items open — **28, 40, 43, 44.** Item 42 shipped 2026-08-22 and is
+on `main`. `/da` is built and deliberately unlisted, waiting on item 28.
+**✅ THE DEPLOY IS FIXED, and the site is published again.** The cause was the
+`publish` key dropped in `5e2608c`: with no key Netlify's default resolves publish
+to the repo root and `@netlify/plugin-nextjs` rejects it in `onBuild`. Restored in
+`7cb01d5` (PR #4). Three deploys had died on it — both PR #3 previews and the
+production deploy of the PR #3 merge — which is why `main` sat merged in git while
+the live site served `48802b6` without `/sv`, `/da`, the CV PDF, the nav island,
+the add-ons table or the aftercare section. All of that is live as of PR #4.
+🔒 **The lesson worth keeping: the build succeeds and the deploy still fails.**
+`next build` compiled and prerendered all 37 pages before the plugin threw, so a
+green build proves nothing about a deploy. Read the deploy log, not the build log.
 **In progress:** the Thai proofread — chunk 1 of 4 presented, awaiting Ice. See item 40.
-**Buildable now:** **item 42** — both blockers cleared 2026-08-22, see the log entry.
-**Next up:** item 42, then the missing `/da` share card (an oversight, written up in
-the log entry below — it is not a numbered item yet).
-**⚠️ Needs your eyes:** the PR #3 deploy log. Then `app/data.th.ts` (item 40).
+**Next up:** items 43 and 44 — both are `/da` gaps and both should land **before**
+item 28 goes out, so the proofreader reads one complete set of Danish instead of
+being asked twice.
+**⚠️ Needs your eyes:** `app/data.th.ts` (item 40).
 **⚠️ Your homework:** item 28 — send the 81 lines from `npm run copy da` to a native
 Danish speaker. It is the longest-lead item on the list because it waits on a person,
-so it should start before item 42, not after.
+so start it as soon as 43 and 44 land.
 
 ⚠️ **Known defect in this log, not yet fixed:** three entries below are dated
 `2026-08-22` but describe items 37, 38 and 8, whose commits are all authored
@@ -40,6 +41,54 @@ correcting it means moving three blocks, and this file is the source of truth.
 ---
 
 ## Progress log
+
+### 2026-08-22 (later)
+
+**Item 42 — the secondary card row, shipped** ✅ *`7ba7a1b`, `87924b8`, merged as
+`37ad499` (PR #5)*
+
+Three compact cards under the featured deck — Lumina Spa, MockMate, Saep Fire
+Kitchen — derived from `cases` **by id**, never by retyped copy. Retyping is what
+orphaned `/cases/satoshi` and `/cases/cinema`, so `secondaryProjectCards` throws
+during `next build` if an id moves rather than silently rendering a shorter row.
+
+**THE 🔒 RATIO WAS MEASURED, AND THE FIRST TWO ATTEMPTS FAILED IT.** Card height ÷
+featured-card height, over CDP at an 844px-tall viewport:
+
+| attempt | result |
+| --- | --- |
+| `max-w-6xl` + 16:9 image | **0.48** at 1440 — half a featured card, not a third |
+| layout switch at `sm` | **0.68** at 390, **0.51** at 768 |
+| `max-w-4xl` + 2:1 + switch at `xl` | **0.17 – 0.39** across 390/744/1024/1280/1440/1920 ✅ |
+
+Attempt 2 is the one worth remembering: **a featured card is itself compressed on a
+phone**, so a full-width vertical card there is 68% of one however small it looks in
+isolation. Below `xl` the cards are horizontal rows — thumbnail beside text — and the
+3-up grid appears only from 1280px, where the deck has grown tall enough to dominate
+it. The table lives in the component comment so nobody re-derives it.
+
+⚠️ **A collision that no measurement could catch, only a screenshot.** The deck is
+three `h-[85vh]` sticky containers, so its last card stays pinned while what follows
+scrolls up over it. `z-20` settles who paints on top, not that the two should not
+share space — on screen Bevisly's bento showed between the new cards and their
+thumbnails landed on its screenshots. The row and the "see all" link now sit in one
+opaque `bg-night-900` panel bled to full section width, which is the same move the
+next section already makes with its `-mt-10`. **The general lesson: for anything
+inside this sticky section, a z-index is not a layout.**
+
+- **Saep's concept label survives the two-line clamp** — verified by walking the text
+  node with a Range, because `innerText` still returns text that `line-clamp` only
+  hides visually. The label sits first in the blurb for exactly this reason.
+- **MockMate's thumbnail rendered blank in every local headless capture** and renders
+  correctly on the PR #5 production preview. It was a dev-server artifact, not a
+  defect. Recorded because it cost real time chasing it.
+- The predicted `app/data.ts` conflict with `add-saep-case-study` never existed by the
+  time it was acted on — see the earlier entry.
+
+**Two new items opened from today's findings: 43 and 44.** Both are `/da` gaps, both
+were caused by the same thing — a decision landing on `/services` after the language
+pages were written — and both must ship **before** item 28 goes out, or Ice has to
+ask his Danish proofreader for a second pass.
 
 ### 2026-08-22
 
@@ -1180,10 +1229,11 @@ quote the positioning. Building them before this settles means writing twice.*
   assuming 720 still holds.
 
 
-- [ ] **42. [N] Secondary project cards on the homepage — 3 small ones under the
-  featured 3.** Ice's idea, 2026-08-21: *"typically people want to already see them
-  right away and not click into the link… maybe like a little card, not like the
-  featured ones."*
+- [x] **42. [N] Secondary project cards on the homepage — 3 small ones under the
+  featured 3.** ✅ *`7ba7a1b`, `87924b8`; Saep via `291d2bf`, `b617c4b`, `631566f`.
+  Merged to `main` in PR #5 (`37ad499`).* Ice's idea, 2026-08-21: *"typically people
+  want to already see them right away and not click into the link… maybe like a
+  little card, not like the featured ones."*
 
   **The instinct is right, with one correction to the premise.** "See more at once"
   is true for a RECRUITER and only half-true for a CLIENT — a salon owner wants one
@@ -1247,8 +1297,57 @@ quote the positioning. Building them before this settles means writing twice.*
   id needs no new data. What is left is markup and the 🔒 hierarchy constraint above,
   nothing else.
 
+- [ ] **43. [N] `/da` has no share card.** Found 2026-08-22. `app/da/` contains only
+  `page.tsx`, while `/sv` and `/th` each have an `opengraph-image.tsx`. `/da`'s
+  `openGraph` block sets title, description, url and locale but **no image**, so it
+  inherits the root card — English, "Hi, i'm Ice" over a list of frameworks.
+  `app/sv/opengraph-image.tsx` names that exact outcome as the wrong first impression
+  for a Nordic shop owner, which is why that file exists at all.
+
+  **An oversight, not a decision.** The PUBLISH checklist inside `app/da/page.tsx`
+  lists four steps — sitemap, `SITE_LANGUAGES`, hreflang — and never mentions the
+  card. Flip `DRAFT` to `false` and `/da` ships with an English card, silently.
+
+  🔒 **`noindex` is not protection here.** The only way anyone reaches `/da` today is
+  a pasted link, which is precisely when a card renders — so **the item-28
+  proofreader is the first person who will ever see it.** Do this before sending item
+  28 out.
+
+  Cheap: clone the Swedish card, swap `data.sv` → `data.da`, locale `da_DK`, Danish
+  alt. **No font file** — æ ø å are Latin-1 and next/og's default covers them, same as
+  Swedish and unlike `/th`'s bundled Kanit. Add the missing fifth checklist step in
+  the same commit so it cannot be forgotten twice.
+
+- [ ] **44. [C] The language pages never say what changes cost after launch.** Found
+  2026-08-22, from Ice asking whether the care plan was implemented. It is — item 33,
+  `services.aftercare`, verified rendering on `/services`: small changes free, 650
+  DKK/h beyond that, 2.400 for a 5-hour block, "nothing renews". **But `data.da.ts`,
+  `data.sv.ts` and `data.th.ts` contain none of it** — zero matches for aftercare
+  wording in all three.
+
+  **A sequencing accident, not a judgement.** Item 33 shipped at 23:46 on 2026-08-21;
+  `/sv` was built at 17:08 and `/da` at 22:49. Nobody propagated it afterwards.
+
+  ⚠️ **On `/da` this is a hole in the argument, not a missing extra.** The hero's
+  third sentence promises *"Ingen månedlige gebyrer, du ikke har bedt om"* — no
+  monthly fees you didn't ask for — which raises the retainer question and then never
+  answers it. What changes cost is the second thing a shop owner asks, straight after
+  the price, and item 33 exists precisely to answer it.
+
+  Derive the figures from `services.aftercare` at render time, the way these pages
+  already read metrics from `services` and `cases`, so a price can never drift
+  between languages.
+
+  **Note the pattern, worth a standing check:** 43 and 44 have the same cause — a
+  decision landing on `/services` after the standalone language pages were written.
+  Whenever `/services` gains an argument, ask what `/da`, `/sv` and `/th` now fail to
+  say.
+
 - [ ] **28. [C] Danish copy proofread by a native speaker.** ⚠️ **STILL BLOCKING
-  PUBLICATION — but no longer blocking the build.** A page whose whole argument is
+  PUBLICATION — but no longer blocking the build.** ⚠️ **Do items 43 and 44 first** —
+  44 adds Danish prose that needs proofreading in the same pass, and 43 fixes the card
+  the proofreader sees when they open the link. Sending the lines before both means
+  asking for a second pass. A page whose whole argument is
   "I do careful work" is destroyed by one clumsy Danish sentence. Danes spot it in
   the first line.
 
