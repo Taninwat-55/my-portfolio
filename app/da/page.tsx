@@ -33,6 +33,12 @@ const PAGE_URL = `${BASE_URL}/da`;
  *   4. Add `da` to the `languages` map here and in app/page.tsx, app/th/page.tsx
  *      and app/sv/page.tsx. hreflang is ignored unless every variant names every
  *      other one.
+ *   5. Nothing — the share card is already done. It is listed anyway, because its
+ *      absence from this list is exactly why it was missed: the card is the one
+ *      published-state asset that lives in a different file, so a checklist that
+ *      only covered this file could be followed completely and still ship /da with
+ *      an English "Hi, i'm Ice" card. See app/da/opengraph-image.tsx (item 43).
+ *      If you add another page-level asset, add it here in the same commit.
  *
  * Note that step 3 will widen the nav island by a fourth language chip. It is at
  * roughly 556px with three; see the breakpoint note in SiteNav.tsx before
