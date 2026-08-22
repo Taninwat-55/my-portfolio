@@ -2,7 +2,8 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** Three items open — **28, 40, 43.** Items 42 and 44 shipped 2026-08-22. `/da` is built and deliberately unlisted, waiting on item 28.
+**Status:** Two items open — **28 and 40**, both proofreads, both waiting on a
+person rather than on code. Items 42, 43 and 44 all shipped 2026-08-22. `/da` is built and deliberately unlisted, waiting on item 28.
 **✅ THE DEPLOY IS FIXED, and the site is published again.** The cause was the
 `publish` key dropped in `5e2608c`: with no key Netlify's default resolves publish
 to the repo root and `@netlify/plugin-nextjs` rejects it in `onBuild`. Restored in
@@ -14,9 +15,8 @@ the add-ons table or the aftercare section. All of that is live as of PR #4.
 `next build` compiled and prerendered all 37 pages before the plugin threw, so a
 green build proves nothing about a deploy. Read the deploy log, not the build log.
 **In progress:** the Thai proofread — chunk 1 of 4 presented, awaiting Ice. See item 40.
-**Next up:** item 43, the last `/da` gap. It should land **before** item 28 goes out,
-so the proofreader opens a link that renders a Danish share card rather than an
-English one.
+**Next up:** nothing is buildable. Both remaining items need a human reader — which
+makes item 28 the one to start, since it waits on someone who is not Ice.
 **⚠️ Needs your eyes:** `app/data.th.ts` (item 40).
 **⚠️ Your homework:** item 28 — send the 81 lines from `npm run copy da` to a native
 Danish speaker. It is the longest-lead item on the list because it waits on a person,
@@ -40,6 +40,51 @@ correcting it means moving three blocks, and this file is the source of truth.
 ---
 
 ## Progress log
+
+### 2026-08-22 (evening)
+
+**Item 43 — /da has its own share card now** ✅ *`7a3d2c2`*
+
+`/da` inherited the root card: English, "Hi, i'm Ice" over a list of frameworks. The
+Swedish card's own comment already called that the wrong first impression for a
+Nordic shop owner — /da simply never got the same treatment, because it was built
+after the share-card work rather than during it.
+
+⚠️ **`noindex` did not protect it.** While DRAFT is true the only route to /da is a
+pasted link, which is exactly when a card renders, so the item-28 proofreader was
+going to be the first person ever to see it — in English, on a page whose whole
+argument is that the Danish is careful.
+
+Cloned from `/sv` with three deliberate differences:
+
+- **No bundled font**, like /sv and unlike /th. Danish is Latin plus æ ø å, all
+  covered by next/og's default. Kanit ships as raw ttf on /th only because satori
+  reads ttf/otf/woff but not woff2.
+- **No price transform**, unlike /sv: data.ts already writes thousands the Danish
+  way. `svPrice()` exists because a Swedish reader can parse "6.500" as six and a half.
+- **Type tuned down** — title 66 against 78, lead 26 against 30. Danish is a longer
+  language for the same sentence ("Hjemmeside til din virksomhed" against "Hemsida
+  till ditt företag") and at the shared sizes both title and lead wrapped, leaving
+  the card visibly more cramped than its siblings with a break mid-sentence.
+  **Rendered and compared against the Swedish card rather than assumed.** The
+  constraint is string length, not design, so sizes are tuned per language.
+
+**Not marked as a draft, deliberately.** The page carries an unmissable banner and is
+out of the index, so the card should show what the page genuinely is. A badge would
+also need removing at publish time — one more thing to forget — and `DRAFT` is a
+local const, not an export.
+
+**The publish checklist gained a fifth step that mostly exists to explain itself:**
+the card is the one published-state asset living outside `page.tsx`, so a checklist
+covering only that file could be followed to the letter and still ship an English
+card. That omission is precisely why this was missed, and the step says so.
+
+One cosmetic thing left alone: satori renders a slightly wide gap after the comma in
+the lead. Verified as **not** in the data — no double space, no hidden characters —
+so it is the renderer's kerning with the fallback font, not something to fix here.
+
+**Item 28 is now unblocked.** 43 and 44 are both done, so the 93-line export is
+complete and the link a proofreader opens renders a Danish card.
 
 ### 2026-08-22 (later still)
 
@@ -1342,7 +1387,8 @@ quote the positioning. Building them before this settles means writing twice.*
   id needs no new data. What is left is markup and the 🔒 hierarchy constraint above,
   nothing else.
 
-- [ ] **43. [N] `/da` has no share card.** Found 2026-08-22. `app/da/` contains only
+- [x] **43. [N] `/da` has no share card.** ✅ *`7a3d2c2`.* Found 2026-08-22.
+  `app/da/` contained only
   `page.tsx`, while `/sv` and `/th` each have an `opengraph-image.tsx`. `/da`'s
   `openGraph` block sets title, description, url and locale but **no image**, so it
   inherits the root card — English, "Hi, i'm Ice" over a list of frameworks.
@@ -1390,9 +1436,9 @@ quote the positioning. Building them before this settles means writing twice.*
   say.
 
 - [ ] **28. [C] Danish copy proofread by a native speaker.** ⚠️ **STILL BLOCKING
-  PUBLICATION — but no longer blocking the build.** ⚠️ **Do item 43 first** — it fixes the
-  card the proofreader sees when they open the link. Item 44 is already done and its
-  Danish is in the export, which is why the count moved from 81 lines to 93. A page whose whole argument is
+  PUBLICATION — but no longer blocking the build.** ✅ **Nothing blocks this any more.**
+  Items 43 and 44 are done: the export is 93 lines including the new aftercare
+  section, and the link a proofreader opens now renders a Danish share card. A page whose whole argument is
   "I do careful work" is destroyed by one clumsy Danish sentence. Danes spot it in
   the first line.
 
