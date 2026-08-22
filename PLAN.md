@@ -2,8 +2,14 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** Two items open — **28 and 40**, both proofreads, both waiting on a
-person rather than on code. Items 42, 43 and 44 all shipped 2026-08-22. `/da` is built and deliberately unlisted, waiting on item 28.
+**Status:** 🎉 **Every item on the checklist is done.** 28 and 40, the last two, were
+both closed 2026-08-22 by native readers — a Dane on all 93 Danish lines, Ice on the
+Thai. Nothing in §4 is open.
+**The one thing left is a decision, not a task:** `/da` is built, proofread and still
+deliberately unlisted. Publishing it is the five-step checklist in `app/da/page.tsx`
+— and step 3 adds a fourth language chip to the nav island, which sits at roughly
+556px with three. Check the breakpoint note in `SiteNav.tsx` before assuming 720px
+still holds. `/th` is likewise clear to share now that item 40 is closed.
 **✅ THE DEPLOY IS FIXED, and the site is published again.** The cause was the
 `publish` key dropped in `5e2608c`: with no key Netlify's default resolves publish
 to the repo root and `@netlify/plugin-nextjs` rejects it in `onBuild`. Restored in
@@ -15,12 +21,9 @@ the add-ons table or the aftercare section. All of that is live as of PR #4.
 `next build` compiled and prerendered all 37 pages before the plugin threw, so a
 green build proves nothing about a deploy. Read the deploy log, not the build log.
 **In progress:** the Thai proofread — chunk 1 of 4 presented, awaiting Ice. See item 40.
-**Next up:** nothing is buildable. Both remaining items need a human reader — which
-makes item 28 the one to start, since it waits on someone who is not Ice.
-**⚠️ Needs your eyes:** `app/data.th.ts` (item 40).
-**⚠️ Your homework:** item 28 — send the 81 lines from `npm run copy da` to a native
-Danish speaker. It is the longest-lead item on the list because it waits on a person,
-so start it as soon as 43 and 44 land.
+**Next up:** publish `/da` when Ice wants it public — the only remaining work on the
+overhaul, and it is a decision rather than a build.
+**⚠️ Your homework:** none. Both proofreads are in.
 
 ⚠️ **Known defect in this log, not yet fixed:** three entries below are dated
 `2026-08-22` but describe items 37, 38 and 8, whose commits are all authored
@@ -40,6 +43,33 @@ correcting it means moving three blocks, and this file is the source of truth.
 ---
 
 ## Progress log
+
+### 2026-08-22 (night)
+
+**Items 28 and 40 — both proofreads closed. The checklist is finished.** ✅
+
+- **Item 28:** a native Danish speaker read **all 93 lines**, not the 81 that existed
+  this morning. That was the point of sequencing 43 and 44 ahead of it: item 44 added
+  twelve lines of Danish and item 43 fixed the card the reviewer sees on opening the
+  link, so the review covered finished copy and cost one pass instead of two.
+- **Item 40:** closed by Ice, who is Thai and was always the native reviewer this
+  item waited for. Planned as four chunks and closed as a whole, which is his call to
+  make about his own language. Also covers item 44's new Thai section.
+
+**`/da` IS NOW PUBLISHABLE, AND DELIBERATELY STILL UNPUBLISHED.** The proofread was
+the only gate; flipping `DRAFT` is a separate decision and belongs to Ice, not to
+whoever next reads this file. The checklist is in `app/da/page.tsx`.
+
+⚠️ **One real task hides inside that checklist.** Step 3 adds a fourth language chip
+to `SITE_LANGUAGES`, which widens the nav island — measured at roughly 556px with
+three chips, against a 720px assumption in `SiteNav.tsx`. **Verify that breakpoint at
+a real viewport before publishing**, not after: the nav is the first thing every
+visitor sees, and this is the same class of bug as item 38's hero corners, which only
+a real viewport revealed.
+
+Branch cleanup done the same night: seven local and four remote branches deleted,
+each confirmed an ancestor of `main` first and removed with the safe `git branch -d`.
+`main` is the only branch left, at `4c880a5`.
 
 ### 2026-08-22 (evening)
 
@@ -1435,10 +1465,15 @@ quote the positioning. Building them before this settles means writing twice.*
   Whenever `/services` gains an argument, ask what `/da`, `/sv` and `/th` now fail to
   say.
 
-- [ ] **28. [C] Danish copy proofread by a native speaker.** ⚠️ **STILL BLOCKING
-  PUBLICATION — but no longer blocking the build.** ✅ **Nothing blocks this any more.**
-  Items 43 and 44 are done: the export is 93 lines including the new aftercare
-  section, and the link a proofreader opens now renders a Danish share card. A page whose whole argument is
+- [x] **28. [C] Danish copy proofread by a native speaker.** ✅ **DONE 2026-08-22 —
+  a native Danish speaker read all 93 lines**, the full current set including the
+  aftercare section item 44 added the same day. Items 43 and 44 landed first on
+  purpose, so the review covered finished copy and the link opened a Danish share
+  card rather than an English one — one pass instead of two.
+
+  🔒 **This is the gate that kept `/da` unlisted, and it is now open.** Publishing is
+  the five-step checklist in `app/da/page.tsx`; see the note below the log entry
+  about the nav island before starting it. A page whose whole argument is
   "I do careful work" is destroyed by one clumsy Danish sentence. Danes spot it in
   the first line.
 
@@ -1571,11 +1606,14 @@ quote the positioning. Building them before this settles means writing twice.*
 
 ### Block 11 — Thai proofread (in progress)
 
-- [ ] **40. [H] Proofread `app/data.th.ts` with Ice.** ⚠️ **The gate on sharing `/th`
-  anywhere.** 83 lines of live Thai copy, all Claude drafts. Being reviewed in four
-  chunks; **chunk 1 (the hero, 6 strings) was presented on 2026-08-20 and is awaiting
-  his corrections.** Remaining chunks: 2 pricing + proof, 3 process + contact,
-  4 form labels + validation messages.
+- [x] **40. [H] Proofread `app/data.th.ts` with Ice.** ✅ **DONE 2026-08-22 — checked
+  by Ice**, who is Thai and is therefore the native reviewer this item was always
+  waiting for. Covers the 95-line current set, including the aftercare section item
+  44 added the same day. **The gate on sharing `/th` is open.**
+
+  Originally planned as four chunks, with chunk 1 (the hero, 6 strings) presented on
+  2026-08-20. Closed as a whole rather than chunk by chunk, which is Ice's call to
+  make about his own language.
 
   **Four questions raised in chunk 1, still unanswered — ask these first on resume:**
   1. **`ไอซ์`** — is that how Ice writes his own nickname in Thai? Appears in the
