@@ -137,7 +137,7 @@ export function SiteNav() {
   // would just vanish behind `md:hidden` while `open` stayed true — leaving
   // document.body scroll-locked with nothing on screen to explain why.
   useEffect(() => {
-    const wide = window.matchMedia("(min-width: 720px)");
+    const wide = window.matchMedia("(min-width: 800px)");
     const onChange = () => {
       if (wide.matches) setOpen(false);
     };
@@ -222,7 +222,7 @@ export function SiteNav() {
             Ice<span className="text-crystal-500">.</span>
           </Link>
 
-          <span aria-hidden className="hidden h-4 w-px bg-frost/15 min-[720px]:block" />
+          <span aria-hidden className="hidden h-4 w-px bg-frost/15 min-[800px]:block" />
 
           {/* The links inline, from md up. Below that they live in the panel.
               A menu is the right answer only when there is no room for the thing
@@ -231,24 +231,36 @@ export function SiteNav() {
               something the panel had taken away on wide screens: scroll-spy is
               visible again, so the bar shows you where you are while you scroll.
 
-              720px, and that number is measured rather than picked. Narrowing the
-              island — "Process" out here instead of "How it works", tighter type
-              and padding — got the row to about 490px, and 640 worked until
-              Swedish added a second language chip and took it to about 556px. At
-              640 the island then spanned nearly the whole viewport, which is the
-              full-width-header look the island exists to avoid.
+              800px, and that number is measured rather than picked. This is the
+              third time it has moved, always for the same reason and always by
+              the same rule: the island must keep a real margin either side, or it
+              stops reading as an island and becomes a full-width page header,
+              which is the one look it exists to avoid.
 
-              720 is where 556px still leaves a real margin either side. Its point
-              is iPad Mini portrait at 744px: the standard `md` (768) hands that
-              device the panel, and it is wide enough to deserve a nav it can
-              already see. Below 720 the panel takes over, where it belongs.
+              The history, because it is the argument:
+                490px row, 640 breakpoint — "Process" out here instead of "How it
+                  works", tighter type and padding.
+                556px, 720 breakpoint — Swedish added a language chip. At 640 the
+                  island spanned ~87% of the viewport, so the breakpoint moved.
+                619px, 800 breakpoint — Danish added a fourth chip when /da was
+                  published, 2026-08-22. Measured over CDP: 86% of the viewport at
+                  720, 83% at 744, 81% at 768. That is the 640 situation again.
+                  619/800 = 77%, which is the same ratio 556/720 gave.
 
-              The chip stays "Svenska" rather than shrinking to "SV" — the endonym
-              is what a Swedish visitor recognises, and that is the whole job of
-              the chip. So the breakpoint moved instead of the label. */}
+              WHAT THIS COSTS, stated because it was a real trade: 720 existed for
+              iPad Mini portrait at 744px, on the argument that it is wide enough
+              to deserve a nav it can already see. At 800 that device gets the
+              panel instead. Ice chose the margin over the iPad, knowing that.
+
+              The chips stay "Svenska" and "Dansk" rather than shrinking to "SV"
+              and "DA" — the endonym is what a visitor in that language
+              recognises, and that is the whole job of a chip. So the breakpoint
+              moves instead of the label, every time. If a fifth language is ever
+              added, measure the row first: the next move is to ~880, and at some
+              point the honest answer is to stop putting languages in the bar. */}
           <nav
             aria-label="Main navigation"
-            className="hidden items-center gap-0.5 min-[720px]:flex lg:gap-1"
+            className="hidden items-center gap-0.5 min-[800px]:flex lg:gap-1"
           >
             {NAV_LINKS.map((link) => {
               const isActive = Boolean(link.id) && activeId === link.id;
@@ -279,7 +291,7 @@ export function SiteNav() {
             })}
           </nav>
 
-          <span aria-hidden className="hidden h-4 w-px bg-frost/15 min-[720px]:block" />
+          <span aria-hidden className="hidden h-4 w-px bg-frost/15 min-[800px]:block" />
 
           <div className="flex items-center gap-1.5 sm:gap-2">
             {/* In the ISLAND, not the panel. Item 30b exists because a Thai visitor
@@ -322,7 +334,7 @@ export function SiteNav() {
               aria-expanded={open}
               aria-controls="site-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-frost/15 text-frost transition-colors hover:border-frost/40 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 min-[720px]:hidden"
+              className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-frost/15 text-frost transition-colors hover:border-frost/40 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 min-[800px]:hidden"
             >
               {/* Two rules, not three. A hamburger is the generic answer; this is
                   quieter and becomes an X on open. */}
@@ -355,7 +367,7 @@ export function SiteNav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: reduceMotion ? 0 : -12 }}
             transition={{ duration: reduceMotion ? 0 : 0.28, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed inset-0 z-40 flex flex-col justify-center bg-night-900/97 px-6 pt-24 pb-10 backdrop-blur-xl sm:px-10 min-[720px]:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-center bg-night-900/97 px-6 pt-24 pb-10 backdrop-blur-xl sm:px-10 min-[800px]:hidden"
           >
             <nav aria-label="Menu" className="mx-auto w-full max-w-6xl">
               <ul className="flex flex-col gap-1 sm:gap-2">

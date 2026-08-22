@@ -44,6 +44,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
         // Malmö" rather than asking a community — so being indexed is the point
         // rather than a nice-to-have.
         { path: '/sv', changeFrequency: "monthly" as const, priority: 0.7 },
+        // The Danish landing page. Held out of this list until item 28 passed —
+        // a native speaker read all 93 lines on 2026-08-22 — because indexing
+        // unproofread Danish was the one outcome that item existed to prevent.
+        // Same priority as its siblings: a language landing page, not a case study.
+        { path: '/da', changeFrequency: "monthly" as const, priority: 0.7 },
     ];
 
     const staticUrls = staticRoutes.map(({ path, changeFrequency, priority }) => ({

@@ -68,6 +68,15 @@ const SITE_LANGUAGES: readonly SiteLanguage[] = [
   // that language is legible to the person who needs it without their having to
   // know the site's conventions.
   { code: "sv", label: "Svenska", href: "/sv", offer: "Se sidan på svenska" },
+  // Added 2026-08-22 when item 28 passed. This single entry is what gives /da its
+  // nav chip and its browser-language banner, which is why it was the last thing
+  // to change rather than the first: while it was absent the page was genuinely
+  // unreachable, not merely unadvertised.
+  //
+  // ⚠️ THIS IS THE FOURTH CHIP, and it widens the nav island. The row measured
+  // ~556px with three; see the breakpoint note in SiteNav.tsx, which is written
+  // against that number.
+  { code: "da", label: "Dansk", href: "/da", offer: "Se siden på dansk" },
 ];
 
 export const siteContent = {

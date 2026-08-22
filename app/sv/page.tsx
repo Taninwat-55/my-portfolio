@@ -29,6 +29,7 @@ export const metadata: Metadata = {
       en: BASE_URL,
       th: `${BASE_URL}/th`,
       sv: PAGE_URL,
+      da: `${BASE_URL}/da`,
     },
   },
   openGraph: {

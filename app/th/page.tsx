@@ -24,7 +24,12 @@ export const metadata: Metadata = {
     canonical: PAGE_URL,
     // hreflang is only valid reciprocated, and it has to be complete: the
     // homepage and /sv both declare this page back.
-    languages: { en: BASE_URL, th: PAGE_URL, sv: `${BASE_URL}/sv` },
+    languages: {
+      en: BASE_URL,
+      th: PAGE_URL,
+      sv: `${BASE_URL}/sv`,
+      da: `${BASE_URL}/da`,
+    },
   },
   openGraph: {
     title: th.meta.title,
