@@ -6,6 +6,10 @@
 live 2026-08-22 — indexed, in the sitemap, with a nav chip, a Danish share card and
 reciprocal hreflang across all four languages. `/th` is clear to share too, now that
 item 40 is closed. Four languages published: English, Thai, Swedish, Danish.
+**⚠️ Performance rule, learned the hard way:** anything that can appear in the FIRST
+VIEWPORT must use `<FadeIn immediate>` or `<SectionHeading immediate>`. The default
+path waits for hydration and cost the site an LCP of 7.9s. Below the fold, keep the
+default — see the log entry.
 **⚠️ If a fifth language is ever added, measure the nav island first.** It is at
 619px with four chips against an 800px breakpoint. The rule, three moves running, is
 that the island keeps a real margin either side rather than shrinking its chips —
@@ -45,6 +49,63 @@ correcting it means moving three blocks, and this file is the source of truth.
 ---
 
 ## Progress log
+
+### 2026-08-22 (night, last)
+
+**Performance — LCP fixed across the site** ✅ *`8f9f5e3`*
+
+Lighthouse reported **74 performance** against 100 SEO, 100 best practices, 94
+accessibility. The natural assumption was images and animation weight. **It was
+neither.** Measured on the live homepage: scripts are 563 KB of a 904 KB total,
+images only 167 KB, total blocking time 62ms, CLS 0. The main thread was never the
+problem.
+
+**The entire deficit was LCP: 7928ms** on mobile at 4x CPU throttle.
+
+**The cause, and it was a design bug rather than a budget one.** `<FadeIn>`
+server-renders `opacity:0` and animates only once React has hydrated and
+`whileInView` fires. Above the fold that means the first screen stays invisible
+until ~435 KB of JS has run, *then* waits out its own delay — up to 1.55s — and
+*then* a 0.7s fade. The element deciding LCP on the homepage was a 162×20 line of
+hero text. Worse: the portrait carries `priority`, and that preload was **thrown
+away**, because the image sat at opacity 0 too, so the largest thing on screen
+could not even be an LCP candidate.
+
+**The fix keeps the choreography and stops gating it on JavaScript.** `FadeIn` gains
+an `immediate` prop that drives the same fade through a CSS keyframe, which starts
+at first paint. Delays and offsets preserved, so nothing changes for a human.
+`SectionHeading` forwards it, because it contributes three FadeIns of its own.
+
+| page | before | after |
+| --- | --- | --- |
+| `/` | 7928ms | **1872ms** |
+| `/da` | 6580ms | **1120ms** |
+| `/services` | 4372ms | **1128ms** |
+| `/sv` | 3588ms | **1088ms** |
+| `/th` | 3516ms | **988ms** |
+
+All five under the 2.5s "good" threshold, and the homepage's LCP element is finally
+the portrait rather than a stray line of small text.
+
+⚠️ **Two things the iteration taught, both now in the code:**
+
+1. **Fixing only the page headers made `/th` and `/services` WORSE** — 3516→6540 and
+   4372→7264 — because LCP simply moved to the next still-gated element in the first
+   viewport, a list item both times. Anything that *can* appear in the first
+   viewport has to be converted, not just the obvious hero. Measure after each step.
+2. **`immediate` is opt-in on purpose.** Below the fold `whileInView` is the entire
+   feature and being invisible until hydration costs nothing, because the reader has
+   not scrolled there yet. Defaulting it on would trade a real animation for no gain.
+
+Verified with `prefers-reduced-motion` emulated: every `.fade-enter` element resolves
+to opacity 1, none invisible, so the override cannot hide content from the people who
+most need it visible. Screenshotted `/` and `/services` afterwards rather than
+trusting the numbers alone.
+
+**Not attempted, and worth knowing why.** GTM is the single largest resource at
+113 KB and could be deferred further, but blocking time is already 62ms — there is
+almost nothing left to win there, and delaying analytics costs real data. The fonts
+were already tuned (unused weights dropped, `preload: false` off-fold).
 
 ### 2026-08-22 (night, later)
 
