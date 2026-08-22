@@ -55,7 +55,7 @@ export function Hero() {
         aria-hidden
         className="absolute inset-x-0 top-[58vh] z-10 overflow-hidden sm:top-[52vh] md:top-[50vh]"
       >
-        <FadeIn delay={0.5} y={0}>
+        <FadeIn immediate delay={0.5} y={0}>
           <div className="hero-marquee flex w-max whitespace-nowrap font-black uppercase leading-[0.78] tracking-tight text-frost/90 text-[14vh] sm:text-[18vh] md:text-[20vh]">
             <span className="pr-[6vw]">Taninwat — Kaewpankan&nbsp;</span>
             <span className="pr-[6vw]">Taninwat — Kaewpankan&nbsp;</span>
@@ -73,7 +73,7 @@ export function Hero() {
           the filter on every mouse move, and on a straight-on formal headshot the
           effect read closer to a wobble than a gaze. */}
       <div className="pointer-events-none absolute bottom-0 left-1/2 z-20 -translate-x-1/2">
-        <FadeIn delay={0.3} y={30}>
+        <FadeIn immediate delay={0.3} y={30}>
           <Image
             src="/assets/Ice-Portrait.webp"
             alt="Portrait of Taninwat “Ice” Kaewpankan"
@@ -119,7 +119,7 @@ export function Hero() {
           at the TOP of the stack and leaves the CTA as the last thing above the
           thumb, while the DOM order stays left-then-right for `sm:flex-row`. */}
       <div className="absolute inset-x-0 bottom-0 z-30 flex flex-col-reverse items-start gap-3.5 px-6 pb-5 text-xs leading-relaxed sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:px-10 sm:pb-8 sm:text-sm">
-        <FadeIn delay={1.4} y={20}>
+        <FadeIn immediate delay={1.4} y={20}>
           <div className="text-frost/80">
             {siteContent.heroCorners.left.map((line) => (
               <div key={line} className="whitespace-nowrap">
@@ -145,7 +145,7 @@ export function Hero() {
           </div>
         </FadeIn>
 
-        <FadeIn delay={1.55} y={20}>
+        <FadeIn immediate delay={1.55} y={20}>
           {/* From `sm` this is the right-hand corner, so it right-aligns and steps
               around the fixed chat bubble (48px at 24px from each edge). Stacked on
               mobile it is left-aligned and sits above the CTA, so it clears the

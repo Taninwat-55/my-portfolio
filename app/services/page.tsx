@@ -198,13 +198,13 @@ export default function ServicesPage() {
       >
         {/* ── Positioning ───────────────────────────────────────────────── */}
         <header className="mb-14 md:mb-20">
-          <FadeIn y={20}>
+          <FadeIn immediate y={20}>
             <div className="text-crystal-500 text-xs tracking-[0.25em] uppercase mb-4">
               {services.intro.eyebrow}
             </div>
           </FadeIn>
 
-          <FadeIn delay={0.1} y={40}>
+          <FadeIn immediate delay={0.1} y={40}>
             <h1
               className="hero-heading font-black uppercase leading-none tracking-tight mb-6"
               style={{ fontSize: "clamp(2.6rem, 9vw, 110px)" }}
@@ -213,19 +213,19 @@ export default function ServicesPage() {
             </h1>
           </FadeIn>
 
-          <FadeIn delay={0.2} y={20}>
+          <FadeIn immediate delay={0.2} y={20}>
             <p className="text-frost/70 font-display italic text-xl md:text-2xl max-w-2xl leading-relaxed mb-7">
               {services.intro.lead}
             </p>
           </FadeIn>
 
-          <FadeIn delay={0.3} y={20}>
+          <FadeIn immediate delay={0.3} y={20}>
             <p className="text-frost/65 font-light leading-relaxed text-base md:text-lg max-w-2xl mb-8">
               {services.intro.body}
             </p>
           </FadeIn>
 
-          <FadeIn delay={0.4} y={20}>
+          <FadeIn immediate delay={0.4} y={20}>
             <div className="flex flex-wrap gap-2">
               {services.intro.chips.map((chip) => (
                 <span
@@ -241,7 +241,7 @@ export default function ServicesPage() {
 
         {/* ── Qualification, before price ───────────────────────────────── */}
         <section aria-labelledby="fit-heading" className="mb-14 md:mb-20">
-          <SectionHeading
+          <SectionHeading immediate
             id="fit-heading"
             eyebrow="Fit"
             title="Who this is for"
@@ -252,7 +252,7 @@ export default function ServicesPage() {
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <FadeIn y={30}>
+            <FadeIn immediate y={30}>
               <div className="h-full rounded-2xl bg-white/3 border border-frost/10 p-6 md:p-8">
                 <div className="text-crystal-500 text-xs tracking-[0.25em] uppercase mb-4">
                   A good fit
@@ -274,7 +274,7 @@ export default function ServicesPage() {
               </div>
             </FadeIn>
 
-            <FadeIn delay={0.1} y={30}>
+            <FadeIn immediate delay={0.1} y={30}>
               <div className="h-full rounded-2xl bg-white/3 border border-frost/10 p-6 md:p-8">
                 <div className="text-frost/40 text-xs tracking-[0.25em] uppercase mb-4">
                   Probably not

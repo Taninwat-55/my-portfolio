@@ -153,13 +153,13 @@ export default function DanishPage() {
 
           {/* ── Header ────────────────────────────────────────────────────── */}
           <header className="mb-14 md:mb-20">
-            <FadeIn y={20}>
+            <FadeIn immediate y={20}>
               <div className="mb-4 text-xs uppercase tracking-[0.25em] text-crystal-500">
                 {da.hero.eyebrow}
               </div>
             </FadeIn>
 
-            <FadeIn delay={0.08} y={40}>
+            <FadeIn immediate delay={0.08} y={40}>
               <h1
                 className="hero-heading mb-6 font-black leading-tight tracking-tight"
                 style={{ fontSize: "clamp(2.2rem, 7vw, 4.5rem)" }}
@@ -168,13 +168,13 @@ export default function DanishPage() {
               </h1>
             </FadeIn>
 
-            <FadeIn delay={0.16} y={20}>
+            <FadeIn immediate delay={0.16} y={20}>
               <p className="mb-6 text-lg leading-relaxed text-frost/70 md:text-xl">
                 {da.hero.lead}
               </p>
             </FadeIn>
 
-            <FadeIn delay={0.24} y={20}>
+            <FadeIn immediate delay={0.24} y={20}>
               <p className="mb-6 max-w-2xl text-base font-light leading-relaxed text-frost/65">
                 {da.hero.body}
               </p>
@@ -183,7 +183,7 @@ export default function DanishPage() {
             {/* Item 29. The line was buried in servicesFaq; on a Danish page it is
                 the sentence that decides whether the rest is worth reading, so it
                 sits in the hero and is styled to be read rather than skimmed. */}
-            <FadeIn delay={0.32} y={20}>
+            <FadeIn immediate delay={0.32} y={20}>
               <p className="flex max-w-2xl items-start gap-3 rounded-2xl border border-crystal-500/25 bg-crystal-500/5 px-5 py-4 text-base font-light leading-relaxed text-frost/80">
                 <Languages
                   size={19}
@@ -203,7 +203,7 @@ export default function DanishPage() {
             </h2>
             <ul className="flex flex-col gap-3.5">
               {da.why.items.map((item, i) => (
-                <FadeIn key={item} delay={i * 0.08} y={20}>
+                <FadeIn immediate key={item} delay={i * 0.08} y={20}>
                   <li className="flex items-start gap-3 text-base font-light leading-relaxed text-frost/70">
                     <Check
                       size={17}
