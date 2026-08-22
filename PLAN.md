@@ -2,14 +2,15 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** 🎉 **Every item on the checklist is done.** 28 and 40, the last two, were
-both closed 2026-08-22 by native readers — a Dane on all 93 Danish lines, Ice on the
-Thai. Nothing in §4 is open.
-**The one thing left is a decision, not a task:** `/da` is built, proofread and still
-deliberately unlisted. Publishing it is the five-step checklist in `app/da/page.tsx`
-— and step 3 adds a fourth language chip to the nav island, which sits at roughly
-556px with three. Check the breakpoint note in `SiteNav.tsx` before assuming 720px
-still holds. `/th` is likewise clear to share now that item 40 is closed.
+**Status:** 🎉 **The overhaul is complete.** Every item in §4 is ticked, and `/da` went
+live 2026-08-22 — indexed, in the sitemap, with a nav chip, a Danish share card and
+reciprocal hreflang across all four languages. `/th` is clear to share too, now that
+item 40 is closed. Four languages published: English, Thai, Swedish, Danish.
+**⚠️ If a fifth language is ever added, measure the nav island first.** It is at
+619px with four chips against an 800px breakpoint. The rule, three moves running, is
+that the island keeps a real margin either side rather than shrinking its chips —
+see the history in `SiteNav.tsx`. The next move is roughly 880, and at some point the
+honest answer is to stop putting languages in the bar.
 **✅ THE DEPLOY IS FIXED, and the site is published again.** The cause was the
 `publish` key dropped in `5e2608c`: with no key Netlify's default resolves publish
 to the repo root and `@netlify/plugin-nextjs` rejects it in `onBuild`. Restored in
@@ -21,8 +22,9 @@ the add-ons table or the aftercare section. All of that is live as of PR #4.
 `next build` compiled and prerendered all 37 pages before the plugin threw, so a
 green build proves nothing about a deploy. Read the deploy log, not the build log.
 **In progress:** the Thai proofread — chunk 1 of 4 presented, awaiting Ice. See item 40.
-**Next up:** publish `/da` when Ice wants it public — the only remaining work on the
-overhaul, and it is a decision rather than a build.
+**Next up:** nothing. The plan is finished. What is left is running the business it
+was built for — item 31's Facebook groups, Racha's testimonial in Appendix B, and
+whatever the first Danish enquiry teaches.
 **⚠️ Your homework:** none. Both proofreads are in.
 
 ⚠️ **Known defect in this log, not yet fixed:** three entries below are dated
@@ -43,6 +45,43 @@ correcting it means moving three blocks, and this file is the source of truth.
 ---
 
 ## Progress log
+
+### 2026-08-22 (night, later)
+
+**`/da` IS LIVE. The overhaul is finished.** ✅ *`6002140`*
+
+All five publish steps, after item 28 passed: `DRAFT` false — which also drops the
+draft banner and the `noindex`; `/da` in `sitemap.ts`; `da` in `SITE_LANGUAGES`,
+the single line that grants the nav chip and the browser-language banner; hreflang
+naming all four languages on all four pages; and the share card, which was item 43.
+
+**hreflang was verified rather than assumed.** It is only valid reciprocated, so all
+four pages have to name every other one. Checked in the prerendered HTML: `/`, `/da`,
+`/sv` and `/th` each list en, da, sv, th.
+
+⚠️ **THE NAV WARNING WAS REAL, WHICH IS THE POINT OF HAVING WRITTEN IT DOWN.** The
+fourth chip took the island from 556px to 619px — measured over CDP at **86% of the
+viewport at the old 720px breakpoint**, 83% at 744, 81% at 768. `SiteNav.tsx` calls
+87% at 640 "the full-width-header look the island exists to avoid", and that is
+precisely the situation the 720 breakpoint had been created to escape. Publishing
+`/da` walked straight back into it.
+
+**So the breakpoint moved to 800**, where 619px is 77% — the same ratio 556/720 gave.
+Verified after the change: 77.4% at 800, 61% at 1024, and at 744 the panel takes over
+with the row at a compact 47%. Screenshotted at each width, not just measured.
+
+- **Third move, same rule every time.** The comment now carries the whole history —
+  490/640, 556/720, 619/800 — rather than only the current number, because the rule
+  is the durable part: the island keeps a real margin either side, and the
+  alternative each time was shrinking the chips to "SV" and "DA". The endonym is the
+  entire job of a language chip, so the breakpoint moves instead of the label.
+- **What it cost, since it was a real trade Ice made knowingly:** 720 existed for
+  iPad Mini portrait at 744px, on the argument that the device is wide enough to
+  deserve a nav it can already see. At 800 it gets the panel.
+
+**The lesson this one leaves:** the warning was written into the publish checklist
+weeks before it mattered, and it was right. A note that says "re-measure this before
+assuming it still holds" is worth more than the measurement it accompanies.
 
 ### 2026-08-22 (night)
 
