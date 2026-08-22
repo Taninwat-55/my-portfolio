@@ -22,6 +22,7 @@ export const metadata: Metadata = {
       en: "https://taninwatkaewpankan.xyz",
       th: "https://taninwatkaewpankan.xyz/th",
       sv: "https://taninwatkaewpankan.xyz/sv",
+      da: "https://taninwatkaewpankan.xyz/da",
     },
   },
 };

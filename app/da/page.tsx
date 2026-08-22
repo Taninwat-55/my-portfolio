@@ -40,21 +40,28 @@ const PAGE_URL = `${BASE_URL}/da`;
  *      an English "Hi, i'm Ice" card. See app/da/opengraph-image.tsx (item 43).
  *      If you add another page-level asset, add it here in the same commit.
  *
- * Note that step 3 will widen the nav island by a fourth language chip. It is at
- * roughly 556px with three; see the breakpoint note in SiteNav.tsx before
- * assuming 720px still holds.
+ * ✅ PUBLISHED 2026-08-22, once item 28 passed. The nav-island warning that used to
+ * sit here was real and was acted on: the fourth chip took the row from 556px to
+ * 619px, which measured 86% of the viewport at the old 720px breakpoint, so the
+ * breakpoint moved to 800. See the note in SiteNav.tsx for the measurements and for
+ * what that cost.
  */
-const DRAFT = true;
+const DRAFT = false;
 
 export const metadata: Metadata = {
   title: da.meta.title,
   description: da.meta.description,
   alternates: {
     canonical: PAGE_URL,
-    // No hreflang while DRAFT. Declaring a language alternate for a page that
-    // tells crawlers not to index it is a contradiction, and it would invite
-    // Google to serve unproofread Danish to Danish searchers — the one outcome
-    // item 28 exists to prevent.
+    // Published 2026-08-22, once item 28 passed. hreflang is only valid
+    // reciprocated and it has to be complete: every variant lists every other
+    // one, so the homepage, /th and /sv all name this page back.
+    languages: {
+      en: BASE_URL,
+      th: `${BASE_URL}/th`,
+      sv: `${BASE_URL}/sv`,
+      da: PAGE_URL,
+    },
   },
   robots: DRAFT ? { index: false, follow: false } : undefined,
   openGraph: {
