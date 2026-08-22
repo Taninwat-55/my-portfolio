@@ -50,6 +50,38 @@ const mod = await import(path.join(ROOT, lang.file));
 const content = mod[lang.export];
 
 /**
+ * Fills the `{…}` placeholders so a proofreader reads a finished sentence.
+ *
+ * Added with item 44, which introduced "Det svarer til {effective} kr. i timen i
+ * stedet for {hourly}". Printed raw, that asks a Dane to proofread a sentence with
+ * two holes in it — and the numbers are part of what makes the phrasing right or
+ * wrong. Everything resolves from the same source the page renders from, so this
+ * output cannot quote a figure the site does not.
+ *
+ * `{email}` gets the same treatment. `{max}` and `{n}` deliberately do NOT: the
+ * character limit lives in app/lib/services-enquiry.ts, which imports through the
+ * `@/app` alias that plain Node cannot resolve, and `{n}` is a live count. Both stay
+ * visible as placeholders, which is honest — they are obviously slots — where a
+ * half-filled sentence would not be.
+ */
+const { aftercareRates, personalInfo } = await import(
+  path.join(ROOT, "app/data.ts")
+);
+
+const PLACEHOLDERS = {
+  "{effective}": aftercareRates.effective,
+  "{hourly}": aftercareRates.hourly,
+  "{email}": personalInfo.email,
+};
+
+function fillPlaceholders(text) {
+  return Object.entries(PLACEHOLDERS).reduce(
+    (out, [token, value]) => (value ? out.replaceAll(token, value) : out),
+    text
+  );
+}
+
+/**
  * Keys holding machinery rather than prose.
  *
  * `errors` and `form` ARE user-facing and are included — a clumsy validation
@@ -67,6 +99,7 @@ const TITLES = {
   proof: "The example (Racha)",
   process: "How it works",
   contact: "Contact",
+  aftercare: "After launch — what changes cost",
   form: "The enquiry form",
   errors: "Form error messages",
   backToEnglish: "Link back to English",
@@ -78,7 +111,7 @@ let section = 0;
 /** Depth-first walk, emitting `section.item` for every string found. */
 function walk(node, label, depth) {
   if (typeof node === "string") {
-    lines.push({ label, text: node });
+    lines.push({ label, text: fillPlaceholders(node) });
     return;
   }
   if (Array.isArray(node)) {

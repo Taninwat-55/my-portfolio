@@ -5,7 +5,13 @@ import { ArrowLeft, Check, Mail, Languages, PenLine } from "lucide-react";
 import { SkipLink } from "../components/SkipLink";
 import { FadeIn } from "../components/FadeIn";
 import { ServicesEnquiryForm } from "../components/ServicesEnquiryForm";
-import { personalInfo, services, servicesProcess, cases } from "../data";
+import {
+  personalInfo,
+  services,
+  servicesProcess,
+  cases,
+  fillAftercareRates,
+} from "../data";
 import { daContent as da, daUnits } from "../data.da";
 
 const BASE_URL = "https://taninwatkaewpankan.xyz";
@@ -247,6 +253,89 @@ export default function DanishPage() {
                 </li>
               ))}
             </ul>
+          </section>
+
+          {/* ── After launch ───────────────────────────────────────────────
+              ITEM 44. Directly after Priser, because that is where the question
+              arrives: hero.lead promises "ingen månedlige gebyrer, du ikke har
+              bedt om", which raises the retainer question in the third sentence
+              and, until this section existed, never answered it.
+
+              Every figure comes from `services.aftercare` and `aftercareRates`.
+              daUnits() translates the unit words inside them — "650 DKK / hour"
+              becomes "650 DKK / time" — and fillAftercareRates() fills the
+              {'{effective}'} / {'{hourly}'} placeholders in the terms. No number
+              is typed in Danish anywhere. */}
+          <section aria-labelledby="da-aftercare" className="mb-14 md:mb-20">
+            <h2
+              id="da-aftercare"
+              className="mb-4 text-2xl font-medium text-frost md:text-3xl"
+            >
+              {da.aftercare.heading}
+            </h2>
+            <p className="mb-7 text-base font-light leading-relaxed text-frost/65">
+              {da.aftercare.lead}
+            </p>
+
+            <div className="mb-5 grid gap-4 sm:grid-cols-2">
+              {[
+                { ...da.aftercare.free, price: null },
+                {
+                  ...da.aftercare.hourly,
+                  price: daUnits(services.aftercare.hourly.price),
+                },
+              ].map((tier) => (
+                <div
+                  key={tier.label}
+                  className="rounded-2xl border border-frost/10 bg-white/3 p-5"
+                >
+                  <p className="text-xs uppercase tracking-[0.2em] text-crystal-500">
+                    {tier.label}
+                  </p>
+                  {tier.price && (
+                    <p className="mt-2 text-lg font-medium text-frost">
+                      {tier.price}
+                    </p>
+                  )}
+                  <p className="mt-2.5 text-sm font-light leading-relaxed text-frost/65">
+                    {tier.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-2xl border border-frost/10 bg-white/3 p-5 sm:p-6">
+              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <p className="text-xs uppercase tracking-[0.2em] text-crystal-500">
+                  {da.aftercare.block.label}
+                </p>
+                <p className="text-lg font-medium text-frost">
+                  {services.aftercare.block.price}
+                  <span className="ml-2 text-sm font-light text-frost/50">
+                    {daUnits(services.aftercare.block.unit)}
+                  </span>
+                </p>
+              </div>
+              <p className="mt-3 text-sm font-light leading-relaxed text-frost/65">
+                {da.aftercare.block.body}
+              </p>
+              <ul className="mt-5 flex flex-col gap-2.5 border-t border-frost/10 pt-5">
+                {da.aftercare.block.terms.map((term) => (
+                  <li
+                    key={term}
+                    className="flex items-start gap-2.5 text-sm font-light leading-relaxed text-frost/70"
+                  >
+                    <Check
+                      size={15}
+                      strokeWidth={2}
+                      aria-hidden
+                      className="mt-1 shrink-0 text-crystal-500"
+                    />
+                    {fillAftercareRates(term)}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </section>
 
           {/* ── Proof ─────────────────────────────────────────────────────── */}

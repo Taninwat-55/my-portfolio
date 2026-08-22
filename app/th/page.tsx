@@ -10,6 +10,7 @@ import {
   services,
   servicesProcess,
   cases,
+  fillAftercareRates,
 } from "../data";
 import { thContent as th, thUnits } from "../data.th";
 
@@ -201,6 +202,87 @@ export default function ThaiPage() {
                 </li>
               ))}
             </ul>
+          </section>
+
+          {/* ── After launch ───────────────────────────────────────────────
+              ITEM 44. Mirrors /da, and sits directly after the prices for the
+              same reason: what changes cost is the next question a shop owner
+              asks, not a detail.
+
+              Every figure comes from services.aftercare and aftercareRates.
+              thUnits() translates the unit words inside them, and
+              fillAftercareRates() fills the placeholders in the terms, so no
+              number is typed in this language anywhere. */}
+          <section aria-labelledby="th-aftercare" className="mb-14 md:mb-20">
+            <h2
+              id="th-aftercare"
+              className="mb-4 text-2xl font-medium text-frost md:text-3xl"
+            >
+              {th.aftercare.heading}
+            </h2>
+            <p className="mb-7 text-base font-light leading-relaxed text-frost/65">
+              {th.aftercare.lead}
+            </p>
+
+            <div className="mb-5 grid gap-4 sm:grid-cols-2">
+              {[
+                { ...th.aftercare.free, price: null },
+                {
+                  ...th.aftercare.hourly,
+                  price: thUnits(services.aftercare.hourly.price),
+                },
+              ].map((tier) => (
+                <div
+                  key={tier.label}
+                  className="rounded-2xl border border-frost/10 bg-white/3 p-5"
+                >
+                  <p className="text-xs uppercase tracking-[0.2em] text-crystal-500">
+                    {tier.label}
+                  </p>
+                  {tier.price && (
+                    <p className="mt-2 text-lg font-medium text-frost">
+                      {tier.price}
+                    </p>
+                  )}
+                  <p className="mt-2.5 text-sm font-light leading-relaxed text-frost/65">
+                    {tier.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-2xl border border-frost/10 bg-white/3 p-5 sm:p-6">
+              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <p className="text-xs uppercase tracking-[0.2em] text-crystal-500">
+                  {th.aftercare.block.label}
+                </p>
+                <p className="text-lg font-medium text-frost">
+                  {services.aftercare.block.price}
+                  <span className="ml-2 text-sm font-light text-frost/50">
+                    {thUnits(services.aftercare.block.unit)}
+                  </span>
+                </p>
+              </div>
+              <p className="mt-3 text-sm font-light leading-relaxed text-frost/65">
+                {th.aftercare.block.body}
+              </p>
+              <ul className="mt-5 flex flex-col gap-2.5 border-t border-frost/10 pt-5">
+                {th.aftercare.block.terms.map((term) => (
+                  <li
+                    key={term}
+                    className="flex items-start gap-2.5 text-sm font-light leading-relaxed text-frost/70"
+                  >
+                    <Check
+                      size={15}
+                      strokeWidth={2}
+                      aria-hidden
+                      className="mt-1 shrink-0 text-crystal-500"
+                    />
+                    {fillAftercareRates(term)}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </section>
 
           {/* ── Proof ─────────────────────────────────────────────────────── */}

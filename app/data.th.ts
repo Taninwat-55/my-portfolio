@@ -38,6 +38,11 @@ const UNIT_WORDS: [string, string][] = [
   ["day", "วัน"],
   ["min", "นาที"],
   ["each", "ต่อรายการ"],
+  // Item 44. These appear only in the aftercare price and unit strings.
+  ["hours", "ชั่วโมง"],
+  ["hour", "ชั่วโมง"],
+  ["months", "เดือน"],
+  ["valid", "ใช้ได้"],
 ];
 
 export function thUnits(value: string): string {
@@ -104,6 +109,40 @@ export const thContent = {
       "ราคาทั้งหมดยังไม่รวมภาษีมูลค่าเพิ่ม (moms)",
       "โดเมน โฮสติ้ง และโค้ด เป็นชื่อคุณทั้งหมด",
     ],
+  },
+
+  /**
+   * ITEM 44. What changes cost after launch. Mirrors /da and /sv.
+   *
+   * ⚠️ NEW THAI PROSE, AND THEREFORE PART OF ITEM 40. This section did not exist
+   * when chunk 1 of the Thai proofread was presented, so it has to go into that
+   * review rather than around it. Written now on purpose: item 40 is still open, so
+   * this costs one pass instead of two.
+   *
+   * NOTHING NUMERIC IN THIS FILE. `{effective}` and `{hourly}` are filled from
+   * `aftercareRates` at render time.
+   */
+  aftercare: {
+    heading: "ถ้าอยากแก้อะไรทีหลัง",
+    lead: "เว็บไม่มีปลั๊กอินให้ต้องอัปเดต และไม่มีอะไรที่พังเองตามเวลา — นั่นคือเหตุผลที่ผมสร้างแบบนี้ และเป็นเหตุผลที่ผมไม่มีแพ็กเกจรายเดือนมาขายคุณ สิ่งที่คนอยากได้ทีหลังคือการแก้ไข ก็เลยบอกไว้เลยว่าคิดเท่าไหร่",
+    free: {
+      label: "ฟรี — บอกมาได้เลย",
+      body: "ราคา เบอร์โทร เวลาเปิดปิด คำผิด อะไรที่ใช้เวลาผมไม่กี่นาที ไม่คุ้มที่จะออกใบแจ้งหนี้กันทั้งสองฝ่าย ผมก็เลยไม่คิดเงิน",
+    },
+    hourly: {
+      label: "คิดเป็นชั่วโมง",
+      body: "คิดเป็นครึ่งชั่วโมง สำหรับงานที่ใหญ่ขึ้น — รูปใหม่ เขียนหน้าใหม่ เมนูตามฤดูกาล ผมบอกราคาประเมินก่อนเริ่ม ไม่ใช่ตอนจบ",
+    },
+    block: {
+      label: "ซื้อชั่วโมงไว้ล่วงหน้า",
+      body: "ลูกค้าส่วนใหญ่ของผมไม่เคยต้องใช้เลย และผมขอบอกตรง ๆ แบบนี้ดีกว่าขายแพ็กเกจรายเดือนให้คุณ แต่ถ้าคุณไม่อยากคิดเรื่องนี้ทุกครั้งที่อยากแก้อะไร ก็ซื้อชั่วโมงไว้ก่อนแล้วค่อย ๆ ใช้ ใช้กับอะไรก็ได้ — ข้อความ รูป ราคา หน้าใหม่ หรือแค่คำถาม ผมจดไว้ว่าแต่ละครั้งใช้เวลาเท่าไหร่ แล้วบอกคุณว่าเหลือเท่าไหร่",
+      terms: [
+        "เท่ากับ {effective} DKK ต่อชั่วโมง แทนที่จะเป็น {hourly}",
+        "ชั่วโมงที่ยังไม่ได้ใช้ ยกไปปีที่สองได้ หนึ่งครั้ง",
+        "ไม่มีบิลรายเดือน และไม่มีอะไรต่ออายุอัตโนมัติ",
+        "ใช้หมดแล้วจะซื้อใหม่หรือไม่ซื้อก็ได้ — ไม่มีอะไรเกิดขึ้นเอง",
+      ],
+    },
   },
 
   proof: {

@@ -2,8 +2,7 @@
 
 **Created:** 2026-08-17
 **Owner:** Ice (Taninwat Kaewpankan)
-**Status:** Four items open — **28, 40, 43, 44.** Item 42 shipped 2026-08-22 and is
-on `main`. `/da` is built and deliberately unlisted, waiting on item 28.
+**Status:** Three items open — **28, 40, 43.** Items 42 and 44 shipped 2026-08-22. `/da` is built and deliberately unlisted, waiting on item 28.
 **✅ THE DEPLOY IS FIXED, and the site is published again.** The cause was the
 `publish` key dropped in `5e2608c`: with no key Netlify's default resolves publish
 to the repo root and `@netlify/plugin-nextjs` rejects it in `onBuild`. Restored in
@@ -15,9 +14,9 @@ the add-ons table or the aftercare section. All of that is live as of PR #4.
 `next build` compiled and prerendered all 37 pages before the plugin threw, so a
 green build proves nothing about a deploy. Read the deploy log, not the build log.
 **In progress:** the Thai proofread — chunk 1 of 4 presented, awaiting Ice. See item 40.
-**Next up:** items 43 and 44 — both are `/da` gaps and both should land **before**
-item 28 goes out, so the proofreader reads one complete set of Danish instead of
-being asked twice.
+**Next up:** item 43, the last `/da` gap. It should land **before** item 28 goes out,
+so the proofreader opens a link that renders a Danish share card rather than an
+English one.
 **⚠️ Needs your eyes:** `app/data.th.ts` (item 40).
 **⚠️ Your homework:** item 28 — send the 81 lines from `npm run copy da` to a native
 Danish speaker. It is the longest-lead item on the list because it waits on a person,
@@ -41,6 +40,52 @@ correcting it means moving three blocks, and this file is the source of truth.
 ---
 
 ## Progress log
+
+### 2026-08-22 (later still)
+
+**Item 44 — what changes cost, now said in Danish, Swedish and Thai** ✅
+*`dd09ccb`, `2f13556`*
+
+Ice asked whether the care plan was implemented. It was — item 33, on `/services`,
+and **only** there. All three language pages went silent on the question that
+follows the price, and on `/da` that was a hole in the page's own argument rather
+than a missing detail: `hero.lead` promises "ingen månedlige gebyrer, du ikke har
+bedt om", raising the retainer question in the third sentence and never answering it.
+
+**THE OBSTACLE WAS THE "NOTHING NUMERIC" RULE, and it was worth respecting.** Those
+files forbid numerals on purpose — a price typed into a translation drifts silently
+— but the figures existed only inside English prose: *"Works out at 480 kroner an
+hour instead of 650"*. There was nothing to interpolate.
+
+So `aftercareRates` now holds them once and **the English strings interpolate them
+too.** That is what makes this a fix rather than three more copies: the duplicate in
+the chatbot grounding (`data.ts`, the llms context block) also reads from the new
+source, so it can no longer disagree with the page it summarises.
+
+- The language files use `{effective}` / `{hourly}`, the idiom their own form errors
+  already use for `{max}` and `{email}`. **Placeholders carry bare numbers** and each
+  language writes its own currency and unit words round them — "480 kr. i timen",
+  "480 DKK i timmen", "480 DKK ต่อชั่วโมง" — because putting the currency inside the
+  placeholder would impose one word order on three languages.
+- Unit words go through the existing `daUnits`/`svUnits`/`thUnits`, so "650 DKK /
+  hour" renders "/ time", "/ timme", "/ ชั่วโมง". Swedish also passes `svPrice`: a
+  no-op at today's rates, wired up because the point of the indirection is that
+  rates change.
+- **Verified by changing a rate, not by reading the code.** Setting hourly to 777 and
+  effective to 555 propagated to all four languages with **no stale 650 on any of
+  the four pages**; then reverted, and the seven original `/services` strings
+  confirmed identical to a baseline captured before the refactor.
+- `npm run copy` needed no structural change — it walks the language file, so the
+  section appeared by itself. It did need the placeholders filled, since printing
+  "Det svarer til {effective} kr. i timen" asks a Dane to proofread a sentence with
+  holes in it. **Danish is now 93 lines, Swedish 94, Thai 95.**
+- ⚠️ One Danish word had leaked into the Swedish ("hellere" for "hellre"), caught and
+  fixed. Recorded because it is the specific failure mode of writing three Nordic
+  languages in one sitting.
+
+**The Thai section is new prose and therefore part of item 40; the Danish is part of
+item 28.** Written now on purpose — both reviews are still open, so this costs one
+proofreading pass each instead of two.
 
 ### 2026-08-22 (later)
 
@@ -1318,8 +1363,9 @@ quote the positioning. Building them before this settles means writing twice.*
   Swedish and unlike `/th`'s bundled Kanit. Add the missing fifth checklist step in
   the same commit so it cannot be forgotten twice.
 
-- [ ] **44. [C] The language pages never say what changes cost after launch.** Found
-  2026-08-22, from Ice asking whether the care plan was implemented. It is — item 33,
+- [x] **44. [C] The language pages never say what changes cost after launch.** ✅
+  *`dd09ccb`, `2f13556`.* Found 2026-08-22, from Ice asking whether the care plan was
+  implemented. It is — item 33,
   `services.aftercare`, verified rendering on `/services`: small changes free, 650
   DKK/h beyond that, 2.400 for a 5-hour block, "nothing renews". **But `data.da.ts`,
   `data.sv.ts` and `data.th.ts` contain none of it** — zero matches for aftercare
@@ -1344,10 +1390,9 @@ quote the positioning. Building them before this settles means writing twice.*
   say.
 
 - [ ] **28. [C] Danish copy proofread by a native speaker.** ⚠️ **STILL BLOCKING
-  PUBLICATION — but no longer blocking the build.** ⚠️ **Do items 43 and 44 first** —
-  44 adds Danish prose that needs proofreading in the same pass, and 43 fixes the card
-  the proofreader sees when they open the link. Sending the lines before both means
-  asking for a second pass. A page whose whole argument is
+  PUBLICATION — but no longer blocking the build.** ⚠️ **Do item 43 first** — it fixes the
+  card the proofreader sees when they open the link. Item 44 is already done and its
+  Danish is in the export, which is why the count moved from 81 lines to 93. A page whose whole argument is
   "I do careful work" is destroyed by one clumsy Danish sentence. Danes spot it in
   the first line.
 
