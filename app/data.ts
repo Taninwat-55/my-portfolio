@@ -1021,6 +1021,57 @@ function addOnBand(items: { price: string }[]): string {
   return `+ ${dk(Math.min(...figures))} – ${dk(Math.max(...figures))} DKK`;
 }
 
+/**
+ * The aftercare figures, as figures. ITEM 44.
+ *
+ * These used to live only inside English prose — "Works out at 480 kroner an hour
+ * instead of 650" — which was fine while /services was the only page that said
+ * them. It stopped being fine the moment /da, /sv and /th needed the same numbers
+ * in their own sentences, because the Danish, Swedish and Thai copy files forbid
+ * numerals on purpose: a price typed into a translation is a price that drifts.
+ *
+ * So the numbers live here once, the English strings below interpolate them, and
+ * the language files use `{hourly}` / `{effective}` placeholders filled at render
+ * time — the same idiom their form errors already use for `{max}` and `{email}`.
+ * Change a rate here and all four languages follow.
+ *
+ * Written the Danish way, with a dot for thousands, like every other figure in
+ * this file. /sv reformats it through svPrice() because a Swedish reader can parse
+ * "2.400" as two and a half.
+ */
+export const aftercareRates = {
+  currency: "DKK",
+  /** Ad-hoc rate. */
+  hourly: "650",
+  /** What the block works out at per hour — the reason to prepay. */
+  effective: "480",
+  blockPrice: "2.400",
+  blockHours: "5",
+  blockMonths: "12",
+} as const;
+
+/**
+ * Fills the `{effective}` / `{hourly}` placeholders in the language files' aftercare
+ * terms. ITEM 44.
+ *
+ * The placeholders carry BARE NUMBERS and each language writes its own currency and
+ * unit words around them — "480 kr. i timen", "480 DKK i timmen", "480 DKK
+ * ต่อชั่วโมง". Putting the currency in the placeholder instead would have forced one
+ * word order on three languages.
+ *
+ * `format` exists for /sv, which passes svPrice so a four-figure rate would render
+ * "2 400" rather than "2.400". It is a no-op at today's rates and is wired up anyway,
+ * because the whole point of this indirection is that the rates can change.
+ */
+export function fillAftercareRates(
+  text: string,
+  format: (value: string) => string = (value) => value,
+): string {
+  return text
+    .replace("{effective}", format(aftercareRates.effective))
+    .replace("{hourly}", format(aftercareRates.hourly));
+}
+
 export const services = {
   intro: {
     eyebrow: "Freelance & Client Work",
@@ -1458,16 +1509,16 @@ export const services = {
     },
     hourly: {
       label: "By the hour",
-      price: "650 DKK / hour",
+      price: `${aftercareRates.hourly} ${aftercareRates.currency} / hour`,
       body: "Billed in half hours, for anything bigger — new photos, a rewritten page, a seasonal menu. I tell you the estimate before I start, not after.",
     },
     block: {
       label: "A block of hours",
-      price: "2.400 DKK",
-      unit: "5 hours · valid 12 months",
+      price: `${aftercareRates.blockPrice} ${aftercareRates.currency}`,
+      unit: `${aftercareRates.blockHours} hours · valid ${aftercareRates.blockMonths} months`,
       body: "Most of my clients never need this, and I would rather say so than sell you a subscription. But if you would rather not think about it every time you want something changed, buy a block up front and draw on it. Use it for anything: text, photos, prices, a new page, a question. I log what each change took and tell you what is left.",
       terms: [
-        "Works out at 480 kroner an hour instead of 650",
+        `Works out at ${aftercareRates.effective} kroner an hour instead of ${aftercareRates.hourly}`,
         "Unused hours roll over once, into a second year",
         "No monthly bill, and nothing renews automatically",
         "When it runs out you buy another or you do not — there is no default",
@@ -1818,7 +1869,7 @@ What the build method changes is the year after launch, not the build price. Web
 
 There is NO maintenance subscription and Ice does not want one — say so plainly and do not invent one. Danish agencies sell website care at 250 – 3.000 kr a month, but that product is patching WordPress, and a Webflow site is maintained by Webflow while a static site has no plugins to patch. Charging monthly here would be charging for a problem this stack does not have.
 
-What he does have, for changes after launch: small things — a price, an opening hour, a typo — are FREE, because a 100 kr invoice costs more in admin than it earns. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, estimate given first. Or a prepaid block: ${services.aftercare.block.price} for ${services.aftercare.block.unit}, which works out at 480 kr an hour instead of 650 and rolls over once. Nothing renews, and there is no monthly anything — if someone asks about a retainer, that is the answer.
+What he does have, for changes after launch: small things — a price, an opening hour, a typo — are FREE, because a 100 kr invoice costs more in admin than it earns. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, estimate given first. Or a prepaid block: ${services.aftercare.block.price} for ${services.aftercare.block.unit}, which works out at ${aftercareRates.effective} kr an hour instead of ${aftercareRates.hourly} and rolls over once. Nothing renews, and there is no monthly anything — if someone asks about a retainer, that is the answer.
 
 All of those yearly costs are paid by the client directly to Webflow, their host and their registrar. None of it is paid to Ice, and he does not mark up other people's invoices. If someone worries about an ongoing bill from him, say that plainly.
 

@@ -46,6 +46,14 @@ const UNIT_WORDS: [string, string][] = [
   ["day", "dag"],
   ["each", "pr. stk."],
   ["min", "min."],
+  // Item 44. These three only ever appear in the aftercare price and unit —
+  // "650 DKK / hour" and "5 hours · valid 12 months". Safe to add because daUnits
+  // is applied to exactly two other values on the page, a price-ladder scope and a
+  // process duration, and neither contains any of these words.
+  ["hours", "timer"],
+  ["hour", "time"],
+  ["months", "måneder"],
+  ["valid", "gælder"],
 ];
 
 export function daUnits(value: string): string {
@@ -115,6 +123,45 @@ export const daContent = {
       "Alle priser er ekskl. moms",
       "Domæne, hosting og kode står i dit navn",
     ],
+  },
+
+  /**
+   * ITEM 44. What changes cost after launch.
+   *
+   * This section was missing, and its absence left a hole in the page's own
+   * argument rather than merely omitting a detail: hero.lead promises "ingen
+   * månedlige gebyrer, du ikke har bedt om", which raises the retainer question in
+   * the third sentence and then never answers it. What changes cost is the second
+   * thing an owner asks, straight after the price.
+   *
+   * Sits directly after Priser for that reason — price, then "and if I want
+   * something changed later?".
+   *
+   * NUMBERS COME FROM `aftercareRates` VIA PLACEHOLDERS, same rule as the rest of
+   * this file. `{effective}` and `{hourly}` are filled at render time, exactly like
+   * `{max}` and `{email}` in errors below. Do not type a rate in here.
+   */
+  aftercare: {
+    heading: "Hvis du vil have noget ændret senere",
+    lead: "Der er ingen plugins, der skal opdateres, og intet, der forfalder af sig selv — det er hele pointen med at bygge siden på den måde, og derfor er der ingen månedlig aftale, jeg skal sælge dig. Det, folk faktisk vil have bagefter, er ændringer, og her er hvad de koster.",
+    free: {
+      label: "Gratis — bare spørg",
+      body: "En pris, et telefonnummer, en åbningstid, en stavefejl. Tager det mig et par minutter, er det ikke værd at sende en faktura for, så det gør jeg ikke.",
+    },
+    hourly: {
+      label: "Efter timen",
+      body: "Afregnet i halve timer, når det er noget større — nye billeder, en side skrevet om, et menukort til sæsonen. Du får overslaget, før jeg begynder, ikke bagefter.",
+    },
+    block: {
+      label: "En klump timer",
+      body: "De fleste af mine kunder får aldrig brug for det, og det siger jeg hellere end at sælge dig et abonnement. Men vil du helst ikke tænke over det, hver gang du vil have noget rettet, kan du købe timerne på forhånd og trække på dem. Brug dem på hvad som helst: tekst, billeder, priser, en ny side, et spørgsmål. Jeg skriver ned, hvad hver ændring tog, og siger, hvor meget der er tilbage.",
+      terms: [
+        "Det svarer til {effective} kr. i timen i stedet for {hourly}",
+        "Ubrugte timer går videre til endnu et år — én gang",
+        "Ingen månedlig regning, og intet fornyes af sig selv",
+        "Når de er brugt op, køber du nye eller lader det være — der sker ikke noget automatisk",
+      ],
+    },
   },
 
   proof: {

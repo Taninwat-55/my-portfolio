@@ -44,6 +44,11 @@ const UNIT_WORDS: [string, string][] = [
   ["each", "per styck"],
   // "min" is already the Swedish abbreviation for minutes, so it is left alone
   // deliberately rather than omitted by accident.
+  // Item 44. These appear only in the aftercare price and unit strings.
+  ["hours", "timmar"],
+  ["hour", "timme"],
+  ["months", "månader"],
+  ["valid", "gäller"],
 ];
 
 export function svUnits(value: string): string {
@@ -129,6 +134,41 @@ export const svContent = {
       "Alla priser är exkl. moms",
       "Domän, hosting och kod står på dig",
     ],
+  },
+
+  /**
+   * ITEM 44. What changes cost after launch. Mirrors the Danish and Thai sections.
+   *
+   * Placed after Priser for the same reason as on /da: the price is answered, and
+   * "what if I want something changed later" is the next question rather than a
+   * detail. Swedish is the one language here Ice reviews himself, so this is the
+   * version to correct first if the phrasing is off.
+   *
+   * NOTHING NUMERIC IN THIS FILE. `{effective}` and `{hourly}` are filled from
+   * `aftercareRates` at render time, and the figures themselves pass through
+   * svPrice() so a Swedish reader cannot read "2.400" as two and a half.
+   */
+  aftercare: {
+    heading: "Om du vill ändra något senare",
+    lead: "Det finns inga plugins att uppdatera och inget som förfaller av sig självt — det är hela poängen med att bygga sidan så här, och därför finns ingen månadsplan att sälja dig. Vad folk faktiskt vill ha efteråt är ändringar, så det här är vad de kostar.",
+    free: {
+      label: "Gratis — bara fråga",
+      body: "Ett pris, ett telefonnummer, en öppettid, ett stavfel. Tar det mig ett par minuter är det inte värt en faktura för någon av oss, så jag skickar ingen.",
+    },
+    hourly: {
+      label: "Per timme",
+      body: "Debiteras i halvtimmar, när det är något större — nya bilder, en omskriven sida, en meny för säsongen. Du får uppskattningen innan jag börjar, inte efteråt.",
+    },
+    block: {
+      label: "Ett block timmar",
+      body: "De flesta av mina kunder behöver aldrig det här, och det säger jag hellre än att sälja dig en prenumeration. Men vill du slippa tänka på det varje gång du vill ändra något kan du köpa timmarna i förväg och dra på dem. Använd dem till vad som helst: text, bilder, priser, en ny sida, en fråga. Jag antecknar vad varje ändring tog och säger vad som är kvar.",
+      terms: [
+        "Det blir {effective} DKK i timmen i stället för {hourly}",
+        "Oanvända timmar följer med till ett andra år — en gång",
+        "Ingen månadsfaktura, och ingenting förnyas automatiskt",
+        "När de är slut köper du nya eller inte — ingenting händer av sig självt",
+      ],
+    },
   },
 
   proof: {
