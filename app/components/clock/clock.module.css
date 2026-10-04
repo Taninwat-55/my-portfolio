@@ -1233,9 +1233,11 @@
    them into a grid. Each print turns over on .printFlipped.
 
    Six prints since 2026-10-05 (Saep and Lumina joined): 3 columns x 2 rows on a
-   screen wider than tall, 2 x 3 on a tall one. The open object does not scroll,
-   so --pw is sized from the viewport to fit the whole grid, capped near the old
-   230px; a print narrower than ~140px has no room for its back side.
+   screen wider than tall, 2 x 3 on a tall one. On desktop the open object does
+   not scroll, so --pw is sized from the viewport to fit the whole grid, capped
+   near the old 230px. On phones the sheet scrolls (see the phone block), so
+   there --pw comes from the width alone: sizing from the height only shrank
+   prints below the ~140px a back side needs (96px on a landscape phone).
 
    Each print knows its cell (--col, --row) and the grid's centre (--cx, --cy),
    so one transform stacks any of them on the centre, whatever the layout. */
@@ -1291,8 +1293,25 @@
   .print:nth-child(5) { --col: 0; --row: 2; }
   .print:nth-child(6) { --col: 1; --row: 2; }
 }
+/* Phones, where the sheet scrolls: width decides, not height. After the
+   portrait block so these win on source order. */
+@media (max-width: 767px), (max-height: 520px) and (orientation: landscape) {
+  .printsWrap {
+    --pw: min(220px, calc((100vw - 32px - 36px) / 3));
+  }
+}
+@media (max-width: 767px) and (orientation: portrait) {
+  .printsWrap {
+    --pw: min(220px, calc((100vw - 32px - 18px) / 2));
+  }
+}
 .fanned .print {
   transform: rotate(var(--r1));
+}
+/* The stagger is for the fan-in only. Once the prints have landed, Prints.tsx
+   sets .settled so turning one back is not held up to 300ms by its place. */
+.settled .print {
+  transition-delay: 0ms;
 }
 .fanned .print.printFlipped {
   transform: rotateY(180deg);
@@ -1371,6 +1390,8 @@
 }
 @container (max-width: 180px) {
   .printBack {
+    /* Three rows: with the stack line gone, a fourth would only add a gap. */
+    grid-template-rows: auto 1fr auto;
     gap: 4px;
     padding: 12px;
     font-size: 12px;

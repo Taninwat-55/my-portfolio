@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ViewTransition } from "react";
+import { useEffect, useState, ViewTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { clockContent } from "../../data";
@@ -26,9 +26,19 @@ export function Prints({
 }) {
   const { work } = clockContent;
   const [flipped, setFlipped] = useState<string | null>(null);
+  // True once the fan-in has finished: its 60ms-per-print stagger should not
+  // delay a print turning back later (see .settled in clock.module.css).
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    if (stage < 1) return;
+    const id = setTimeout(() => setSettled(true), 900);
+    return () => clearTimeout(id);
+  }, [stage]);
 
   return (
-    <div className={`${styles.printsWrap} ${stage >= 1 ? styles.fanned : ""}`}>
+    <div
+      className={`${styles.printsWrap} ${stage >= 1 ? styles.fanned : ""} ${settled ? styles.settled : ""}`}
+    >
       <ul className={styles.prints}>
         {prints.map((print) => {
           const isFlipped = flipped === print.id;
