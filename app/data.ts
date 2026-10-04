@@ -1814,18 +1814,13 @@ export const clockContent = {
   },
 
   /**
-   * The About letter. DRAFT, condensed from siteContent.aboutStory so every fact
-   * traces back to it. The last paragraph is Ice's own closing line, unchanged.
-   * Ice to rewrite in his voice before this ships.
+   * The About letter's envelope. The body is siteContent.aboutStory, word for
+   * word: Ice's own text, read from one place so the letter cannot drift from
+   * it. An earlier shortened draft cut most of what made it his and turned
+   * "internship, then part-time" into something bigger.
    */
   letter: {
     greeting: "Hej,",
-    paragraphs: [
-      "I'm Ice. I moved from Thailand to Sweden at 16 with no Swedish and no plan. I learned the language, rebuilt my grades, and worked every job that would have me.",
-      "At Uppsala University I studied how interactive systems get designed and how projects actually get shipped, then took a Master's in Entrepreneurship, because building was the one thing I kept coming back to.",
-      "In Denmark I joined Millennial Consulting and grew into leading the organisation. Then I wanted to understand the technical side for real, so I studied Frontend Development at Jensen and graduated in May 2026. That led me to Trailr AI, where I'm an early team member on the product and the frontend.",
-      "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language, just with a few more tools.",
-    ],
     signature: "Ice",
   },
 } as const;

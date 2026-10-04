@@ -16,6 +16,7 @@ import styles from "./clock.module.css";
  */
 export function Envelope({ stage }: { stage: 0 | 1 | 2 | 3 }) {
   const { letter } = clockContent;
+  const paragraphs = siteContent.aboutStory;
   const stageClass = [styles.s1, styles.s2, styles.s3].slice(0, stage).join(" ");
 
   return (
@@ -23,7 +24,7 @@ export function Envelope({ stage }: { stage: 0 | 1 | 2 | 3 }) {
       <div className={styles.envelopeBack} />
       <article className={styles.letter} tabIndex={0} aria-labelledby="letter-greeting">
         <p id="letter-greeting">{letter.greeting}</p>
-        {letter.paragraphs.map((paragraph) => (
+        {paragraphs.map((paragraph) => (
           <p key={paragraph.slice(0, 24)}>{paragraph}</p>
         ))}
         <p className={styles.signature}>{letter.signature}</p>
