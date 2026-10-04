@@ -117,14 +117,59 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
     diff to nothing.
   - Restyle the three OG cards.
 - [ ] **Phase 6: Clean-up and measure.**
+  - **Speed (Ice, 2026-10-05):** move the shared paper styles out of the CSS
+    module into the main stylesheet, so re-themed pages load one render-blocking
+    stylesheet instead of two. Lighthouse blamed it for ~1 s on /sv; every
+    re-themed page sits near 90 performance because of it.
   - Delete what nothing uses any more: `Navbar`, `SectionHeading`,
-    `.hero-heading`, `.frost-text`, Instrument Serif and old tokens.
+    `.hero-heading`, `.frost-text`, Instrument Serif and old tokens, and the
+    `night` tone of `ServicesEnquiryForm`.
   - Lighthouse every route type.
   - Update the concept doc.
 
 ---
 
 ## Progress log
+
+### 2026-10-05 (evening)
+
+**Re-theme Phase 5: Languages, on branch `retheme-5-languages`, not merged** 🚧 *`694258e`*
+
+- **`/th`, `/sv`, `/da` are one shared `LandingPage`** (`app/components/LandingPage.tsx`)
+  on the desk: hero note as a sticky note, prices as a till receipt, proof as a
+  sheet with prints, the form in its paper tone. The three page files went from
+  ~1,470 lines to 267; each keeps its metadata, hreflang and doc comment.
+- **Every word kept, proven:** the roadmap said "identical keys", but the keys differ
+  (`locationNote`/`languageNote`, `quoteSv/Da/Th`, `meetingNote`/`writtenFirst`/LINE)
+  and `npm run copy` prints keys, so renaming them would have broken the proof.
+  Instead **`data.{th,sv,da}.ts` are not edited**; each page maps its keys into
+  props. Verified: `npm run copy th|sv|da` identical; every content string renders
+  as before; hreflang, canonical, robots and the wrapper `lang` identical; `/da`
+  `DRAFT=true` still gives the banner and noindex (tested in a throwaway copy).
+- **Ice's call:** no English postcard on these pages (`PageShell postcard={false}`);
+  no new copy anywhere. The back link "English" carries `lang="en"`, and so does
+  the skip link.
+- Thai keeps its taller lines, and writes its handwritten lines in Kanit (Kalam has
+  no Thai glyphs).
+- **Share cards** are paper sheets on the dark desk, same text and prices; all three
+  fit without wrapping.
+- Six shared classes (label, bullets, row, rowLine, figure, sticky) moved from the
+  `/services` stylesheet into `paper.module.css`; `/services` re-verified unchanged.
+- Also fixed in the move: the old pages put a `<div>` (FadeIn) straight inside
+  `<ol>`/`<ul>` (invalid), and the metrics `<dl>` had term and value reversed.
+
+Lighthouse mobile, before → after: all three **a11y 90 → 100**; **perf 95–97 → 90**,
+LCP 2.6–3.0 → 3.5 s. Cause: the shared paper styles are a second render-blocking
+stylesheet (Lighthouse: ~1 s, the 4 KB paper file ~300 ms). It is site-wide (every
+re-themed page sits near 90), so **Ice chose to fix it in Phase 6**; the roadmap
+item now says so.
+
+**Open:**
+- Ice's preview check: all three pages on phone and laptop; Thai line height; the
+  share cards (paste a link into a chat to preview).
+- Later: the footer nav's `aria-label="Languages"` is English inside a th/sv/da
+  wrapper; an aria-label cannot carry its own `lang`, so a translated label would
+  have to come from the proofread files.
 
 ### 2026-10-05 (later)
 
