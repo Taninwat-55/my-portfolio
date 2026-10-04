@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Kanit, JetBrains_Mono, Instrument_Serif } from "next/font/google";
+import { Kanit, JetBrains_Mono, Instrument_Serif, Kalam } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { personalInfo, siteContent } from "./data";
 import "./globals.css";
@@ -35,6 +35,16 @@ const instrumentSerif = Instrument_Serif({
   weight: "400",
   style: "italic",
   variable: "--font-instrument-serif",
+  preload: false,
+});
+
+// Handwriting for the clock homepage's paper objects: the letter, the sticky
+// note, the captions. Not preloaded: nothing written in it decides LCP (the
+// portrait does), and the letter only opens after a click.
+const kalam = Kalam({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-kalam",
   preload: false,
 });
 
@@ -160,7 +170,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${kanit.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} antialiased bg-night-900 text-frost`}
+        className={`${kanit.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} ${kalam.variable} antialiased bg-night-900 text-frost`}
       >
         <script
           type="application/ld+json"

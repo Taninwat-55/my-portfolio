@@ -1694,6 +1694,52 @@ export const servicesEnquiryOptions = {
   ],
 } as const;
 
+// ─── CLOCK HOMEPAGE ───────────────────────────────────────────────────────────
+// The one-screen homepage: a portrait in the middle, four paper objects pinned
+// around it, and a hand that points at whichever one you are about to open.
+// Concept doc: https://claude.ai/code/artifact/daf15c29-d613-4988-afd3-7d47ab46e16d
+//
+// Step 1 builds the envelope only. Work, Writing and Services are still links to
+// their existing pages; their objects (prints, notebook, receipt) come in step 2.
+
+export type ClockObjectId = "work" | "about" | "writing" | "services";
+
+export const clockContent = {
+  /**
+   * Both audiences in one line. "Open to work" alone told a business client the
+   * price was negotiable (see heroCorners); "available for projects" alone hid
+   * the job search from recruiters. Saying both is true and costs neither.
+   */
+  availability: "Open to full-time roles in Copenhagen, and taking on client projects.",
+
+  // Order is clockwise from top left, which is also the Tab order.
+  objects: [
+    { id: "work", label: "Work", sub: "Projects and case studies", href: "/projects" },
+    { id: "about", label: "About", sub: "A letter from me", href: "/about" },
+    { id: "writing", label: "Writing", sub: "Notes on building", href: "/garden" },
+    { id: "services", label: "Services", sub: "Hire me for a project", href: "/services" },
+  ] satisfies readonly { id: ClockObjectId; label: string; sub: string; href: string }[],
+
+  // The pinned postcard. Written on the card itself, so it is three short lines.
+  contact: { label: "Contact", lines: ["Say hej,", "write me", "a line"] },
+
+  /**
+   * The About letter. DRAFT, condensed from siteContent.aboutStory so every fact
+   * traces back to it. The last paragraph is Ice's own closing line, unchanged.
+   * Ice to rewrite in his voice before this ships.
+   */
+  letter: {
+    greeting: "Hej,",
+    paragraphs: [
+      "I'm Ice. I moved from Thailand to Sweden at 16 with no Swedish and no plan. I learned the language, rebuilt my grades, and worked every job that would have me.",
+      "At Uppsala University I studied how interactive systems get designed and how projects actually get shipped, then took a Master's in Entrepreneurship, because building was the one thing I kept coming back to.",
+      "In Denmark I joined Millennial Consulting and grew into leading the organisation. Then I wanted to understand the technical side for real, so I studied Frontend Development at Jensen and graduated in May 2026. That led me to Trailr AI, where I'm an early team member on the product and the frontend.",
+      "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language, just with a few more tools.",
+    ],
+    signature: "Ice",
+  },
+} as const;
+
 // ─── HOMEPAGE PROJECT CARDS ───────────────────────────────────────────────────
 // The sticky-stacking cards in the Projects section — a FEATURED selection, not
 // the full list. Everything with a case study is on /projects, which maps over
