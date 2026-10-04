@@ -31,10 +31,8 @@ export const personalInfo = {
 export const enquiryInbox = personalInfo.email;
 
 // ─── SITE CONTENT ─────────────────────────────────────────────────────────────
-// Single flat identity: Frontend Engineer & Project Coordinator.
-// Frontend leads because that is where the depth actually is. Full-stack and
-// product work are real too; whatIDo below is where the honest detail about
-// relative depth lives, rather than hedging every label.
+// One searchable job title (roleLabel). whatIDo below is where the honest detail
+// about relative depth lives, rather than hedging every label.
 
 /**
  * The languages the site is published in.
@@ -45,7 +43,8 @@ export const enquiryInbox = personalInfo.email;
  * every read of it failed to compile.
  *
  * Two things derive from this array, so adding a language here is most of the
- * work of shipping one: the chips in SiteNav, and <LanguageOffer />.
+ * work of shipping one: the language links on the clock homepage (ClockHome),
+ * and <LanguageOffer />.
  */
 type SiteLanguage = {
   code: string;
@@ -73,9 +72,9 @@ const SITE_LANGUAGES: readonly SiteLanguage[] = [
   // to change rather than the first: while it was absent the page was genuinely
   // unreachable, not merely unadvertised.
   //
-  // ⚠️ THIS IS THE FOURTH CHIP, and it widens the nav island. The row measured
-  // ~556px with three; see the breakpoint note in SiteNav.tsx, which is written
-  // against that number.
+  // (It was also the fourth chip in the old pill nav, SiteNav, whose breakpoint
+  // history is in PLAN.md and git. The clock homepage lists languages as plain
+  // links in its bottom row, which has room for more.)
   { code: "da", label: "Dansk", href: "/da", offer: "Se siden på dansk" },
 ];
 
@@ -105,35 +104,10 @@ export const siteContent = {
    * under the same DISCO-08 code, so the work is identical on paper — but
    * frontend-udvikler runs a median around 51.900 kr/month against a webudvikler
    * starting near 31.500 and reaching only ~42.250 after ten years. Same job,
-   * roughly 20k a month of anchoring. siteTagline carries "web developer" for the
-   * client-facing side, which is the audience that actually searches for it.
+   * roughly 20k a month of anchoring. "Web developer" lives on /services, in
+   * its description and Danish keywords, for the audience that searches for it.
    */
   roleLabel: "Full-stack Engineer",
-  /**
-   * The human-facing tagline, used only where a person reads it: the browser
-   * tab, the search result, and the homepage's screen-reader h1.
-   *
-   * Separate from roleLabel because the two do different jobs. A recruiter's ATS
-   * and a Google searcher want different sentences, and the homepage is now
-   * written for the searcher. Kept short so SITE_TITLE lands around 55
-   * characters and survives a search result without being truncated.
-   */
-  siteTagline: "Web developer in Copenhagen",
-  // Bottom-corner blocks in the hero. The hero composition puts the scrolling
-  // name in the middle and everything else in the corners, so these lines carry
-  // the whole "who / what / where" job on the first screen.
-  //
-  // These were job titles ("Frontend Engineer / Full-stack builder / Project
-  // Coordinator") next to "Open to work". Both were read by the wrong visitor:
-  // to a business deciding whether to spend money, "open to work" says the
-  // person is between jobs, which invites them to negotiate the price down. It
-  // now states what is on offer and that it is available, which is true for a
-  // recruiter as well.
-  heroCorners: {
-    left: ["Websites & web app frontends", "Built solo, in Copenhagen"],
-    right: { status: "Available for projects", place: "Copenhagen, Denmark" },
-  },
-
   /**
    * Every language the site has a real page in.
    *
@@ -146,22 +120,6 @@ export const siteContent = {
    */
   languages: SITE_LANGUAGES,
 
-  /**
-   * The one action the homepage asks for, defined once.
-   *
-   * Started life inside heroCorners, then HowItWorks needed the same button at the
-   * bottom of the page. Two literals for one action is two things that can drift,
-   * so it lives here and both sections read it.
-   *
-   * Points at the enquiry form rather than opening HireModal, which offers a CV
-   * download — the wrong artefact for the reader this page is written for.
-   *
-   * The pill nav deliberately says "Enquire" instead: it sits right next to the
-   * hero button, and two identical labels touching each other read as a mistake.
-   * At the bottom of the page, repeating the label is correct — same action, same
-   * words, thousands of pixels apart.
-   */
-  primaryCta: { label: "Start a project", href: "/services#enquiry" },
   // One general CV. Role-tailored versions get sent directly, not offered here —
   // a visitor picking between three versions is a visitor guessing at the identity.
   // Singular, not an array: there was only ever one entry, and both call sites
@@ -178,27 +136,16 @@ export const siteContent = {
     "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language, just with a few more tools.",
   ],
 
-  // Anchored along the bottom of the About section, echoing the hero corners.
-  // Every value here traces to aboutStory or the CV — nothing is inferred.
+  // Under the About letter on the clock homepage. Every value here traces to
+  // aboutStory or the CV — nothing is inferred.
   aboutFacts: [
     { label: "Path", value: "Thailand → Sweden → England → Denmark" },
     { label: "Languages", value: "Thai, Swedish, English, Danish" },
     { label: "Based", value: "Copenhagen since 2023 · EU citizen" },
   ],
 
-  // Scroll-revealed paragraph in the About section.
-  //
-  // This used to be the AI-workflow paragraph — clear spec, small steps, review
-  // it myself. Good copy, but written for an engineer assessing craft, and the
-  // homepage is now read by someone deciding whether to hand over money. That
-  // reader has a different question: who am I actually dealing with, and what
-  // happens if it goes wrong. The original is preserved as howIWork below and
-  // renders on /cv, in front of the audience it was written for.
-  aboutAnimated:
-    "One person, not an agency. You talk to me, I do the work, and I am the one accountable if something breaks. I am based in Copenhagen and I work in Danish, English and Swedish. Before anything starts you get a written scope and a fixed price, and at the end everything is in your name — the domain, the hosting, the code. If I am not the right person for what you need, I will tell you on the first call and point you somewhere better.",
-
-  // The old aboutAnimated copy, kept and moved rather than deleted. Renders on
-  // /cv, where "how does he actually work" is the question being asked.
+  // Written for the old homepage's About section and moved rather than deleted.
+  // Renders on /cv, where "how does he actually work" is the question being asked.
   howIWork:
     "Here is how I work. I write a clear spec, break it into small steps, then check the result myself. That is different from prompting an AI and hoping. I use AI to move faster, but the product thinking and the final review are mine. I like small teams that want to move fast and ship things that actually matter.",
 
@@ -230,49 +177,6 @@ export const siteContent = {
     },
   ],
 
-  /**
-   * The homepage's offer list — the three things a visitor can actually buy.
-   *
-   * Deliberately separate from whatIDo above rather than replacing it. whatIDo is
-   * the capability list written for a hiring manager, and it is also the
-   * chatbot's grounding in app/api/chat/route.ts, so repurposing that array would
-   * have silently stripped the chatbot's knowledge of what Ice can do. It is also
-   * the content /cv will need.
-   *
-   * Stores the offer id only. The price is looked up from services.offers at
-   * render time, so this section cannot quote a figure /services has changed.
-   */
-  homeOffers: [
-    {
-      offerId: "website",
-      title: "Small-Business Website",
-      body: "The site your business should already have: fast, findable, and yours outright at handover. Built in Danish, English or Swedish, with search setup and a performance budget included rather than sold as extras.",
-    },
-    {
-      offerId: "app-frontend",
-      title: "Web App Frontend",
-      body: "You have an API, a design, or a founder's sketch. I build the interface on top of it — React, Next.js and TypeScript, in your repository and your workflow, and a component set your team can keep building on after I am gone.",
-    },
-    {
-      offerId: "rescue",
-      title: "Redesign & Rescue",
-      body: "The site exists but it is slow, dated, or invisible on Google. You get a written audit in plain language, a prioritised list of fixes with what each one is worth, and an honest answer if starting over would cost you less.",
-    },
-  ],
-
-  // The mirror image of what used to be here. This was the one place a
-  // recruiter-facing homepage acknowledged freelance; now that the homepage is
-  // written for clients, it is the one place that acknowledges employment.
-  //
-  // Deliberately quiet, for the same reason it always was: stated as a fact
-  // about availability rather than as a second search running in parallel. A
-  // client should not come away wondering whether the person they are about to
-  // hire is halfway out the door.
-  employmentBand: {
-    eyebrow: "Employment",
-    line: "Alongside client work I am open to full-time frontend roles. My track record, skills and references are all on one page.",
-    cta: "See my CV",
-  },
 };
 
 // ─── CV ───────────────────────────────────────────────────────────────────────
@@ -1551,7 +1455,7 @@ export const services = {
 
   /**
    * The shortest honest form of the terms, for the homepage. The prices are
-   * already up there (siteContent.homeOffers); what was missing was what
+   * already up there (the old homepage's offer list); what was missing was what
    * surrounds them.
    *
    * The moms line reads from `vat` above rather than restating the claim, and it
@@ -1722,7 +1626,7 @@ export type ClockObjectId = "work" | "about" | "writing" | "services";
 export const clockContent = {
   /**
    * Both audiences in one line. "Open to work" alone told a business client the
-   * price was negotiable (see heroCorners); "available for projects" alone hid
+   * price was negotiable; "available for projects" alone hid
    * the job search from recruiters. Saying both is true and costs neither.
    */
   availability: "Open to full-time roles in Copenhagen, and taking on client projects.",
@@ -1894,77 +1798,6 @@ export const projectCards: ProjectCard[] = [
       "/assets/bevisly/bevisly-candidate.webp",
     ],
   },
-];
-
-// ─── SECONDARY PROJECT CARDS ──────────────────────────────────────────────────
-
-/**
- * The compact row under the featured three on the homepage. Item 42.
- *
- * IDS, NOT COPIES — and that is the whole design. Retyping title, blurb and image
- * here is exactly what orphaned /cases/satoshi and /cases/cinema: two lists of
- * projects that had to be kept in agreement by hand, and were not. These derive
- * from `cases`, so a card cannot drift from its own case study, and a renamed id
- * fails the build instead of quietly rendering a shorter row.
- *
- * WHY THREE MORE AND NOT SIX EQUAL PROJECTS. The featured deck is the narrative —
- * client work, product, full-stack — and this row is range. "See more at once" is
- * true for a recruiter and only half-true for a client, who wants one business like
- * theirs and then the price, so the deck stays the argument and this stays a
- * footnote to it.
- *
- * DELIBERATELY EXCLUDED: Millennial Consulting, which is strong evidence of
- * management rather than of code, and Cinema Booking, a student team project. Both
- * live on /projects, where they cost nothing — the weakest visible item sets the
- * ceiling of the impression, and on a client-first homepage that ceiling matters
- * more than completeness.
- */
-const SECONDARY_CARD_IDS = ["lumina", "mockmate", "saep"] as const;
-
-export interface SecondaryProjectCard {
-  id: string;
-  title: string;
-  tag: string;
-  sub: string;
-  image: string;
-}
-
-export const secondaryProjectCards: SecondaryProjectCard[] =
-  SECONDARY_CARD_IDS.map((id) => {
-    const source = cases.find((c) => c.id === id);
-    if (!source) {
-      // Throwing is the point. This is static data with no environment behind it,
-      // so it either always throws or never does, and `next build` finds out
-      // immediately. A row meant to prove range that silently renders two cards
-      // is worse than a build that stops and names the id that moved.
-      throw new Error(
-        `secondaryProjectCards: no entry in \`cases\` with id "${id}".`,
-      );
-    }
-    return {
-      id: source.id,
-      title: source.title,
-      tag: source.tag,
-      // The case study's own one-liner, never a second copy of it. For Saep this
-      // also carries the concept-piece label, which is why that label sits at the
-      // START of its `sub` — the card clamps to three lines, and the one sentence
-      // that must survive clamping is "an invented Thai restaurant".
-      sub: source.sub,
-      image: source.images[0],
-    };
-  });
-
-// ─── MARQUEE IMAGES ───────────────────────────────────────────────────────────
-
-export const marqueeImages = [
-  "/assets/mockmate/mockmate-landing.webp",
-  "/assets/trailr/trailr-story-builder.webp",
-  "/assets/bevisly/Bevisly-Landing.webp",
-  "/assets/satoshi-standard/satoshi-dashboard.webp",
-  "/assets/trailr/trailr-screening-room.webp",
-  "/assets/mockmate/mockmate-dashboard.webp",
-  "/assets/millennial/Millennial_Spring2025.webp",
-  "/assets/bevisly/bevisly-employer-kanban.webp",
 ];
 
 // ─── CHATBOT CONTEXT ──────────────────────────────────────────────────────────
