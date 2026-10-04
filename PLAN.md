@@ -78,7 +78,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
   - Lighthouse on the touched routes against their "before"
   - the reviewer agent
 
-- [ ] **Phase 0: Foundation.** Shared pieces every later phase builds on.
+- [x] **Phase 0: Foundation.** Merged 2026-10-04 (PR #13). Shared pieces every later phase builds on.
   - Desk tokens in `globals.css` (paper, ink, rule, hand font), taken from
     `app/components/clock/clock.module.css`, so the pages and the clock share one
     palette.
@@ -126,9 +126,52 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ## Progress log
 
+### 2026-10-04 (late night)
+
+**Re-theme Phase 1: Work, on branch `retheme-1-work`, not merged** 🚧 *`c794bdf`*
+
+- **`/cases/[slug]` is the back of its print, opened big.** The photo sits on top
+  in a paper frame and is still the `case-hero-{id}` ViewTransition target. The
+  write-up is a `PaperSheet` (tag, title, sub, link pills, the three metrics
+  handwritten, real `<h2>` sections, stack as `Tag`s). Extra screenshots lie on the
+  desk as tilted prints. JSON-LD and metadata unchanged.
+- **Ice's calls:** the closing "Get in touch" modal button became a sign-off line
+  linking to `/contact`, so `ContactButton`/`HireModal` are off the case pages
+  (still on `/cv` and `/services` until Phases 3 and 4). The gallery became prints
+  on the desk.
+- **`/projects` is all the prints laid out**, client work first as before. Each
+  print carries its case's ViewTransition name, so it grows into the case hero too.
+- **New shared `Print`** in `app/components/paper/`. A linked print must have a
+  caption (enforced by its type), since the caption is the link's only name.
+- **Fixed on the way:** the case header was default `FadeIn` in the first viewport
+  (the LCP rule); section labels were divs, not headings; the hero used the
+  deprecated `priority` (left it at Low) and now uses `preload` + `fetchPriority`.
+
+Lighthouse mobile, before → after:
+
+| route | perf | a11y | LCP |
+| --- | --- | --- | --- |
+| `/cases/trailr` | 85 → 91 | 96 → 100 | 4.3 → 3.5 s |
+| `/cases/saep` | 86 → 91 | 96 → 100 | 4.2 → 3.4 s |
+| `/projects` | 88 → 92 | 87 → 100 | 3.9 → 3.3 s |
+
+⚠️ **Things worth knowing:**
+- **A ViewTransition target must never sit inside a `FadeIn`.** Pressing Back to
+  `/projects` would shrink the hero into a print still at opacity 0. On `/projects`
+  only the text under each print fades. Same reason the case hero has none.
+- **The prose-link rule is now `:where(.sheet) :where(p, li) > a`**, at bare-`a`
+  specificity, so any class (a pill, a card, a print) overrides it. The Phase 0
+  version beat page classes.
+- **Eager-loading the first prints on `/projects` did not help** (3.3 s lazy, 3.6 s
+  with three eager, 3.4 s with one). Reverted rather than kept.
+
+**Open:**
+- Ice's preview check, especially the morph: `/work` → turn a print → Read; and
+  `/projects` → open a print → Back. Headless Chrome cannot show view transitions.
+
 ### 2026-10-04 (night)
 
-**Re-theme Phase 0: Foundation, on branch `retheme-0-foundation`, not merged** 🚧 *`be302b1`*
+**Re-theme Phase 0: Foundation, merged (PR #13)** ✅ *`be302b1`*
 
 - **Desk tokens** in `globals.css` (`@theme static`, so Tailwind emits them even
   with no utility using them yet): paper, paper-dim, paper-ink, paper-soft,
