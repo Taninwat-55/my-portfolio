@@ -1,13 +1,17 @@
 import { Metadata } from "next";
 import { ViewTransition } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExternalLink, Github, FileText } from "lucide-react";
 import { cases } from "../../data";
-import { Navbar } from "../../components/Navbar";
-import { SkipLink } from "../../components/SkipLink";
+import { PageShell } from "../../components/PageShell";
 import { FadeIn } from "../../components/FadeIn";
-import { ContactButton } from "../../components/ContactButton";
+import { PaperSheet } from "../../components/paper/PaperSheet";
+import { PageHeader } from "../../components/paper/PageHeader";
+import { Print } from "../../components/paper/Print";
+import { Tag } from "../../components/paper/Tag";
+import styles from "./case.module.css";
 
 // ─── Static params + metadata ──────────────────────────────────────────────
 
@@ -49,19 +53,21 @@ export async function generateMetadata({
 
 function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <FadeIn y={30}>
-      <div className="mb-12 md:mb-16">
-        <div className="text-crystal-500 text-xs tracking-[0.25em] uppercase mb-4">
-          {label}
-        </div>
-        <p className="text-frost/80 font-light leading-relaxed text-base md:text-lg max-w-3xl">
-          {children}
-        </p>
-      </div>
-    </FadeIn>
+    <section className={styles.section}>
+      <h2>{label}</h2>
+      <p>{children}</p>
+    </section>
   );
 }
 
+// Alternating turns, so the screenshots read as prints dropped on the desk.
+const GALLERY_TILTS = [-1.5, 1.2, -0.8];
+
+/**
+ * A case study: the back of its print, opened big. The print's photo is on
+ * top, the write-up is the sheet below it, and the other screenshots lie on
+ * the desk under the sheet.
+ */
 export default async function CasePage({
   params,
 }: {
@@ -96,168 +102,114 @@ export default async function CasePage({
   };
 
   return (
-    <div className="min-h-screen bg-night-900 text-frost">
-      <SkipLink />
+    // Back to the prints on the clock homepage: /#projects stopped existing
+    // when the long-scroll homepage was replaced.
+    <PageShell back={{ href: "/work", label: "Work" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(creativeWorkJsonLd) }}
       />
-      {/* Back to the prints on the clock homepage: /#projects stopped existing
-          when the long-scroll homepage was replaced. */}
-      <Navbar backLinkHref="/work" backLinkText="Back to work" />
 
-      <main id="main-content" className="container mx-auto px-6 pt-28 md:pt-36 pb-24 max-w-5xl">
-        {/* Header */}
-        <header className="mb-14 md:mb-20">
-          <FadeIn y={20}>
-            <span className="inline-block text-crystal-500 bg-crystal-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1 mb-6">
-              {caseStudy.tag}
-            </span>
-          </FadeIn>
-          <FadeIn delay={0.1} y={40}>
-            <h1
-              className="hero-heading font-black uppercase leading-none tracking-tight mb-6"
-              style={{ fontSize: "clamp(2.6rem, 9vw, 110px)" }}
-            >
-              {caseStudy.title}
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.2} y={20}>
-            <p className="text-frost/70 font-display italic text-xl md:text-2xl max-w-2xl leading-relaxed">
-              {caseStudy.sub}
-            </p>
-          </FadeIn>
-
-          {/* Links */}
-          <FadeIn delay={0.3} y={20}>
-            <div className="flex flex-wrap items-center gap-3 mt-8">
-              {caseStudy.links.demo && (
-                <a
-                  href={caseStudy.links.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border-2 border-frost text-frost font-medium uppercase tracking-widest px-6 py-2.5 text-sm hover:bg-frost/10 transition-colors"
-                >
-                  <ExternalLink size={15} strokeWidth={1.5} />
-                  {caseStudy.links.demoLabel ?? "Live Project"}
-                </a>
-              )}
-              {caseStudy.links.code && (
-                <a
-                  href={caseStudy.links.code}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-frost/30 text-frost/70 font-medium uppercase tracking-widest px-6 py-2.5 text-sm hover:text-frost hover:border-frost/60 transition-colors"
-                >
-                  <Github size={15} strokeWidth={1.5} />
-                  Code
-                </a>
-              )}
-              {caseStudy.links.docs && (
-                <a
-                  href={caseStudy.links.docs}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-frost/30 text-frost/70 font-medium uppercase tracking-widest px-6 py-2.5 text-sm hover:text-frost hover:border-frost/60 transition-colors"
-                >
-                  <FileText size={15} strokeWidth={1.5} />
-                  PRD
-                </a>
-              )}
-            </div>
-          </FadeIn>
-        </header>
-
-        {/* Outcome strip — surfaced above the hero image so the result lands before any scroll */}
-        <FadeIn y={30}>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14 md:mb-20">
-            {caseStudy.metrics.map((m) => (
-              <div
-                key={m.k}
-                className="rounded-2xl bg-white/3 border border-frost/10 p-6 text-center"
-              >
-                <div className="text-frost font-medium text-xl md:text-2xl mb-1">
-                  {m.v}
-                </div>
-                <div className="text-frost/40 text-xs uppercase tracking-wider">
-                  {m.k}
-                </div>
-              </div>
-            ))}
-          </div>
-        </FadeIn>
-
-        {/* Hero image. Shares its name with the print on /work, so opening a
-            case study from there grows the print's photo into this one. No
-            FadeIn here: it holds the image at opacity 0 until it scrolls into
-            view, which would make the transition grow into nothing. */}
+      {/* The print's photo. Shares its name with the print on /work (and on
+          /projects), so opening a case study grows that photo into this one.
+          No FadeIn here: it holds the image at opacity 0 until hydration, which
+          would make the transition grow into nothing. Preloaded at high
+          priority, since it is the likely LCP element (Next 16 replaced
+          `priority` with `preload`; the old prop left it at Low). */}
+      <div className={styles.hero}>
         <ViewTransition name={`case-hero-${caseStudy.id}`}>
-          <div className="relative w-full overflow-hidden rounded-[28px] md:rounded-[40px] border border-frost/10 mb-14 md:mb-20 aspect-[16/9]">
+          <span className={styles.heroPhoto}>
             <Image
               src={caseStudy.images[0]}
               alt={`${caseStudy.title}, main screenshot`}
               fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 1024px"
-              className="object-cover"
+              preload
+              fetchPriority="high"
+              sizes="(max-width: 960px) 100vw, 900px"
             />
-          </div>
+          </span>
         </ViewTransition>
+      </div>
 
-        {/* Body */}
+      <PaperSheet as="article" className={styles.sheet}>
+        <PageHeader kicker={caseStudy.tag} title={caseStudy.title} lead={caseStudy.sub} />
+
+        {/* External, so plain <a>s that open a new tab. */}
+        <FadeIn immediate delay={0.1} y={12} className={styles.actions}>
+          {caseStudy.links.demo && (
+            <a
+              href={caseStudy.links.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${styles.action} ${styles.actionPrimary}`}
+            >
+              <ExternalLink size={15} strokeWidth={1.75} aria-hidden />
+              {caseStudy.links.demoLabel ?? "Live Project"}
+            </a>
+          )}
+          {caseStudy.links.code && (
+            <a href={caseStudy.links.code} target="_blank" rel="noopener noreferrer" className={styles.action}>
+              <Github size={15} strokeWidth={1.75} aria-hidden />
+              Code
+            </a>
+          )}
+          {caseStudy.links.docs && (
+            <a href={caseStudy.links.docs} target="_blank" rel="noopener noreferrer" className={styles.action}>
+              <FileText size={15} strokeWidth={1.75} aria-hidden />
+              PRD
+            </a>
+          )}
+        </FadeIn>
+
+        {/* The result lands before the reading starts. */}
+        <dl className={styles.figures}>
+          {caseStudy.metrics.map((m) => (
+            <div key={m.k}>
+              <dt>{m.k}</dt>
+              <dd>{m.v}</dd>
+            </div>
+          ))}
+        </dl>
+
         <Section label="Overview">{caseStudy.overview}</Section>
         <Section label="The Challenge">{caseStudy.challenge}</Section>
         <Section label="The Approach">{caseStudy.stackWhy}</Section>
         <Section label="The Work">{caseStudy.engineering}</Section>
 
-        {/* Stack */}
-        <FadeIn y={20}>
-          <div className="mb-14 md:mb-20">
-            <div className="text-crystal-500 text-xs tracking-[0.25em] uppercase mb-4">
-              Stack & Skills
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {caseStudy.stack.map((s) => (
-                <span
-                  key={s}
-                  className="rounded-full border border-frost/15 bg-white/3 text-frost/70 text-sm font-light px-4 py-1.5"
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* Gallery */}
-        {caseStudy.images.length > 1 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-20">
-            {caseStudy.images.slice(1).map((src, i) => (
-              <FadeIn key={src} delay={i * 0.1} y={30}>
-                <div className="relative w-full overflow-hidden rounded-[24px] border border-frost/10 aspect-[16/10]">
-                  <Image
-                    src={src}
-                    alt={`${caseStudy.title}, screenshot ${i + 2}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 512px"
-                    className="object-cover"
-                  />
-                </div>
-              </FadeIn>
+        <section className={styles.section}>
+          <h2>Stack & Skills</h2>
+          <div className={styles.stack}>
+            {caseStudy.stack.map((s) => (
+              <Tag key={s}>{s}</Tag>
             ))}
           </div>
-        )}
+        </section>
 
-        {/* CTA */}
-        <FadeIn y={30}>
-          <div className="flex flex-col items-center gap-6 pt-10 border-t border-frost/10 text-center">
-            <p className="text-frost/60 font-light max-w-md">
-              Want to talk about this project, or one we could build together?
-            </p>
-            <ContactButton />
-          </div>
-        </FadeIn>
-      </main>
-    </div>
+        <p className={styles.signoff}>
+          Want to talk about this one, or something we could build together?{" "}
+          <Link href="/contact">
+            Write me a postcard <span aria-hidden="true">→</span>
+          </Link>
+        </p>
+      </PaperSheet>
+
+      {caseStudy.images.length > 1 && (
+        <ul className={styles.gallery} aria-label={`More from ${caseStudy.title}`}>
+          {caseStudy.images.slice(1).map((src, i) => (
+            <li key={src}>
+              <FadeIn delay={i * 0.1} y={24}>
+                <Print
+                  image={src}
+                  alt={`${caseStudy.title}, screenshot ${i + 2}`}
+                  ratio="16 / 10"
+                  tilt={GALLERY_TILTS[i % GALLERY_TILTS.length]}
+                  sizes="(max-width: 640px) 100vw, 450px"
+                />
+              </FadeIn>
+            </li>
+          ))}
+        </ul>
+      )}
+    </PageShell>
   );
 }

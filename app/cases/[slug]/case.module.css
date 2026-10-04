@@ -1,0 +1,132 @@
+/* A case study: the back of its print, opened big (re-theme, Phase 1).
+   The photo sits on top as the print's front, the sheet below is the back with
+   the write-up, and the other screenshots lie on the desk as smaller prints.
+   Layered like paper.module.css, so a Tailwind className can still override. */
+
+@layer components {
+/* The print's photo. Carries the case-hero ViewTransition, so the clock's print
+   photo grows into this frame. No rotation: it would skew that morph. */
+.hero {
+  padding: 12px;
+  border-radius: 3px;
+  background: var(--color-paper);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+}
+.heroPhoto {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: 2px;
+  background: var(--color-paper-dim);
+}
+.heroPhoto img {
+  object-fit: cover;
+  object-position: top;
+}
+
+.sheet {
+  margin-top: 24px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: clamp(24px, 4vw, 36px);
+}
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border: 1.5px solid var(--color-paper-ink);
+  border-radius: 999px;
+  color: var(--color-paper-ink);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.action:hover {
+  background: var(--color-paper-dim);
+}
+.actionPrimary {
+  background: var(--color-paper-ink);
+  color: var(--color-paper);
+}
+.actionPrimary:hover {
+  background: color-mix(in srgb, var(--color-paper-ink) 85%, var(--color-paper));
+}
+
+/* The three numbers, written on the back by hand. */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px 24px;
+  margin: 0 0 clamp(28px, 5vw, 44px);
+  padding: 18px 0;
+  border-block: 1.5px dashed var(--color-paper-rule);
+}
+.figures div {
+  display: grid;
+  gap: 2px;
+}
+.figures dt {
+  order: 2;
+  color: var(--color-paper-soft);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.figures dd {
+  order: 1;
+  margin: 0;
+  font: 700 24px/1.2 var(--font-hand);
+}
+
+.section {
+  margin-bottom: clamp(24px, 4vw, 36px);
+}
+.section h2 {
+  margin: 0 0 8px;
+  color: var(--color-paper-soft);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.section p {
+  margin: 0;
+  max-width: 65ch;
+  font-size: clamp(16px, 1.6vw, 17px);
+  line-height: 1.7;
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.signoff {
+  margin: clamp(28px, 5vw, 44px) 0 0;
+  padding-top: 20px;
+  border-top: 1.5px dashed var(--color-paper-rule);
+  font: 400 20px/1.45 var(--font-hand);
+}
+
+/* The other screenshots, lying on the desk under the sheet. */
+.gallery {
+  display: grid;
+  gap: 28px;
+  margin: clamp(32px, 6vw, 56px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 640px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+} /* @layer components */
