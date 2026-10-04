@@ -35,6 +35,27 @@
   --color-charcoal-950: #0C0C0C;
 }
 
+/* `static`: emitted whether or not a utility uses them, because
+   clock.module.css and paper.module.css read them through var(). */
+@theme static {
+  /* Desk: the clock's paper world, shared by every page behind it (re-theme,
+     2026-10-04). Paper stays light on the dark desk in every theme: the pages are
+     objects lying on it, not UI chrome. clock.module.css reads these too, so the
+     clock and the pages cannot drift apart. */
+  --color-paper: #f6f5f1;
+  --color-paper-dim: #e4e1d9;
+  --color-paper-ink: #1d2731;
+  --color-paper-soft: #5a6672;
+  --color-paper-rule: #c9d5e6;
+  --color-paper-accent: #3e8fb0;
+  /* Text links on paper. The accent above is 3.3:1 on paper, too faint for
+     small text; this is 5.5:1 (4.6:1 on paper-dim). Keep the accent for
+     washes and focus rings, where 3:1 is enough. */
+  --color-paper-link: #286a87;
+  --color-ink-soft: #8c99a5;
+  --color-sticky: #f3dfa2;
+}
+
 @layer base {
   html {
     color-scheme: dark;
@@ -53,6 +74,9 @@
     background-color: #0C0C0C;
     color: #D7E2EA;
     font-family: var(--font-kanit), sans-serif;
+    /* The desk's handwriting. Declared here, not in @theme: next/font defines
+       --font-kalam on <body>, so on :root this var() would resolve to nothing. */
+    --font-hand: var(--font-kalam), "Bradley Hand", "Segoe Print", cursive;
   }
 }
 
