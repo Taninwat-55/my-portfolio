@@ -19,9 +19,8 @@ export const metadata: Metadata = {
 };
 
 /**
- * The clock homepage (branch clock-redesign). The previous long-scroll
- * homepage's sections still live in app/sections and are no longer rendered
- * here; they are deleted only once the clock has replaced everything they did.
+ * The clock homepage: one screen, see app/components/clock/. It replaced the
+ * long-scroll homepage (its sections lived in app/sections) on 2026-10-04.
  */
 export default function Home() {
   return (

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { clockContent, personalInfo, siteContent, type ClockObjectId } from "../../data";
 import { Portrait } from "./Portrait";
 import { Hand } from "./Hand";
@@ -27,7 +28,8 @@ export type InPlace = Pointable;
  * renders the clock already open, so the URL can be shared and a direct visit
  * shows the object.
  *
- * Opening uses window.history.pushState rather than router.push: Next keeps
+ * Opening uses window.history.pushState({ clock: true }) rather than
+ * router.push: Next keeps
  * usePathname in sync with it, but does not re-render the page, so the envelope
  * can fly out of its spot instead of the whole tree remounting at /about.
  */
@@ -130,7 +132,10 @@ export function ClockHome({
   const angle = useRef(HAND_REST_ANGLE);
   const pointedRef = useRef<Pointable | null>(initialOpen);
   const openRef = useRef<InPlace | null>(initialOpen);
-  const pushedRef = useRef(false);
+  const pageRef = useRef<HTMLDivElement>(null);
+  // The pending open after the hand's swing: one at a time, or a double tap
+  // pushes the same URL twice and the first Close or Back appears to do nothing.
+  const pendingOpen = useRef<number | null>(null);
   const flyInRef = useRef(false);
   const timers = useRef<number[]>([]);
   const drag = useRef<{
@@ -144,7 +149,11 @@ export function ClockHome({
     max: Offset;
     moved: boolean;
   } | null>(null);
-  const suppressClick = useRef(false);
+  // When the last drag ended, in event time. The click that a drag's pointerup
+  // produces must not open the object; a timestamp cannot get stuck the way a
+  // flag could if that click never came.
+  const dragEndedAt = useRef(0);
+  const router = useRouter();
   const [offsets, setOffsets] = useState<Offsets>({});
 
   const [pointed, setPointed] = useState<Pointable | null>(initialOpen);
@@ -267,7 +276,6 @@ export function ClockHome({
       duration: reduce ? 150 : 560,
       easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
     });
-    closeRef.current?.focus({ preventScroll: true });
     animation.finished
       .then(() => {
         STAGE_DELAYS[open].forEach((delay, i) => {
@@ -277,7 +285,7 @@ export function ClockHome({
       .catch(() => {});
   }, [open]);
 
-  const hide = useCallback(() => {
+  const hide = useCallback((onDone?: () => void) => {
     const id = openRef.current;
     const sheet = sheetRef.current;
     if (!id || !sheet) return;
@@ -301,21 +309,28 @@ export function ClockHome({
         setStage(0);
         const trigger = triggerRefs.current.get(id);
         trigger?.focus({ preventScroll: true });
-        if (!trigger?.matches(":hover")) release();
+        // Keyboard users land back on the object, so the hand stays on it too.
+        if (!trigger?.matches(":hover") && !trigger?.matches(":focus-visible")) release();
+        onDone?.();
       })
       .catch(() => {});
   }, [release]);
 
   // Close button, Escape and backdrop all mean "go back to where I was".
+  //
+  // If this history entry is one the clock pushed (marked { clock: true }, which
+  // survives Back, Forward and returning from a case study), the entry before it
+  // is the homepage: go back, and popstate does the closing. Otherwise the visitor
+  // arrived on /work (or another object) directly: close, then navigate to /
+  // properly, rather than relabelling this entry as / with the wrong page behind
+  // it.
   const requestClose = useCallback(() => {
-    if (pushedRef.current) {
-      pushedRef.current = false;
-      window.history.back(); // popstate below does the closing
+    if (window.history.state?.clock) {
+      window.history.back();
     } else {
-      window.history.replaceState(null, "", "/");
-      hide();
+      hide(() => router.replace("/", { scroll: false }));
     }
-  }, [hide]);
+  }, [hide, router]);
 
   // The browser's own back and forward buttons.
   useEffect(() => {
@@ -355,6 +370,29 @@ export function ClockHome({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open, requestClose]);
+
+  // Whenever an object is open, by click, Back or a direct visit: focus moves into
+  // it, and everything outside the clock (the skip link, the chat bubble) goes
+  // inert along with the clock's own frame.
+  useEffect(() => {
+    if (!open) return;
+    closeRef.current?.focus({ preventScroll: true });
+    const page = pageRef.current;
+    const outside = page?.parentElement
+      ? Array.from(page.parentElement.children).filter((el): el is HTMLElement => el !== page && el instanceof HTMLElement && !el.inert)
+      : [];
+    outside.forEach((el) => (el.inert = true));
+    return () => outside.forEach((el) => (el.inert = false));
+  }, [open]);
+
+  // Nothing left running after the clock unmounts (navigating to a case study).
+  useEffect(
+    () => () => {
+      timers.current.forEach((id) => window.clearTimeout(id));
+      if (pendingOpen.current) window.clearTimeout(pendingOpen.current);
+    },
+    [],
+  );
 
   // Keep Tab inside the open object.
   const trapFocus = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -406,6 +444,12 @@ export function ClockHome({
   const moveDrag = (event: React.PointerEvent<HTMLAnchorElement>) => {
     const d = drag.current;
     if (!d) return;
+    // The button was released somewhere we were not listening: not a drag any more.
+    if (!(event.buttons & 1)) {
+      drag.current = null;
+      d.el.classList.remove(styles.dragging);
+      return;
+    }
     const dx = event.clientX - d.startX;
     const dy = event.clientY - d.startY;
     if (!d.moved) {
@@ -425,13 +469,12 @@ export function ClockHome({
     swingTo(angleTo(d.id), false);
   };
 
-  const endDrag = () => {
+  const endDrag = (event: React.PointerEvent<HTMLAnchorElement>) => {
     const d = drag.current;
     drag.current = null;
     if (!d?.moved) return;
     d.el.classList.remove(styles.dragging);
-    // The click that follows this pointerup must not open the object.
-    suppressClick.current = true;
+    dragEndedAt.current = event.timeStamp;
     setOffsets((previous) => {
       const next = { ...previous, [d.id]: d.to };
       saveOffsets(next);
@@ -447,19 +490,19 @@ export function ClockHome({
   // ---- triggers -------------------------------------------------------------
 
   const onTriggerClick = (event: React.MouseEvent<HTMLAnchorElement>, id: Pointable) => {
-    if (suppressClick.current) {
-      suppressClick.current = false;
-      event.preventDefault();
+    if (event.timeStamp - dragEndedAt.current < 400) {
+      event.preventDefault(); // the tail end of a drag, not a click
       return;
     }
     if (!isPlainClick(event)) return; // new tab and friends keep working
     event.preventDefault();
+    if (pendingOpen.current || openRef.current) return;
     const alreadyPointing = pointedRef.current === id;
     pointAt(id);
     const delay = alreadyPointing || prefersReducedMotion() ? 0 : SWING_BEFORE_OPEN_MS;
-    window.setTimeout(() => {
-      window.history.pushState(null, "", IN_PLACE[id]);
-      pushedRef.current = true;
+    pendingOpen.current = window.setTimeout(() => {
+      pendingOpen.current = null;
+      window.history.pushState({ clock: true }, "", IN_PLACE[id]);
       show(id);
     }, delay);
   };
@@ -493,6 +536,7 @@ export function ClockHome({
 
   return (
     <div
+      ref={pageRef}
       className={[styles.page, night ? styles.night : "", lampOn ? styles.lampIsOn : ""].join(" ")}
     >
       <div className={styles.frame} inert={open !== null}>
@@ -601,6 +645,9 @@ export function ClockHome({
       {open && (
         <div
           className={styles.scrim}
+          role="dialog"
+          aria-modal="true"
+          aria-label={DIALOG_LABELS[open]}
           onKeyDown={trapFocus}
           onClick={(event) => {
             if (event.target === event.currentTarget) requestClose();
@@ -609,13 +656,8 @@ export function ClockHome({
           <button ref={closeRef} type="button" className={styles.close} onClick={requestClose}>
             Close <kbd>Esc</kbd>
           </button>
-          <div
-            ref={sheetRef}
-            className={styles.sheet}
-            role="dialog"
-            aria-modal="true"
-            aria-label={DIALOG_LABELS[open]}
-          >
+          {/* The dialog is the scrim, so its way out (Close) is inside it. */}
+          <div ref={sheetRef} className={styles.sheet}>
             {open === "work" && (
               <Prints stage={stage} prints={content.prints} caseCount={content.caseCount} />
             )}

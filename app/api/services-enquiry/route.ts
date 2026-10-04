@@ -117,8 +117,10 @@ export async function POST(req: NextRequest) {
       console.warn("[enquiry] honeypot tripped");
       return NextResponse.json({ ok: true });
     }
-    if (typeof body.elapsedMs === "number" && body.elapsedMs < 2000) {
-      console.warn("[enquiry] submitted too fast", { ms: body.elapsedMs });
+    // A missing elapsedMs is a bot too: the form always sends it, and a trap that
+    // only fires when the field is present catches only polite bots.
+    if (typeof body.elapsedMs !== "number" || body.elapsedMs < 2000) {
+      console.warn("[enquiry] submitted too fast, or without timing", { ms: body.elapsedMs });
       return NextResponse.json({ ok: true });
     }
 

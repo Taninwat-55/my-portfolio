@@ -15,6 +15,11 @@ import { validateContact, CONTACT_LIMITS, type ContactFields } from "@/app/lib/c
  *
  * Its own buckets, so a postcard and a project enquiry never spend each other's
  * budget. The two ceilings together cap this domain at 40 emails an hour.
+ *
+ * Two differences from the enquiry route, both from review: the global ceiling is
+ * checked just before sending, so honeypot hits and invalid payloads cannot spend
+ * it and close the postbox for real visitors; and a missing elapsedMs counts as a
+ * bot, since the postcard always sends it.
  */
 const checkRateLimit = createRateLimiter({ prefix: "rl:contact", limit: 3, window: "1 h" });
 const checkGlobalLimit = createRateLimiter({ prefix: "rl:contact:global", limit: 20, window: "1 h" });
@@ -40,16 +45,6 @@ export async function POST(req: NextRequest) {
     return unavailable();
   }
 
-  const globalVerdict = await checkGlobalLimit("all");
-  if (globalVerdict === "limited") {
-    console.error("[rl:contact:global] hourly ceiling reached — refusing.");
-    return NextResponse.json({ error: `The postbox is full right now. ${mailtoHint}` }, { status: 429 });
-  }
-  if (globalVerdict === "unavailable" && process.env.NODE_ENV === "production") {
-    console.error("[rl:contact:global] limiter unavailable — refusing to send.");
-    return unavailable();
-  }
-
   try {
     const body = await req.json().catch(() => null);
     if (!body || typeof body !== "object") {
@@ -60,8 +55,8 @@ export async function POST(req: NextRequest) {
       console.warn("[contact] honeypot tripped");
       return NextResponse.json({ ok: true });
     }
-    if (typeof body.elapsedMs === "number" && body.elapsedMs < 2000) {
-      console.warn("[contact] submitted too fast", { ms: body.elapsedMs });
+    if (typeof body.elapsedMs !== "number" || body.elapsedMs < 2000) {
+      console.warn("[contact] submitted too fast, or without timing", { ms: body.elapsedMs });
       return NextResponse.json({ ok: true });
     }
 
@@ -85,6 +80,17 @@ export async function POST(req: NextRequest) {
   <div style="border-top:1px solid #e6e6e6;padding-top:16px;font-size:15px;white-space:pre-wrap;">${escapeHtml(message)}</div>
   <p style="margin:24px 0 0;font-size:12px;color:#9a9a9a;">Replying to this email goes straight to the sender.</p>
 </div>`.trim();
+
+    // Only real, valid sends count against the global ceiling.
+    const globalVerdict = await checkGlobalLimit("all");
+    if (globalVerdict === "limited") {
+      console.error("[rl:contact:global] hourly ceiling reached — refusing.");
+      return NextResponse.json({ error: `The postbox is full right now. ${mailtoHint}` }, { status: 429 });
+    }
+    if (globalVerdict === "unavailable" && process.env.NODE_ENV === "production") {
+      console.error("[rl:contact:global] limiter unavailable — refusing to send.");
+      return unavailable();
+    }
 
     const resend = getResend("contact");
     if (!resend) {

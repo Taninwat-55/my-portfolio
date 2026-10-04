@@ -20,13 +20,14 @@ const TUG = 20;
 export function Lamp({ on, onToggle }: { on: boolean; onToggle: () => void }) {
   const rigRef = useRef<HTMLDivElement>(null);
   const pull = useRef<{ startY: number; dy: number } | null>(null);
-  const tugged = useRef(false);
+  // When the last tug switched the lamp, in event time, so the click that follows
+  // it is ignored without a flag that could stick if that click never came.
+  const tuggedAt = useRef(-Infinity);
 
   const setPull = (dy: number) => rigRef.current?.style.setProperty("--pull", `${dy}px`);
 
   const onPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (event.button !== 0) return;
-    tugged.current = false;
     event.currentTarget.setPointerCapture(event.pointerId);
     pull.current = { startY: event.clientY, dy: 0 };
     rigRef.current?.classList.add(styles.pulling);
@@ -38,22 +39,19 @@ export function Lamp({ on, onToggle }: { on: boolean; onToggle: () => void }) {
     setPull(pull.current.dy);
   };
 
-  const onPointerUp = () => {
+  const onPointerUp = (event: React.PointerEvent<HTMLButtonElement>) => {
     const dy = pull.current?.dy ?? 0;
     pull.current = null;
     rigRef.current?.classList.remove(styles.pulling);
     setPull(0); // springs back through the CSS transition
     if (dy >= TUG) {
-      tugged.current = true; // the click that follows must not switch it back
+      tuggedAt.current = event.timeStamp; // the click that follows must not switch it back
       onToggle();
     }
   };
 
-  const onClick = () => {
-    if (tugged.current) {
-      tugged.current = false;
-      return;
-    }
+  const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (event.timeStamp - tuggedAt.current < 400) return;
     // A plain click or a key press: play a small tug so the cord still moves.
     const rig = rigRef.current;
     rig?.classList.remove(styles.tug);

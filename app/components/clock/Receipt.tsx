@@ -14,7 +14,7 @@ export function Receipt({ stage, rates }: { stage: number; rates: ClockRate[] })
     <div className={`${styles.receiptWrap} ${stage >= 1 ? styles.receiptPrinted : ""}`}>
       <div className={styles.receiptSlot} />
       <div className={styles.receiptClip}>
-        <div className={styles.receipt} tabIndex={0} aria-label="Services and prices">
+        <div className={styles.receipt} tabIndex={0} role="region" aria-label="Services and prices">
           <h2>{copy.heading}</h2>
           <p className={styles.receiptCentre}>{copy.place}</p>
           <hr />

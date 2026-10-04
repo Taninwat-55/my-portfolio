@@ -12,16 +12,21 @@ One flat identity: **Frontend Engineer & Project Coordinator**. The old PM/Dev m
 toggle was removed; there is no longer any mode system, `ModeContext`, or
 role-specific content variant. If you find a reference to one, it's stale.
 
-The homepage is a single scrolling narrative:
+The homepage is a single screen, the "clock": Ice's illustrated portrait on a disc,
+a pointing hand, and paper objects pinned around it. Each object opens in place at
+its own URL and links on to the full page behind it:
 
-```
-Hero → Marquee → About → WhatIDo → Projects → CV → Garden → CopenhagenAtmosphere
-```
+| URL | Object | Full page |
+| --- | --- | --- |
+| `/work` | case-study prints | `/projects`, `/cases/[slug]` |
+| `/about` | envelope → letter (`aboutStory`, verbatim) | — |
+| `/writing` | notebook of the newest notes | `/garden` |
+| `/rates` | till receipt of the prices | `/services` |
+| `/contact` | pinned postcard, sends via `/api/contact` | — |
 
-**Recently added:** the `CV` section. The CV renders on-page from `cvData` and is
-deliberately veiled — a scroll-driven CSS mask reveals ~12% → ~55% and stops. The
-rest is behind the PDF download. Tuning constants live at the top of
-`app/sections/CV.tsx`.
+There is also a pendant lamp (on at night, Copenhagen time), a wall clock, and
+objects can be dragged around with a mouse. Code: `app/components/clock/`.
+Concept doc: https://claude.ai/code/artifact/daf15c29-d613-4988-afd3-7d47ab46e16d
 
 **Claim integrity:** every number and title on this site has to be defensible in an
 interview. Millennial Consulting is **Operations Assistant → Operations Manager →
@@ -69,20 +74,14 @@ progression is the stronger story.
 
 ```
 app/
-├── sections/               # Homepage sections, rendered in order by page.tsx
-│   ├── Hero.tsx            # Name, roleLabel, tagline, contact
-│   ├── Marquee.tsx
-│   ├── About.tsx           # Story + scroll-revealed "how I work"
-│   ├── WhatIDo.tsx         # 3 capability blocks
-│   ├── Projects.tsx        # Sticky-stacking project cards
-│   ├── CV.tsx              # Veiled CV + PDF download
-│   └── Garden.tsx
 ├── components/
-│   ├── ChatWidget.tsx      # AI chat
+│   ├── clock/              # The homepage: ClockHome (client), Clock (server wrapper),
+│   │                       # Portrait, Hand, Lamp, WallClock, and one file per object
+│   ├── ChatWidget.tsx      # AI chat; LazyChatWidget loads it when the page is idle
 │   ├── HireModal.tsx       # Contact + CV download
-│   ├── Navbar.tsx, FadeIn.tsx, Magnet.tsx, AnimatedText.tsx
-│   ├── CopenhagenAtmosphere.tsx   # Footer strip
+│   ├── Navbar.tsx, FadeIn.tsx
 │   └── post-tools/         # Interactive widgets embedded in MDX posts
+├── about/, contact/, work/, writing/, rates/   # The clock opened on each object
 ├── cases/[slug]/           # Case study pages
 ├── garden/                 # Blog listing + [slug] pages
 ├── services/               # Freelance sales page + enquiry form

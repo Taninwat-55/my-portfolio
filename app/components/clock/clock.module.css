@@ -324,11 +324,11 @@
   transform: translateY(var(--pull));
   transition: transform 380ms cubic-bezier(0.3, 1.8, 0.5, 1);
 }
-/* A bigger invisible hit area than the 18px bead. */
+/* A bigger invisible hit area than the 18px bead: 44px, the touch minimum. */
 .bead::before {
   content: "";
   position: absolute;
-  inset: -12px;
+  inset: -13px;
 }
 .bead:focus-visible {
   outline: 2px solid var(--accent);
