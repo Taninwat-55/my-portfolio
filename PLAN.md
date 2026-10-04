@@ -94,7 +94,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
     ViewTransition name** and the CreativeWork JSON-LD. The back link goes to
     `/work`.
   - `/projects` is all the prints laid out (client work first, as now).
-- [ ] **Phase 2: Writing** (`/garden/[slug]`, `/garden`)
+- [x] **Phase 2: Writing** (`/garden/[slug]`, `/garden`) Merged 2026-10-04 (PR #15).
   - A note is a notebook page. One `mdxComponents` map in
     `garden/[slug]/page.tsx` styles all 10 posts.
   - Fix `SatsConverter`'s undefined `ice-200` and `charcoal-300` tokens.
@@ -128,7 +128,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ### 2026-10-04 (night, later)
 
-**Re-theme Phase 2: Writing, on branch `retheme-2-writing`, not merged** 🚧 *`856b2d2`*
+**Re-theme Phase 2: Writing, merged (PR #15)** ✅ *`856b2d2`*
 
 - **A note is a notebook page, with the text on the lines.** Each block of the
   body draws its own 32px rules and spaces itself in whole lines (padding, never
