@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { FileDown } from "lucide-react";
-import { SkipLink } from "../components/SkipLink";
-import { Navbar } from "../components/Navbar";
-import { FadeIn } from "../components/FadeIn";
-import { ContactButton } from "../components/ContactButton";
+import { PageShell } from "../components/PageShell";
+import { PaperSheet } from "../components/paper/PaperSheet";
+import { PageHeader } from "../components/paper/PageHeader";
+import { InkLink } from "../components/paper/InkLink";
+import { Tag } from "../components/paper/Tag";
 import { cvData, siteContent, personalInfo, type CvEntry } from "../data";
+import styles from "./cv.module.css";
 
 const BASE_URL = "https://taninwatkaewpankan.xyz";
 const PAGE_URL = `${BASE_URL}/cv`;
@@ -14,7 +17,7 @@ export const metadata: Metadata = {
   description: `${cvData.title} in Copenhagen. Full CV: skills, experience, projects and education, with a PDF download.`,
   alternates: { canonical: PAGE_URL },
   openGraph: {
-    title: `CV | ${personalInfo.nickname} — ${personalInfo.name}`,
+    title: `CV | ${personalInfo.nickname} · ${personalInfo.name}`,
     description: cvData.summary,
     url: PAGE_URL,
     type: "profile",
@@ -41,44 +44,38 @@ export const metadata: Metadata = {
  * friction with nothing behind it. The PDF is still offered at the top, as a
  * download rather than as a paywall.
  *
- * Fully static: no "use client", no framer-motion, no scroll runway.
+ * Since the re-theme (Phase 3) it is a paper document in the PDF's order, from
+ * the same cvData, so the page and the PDF read the same: name, title, contact
+ * line, summary, skills, projects, experience, education, additional.
+ *
+ * Fully static: no "use client", no scroll runway.
  */
-function Block({ label, children }: { label: string; children: React.ReactNode }) {
+/** Drops the scheme and "www.", as the PDF's contact line does. */
+const bare = (url: string) => url.replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, "");
+
+function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="border-t border-frost/10 pt-8 mt-8 first:border-0 first:pt-0 first:mt-0">
-      <h2 className="text-[10px] sm:text-xs uppercase tracking-[0.22em] text-frost/40 mb-5">
-        {label}
-      </h2>
+    <section className={styles.section}>
+      <h2>{label}</h2>
       {children}
-    </div>
+    </section>
   );
 }
 
 function Entry({ entry }: { entry: CvEntry }) {
   return (
-    <div className="mb-7 last:mb-0">
-      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
-        <span className="text-frost font-medium text-base sm:text-lg">{entry.org}</span>
-        <span className="shrink-0 text-[11px] sm:text-xs uppercase tracking-wider text-frost/40">
-          {entry.period}
-        </span>
+    <div className={styles.entry}>
+      <div className={styles.entryLine}>
+        <h3>{entry.org}</h3>
+        <span className={styles.dim}>{entry.period}</span>
       </div>
-      <div className="mt-1 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 sm:gap-4">
-        <span className="text-crystal-500 text-sm sm:text-[15px]">{entry.role}</span>
-        <span className="shrink-0 text-[11px] sm:text-xs text-frost/30">{entry.place}</span>
+      <div className={styles.entryLine}>
+        <span className={styles.role}>{entry.role}</span>
+        <span className={styles.dim}>{entry.place}</span>
       </div>
-      <ul className="mt-3.5 space-y-2.5">
+      <ul className={styles.bullets}>
         {entry.bullets.map((b) => (
-          <li
-            key={b}
-            className="relative pl-5 text-sm sm:text-[15px] font-light leading-relaxed text-frost/65"
-          >
-            <span
-              aria-hidden
-              className="absolute left-0 top-[0.65em] h-1 w-1 rounded-full bg-crystal-500/60"
-            />
-            {b}
-          </li>
+          <li key={b}>{b}</li>
         ))}
       </ul>
     </div>
@@ -87,145 +84,110 @@ function Entry({ entry }: { entry: CvEntry }) {
 
 export default function CvPage() {
   return (
-    <div className="min-h-screen bg-night-900 text-frost" style={{ overflowX: "clip" }}>
-      <SkipLink />
-      <Navbar />
-
-      <main id="main-content" className="px-4 pt-28 pb-20 sm:px-6 sm:pt-32 md:px-10">
-        <div className="mx-auto max-w-3xl">
-          {/* Page-level h1 written here rather than via SectionHeading, which
-              renders an h2 — every page on the site has exactly one h1, and the
-              treatment matches /services. */}
-          <header className="mb-10">
-            <FadeIn y={20}>
-              <div className="mb-4 flex items-center gap-3">
-                <span aria-hidden className="h-px w-8 bg-frost/30" />
-                <span className="text-[10px] uppercase tracking-[0.3em] text-frost/50 sm:text-xs">
-                  Track Record
-                </span>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={0.08} y={40}>
-              <h1
-                className="frost-text font-black uppercase leading-none tracking-tight mb-5"
-                style={{ fontSize: "clamp(2.6rem, 9vw, 110px)" }}
-              >
-                {siteContent.roleLabel}
-              </h1>
-            </FadeIn>
-
-            <FadeIn delay={0.16} y={20}>
-              <p className="mb-8 font-display italic text-xl text-frost/45 md:text-2xl">
-                {personalInfo.name} · {personalInfo.location}
-              </p>
-            </FadeIn>
-
-            {/* A download, not a paywall — the page below is complete either way. */}
-            <FadeIn delay={0.24} y={20}>
-              <a
-                href={siteContent.cv.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-full border border-crystal-500/40 px-6 py-3 text-sm font-medium text-frost transition-colors hover:border-crystal-500 hover:bg-white/3 focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900"
-              >
-                <FileDown size={17} strokeWidth={1.6} aria-hidden className="text-crystal-500" />
-                {siteContent.cv.label}
-                <span className="text-[10px] uppercase tracking-wider text-frost/35">PDF</span>
-              </a>
-            </FadeIn>
-          </header>
-
-          <FadeIn delay={0.08} y={24}>
-            <div className="rounded-3xl border border-frost/15 bg-white/3 px-5 py-9 sm:px-8 sm:py-12 md:px-12">
-              <p className="text-frost/80 font-light leading-relaxed text-[15px] sm:text-lg">
-                {cvData.summary}
-              </p>
-
-              {/* Moved here from the homepage's About section, where it was being
-                  read by someone deciding whether to spend money. "How does he
-                  work" is a hiring question, so it belongs on this page. */}
-              <p className="mt-5 border-l-2 border-crystal-500/30 pl-5 text-frost/60 font-light leading-relaxed text-sm sm:text-[15px]">
-                {siteContent.howIWork}
-              </p>
-
-              <Block label="Skills">
-                {cvData.skills.map((group) => (
-                  <div key={group.label} className="mb-5 last:mb-0">
-                    <div className="text-frost text-sm font-medium mb-3">{group.label}</div>
-                    <div className="flex flex-wrap gap-2">
-                      {group.items.map((item) => (
-                        <span
-                          key={item}
-                          className="rounded-full border border-frost/12 bg-white/3 px-3 py-1 text-[11px] sm:text-xs text-frost/60"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </Block>
-
-              <Block label="Experience">
-                {cvData.experience.map((entry) => (
-                  <Entry key={entry.org} entry={entry} />
-                ))}
-              </Block>
-
-              <Block label="Projects">
-                {cvData.projects.map((entry) => (
-                  <Entry key={entry.org} entry={entry} />
-                ))}
-              </Block>
-
-              <Block label="Education">
-                {cvData.education.map((ed) => (
-                  <div key={ed.degree} className="mb-5 last:mb-0">
-                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
-                      <span className="text-frost font-medium text-base">{ed.school}</span>
-                      <span className="shrink-0 text-[11px] sm:text-xs uppercase tracking-wider text-frost/40">
-                        {ed.period}
-                      </span>
-                    </div>
-                    <div className="mt-1 text-frost/60 font-light text-sm sm:text-[15px]">
-                      {ed.degree}
-                    </div>
-                  </div>
-                ))}
-              </Block>
-
-              <Block label="Additional">
-                {cvData.additional.map((row) => (
-                  <div
-                    key={row.label}
-                    className="mb-3 last:mb-0 flex flex-col sm:flex-row sm:gap-4"
-                  >
-                    <span className="shrink-0 sm:w-44 text-frost text-sm font-medium">
-                      {row.label}
-                    </span>
-                    <span className="text-frost/60 font-light text-sm sm:text-[15px]">
-                      {row.value}
-                    </span>
-                  </div>
-                ))}
-              </Block>
-            </div>
-          </FadeIn>
-
-          {/* HireModal's home now that the pill nav no longer opens it. Its three
-              actions — copy email, CV download, LinkedIn — are a recruiter set
-              end to end, so this is the page they belong on. */}
-          <FadeIn delay={0.12} y={20}>
-            <div className="mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <p className="max-w-md text-frost/55 font-light leading-relaxed text-sm">
-                Open to full-time frontend roles in Denmark, Sweden or remote across the EU.
-              </p>
-              <ContactButton label="Get in touch" className="shrink-0" />
-            </div>
-          </FadeIn>
+    // Back to the letter: the only link to /cv is at its foot.
+    <PageShell back={{ href: "/about", label: "About" }}>
+      <PaperSheet as="article" className={styles.document}>
+        {/* The PDF's header: name, title, contact line. */}
+        <PageHeader
+          kicker="Curriculum vitae"
+          title={personalInfo.name}
+          lead={`${cvData.title} · ${personalInfo.location}`}
+        />
+        <ul className={styles.contact} aria-label="Contact">
+          <li>
+            <a href={`mailto:${personalInfo.email}`}>{personalInfo.email}</a>
+          </li>
+          <li>
+            <a href={personalInfo.socials.linkedin} target="_blank" rel="noopener noreferrer">
+              {bare(personalInfo.socials.linkedin)}
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </li>
+          <li>
+            <a href={personalInfo.socials.github} target="_blank" rel="noopener noreferrer">
+              {bare(personalInfo.socials.github)}
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </li>
+        </ul>
+        {/* A download, not a paywall: the page below is complete either way. */}
+        <div className={styles.download}>
+          <InkLink href={siteContent.cv.href} primary external>
+            <FileDown size={16} strokeWidth={1.75} aria-hidden />
+            {siteContent.cv.label}
+            <span className={styles.fileType}>PDF</span>
+          </InkLink>
         </div>
-      </main>
-    </div>
+
+        <Section label="Summary">
+          <p className={styles.summary}>{cvData.summary}</p>
+          {/* Page-only: "how does he work" is a hiring question, and the PDF has
+              no room for it. */}
+          <p className={styles.howIWork}>{siteContent.howIWork}</p>
+        </Section>
+
+        <Section label="Skills">
+          {cvData.skills.map((group) => (
+            <div key={group.label} className={styles.skillGroup}>
+              <h3>{group.label}</h3>
+              <div className={styles.tags}>
+                {group.items.map((item) => (
+                  <Tag key={item}>{item}</Tag>
+                ))}
+              </div>
+            </div>
+          ))}
+        </Section>
+
+        {/* Projects before Experience: the PDF's order, and the reasoning is in
+            scripts/build-cv-pdf.mjs. */}
+        <Section label="Projects">
+          {cvData.projects.map((entry) => (
+            <Entry key={entry.org} entry={entry} />
+          ))}
+        </Section>
+
+        <Section label="Experience">
+          {cvData.experience.map((entry) => (
+            <Entry key={entry.org} entry={entry} />
+          ))}
+        </Section>
+
+        <Section label="Education">
+          {cvData.education.map((ed) => (
+            <div key={ed.degree} className={styles.entry}>
+              <div className={styles.entryLine}>
+                <h3>{ed.school}</h3>
+                <span className={styles.dim}>{ed.period}</span>
+              </div>
+              {/* Degree · place, as the PDF prints it. */}
+              <p className={styles.degree}>
+                {ed.degree} <span className={styles.dim}>· {ed.place}</span>
+              </p>
+            </div>
+          ))}
+        </Section>
+
+        <Section label="Additional">
+          <dl className={styles.extra}>
+            {cvData.additional.map((row) => (
+              <div key={row.label}>
+                <dt>{row.label}</dt>
+                <dd>{row.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </Section>
+
+        <div className={styles.signoff}>
+          <p>Open to full-time full-stack roles in Denmark, Sweden or remote across the EU.</p>
+          <p>
+            <Link href="/contact">
+              Write me a postcard <span aria-hidden="true">→</span>
+            </Link>
+          </p>
+        </div>
+      </PaperSheet>
+    </PageShell>
   );
 }

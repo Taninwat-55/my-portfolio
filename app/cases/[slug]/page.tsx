@@ -11,6 +11,7 @@ import { PaperSheet } from "../../components/paper/PaperSheet";
 import { PageHeader } from "../../components/paper/PageHeader";
 import { Print } from "../../components/paper/Print";
 import { Tag } from "../../components/paper/Tag";
+import { InkLink } from "../../components/paper/InkLink";
 import styles from "./case.module.css";
 
 // ─── Static params + metadata ──────────────────────────────────────────────
@@ -134,30 +135,24 @@ export default async function CasePage({
       <PaperSheet as="article" className={styles.sheet}>
         <PageHeader kicker={caseStudy.tag} title={caseStudy.title} lead={caseStudy.sub} />
 
-        {/* External, so plain <a>s that open a new tab. */}
         <FadeIn immediate delay={0.1} y={12} className={styles.actions}>
           {caseStudy.links.demo && (
-            <a
-              href={caseStudy.links.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${styles.action} ${styles.actionPrimary}`}
-            >
+            <InkLink href={caseStudy.links.demo} primary external>
               <ExternalLink size={15} strokeWidth={1.75} aria-hidden />
               {caseStudy.links.demoLabel ?? "Live Project"}
-            </a>
+            </InkLink>
           )}
           {caseStudy.links.code && (
-            <a href={caseStudy.links.code} target="_blank" rel="noopener noreferrer" className={styles.action}>
+            <InkLink href={caseStudy.links.code} external>
               <Github size={15} strokeWidth={1.75} aria-hidden />
               Code
-            </a>
+            </InkLink>
           )}
           {caseStudy.links.docs && (
-            <a href={caseStudy.links.docs} target="_blank" rel="noopener noreferrer" className={styles.action}>
+            <InkLink href={caseStudy.links.docs} external>
               <FileText size={15} strokeWidth={1.75} aria-hidden />
               PRD
-            </a>
+            </InkLink>
           )}
         </FadeIn>
 

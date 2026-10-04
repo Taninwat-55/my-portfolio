@@ -261,6 +261,32 @@ a.card:hover {
   box-shadow: 0 16px 34px var(--shadow);
 }
 
+/* An ink pill on paper (InkLink): a full 44px tap target. */
+.ink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border: 1.5px solid var(--color-paper-ink);
+  border-radius: 999px;
+  color: var(--color-paper-ink);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.ink:hover {
+  background: var(--color-paper-dim);
+}
+.inkPrimary {
+  background: var(--color-paper-ink);
+  color: var(--color-paper);
+}
+.inkPrimary:hover {
+  background: color-mix(in srgb, var(--color-paper-ink) 85%, var(--color-paper));
+}
+
 .tag,
 .chip {
   display: inline-block;

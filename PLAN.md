@@ -94,7 +94,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
     ViewTransition name** and the CreativeWork JSON-LD. The back link goes to
     `/work`.
   - `/projects` is all the prints laid out (client work first, as now).
-- [ ] **Phase 2: Writing** (`/garden/[slug]`, `/garden`)
+- [x] **Phase 2: Writing** (`/garden/[slug]`, `/garden`) Merged 2026-10-04 (PR #15).
   - A note is a notebook page. One `mdxComponents` map in
     `garden/[slug]/page.tsx` styles all 10 posts.
   - Fix `SatsConverter`'s undefined `ice-200` and `charcoal-300` tokens.
@@ -126,9 +126,48 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ## Progress log
 
+### 2026-10-05
+
+**Re-theme Phase 3: CV, on branch `retheme-3-cv`, not merged** 🚧 *`12ff053`*
+
+- **`/cv` is a paper document in the PDF's order**, from the same `cvData`: his
+  name as the h1 (Ice's call), title and location, the contact line (email,
+  LinkedIn, GitHub), a "Download CV" button, then Summary (with `howIWork` as a
+  note), Skills, Projects, Experience, Education, Additional. Page h2 order checked
+  equal to the PDF's headings via `pdftotext`. Projects now come before Experience,
+  as in the PDF; the page had them the other way round.
+- **All 87 `cvData` strings are on the page.** The three education places
+  (Uppsala, Malmö) were missing before; the PDF prints them, so the page does now.
+  The only copy change: the closing line says **full-stack** instead of frontend
+  (Ice's call).
+- **`ContactButton` and `HireModal` are deleted** (Ice's call: the contact line and
+  the download link cover the modal's three actions). Only code comments in
+  `services/page.tsx` and `ServicesEnquiryForm.tsx` still name them; Phase 4
+  rewrites both.
+- ⚠️ **`/cv` was an orphan, found while planning.** Nothing on the site linked to it
+  since the clock replaced the pill nav; only `sitemap.ts` and `llms.txt`. The About
+  letter now ends with "Read my CV →" beside its PDF button
+  (`clockContent.letter.cvLink`), and `/cv`'s back link returns to the letter.
+- **Shared `InkLink`** in `app/components/paper/`: the case page's pills moved there,
+  with a screen-reader "(opens in a new tab)" cue on external links. All new links
+  on `/cv` and the letter are 44px tap targets.
+- The OG title's em dash (`CV | Ice — …`, built from a template) is now a middot.
+
+Lighthouse mobile: `/cv` 88/96 → 94/100 (perf/a11y), LCP 3.9 → 3.1 s. `/about`
+89/100. `/cases/trailr` 90–93/100 over three runs, unchanged from Phase 1.
+
+**Open:**
+- Ice's preview check: `/cv` on phone and laptop; the letter's new link.
+- Ice's call: the MSc degree in `cvData` contains an em dash ("Business and
+  Management — Entrepreneurship"), in the PDF too. Changing it means editing
+  `cvData` and re-running `npm run cv`.
+- Reviewer's wording note, left for Ice: "full-time full-stack" reads like a
+  stutter; e.g. "Open to full-stack roles, full time, in Denmark, Sweden or remote
+  across the EU."
+
 ### 2026-10-04 (night, later)
 
-**Re-theme Phase 2: Writing, on branch `retheme-2-writing`, not merged** 🚧 *`856b2d2`*
+**Re-theme Phase 2: Writing, merged (PR #15)** ✅ *`856b2d2`*
 
 - **A note is a notebook page, with the text on the lines.** Each block of the
   body draws its own 32px rules and spaces itself in whole lines (padding, never

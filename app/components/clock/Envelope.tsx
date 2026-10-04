@@ -37,9 +37,14 @@ export function Envelope({ stage }: { stage: 0 | 1 | 2 | 3 }) {
               </div>
             ))}
           </dl>
-          <Link className={styles.cvButton} href={siteContent.cv.href} target="_blank">
-            {siteContent.cv.label}
-          </Link>
+          <div className={styles.letterLinks}>
+            <Link className={styles.cvLink} href={letter.cvLink.href}>
+              {letter.cvLink.label} <span aria-hidden="true">→</span>
+            </Link>
+            <Link className={styles.cvButton} href={siteContent.cv.href} target="_blank">
+              {siteContent.cv.label}
+            </Link>
+          </div>
         </footer>
       </article>
       <div className={styles.envelopeFront} />
