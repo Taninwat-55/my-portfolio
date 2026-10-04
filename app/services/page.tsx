@@ -745,59 +745,6 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ── Handover and scope boundaries ─────────────────────────────── */}
-      {/* Straight after Process, whose last step is handover. The "not in the
-          price" column is the same move as the "Probably not" column further
-          up: on a page arguing that the claims are honest, the fastest way to
-          prove it is to say what you do not do. */}
-      <section aria-labelledby="handover-heading" className={styles.section}>
-        <DeskHeading
-          id="handover-heading"
-          kicker={services.handover.eyebrow}
-          title={services.handover.title}
-        />
-
-        <FadeIn y={20}>
-          <p className="mb-6 max-w-2xl text-base leading-relaxed text-frost/80 md:text-lg">
-            {services.handover.lead}
-          </p>
-        </FadeIn>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <FadeIn y={20}>
-            <PaperCard tilt={-0.5} className="h-full">
-              <p className={styles.label}>You walk away with</p>
-              <ul className={styles.bullets}>
-                {services.handover.youGet.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </PaperCard>
-          </FadeIn>
-
-          <FadeIn delay={0.1} y={20}>
-            <PaperCard tilt={0.6} className="h-full">
-              <p className={styles.label}>
-                {services.handover.notIncludedLabel}
-              </p>
-              <p className="mb-4 text-xs leading-relaxed text-paper-soft">
-                {services.handover.notIncludedLead}
-              </p>
-              <dl className="space-y-4">
-                {services.handover.notIncluded.map((entry) => (
-                  <div key={entry.item}>
-                    <dt className="text-sm font-semibold">{entry.item}</dt>
-                    <dd className="mt-1 text-xs leading-relaxed text-paper-soft">
-                      {entry.detail}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </PaperCard>
-          </FadeIn>
-        </div>
-      </section>
-
       {/* ── Client proof ──────────────────────────────────────────────── */}
       {proofCase && (
         <section aria-labelledby="proof-heading" className={styles.section}>
