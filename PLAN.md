@@ -126,6 +126,55 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ## Progress log
 
+### 2026-10-04 (night, later)
+
+**Re-theme Phase 2: Writing, on branch `retheme-2-writing`, not merged** 🚧 *`856b2d2`*
+
+- **A note is a notebook page, with the text on the lines.** Each block of the
+  body draws its own 32px rules and spaces itself in whole lines (padding, never
+  margin), so every block is a whole number of lines tall: text stays on the rules
+  at any width, and after the Sats Converter mid-post. Verified by measuring every
+  block at 390px and 1280px: zero off the grid. The method is written up at the top
+  of `app/garden/notebook.module.css`.
+- **`/garden` is the notebook's contents page** on the same grid; back link to
+  `/writing`. Notes link back to `/garden`.
+- **Not a word changed:** the body word count of all 10 notes is identical before
+  and after.
+- **The posts' `###` headings render as `<h2>`** (they jumped from h1 to h3;
+  Lighthouse flagged heading-order). No MDX edited.
+- **Sats Converter in paper colours** (Ice's call). Removes the undefined
+  `ice-200` and `charcoal-300`; adds `aria-pressed` on the quick picks and a themed
+  focus ring. Still converts (Pizza: 1,000,000 sats = $670.00 at $67,000).
+- `--color-ice-400` and `--color-charcoal-*` are now unused: Phase 6 deletes them.
+
+Lighthouse mobile, before → after:
+
+| route | perf | a11y | LCP |
+| --- | --- | --- | --- |
+| `/garden` | 96 → 97 | 95 → 100 | 2.8 → 2.6 s |
+| `/garden/bitcoin-product-thinking` | 99 → 96 | 94 → 100 | 2.3 → 2.8 s |
+| `/garden/shipping-at-trailr` | 96 → 93 | 94 → 100 | 2.8 → 3.1 s |
+
+⚠️ **The notes' small LCP drop is not explained yet, and two guesses were wrong:**
+- **`experimental.inlineCss` (Ice approved the test): no.** Notes unchanged, the
+  clock homepage fell 98 → 87, since it then carries all CSS in its HTML. Reverted.
+- **The header's entrance fade: no.** Removing it moved Bitcoin 95 → 96–97 and
+  Trailr not at all. Reverted.
+- Likely: the 32px line spacing makes a body paragraph the largest element, and
+  the simulation paints it later. Revisit in Phase 6's measurement pass.
+
+⚠️ **Two incidents this session, both now in memory:**
+- **`pnpm dev` run by accident** reinstalled `node_modules` with Next 16.3.8 /
+  React 19.3.0 (locked 16.0.7 / 19.2.1), broke `tsc` on `experimental.viewTransition`,
+  and left `pnpm-lock.yaml` and `pnpm-workspace.yaml`. Restored with
+  `rm -rf node_modules pnpm-lock.yaml pnpm-workspace.yaml && npm ci`. This repo is npm.
+- **Builds now run in a git worktree when Ice's dev server is up**, after the
+  earlier case of `next build` leaving it serving stale CSS. `node_modules` is
+  cloned with `cp -c` (a symlink fails: Turbopack rejects links outside the root).
+
+**Open:**
+- Ice's preview check: a note on phone and desktop, the converter, `/garden`.
+
 ### 2026-10-04 (late night)
 
 **Re-theme Phase 1: Work, merged (PR #14)** ✅ *`c794bdf`*
