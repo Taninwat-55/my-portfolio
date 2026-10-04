@@ -89,7 +89,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
     `Tag`/`Chip`, `PaperCard`.
   - `app/not-found.tsx` in the new style. It's the smallest real page, so it proves
     the foundation works. (There is no 404 page at all today.)
-- [ ] **Phase 1: Work** (`/cases/[slug]`, `/projects`)
+- [x] **Phase 1: Work** (`/cases/[slug]`, `/projects`) Merged 2026-10-04 (PR #14).
   - A case study is the print's back, opened. **Keep the `case-hero-{id}`
     ViewTransition name** and the CreativeWork JSON-LD. The back link goes to
     `/work`.
@@ -128,7 +128,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ### 2026-10-04 (late night)
 
-**Re-theme Phase 1: Work, on branch `retheme-1-work`, not merged** 🚧 *`c794bdf`*
+**Re-theme Phase 1: Work, merged (PR #14)** ✅ *`c794bdf`*
 
 - **`/cases/[slug]` is the back of its print, opened big.** The photo sits on top
   in a paper frame and is still the `case-hero-{id}` ViewTransition target. The
