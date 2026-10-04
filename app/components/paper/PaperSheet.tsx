@@ -2,7 +2,8 @@ import styles from "./paper.module.css";
 
 interface PaperSheetProps {
   children: React.ReactNode;
-  /** Notebook lines with a margin, for notes and the 404 page. */
+  /** Notebook lines with a margin, for the 404 page. Notes draw their own
+   *  per-block lines (app/garden/notebook.module.css) so text sits on them. */
   ruled?: boolean;
   /** Where the ruled lines start, e.g. "92px", so a heading can sit above them. */
   ruleTop?: string;

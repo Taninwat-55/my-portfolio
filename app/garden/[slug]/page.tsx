@@ -1,14 +1,14 @@
 import { Metadata } from "next";
-import Link from "next/link";
-import { Clock, Calendar, ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 
 import { getPostData, getSortedPostsData } from "../../lib/posts";
-import { Navbar } from "../../components/Navbar";
-import { SkipLink } from "../../components/SkipLink";
+import { PageShell } from "../../components/PageShell";
+import { PaperSheet } from "../../components/paper/PaperSheet";
+import { PageHeader } from "../../components/paper/PageHeader";
 import { SatsConverter } from "../../components/post-tools/SatsConverter";
+import styles from "../notebook.module.css";
 
 // ─── Static params + metadata ──────────────────────────────────────────────
 
@@ -53,59 +53,16 @@ export async function generateMetadata({
 }
 
 // ─── MDX components map ─────────────────────────────────────────────────────
-// Built-in markdown elements get site-themed styling here. JSX components
-// embedded directly inside .mdx posts (like <SatsConverter />) are also
-// resolved through this map.
+// One map for all 10 posts. The look lives in notebook.module.css (.body), so
+// only what needs logic is here. JSX components embedded directly inside .mdx
+// posts (like <SatsConverter />) are also resolved through this map.
 
 const mdxComponents = {
-  h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2
-      className="text-2xl md:text-3xl font-medium tracking-tight text-frost mt-16 mb-5 scroll-mt-24"
-      {...props}
-    />
-  ),
-  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3
-      className="text-xl md:text-2xl font-medium tracking-tight text-frost mt-12 mb-4 scroll-mt-24"
-      {...props}
-    />
-  ),
-  h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h4 className="text-lg font-medium text-frost mt-10 mb-3" {...props} />
-  ),
-  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p
-      className="text-[17px] md:text-[18px] text-frost/75 font-light leading-[1.75] mb-7"
-      {...props}
-    />
-  ),
-  ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul
-      className="list-disc pl-6 space-y-3 mb-8 marker:text-crystal-500 text-frost/75 font-light text-[17px] md:text-[18px] leading-[1.7]"
-      {...props}
-    />
-  ),
-  ol: (props: React.OlHTMLAttributes<HTMLOListElement>) => (
-    <ol
-      className="list-decimal pl-6 space-y-3 mb-8 marker:text-crystal-500 text-frost/75 font-light text-[17px] md:text-[18px] leading-[1.7]"
-      {...props}
-    />
-  ),
-  li: (props: React.HTMLAttributes<HTMLLIElement>) => (
-    <li className="pl-1" {...props} />
-  ),
-  strong: (props: React.HTMLAttributes<HTMLElement>) => (
-    <strong className="font-medium text-frost" {...props} />
-  ),
-  em: (props: React.HTMLAttributes<HTMLElement>) => (
-    <em className="text-frost/80 italic" {...props} />
-  ),
-  blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
-    <blockquote
-      className="my-8 pl-5 border-l-2 border-crystal-500/60 bg-crystal-500/5 py-3 pr-4 rounded-r-md text-frost/70 italic [&>p]:text-frost/70 [&>p]:mb-0"
-      {...props}
-    />
-  ),
+  // The posts write their section headings as ###, straight under the page's
+  // h1. Rendered one level up so the outline has no gap (Lighthouse flagged
+  // heading-order); the words are untouched.
+  h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h2 {...props} />,
+  h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => <h3 {...props} />,
   a: ({ href, ...rest }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
     const external = href?.startsWith("http");
     return (
@@ -113,47 +70,13 @@ const mdxComponents = {
         href={href}
         target={external ? "_blank" : undefined}
         rel={external ? "noopener noreferrer" : undefined}
-        className="text-crystal-300 underline decoration-crystal-500/40 underline-offset-4 hover:decoration-crystal-500 hover:text-crystal-500 transition-colors"
         {...rest}
       />
     );
   },
-  code: ({
-    className,
-    children,
-    ...rest
-  }: React.HTMLAttributes<HTMLElement> & { className?: string }) => {
-    const isInline = !className?.includes("language-");
-    if (isInline) {
-      return (
-        <code
-          className="font-mono text-[0.9em] px-1.5 py-0.5 rounded bg-white/6 border border-frost/10 text-crystal-300"
-          {...rest}
-        >
-          {children}
-        </code>
-      );
-    }
-    return (
-      <code className={className} {...rest}>
-        {children}
-      </code>
-    );
-  },
-  pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre
-      className="my-8 p-5 rounded-xl bg-night-800 border border-frost/10 overflow-x-auto font-mono text-sm leading-relaxed text-frost"
-      {...props}
-    />
-  ),
-  hr: () => <hr className="my-14 border-0 h-px bg-frost/10" />,
   img: ({ alt, ...rest }: React.ImgHTMLAttributes<HTMLImageElement>) => (
     // eslint-disable-next-line @next/next/no-img-element
-    <img
-      alt={alt ?? ""}
-      className="my-8 w-full rounded-xl border border-frost/10"
-      {...rest}
-    />
+    <img alt={alt ?? ""} {...rest} />
   ),
 
   // ── Garden tools — embeddable inside any post ────────────────────────────
@@ -162,6 +85,7 @@ const mdxComponents = {
 
 // ─── Page ───────────────────────────────────────────────────────────────────
 
+/** A note: a page of the notebook, with the text written on its lines. */
 export default async function GardenPost({
   params,
 }: {
@@ -191,81 +115,33 @@ export default async function GardenPost({
   };
 
   return (
-    <div className="min-h-screen bg-night-900 text-frost">
-      <SkipLink />
-      <Navbar backLinkHref="/garden" backLinkText="Back to the Garden" />
-
+    <PageShell back={{ href: "/garden", label: "Garden" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
-      <main id="main-content" className="relative">
-        <article className="relative container mx-auto px-6 pt-32 md:pt-40 pb-24 max-w-3xl">
-          {/* ── Header ─────────────────────────────────────────────── */}
-          <header className="mb-14 md:mb-20">
-            <div className="mb-6">
-              <span className="inline-block text-crystal-500 bg-crystal-500/10 rounded-full text-xs uppercase tracking-wider px-3 py-1">
-                {post.category}
-              </span>
-            </div>
+      <PaperSheet as="article" className={styles.notebook}>
+        {/* The page's top margin: header and meta above the lines. */}
+        <PageHeader kicker={post.category} title={post.title} lead={post.excerpt} />
+        <p className={styles.meta}>
+          <span>{post.author}</span>
+          <time dateTime={post.date}>{post.date}</time>
+          <span>{post.readTime}</span>
+        </p>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 leading-[1.05] tracking-tight text-frost">
-              {post.title}
-            </h1>
-
-            <p className="text-lg md:text-xl text-frost/70 font-light leading-relaxed mb-10 max-w-2xl">
-              {post.excerpt}
-            </p>
-
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-6 border-t border-frost/10 text-[11px] tracking-wider uppercase text-frost/40">
-              <span className="text-crystal-500">{post.author}</span>
-              <span className="inline-flex items-center gap-2">
-                <Calendar size={12} strokeWidth={1.5} />
-                {post.date}
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <Clock size={12} strokeWidth={1.5} />
-                {post.readTime}
-              </span>
-            </div>
-          </header>
-
-          {/* ── Body (MDX) ─────────────────────────────────────────── */}
-          <div className="article-body">
-            <MDXRemote
-              source={post.content}
-              components={mdxComponents}
-              options={{
-                mdxOptions: {
-                  remarkPlugins: [remarkGfm],
-                },
-              }}
-            />
-          </div>
-
-          {/* ── Footer ─────────────────────────────────────────────── */}
-          <footer className="mt-20 pt-10 border-t border-frost/10 flex items-center justify-between gap-4 flex-wrap">
-            <Link
-              href="/garden"
-              className="group inline-flex items-center gap-2 text-sm font-medium text-frost/70 hover:text-crystal-300 transition-colors"
-            >
-              <ArrowLeft
-                size={16}
-                className="transition-transform group-hover:-translate-x-1"
-              />
-              Back to the Garden
-            </Link>
-
-            <Link
-              href="/"
-              className="text-sm uppercase tracking-wider text-frost/40 hover:text-crystal-300 transition-colors"
-            >
-              taninwatkaewpankan.xyz
-            </Link>
-          </footer>
-        </article>
-      </main>
-    </div>
+        <div className={styles.body} data-note-body>
+          <MDXRemote
+            source={post.content}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm],
+              },
+            }}
+          />
+        </div>
+      </PaperSheet>
+    </PageShell>
   );
 }

@@ -1,0 +1,186 @@
+/* The notebook (re-theme, Phase 2): a note is a notebook page, /garden is its
+   contents page.
+
+   HOW THE TEXT LANDS ON THE LINES. The rules are drawn per block, not across
+   the sheet: every block below gets line-height var(--line) and its own ruled
+   background starting at its own top, and the space between blocks is padding
+   in whole lines (a blank ruled line), never a margin. Every block is then a
+   whole number of lines tall, so text sits on the rules at any width, and the
+   rules pick up again correctly after something of any height, like the Sats
+   Converter in the middle of the Bitcoin note. A margin here would shift every
+   line after it.
+
+   Layered like paper.module.css, so a Tailwind className can still override. */
+
+@layer components {
+/* Doubled class on purpose: .sheet (paper.module.css) sets the padding
+   shorthand at the same specificity in the same layer, so a single class would
+   win or lose on CSS chunk order, which Next does not promise.
+
+   The padding and margin line match PaperSheet's `ruled`, which is not used
+   here: its 36px lines run across the whole sheet, and these are per block. */
+.notebook.notebook {
+  --line: 32px;
+  padding-left: clamp(36px, 7vw, 72px);
+}
+/* The margin line. */
+.notebook::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: clamp(22px, 4.5vw, 48px);
+  width: 1px;
+  background: rgba(196, 113, 62, 0.4);
+}
+
+/* Author, date, read time: under the header, above the lines. */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 0 0 var(--line);
+  padding-bottom: 14px;
+  border-bottom: 1.5px dashed var(--color-paper-rule);
+  color: var(--color-paper-soft);
+  font-size: 13px;
+}
+
+.lined {
+  margin: 0;
+  background: repeating-linear-gradient(
+    transparent 0 calc(var(--line) - 1px),
+    var(--color-paper-rule) calc(var(--line) - 1px) var(--line)
+  );
+}
+
+/* ---------- a note ---------- */
+
+.body {
+  color: var(--color-paper-ink);
+  font-size: 17px;
+  line-height: var(--line);
+}
+@media (min-width: 768px) {
+  .body {
+    font-size: 18px;
+  }
+}
+.body > :is(p, h2, h3, ul, ol, blockquote, hr) {
+  margin: 0;
+  padding-bottom: var(--line);
+  background: repeating-linear-gradient(
+    transparent 0 calc(var(--line) - 1px),
+    var(--color-paper-rule) calc(var(--line) - 1px) var(--line)
+  );
+}
+/* A blank line above a heading too, so it reads as a new section. */
+.body > :is(h2, h3) {
+  padding-top: var(--line);
+  padding-bottom: 0;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: var(--line);
+}
+.body > :is(ul, ol) {
+  padding-left: 1.5em;
+}
+.body > ul {
+  list-style: disc;
+}
+.body > ol {
+  list-style: decimal;
+}
+.body li::marker {
+  color: var(--color-paper-soft);
+}
+.body blockquote {
+  padding-left: 18px;
+  border-left: 3px solid var(--color-paper-accent);
+  color: var(--color-paper-soft);
+  font-style: italic;
+}
+.body blockquote p {
+  margin: 0;
+}
+.body blockquote p + p {
+  padding-top: var(--line);
+}
+/* A section break: one ruled line with a small mark in the middle. */
+.body > hr {
+  height: var(--line);
+  padding: 0;
+  border: 0;
+  overflow: visible;
+  text-align: center;
+}
+.body > hr::after {
+  content: "* * *";
+  color: var(--color-paper-soft);
+  line-height: var(--line);
+}
+.body strong {
+  font-weight: 600;
+}
+.body a {
+  color: var(--color-paper-link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* Inline code only (no post has a code block): padding is horizontal, and
+   line-height 1 means the mono font's own metrics can never stretch a line. */
+.body code {
+  line-height: 1;
+  padding: 0 0.3em;
+  border-radius: 3px;
+  background: var(--color-paper-dim);
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 0.88em;
+}
+/* Not on the grid: no post has an image, and a markdown image sits inside a
+   <p>, so its height would knock that paragraph off the lines. Round it to the
+   line grid in a wrapper before a post uses one. */
+.body img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- the contents page ---------- */
+
+.contents {
+  padding: 0;
+  list-style: none;
+}
+.contents li {
+  padding-bottom: var(--line);
+}
+.entryTitle {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: var(--line);
+}
+.entryTitle a {
+  color: var(--color-paper-ink);
+  text-decoration: none;
+}
+.entryTitle a:hover {
+  color: var(--color-paper-link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.entryMeta,
+.entryExcerpt {
+  margin: 0;
+  line-height: var(--line);
+}
+.entryMeta {
+  color: var(--color-paper-soft);
+  font-size: 13px;
+}
+.entryExcerpt {
+  max-width: 65ch;
+  color: var(--color-paper-soft);
+  font-size: 15px;
+}
+} /* @layer components */
