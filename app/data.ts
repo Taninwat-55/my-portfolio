@@ -98,7 +98,7 @@ export const siteContent = {
    * one blocked by fluent Danish or 3+ years. Full-stack or generalist ones: 4
    * clear and 4 borderline, and 8 of those 10 titles say "Engineer". No posting
    * said "Design Engineer" or "developer & designer". Bevisly (Postgres RLS) and
-   * MockMate (Prisma, Lambda) are what make the claim defensible.
+   * MockMate (Prisma, an AI grading pipeline) are what make the claim defensible.
    *
    * NOT "Web Developer", despite that being the freelance word. Denmark files both
    * under the same DISCO-08 code, so the work is identical on paper — but
@@ -197,7 +197,7 @@ export const cvData = {
   // single searchable title rather than a hybrid.
   title: siteContent.roleLabel,
   summary:
-    "Full-stack engineer who also runs the delivery. React, Next.js and TypeScript are my depth, most recently at Trailr AI, where I owned a full platform redesign scoped to what the existing backend could support. Behind the interface I build with Node.js, PostgreSQL and Supabase: Bevisly keeps its access rules in the database as row-level security, and MockMate grades interviews in an AWS Lambda pipeline. Before Trailr, four cycles at Millennial Consulting, growing from Operations Assistant to Head of Organization and coordinating ~20 client engagements with no full-time staff. Building the thing and running the delivery are the same job to me.",
+    "I build web apps, mostly with React, Next.js and TypeScript. At Trailr AI I led a redesign of the platform, keeping it within what the existing backend could support. In my own projects I build the backend too, with Node.js, PostgreSQL and Supabase. Before that, I spent four cycles at Millennial Consulting, going from Operations Assistant to Head of Organization and coordinating around 20 client projects with no full-time staff. I like building things, and I like getting them shipped.",
 
   // Four technical groups mirroring the PDF, plus the operations group the PDF
   // has no room for. A one-page CV has to cut; the page does not.
@@ -527,19 +527,19 @@ export const cases: CaseStudy[] = [
       "/assets/mockmate/mockmate-feedback.webp",
     ],
     overview:
-      "A full-stack AI interview platform. Paste a job description, answer tailored technical questions from an AI interviewer, and receive a structured graded report. Built with Next.js, Google Gemini, Prisma, and AWS Lambda for background processing.",
+      "A full-stack AI interview platform. Paste a job description, answer tailored technical questions from an AI interviewer, and receive a structured graded report. Built with Next.js, Google Gemini and Prisma.",
     challenge:
       "Interview prep tools ask you to read, not do. The real problem was designing an AI pipeline that ingests any job description, generates role-specific technical questions, and grades answers the way a hiring panel would, with depth, clarity, and gap analysis, not just correct or incorrect.",
     stackWhy:
-      "Next.js App Router for full-stack delivery in one repo. Google Gemini via the Vercel AI SDK for streaming question generation and answer grading. AWS Lambda for heavy grading jobs so the UI never blocks. Prisma for a typed data layer. PDF.js to parse uploaded resumes. PostHog to see where users drop off.",
+      "Next.js App Router for full-stack delivery in one repo. Google Gemini via the Vercel AI SDK for streaming question generation and answer grading, with grading in a Next.js API route so the whole product lives in one repo and one deploy. Prisma for a typed data layer. PDF.js to parse uploaded resumes. PostHog to see where users drop off.",
     engineering:
-      "Built an AI pipeline: JD upload, Gemini parses role requirements, generates targeted questions, streams answers, and grading runs in AWS Lambda with structured Zod-validated output. Two decisions worth calling out. First, I split the AI into two separate flows, a live interview conversation and a separate grading pass. If I had merged them into one prompt, the feedback came out inconsistent, because the model was doing two jobs at once. Second, answers persist to the database before any AI runs. If a Gemini or Lambda call fails, the user's work is still there instead of vanishing mid-interview.",
+      "Built an AI pipeline: JD upload, Gemini parses role requirements, generates targeted questions, streams answers, and grading runs in a Next.js API route with structured Zod-validated output. Two decisions worth calling out. First, I split the AI into two separate flows, a live interview conversation and a separate grading pass. If I had merged them into one prompt, the feedback came out inconsistent, because the model was doing two jobs at once. Second, answers persist to the database before any AI runs. If a Gemini call fails, the user's work is still there instead of vanishing mid-interview.",
     metrics: [
       { v: "Live", k: "Product" },
       { v: "Gemini", k: "Interview engine" },
-      { v: "Lambda", k: "Background grading" },
+      { v: "Zod", k: "Validated grading output" },
     ],
-    stack: ["Next.js", "TypeScript", "AWS Lambda", "Shadcn/UI"],
+    stack: ["Next.js", "TypeScript", "Prisma", "Shadcn/UI"],
     links: { demo: "https://mockmate.space/", code: "https://github.com/Taninwat-55/mockmate", docs: "https://github.com/Taninwat-55/mockmate/blob/main/docs/PRD.md" },
   },
   {
