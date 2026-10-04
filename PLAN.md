@@ -150,8 +150,10 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
   override it. Unlayered, module rules beat every utility. Checked that Tailwind's
   base still loses to the module (h1 keeps its size and weight).
 - **`paper-accent` is 3.3:1 on paper**: fine for focus rings and washes, too faint
-  for small text. Text links use `paper-link` (5.5:1). The clock's "Read the case
-  study" link still uses the faint one; fix it in Phase 1.
+  for small text. Text links use `paper-link` (5.5:1). The clock's small text
+  links (print "Read", notebook "all notes" and hover, receipt links, the
+  pointed label on phones) moved to it too, on Ice's call. The letter's
+  signature keeps the accent: 26px bold is large text, where 3:1 passes.
 - **Links inside a `PaperSheet` are underlined** (colour alone is 2.5:1 against
   the ink). Pass `no-underline` for link lists, as the 404 page does.
 - **`PageShell` takes `lang`** for the current-language mark, but its own few

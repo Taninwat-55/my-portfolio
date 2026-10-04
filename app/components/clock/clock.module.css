@@ -22,6 +22,9 @@
   --paper-soft: var(--color-paper-soft);
   --paper-rule: var(--color-paper-rule);
   --paper-accent: var(--color-paper-accent);
+  /* Text links on paper: the accent is only 3.3:1 there, too faint for small
+     text. The accent stays for fills, focus rings and the large signature. */
+  --paper-link: var(--color-paper-link);
 
   /* Sampled from the portrait, so the hand and the face read as one drawing. */
   --skin: #df9d7a;
@@ -1322,7 +1325,7 @@
   gap: 6px;
 }
 .printRead {
-  color: var(--paper-accent);
+  color: var(--paper-link);
   font-weight: 700;
   text-decoration: none;
 }
@@ -1395,7 +1398,7 @@
   font-size: 12px;
 }
 .notebookPages li a:hover span {
-  color: var(--paper-accent);
+  color: var(--paper-link);
   text-decoration: underline;
 }
 .notebookPages a:focus-visible {
@@ -1405,7 +1408,7 @@
 .notebookAll {
   justify-self: end;
   margin-top: 12px;
-  color: var(--paper-accent);
+  color: var(--paper-link);
   font-weight: 500;
   text-decoration: none;
 }
@@ -1539,7 +1542,7 @@
   margin: 8px 0 12px;
 }
 .receiptLinks a {
-  color: var(--paper-accent);
+  color: var(--paper-link);
   font-weight: 700;
 }
 
@@ -1656,7 +1659,7 @@
     color: var(--paper-soft);
   }
   .thing.pointed .label {
-    color: var(--paper-accent);
+    color: var(--paper-link);
   }
   .languages {
     padding-top: 14px;
