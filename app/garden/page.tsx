@@ -13,14 +13,14 @@ export const metadata: Metadata = {
     canonical: "https://taninwatkaewpankan.xyz/garden",
   },
   openGraph: {
-    title: "Garden | Ice — Taninwat Kaewpankan",
+    title: "Garden | Ice · Taninwat Kaewpankan",
     description:
       "Notes on building products, engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
     url: "https://taninwatkaewpankan.xyz/garden",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Garden | Ice — Taninwat Kaewpankan",
+    title: "Garden | Ice · Taninwat Kaewpankan",
     description:
       "Notes on building products, engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
   },

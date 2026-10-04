@@ -166,9 +166,9 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 - Ice's browser check of the 404 page on the preview (phone and desktop, keyboard).
 - The ruled lines run through the 404 page's text. Aligning text to the rules
   belongs to Phase 2's notebook pages.
-- The site-wide title template and `siteName` in `layout.tsx` contain an em dash
-  ("Ice — Taninwat Kaewpankan"). Older than this phase, and changing it changes
-  every page's search title, so it is Ice's call.
+- ~~The site-wide title template contains an em dash.~~ Fixed on Ice's call:
+  "Ice · Taninwat Kaewpankan" in the template, `siteName`, and the five pages
+  that had copied it by hand into share-card titles and JSON-LD.
 
 ### 2026-10-04 (afternoon)
 

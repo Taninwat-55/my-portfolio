@@ -125,7 +125,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://taninwatkaewpankan.xyz"),
   title: {
     default: SITE_TITLE,
-    template: "%s | Ice — Taninwat Kaewpankan",
+    template: "%s | Ice · Taninwat Kaewpankan",
   },
   description: SITE_DESCRIPTION,
   // Both audiences, deliberately. The engineer terms are what a recruiter
@@ -151,7 +151,7 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     url: "https://taninwatkaewpankan.xyz",
-    siteName: "Ice — Taninwat Kaewpankan",
+    siteName: "Ice · Taninwat Kaewpankan",
     locale: "en_US",
     type: "website",
   },

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "Every project with a write-up: client work, product work at an AI startup, full-stack side projects, and the organisation I ran. Each one links to how it was built and why.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
-    title: "Projects | Ice — Taninwat Kaewpankan",
+    title: "Projects | Ice · Taninwat Kaewpankan",
     description:
       "Every project with a write-up — client work, product work, and full-stack builds.",
     url: PAGE_URL,
