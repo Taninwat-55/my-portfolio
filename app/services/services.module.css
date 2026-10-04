@@ -8,56 +8,6 @@
   margin-bottom: clamp(56px, 8vw, 80px);
 }
 
-/* Small mono label, like a receipt line heading. */
-.label {
-  margin: 0 0 12px;
-  color: var(--color-paper-soft);
-  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-/* Row spacing on the list, not on `li + li`: in the two-column lists the
-   second item sits beside the first, and a sibling margin pushed it 8px down. */
-.bullets {
-  display: grid;
-  row-gap: 8px;
-  margin: 0;
-  padding-left: 1.15em;
-  list-style: disc;
-}
-.bullets li {
-  font-size: 15px;
-  line-height: 1.6;
-}
-.bullets li::marker {
-  color: var(--color-paper-soft);
-}
-
-/* A receipt row: name … figure on one line, details under it. */
-.row {
-  padding: 12px 0;
-}
-.row + .row {
-  border-top: 1px dashed var(--color-paper-rule);
-}
-.rowLine {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-.figure {
-  flex: none;
-  white-space: nowrap;
-  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
-  font-size: 14px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-
 /* The running-cost table, on paper. */
 .table {
   width: 100%;
@@ -81,16 +31,6 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-}
-
-/* The recommended aftercare block: a sticky note, ink only (paper-soft is
-   4.4:1 on the yellow, under AA). */
-.sticky {
-  padding: clamp(20px, 4vw, 28px);
-  background: var(--color-sticky);
-  color: var(--color-paper-ink);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.55);
-  transform: rotate(-0.4deg);
 }
 
 /* A tap-to-open section on paper (the folded parts of the website receipt and

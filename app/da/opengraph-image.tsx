@@ -1,7 +1,6 @@
 import { ImageResponse } from "next/og";
 import { services } from "../data";
 import { daContent as da, daUnits } from "../data.da";
-import { ogBackdrop, OG_ACCENT } from "../lib/og-backdrop";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -36,9 +35,8 @@ export const alt =
  * Danish way — "6.500", a dot for thousands — so they render correctly as-is.
  * svPrice() exists because a Swedish reader can parse "6.500" as six and a half.
  *
- * The background comes from ogBackdrop() rather than blurred circles — see the note
- * in app/lib/og-backdrop.ts for why every card that used those shipped with a hard
- * rectangular seam across it.
+ * Since the re-theme (Phase 5) it is a paper sheet on the dark desk, like the
+ * page it shares, rather than ogBackdrop()'s glow.
  */
 export default function DanishOgImage() {
   const ladder = services.offers[0].priceLadder;
@@ -50,14 +48,25 @@ export default function DanishOgImage() {
           width: 1200,
           height: 630,
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          padding: "64px 80px",
-          ...ogBackdrop(OG_ACCENT.crystal),
+          // The dark desk, with one sheet of paper on it (re-theme, Phase 5).
+          padding: 36,
+          backgroundColor: "#0C0C0C",
         }}
       >
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            padding: "48px 60px",
+            backgroundColor: "#f6f5f1",
+            borderRadius: 8,
+            boxShadow: "0 18px 40px rgba(0, 0, 0, 0.55)",
+          }}
+        >
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div style={{ fontSize: 26, color: "#7FC8E3", display: "flex" }}>
+          <div style={{ fontSize: 26, color: "#286a87", display: "flex" }}>
             {da.hero.eyebrow}
           </div>
 
@@ -73,7 +82,7 @@ export default function DanishOgImage() {
               fontSize: 66,
               fontWeight: 700,
               lineHeight: 1.1,
-              color: "#BBCCD7",
+              color: "#1d2731",
               display: "flex",
             }}
           >
@@ -83,7 +92,7 @@ export default function DanishOgImage() {
           <div
             style={{
               fontSize: 26,
-              color: "rgba(215, 226, 234, 0.75)",
+              color: "#5a6672",
               display: "flex",
             }}
           >
@@ -112,20 +121,20 @@ export default function DanishOgImage() {
                   gap: 6,
                   padding: "16px 22px",
                   borderRadius: 12,
-                  border: "1px solid rgba(215, 226, 234, 0.15)",
-                  background: "rgba(255, 255, 255, 0.04)",
+                  border: "1.5px dashed #c9d5e6",
+                  background: "#ece9e2",
                 }}
               >
                 <div
                   style={{
                     fontSize: 20,
-                    color: "rgba(215, 226, 234, 0.5)",
+                    color: "#5a6672",
                     display: "flex",
                   }}
                 >
                   {daUnits(rung.scope)}
                 </div>
-                <div style={{ fontSize: 26, color: "#D7E2EA", display: "flex" }}>
+                <div style={{ fontSize: 26, color: "#1d2731", display: "flex" }}>
                   {rung.price}
                 </div>
               </div>
@@ -135,12 +144,13 @@ export default function DanishOgImage() {
           <div
             style={{
               fontSize: 22,
-              color: "rgba(215, 226, 234, 0.4)",
+              color: "#5a6672",
               display: "flex",
             }}
           >
             taninwatkaewpankan.xyz/da
           </div>
+        </div>
         </div>
       </div>
     ),

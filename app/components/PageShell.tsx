@@ -6,14 +6,25 @@ import styles from "./paper/paper.module.css";
 
 interface PageShellProps {
   children: React.ReactNode;
-  /** The object this page was opened from, e.g. { href: "/work", label: "Work" }. */
-  back?: { href: string; label: string };
+  /**
+   * The object this page was opened from, e.g. { href: "/work", label: "Work" }.
+   * `lang` marks a label in another language than the page (the language pages'
+   * "English" link).
+   */
+  back?: { href: string; label: string; lang?: string };
   /**
    * The page's language, for the footer's current-language mark. The shell's
-   * own few words are still English; Phase 5 adds their translations, taken
-   * from the proofread language files rather than written fresh.
+   * own few words stay English, also on /th, /sv and /da: Ice's rule for
+   * those pages is no new copy, and the skip link is marked lang="en". The
+   * footer nav's English aria-label is logged in PLAN.md for a later pass.
    */
   lang?: string;
+  /**
+   * The English postcard in the footer. Off on /th, /sv and /da (Ice,
+   * 2026-10-05): it would be the one English card on a Thai or Danish sales
+   * page, and their own contact section sits right above the footer.
+   */
+  postcard?: boolean;
 }
 
 /**
@@ -24,7 +35,7 @@ interface PageShellProps {
  * Not fixed to the top: these are documents to read, and a fixed bar only
  * covers them.
  */
-export function PageShell({ children, back, lang = "en" }: PageShellProps) {
+export function PageShell({ children, back, lang = "en", postcard = true }: PageShellProps) {
   return (
     <div className={styles.desk}>
       <SkipLink />
@@ -36,7 +47,7 @@ export function PageShell({ children, back, lang = "en" }: PageShellProps) {
           <Image src="/clock/face-neutral.webp" alt="" width={96} height={96} sizes="48px" loading="eager" />
         </Link>
         {back && (
-          <Link href={back.href} className={styles.back}>
+          <Link href={back.href} className={styles.back} lang={back.lang}>
             <span aria-hidden="true">←</span> {back.label}
           </Link>
         )}
@@ -62,16 +73,18 @@ export function PageShell({ children, back, lang = "en" }: PageShellProps) {
           ))}
         </nav>
 
-        <div className={styles.postcard}>
-          <p className={styles.postcardLine}>Got a role or a project in mind?</p>
-          <a href={`mailto:${personalInfo.email}`} className={styles.postcardEmail}>
-            {personalInfo.email}
-          </a>
-          <Link href="/contact" className={styles.postcardLink}>
-            Write me a postcard →
-          </Link>
-          <span className={styles.postcardStamp} aria-hidden="true" />
-        </div>
+        {postcard && (
+          <div className={styles.postcard}>
+            <p className={styles.postcardLine}>Got a role or a project in mind?</p>
+            <a href={`mailto:${personalInfo.email}`} className={styles.postcardEmail}>
+              {personalInfo.email}
+            </a>
+            <Link href="/contact" className={styles.postcardLink}>
+              Write me a postcard →
+            </Link>
+            <span className={styles.postcardStamp} aria-hidden="true" />
+          </div>
+        )}
       </footer>
     </div>
   );
