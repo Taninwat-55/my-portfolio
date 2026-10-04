@@ -1,9 +1,9 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { getSortedPostsData } from "../lib/posts";
 import { PageShell } from "../components/PageShell";
 import { PaperSheet } from "../components/paper/PaperSheet";
 import { PageHeader } from "../components/paper/PageHeader";
+import { GardenList } from "./GardenList";
 import styles from "./notebook.module.css";
 
 export const metadata: Metadata = {
@@ -29,7 +29,16 @@ export const metadata: Metadata = {
 
 /** The notebook's contents page: every note, newest first, written on its lines. */
 export default function GardenIndex() {
-  const allPosts = getSortedPostsData();
+  // Only what the list shows: the full text of every note stays out of the
+  // client component's props.
+  const entries = getSortedPostsData().map(({ slug, title, date, category, readTime, excerpt }) => ({
+    slug,
+    title,
+    date,
+    category,
+    readTime,
+    excerpt,
+  }));
 
   return (
     <PageShell back={{ href: "/writing", label: "Writing" }}>
@@ -40,21 +49,7 @@ export default function GardenIndex() {
           lead="Notes on building products, engineering, product thinking, and the occasional tool that runs right inside the post."
         />
 
-        <ol className={`${styles.lined} ${styles.contents}`}>
-          {allPosts.map((post) => (
-            <li key={post.slug}>
-              <h2 className={styles.entryTitle}>
-                <Link href={`/garden/${post.slug}`}>{post.title}</Link>
-              </h2>
-              <p className={styles.entryMeta}>
-                {post.category} <span aria-hidden="true">·</span>{" "}
-                <time dateTime={post.date}>{post.date}</time> <span aria-hidden="true">·</span>{" "}
-                {post.readTime}
-              </p>
-              <p className={styles.entryExcerpt}>{post.excerpt}</p>
-            </li>
-          ))}
-        </ol>
+        <GardenList posts={entries} />
       </PaperSheet>
     </PageShell>
   );

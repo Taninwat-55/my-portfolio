@@ -183,4 +183,48 @@
   color: var(--color-paper-soft);
   font-size: 15px;
 }
+/* Phones only: 5 notes a page (GardenList). Laptops never hide a note and
+   never see the pager. */
+.pager {
+  display: none;
+}
+@media (max-width: 767px) {
+  .offPage {
+    display: none;
+  }
+  /* Two whole lines tall, so the notebook's grid rule holds below it too. */
+  .pager {
+    display: flex;
+    height: calc(var(--line) * 2);
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+}
+.pagerButton {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1.5px solid var(--color-paper-ink);
+  border-radius: 999px;
+  background: none;
+  color: var(--color-paper-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.pagerButton:disabled {
+  border-color: var(--color-paper-rule);
+  color: var(--color-paper-soft);
+  cursor: default;
+}
+.pagerButton:focus-visible {
+  outline: 2px solid var(--color-paper-ink);
+  outline-offset: 2px;
+}
+.pagerStatus {
+  margin: 0;
+  color: var(--color-paper-soft);
+  font-size: 13px;
+}
 } /* @layer components */
