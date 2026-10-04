@@ -174,9 +174,18 @@ prettier's layout. Do not run formatters the repo does not configure.
   its comment argued; the order is now Running costs, Aftercare, Process, Handover,
   and both section-order comments are true again.
 
+- **"Yours, not mine" removed; "not in the price" moved into the FAQ** (Ice's
+  call). Its ownership half repeated the FAQ's "Who owns the code?" and the
+  receipt's list; its scope-boundary half became the FAQ's second question, "What
+  is not included in the price?", in wording Ice approved (built from the old
+  items, trimmed, no em dashes). `services.handover` deleted from `data.ts`. FAQ
+  JSON-LD went 12 → 13 questions, the rest of the graph identical. **/services is
+  now 10.2 screens on a laptop and 15.9 on a phone.**
+
 **Open:**
 - Ice's preview check: `/services` on phone and laptop, the receipts and their
-  fold, the FAQ, the form (send it empty to see the error state).
+  fold, the FAQ (new second question), the form (send it empty to see the error
+  state).
 
 ### 2026-10-05
 
