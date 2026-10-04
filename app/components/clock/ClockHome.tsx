@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { clockContent, personalInfo, siteContent, type ClockObjectId } from "../../data";
 import { Portrait } from "./Portrait";
@@ -110,22 +110,6 @@ function saveOffsets(offsets: Offsets) {
 const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isCompact = () =>
   window.matchMedia("(max-width: 767px), (max-height: 520px) and (orientation: landscape)").matches;
-/**
- * TEMPORARY, remove before merging clock-redesign: a switch for previewing night
- * mode in daytime. It only renders when the URL has ?preview (e.g.
- * localhost:3100/?preview), so no ordinary visitor can see it, and it fakes
- * Copenhagen's clock rather than a "night" flag, so the lamp, the dimming and
- * the mood line all change together the way they really would.
- */
-const PREVIEW_NIGHT_TIME = "23:10";
-const noSubscribe = () => () => {};
-const usePreviewSwitch = () =>
-  useSyncExternalStore(
-    noSubscribe,
-    () => new URLSearchParams(window.location.search).has("preview"),
-    () => false,
-  );
-
 const isPlainClick = (event: React.MouseEvent) =>
   event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 
@@ -169,10 +153,7 @@ export function ClockHome({
 
   // The desk lamp follows Copenhagen's clock until the visitor flips it.
   const { desk } = clockContent;
-  const realTime = useCopenhagenTime();
-  const showPreview = usePreviewSwitch();
-  const [previewingNight, setPreviewingNight] = useState(false);
-  const time = previewingNight ? PREVIEW_NIGHT_TIME : realTime;
+  const time = useCopenhagenTime();
   const hour = time ? hourOf(time) : null;
   const night = hour !== null && (hour >= desk.lampOnFrom || hour < desk.lampOffAt);
   const [lampFlipped, setLampFlipped] = useState<boolean | null>(null);
@@ -612,19 +593,6 @@ export function ClockHome({
           {Object.keys(offsets).length > 0 && (
             <button type="button" className={styles.tidy} onClick={tidyDesk}>
               {desk.tidyLabel}
-            </button>
-          )}
-          {showPreview && (
-            <button
-              type="button"
-              className={styles.tidy}
-              aria-pressed={previewingNight}
-              onClick={() => {
-                setPreviewingNight(!previewingNight);
-                setLampFlipped(null); // let the lamp follow the previewed clock
-              }}
-            >
-              Preview: {previewingNight ? `night (${PREVIEW_NIGHT_TIME})` : "real time"}
             </button>
           )}
         </div>
