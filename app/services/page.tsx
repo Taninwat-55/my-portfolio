@@ -352,81 +352,94 @@ export default function ServicesPage() {
                     </div>
                   )}
 
-                  {/* Answers "what am I paying for, if not pages?" before the
-                      client has to ask it. */}
-                  {offer.includedInEvery && (
-                    <div className={`${paper.dashed} mt-8 pt-6`}>
-                      <p className={styles.label}>
-                        {offer.includedInEvery.label}
-                      </p>
-                      <p className="mb-4 max-w-3xl text-sm leading-relaxed text-paper-soft">
-                        {offer.includedInEvery.body}
-                      </p>
-                      <ul
-                        className={`${styles.bullets} grid grid-cols-1 gap-x-10 lg:grid-cols-2`}
-                      >
-                        {offer.includedInEvery.items.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* The add-ons, itemised. Sits AFTER includedInEvery on
-                      purpose: the base value has to be established before the
-                      options read as options rather than as the real price
-                      arriving in instalments.
-
-                      One price per row, no Webflow/coded fork — see the lock note
-                      on ServiceOffer.addOns in data.ts. Where a row carries a
-                      `note` about cost, it is always about what the thing costs to
-                      KEEP, never to build. */}
-                  {offer.addOns && (
-                    <div className={`${paper.dashed} mt-8 pt-6`}>
-                      <p className={styles.label}>{offer.addOns.label}</p>
-                      <p className="mb-2 max-w-3xl text-sm leading-relaxed text-paper-soft">
-                        {offer.addOns.body}
-                      </p>
-
-                      <div>
-                        {offer.addOns.items.map((item) => (
-                          <div key={item.name} className={styles.row}>
-                            <div className={styles.rowLine}>
-                              <span className="text-[15px] font-semibold">
-                                {item.name}
-                              </span>
-                              <span className={styles.figure}>
-                                {item.price}
-                              </span>
-                            </div>
-                            <p className="mt-1 max-w-xl text-sm leading-relaxed text-paper-soft">
-                              {item.body}
-                            </p>
-                            {item.note && (
-                              /* Set apart, because it is about the running cost
-                                 rather than the price above it — the two must not
-                                 read as one figure. */
-                              <p className="mt-2 max-w-xl border-l-2 border-paper-rule pl-3 text-xs leading-relaxed text-paper-soft">
-                                {item.note}
-                              </p>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="mt-5 max-w-2xl">
+                  {/* Folded (Ice, 2026-10-05): the website receipt alone was
+                      3.4 screens on a laptop and 5.4 on a phone. The price
+                      ladder stays open; what is included and the add-ons open
+                      with a tap. Still in the HTML, so search engines and the
+                      chat's grounding see every word. */}
+                  {(offer.includedInEvery || offer.addOns) && (
+                    <details className={`${paper.dashed} mt-8 pt-2`}>
+                      <summary className={styles.foldSummary}>
+                        See what&apos;s included and the add-ons
+                        <ChevronDown size={16} strokeWidth={1.75} aria-hidden className={styles.faqChevron} />
+                      </summary>
+                    {/* Answers "what am I paying for, if not pages?" before the
+                        client has to ask it. */}
+                    {offer.includedInEvery && (
+                      <div className={`${paper.dashed} mt-8 pt-6`}>
                         <p className={styles.label}>
-                          {offer.addOns.includedLabel}
+                          {offer.includedInEvery.label}
                         </p>
-                        <p className="text-sm leading-relaxed">
-                          {offer.addOns.included}
+                        <p className="mb-4 max-w-3xl text-sm leading-relaxed text-paper-soft">
+                          {offer.includedInEvery.body}
+                        </p>
+                        <ul
+                          className={`${styles.bullets} grid grid-cols-1 gap-x-10 lg:grid-cols-2`}
+                        >
+                          {offer.includedInEvery.items.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* The add-ons, itemised. Sits AFTER includedInEvery on
+                        purpose: the base value has to be established before the
+                        options read as options rather than as the real price
+                        arriving in instalments.
+
+                        One price per row, no Webflow/coded fork — see the lock note
+                        on ServiceOffer.addOns in data.ts. Where a row carries a
+                        `note` about cost, it is always about what the thing costs to
+                        KEEP, never to build. */}
+                    {offer.addOns && (
+                      <div className={`${paper.dashed} mt-8 pt-6`}>
+                        <p className={styles.label}>{offer.addOns.label}</p>
+                        <p className="mb-2 max-w-3xl text-sm leading-relaxed text-paper-soft">
+                          {offer.addOns.body}
+                        </p>
+
+                        <div>
+                          {offer.addOns.items.map((item) => (
+                            <div key={item.name} className={styles.row}>
+                              <div className={styles.rowLine}>
+                                <span className="text-[15px] font-semibold">
+                                  {item.name}
+                                </span>
+                                <span className={styles.figure}>
+                                  {item.price}
+                                </span>
+                              </div>
+                              <p className="mt-1 max-w-xl text-sm leading-relaxed text-paper-soft">
+                                {item.body}
+                              </p>
+                              {item.note && (
+                                /* Set apart, because it is about the running cost
+                                   rather than the price above it — the two must not
+                                   read as one figure. */
+                                <p className="mt-2 max-w-xl border-l-2 border-paper-rule pl-3 text-xs leading-relaxed text-paper-soft">
+                                  {item.note}
+                                </p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="mt-5 max-w-2xl">
+                          <p className={styles.label}>
+                            {offer.addOns.includedLabel}
+                          </p>
+                          <p className="text-sm leading-relaxed">
+                            {offer.addOns.included}
+                          </p>
+                        </div>
+
+                        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-paper-soft">
+                          {offer.addOns.ownWork}
                         </p>
                       </div>
-
-                      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-paper-soft">
-                        {offer.addOns.ownWork}
-                      </p>
-                    </div>
+                    )}
+                    </details>
                   )}
 
                   {/* Price stays in ink. An accent-coloured figure reads as a
@@ -488,73 +501,6 @@ export default function ServicesPage() {
 
         <FadeIn delay={0.1} y={24}>
           <PaperSheet className="overflow-hidden p-0">
-            {/* Below sm this becomes stacked cards rather than a scrolling
-                table. A side-scrolling comparison hides one of the two columns
-                off-screen with no affordance, which defeats the only thing
-                this section exists to do. Exactly one of the two renderings is
-                ever displayed, so `hidden` keeps the other out of the
-                accessibility tree and nothing is announced twice. */}
-            <div className="sm:hidden">
-              {services.runningCosts.rows.map((row) => (
-                <div
-                  key={row.label}
-                  className="border-b border-paper-rule px-5 py-5 last:border-0"
-                >
-                  <div className="text-sm font-semibold">{row.label}</div>
-                  <div className="mt-3 flex gap-3">
-                    <div className="flex-1 rounded border border-paper-rule px-3 py-2.5">
-                      <div className={styles.label}>Webflow</div>
-                      {/* Some values are words ("You want no yearly bill"), so
-                          they wrap here; the table from sm keeps them on one line. */}
-                      <div className={`${styles.figure} whitespace-normal`}>
-                        {row.webflow}
-                      </div>
-                    </div>
-                    <div className="flex-1 rounded border border-paper-rule px-3 py-2.5">
-                      <div className={styles.label}>Coded</div>
-                      <div className={`${styles.figure} whitespace-normal`}>
-                        {row.coded}
-                      </div>
-                    </div>
-                  </div>
-                  <p className="mt-3 text-xs leading-relaxed text-paper-soft">
-                    {row.why}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="hidden overflow-x-auto sm:block">
-              <table className={styles.table}>
-                <caption className="sr-only">
-                  Yearly running costs compared: Webflow versus a coded site
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Per year</th>
-                    <th scope="col">Webflow</th>
-                    <th scope="col">Coded</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {services.runningCosts.rows.map((row) => (
-                    <tr key={row.label}>
-                      <th scope="row" className="font-normal">
-                        <span className="block text-sm font-semibold">
-                          {row.label}
-                        </span>
-                        <span className="mt-1 block max-w-xs text-xs leading-relaxed text-paper-soft">
-                          {row.why}
-                        </span>
-                      </th>
-                      <td className={styles.figure}>{row.webflow}</td>
-                      <td className={styles.figure}>{row.coded}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
             {/* Who actually receives the yearly money. A band of its own
                 rather than a footnote: "then, per year — 100 to 1.600 kr" with
                 no recipient named reads as "he bills me every year forever",
@@ -606,52 +552,88 @@ export default function ServicesPage() {
                 {services.runningCosts.note}
               </p>
             </div>
+
+            {/* Folded (Ice, 2026-10-05): who gets paid, the five-year totals
+                and the verdict carry the argument, so they stay open; the
+                row-by-row comparison opens with a tap. */}
+            <details className={paper.dashed}>
+              <summary className={`${styles.foldSummary} px-5 sm:px-6`}>
+                Compare it line by line
+                <ChevronDown size={16} strokeWidth={1.75} aria-hidden className={styles.faqChevron} />
+              </summary>
+              {/* Below sm this becomes stacked cards rather than a scrolling
+                  table. A side-scrolling comparison hides one of the two columns
+                  off-screen with no affordance, which defeats the only thing
+                  this section exists to do. Exactly one of the two renderings is
+                  ever displayed, so `hidden` keeps the other out of the
+                  accessibility tree and nothing is announced twice. */}
+              <div className="sm:hidden">
+                {services.runningCosts.rows.map((row) => (
+                  <div
+                    key={row.label}
+                    className="border-b border-paper-rule px-5 py-5 last:border-0"
+                  >
+                    <div className="text-sm font-semibold">{row.label}</div>
+                    <div className="mt-3 flex gap-3">
+                      <div className="flex-1 rounded border border-paper-rule px-3 py-2.5">
+                        <div className={styles.label}>Webflow</div>
+                        {/* Some values are words ("You want no yearly bill"), so
+                            they wrap here; the table from sm keeps them on one line. */}
+                        <div className={`${styles.figure} whitespace-normal`}>
+                          {row.webflow}
+                        </div>
+                      </div>
+                      <div className="flex-1 rounded border border-paper-rule px-3 py-2.5">
+                        <div className={styles.label}>Coded</div>
+                        <div className={`${styles.figure} whitespace-normal`}>
+                          {row.coded}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="mt-3 text-xs leading-relaxed text-paper-soft">
+                      {row.why}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="hidden overflow-x-auto sm:block">
+                <table className={styles.table}>
+                  <caption className="sr-only">
+                    Yearly running costs compared: Webflow versus a coded site
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Per year</th>
+                      <th scope="col">Webflow</th>
+                      <th scope="col">Coded</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {services.runningCosts.rows.map((row) => (
+                      <tr key={row.label}>
+                        <th scope="row" className="font-normal">
+                          <span className="block text-sm font-semibold">
+                            {row.label}
+                          </span>
+                          <span className="mt-1 block max-w-xs text-xs leading-relaxed text-paper-soft">
+                            {row.why}
+                          </span>
+                        </th>
+                        <td className={styles.figure}>{row.webflow}</td>
+                        <td className={styles.figure}>{row.coded}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </details>
           </PaperSheet>
         </FadeIn>
       </section>
 
-      {/* ── Process ───────────────────────────────────────────────────── */}
-      <section aria-labelledby="process-heading" className={styles.section}>
-        <DeskHeading
-          id="process-heading"
-          kicker="How It Works"
-          title="Four steps"
-        />
-
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {servicesProcess.map((step, i) => (
-            <FadeIn key={step.n} delay={i * 0.1} y={24}>
-              <PaperCard tilt={tilt(i)} className="flex h-full flex-col">
-                <div className="mb-3 flex items-baseline justify-between gap-3">
-                  <span className="font-[family-name:var(--font-hand)] text-2xl font-bold">
-                    {step.n}
-                  </span>
-                  <span
-                    className={`${paper.mono} text-[11px] uppercase tracking-wider text-paper-soft`}
-                  >
-                    {step.duration}
-                  </span>
-                </div>
-                <h3 className="mb-2 text-lg font-bold">{step.title}</h3>
-                {/* mb-5 rather than a margin on the footer below: that one
-                    uses mt-auto to sit flush with the card base, which would
-                    collapse to zero gap on a card with long copy. */}
-                <p className="mb-5 text-sm leading-relaxed">{step.body}</p>
-                <p
-                  className={`${paper.dashed} mt-auto pt-4 text-xs leading-relaxed text-paper-soft`}
-                >
-                  <span className="font-semibold text-paper-ink">You get:</span>{" "}
-                  {step.youGet}
-                </p>
-              </PaperCard>
-            </FadeIn>
-          ))}
-        </div>
-      </section>
-
       {/* ── Aftercare ─────────────────────────────────────────────────── */}
-      {/* After the running-cost table (with the process between them), because
-          that section ends by
+      {/* Directly after the running-cost table, because that section ends by
           saying there is no yearly bill — and the obvious next question is
           "so what happens when I want something changed?". Leaving that
           unanswered is what made the old position feel incomplete.
@@ -724,9 +706,47 @@ export default function ServicesPage() {
         </FadeIn>
       </section>
 
+      {/* ── Process ───────────────────────────────────────────────────── */}
+      <section aria-labelledby="process-heading" className={styles.section}>
+        <DeskHeading
+          id="process-heading"
+          kicker="How It Works"
+          title="Four steps"
+        />
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {servicesProcess.map((step, i) => (
+            <FadeIn key={step.n} delay={i * 0.1} y={24}>
+              <PaperCard tilt={tilt(i)} className="flex h-full flex-col">
+                <div className="mb-3 flex items-baseline justify-between gap-3">
+                  <span className="font-[family-name:var(--font-hand)] text-2xl font-bold">
+                    {step.n}
+                  </span>
+                  <span
+                    className={`${paper.mono} text-[11px] uppercase tracking-wider text-paper-soft`}
+                  >
+                    {step.duration}
+                  </span>
+                </div>
+                <h3 className="mb-2 text-lg font-bold">{step.title}</h3>
+                {/* mb-5 rather than a margin on the footer below: that one
+                    uses mt-auto to sit flush with the card base, which would
+                    collapse to zero gap on a card with long copy. */}
+                <p className="mb-5 text-sm leading-relaxed">{step.body}</p>
+                <p
+                  className={`${paper.dashed} mt-auto pt-4 text-xs leading-relaxed text-paper-soft`}
+                >
+                  <span className="font-semibold text-paper-ink">You get:</span>{" "}
+                  {step.youGet}
+                </p>
+              </PaperCard>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
       {/* ── Handover and scope boundaries ─────────────────────────────── */}
-      {/* After Process, whose last step is handover (aftercare sits between
-          them). The "not in the
+      {/* Straight after Process, whose last step is handover. The "not in the
           price" column is the same move as the "Probably not" column further
           up: on a page arguing that the claims are honest, the fastest way to
           prove it is to say what you do not do. */}

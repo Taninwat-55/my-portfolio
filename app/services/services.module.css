@@ -93,6 +93,31 @@
   transform: rotate(-0.4deg);
 }
 
+/* A tap-to-open section on paper (the folded parts of the website receipt and
+   the running costs): a 44px row with the same chevron as the FAQ. */
+.foldSummary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  cursor: pointer;
+  list-style: none;
+  color: var(--color-paper-link);
+  font-size: 15px;
+  font-weight: 600;
+}
+.foldSummary::-webkit-details-marker {
+  display: none;
+}
+.foldSummary:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.foldSummary:focus-visible {
+  outline: 2px solid var(--color-paper-link);
+  outline-offset: 2px;
+}
+
 /* The FAQ: an index card per question. The summary is the card's top line and
    carries its red rule, so a question that wraps pushes the rule down. */
 .faqSummary {
