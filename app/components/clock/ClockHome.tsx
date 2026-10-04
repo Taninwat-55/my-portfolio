@@ -8,26 +8,29 @@ import { Portrait } from "./Portrait";
 import { Hand } from "./Hand";
 import { ObjectArt } from "./ObjectArt";
 import { Envelope } from "./Envelope";
+import { Postcard } from "./Postcard";
 import styles from "./clock.module.css";
 
 type Pointable = ClockObjectId | "contact";
-type InPlace = "about";
-type Stage = 0 | 1 | 2 | 3;
+type InPlace = "about" | "contact";
 
 /**
  * Objects that open over the cluster instead of navigating away. Each one also
- * has a real route (app/about/page.tsx) that renders this component already
- * open, so the URL can be shared and a direct visit shows the letter.
+ * has a real route (app/about/page.tsx, app/contact/page.tsx) that renders this
+ * component already open, so the URL can be shared and a direct visit shows it.
  *
  * Opening uses window.history.pushState rather than router.push: Next keeps
  * usePathname in sync with it, but does not re-render the page, so the envelope
  * can fly out of its spot instead of the whole tree remounting at /about.
  */
-const IN_PLACE: Record<InPlace, string> = { about: "/about" };
+const IN_PLACE: Record<InPlace, string> = { about: "/about", contact: "/contact" };
 const isInPlace = (id: Pointable): id is InPlace => id in IN_PLACE;
 
-// When each envelope stage starts, in ms after the fly-in lands.
-const STAGE_DELAYS = [0, 420, 1000];
+// When each stage of an object's opening starts, in ms after the fly-in lands.
+// The envelope has three (flap, letter rises, letter unfolds); the postcard
+// has one (it turns over). A direct visit renders the last stage straight away.
+const STAGE_DELAYS: Record<InPlace, number[]> = { about: [0, 420, 1000], contact: [500] };
+const DIALOG_LABELS: Record<InPlace, string> = { about: "About Ice", contact: "Contact Ice" };
 // Long enough to see the hand swing before the page changes.
 const SWING_BEFORE_NAVIGATE_MS = 380;
 
@@ -54,7 +57,7 @@ export function ClockHome({ initialOpen = null }: { initialOpen?: InPlace | null
 
   const [pointed, setPointed] = useState<Pointable | null>(initialOpen);
   const [open, setOpen] = useState<InPlace | null>(initialOpen);
-  const [stage, setStage] = useState<Stage>(initialOpen ? 3 : 0);
+  const [stage, setStage] = useState(initialOpen ? STAGE_DELAYS[initialOpen].length : 0);
 
   const [firstName, ...rest] = personalInfo.name.split(" ");
   const lastName = rest.join(" ");
@@ -166,10 +169,8 @@ export function ClockHome({ initialOpen = null }: { initialOpen?: InPlace | null
     closeRef.current?.focus({ preventScroll: true });
     animation.finished
       .then(() => {
-        STAGE_DELAYS.forEach((delay, i) => {
-          timers.current.push(
-            window.setTimeout(() => setStage((i + 1) as Stage), reduce ? 0 : delay),
-          );
+        STAGE_DELAYS[open].forEach((delay, i) => {
+          timers.current.push(window.setTimeout(() => setStage(i + 1), reduce ? 0 : delay));
         });
       })
       .catch(() => {});
@@ -245,8 +246,8 @@ export function ClockHome({ initialOpen = null }: { initialOpen?: InPlace | null
     if (event.key !== "Tab") return;
     const scrim = event.currentTarget;
     const focusable = Array.from(
-      scrim.querySelectorAll<HTMLElement>("button, a[href], [tabindex='0']"),
-    );
+      scrim.querySelectorAll<HTMLElement>("button, a[href], textarea, [tabindex='0']"),
+    ).filter((el) => !el.closest("[inert]"));
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
     if (event.shiftKey && document.activeElement === first) {
@@ -262,7 +263,6 @@ export function ClockHome({ initialOpen = null }: { initialOpen?: InPlace | null
 
   const onTriggerClick = (event: React.MouseEvent<HTMLAnchorElement>, id: Pointable, href: string) => {
     if (!isPlainClick(event)) return; // new tab and friends keep working
-    if (id === "contact") return; // a mailto link: let the browser handle it
     event.preventDefault();
     const alreadyPointing = pointedRef.current === id;
     pointAt(id);
@@ -321,8 +321,7 @@ export function ClockHome({ initialOpen = null }: { initialOpen?: InPlace | null
 
           <a
             className={`${styles.pin} ${pointed === "contact" ? styles.pointed : ""}`}
-            aria-label={`${clockContent.contact.label}: email ${personalInfo.email}`}
-            {...triggerProps("contact", `mailto:${personalInfo.email}`)}
+            {...triggerProps("contact", IN_PLACE.contact)}
           >
             <span ref={artRef("contact")} className={styles.pinCard}>
               <ObjectArt id="contact" />
@@ -396,9 +395,13 @@ export function ClockHome({ initialOpen = null }: { initialOpen?: InPlace | null
             className={styles.sheet}
             role="dialog"
             aria-modal="true"
-            aria-label="About Ice"
+            aria-label={DIALOG_LABELS[open]}
           >
-            <Envelope stage={stage} />
+            {open === "about" ? (
+              <Envelope stage={stage as 0 | 1 | 2 | 3} />
+            ) : (
+              <Postcard stage={stage} />
+            )}
           </div>
         </div>
       )}

@@ -87,14 +87,19 @@ export const siteContent = {
    *
    * ONE searchable title, not a hybrid. It was "Frontend Engineer & Project
    * Coordinator", which is accurate but unsearchable — recruiters and ATS filters
-   * query "Frontend Developer", never a slash title, and a hybrid reads as not
-   * having decided. The coordination half has not been dropped, it has moved one
-   * line down into cvData.summary, where a human reads it and it becomes range
-   * rather than indecision.
+   * never query a slash title, and a hybrid reads as not having decided. The
+   * coordination half has not been dropped, it has moved one line down into
+   * cvData.summary, where a human reads it and it becomes range rather than
+   * indecision. The same rule keeps design out of the title: postings ask for it
+   * in the description (about 10 in 69), never in the title.
    *
-   * "Developer" over "Engineer" because it is the common posting title in Denmark
-   * and Sweden and the honest fit for a vocational diploma plus a year in; the
-   * upgrade is available later at no cost.
+   * "Full-stack Engineer" since 2026-10-04, replacing "Frontend Developer". Ice
+   * collected 104 Danish and Swedish postings (The Hub, LinkedIn, Jobindex,
+   * Jobnet). The frontend-only ones he could realistically get: 0 of 10, every
+   * one blocked by fluent Danish or 3+ years. Full-stack or generalist ones: 4
+   * clear and 4 borderline, and 8 of those 10 titles say "Engineer". No posting
+   * said "Design Engineer" or "developer & designer". Bevisly (Postgres RLS) and
+   * MockMate (Prisma, Lambda) are what make the claim defensible.
    *
    * NOT "Web Developer", despite that being the freelance word. Denmark files both
    * under the same DISCO-08 code, so the work is identical on paper — but
@@ -103,7 +108,7 @@ export const siteContent = {
    * roughly 20k a month of anchoring. siteTagline carries "web developer" for the
    * client-facing side, which is the audience that actually searches for it.
    */
-  roleLabel: "Frontend Developer",
+  roleLabel: "Full-stack Engineer",
   /**
    * The human-facing tagline, used only where a person reads it: the browser
    * tab, the search result, and the homepage's screen-reader h1.
@@ -1720,8 +1725,17 @@ export const clockContent = {
     { id: "services", label: "Services", sub: "Hire me for a project", href: "/services" },
   ] satisfies readonly { id: ClockObjectId; label: string; sub: string; href: string }[],
 
-  // The pinned postcard. Written on the card itself, so it is three short lines.
-  contact: { label: "Contact", lines: ["Say hej,", "write me", "a line"] },
+  // The pinned postcard. `lines` are written on the card itself, so they stay short.
+  contact: {
+    label: "Contact",
+    lines: ["Say hej,", "write me", "a line"],
+    front: "Greetings from Copenhagen",
+    placeholder: "Hej Ice, we're hiring…",
+    // No backend yet: Send opens the visitor's own email app with the message
+    // filled in. A real send endpoint comes with the step 2 interactions.
+    sendLabel: "Send postcard",
+    sendNote: "Opens your email app with this message ready to send.",
+  },
 
   /**
    * The About letter. DRAFT, condensed from siteContent.aboutStory so every fact

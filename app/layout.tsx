@@ -57,7 +57,7 @@ const personJsonLd = {
   url: "https://taninwatkaewpankan.xyz",
   jobTitle: siteContent.roleLabel,
   description:
-    "Frontend engineer and project coordinator based in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
+    "Full-stack engineer based in Copenhagen, building and shipping web products with React, Next.js, TypeScript and PostgreSQL, and designing the interfaces he builds.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Copenhagen",
@@ -134,6 +134,7 @@ export const metadata: Metadata = {
     "freelance web developer Copenhagen",
     "freelance webudvikler København",
     "hjemmeside til lille virksomhed",
+    "Full-stack Engineer",
     "Frontend Engineer",
     "Frontend Developer",
     "Product Engineer",
