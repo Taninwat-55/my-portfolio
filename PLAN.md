@@ -102,7 +102,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 - [x] **Phase 3: CV** (`/cv`) Merged 2026-10-05 (PR #16).
   - A paper document in the PDF's order.
   - Restyle `ContactButton`/`HireModal`, or replace them with `/contact`.
-- [ ] **Phase 4: Services** (`/services`, 1,087 lines, the biggest page)
+- [x] **Phase 4: Services** (`/services`, 1,087 lines, the biggest page) Merged 2026-10-05 (PR #17).
   - Offers as receipt cards (like `/rates`), the running-costs table on paper, the
     FAQ as index cards.
   - Replace `SectionHeading`. Restyle `ServicesEnquiryForm`; it's shared with the
@@ -128,7 +128,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ### 2026-10-05 (later)
 
-**Re-theme Phase 4: Services, on branch `retheme-4-services`, not merged** 🚧 *`ec01189`*
+**Re-theme Phase 4: Services, merged (PR #17)** ✅ *`ec01189`*
 
 - **`/services` is paper cards on the dark desk.** Offers are till receipts with the
   clock receipt's torn edge (`.receipt` in `paper.module.css`; its shadow sits on a
