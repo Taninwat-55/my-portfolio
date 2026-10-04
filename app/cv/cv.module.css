@@ -1,0 +1,173 @@
+/* The CV (re-theme, Phase 3): a typed paper document, in the PDF's order, so
+   the page and public/assets/Taninwat_Kaewpankan_CV.pdf read the same. Plain
+   paper, no ruled lines: a document, not a notebook.
+   Layered like paper.module.css, so a Tailwind className can still override. */
+
+@layer components {
+/* Close to an A4 sheet's proportions on a laptop. */
+.document {
+  max-width: 780px;
+  margin-inline: auto;
+}
+
+/* The PDF's contact line: email · LinkedIn · GitHub. Two deliberate
+   differences from the PDF: location sits in the lead under the name, and the
+   site URL is left off, because this page is the site. */
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 16px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+.contact li {
+  display: flex;
+  align-items: center;
+}
+.contact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--color-paper-link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.download {
+  margin-bottom: clamp(28px, 5vw, 40px);
+}
+.fileType {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.summary {
+  margin: 0;
+  font-size: clamp(16px, 1.6vw, 17px);
+  line-height: 1.7;
+}
+/* How he works: page-only, as a note against the summary. */
+.howIWork {
+  margin: 18px 0 0;
+  padding-left: 16px;
+  border-left: 3px solid var(--color-paper-accent);
+  color: var(--color-paper-soft);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* Section headings like the PDF's: small caps over a thin rule. Tracking stays
+   at 0.1em, the PDF's ATS-safe value (wider made extractors read "S U M M A RY").
+   Here it only has to match the PDF's look. */
+.section {
+  margin-top: clamp(28px, 5vw, 40px);
+}
+.section > h2 {
+  margin: 0 0 16px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--color-paper-rule);
+  color: var(--color-paper-soft);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.skillGroup + .skillGroup {
+  margin-top: 14px;
+}
+.skillGroup h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.entry + .entry {
+  margin-top: 22px;
+}
+.entryLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2px 16px;
+}
+.entryLine h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+.role {
+  color: var(--color-paper-ink);
+  font-size: 15px;
+  font-weight: 500;
+}
+.dim {
+  color: var(--color-paper-soft);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.bullets {
+  margin: 10px 0 0;
+  padding-left: 1.2em;
+  list-style: disc;
+}
+.bullets li {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.bullets li + li {
+  margin-top: 6px;
+}
+.bullets li::marker {
+  color: var(--color-paper-soft);
+}
+
+.degree {
+  margin: 2px 0 0;
+  font-size: 15px;
+}
+
+.extra {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+.extra div {
+  display: grid;
+  gap: 2px;
+}
+@media (min-width: 640px) {
+  .extra div {
+    grid-template-columns: 11rem 1fr;
+    gap: 16px;
+  }
+}
+.extra dt {
+  font-size: 14px;
+  font-weight: 600;
+}
+.extra dd {
+  margin: 0;
+  font-size: 15px;
+}
+
+.signoff {
+  margin: clamp(32px, 6vw, 48px) 0 0;
+  padding-top: 20px;
+  border-top: 1.5px dashed var(--color-paper-rule);
+  font: 400 20px/1.45 var(--font-hand);
+}
+.signoff p {
+  margin: 0;
+}
+} /* @layer components */

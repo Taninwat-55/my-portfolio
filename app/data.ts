@@ -1727,6 +1727,9 @@ export const clockContent = {
   letter: {
     greeting: "Hej,",
     signature: "Ice",
+    // The only link on the site to /cv: a recruiter who has read the letter is
+    // ready for the details. The PDF button beside it stays.
+    cvLink: { label: "Read my CV", href: "/cv" },
   },
 } as const;
 
