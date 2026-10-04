@@ -1,11 +1,25 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { ImageResponse } from "next/og";
-import { personalInfo, siteContent } from "./data";
+import { clockContent, personalInfo, siteContent } from "./data";
 import { ogBackdrop, OG_ACCENT } from "./lib/og-backdrop";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OgImage() {
+const DISC = 420;
+
+/**
+ * The homepage's share card, matching the clock homepage: Ice's portrait on its
+ * disc on the right, who and what on the left.
+ *
+ * The portrait is a PNG because next/og (satori) cannot decode WebP. It is read
+ * from disk at build time, since this route is prerendered.
+ */
+export default async function OgImage() {
+  const portrait = await readFile(path.join(process.cwd(), "public/clock/face-neutral.png"));
+  const portraitSrc = `data:image/png;base64,${portrait.toString("base64")}`;
+
   return new ImageResponse(
     <div
       style={{
@@ -13,23 +27,23 @@ export default function OgImage() {
         height: 630,
         ...ogBackdrop(OG_ACCENT.home),
         display: "flex",
-        flexDirection: "column",
+        alignItems: "center",
         justifyContent: "space-between",
-        padding: "64px 80px",
+        padding: "64px 72px 64px 80px",
         position: "relative",
         overflow: "hidden",
       }}
     >
-
-      {/* Top row */}
+      {/* Left: who and what */}
       <div
         style={{
           display: "flex",
-          alignItems: "center",
+          flexDirection: "column",
           justifyContent: "space-between",
+          height: "100%",
+          width: 620,
         }}
       >
-        {/* Ice mark */}
         <div
           style={{
             display: "flex",
@@ -48,136 +62,101 @@ export default function OgImage() {
           ICE
         </div>
 
-        {/* Availability pill */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 9,
-            padding: "9px 20px",
-            borderRadius: 100,
-            border: "1px solid rgba(215, 226, 234, 0.2)",
-            background: "rgba(255, 255, 255, 0.04)",
-          }}
-        >
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div
             style={{
-              width: 7,
-              height: 7,
-              borderRadius: "50%",
-              background: "#C4713E",
               display: "flex",
-            }}
-          />
-          <span
-            style={{
-              fontSize: 12,
-              letterSpacing: "0.14em",
+              fontSize: 14,
+              letterSpacing: "0.25em",
               textTransform: "uppercase",
-              color: "rgba(215, 226, 234, 0.6)",
+              color: "#7FC8E3",
               fontFamily: "monospace",
             }}
           >
-            {/* Was "Open to opportunities · Copenhagen". data.ts already
-                explains why the page dropped that wording — to a business
-                deciding whether to spend money, "open to work" says the person is
-                between jobs, which invites them to negotiate the price down. The
-                reasoning was applied to the hero and not to this card, which is
-                the copy most people actually see first. */}
-            {siteContent.heroCorners.right.status} ·{" "}
-            {siteContent.heroCorners.right.place}
-          </span>
+            {/* The job title, not the client tagline: the homepage now leads
+                with it, and the share card should say what the page says. */}
+            {siteContent.roleLabel} · Copenhagen
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 84,
+              fontWeight: 800,
+              lineHeight: 0.95,
+              letterSpacing: "-3px",
+              textTransform: "uppercase",
+              color: "#BBCCD7",
+            }}
+          >
+            Hi, I&apos;m Ice
+          </div>
+          <div style={{ display: "flex", fontSize: 24, color: "rgba(215, 226, 234, 0.85)" }}>
+            {personalInfo.name}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 20,
+              lineHeight: 1.45,
+              color: "rgba(215, 226, 234, 0.6)",
+              maxWidth: 560,
+            }}
+          >
+            {clockContent.availability}
+          </div>
+          <div style={{ display: "flex", gap: 10, marginTop: 6 }}>
+            {/* A deliberate four-tag pick for a 1200px card, not a mirror of
+                cvData.skills. PostgreSQL is here because the title is full-stack. */}
+            {["React", "TypeScript", "Next.js", "PostgreSQL"].map((tag) => (
+              <div
+                key={tag}
+                style={{
+                  display: "flex",
+                  padding: "6px 14px",
+                  borderRadius: 6,
+                  border: "1px solid rgba(215, 226, 234, 0.15)",
+                  background: "rgba(255, 255, 255, 0.04)",
+                  fontSize: 13,
+                  color: "rgba(215, 226, 234, 0.6)",
+                  fontFamily: "monospace",
+                  letterSpacing: "0.04em",
+                }}
+              >
+                {tag}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Main content */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
         <div
           style={{
-            fontSize: 13,
-            letterSpacing: "0.25em",
-            textTransform: "uppercase",
-            color: "#7FC8E3",
+            display: "flex",
+            fontSize: 14,
+            letterSpacing: "0.1em",
+            color: "rgba(215, 226, 234, 0.4)",
             fontFamily: "monospace",
-            display: "flex",
           }}
         >
-          {/* Was "Frontend Engineer & Project Coordinator" — the hybrid title
-              retired on 2026-08-22 for being unsearchable. The client register is
-              right here rather than roleLabel, because a share card is read by a
-              person, not by an ATS. */}
-          {siteContent.siteTagline}
-        </div>
-
-        <div
-          style={{
-            fontSize: 84,
-            fontWeight: 800,
-            lineHeight: 0.95,
-            letterSpacing: "-3px",
-            textTransform: "uppercase",
-            color: "#BBCCD7",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <span>Hi, i&apos;m Ice</span>
-        </div>
-
-        <div
-          style={{
-            fontSize: 22,
-            color: "rgba(215, 226, 234, 0.75)",
-            lineHeight: 1.55,
-            marginTop: 4,
-            display: "flex",
-          }}
-        >
-          {/* Was "I keep projects on track and build the product myself." —
-              written for a hiring manager, on the card for a site that is now
-              client-first. heroCorners.left is what the homepage itself says. */}
-          {personalInfo.name} · {siteContent.heroCorners.left[0]}
-        </div>
-
-        {/* Tech tags */}
-        <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
-          {/* Left hard-coded on purpose: these are a deliberate four-tag pick for
-              a 1200px card, not a mirror of cvData.skills, which has 30-odd
-              entries and no notion of which matter most at a glance. */}
-          {["React", "TypeScript", "Next.js", "Product Thinking"].map((tag) => (
-            <div
-              key={tag}
-              style={{
-                display: "flex",
-                padding: "6px 14px",
-                borderRadius: 6,
-                border: "1px solid rgba(215, 226, 234, 0.15)",
-                background: "rgba(255, 255, 255, 0.04)",
-                fontSize: 13,
-                color: "rgba(215, 226, 234, 0.6)",
-                fontFamily: "monospace",
-                letterSpacing: "0.04em",
-              }}
-            >
-              {tag}
-            </div>
-          ))}
+          taninwatkaewpankan.xyz
         </div>
       </div>
 
-      {/* Bottom: URL */}
+      {/* Right: the portrait on its disc, as on the homepage */}
       <div
         style={{
-          fontSize: 14,
-          letterSpacing: "0.1em",
-          color: "rgba(215, 226, 234, 0.4)",
-          fontFamily: "monospace",
           display: "flex",
+          position: "relative",
+          width: DISC,
+          height: DISC,
+          borderRadius: "50%",
+          backgroundImage: "radial-gradient(circle at 50% 40%, #2b3843, #1c252d 72%)",
+          border: "1px solid rgba(127, 200, 227, 0.14)",
         }}
       >
-        taninwatkaewpankan.xyz
+        {/* A plain <img>: satori renders it, next/image does not apply here. */}
+        <img src={portraitSrc} width={DISC} height={DISC} alt="" style={{ position: "absolute", left: 0, top: 0 }} />
       </div>
     </div>,
-    { ...size }
+    { ...size },
   );
 }

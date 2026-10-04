@@ -50,6 +50,118 @@ correcting it means moving three blocks, and this file is the source of truth.
 
 ## Progress log
 
+### 2026-10-04 (afternoon)
+
+**Production: the enquiry form was refusing every enquiry. Fixed** ✅ *(no commit: config only)*
+
+The Upstash database behind the rate limiters no longer existed. Its hostname
+did not resolve, even on public DNS. Because `/api/services-enquiry` fails
+closed in production, every enquiry on the live site got "briefly unavailable"
+(503) for as long as that lasted. Found while testing the clock's postcard,
+which hit the same 503.
+
+Ice created a new database, put its URL and token in `.env.local` and in
+Netlify, and redeployed `main`. He then sent a real enquiry on the live site,
+and it arrived.
+
+⚠️ **Lesson: a fail-closed form fails silently for the owner.** Nothing alerted
+anyone; the visitor just saw a polite 503. Something should notice next time,
+e.g. an uptime check that posts an invalid enquiry and expects a 400 rather than
+a 503.
+
+### 2026-10-04
+
+**The clock homepage, on branch `clock-redesign`, not merged** 🚧
+*`0b62642` `0d1043a` `347efcc` `9b36e85` `070f606` `5af51a9` `b4146b9` `7f604ff` `9226646` `2b982e5` `9653d03` `db65145` `3981808` `0f1fb2d` `8b242bb`*
+
+A new homepage, outside the numbered items above, which belong to the finished
+overhaul. Concept doc: https://claude.ai/code/artifact/daf15c29-d613-4988-afd3-7d47ab46e16d
+
+One screen. Ice's illustrated portrait sits on a disc in the middle, four paper
+objects are pinned around it, and a drawn hand points at whichever one is
+hovered or focused. Each object opens in place at its own URL, and each URL
+also works as a direct visit, rendered open on the server:
+
+| URL | Object | Links on to |
+| --- | --- | --- |
+| `/work` | 4 case-study prints that turn over | `/cases/[id]`, `/projects` |
+| `/about` | envelope that opens into a letter | — |
+| `/writing` | notebook of the 5 newest notes | `/garden/[slug]`, `/garden` |
+| `/rates` | till receipt of the prices | `/services`, `/services#enquiry` |
+| `/contact` | pinned postcard that really posts | Ice's inbox, via `/api/contact` |
+
+- **Title changed to Full-stack Engineer** (`0d1043a`). It was Frontend
+  Developer. The reasoning, from 104 postings Ice collected, is on
+  `siteContent.roleLabel`. ⚠️ The CV PDF still says the old title.
+- **The portrait** is two Gemini illustrations made from Ice's photo, cut out
+  and about 31 KB each. The eyes follow the cursor and blink through an SVG
+  layer clipped by `public/clock/eye-mask.png`, a mask built from the
+  portrait's own pixels; an ellipse left slivers. The files are named
+  `face-*.webp` because Next's image cache served the old opaque version under
+  the previous names.
+- **The disc is not decoration.** Black hair vanished against the near-black
+  page without it, and it hides the hand's arm.
+- **`experimental.viewTransition` is on.** A print's photo grows into its case
+  study's hero, which therefore has no FadeIn.
+- **`RESCUE_AUDIT_PRICE`** now feeds both the rescue offer's note and the
+  receipt.
+- **Step 2b** (`5af51a9`):
+  - **`/api/contact`** has the enquiry route's defences in the same order, with
+    its own `rl:contact` and `rl:contact:global` buckets (3 per visitor, 20 in
+    total, per hour). `getResend()` now lives in `app/lib/resend.ts`, shared by
+    both routes.
+  - **A pendant lamp** hangs from the top of the page, on at night in
+    Copenhagen. It switches by its pull cord, a click, or the keyboard. At night
+    the drawings and the portrait dim, never text.
+  - **Objects can be dragged** with a mouse. Positions live in the visitor's
+    localStorage, and "Tidy the desk" resets them.
+  - The hand now rests pointing at Work (`HAND_REST_ANGLE`), since the lamp
+    hangs where it used to point.
+- **A wall clock** on Copenhagen's time (`b4146b9`) replaced the digital time
+  text. It has hour and minute hands only, by choice.
+- **Launch prep** (2026-10-04, evening):
+  - **The About letter is `aboutStory` verbatim** (`7f604ff`). A shortened draft
+    had cut what made it Ice's and inflated "internship, then part-time".
+  - **CV:** `cvData.title` reads `roleLabel`. The summary was rewritten in plain
+    words after Ice said it read as AI-written ("are my depth"). PDF regenerated
+    with `npm run cv` (`9226646`, `0f1fb2d`).
+  - **MockMate grading runs in a Next.js API route, not AWS Lambda** (tried for a
+    week). Corrected in all five places it was claimed (`0f1fb2d`).
+  - **Search title** "Ice · Taninwat Kaewpankan, Full-stack Engineer in
+    Copenhagen", plus a new share card with the portrait (`9653d03`).
+    `siteTagline` was removed: nothing used it any more.
+  - **Speed** (`db65145`), Lighthouse mobile, simulated:
+
+    | `/` | perf | LCP | FCP |
+    | --- | --- | --- | --- |
+    | before | 75 | 5.4 s | 2.7 s |
+    | after | 89–90 | 3.5 s | 1.7 s |
+
+    The causes were the phone greeting's scale turning the lazy smile image into
+    the LCP, `priority` (deprecated in Next 16) leaving the portrait at Low, and
+    the chat widget's 111 KB (gzipped) loading up front. That one is now
+    `LazyChatWidget`, loaded when idle. Kanit preloads Latin only: its Thai
+    @font-face rules are in the CSS regardless. Cost: `/th` FCP 0.9 → 1.4 s, with
+    its LCP and score unchanged.
+  - **Old homepage deleted** (`3981808`): `app/sections/`, `SiteNav`,
+    `CopenhagenAtmosphere`, `AnimatedText`, and the data only they read.
+  - **Code review** (reviewer agent) found no security issues in
+    `/api/contact`, and seven real bugs elsewhere, all fixed (`8b242bb`).
+    Highlights: the dialog's Close button was outside the dialog; a double tap
+    pushed history twice; Back/Close state drifted; drags could stick.
+
+**Open:**
+- **Browser QA by Ice** (prints, notebook, receipt, wall clock; phone size;
+  Safari/Chrome; keyboard only). Claude never saw the page render: Chrome was
+  never connected.
+- Simulated mobile LCP is 3.5 s (observed: 0.14 s). Getting it under 2.5 s means
+  making less of the clock client-side.
+- Small: the eye-tracking 250 ms poll could become event-driven, and night
+  visitors see a brief day frame before hydration.
+- The share card renders in the default font, not Kanit (as before).
+- Later: restyle case and note pages as print-backs and notebook pages, and add
+  an uptime check that posts an invalid enquiry and expects 400, not 503.
+
 ### 2026-08-22 (night, last)
 
 **Performance — LCP fixed across the site** ✅ *`8f9f5e3`*

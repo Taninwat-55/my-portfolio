@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Lets <ViewTransition> animate client navigations: on the clock's /work, a
+  // print's photo grows into its case study's hero (case-hero-<id>).
+  experimental: {
+    viewTransition: true,
+  },
   outputFileTracingIncludes: {
     '/sitemap.xml': ['./posts/**/*.mdx'],
   },

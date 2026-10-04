@@ -43,8 +43,8 @@ const PAGE_URL = `${BASE_URL}/da`;
  * ✅ PUBLISHED 2026-08-22, once item 28 passed. The nav-island warning that used to
  * sit here was real and was acted on: the fourth chip took the row from 556px to
  * 619px, which measured 86% of the viewport at the old 720px breakpoint, so the
- * breakpoint moved to 800. See the note in SiteNav.tsx for the measurements and for
- * what that cost.
+ * breakpoint moved to 800. The measurements and what that cost are in PLAN.md's
+ * log for 2026-08-22; SiteNav.tsx itself went with the old homepage.
  */
 const DRAFT = false;
 

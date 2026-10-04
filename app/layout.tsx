@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Kanit, JetBrains_Mono, Instrument_Serif } from "next/font/google";
+import { Kanit, JetBrains_Mono, Instrument_Serif, Kalam } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { personalInfo, siteContent } from "./data";
 import "./globals.css";
@@ -8,13 +8,17 @@ import "./globals.css";
 // per weight, so the two unused ones (600, 800) were downloading and preloading
 // files nothing rendered — which is exactly what the console warnings were about.
 // light 300 · normal 400 · medium 500 · bold 700 · black 900
-// "thai" is not decoration: Kanit is a Thai typeface (Cadson Demak) and the body
-// stack is var(--font-kanit), sans-serif. Without this subset every Thai character
-// on /th fell through to a generic system font, so the Thai page did not render in
-// the site's own typeface at all. next/font emits one file per subset with a
-// unicode-range, so Latin-only visitors never download the Thai glyphs.
+// "thai" is not decoration: Kanit is a Thai typeface (Cadson Demak), and /th must
+// render in it.
+//
+// But `subsets` decides what is PRELOADED, not what exists. Checked on 2026-10-04
+// (Next 16): the generated CSS carries Kanit's @font-face rules for every subset,
+// Thai (U+E01-E5B) included, whatever this list says. Listing "thai" therefore only
+// added five Thai preloads to every page, English ones included, where nothing drew
+// a Thai glyph (Chrome warned about each). The browser still fetches the Thai
+// files on /th, when Thai characters appear. Before re-adding "thai", measure /th.
 const kanit = Kanit({
-  subsets: ["latin", "thai"],
+  subsets: ["latin"],
   variable: "--font-kanit",
   weight: ["300", "400", "500", "700", "900"],
 });
@@ -38,6 +42,16 @@ const instrumentSerif = Instrument_Serif({
   preload: false,
 });
 
+// Handwriting for the clock homepage's paper objects: the letter, the sticky
+// note, the captions. Not preloaded: nothing written in it decides LCP (the
+// portrait does), and the letter only opens after a click.
+const kalam = Kalam({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-kalam",
+  preload: false,
+});
+
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -47,7 +61,7 @@ const personJsonLd = {
   url: "https://taninwatkaewpankan.xyz",
   jobTitle: siteContent.roleLabel,
   description:
-    "Frontend engineer and project coordinator based in Copenhagen, building and shipping web products with React, Next.js, and TypeScript.",
+    "Full-stack engineer based in Copenhagen, building and shipping web products with React, Next.js, TypeScript and PostgreSQL, and designing the interfaces he builds.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Copenhagen",
@@ -94,20 +108,18 @@ const personJsonLd = {
 // default, the Open Graph card and the Twitter card, which is how a title
 // change turns into a three-line edit that is easy to half-finish.
 //
-// siteTagline rather than roleLabel: this is what a person reads in a browser tab
-// and a search result, and the site now leads with what it offers rather than
-// with a job title. roleLabel is still the structured answer — it stays on
-// Person.jobTitle in the JSON-LD above, on /services, in the chatbot prompt, and
-// as the /cv heading.
-const SITE_TITLE = `${personalInfo.nickname} · ${personalInfo.name} — ${siteContent.siteTagline}`;
+// roleLabel since the clock homepage (2026-10-04): the page itself now leads with
+// the job title, so its search result and browser tab say the same. Clients
+// searching for a web developer land on /services, whose description and Danish
+// keywords are written for them. Before the clock, this used siteTagline, because
+// the long-scroll homepage was written for clients first.
+const SITE_TITLE = `${personalInfo.nickname} · ${personalInfo.name}, ${siteContent.roleLabel} in Copenhagen`;
 
-// The description had the same problem the title had, and worse: TWO near-identical
-// recruiter-framed sentences across three consumers — one on metadata.description,
-// a slightly different one pasted into both the Open Graph and Twitter cards. One
-// string now, rewritten client-first to match the new title, keeping the
-// React/Next.js/TypeScript terms a recruiter searches for.
+// One string, three consumers (metadata, Open Graph, Twitter). Both audiences in
+// two sentences: the job and its stack for a recruiter, and the client work for
+// a business owner, who reads on to /services.
 const SITE_DESCRIPTION =
-  "Ice (Taninwat Kaewpankan) builds websites and web app frontends from Copenhagen. React, Next.js, TypeScript. Published prices, fixed scope, written quote first.";
+  "Ice (Taninwat Kaewpankan) is a full-stack engineer in Copenhagen: React, Next.js, TypeScript and PostgreSQL, from interface to database. Open to full-time roles, and taking on client projects with published prices.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://taninwatkaewpankan.xyz"),
@@ -124,6 +136,7 @@ export const metadata: Metadata = {
     "freelance web developer Copenhagen",
     "freelance webudvikler København",
     "hjemmeside til lille virksomhed",
+    "Full-stack Engineer",
     "Frontend Engineer",
     "Frontend Developer",
     "Product Engineer",
@@ -160,7 +173,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${kanit.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} antialiased bg-night-900 text-frost`}
+        className={`${kanit.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} ${kalam.variable} antialiased bg-night-900 text-frost`}
       >
         <script
           type="application/ld+json"

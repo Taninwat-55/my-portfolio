@@ -31,10 +31,8 @@ export const personalInfo = {
 export const enquiryInbox = personalInfo.email;
 
 // ─── SITE CONTENT ─────────────────────────────────────────────────────────────
-// Single flat identity: Frontend Engineer & Project Coordinator.
-// Frontend leads because that is where the depth actually is. Full-stack and
-// product work are real too; whatIDo below is where the honest detail about
-// relative depth lives, rather than hedging every label.
+// One searchable job title (roleLabel). whatIDo below is where the honest detail
+// about relative depth lives, rather than hedging every label.
 
 /**
  * The languages the site is published in.
@@ -45,7 +43,8 @@ export const enquiryInbox = personalInfo.email;
  * every read of it failed to compile.
  *
  * Two things derive from this array, so adding a language here is most of the
- * work of shipping one: the chips in SiteNav, and <LanguageOffer />.
+ * work of shipping one: the language links on the clock homepage (ClockHome),
+ * and <LanguageOffer />.
  */
 type SiteLanguage = {
   code: string;
@@ -73,9 +72,9 @@ const SITE_LANGUAGES: readonly SiteLanguage[] = [
   // to change rather than the first: while it was absent the page was genuinely
   // unreachable, not merely unadvertised.
   //
-  // ⚠️ THIS IS THE FOURTH CHIP, and it widens the nav island. The row measured
-  // ~556px with three; see the breakpoint note in SiteNav.tsx, which is written
-  // against that number.
+  // (It was also the fourth chip in the old pill nav, SiteNav, whose breakpoint
+  // history is in PLAN.md and git. The clock homepage lists languages as plain
+  // links in its bottom row, which has room for more.)
   { code: "da", label: "Dansk", href: "/da", offer: "Se siden på dansk" },
 ];
 
@@ -87,48 +86,28 @@ export const siteContent = {
    *
    * ONE searchable title, not a hybrid. It was "Frontend Engineer & Project
    * Coordinator", which is accurate but unsearchable — recruiters and ATS filters
-   * query "Frontend Developer", never a slash title, and a hybrid reads as not
-   * having decided. The coordination half has not been dropped, it has moved one
-   * line down into cvData.summary, where a human reads it and it becomes range
-   * rather than indecision.
+   * never query a slash title, and a hybrid reads as not having decided. The
+   * coordination half has not been dropped, it has moved one line down into
+   * cvData.summary, where a human reads it and it becomes range rather than
+   * indecision. The same rule keeps design out of the title: postings ask for it
+   * in the description (about 10 in 69), never in the title.
    *
-   * "Developer" over "Engineer" because it is the common posting title in Denmark
-   * and Sweden and the honest fit for a vocational diploma plus a year in; the
-   * upgrade is available later at no cost.
+   * "Full-stack Engineer" since 2026-10-04, replacing "Frontend Developer". Ice
+   * collected 104 Danish and Swedish postings (The Hub, LinkedIn, Jobindex,
+   * Jobnet). The frontend-only ones he could realistically get: 0 of 10, every
+   * one blocked by fluent Danish or 3+ years. Full-stack or generalist ones: 4
+   * clear and 4 borderline, and 8 of those 10 titles say "Engineer". No posting
+   * said "Design Engineer" or "developer & designer". Bevisly (Postgres RLS) and
+   * MockMate (Prisma, an AI grading pipeline) are what make the claim defensible.
    *
    * NOT "Web Developer", despite that being the freelance word. Denmark files both
    * under the same DISCO-08 code, so the work is identical on paper — but
    * frontend-udvikler runs a median around 51.900 kr/month against a webudvikler
    * starting near 31.500 and reaching only ~42.250 after ten years. Same job,
-   * roughly 20k a month of anchoring. siteTagline carries "web developer" for the
-   * client-facing side, which is the audience that actually searches for it.
+   * roughly 20k a month of anchoring. "Web developer" lives on /services, in
+   * its description and Danish keywords, for the audience that searches for it.
    */
-  roleLabel: "Frontend Developer",
-  /**
-   * The human-facing tagline, used only where a person reads it: the browser
-   * tab, the search result, and the homepage's screen-reader h1.
-   *
-   * Separate from roleLabel because the two do different jobs. A recruiter's ATS
-   * and a Google searcher want different sentences, and the homepage is now
-   * written for the searcher. Kept short so SITE_TITLE lands around 55
-   * characters and survives a search result without being truncated.
-   */
-  siteTagline: "Web developer in Copenhagen",
-  // Bottom-corner blocks in the hero. The hero composition puts the scrolling
-  // name in the middle and everything else in the corners, so these lines carry
-  // the whole "who / what / where" job on the first screen.
-  //
-  // These were job titles ("Frontend Engineer / Full-stack builder / Project
-  // Coordinator") next to "Open to work". Both were read by the wrong visitor:
-  // to a business deciding whether to spend money, "open to work" says the
-  // person is between jobs, which invites them to negotiate the price down. It
-  // now states what is on offer and that it is available, which is true for a
-  // recruiter as well.
-  heroCorners: {
-    left: ["Websites & web app frontends", "Built solo, in Copenhagen"],
-    right: { status: "Available for projects", place: "Copenhagen, Denmark" },
-  },
-
+  roleLabel: "Full-stack Engineer",
   /**
    * Every language the site has a real page in.
    *
@@ -141,22 +120,6 @@ export const siteContent = {
    */
   languages: SITE_LANGUAGES,
 
-  /**
-   * The one action the homepage asks for, defined once.
-   *
-   * Started life inside heroCorners, then HowItWorks needed the same button at the
-   * bottom of the page. Two literals for one action is two things that can drift,
-   * so it lives here and both sections read it.
-   *
-   * Points at the enquiry form rather than opening HireModal, which offers a CV
-   * download — the wrong artefact for the reader this page is written for.
-   *
-   * The pill nav deliberately says "Enquire" instead: it sits right next to the
-   * hero button, and two identical labels touching each other read as a mistake.
-   * At the bottom of the page, repeating the label is correct — same action, same
-   * words, thousands of pixels apart.
-   */
-  primaryCta: { label: "Start a project", href: "/services#enquiry" },
   // One general CV. Role-tailored versions get sent directly, not offered here —
   // a visitor picking between three versions is a visitor guessing at the identity.
   // Singular, not an array: there was only ever one entry, and both call sites
@@ -173,27 +136,16 @@ export const siteContent = {
     "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language, just with a few more tools.",
   ],
 
-  // Anchored along the bottom of the About section, echoing the hero corners.
-  // Every value here traces to aboutStory or the CV — nothing is inferred.
+  // Under the About letter on the clock homepage. Every value here traces to
+  // aboutStory or the CV — nothing is inferred.
   aboutFacts: [
     { label: "Path", value: "Thailand → Sweden → England → Denmark" },
     { label: "Languages", value: "Thai, Swedish, English, Danish" },
     { label: "Based", value: "Copenhagen since 2023 · EU citizen" },
   ],
 
-  // Scroll-revealed paragraph in the About section.
-  //
-  // This used to be the AI-workflow paragraph — clear spec, small steps, review
-  // it myself. Good copy, but written for an engineer assessing craft, and the
-  // homepage is now read by someone deciding whether to hand over money. That
-  // reader has a different question: who am I actually dealing with, and what
-  // happens if it goes wrong. The original is preserved as howIWork below and
-  // renders on /cv, in front of the audience it was written for.
-  aboutAnimated:
-    "One person, not an agency. You talk to me, I do the work, and I am the one accountable if something breaks. I am based in Copenhagen and I work in Danish, English and Swedish. Before anything starts you get a written scope and a fixed price, and at the end everything is in your name — the domain, the hosting, the code. If I am not the right person for what you need, I will tell you on the first call and point you somewhere better.",
-
-  // The old aboutAnimated copy, kept and moved rather than deleted. Renders on
-  // /cv, where "how does he actually work" is the question being asked.
+  // Written for the old homepage's About section and moved rather than deleted.
+  // Renders on /cv, where "how does he actually work" is the question being asked.
   howIWork:
     "Here is how I work. I write a clear spec, break it into small steps, then check the result myself. That is different from prompting an AI and hoping. I use AI to move faster, but the product thinking and the final review are mine. I like small teams that want to move fast and ship things that actually matter.",
 
@@ -225,49 +177,6 @@ export const siteContent = {
     },
   ],
 
-  /**
-   * The homepage's offer list — the three things a visitor can actually buy.
-   *
-   * Deliberately separate from whatIDo above rather than replacing it. whatIDo is
-   * the capability list written for a hiring manager, and it is also the
-   * chatbot's grounding in app/api/chat/route.ts, so repurposing that array would
-   * have silently stripped the chatbot's knowledge of what Ice can do. It is also
-   * the content /cv will need.
-   *
-   * Stores the offer id only. The price is looked up from services.offers at
-   * render time, so this section cannot quote a figure /services has changed.
-   */
-  homeOffers: [
-    {
-      offerId: "website",
-      title: "Small-Business Website",
-      body: "The site your business should already have: fast, findable, and yours outright at handover. Built in Danish, English or Swedish, with search setup and a performance budget included rather than sold as extras.",
-    },
-    {
-      offerId: "app-frontend",
-      title: "Web App Frontend",
-      body: "You have an API, a design, or a founder's sketch. I build the interface on top of it — React, Next.js and TypeScript, in your repository and your workflow, and a component set your team can keep building on after I am gone.",
-    },
-    {
-      offerId: "rescue",
-      title: "Redesign & Rescue",
-      body: "The site exists but it is slow, dated, or invisible on Google. You get a written audit in plain language, a prioritised list of fixes with what each one is worth, and an honest answer if starting over would cost you less.",
-    },
-  ],
-
-  // The mirror image of what used to be here. This was the one place a
-  // recruiter-facing homepage acknowledged freelance; now that the homepage is
-  // written for clients, it is the one place that acknowledges employment.
-  //
-  // Deliberately quiet, for the same reason it always was: stated as a fact
-  // about availability rather than as a second search running in parallel. A
-  // client should not come away wondering whether the person they are about to
-  // hire is halfway out the door.
-  employmentBand: {
-    eyebrow: "Employment",
-    line: "Alongside client work I am open to full-time frontend roles. My track record, skills and references are all on one page.",
-    cta: "See my CV",
-  },
 };
 
 // ─── CV ───────────────────────────────────────────────────────────────────────
@@ -283,11 +192,12 @@ export interface CvEntry {
 }
 
 export const cvData = {
-  // Matches roleLabel and the PDF. See the note on roleLabel for why it is a
-  // single searchable title rather than the hybrid it used to be.
-  title: "Frontend Developer",
+  // roleLabel itself, not a copy of it: the CV said "Frontend Developer" here
+  // after the site had moved on. See the note on roleLabel for why it is a
+  // single searchable title rather than a hybrid.
+  title: siteContent.roleLabel,
   summary:
-    "Frontend developer who also runs the delivery. React, Next.js, and TypeScript are my depth, most recently at Trailr AI, where I owned a full platform redesign scoped to what the existing backend could support. I work full-stack too — Node.js, Express, and PostgreSQL — and I am clear that the backend is the newer half of my toolkit. Before Trailr, four cycles at Millennial Consulting, growing from Operations Assistant to Head of Organization and coordinating ~20 client engagements with no full-time staff. Building the thing and running the delivery are the same job to me.",
+    "I build web apps, mostly with React, Next.js and TypeScript. At Trailr AI I led a redesign of the platform, keeping it within what the existing backend could support. In my own projects I build the backend too, with Node.js, PostgreSQL and Supabase. Before that, I spent four cycles at Millennial Consulting, going from Operations Assistant to Head of Organization and coordinating around 20 client projects with no full-time staff. I like building things, and I like getting them shipped.",
 
   // Four technical groups mirroring the PDF, plus the operations group the PDF
   // has no room for. A one-page CV has to cut; the page does not.
@@ -617,19 +527,19 @@ export const cases: CaseStudy[] = [
       "/assets/mockmate/mockmate-feedback.webp",
     ],
     overview:
-      "A full-stack AI interview platform. Paste a job description, answer tailored technical questions from an AI interviewer, and receive a structured graded report. Built with Next.js, Google Gemini, Prisma, and AWS Lambda for background processing.",
+      "A full-stack AI interview platform. Paste a job description, answer tailored technical questions from an AI interviewer, and receive a structured graded report. Built with Next.js, Google Gemini and Prisma.",
     challenge:
       "Interview prep tools ask you to read, not do. The real problem was designing an AI pipeline that ingests any job description, generates role-specific technical questions, and grades answers the way a hiring panel would, with depth, clarity, and gap analysis, not just correct or incorrect.",
     stackWhy:
-      "Next.js App Router for full-stack delivery in one repo. Google Gemini via the Vercel AI SDK for streaming question generation and answer grading. AWS Lambda for heavy grading jobs so the UI never blocks. Prisma for a typed data layer. PDF.js to parse uploaded resumes. PostHog to see where users drop off.",
+      "Next.js App Router for full-stack delivery in one repo. Google Gemini via the Vercel AI SDK for streaming question generation and answer grading, with grading in a Next.js API route so the whole product lives in one repo and one deploy. Prisma for a typed data layer. PDF.js to parse uploaded resumes. PostHog to see where users drop off.",
     engineering:
-      "Built an AI pipeline: JD upload, Gemini parses role requirements, generates targeted questions, streams answers, and grading runs in AWS Lambda with structured Zod-validated output. Two decisions worth calling out. First, I split the AI into two separate flows, a live interview conversation and a separate grading pass. If I had merged them into one prompt, the feedback came out inconsistent, because the model was doing two jobs at once. Second, answers persist to the database before any AI runs. If a Gemini or Lambda call fails, the user's work is still there instead of vanishing mid-interview.",
+      "Built an AI pipeline: JD upload, Gemini parses role requirements, generates targeted questions, streams answers, and grading runs in a Next.js API route with structured Zod-validated output. Two decisions worth calling out. First, I split the AI into two separate flows, a live interview conversation and a separate grading pass. If I had merged them into one prompt, the feedback came out inconsistent, because the model was doing two jobs at once. Second, answers persist to the database before any AI runs. If a Gemini call fails, the user's work is still there instead of vanishing mid-interview.",
     metrics: [
       { v: "Live", k: "Product" },
       { v: "Gemini", k: "Interview engine" },
-      { v: "Lambda", k: "Background grading" },
+      { v: "Zod", k: "Validated grading output" },
     ],
-    stack: ["Next.js", "TypeScript", "AWS Lambda", "Shadcn/UI"],
+    stack: ["Next.js", "TypeScript", "Prisma", "Shadcn/UI"],
     links: { demo: "https://mockmate.space/", code: "https://github.com/Taninwat-55/mockmate", docs: "https://github.com/Taninwat-55/mockmate/blob/main/docs/PRD.md" },
   },
   {
@@ -1081,6 +991,14 @@ export function fillAftercareRates(
     .replace("{hourly}", format(aftercareRates.hourly));
 }
 
+/**
+ * The rescue audit bought on its own. A constant because two places quote it:
+ * the rescue offer's priceNote below, and the receipt on the clock homepage.
+ * As a number typed into a sentence, the receipt would drift the first time the
+ * price changed.
+ */
+export const RESCUE_AUDIT_PRICE = "3.500 DKK";
+
 export const services = {
   intro: {
     eyebrow: "Freelance & Client Work",
@@ -1271,7 +1189,7 @@ export const services = {
         "An honest call on rebuilding: if starting over is cheaper than repairing, I will say so and tell you why",
       ],
       priceRange: "8.000 – 16.000 DKK",
-      priceNote: "The audit can be bought on its own for 3.500 DKK if you would rather take the fixes elsewhere.",
+      priceNote: `The audit can be bought on its own for ${RESCUE_AUDIT_PRICE} if you would rather take the fixes elsewhere.`,
       timeline: "1–3 weeks",
     },
   ] satisfies ServiceOffer[],
@@ -1537,7 +1455,7 @@ export const services = {
 
   /**
    * The shortest honest form of the terms, for the homepage. The prices are
-   * already up there (siteContent.homeOffers); what was missing was what
+   * already up there (the old homepage's offer list); what was missing was what
    * surrounds them.
    *
    * The moms line reads from `vat` above rather than restating the claim, and it
@@ -1694,6 +1612,124 @@ export const servicesEnquiryOptions = {
   ],
 } as const;
 
+// ─── CLOCK HOMEPAGE ───────────────────────────────────────────────────────────
+// The one-screen homepage: a portrait in the middle, four paper objects pinned
+// around it, and a hand that points at whichever one you are about to open.
+// Concept doc: https://claude.ai/code/artifact/daf15c29-d613-4988-afd3-7d47ab46e16d
+//
+// Every object opens in place over the clock at its own short URL (/work,
+// /about, /writing, /rates, /contact), and each one links on to the full page
+// behind it (/projects, /garden, /services), which stays as it was.
+
+export type ClockObjectId = "work" | "about" | "writing" | "services";
+
+export const clockContent = {
+  /**
+   * Both audiences in one line. "Open to work" alone told a business client the
+   * price was negotiable; "available for projects" alone hid
+   * the job search from recruiters. Saying both is true and costs neither.
+   */
+  availability: "Open to full-time roles in Copenhagen, and taking on client projects.",
+
+  // Order is clockwise from top left, which is also the Tab order.
+  objects: [
+    { id: "work", label: "Work", sub: "Projects and case studies", href: "/work" },
+    { id: "about", label: "About", sub: "A letter from me", href: "/about" },
+    { id: "writing", label: "Writing", sub: "Notes on building", href: "/writing" },
+    { id: "services", label: "Services", sub: "Hire me for a project", href: "/rates" },
+  ] satisfies readonly { id: ClockObjectId; label: string; sub: string; href: string }[],
+
+  /**
+   * The prints. Ids into `cases`: everything shown on a print (title, sub,
+   * stack, screenshot) is read from there, so a print cannot drift from its
+   * case study. Three for the job search, plus Racha as the one live client
+   * site. The full list stays on /projects.
+   */
+  work: {
+    caseIds: ["trailr", "bevisly", "mockmate", "racha"],
+    hint: "Click a print to turn it over",
+    readLabel: "Read the case study",
+    turnBack: "Turn back",
+    allLabel: "All projects",
+    allHref: "/projects",
+  },
+
+  // The notebook lists the newest notes; Clock.tsx decides how many.
+  writing: {
+    title: "Garden notes",
+    allLabel: "All notes",
+    allHref: "/garden",
+  },
+
+  /**
+   * The receipt. Line items are read from services.offers (name, priceRange)
+   * plus RESCUE_AUDIT_PRICE, so it always matches /services. Only the framing
+   * lives here.
+   */
+  rates: {
+    heading: "ICE · WEB STUDIO",
+    place: "Copenhagen · DA / EN / SV",
+    auditLabel: "Audit only",
+    footnote: "Fixed price in writing before anything starts.",
+    detailsLabel: "Full details",
+    detailsHref: "/services",
+    ctaLabel: "Start a project",
+    ctaHref: "/services#enquiry",
+    thanks: "Tak, come again",
+  },
+
+  /**
+   * The desk: a wall clock on Copenhagen's time, a mood line, and a lamp that is on at
+   * night there (whatever the visitor's own clock says) and can be switched by
+   * hand. Moods are picked by Copenhagen hour, first match wins.
+   */
+  desk: {
+    // The wall clock's words: read out by screen readers, shown on hover.
+    clockLabel: "{time} in Copenhagen",
+    yourTime: "your time {time}",
+    moods: [
+      { until: 6, text: "Ice is asleep. The postcard will wait." },
+      { until: 9, text: "Coffee first, then code." },
+      { until: 17, text: "Ice is probably at his desk." },
+      { until: 20, text: "Dinner, then maybe one more commit." },
+      { until: 24, text: "Ice is probably coding." },
+    ],
+    lampOnFrom: 20,
+    lampOffAt: 7,
+    lampLabel: "Desk lamp",
+    // Shown once a visitor has dragged something off its spot.
+    tidyLabel: "Tidy the desk",
+  },
+
+  // The pinned postcard. `lines` are written on the card itself, so they stay short.
+  contact: {
+    label: "Contact",
+    lines: ["Say hej,", "write me", "a line"],
+    front: "Greetings from Copenhagen",
+    placeholder: "Hej Ice, we're hiring…",
+    messageLabel: "Your message",
+    emailLabel: "Your email, so I can reply",
+    sendLabel: "Post it",
+    sendingLabel: "Posting…",
+    // Sent through /api/contact. {email} is the visitor's own address.
+    posted: "Posted. I'll reply to {email}.",
+    another: "Write another",
+    postmark: "KØBENHAVN",
+    failed: "That did not go through. Email me directly at {email}.",
+  },
+
+  /**
+   * The About letter's envelope. The body is siteContent.aboutStory, word for
+   * word: Ice's own text, read from one place so the letter cannot drift from
+   * it. An earlier shortened draft cut most of what made it his and turned
+   * "internship, then part-time" into something bigger.
+   */
+  letter: {
+    greeting: "Hej,",
+    signature: "Ice",
+  },
+} as const;
+
 // ─── HOMEPAGE PROJECT CARDS ───────────────────────────────────────────────────
 // The sticky-stacking cards in the Projects section — a FEATURED selection, not
 // the full list. Everything with a case study is on /projects, which maps over
@@ -1762,77 +1798,6 @@ export const projectCards: ProjectCard[] = [
       "/assets/bevisly/bevisly-candidate.webp",
     ],
   },
-];
-
-// ─── SECONDARY PROJECT CARDS ──────────────────────────────────────────────────
-
-/**
- * The compact row under the featured three on the homepage. Item 42.
- *
- * IDS, NOT COPIES — and that is the whole design. Retyping title, blurb and image
- * here is exactly what orphaned /cases/satoshi and /cases/cinema: two lists of
- * projects that had to be kept in agreement by hand, and were not. These derive
- * from `cases`, so a card cannot drift from its own case study, and a renamed id
- * fails the build instead of quietly rendering a shorter row.
- *
- * WHY THREE MORE AND NOT SIX EQUAL PROJECTS. The featured deck is the narrative —
- * client work, product, full-stack — and this row is range. "See more at once" is
- * true for a recruiter and only half-true for a client, who wants one business like
- * theirs and then the price, so the deck stays the argument and this stays a
- * footnote to it.
- *
- * DELIBERATELY EXCLUDED: Millennial Consulting, which is strong evidence of
- * management rather than of code, and Cinema Booking, a student team project. Both
- * live on /projects, where they cost nothing — the weakest visible item sets the
- * ceiling of the impression, and on a client-first homepage that ceiling matters
- * more than completeness.
- */
-const SECONDARY_CARD_IDS = ["lumina", "mockmate", "saep"] as const;
-
-export interface SecondaryProjectCard {
-  id: string;
-  title: string;
-  tag: string;
-  sub: string;
-  image: string;
-}
-
-export const secondaryProjectCards: SecondaryProjectCard[] =
-  SECONDARY_CARD_IDS.map((id) => {
-    const source = cases.find((c) => c.id === id);
-    if (!source) {
-      // Throwing is the point. This is static data with no environment behind it,
-      // so it either always throws or never does, and `next build` finds out
-      // immediately. A row meant to prove range that silently renders two cards
-      // is worse than a build that stops and names the id that moved.
-      throw new Error(
-        `secondaryProjectCards: no entry in \`cases\` with id "${id}".`,
-      );
-    }
-    return {
-      id: source.id,
-      title: source.title,
-      tag: source.tag,
-      // The case study's own one-liner, never a second copy of it. For Saep this
-      // also carries the concept-piece label, which is why that label sits at the
-      // START of its `sub` — the card clamps to three lines, and the one sentence
-      // that must survive clamping is "an invented Thai restaurant".
-      sub: source.sub,
-      image: source.images[0],
-    };
-  });
-
-// ─── MARQUEE IMAGES ───────────────────────────────────────────────────────────
-
-export const marqueeImages = [
-  "/assets/mockmate/mockmate-landing.webp",
-  "/assets/trailr/trailr-story-builder.webp",
-  "/assets/bevisly/Bevisly-Landing.webp",
-  "/assets/satoshi-standard/satoshi-dashboard.webp",
-  "/assets/trailr/trailr-screening-room.webp",
-  "/assets/mockmate/mockmate-dashboard.webp",
-  "/assets/millennial/Millennial_Spring2025.webp",
-  "/assets/bevisly/bevisly-employer-kanban.webp",
 ];
 
 // ─── CHATBOT CONTEXT ──────────────────────────────────────────────────────────
