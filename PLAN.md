@@ -78,7 +78,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
   - Lighthouse on the touched routes against their "before"
   - the reviewer agent
 
-- [ ] **Phase 0: Foundation.** Shared pieces every later phase builds on.
+- [x] **Phase 0: Foundation.** Merged 2026-10-04 (PR #13). Shared pieces every later phase builds on.
   - Desk tokens in `globals.css` (paper, ink, rule, hand font), taken from
     `app/components/clock/clock.module.css`, so the pages and the clock share one
     palette.
@@ -128,7 +128,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ### 2026-10-04 (night)
 
-**Re-theme Phase 0: Foundation, on branch `retheme-0-foundation`, not merged** 🚧 *`be302b1`*
+**Re-theme Phase 0: Foundation, merged (PR #13)** ✅ *`be302b1`*
 
 - **Desk tokens** in `globals.css` (`@theme static`, so Tailwind emits them even
   with no utility using them yet): paper, paper-dim, paper-ink, paper-soft,
