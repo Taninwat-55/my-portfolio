@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { SkipLink } from "../components/SkipLink";
-import { ChatWidget } from "../components/ChatWidget";
+import { LazyChatWidget } from "../components/LazyChatWidget";
 import { Clock } from "../components/clock/Clock";
 
 const PAGE_URL = "https://taninwatkaewpankan.xyz/writing";
@@ -18,7 +18,7 @@ export default function WritingPage() {
     <>
       <SkipLink />
       <Clock initialOpen="writing" />
-      <ChatWidget />
+      <LazyChatWidget />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { SkipLink } from "./components/SkipLink";
-import { ChatWidget } from "./components/ChatWidget";
+import { LazyChatWidget } from "./components/LazyChatWidget";
 import { LanguageOffer } from "./components/LanguageOffer";
 import { Clock } from "./components/clock/Clock";
 
@@ -28,7 +28,7 @@ export default function Home() {
     <>
       <SkipLink />
       <Clock />
-      <ChatWidget />
+      <LazyChatWidget />
       <LanguageOffer />
     </>
   );

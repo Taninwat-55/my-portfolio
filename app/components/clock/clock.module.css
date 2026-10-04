@@ -508,7 +508,7 @@
 .pupil {
   transition: transform 120ms linear;
 }
-.smile .face {
+.lifted .face {
   transform: scale(1.05);
 }
 .smile .portraitSmile {
@@ -1736,7 +1736,7 @@
     transition-delay: 0ms !important;
     animation: none !important;
   }
-  .smile .face {
+  .lifted .face {
     transform: none;
   }
 }

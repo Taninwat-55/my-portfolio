@@ -143,7 +143,16 @@ export function Portrait({
   // The wink keeps the neutral face, so the closed eye reads as a wink rather
   // than as both eyes smiling shut.
   const showSmile = (smiling || hovered || greeting) && !winking;
-  const classes = [styles.portraitRoot, showSmile ? styles.smile : "", winking ? styles.wink : ""].join(" ");
+  // The head lifts off the disc only for a real hover or point, never for the
+  // automatic greeting on phones. Scaled up, the smiling image counted as a new,
+  // larger paint, and Lighthouse took it as the page's LCP: 5.4s on mobile.
+  const lifted = (smiling || hovered) && !winking;
+  const classes = [
+    styles.portraitRoot,
+    showSmile ? styles.smile : "",
+    lifted ? styles.lifted : "",
+    winking ? styles.wink : "",
+  ].join(" ");
 
   return (
     <div
@@ -157,7 +166,8 @@ export function Portrait({
           near-black page without it, and it hides the hand's arm. */}
       <div className={styles.disc} />
       <div className={styles.face}>
-        {/* The neutral face decides LCP, so it is preloaded; the smile is not. */}
+        {/* The neutral face decides LCP: preloaded, at high priority. (Next 16
+            replaced `priority` with `preload`; the old prop left it at Low.) */}
         <Image
           className={styles.portrait}
           src="/clock/face-neutral.webp"
@@ -165,11 +175,16 @@ export function Portrait({
           width={840}
           height={840}
           sizes="(max-width: 767px) 260px, 420px"
-          priority
+          preload
+          fetchPriority="high"
         />
+        {/* Eager but low priority: it must be ready by the time the face smiles,
+            without competing with the neutral face for the first screen. */}
         <Image
           className={`${styles.portrait} ${styles.portraitSmile}`}
           src="/clock/face-smile.webp"
+          loading="eager"
+          fetchPriority="low"
           alt=""
           width={840}
           height={840}

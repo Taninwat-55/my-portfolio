@@ -8,13 +8,17 @@ import "./globals.css";
 // per weight, so the two unused ones (600, 800) were downloading and preloading
 // files nothing rendered — which is exactly what the console warnings were about.
 // light 300 · normal 400 · medium 500 · bold 700 · black 900
-// "thai" is not decoration: Kanit is a Thai typeface (Cadson Demak) and the body
-// stack is var(--font-kanit), sans-serif. Without this subset every Thai character
-// on /th fell through to a generic system font, so the Thai page did not render in
-// the site's own typeface at all. next/font emits one file per subset with a
-// unicode-range, so Latin-only visitors never download the Thai glyphs.
+// "thai" is not decoration: Kanit is a Thai typeface (Cadson Demak), and /th must
+// render in it.
+//
+// But `subsets` decides what is PRELOADED, not what exists. Checked on 2026-10-04
+// (Next 16): the generated CSS carries Kanit's @font-face rules for every subset,
+// Thai (U+E01-E5B) included, whatever this list says. Listing "thai" therefore only
+// added five Thai preloads to every page, English ones included, where nothing drew
+// a Thai glyph (Chrome warned about each). The browser still fetches the Thai
+// files on /th, when Thai characters appear. Before re-adding "thai", measure /th.
 const kanit = Kanit({
-  subsets: ["latin", "thai"],
+  subsets: ["latin"],
   variable: "--font-kanit",
   weight: ["300", "400", "500", "700", "900"],
 });
