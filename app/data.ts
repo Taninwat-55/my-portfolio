@@ -1086,6 +1086,14 @@ export function fillAftercareRates(
     .replace("{hourly}", format(aftercareRates.hourly));
 }
 
+/**
+ * The rescue audit bought on its own. A constant because two places quote it:
+ * the rescue offer's priceNote below, and the receipt on the clock homepage.
+ * As a number typed into a sentence, the receipt would drift the first time the
+ * price changed.
+ */
+export const RESCUE_AUDIT_PRICE = "3.500 DKK";
+
 export const services = {
   intro: {
     eyebrow: "Freelance & Client Work",
@@ -1276,7 +1284,7 @@ export const services = {
         "An honest call on rebuilding: if starting over is cheaper than repairing, I will say so and tell you why",
       ],
       priceRange: "8.000 – 16.000 DKK",
-      priceNote: "The audit can be bought on its own for 3.500 DKK if you would rather take the fixes elsewhere.",
+      priceNote: `The audit can be bought on its own for ${RESCUE_AUDIT_PRICE} if you would rather take the fixes elsewhere.`,
       timeline: "1–3 weeks",
     },
   ] satisfies ServiceOffer[],
@@ -1704,8 +1712,9 @@ export const servicesEnquiryOptions = {
 // around it, and a hand that points at whichever one you are about to open.
 // Concept doc: https://claude.ai/code/artifact/daf15c29-d613-4988-afd3-7d47ab46e16d
 //
-// Step 1 builds the envelope only. Work, Writing and Services are still links to
-// their existing pages; their objects (prints, notebook, receipt) come in step 2.
+// Every object opens in place over the clock at its own short URL (/work,
+// /about, /writing, /rates, /contact), and each one links on to the full page
+// behind it (/projects, /garden, /services), which stays as it was.
 
 export type ClockObjectId = "work" | "about" | "writing" | "services";
 
@@ -1719,11 +1728,50 @@ export const clockContent = {
 
   // Order is clockwise from top left, which is also the Tab order.
   objects: [
-    { id: "work", label: "Work", sub: "Projects and case studies", href: "/projects" },
+    { id: "work", label: "Work", sub: "Projects and case studies", href: "/work" },
     { id: "about", label: "About", sub: "A letter from me", href: "/about" },
-    { id: "writing", label: "Writing", sub: "Notes on building", href: "/garden" },
-    { id: "services", label: "Services", sub: "Hire me for a project", href: "/services" },
+    { id: "writing", label: "Writing", sub: "Notes on building", href: "/writing" },
+    { id: "services", label: "Services", sub: "Hire me for a project", href: "/rates" },
   ] satisfies readonly { id: ClockObjectId; label: string; sub: string; href: string }[],
+
+  /**
+   * The prints. Ids into `cases`: everything shown on a print (title, sub,
+   * stack, screenshot) is read from there, so a print cannot drift from its
+   * case study. Three for the job search, plus Racha as the one live client
+   * site. The full list stays on /projects.
+   */
+  work: {
+    caseIds: ["trailr", "bevisly", "mockmate", "racha"],
+    hint: "Click a print to turn it over",
+    readLabel: "Read the case study",
+    turnBack: "Turn back",
+    allLabel: "All projects",
+    allHref: "/projects",
+  },
+
+  // The notebook lists the newest notes; Clock.tsx decides how many.
+  writing: {
+    title: "Garden notes",
+    allLabel: "All notes",
+    allHref: "/garden",
+  },
+
+  /**
+   * The receipt. Line items are read from services.offers (name, priceRange)
+   * plus RESCUE_AUDIT_PRICE, so it always matches /services. Only the framing
+   * lives here.
+   */
+  rates: {
+    heading: "ICE · WEB STUDIO",
+    place: "Copenhagen · DA / EN / SV",
+    auditLabel: "Audit only",
+    footnote: "Fixed price in writing before anything starts.",
+    detailsLabel: "Full details",
+    detailsHref: "/services",
+    ctaLabel: "Start a project",
+    ctaHref: "/services#enquiry",
+    thanks: "Tak, come again",
+  },
 
   // The pinned postcard. `lines` are written on the card itself, so they stay short.
   contact: {

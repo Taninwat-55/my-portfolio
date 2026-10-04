@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { ViewTransition } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ExternalLink, Github, FileText } from "lucide-react";
@@ -101,7 +102,9 @@ export default async function CasePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(creativeWorkJsonLd) }}
       />
-      <Navbar backLinkHref="/#projects" backLinkText="Back to Projects" />
+      {/* Back to the prints on the clock homepage: /#projects stopped existing
+          when the long-scroll homepage was replaced. */}
+      <Navbar backLinkHref="/work" backLinkText="Back to work" />
 
       <main id="main-content" className="container mx-auto px-6 pt-28 md:pt-36 pb-24 max-w-5xl">
         {/* Header */}
@@ -184,8 +187,11 @@ export default async function CasePage({
           </div>
         </FadeIn>
 
-        {/* Hero image */}
-        <FadeIn y={40}>
+        {/* Hero image. Shares its name with the print on /work, so opening a
+            case study from there grows the print's photo into this one. No
+            FadeIn here: it holds the image at opacity 0 until it scrolls into
+            view, which would make the transition grow into nothing. */}
+        <ViewTransition name={`case-hero-${caseStudy.id}`}>
           <div className="relative w-full overflow-hidden rounded-[28px] md:rounded-[40px] border border-frost/10 mb-14 md:mb-20 aspect-[16/9]">
             <Image
               src={caseStudy.images[0]}
@@ -196,7 +202,7 @@ export default async function CasePage({
               className="object-cover"
             />
           </div>
-        </FadeIn>
+        </ViewTransition>
 
         {/* Body */}
         <Section label="Overview">{caseStudy.overview}</Section>

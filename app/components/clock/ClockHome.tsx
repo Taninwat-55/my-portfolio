@@ -2,37 +2,59 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { clockContent, personalInfo, siteContent, type ClockObjectId } from "../../data";
 import { Portrait } from "./Portrait";
 import { Hand } from "./Hand";
 import { ObjectArt } from "./ObjectArt";
 import { Envelope } from "./Envelope";
 import { Postcard } from "./Postcard";
+import { Prints } from "./Prints";
+import { Notebook } from "./Notebook";
+import { Receipt } from "./Receipt";
+import type { ClockContentProps } from "./types";
 import styles from "./clock.module.css";
 
 type Pointable = ClockObjectId | "contact";
-type InPlace = "about" | "contact";
+/** Everything on the clock opens in place: the four objects and the postcard. */
+export type InPlace = Pointable;
 
 /**
- * Objects that open over the cluster instead of navigating away. Each one also
- * has a real route (app/about/page.tsx, app/contact/page.tsx) that renders this
- * component already open, so the URL can be shared and a direct visit shows it.
+ * Where each object lives. Every one opens over the cluster instead of
+ * navigating away, and also has a real route (app/work/page.tsx and so on) that
+ * renders the clock already open, so the URL can be shared and a direct visit
+ * shows the object.
  *
  * Opening uses window.history.pushState rather than router.push: Next keeps
  * usePathname in sync with it, but does not re-render the page, so the envelope
  * can fly out of its spot instead of the whole tree remounting at /about.
  */
-const IN_PLACE: Record<InPlace, string> = { about: "/about", contact: "/contact" };
-const isInPlace = (id: Pointable): id is InPlace => id in IN_PLACE;
+const IN_PLACE: Record<InPlace, string> = {
+  ...(Object.fromEntries(clockContent.objects.map((o) => [o.id, o.href])) as Record<ClockObjectId, string>),
+  contact: "/contact",
+};
+const idForPath = (path: string) =>
+  (Object.keys(IN_PLACE) as InPlace[]).find((id) => IN_PLACE[id] === path) ?? null;
 
 // When each stage of an object's opening starts, in ms after the fly-in lands.
-// The envelope has three (flap, letter rises, letter unfolds); the postcard
-// has one (it turns over). A direct visit renders the last stage straight away.
-const STAGE_DELAYS: Record<InPlace, number[]> = { about: [0, 420, 1000], contact: [500] };
-const DIALOG_LABELS: Record<InPlace, string> = { about: "About Ice", contact: "Contact Ice" };
-// Long enough to see the hand swing before the page changes.
-const SWING_BEFORE_NAVIGATE_MS = 380;
+// The envelope has three (flap, letter rises, letter unfolds); the others have
+// one (fan out, open, print, turn over). A direct visit renders the last stage
+// straight away.
+const STAGE_DELAYS: Record<InPlace, number[]> = {
+  work: [0],
+  about: [0, 420, 1000],
+  writing: [0],
+  services: [0],
+  contact: [500],
+};
+const DIALOG_LABELS: Record<InPlace, string> = {
+  work: "Ice's work",
+  about: "About Ice",
+  writing: "Ice's notes",
+  services: "Services and prices",
+  contact: "Contact Ice",
+};
+// Long enough to see the hand swing before the object flies in.
+const SWING_BEFORE_OPEN_MS = 380;
 
 const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isCompact = () =>
@@ -40,8 +62,13 @@ const isCompact = () =>
 const isPlainClick = (event: React.MouseEvent) =>
   event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 
-export function ClockHome({ initialOpen = null }: { initialOpen?: InPlace | null }) {
-  const router = useRouter();
+export function ClockHome({
+  initialOpen = null,
+  content,
+}: {
+  initialOpen?: InPlace | null;
+  content: ClockContentProps;
+}) {
   const coreRef = useRef<HTMLDivElement>(null);
   const handRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -219,15 +246,29 @@ export function ClockHome({ initialOpen = null }: { initialOpen?: InPlace | null
   // The browser's own back and forward buttons.
   useEffect(() => {
     const onPopState = () => {
-      const id = (Object.keys(IN_PLACE) as InPlace[]).find(
-        (key) => IN_PLACE[key] === window.location.pathname,
-      );
+      const id = idForPath(window.location.pathname);
       if (id && !openRef.current) show(id);
       if (!id && openRef.current) hide();
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, [show, hide]);
+
+  // Coming back from a case study or a post restores the homepage's tree, but
+  // the URL is still /work or /writing, and nothing is open. Open it again,
+  // already at its last stage, so Back lands where the visitor left.
+  useEffect(() => {
+    if (initialOpen) return;
+    const id = idForPath(window.location.pathname);
+    if (!id) return;
+    const frame = requestAnimationFrame(() => {
+      openRef.current = id;
+      setOpen(id);
+      setStage(STAGE_DELAYS[id].length);
+      pointAt(id);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [initialOpen, pointAt]);
 
   useEffect(() => {
     if (!open) return;
@@ -261,20 +302,16 @@ export function ClockHome({ initialOpen = null }: { initialOpen?: InPlace | null
 
   // ---- triggers -------------------------------------------------------------
 
-  const onTriggerClick = (event: React.MouseEvent<HTMLAnchorElement>, id: Pointable, href: string) => {
+  const onTriggerClick = (event: React.MouseEvent<HTMLAnchorElement>, id: Pointable) => {
     if (!isPlainClick(event)) return; // new tab and friends keep working
     event.preventDefault();
     const alreadyPointing = pointedRef.current === id;
     pointAt(id);
-    const delay = alreadyPointing || prefersReducedMotion() ? 0 : SWING_BEFORE_NAVIGATE_MS;
+    const delay = alreadyPointing || prefersReducedMotion() ? 0 : SWING_BEFORE_OPEN_MS;
     window.setTimeout(() => {
-      if (isInPlace(id)) {
-        window.history.pushState(null, "", IN_PLACE[id]);
-        pushedRef.current = true;
-        show(id);
-      } else {
-        router.push(href);
-      }
+      window.history.pushState(null, "", IN_PLACE[id]);
+      pushedRef.current = true;
+      show(id);
     }, delay);
   };
 
@@ -295,7 +332,7 @@ export function ClockHome({ initialOpen = null }: { initialOpen?: InPlace | null
       const next = event.relatedTarget as HTMLElement | null;
       if (!next || ![...triggerRefs.current.values()].includes(next as HTMLAnchorElement)) release();
     },
-    onClick: (event: React.MouseEvent<HTMLAnchorElement>) => onTriggerClick(event, id, href),
+    onClick: (event: React.MouseEvent<HTMLAnchorElement>) => onTriggerClick(event, id),
   });
 
   const artRef = (id: Pointable) => (el: HTMLElement | null) => {
@@ -397,11 +434,13 @@ export function ClockHome({ initialOpen = null }: { initialOpen?: InPlace | null
             aria-modal="true"
             aria-label={DIALOG_LABELS[open]}
           >
-            {open === "about" ? (
-              <Envelope stage={stage as 0 | 1 | 2 | 3} />
-            ) : (
-              <Postcard stage={stage} />
+            {open === "work" && (
+              <Prints stage={stage} prints={content.prints} caseCount={content.caseCount} />
             )}
+            {open === "about" && <Envelope stage={stage as 0 | 1 | 2 | 3} />}
+            {open === "writing" && <Notebook stage={stage} notes={content.notes} />}
+            {open === "services" && <Receipt stage={stage} rates={content.rates} />}
+            {open === "contact" && <Postcard stage={stage} />}
           </div>
         </div>
       )}

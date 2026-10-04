@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SkipLink } from "../components/SkipLink";
 import { ChatWidget } from "../components/ChatWidget";
-import { ClockHome } from "../components/clock/ClockHome";
+import { Clock } from "../components/clock/Clock";
 
 const PAGE_URL = "https://taninwatkaewpankan.xyz/contact";
 
@@ -17,7 +17,7 @@ export default function ContactPage() {
   return (
     <>
       <SkipLink />
-      <ClockHome initialOpen="contact" />
+      <Clock initialOpen="contact" />
       <ChatWidget />
     </>
   );

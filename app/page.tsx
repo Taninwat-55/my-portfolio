@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SkipLink } from "./components/SkipLink";
 import { ChatWidget } from "./components/ChatWidget";
 import { LanguageOffer } from "./components/LanguageOffer";
-import { ClockHome } from "./components/clock/ClockHome";
+import { Clock } from "./components/clock/Clock";
 
 export const metadata: Metadata = {
   alternates: {
@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <>
       <SkipLink />
-      <ClockHome />
+      <Clock />
       <ChatWidget />
       <LanguageOffer />
     </>

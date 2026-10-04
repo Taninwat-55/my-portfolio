@@ -36,6 +36,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         // The About letter on the clock homepage, opened. Same page, own URL.
         { path: '/about', changeFrequency: "monthly" as const, priority: 0.7 },
         { path: '/contact', changeFrequency: "monthly" as const, priority: 0.6 },
+        // The other clock objects, opened. Each previews a fuller page above.
+        { path: '/work', changeFrequency: "monthly" as const, priority: 0.6 },
+        { path: '/writing', changeFrequency: "weekly" as const, priority: 0.6 },
+        { path: '/rates', changeFrequency: "monthly" as const, priority: 0.6 },
         // Below /services: a secondary audience now that / is written for clients,
         // but the canonical home for the CV text since it left the homepage.
         { path: '/cv', changeFrequency: "monthly" as const, priority: 0.7 },
