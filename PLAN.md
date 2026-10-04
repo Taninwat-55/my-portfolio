@@ -89,7 +89,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
     `Tag`/`Chip`, `PaperCard`.
   - `app/not-found.tsx` in the new style. It's the smallest real page, so it proves
     the foundation works. (There is no 404 page at all today.)
-- [ ] **Phase 1: Work** (`/cases/[slug]`, `/projects`)
+- [x] **Phase 1: Work** (`/cases/[slug]`, `/projects`) Merged 2026-10-04 (PR #14).
   - A case study is the print's back, opened. **Keep the `case-hero-{id}`
     ViewTransition name** and the CreativeWork JSON-LD. The back link goes to
     `/work`.
@@ -126,9 +126,67 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ## Progress log
 
+### 2026-10-04 (night, later)
+
+**Re-theme Phase 2: Writing, on branch `retheme-2-writing`, not merged** 🚧 *`856b2d2`*
+
+- **A note is a notebook page, with the text on the lines.** Each block of the
+  body draws its own 32px rules and spaces itself in whole lines (padding, never
+  margin), so every block is a whole number of lines tall: text stays on the rules
+  at any width, and after the Sats Converter mid-post. Verified by measuring every
+  block at 390px and 1280px: zero off the grid. The method is written up at the top
+  of `app/garden/notebook.module.css`.
+- **`/garden` is the notebook's contents page** on the same grid; back link to
+  `/writing`. Notes link back to `/garden`.
+- **Not a word changed:** the body word count of all 10 notes is identical before
+  and after.
+- **The posts' `###` headings render as `<h2>`** (they jumped from h1 to h3;
+  Lighthouse flagged heading-order). No MDX edited.
+- **Sats Converter in paper colours** (Ice's call). Removes the undefined
+  `ice-200` and `charcoal-300`; adds `aria-pressed` on the quick picks and a themed
+  focus ring. Still converts (Pizza: 1,000,000 sats = $670.00 at $67,000).
+- `--color-ice-400` and `--color-charcoal-*` are now unused: Phase 6 deletes them.
+
+Lighthouse mobile, before → after:
+
+| route | perf | a11y | LCP |
+| --- | --- | --- | --- |
+| `/garden` | 96 → 97 | 95 → 100 | 2.8 → 2.6 s |
+| `/garden/bitcoin-product-thinking` | 99 → 96 | 94 → 100 | 2.3 → 2.8 s |
+| `/garden/shipping-at-trailr` | 96 → 93 | 94 → 100 | 2.8 → 3.1 s |
+
+⚠️ **The notes' small LCP drop is not explained yet, and two guesses were wrong:**
+- **`experimental.inlineCss` (Ice approved the test): no.** Notes unchanged, the
+  clock homepage fell 98 → 87, since it then carries all CSS in its HTML. Reverted.
+- **The header's entrance fade: no.** Removing it moved Bitcoin 95 → 96–97 and
+  Trailr not at all. Reverted.
+- Likely: the 32px line spacing makes a body paragraph the largest element, and
+  the simulation paints it later. Revisit in Phase 6's measurement pass.
+
+⚠️ **Two incidents this session, both now in memory:**
+- **`pnpm dev` run by accident** reinstalled `node_modules` with Next 16.3.8 /
+  React 19.3.0 (locked 16.0.7 / 19.2.1), broke `tsc` on `experimental.viewTransition`,
+  and left `pnpm-lock.yaml` and `pnpm-workspace.yaml`. Restored with
+  `rm -rf node_modules pnpm-lock.yaml pnpm-workspace.yaml && npm ci`. This repo is npm.
+- **Builds now run in a git worktree when Ice's dev server is up**, after the
+  earlier case of `next build` leaving it serving stale CSS. `node_modules` is
+  cloned with `cp -c` (a symlink fails: Turbopack rejects links outside the root).
+
+- **Phone-only pagination on `/garden`** (Ice, before merging): five notes a page
+  below 768px with a Newer/Older pager; laptops keep the full list. All notes stay
+  in the HTML as real links (CSS hides off-page ones on phones), so none becomes an
+  orphan. The page is in the URL (`?page=2`, replaceState), restored before first
+  paint, so Back from a note lands on its page; focus moves to the first note of the
+  new page; a bad `?page` is cleaned out. Tested at 360px, including Back from a
+  note on page 2. `/garden` still static, Lighthouse 97/100, CLS 0.
+
+**Open:**
+- Ice's preview check: a note on phone and desktop, the converter, `/garden` and
+  its phone pager.
+
 ### 2026-10-04 (late night)
 
-**Re-theme Phase 1: Work, on branch `retheme-1-work`, not merged** 🚧 *`c794bdf`*
+**Re-theme Phase 1: Work, merged (PR #14)** ✅ *`c794bdf`*
 
 - **`/cases/[slug]` is the back of its print, opened big.** The photo sits on top
   in a paper frame and is still the `case-hero-{id}` ViewTransition target. The

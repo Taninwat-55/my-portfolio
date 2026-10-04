@@ -57,18 +57,18 @@ export function SatsConverter({
   return (
     <div
       ref={ref}
-      className="not-prose my-10 rounded-2xl border border-ice-400/20 bg-charcoal-900/60 backdrop-blur-sm overflow-hidden"
+      className="not-prose my-8 overflow-hidden rounded-md border border-paper-rule bg-paper-dim text-paper-ink shadow-[0_6px_18px_rgba(0,0,0,0.18)]"
     >
       {/* Top bar — Garden tool label + animated rate */}
-      <div className="flex items-center justify-between gap-3 px-5 py-3 border-b border-white/5 bg-white/[0.02]">
-        <div className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] uppercase text-ice-400">
+      <div className="flex items-center justify-between gap-3 px-5 py-3 border-b border-paper-rule">
+        <div className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] uppercase text-paper-ink">
           <Bitcoin size={12} strokeWidth={1.6} />
           Garden tool · Sats Converter
         </div>
-        <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-charcoal-400">
+        <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-paper-ink">
           1 BTC ={" "}
           <motion.span
-            className="text-zinc-100"
+            className="text-paper-ink"
             initial={false}
             animate={{ opacity: inView ? 1 : 0.4 }}
           >
@@ -85,7 +85,7 @@ export function SatsConverter({
           value={sats.toLocaleString("en-US")}
           onChange={onSatsChange}
         />
-        <div className="hidden sm:flex items-center justify-center font-mono text-charcoal-500">
+        <div className="hidden sm:flex items-center justify-center font-mono text-paper-ink">
           ⇌
         </div>
         <Field
@@ -102,7 +102,7 @@ export function SatsConverter({
 
       {/* Quick picks */}
       <div className="flex flex-wrap items-center gap-2 px-5 pb-5">
-        <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-charcoal-500 mr-1">
+        <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-paper-ink mr-1">
           Try
         </span>
         {QUICK_PICKS.map((q) => {
@@ -112,10 +112,11 @@ export function SatsConverter({
               key={q.label}
               type="button"
               onClick={() => setSats(q.sats)}
-              className={`px-3 py-1.5 rounded-full border font-mono text-[10px] tracking-[0.18em] uppercase transition-colors ${
+              aria-pressed={active}
+              className={`px-3 py-1.5 rounded-full border font-mono text-[10px] tracking-[0.18em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper-ink ${
                 active
-                  ? "border-ice-400/50 bg-ice-400/10 text-ice-200"
-                  : "border-white/10 bg-white/[0.02] text-charcoal-300 hover:border-ice-400/30 hover:text-ice-200"
+                  ? "border-paper-ink bg-paper-ink text-paper"
+                  : "border-paper-rule bg-paper text-paper-ink hover:border-paper-ink"
               }`}
             >
               {q.label} · {q.sats.toLocaleString("en-US")} sats
@@ -125,7 +126,7 @@ export function SatsConverter({
       </div>
 
       {caption && (
-        <div className="px-5 pb-4 text-[12px] text-charcoal-400 leading-relaxed">
+        <div className="px-5 pb-4 text-[12px] text-paper-ink leading-relaxed">
           {caption}
         </div>
       )}
@@ -150,12 +151,12 @@ function Field({
 }) {
   return (
     <label className="block">
-      <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-charcoal-400 mb-2">
+      <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-paper-ink mb-2">
         {label}
       </div>
       <div className="relative">
         {prefix && (
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-300 font-mono text-lg">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-paper-soft font-mono text-lg">
             {prefix}
           </span>
         )}
@@ -164,11 +165,11 @@ function Field({
           inputMode="decimal"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className={`w-full rounded-lg bg-charcoal-950/80 border border-white/10 ${
+          className={`w-full rounded-md bg-paper border border-paper-rule ${
             prefix ? "pl-9" : "pl-4"
-          } pr-14 py-3.5 text-zinc-50 font-mono text-lg tracking-tight focus:outline-none focus:border-ice-400/50 focus:bg-charcoal-950 transition-colors`}
+          } pr-14 py-3.5 text-paper-ink font-mono text-lg tracking-tight focus:outline-none focus-visible:border-paper-ink focus-visible:ring-2 focus-visible:ring-paper-link transition-colors`}
         />
-        <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[10px] tracking-[0.2em] uppercase text-charcoal-500">
+        <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[10px] tracking-[0.2em] uppercase text-paper-soft">
           {unit}
         </span>
       </div>
