@@ -104,20 +104,18 @@ const personJsonLd = {
 // default, the Open Graph card and the Twitter card, which is how a title
 // change turns into a three-line edit that is easy to half-finish.
 //
-// siteTagline rather than roleLabel: this is what a person reads in a browser tab
-// and a search result, and the site now leads with what it offers rather than
-// with a job title. roleLabel is still the structured answer — it stays on
-// Person.jobTitle in the JSON-LD above, on /services, in the chatbot prompt, and
-// as the /cv heading.
-const SITE_TITLE = `${personalInfo.nickname} · ${personalInfo.name} — ${siteContent.siteTagline}`;
+// roleLabel since the clock homepage (2026-10-04): the page itself now leads with
+// the job title, so its search result and browser tab say the same. Clients
+// searching for a web developer land on /services, whose description and Danish
+// keywords are written for them. Before the clock, this used siteTagline, because
+// the long-scroll homepage was written for clients first.
+const SITE_TITLE = `${personalInfo.nickname} · ${personalInfo.name}, ${siteContent.roleLabel} in Copenhagen`;
 
-// The description had the same problem the title had, and worse: TWO near-identical
-// recruiter-framed sentences across three consumers — one on metadata.description,
-// a slightly different one pasted into both the Open Graph and Twitter cards. One
-// string now, rewritten client-first to match the new title, keeping the
-// React/Next.js/TypeScript terms a recruiter searches for.
+// One string, three consumers (metadata, Open Graph, Twitter). Both audiences in
+// two sentences: the job and its stack for a recruiter, and the client work for
+// a business owner, who reads on to /services.
 const SITE_DESCRIPTION =
-  "Ice (Taninwat Kaewpankan) builds websites and web app frontends from Copenhagen. React, Next.js, TypeScript. Published prices, fixed scope, written quote first.";
+  "Ice (Taninwat Kaewpankan) is a full-stack engineer in Copenhagen: React, Next.js, TypeScript and PostgreSQL, from interface to database. Open to full-time roles, and taking on client projects with published prices.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://taninwatkaewpankan.xyz"),
