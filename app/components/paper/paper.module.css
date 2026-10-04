@@ -1,0 +1,299 @@
+/* The desk world for every page behind the clock (re-theme, Phase 0).
+   A dark desk with paper lying on it. Colours are the desk tokens in
+   globals.css, the same ones clock.module.css reads, and the shadow and ruled
+   lines are the clock's own (.cardSide, .notebookPages), so a visitor who
+   opens a page from the clock stays in the same room.
+
+   Everything sits in @layer components, so a Tailwind utility passed as
+   className (always in @layer utilities) can override it. Unlayered, these
+   rules would beat every utility whatever its specificity. */
+
+@layer components {
+/* ---------- page shell ---------- */
+
+.desk {
+  --shadow: rgba(0, 0, 0, 0.55);
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: clamp(24px, 4vh, 48px);
+  padding-inline: clamp(16px, 3vw, 40px);
+  padding-block: clamp(14px, 2.4vh, 28px);
+  box-sizing: border-box;
+  background: var(--color-night-900);
+  color: var(--color-frost);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* The portrait from the clock, small, on the same disc. It is the way home. */
+.home {
+  position: relative;
+  display: block;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, #2b3843, #1c252d 72%);
+  box-shadow:
+    0 6px 14px var(--shadow),
+    inset 0 0 0 1px rgba(127, 200, 227, 0.12);
+  overflow: hidden;
+  transition: transform 200ms var(--ease-out);
+}
+.home img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.home:hover {
+  transform: scale(1.06);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  /* The main way back on a phone, so a full 44px thumb target. */
+  min-height: 44px;
+  color: var(--color-ink-soft);
+  font-size: 14px;
+  text-decoration: none;
+}
+.back:hover {
+  color: var(--color-frost);
+}
+
+.main {
+  width: 100%;
+  max-width: 920px;
+  margin-inline: auto;
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 32px;
+}
+
+.languages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 13px;
+}
+.languages a {
+  padding: 4px 0;
+  color: var(--color-ink-soft);
+  text-decoration: none;
+}
+.languages a:hover,
+.languages a[aria-current] {
+  color: var(--color-frost);
+}
+
+/* A postcard on the desk's edge. It links to the real one at /contact. */
+.postcard {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 16px;
+  width: min(340px, 100%);
+  padding: 14px 16px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  background: var(--color-paper);
+  color: var(--color-paper-ink);
+  box-shadow: 0 10px 30px var(--shadow);
+  transform: rotate(-1deg);
+}
+.postcardLine {
+  margin: 0;
+  font: 400 16px/1.35 var(--font-hand);
+}
+.postcardEmail {
+  grid-column: 1;
+  /* Keeps the tap target at 24px tall. */
+  padding-block: 2px;
+  color: var(--color-paper-soft);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+.postcardEmail:hover {
+  color: var(--color-paper-ink);
+}
+.postcardLink {
+  grid-column: 1;
+  color: var(--color-paper-link);
+  padding-block: 4px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+}
+.postcardLink:hover {
+  text-decoration: underline;
+}
+.postcardStamp {
+  grid-row: 1 / span 3;
+  grid-column: 2;
+  align-self: start;
+  width: 34px;
+  height: 42px;
+  box-sizing: border-box;
+  border: 3px dotted var(--color-paper);
+  outline: 1px solid var(--color-paper-dim);
+  background: var(--color-clay-500);
+}
+
+/* Focus on the dark desk is the crystal accent; on paper it is the paper accent. */
+.home:focus-visible,
+.back:focus-visible,
+.languages a:focus-visible {
+  outline: 2px solid var(--color-crystal-500);
+  outline-offset: 4px;
+}
+.postcardLink:focus-visible,
+.postcardEmail:focus-visible,
+.sheet a:not(.card):focus-visible,
+.card:focus-visible {
+  outline: 2px solid var(--color-paper-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- paper ---------- */
+
+.sheet {
+  position: relative;
+  padding: clamp(24px, 5vw, 48px) clamp(20px, 5vw, 56px);
+  box-sizing: border-box;
+  border-radius: 4px;
+  background: var(--color-paper);
+  color: var(--color-paper-ink);
+  box-shadow: 0 10px 30px var(--shadow);
+}
+/* Underlined: inside prose, colour alone does not mark a link (the link blue is
+   only 2.5:1 against the ink). Cards are excluded, so a linked PaperCard on a
+   sheet keeps its own colours. Opt out with `no-underline` for link lists. */
+.sheet a:not(.card) {
+  color: var(--color-paper-link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* A notebook page: the clock's ruled lines, from --rule-top down (PaperSheet's
+   ruleTop prop), so a heading can sit above them. Read with a fallback rather
+   than declared here, or a value set from outside could never win. */
+.ruled {
+  padding-left: clamp(36px, 7vw, 72px);
+  background:
+    repeating-linear-gradient(transparent 0 35px, var(--color-paper-rule) 35px 36px) 0
+      var(--rule-top, 0px) / 100% calc(100% - var(--rule-top, 0px)) no-repeat,
+    var(--color-paper);
+}
+/* The margin line. */
+.ruled::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: clamp(22px, 4.5vw, 48px);
+  width: 1px;
+  background: rgba(196, 113, 62, 0.4);
+}
+
+.header {
+  display: grid;
+  gap: 10px;
+  margin-bottom: clamp(20px, 4vw, 32px);
+}
+.kicker {
+  margin: 0;
+  font: 400 18px/1.3 var(--font-hand);
+  color: var(--color-paper-soft);
+}
+.title {
+  margin: 0;
+  font-size: clamp(30px, 5vw, 48px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.lead {
+  margin: 0;
+  max-width: 60ch;
+  font-size: clamp(16px, 1.6vw, 18px);
+  line-height: 1.55;
+  color: var(--color-paper-soft);
+}
+
+/* On the desk instead of on paper, the header takes the desk's colours. */
+.onDesk .kicker,
+.onDesk .lead {
+  color: var(--color-ink-soft);
+}
+
+.card {
+  display: block;
+  padding: 18px 20px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  background: var(--color-paper);
+  color: var(--color-paper-ink);
+  box-shadow: 0 10px 30px var(--shadow);
+  text-decoration: none;
+  transform: rotate(var(--tilt, 0deg));
+  transition:
+    transform 250ms var(--ease-out),
+    box-shadow 250ms var(--ease-out);
+}
+a.card:hover {
+  transform: rotate(0deg) translateY(-3px);
+  box-shadow: 0 16px 34px var(--shadow);
+}
+
+.tag,
+.chip {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+/* A small ink label, like a stack name written on the back of a print. */
+.tag {
+  padding: 2px 6px;
+  border: 1px solid var(--color-paper-rule);
+  border-radius: 3px;
+  color: var(--color-paper-soft);
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+/* A rounded pill for statuses and filters. */
+.chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--color-paper-dim);
+  color: var(--color-paper-ink);
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home,
+  .card {
+    transition: none;
+  }
+  .home:hover {
+    transform: none;
+  }
+  a.card:hover {
+    transform: rotate(var(--tilt, 0deg));
+  }
+}
+} /* @layer components */

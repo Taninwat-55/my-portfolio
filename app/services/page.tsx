@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: PAGE_URL },
   openGraph: {
-    title: "Services | Ice — Taninwat Kaewpankan",
+    title: "Services | Ice · Taninwat Kaewpankan",
     description: DESCRIPTION,
     url: PAGE_URL,
     type: "website",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Services | Ice — Taninwat Kaewpankan",
+    title: "Services | Ice · Taninwat Kaewpankan",
     description: DESCRIPTION,
   },
 };
@@ -174,7 +174,7 @@ export default function ServicesPage() {
         "@type": "WebPage",
         "@id": `${PAGE_URL}#webpage`,
         url: PAGE_URL,
-        name: "Services | Ice — Taninwat Kaewpankan",
+        name: "Services | Ice · Taninwat Kaewpankan",
         description: DESCRIPTION,
         inLanguage: "en",
         about: { "@id": `${PAGE_URL}#business` },

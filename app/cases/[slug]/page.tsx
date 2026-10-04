@@ -32,14 +32,14 @@ export async function generateMetadata({
     description: caseStudy.sub,
     alternates: { canonical: url },
     openGraph: {
-      title: `${caseStudy.title} | Ice — Taninwat Kaewpankan`,
+      title: `${caseStudy.title} | Ice · Taninwat Kaewpankan`,
       description: caseStudy.sub,
       url,
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${caseStudy.title} | Ice — Taninwat Kaewpankan`,
+      title: `${caseStudy.title} | Ice · Taninwat Kaewpankan`,
       description: caseStudy.sub,
     },
   };

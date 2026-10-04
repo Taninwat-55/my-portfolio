@@ -3,7 +3,8 @@
    pointing from behind the head. Phones get the portrait on top and the objects
    as a 2×2 grid of cards.
 
-   Colours follow the site's night / frost / crystal / clay scale in globals.css.
+   Colours follow the site's night / frost / crystal / clay scale in globals.css,
+   and the paper colours are the desk tokens there, shared with every page.
    Paper stays light on purpose: the objects are things lying on a dark desk,
    not UI chrome, so they keep their own fixed ink colours. */
 
@@ -11,16 +12,19 @@
   --ground: #0c0c0c;
   --ground-2: #1c1c1c;
   --ink: #d7e2ea;
-  --ink-soft: #8c99a5;
+  --ink-soft: var(--color-ink-soft);
   --accent: #7fc8e3;
   --clay: #c4713e;
 
-  --paper: #f6f5f1;
-  --paper-dim: #e4e1d9;
-  --paper-ink: #1d2731;
-  --paper-soft: #5a6672;
-  --paper-rule: #c9d5e6;
-  --paper-accent: #3e8fb0;
+  --paper: var(--color-paper);
+  --paper-dim: var(--color-paper-dim);
+  --paper-ink: var(--color-paper-ink);
+  --paper-soft: var(--color-paper-soft);
+  --paper-rule: var(--color-paper-rule);
+  --paper-accent: var(--color-paper-accent);
+  /* Text links on paper: the accent is only 3.3:1 there, too faint for small
+     text. The accent stays for fills, focus rings and the large signature. */
+  --paper-link: var(--color-paper-link);
 
   /* Sampled from the portrait, so the hand and the face read as one drawing. */
   --skin: #df9d7a;
@@ -28,7 +32,7 @@
   --sleeve: #2a3a48;
   --shadow: rgba(0, 0, 0, 0.55);
 
-  --font-hand: var(--font-kalam), "Bradley Hand", "Segoe Print", cursive;
+  /* --font-hand is declared on body in globals.css. */
   --ease-swing: cubic-bezier(0.34, 1.4, 0.64, 1);
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
 
@@ -93,7 +97,7 @@
   margin: 4px 0 0;
   max-width: 30ch;
   padding: 8px 12px 10px;
-  background: #f3dfa2;
+  background: var(--color-sticky);
   color: var(--paper-ink);
   font: 400 15px/1.35 var(--font-hand);
   transform: rotate(-1.5deg);
@@ -1321,7 +1325,7 @@
   gap: 6px;
 }
 .printRead {
-  color: var(--paper-accent);
+  color: var(--paper-link);
   font-weight: 700;
   text-decoration: none;
 }
@@ -1394,7 +1398,7 @@
   font-size: 12px;
 }
 .notebookPages li a:hover span {
-  color: var(--paper-accent);
+  color: var(--paper-link);
   text-decoration: underline;
 }
 .notebookPages a:focus-visible {
@@ -1404,7 +1408,7 @@
 .notebookAll {
   justify-self: end;
   margin-top: 12px;
-  color: var(--paper-accent);
+  color: var(--paper-link);
   font-weight: 500;
   text-decoration: none;
 }
@@ -1538,7 +1542,7 @@
   margin: 8px 0 12px;
 }
 .receiptLinks a {
-  color: var(--paper-accent);
+  color: var(--paper-link);
   font-weight: 700;
 }
 
@@ -1655,7 +1659,7 @@
     color: var(--paper-soft);
   }
   .thing.pointed .label {
-    color: var(--paper-accent);
+    color: var(--paper-link);
   }
   .languages {
     padding-top: 14px;
