@@ -3,10 +3,10 @@ import type { EnquiryMessages } from "./lib/services-enquiry";
 /**
  * Thai copy for /th.
  *
- * ⚠️ DRAFTED BY CLAUDE, NOT YET PROOFREAD BY A NATIVE SPEAKER. Ice is Thai, so he
- * is the reviewer — every string here should be read and edited by him before this
- * page is treated as finished. The politeness register in particular is a
- * judgement call, not something to take on trust.
+ * PROOFREAD. Drafted by Claude, then read and edited by Ice, who is Thai (item 40
+ * in PLAN.md, closed 2026-08-22). Any new or edited string needs his eye again:
+ * the politeness register in particular is a judgement call, not something to
+ * take on trust.
  *
  * Kept in its own module rather than inside data.ts for two reasons: it would
  * roughly double that file, and D6 in PLAN.md settled on standalone language pages

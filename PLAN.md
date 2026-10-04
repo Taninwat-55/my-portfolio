@@ -10,11 +10,9 @@ item 40 is closed. Four languages published: English, Thai, Swedish, Danish.
 VIEWPORT must use `<FadeIn immediate>` or `<SectionHeading immediate>`. The default
 path waits for hydration and cost the site an LCP of 7.9s. Below the fold, keep the
 default — see the log entry.
-**⚠️ If a fifth language is ever added, measure the nav island first.** It is at
-619px with four chips against an 800px breakpoint. The rule, three moves running, is
-that the island keeps a real margin either side rather than shrinking its chips —
-see the history in `SiteNav.tsx`. The next move is roughly 880, and at some point the
-honest answer is to stop putting languages in the bar.
+~~**If a fifth language is ever added, measure the nav island first.**~~ Retired
+2026-10-04: the pill nav (`SiteNav.tsx`) went with the old homepage, and the clock
+lists languages as plain links with room to spare.
 **✅ THE DEPLOY IS FIXED, and the site is published again.** The cause was the
 `publish` key dropped in `5e2608c`: with no key Netlify's default resolves publish
 to the repo root and `@netlify/plugin-nextjs` rejects it in `onBuild`. Restored in
@@ -25,8 +23,9 @@ the add-ons table or the aftercare section. All of that is live as of PR #4.
 🔒 **The lesson worth keeping: the build succeeds and the deploy still fails.**
 `next build` compiled and prerendered all 37 pages before the plugin threw, so a
 green build proves nothing about a deploy. Read the deploy log, not the build log.
-**In progress:** the Thai proofread — chunk 1 of 4 presented, awaiting Ice. See item 40.
-**Next up:** nothing. The plan is finished. What is left is running the business it
+**In progress:** the re-theme roadmap below. The clock homepage shipped (PR #12); the
+pages behind it follow in phases.
+**Next up after that:** nothing. The overhaul plan is finished. What is left is running the business it
 was built for — item 31's Facebook groups, Racha's testimonial in Appendix B, and
 whatever the first Danish enquiry teaches.
 **⚠️ Your homework:** none. Both proofreads are in.
@@ -45,6 +44,83 @@ correcting it means moving three blocks, and this file is the source of truth.
 > and anything left open. Tick its checkbox in §4 at the same time. This log is
 > how we pick up where we left off, so an item that ships without a log entry
 > counts as lost work.
+
+---
+
+## Re-theme roadmap (started 2026-10-04)
+
+> **New session? Start here.** Each phase is its own session, branch
+> (`retheme-N-name`), PR and deploy preview. Plan the phase first (plan mode), then
+> build. Ice checks the preview in a real browser and merges. Tick the box here
+> when it is merged.
+
+The clock homepage (PR #12) is live, but every page behind it still uses the old
+design, so "Read the case study" or a note drops the visitor out of the desk world.
+
+**Decisions (Ice, 2026-10-04):**
+- **"The object, opened big."**
+  - A case study is the back of its print made large.
+  - A note is a notebook page.
+  - The CV is a paper document.
+  - Big pages (`/services`, the language pages) use paper cards on the dark desk,
+    not one giant object.
+- **Language pages: restyle, keep every word.** `/th`, `/sv` and `/da` are
+  small-business sales pages with native-proofread copy (items 28 and 40). No copy
+  changes, no re-proofreading, and URLs, hreflang, canonical and sitemap untouched.
+
+**Rules for every phase:**
+- First-viewport elements use `FadeIn immediate`, never the default (the LCP rule
+  above).
+- No em dashes in new copy.
+- Check before every PR:
+  - `tsc`, `eslint`, and `next build` with secrets blanked
+  - curl every touched route
+  - Lighthouse on the touched routes against their "before"
+  - the reviewer agent
+
+- [ ] **Phase 0: Foundation.** Shared pieces every later phase builds on.
+  - Desk tokens in `globals.css` (paper, ink, rule, hand font), taken from
+    `app/components/clock/clock.module.css`, so the pages and the clock share one
+    palette.
+  - `PageShell`, replacing `Navbar`. The header has a small round portrait linking
+    home and a back link to the object the page came from ("← Work"). The footer
+    has the language links and the postcard contact.
+  - Paper primitives: `PaperSheet` (with a ruled variant), `PageHeader`,
+    `Tag`/`Chip`, `PaperCard`.
+  - `app/not-found.tsx` in the new style. It's the smallest real page, so it proves
+    the foundation works. (There is no 404 page at all today.)
+- [ ] **Phase 1: Work** (`/cases/[slug]`, `/projects`)
+  - A case study is the print's back, opened. **Keep the `case-hero-{id}`
+    ViewTransition name** and the CreativeWork JSON-LD. The back link goes to
+    `/work`.
+  - `/projects` is all the prints laid out (client work first, as now).
+- [ ] **Phase 2: Writing** (`/garden/[slug]`, `/garden`)
+  - A note is a notebook page. One `mdxComponents` map in
+    `garden/[slug]/page.tsx` styles all 10 posts.
+  - Fix `SatsConverter`'s undefined `ice-200` and `charcoal-300` tokens.
+  - `/garden` is the notebook's contents page. Keep the Article JSON-LD.
+- [ ] **Phase 3: CV** (`/cv`)
+  - A paper document in the PDF's order.
+  - Restyle `ContactButton`/`HireModal`, or replace them with `/contact`.
+- [ ] **Phase 4: Services** (`/services`, 1,087 lines, the biggest page)
+  - Offers as receipt cards (like `/rates`), the running-costs table on paper, the
+    FAQ as index cards.
+  - Replace `SectionHeading`. Restyle `ServicesEnquiryForm`; it's shared with the
+    language pages. Swap in `LazyChatWidget`.
+  - **Keep** the JSON-LD `@graph`, the offer anchor ids and `FadeIn immediate`
+    above the fold.
+- [ ] **Phase 5: Languages** (`/th`, `/sv`, `/da`)
+  - Three near-identical ~500-line pages become one shared `LandingPage` fed by
+    `thContent`/`svContent`/`daContent` (identical keys).
+  - Keep `svPrice`, the unit helpers, the `/da` DRAFT switch and `backToEnglish`.
+  - **Proof that no word changed:** `npm run copy th|sv|da` before and after must
+    diff to nothing.
+  - Restyle the three OG cards.
+- [ ] **Phase 6: Clean-up and measure.**
+  - Delete what nothing uses any more: `Navbar`, `SectionHeading`,
+    `.hero-heading`, `.frost-text`, Instrument Serif and old tokens.
+  - Lighthouse every route type.
+  - Update the concept doc.
 
 ---
 

@@ -3,18 +3,10 @@ import type { EnquiryMessages } from "./lib/services-enquiry";
 /**
  * Danish copy for /da.
  *
- * ⚠️⚠️ DRAFTED BY CLAUDE. NOT PROOFREAD. NOT PUBLISHED. ⚠️⚠️
- *
- * Ice speaks Danish at beginner level, so unlike app/data.sv.ts he CANNOT be the
- * reviewer here. This is the one language page that genuinely needs an outside
- * native speaker — item 28 — and until that happens the page is deliberately
- * unreachable from the site and excluded from search. See app/da/page.tsx.
- *
- * WHY IT EXISTS BEFORE THE PROOFREAD, which is the opposite of the original plan:
- * Ice asked "I can't even access the da page, so how can I proofread it?" and he
- * was right. You cannot proofread copy that does not exist, and asking a Dane to
- * write a page is a much bigger favour than asking them to read forty sentences.
- * So the draft comes first, and it stays invisible until it passes.
+ * PROOFREAD AND PUBLISHED. Drafted by Claude, read line by line by a native Danish
+ * speaker (item 28 in PLAN.md), and live since 2026-08-22. Ice speaks Danish at
+ * beginner level, so he cannot review changes here himself: any new or edited
+ * string needs a native speaker again before it ships.
  *
  * To hand it to a proofreader: `npm run copy da` prints every string as plain
  * readable text. Nobody proofreads TypeScript.
@@ -61,7 +53,7 @@ export function daUnits(value: string): string {
 }
 
 export const daContent = {
-  /** Used on the page wrapper. No hreflang yet — the page is not indexed. */
+  /** Used on the page wrapper and for hreflang (published 2026-08-22). */
   locale: "da",
 
   meta: {
