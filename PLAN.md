@@ -99,7 +99,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
     `garden/[slug]/page.tsx` styles all 10 posts.
   - Fix `SatsConverter`'s undefined `ice-200` and `charcoal-300` tokens.
   - `/garden` is the notebook's contents page. Keep the Article JSON-LD.
-- [ ] **Phase 3: CV** (`/cv`)
+- [x] **Phase 3: CV** (`/cv`) Merged 2026-10-05 (PR #16).
   - A paper document in the PDF's order.
   - Restyle `ContactButton`/`HireModal`, or replace them with `/contact`.
 - [ ] **Phase 4: Services** (`/services`, 1,087 lines, the biggest page)
@@ -128,7 +128,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ### 2026-10-05
 
-**Re-theme Phase 3: CV, on branch `retheme-3-cv`, not merged** 🚧 *`12ff053`*
+**Re-theme Phase 3: CV, merged (PR #16)** ✅ *`12ff053`*
 
 - **`/cv` is a paper document in the PDF's order**, from the same `cvData`: his
   name as the h1 (Ice's call), title and location, the contact line (email,
