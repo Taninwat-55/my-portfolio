@@ -213,20 +213,31 @@
   fill: var(--sleeve);
 }
 
-/* The portrait: two images that crossfade, plus an SVG layer that redraws the
-   pupils (so they can follow the cursor) and the eyelids (so it can blink).
-   The smiling image has its own closed, smiling eyes, so the layer steps aside. */
-.face {
+/* The portrait: a cut-out head over a disc. Two images crossfade, plus an SVG
+   layer that redraws the pupils (so they can follow the cursor) and the eyelids
+   (so it can blink). The smiling image has its own closed, smiling eyes, so the
+   layer steps aside. On hover the head lifts off the disc; the disc stays. */
+.portraitRoot {
   position: absolute;
   inset: 0;
   z-index: 2;
-  overflow: hidden;
-  border-radius: 50%;
-  /* Matches the images' own background, so nothing flashes while they load. */
-  background: #212a31;
-  box-shadow: 0 18px 50px var(--shadow);
-  transition: transform 380ms var(--ease-swing);
   -webkit-tap-highlight-color: transparent;
+}
+.disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  /* Lighter than the page so black hair keeps its outline. */
+  background: radial-gradient(circle at 50% 40%, #2b3843, #1c252d 72%);
+  box-shadow:
+    0 18px 50px var(--shadow),
+    inset 0 0 0 1px rgba(127, 200, 227, 0.12);
+}
+.face {
+  position: absolute;
+  inset: 0;
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.45));
+  transition: transform 380ms var(--ease-swing);
 }
 .portrait,
 .eyeLayer {
@@ -248,7 +259,7 @@
 .pupil {
   transition: transform 120ms linear;
 }
-.smile {
+.smile .face {
   transform: scale(1.05);
 }
 .smile .portraitSmile {
@@ -979,7 +990,7 @@
     transition-delay: 0ms !important;
     animation: none !important;
   }
-  .smile {
+  .smile .face {
     transform: none;
   }
 }

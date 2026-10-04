@@ -143,7 +143,7 @@ export function Portrait({
   // The wink keeps the neutral face, so the closed eye reads as a wink rather
   // than as both eyes smiling shut.
   const showSmile = (smiling || hovered || greeting) && !winking;
-  const classes = [styles.face, showSmile ? styles.smile : "", winking ? styles.wink : ""].join(" ");
+  const classes = [styles.portraitRoot, showSmile ? styles.smile : "", winking ? styles.wink : ""].join(" ");
 
   return (
     <div
@@ -153,71 +153,76 @@ export function Portrait({
       onPointerLeave={() => setHovered(false)}
       onClick={onClick}
     >
-      {/* The neutral face decides LCP, so it is preloaded; the smile is not. */}
-      <Image
-        className={styles.portrait}
-        src="/clock/portrait-neutral.webp"
-        alt=""
-        width={840}
-        height={840}
-        sizes="(max-width: 767px) 260px, 420px"
-        priority
-      />
-      <Image
-        className={`${styles.portrait} ${styles.portraitSmile}`}
-        src="/clock/portrait-smile.webp"
-        alt=""
-        width={840}
-        height={840}
-        sizes="(max-width: 767px) 260px, 420px"
-      />
-      <svg ref={overlayRef} className={styles.eyeLayer} viewBox="0 0 2048 2048">
-        <defs>
-          <mask id="portrait-eyes" maskUnits="userSpaceOnUse" x="0" y="0" width="2048" height="2048">
-            <image href="/clock/eye-mask.png" x="0" y="0" width="2048" height="2048" />
-          </mask>
-        </defs>
-        {EYES.map((eye, i) => (
-          <g key={i} className={i === 1 ? styles.eyeRight : undefined}>
-            <g mask="url(#portrait-eyes)">
-              {/* Covers the painted pupil and highlight. */}
-              <rect x={eye.x} y={EYE_BAND.y} width={eye.width} height={EYE_BAND.height} fill="#fff" />
-              <g
-                ref={(el) => {
-                  pupilRefs.current[i] = el;
-                }}
-                className={styles.pupil}
-              >
-                <circle cx={eye.pupil.cx} cy={eye.pupil.cy} r={PUPIL_R} fill={INK} />
-                <circle
-                  cx={eye.pupil.cx + HIGHLIGHT.dx}
-                  cy={eye.pupil.cy + HIGHLIGHT.dy}
-                  r={HIGHLIGHT.r}
-                  fill="#fff"
+      {/* The disc behind the head. Not decoration: black hair vanishes against the
+          near-black page without it, and it hides the hand's arm. */}
+      <div className={styles.disc} />
+      <div className={styles.face}>
+        {/* The neutral face decides LCP, so it is preloaded; the smile is not. */}
+        <Image
+          className={styles.portrait}
+          src="/clock/face-neutral.webp"
+          alt=""
+          width={840}
+          height={840}
+          sizes="(max-width: 767px) 260px, 420px"
+          priority
+        />
+        <Image
+          className={`${styles.portrait} ${styles.portraitSmile}`}
+          src="/clock/face-smile.webp"
+          alt=""
+          width={840}
+          height={840}
+          sizes="(max-width: 767px) 260px, 420px"
+        />
+        <svg ref={overlayRef} className={styles.eyeLayer} viewBox="0 0 2048 2048">
+          <defs>
+            <mask id="portrait-eyes" maskUnits="userSpaceOnUse" x="0" y="0" width="2048" height="2048">
+              <image href="/clock/eye-mask.png" x="0" y="0" width="2048" height="2048" />
+            </mask>
+          </defs>
+          {EYES.map((eye, i) => (
+            <g key={i} className={i === 1 ? styles.eyeRight : undefined}>
+              <g mask="url(#portrait-eyes)">
+                {/* Covers the painted pupil and highlight. */}
+                <rect x={eye.x} y={EYE_BAND.y} width={eye.width} height={EYE_BAND.height} fill="#fff" />
+                <g
+                  ref={(el) => {
+                    pupilRefs.current[i] = el;
+                  }}
+                  className={styles.pupil}
+                >
+                  <circle cx={eye.pupil.cx} cy={eye.pupil.cy} r={PUPIL_R} fill={INK} />
+                  <circle
+                    cx={eye.pupil.cx + HIGHLIGHT.dx}
+                    cy={eye.pupil.cy + HIGHLIGHT.dy}
+                    r={HIGHLIGHT.r}
+                    fill="#fff"
+                  />
+                </g>
+              </g>
+              {/* The eyelid: hidden until a blink or wink closes it over the eye. */}
+              <g className={styles.lid}>
+                <rect
+                  x={eye.x}
+                  y={EYE_BAND.y}
+                  width={eye.width}
+                  height={EYE_BAND.height}
+                  fill={SKIN}
+                  mask="url(#portrait-eyes)"
+                />
+                <path
+                  d={`M${eye.cx - 118} ${LASH_Y} Q${eye.cx} ${LASH_Y + 30} ${eye.cx + 118} ${LASH_Y}`}
+                  fill="none"
+                  stroke={INK}
+                  strokeWidth="14"
+                  strokeLinecap="round"
                 />
               </g>
             </g>
-            {/* The eyelid: hidden until a blink or wink closes it over the eye. */}
-            <g className={styles.lid}>
-              <rect
-                x={eye.x}
-                y={EYE_BAND.y}
-                width={eye.width}
-                height={EYE_BAND.height}
-                fill={SKIN}
-                mask="url(#portrait-eyes)"
-              />
-              <path
-                d={`M${eye.cx - 118} ${LASH_Y} Q${eye.cx} ${LASH_Y + 30} ${eye.cx + 118} ${LASH_Y}`}
-                fill="none"
-                stroke={INK}
-                strokeWidth="14"
-                strokeLinecap="round"
-              />
-            </g>
-          </g>
-        ))}
-      </svg>
+          ))}
+        </svg>
+      </div>
     </div>
   );
 }
