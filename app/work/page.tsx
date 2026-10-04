@@ -8,7 +8,7 @@ const PAGE_URL = "https://taninwatkaewpankan.xyz/work";
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Selected work by Ice: Trailr AI, Bevisly, MockMate and Racha Beauty, each linking to its case study.",
+    "Selected work by Ice: Trailr AI, Bevisly, MockMate and Racha Beauty, plus two concept pieces, Saep Fire Kitchen and Lumina Spa, each linking to its case study.",
   alternates: { canonical: PAGE_URL },
 };
 

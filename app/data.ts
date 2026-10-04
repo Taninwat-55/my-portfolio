@@ -1609,7 +1609,9 @@ export const clockContent = {
    * site. The full list stays on /projects.
    */
   work: {
-    caseIds: ["trailr", "bevisly", "mockmate", "racha"],
+    // Six since 2026-10-05: Saep and Lumina are concept pieces, and each
+    // print's back says so in its first words (their `sub`).
+    caseIds: ["trailr", "bevisly", "mockmate", "racha", "saep", "lumina"],
     hint: "Click a print to turn it over",
     readLabel: "Read the case study",
     turnBack: "Turn back",
