@@ -12,6 +12,7 @@ import { Prints } from "./Prints";
 import { Notebook } from "./Notebook";
 import { Receipt } from "./Receipt";
 import { Lamp } from "./Lamp";
+import { WallClock } from "./WallClock";
 import { useCopenhagenTime, hourOf } from "./useCopenhagenTime";
 import type { ClockContentProps } from "./types";
 import styles from "./clock.module.css";
@@ -523,36 +524,30 @@ export function ClockHome({
               <strong>{siteContent.roleLabel}</strong> in Copenhagen
             </p>
             {/* Always rendered, so the line's height is reserved before the
-                client knows the time and nothing below it jumps. */}
-            <p className={styles.localTime}>
-              {time ? (
-                <>
-                  <span>
-                    {time} {desk.timeSuffix}
-                  </span>{" "}
-                  · {mood}
-                </>
-              ) : (
-                "\u00a0"
-              )}
-            </p>
+                client knows the time and nothing below it jumps. The time
+                itself is on the wall clock. */}
+            <p className={styles.localTime}>{mood ?? "\u00a0"}</p>
             <p className={styles.availability}>{clockContent.availability}</p>
           </div>
 
-          <a
-            className={`${styles.pin} ${pointed === "contact" ? styles.pointed : ""}`}
-            {...triggerProps("contact", IN_PLACE.contact)}
-          >
-            <span ref={artRef("contact")} className={styles.pinCard}>
-              <ObjectArt id="contact" />
-              <span className={styles.pinNote} aria-hidden="true">
-                {clockContent.contact.lines.map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
+          {/* The wall: Copenhagen's clock beside the pinned postcard. */}
+          <div className={styles.wall}>
+            <WallClock time={time} />
+            <a
+              className={`${styles.pin} ${pointed === "contact" ? styles.pointed : ""}`}
+              {...triggerProps("contact", IN_PLACE.contact)}
+            >
+              <span ref={artRef("contact")} className={styles.pinCard}>
+                <ObjectArt id="contact" />
+                <span className={styles.pinNote} aria-hidden="true">
+                  {clockContent.contact.lines.map((line) => (
+                    <span key={line}>{line}</span>
+                  ))}
+                </span>
               </span>
-            </span>
-            <span className={styles.label}>{clockContent.contact.label}</span>
-          </a>
+              <span className={styles.label}>{clockContent.contact.label}</span>
+            </a>
+          </div>
         </header>
 
         <main id="main-content" className={styles.stage}>

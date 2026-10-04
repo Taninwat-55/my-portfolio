@@ -1774,12 +1774,14 @@ export const clockContent = {
   },
 
   /**
-   * The desk: a line with Copenhagen's local time, and a lamp that is on at
+   * The desk: a wall clock on Copenhagen's time, a mood line, and a lamp that is on at
    * night there (whatever the visitor's own clock says) and can be switched by
    * hand. Moods are picked by Copenhagen hour, first match wins.
    */
   desk: {
-    timeSuffix: "local time",
+    // The wall clock's words: read out by screen readers, shown on hover.
+    clockLabel: "{time} in Copenhagen",
+    yourTime: "your time {time}",
     moods: [
       { until: 6, text: "Ice is asleep. The postcard will wait." },
       { until: 9, text: "Coffee first, then code." },

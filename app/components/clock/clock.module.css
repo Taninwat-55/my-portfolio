@@ -87,10 +87,6 @@
   font-size: 13px;
   color: var(--ink-soft);
 }
-.localTime span {
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-}
 
 /* A sticky note, so it reads as a status rather than a slogan. */
 .availability {
@@ -102,6 +98,81 @@
   font: 400 15px/1.35 var(--font-hand);
   transform: rotate(-1.5deg);
   box-shadow: 0 6px 14px var(--shadow);
+}
+
+/* The wall, top right: Copenhagen's clock beside the pinned postcard. */
+.wall {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(20px, 3vw, 40px);
+}
+.wallClock {
+  position: relative;
+  width: 64px;
+  margin-top: 16px;
+  flex: none;
+}
+.wallClock svg {
+  display: block;
+  width: 100%;
+  filter: drop-shadow(0 6px 10px var(--shadow));
+  transition: filter 600ms;
+}
+.clockFace {
+  fill: #ece7dd;
+  stroke: #b9b2a5;
+  stroke-width: 1.5;
+}
+.clockTick {
+  stroke: var(--paper-ink);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.clockHour,
+.clockMinute {
+  stroke: var(--paper-ink);
+  stroke-linecap: round;
+}
+.clockHour {
+  stroke-width: 3;
+}
+.clockMinute {
+  stroke-width: 2;
+}
+.clockPin {
+  fill: var(--clay);
+}
+/* The hover note: Copenhagen's time, plus the visitor's own when it differs. */
+.clockNote {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--ground-2);
+  color: var(--ink);
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms;
+}
+.wallClock:hover .clockNote {
+  opacity: 1;
+}
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.night .wallClock svg {
+  filter: drop-shadow(0 6px 10px var(--shadow)) brightness(0.6);
+}
+.night.lampIsOn .wallClock svg {
+  filter: drop-shadow(0 6px 10px var(--shadow)) brightness(0.85);
 }
 
 /* The pinned postcard. Top right because the chat widget owns bottom right. */
@@ -1493,6 +1564,17 @@
   }
   .pinCard {
     width: 76px;
+  }
+  .wall {
+    gap: 14px;
+  }
+  .wallClock {
+    width: 44px;
+    margin-top: 4px;
+  }
+  /* No hover on touch; screen readers still get the text. */
+  .clockNote {
+    display: none;
   }
   .pinNote {
     display: none;
