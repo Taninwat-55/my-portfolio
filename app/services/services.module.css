@@ -1,0 +1,156 @@
+/* /services on the desk (re-theme, Phase 4): paper cards on the dark desk, the
+   offers as till receipts, the running costs on a sheet, the FAQ as index
+   cards. Most styling is Tailwind with the desk tokens; this file holds what
+   utilities express badly. Layered like paper.module.css. */
+
+@layer components {
+.section {
+  margin-bottom: clamp(56px, 8vw, 80px);
+}
+
+/* Small mono label, like a receipt line heading. */
+.label {
+  margin: 0 0 12px;
+  color: var(--color-paper-soft);
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Row spacing on the list, not on `li + li`: in the two-column lists the
+   second item sits beside the first, and a sibling margin pushed it 8px down. */
+.bullets {
+  display: grid;
+  row-gap: 8px;
+  margin: 0;
+  padding-left: 1.15em;
+  list-style: disc;
+}
+.bullets li {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.bullets li::marker {
+  color: var(--color-paper-soft);
+}
+
+/* A receipt row: name … figure on one line, details under it. */
+.row {
+  padding: 12px 0;
+}
+.row + .row {
+  border-top: 1px dashed var(--color-paper-rule);
+}
+.rowLine {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.figure {
+  flex: none;
+  white-space: nowrap;
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The running-cost table, on paper. */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.table th,
+.table td {
+  padding: 14px 16px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-paper-rule);
+}
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.table thead th {
+  color: var(--color-paper-soft);
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* The recommended aftercare block: a sticky note, ink only (paper-soft is
+   4.4:1 on the yellow, under AA). */
+.sticky {
+  padding: clamp(20px, 4vw, 28px);
+  background: var(--color-sticky);
+  color: var(--color-paper-ink);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.55);
+  transform: rotate(-0.4deg);
+}
+
+/* A tap-to-open section on paper (the folded parts of the website receipt and
+   the running costs): a 44px row with the same chevron as the FAQ. */
+.foldSummary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  cursor: pointer;
+  list-style: none;
+  color: var(--color-paper-link);
+  font-size: 15px;
+  font-weight: 600;
+}
+.foldSummary::-webkit-details-marker {
+  display: none;
+}
+.foldSummary:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.foldSummary:focus-visible {
+  outline: 2px solid var(--color-paper-link);
+  outline-offset: 2px;
+}
+
+/* The FAQ: an index card per question. The summary is the card's top line and
+   carries its red rule, so a question that wraps pushes the rule down. */
+.faqSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 46px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--index-rule);
+  cursor: pointer;
+  list-style: none;
+  font-size: 16px;
+  font-weight: 600;
+}
+.faqSummary::-webkit-details-marker {
+  display: none;
+}
+.faqSummary:focus-visible {
+  outline: 2px solid var(--color-paper-link);
+  outline-offset: 2px;
+}
+.faqChevron {
+  flex: none;
+  color: var(--color-paper-soft);
+  transition: transform 300ms;
+}
+details[open] .faqChevron {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .faqChevron {
+    transition: none;
+  }
+}
+} /* @layer components */

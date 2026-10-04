@@ -99,7 +99,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
     `garden/[slug]/page.tsx` styles all 10 posts.
   - Fix `SatsConverter`'s undefined `ice-200` and `charcoal-300` tokens.
   - `/garden` is the notebook's contents page. Keep the Article JSON-LD.
-- [ ] **Phase 3: CV** (`/cv`)
+- [x] **Phase 3: CV** (`/cv`) Merged 2026-10-05 (PR #16).
   - A paper document in the PDF's order.
   - Restyle `ContactButton`/`HireModal`, or replace them with `/contact`.
 - [ ] **Phase 4: Services** (`/services`, 1,087 lines, the biggest page)
@@ -126,9 +126,70 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ## Progress log
 
+### 2026-10-05 (later)
+
+**Re-theme Phase 4: Services, on branch `retheme-4-services`, not merged** 🚧 *`ec01189`*
+
+- **`/services` is paper cards on the dark desk.** Offers are till receipts with the
+  clock receipt's torn edge (`.receipt` in `paper.module.css`; its shadow sits on a
+  `.receiptShadow` wrapper because the mask clips it). Running costs on one sheet
+  (stacked rows on phones, the table from `sm`). Fit, process, handover and the two
+  aftercare tiers are `PaperCard`s; the recommended block of hours is a sticky note
+  (ink only: paper-soft is 4.4:1 on the yellow). Proof is a sheet with three
+  `Print`s. FAQ is index-card `<details>`. Enquiry on a sheet. New `DeskHeading`
+  replaces `SectionHeading` (now unused; Phase 6 deletes it). `LiveProjectButton`
+  deleted. Chat loads when idle (`LazyChatWidget`). Back link to `/rates`.
+- **Verified unchanged:** the JSON-LD `@graph` byte for byte; the offer anchors and
+  all three `#enquiry` links; every `services`/`servicesFaq`/`servicesProcess`
+  string (the same six never-rendered strings missing before and after).
+- **`ServicesEnquiryForm` has a `tone`** (`night` default, `paper` on `/services`).
+  The night strings are the originals, so `/th`, `/sv`, `/da` render a byte-identical
+  form. Phase 5 switches them; Phase 6 deletes `night`.
+- **Two fixes in `PageShell` that help every page:** the desk grid column is capped
+  at the viewport (`minmax(0, 1fr)`); a nowrap price row had stretched every card
+  past a 390px screen. And the portrait loads eagerly: it was the LCP element on
+  `/services`, held back 1.6 s by lazy loading. Checked it costs the case page
+  nothing (91, three runs).
+- The price `<dl>` no longer contains the Enquire link (Lighthouse's
+  definition-list failure, present before this phase).
+
+Lighthouse mobile, `/services`: 90/93 → 88–89/100 (perf/a11y), LCP 3.6 → 3.5–3.7 s.
+`/cases/trailr` 91, `/cv` 94, notes 95, `/th` 93/90, `/rates` 88.
+
+⚠️ **A slip worth knowing:** `npx prettier --write` was run on `services/page.tsx`.
+Prettier is not part of this repo, so npx fetched it into its own cache (nothing
+was added to the project), and it reflowed the whole file. The top of the file
+(metadata, JSON-LD) was restored to the committed formatting; the new markup keeps
+prettier's layout. Do not run formatters the repo does not configure.
+
+- **Shortened before merge (Ice: "very long scroll", phone and desktop).** Measured
+  first: 13.9 screens on a laptop, 22.2 on a phone, and the website receipt alone
+  was 3.4 / 5.4 screens. Ice chose two folds (native `<details>`, every word still
+  in the HTML): on the website receipt the price ladder stays open and "included in
+  every build" plus the seven add-ons fold; in running costs the who-gets-paid band,
+  five-year totals and verdict stay open and the line-by-line table folds. Now
+  **11.0 screens on a laptop, 17.4 on a phone.** Considered and not taken: one proof
+  photo on phones, "on this page" jump links.
+- **Aftercare moved up** (Ice's call) to sit straight after the running costs, as
+  its comment argued; the order is now Running costs, Aftercare, Process, Handover,
+  and both section-order comments are true again.
+
+- **"Yours, not mine" removed; "not in the price" moved into the FAQ** (Ice's
+  call). Its ownership half repeated the FAQ's "Who owns the code?" and the
+  receipt's list; its scope-boundary half became the FAQ's second question, "What
+  is not included in the price?", in wording Ice approved (built from the old
+  items, trimmed, no em dashes). `services.handover` deleted from `data.ts`. FAQ
+  JSON-LD went 12 → 13 questions, the rest of the graph identical. **/services is
+  now 10.2 screens on a laptop and 15.9 on a phone.**
+
+**Open:**
+- Ice's preview check: `/services` on phone and laptop, the receipts and their
+  fold, the FAQ (new second question), the form (send it empty to see the error
+  state).
+
 ### 2026-10-05
 
-**Re-theme Phase 3: CV, on branch `retheme-3-cv`, not merged** 🚧 *`12ff053`*
+**Re-theme Phase 3: CV, merged (PR #16)** ✅ *`12ff053`*
 
 - **`/cv` is a paper document in the PDF's order**, from the same `cvData`: his
   name as the h1 (Ice's call), title and location, the contact line (email,

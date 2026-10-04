@@ -18,6 +18,10 @@
   min-height: 100dvh;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  /* Capped at the viewport: an auto column grows to the widest unbreakable
+     content (a nowrap price row did it on /services at 390px), dragging every
+     card on the page off-screen with it. */
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(24px, 4vh, 48px);
   padding-inline: clamp(16px, 3vw, 40px);
   padding-block: clamp(14px, 2.4vh, 28px);
@@ -259,6 +263,61 @@
 a.card:hover {
   transform: rotate(0deg) translateY(-3px);
   box-shadow: 0 16px 34px var(--shadow);
+}
+
+/* A section heading on the desk (DeskHeading): hand-written kicker, h2. */
+.deskHeading {
+  display: grid;
+  gap: 6px;
+  margin-bottom: clamp(20px, 3vw, 28px);
+}
+.deskHeading .kicker {
+  color: var(--color-ink-soft);
+}
+.deskTitle {
+  margin: 0;
+  color: var(--color-frost);
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* A till receipt (offers on /services, like the clock's /rates): mono labels
+   and figures, dashed rules, the clock receipt's torn bottom edge. Body copy
+   stays in the page font so long passages read easily. */
+.receipt {
+  padding: clamp(22px, 4vw, 36px) clamp(18px, 4vw, 36px) calc(clamp(22px, 4vw, 36px) + 10px);
+  box-sizing: border-box;
+  background: var(--color-paper);
+  color: var(--color-paper-ink);
+  -webkit-mask:
+    linear-gradient(#000 calc(100% - 10px), transparent 0),
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 16px 10px repeat-x;
+  mask:
+    linear-gradient(#000 calc(100% - 10px), transparent 0),
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 16px 10px repeat-x;
+}
+/* The mask clips the receipt's own shadow, so it goes on a wrapper. */
+.receiptShadow {
+  filter: drop-shadow(0 10px 22px var(--shadow));
+}
+.mono {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+.dashed {
+  border-top: 1.5px dashed var(--color-paper-rule);
+}
+
+/* An index card (the FAQ). Its red rule under the top line is drawn by what
+   sits on that line (a border), so it moves down when the line wraps. */
+.indexCard {
+  --index-rule: rgba(196, 113, 62, 0.45);
+  border-radius: 4px;
+  background: var(--color-paper);
+  color: var(--color-paper-ink);
+  box-shadow: 0 6px 18px var(--shadow);
 }
 
 /* An ink pill on paper (InkLink): a full 44px tap target. */

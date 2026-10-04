@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronDown } from "lucide-react";
-import { SkipLink } from "../components/SkipLink";
-import { Navbar } from "../components/Navbar";
+import { ArrowRight, ChevronDown, ExternalLink } from "lucide-react";
+import { PageShell } from "../components/PageShell";
 import { FadeIn } from "../components/FadeIn";
-import { SectionHeading } from "../components/SectionHeading";
-import { LiveProjectButton } from "../components/LiveProjectButton";
-import { ChatWidget } from "../components/ChatWidget";
+import { LazyChatWidget } from "../components/LazyChatWidget";
 import { ServicesEnquiryForm } from "../components/ServicesEnquiryForm";
+import { PaperSheet } from "../components/paper/PaperSheet";
+import { PaperCard } from "../components/paper/PaperCard";
+import { PageHeader } from "../components/paper/PageHeader";
+import { DeskHeading } from "../components/paper/DeskHeading";
+import { InkLink } from "../components/paper/InkLink";
+import { Print } from "../components/paper/Print";
+import { Tag } from "../components/paper/Tag";
+import paper from "../components/paper/paper.module.css";
+import styles from "./services.module.css";
 import {
   personalInfo,
   siteContent,
@@ -63,11 +68,14 @@ export const metadata: Metadata = {
  * The freelance page.
  *
  * A different visitor than the homepage serves: usually non-technical, deciding
- * whether to spend money rather than whether to book an interview. Hence no
- * SiteNav (its links are bare hashes that would be inert here), no HireModal
- * (it offers a CV download, which is the wrong artefact for this reader), and
- * no restatement of siteContent.whatIDo — that is a capability list written for
- * employers.
+ * whether to spend money rather than whether to book an interview. Hence no CV
+ * download (the wrong artefact for this reader), and no restatement of
+ * siteContent.whatIDo: that is a capability list written for employers.
+ *
+ * Since the re-theme (Phase 4) it is paper on the dark desk: the offers are
+ * till receipts like the clock's /rates, the running costs sit on one sheet,
+ * the FAQ is a stack of index cards. Reached from that receipt, so the back
+ * link returns to it.
  *
  * Server component. Every interactive piece below is already a client leaf,
  * which keeps the metadata export and the JSON-LD in this file.
@@ -183,183 +191,123 @@ export default function ServicesPage() {
     ],
   };
 
+  // A small turn per card, so a row reads as paper put down by hand.
+  const tilt = (i: number) => [-0.8, 0.6, -0.4, 0.9][i % 4];
+
   return (
-    <div className="min-h-screen bg-night-900 text-frost">
-      <SkipLink />
+    <PageShell back={{ href: "/rates", label: "Rates" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Navbar backLinkHref="/" backLinkText="Back to Home" />
 
-      <main
-        id="main-content"
-        className="container mx-auto px-6 pt-28 md:pt-36 pb-24 max-w-5xl"
-      >
-        {/* ── Positioning ───────────────────────────────────────────────── */}
-        <header className="mb-14 md:mb-20">
-          <FadeIn immediate y={20}>
-            <div className="text-crystal-500 text-xs tracking-[0.25em] uppercase mb-4">
-              {services.intro.eyebrow}
-            </div>
-          </FadeIn>
-
-          <FadeIn immediate delay={0.1} y={40}>
-            <h1
-              className="hero-heading font-black uppercase leading-none tracking-tight mb-6"
-              style={{ fontSize: "clamp(2.6rem, 9vw, 110px)" }}
-            >
-              {services.intro.title}
-            </h1>
-          </FadeIn>
-
-          <FadeIn immediate delay={0.2} y={20}>
-            <p className="text-frost/70 font-display italic text-xl md:text-2xl max-w-2xl leading-relaxed mb-7">
-              {services.intro.lead}
-            </p>
-          </FadeIn>
-
-          <FadeIn immediate delay={0.3} y={20}>
-            <p className="text-frost/65 font-light leading-relaxed text-base md:text-lg max-w-2xl mb-8">
-              {services.intro.body}
-            </p>
-          </FadeIn>
-
-          <FadeIn immediate delay={0.4} y={20}>
-            <div className="flex flex-wrap gap-2">
-              {services.intro.chips.map((chip) => (
-                <span
-                  key={chip}
-                  className="rounded-full border border-frost/15 bg-white/3 text-frost/70 text-sm font-light px-4 py-1.5"
-                >
-                  {chip}
-                </span>
-              ))}
-            </div>
-          </FadeIn>
-        </header>
-
-        {/* ── Qualification, before price ───────────────────────────────── */}
-        <section aria-labelledby="fit-heading" className="mb-14 md:mb-20">
-          <SectionHeading immediate
-            id="fit-heading"
-            eyebrow="Fit"
-            title="Who this is for"
-            align="left"
-            titleClassName="text-frost"
-            titleSize="clamp(1.8rem, 5vw, 3.2rem)"
-            className="mb-8 md:mb-10"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <FadeIn immediate y={30}>
-              <div className="h-full rounded-2xl bg-white/3 border border-frost/10 p-6 md:p-8">
-                <div className="text-crystal-500 text-xs tracking-[0.25em] uppercase mb-4">
-                  A good fit
-                </div>
-                <ul className="space-y-3">
-                  {services.audience.fit.map((item) => (
-                    <li
-                      key={item}
-                      className="relative pl-5 text-sm sm:text-[15px] font-light leading-relaxed text-frost/65"
-                    >
-                      <span
-                        aria-hidden
-                        className="absolute left-0 top-[0.65em] h-1 w-1 rounded-full bg-crystal-500/60"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </FadeIn>
-
-            <FadeIn immediate delay={0.1} y={30}>
-              <div className="h-full rounded-2xl bg-white/3 border border-frost/10 p-6 md:p-8">
-                <div className="text-frost/40 text-xs tracking-[0.25em] uppercase mb-4">
-                  Probably not
-                </div>
-                <ul className="space-y-3">
-                  {services.audience.notFit.map((item) => (
-                    <li
-                      key={item}
-                      className="relative pl-5 text-sm sm:text-[15px] font-light leading-relaxed text-frost/45"
-                    >
-                      <span
-                        aria-hidden
-                        className="absolute left-0 top-[0.65em] h-1 w-1 rounded-full bg-frost/25"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </FadeIn>
+      {/* ── Positioning ───────────────────────────────────────────────── */}
+      <header className={styles.section}>
+        <PageHeader
+          onDesk
+          kicker={services.intro.eyebrow}
+          title={services.intro.title}
+          lead={services.intro.lead}
+        />
+        <FadeIn immediate delay={0.1} y={12}>
+          <p className="mb-6 max-w-2xl text-base leading-relaxed text-frost/80 md:text-lg">
+            {services.intro.body}
+          </p>
+        </FadeIn>
+        <FadeIn immediate delay={0.15} y={12}>
+          <div className="flex flex-wrap gap-2">
+            {services.intro.chips.map((chip) => (
+              <Tag key={chip} variant="chip">
+                {chip}
+              </Tag>
+            ))}
           </div>
-        </section>
+        </FadeIn>
+      </header>
 
-        {/* ── The offers ────────────────────────────────────────────────── */}
-        <section aria-labelledby="offers-heading" className="mb-14 md:mb-20">
-          <SectionHeading
-            id="offers-heading"
-            eyebrow="What I Build"
-            title="Three ways in"
-            align="left"
-            titleClassName="hero-heading"
-            titleSize="clamp(1.8rem, 5vw, 3.2rem)"
-            className="mb-8 md:mb-10"
-          />
+      {/* ── Qualification, before price ───────────────────────────────── */}
+      <section aria-labelledby="fit-heading" className={styles.section}>
+        <DeskHeading
+          immediate
+          id="fit-heading"
+          kicker="Fit"
+          title="Who this is for"
+        />
 
-          <div className="flex flex-col gap-4 md:gap-6">
-            {services.offers.map((offer, i) => (
-              <FadeIn key={offer.id} delay={i * 0.1} y={30}>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <FadeIn immediate y={20}>
+            <PaperCard tilt={-0.6} className="h-full">
+              <p className={styles.label}>A good fit</p>
+              <ul className={styles.bullets}>
+                {services.audience.fit.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </PaperCard>
+          </FadeIn>
+
+          <FadeIn immediate delay={0.1} y={20}>
+            <PaperCard tilt={0.5} className="h-full">
+              <p className={styles.label}>Probably not</p>
+              {/* The softer ink, as the old dimmer column: what he does not
+                  take on reads as quieter than what he does. */}
+              <ul className={`${styles.bullets} text-paper-soft`}>
+                {services.audience.notFit.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </PaperCard>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* ── The offers ────────────────────────────────────────────────── */}
+      <section aria-labelledby="offers-heading" className={styles.section}>
+        <DeskHeading
+          id="offers-heading"
+          kicker="What I Build"
+          title="Three ways in"
+        />
+
+        <div className="flex flex-col gap-10">
+          {services.offers.map((offer, i) => (
+            <FadeIn key={offer.id} delay={i * 0.1} y={24}>
+              {/* A till receipt per offer. The shadow is on the wrapper: the
+                  receipt's torn-edge mask would clip its own. */}
+              <div className={paper.receiptShadow}>
                 <article
                   id={offer.id}
-                  className="scroll-mt-28 rounded-2xl bg-white/3 border border-frost/10 hover:border-frost/25 transition-colors duration-300 p-6 md:p-10"
+                  className={`${paper.receipt} scroll-mt-6`}
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-8 md:gap-12">
+                  <div className="grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] md:gap-12">
                     <div>
                       <span
                         aria-hidden
-                        className="block font-black leading-none text-frost/15 mb-4"
-                        style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
+                        className={`${paper.mono} mb-3 block text-sm font-semibold tracking-[0.2em] text-paper-soft`}
                       >
                         {offer.n}
                       </span>
                       <h3
-                        className="text-frost font-medium uppercase tracking-tight mb-3"
-                        style={{ fontSize: "clamp(1.15rem, 2.4vw, 1.75rem)" }}
+                        className="mb-3 font-black uppercase tracking-tight"
+                        style={{ fontSize: "clamp(1.15rem, 2.4vw, 1.6rem)" }}
                       >
                         {offer.name}
                       </h3>
-                      <p className="text-frost/70 font-display italic text-lg leading-relaxed mb-4">
+                      <p className="mb-4 font-[family-name:var(--font-hand)] text-xl leading-snug">
                         {offer.tagline}
                       </p>
-                      <p className="text-frost/50 font-light text-sm leading-relaxed">
+                      <p className="text-sm leading-relaxed text-paper-soft">
                         {offer.forWho}
                       </p>
-
                     </div>
 
                     <div>
-                      <div className="text-crystal-500 text-xs tracking-[0.25em] uppercase mb-4">
-                        What&apos;s included
-                      </div>
-                      <ul className="space-y-2.5">
+                      <p className={styles.label}>What&apos;s included</p>
+                      <ul className={styles.bullets}>
                         {offer.includes.map((item) => (
-                          <li
-                            key={item}
-                            className="relative pl-5 text-sm sm:text-[15px] font-light leading-relaxed text-frost/65"
-                          >
-                            <span
-                              aria-hidden
-                              className="absolute left-0 top-[0.65em] h-1 w-1 rounded-full bg-crystal-500/60"
-                            />
-                            {item}
-                          </li>
+                          <li key={item}>{item}</li>
                         ))}
                       </ul>
-
                     </div>
                   </div>
 
@@ -367,27 +315,27 @@ export default function ServicesPage() {
                       these side by side, one per build method; see the note on
                       ServiceOffer in data.ts for why that was a mistake. */}
                   {offer.priceLadder && (
-                    <div className="mt-8 border-t border-frost/10 pt-8">
-                      <div className="text-crystal-500 text-[10px] tracking-[0.25em] uppercase mb-5">
-                        Priced by scope
-                      </div>
-                      <div className="flex flex-col divide-y divide-frost/10 border-y border-frost/10">
+                    <div className={`${paper.dashed} mt-8 pt-6`}>
+                      <p className={styles.label}>Priced by scope</p>
+                      <div>
                         {offer.priceLadder.map((rung) => (
-                          <div key={rung.scope} className="py-3.5">
+                          <div key={rung.scope} className={styles.row}>
                             {/* Both nowrap: at 320px "1–3 pages" was breaking
                                 after the dash. */}
-                            <div className="flex items-baseline justify-between gap-3">
-                              <span className="whitespace-nowrap text-frost font-medium text-sm sm:text-base">
+                            <div className={styles.rowLine}>
+                              <span className="whitespace-nowrap text-[15px] font-semibold">
                                 {rung.scope}
                               </span>
-                              <span className="shrink-0 whitespace-nowrap text-frost/85 font-medium text-sm sm:text-base tabular-nums">
+                              <span className={styles.figure}>
                                 {rung.price}
                               </span>
                             </div>
-                            <p className="mt-1 max-w-xl text-frost/45 font-light text-xs sm:text-sm leading-relaxed">
+                            <p className="mt-1 max-w-xl text-sm leading-relaxed text-paper-soft">
                               {rung.detail}
                             </p>
-                            <p className="mt-1 text-frost/30 font-light text-[11px] uppercase tracking-wider">
+                            <p
+                              className={`${paper.mono} mt-1 text-[11px] uppercase tracking-wider text-paper-soft`}
+                            >
                               {rung.timeline}
                             </p>
                           </div>
@@ -397,189 +345,252 @@ export default function ServicesPage() {
                       {/* Points at the running-cost section rather than forking
                           the price, which is the whole change. */}
                       {offer.buildMethodNote && (
-                        <p className="mt-5 max-w-2xl text-frost/55 font-light text-sm leading-relaxed">
+                        <p className="mt-4 max-w-2xl text-sm leading-relaxed">
                           {offer.buildMethodNote}
                         </p>
                       )}
                     </div>
                   )}
 
-                  {/* Answers "what am I paying for, if not pages?" before the
-                      client has to ask it. */}
-                  {offer.includedInEvery && (
-                    <div className="mt-8 border-t border-frost/10 pt-8">
-                      <div className="text-crystal-500 text-[10px] tracking-[0.25em] uppercase mb-3">
-                        {offer.includedInEvery.label}
+                  {/* Folded (Ice, 2026-10-05): the website receipt alone was
+                      3.4 screens on a laptop and 5.4 on a phone. The price
+                      ladder stays open; what is included and the add-ons open
+                      with a tap. Still in the HTML, so search engines and the
+                      chat's grounding see every word. */}
+                  {(offer.includedInEvery || offer.addOns) && (
+                    <details className={`${paper.dashed} mt-8 pt-2`}>
+                      <summary className={styles.foldSummary}>
+                        See what&apos;s included and the add-ons
+                        <ChevronDown size={16} strokeWidth={1.75} aria-hidden className={styles.faqChevron} />
+                      </summary>
+                    {/* Answers "what am I paying for, if not pages?" before the
+                        client has to ask it. */}
+                    {offer.includedInEvery && (
+                      <div className={`${paper.dashed} mt-8 pt-6`}>
+                        <p className={styles.label}>
+                          {offer.includedInEvery.label}
+                        </p>
+                        <p className="mb-4 max-w-3xl text-sm leading-relaxed text-paper-soft">
+                          {offer.includedInEvery.body}
+                        </p>
+                        <ul
+                          className={`${styles.bullets} grid grid-cols-1 gap-x-10 lg:grid-cols-2`}
+                        >
+                          {offer.includedInEvery.items.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
                       </div>
-                      <p className="mb-5 max-w-3xl text-frost/55 font-light text-sm leading-relaxed">
-                        {offer.includedInEvery.body}
-                      </p>
-                      <ul className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-2.5">
-                        {offer.includedInEvery.items.map((item) => (
-                          <li
-                            key={item}
-                            className="relative pl-5 text-sm font-light leading-relaxed text-frost/65"
-                          >
-                            <span
-                              aria-hidden
-                              className="absolute left-0 top-[0.65em] h-1 w-1 rounded-full bg-crystal-500/60"
-                            />
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                    )}
 
-                  {/* The add-ons, itemised. Sits AFTER includedInEvery on
-                      purpose: the base value has to be established before the
-                      options read as options rather than as the real price
-                      arriving in instalments.
+                    {/* The add-ons, itemised. Sits AFTER includedInEvery on
+                        purpose: the base value has to be established before the
+                        options read as options rather than as the real price
+                        arriving in instalments.
 
-                      One price per row, no Webflow/coded fork — see the lock note
-                      on ServiceOffer.addOns in data.ts. Where a row carries a
-                      `note` about cost, it is always about what the thing costs to
-                      KEEP, never to build. */}
-                  {offer.addOns && (
-                    <div className="mt-8 border-t border-frost/10 pt-8">
-                      <div className="text-crystal-500 text-[10px] tracking-[0.25em] uppercase mb-3">
-                        {offer.addOns.label}
-                      </div>
-                      <p className="mb-5 max-w-3xl text-frost/55 font-light text-sm leading-relaxed">
-                        {offer.addOns.body}
-                      </p>
+                        One price per row, no Webflow/coded fork — see the lock note
+                        on ServiceOffer.addOns in data.ts. Where a row carries a
+                        `note` about cost, it is always about what the thing costs to
+                        KEEP, never to build. */}
+                    {offer.addOns && (
+                      <div className={`${paper.dashed} mt-8 pt-6`}>
+                        <p className={styles.label}>{offer.addOns.label}</p>
+                        <p className="mb-2 max-w-3xl text-sm leading-relaxed text-paper-soft">
+                          {offer.addOns.body}
+                        </p>
 
-                      <div className="flex flex-col divide-y divide-frost/10 border-y border-frost/10">
-                        {offer.addOns.items.map((item) => (
-                          <div key={item.name} className="py-3.5">
-                            <div className="flex items-baseline justify-between gap-3">
-                              <span className="text-frost font-medium text-sm sm:text-base">
-                                {item.name}
-                              </span>
-                              <span className="shrink-0 whitespace-nowrap text-frost/85 font-medium text-sm sm:text-base tabular-nums">
-                                {item.price}
-                              </span>
-                            </div>
-                            <p className="mt-1 max-w-xl text-frost/45 font-light text-xs sm:text-sm leading-relaxed">
-                              {item.body}
-                            </p>
-                            {item.note && (
-                              /* Dimmer and set apart, because it is about the
-                                 running cost rather than the price above it —
-                                 the two must not read as one figure. */
-                              <p className="mt-2 max-w-xl border-l border-crystal-500/25 pl-3 text-frost/35 font-light text-xs leading-relaxed">
-                                {item.note}
+                        <div>
+                          {offer.addOns.items.map((item) => (
+                            <div key={item.name} className={styles.row}>
+                              <div className={styles.rowLine}>
+                                <span className="text-[15px] font-semibold">
+                                  {item.name}
+                                </span>
+                                <span className={styles.figure}>
+                                  {item.price}
+                                </span>
+                              </div>
+                              <p className="mt-1 max-w-xl text-sm leading-relaxed text-paper-soft">
+                                {item.body}
                               </p>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="mt-6 max-w-2xl">
-                        <div className="text-frost/40 text-[10px] uppercase tracking-[0.25em] mb-1.5">
-                          {offer.addOns.includedLabel}
+                              {item.note && (
+                                /* Set apart, because it is about the running cost
+                                   rather than the price above it — the two must not
+                                   read as one figure. */
+                                <p className="mt-2 max-w-xl border-l-2 border-paper-rule pl-3 text-xs leading-relaxed text-paper-soft">
+                                  {item.note}
+                                </p>
+                              )}
+                            </div>
+                          ))}
                         </div>
-                        <p className="text-frost/55 font-light text-sm leading-relaxed">
-                          {offer.addOns.included}
+
+                        <div className="mt-5 max-w-2xl">
+                          <p className={styles.label}>
+                            {offer.addOns.includedLabel}
+                          </p>
+                          <p className="text-sm leading-relaxed">
+                            {offer.addOns.included}
+                          </p>
+                        </div>
+
+                        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-paper-soft">
+                          {offer.addOns.ownWork}
                         </p>
                       </div>
-
-                      <p className="mt-5 max-w-2xl text-frost/45 font-light text-sm leading-relaxed">
-                        {offer.addOns.ownWork}
-                      </p>
-                    </div>
+                    )}
+                    </details>
                   )}
 
-                  {/* Price stays text-frost. An accent-coloured figure reads as
-                      a sale banner rather than a rate. */}
-                  <dl className="mt-8 pt-6 border-t border-frost/10 flex flex-col sm:flex-row sm:items-end gap-6 sm:gap-12">
-                    <div>
-                      <dt className="text-frost/40 text-[10px] uppercase tracking-[0.25em] mb-1.5">
-                        Price
-                      </dt>
-                      <dd className="text-frost font-medium text-xl md:text-2xl">
-                        {offer.priceRange}
-                      </dd>
-                      {offer.priceNote && (
-                        <dd className="text-frost/40 font-light text-xs mt-1.5 max-w-xs leading-relaxed">
-                          {offer.priceNote}
+                  {/* Price stays in ink. An accent-coloured figure reads as a
+                      sale banner rather than a rate. The Enquire link sits
+                      beside the <dl>, not inside it: a dl may only hold
+                      terms and definitions (Lighthouse's definition-list). */}
+                  <div
+                    className={`${paper.dashed} mt-8 flex flex-col gap-6 pt-6 sm:flex-row sm:items-end sm:gap-12`}
+                  >
+                    <dl className="flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-12">
+                      <div>
+                        <dt className={styles.label}>Price</dt>
+                        <dd
+                          className={`${paper.mono} text-xl font-bold md:text-2xl`}
+                        >
+                          {offer.priceRange}
                         </dd>
-                      )}
+                        {offer.priceNote && (
+                          <dd className="mt-1.5 max-w-xs text-xs leading-relaxed text-paper-soft">
+                            {offer.priceNote}
+                          </dd>
+                        )}
+                      </div>
+                      <div>
+                        <dt className={styles.label}>Typical timeline</dt>
+                        <dd className="text-base">{offer.timeline}</dd>
+                      </div>
+                    </dl>
+                    <div className="sm:ml-auto">
+                      <InkLink href="#enquiry">
+                        Enquire
+                        <ArrowRight size={15} strokeWidth={1.75} aria-hidden />
+                      </InkLink>
                     </div>
-                    <div>
-                      <dt className="text-frost/40 text-[10px] uppercase tracking-[0.25em] mb-1.5">
-                        Typical timeline
-                      </dt>
-                      <dd className="text-frost/80 font-light text-base">
-                        {offer.timeline}
-                      </dd>
-                    </div>
-                    <a
-                      href="#enquiry"
-                      className="sm:ml-auto inline-flex items-center gap-2 rounded-full border border-frost/30 text-frost/70 font-medium uppercase tracking-widest px-6 py-2.5 text-sm hover:text-frost hover:border-frost/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900"
-                    >
-                      Enquire
-                      <ArrowRight size={15} strokeWidth={1.5} aria-hidden />
-                    </a>
-                  </dl>
+                  </div>
                 </article>
-              </FadeIn>
-            ))}
-          </div>
-        </section>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
 
-        {/* ── Running costs ─────────────────────────────────────────────── */}
-        {/* Sits directly after the offers because "and then what do I pay every
-            year?" is the very next question, and answering it before it is
-            asked is worth more than any claim about being trustworthy. */}
-        <section aria-labelledby="running-heading" className="mb-14 md:mb-20">
-          <SectionHeading
-            id="running-heading"
-            eyebrow={services.runningCosts.eyebrow}
-            title={services.runningCosts.title}
-            align="left"
-            titleClassName="text-frost"
-            titleSize="clamp(1.8rem, 5vw, 3.2rem)"
-            className="mb-6 md:mb-8"
-          />
+      {/* ── Running costs ─────────────────────────────────────────────── */}
+      {/* Sits directly after the offers because "and then what do I pay every
+          year?" is the very next question, and answering it before it is
+          asked is worth more than any claim about being trustworthy. */}
+      <section aria-labelledby="running-heading" className={styles.section}>
+        <DeskHeading
+          id="running-heading"
+          kicker={services.runningCosts.eyebrow}
+          title={services.runningCosts.title}
+        />
 
-          <FadeIn y={20}>
-            <p className="text-frost/65 font-light leading-relaxed text-base md:text-lg max-w-2xl mb-8">
-              {services.runningCosts.lead}
-            </p>
-          </FadeIn>
+        <FadeIn y={20}>
+          <p className="mb-6 max-w-2xl text-base leading-relaxed text-frost/80 md:text-lg">
+            {services.runningCosts.lead}
+          </p>
+        </FadeIn>
 
-          <FadeIn delay={0.1} y={30}>
-            <div className="rounded-2xl bg-white/3 border border-frost/10 overflow-hidden">
+        <FadeIn delay={0.1} y={24}>
+          <PaperSheet className="overflow-hidden p-0">
+            {/* Who actually receives the yearly money. A band of its own
+                rather than a footnote: "then, per year — 100 to 1.600 kr" with
+                no recipient named reads as "he bills me every year forever",
+                which is the exact fear that stops people hiring a developer. */}
+            <div className={`${paper.dashed} px-5 py-5 sm:px-6`}>
+              <p className="max-w-3xl text-[15px] leading-relaxed">
+                {services.runningCosts.paidTo}
+              </p>
+            </div>
+
+            {/* The number that actually matters, and the one no competing
+                quote will show you: build price plus five years of running
+                cost, same site both ways. */}
+            <div className={`${paper.dashed} px-5 py-6 sm:px-6`}>
+              <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+                <span className={styles.label}>
+                  {services.runningCosts.fiveYear.label}
+                </span>
+                <span className="text-xs text-paper-soft">
+                  {services.runningCosts.fiveYear.note}
+                </span>
+              </div>
+              {/* Two figures, not four. The build price no longer varies by
+                  build method, so including it buried a ~6.000 kr difference
+                  inside a ~12.000 kr spread. */}
+              <dl className="grid grid-cols-1 gap-3 border-y border-paper-rule py-4 sm:grid-cols-2 sm:gap-6">
+                <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-1.5">
+                  <dt className={styles.label}>Webflow</dt>
+                  <dd
+                    className={`${paper.mono} text-base font-bold sm:text-lg`}
+                  >
+                    {services.runningCosts.fiveYear.webflow}
+                  </dd>
+                </div>
+                <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-1.5">
+                  <dt className={styles.label}>Coded</dt>
+                  <dd
+                    className={`${paper.mono} text-base font-bold sm:text-lg`}
+                  >
+                    {services.runningCosts.fiveYear.coded}
+                  </dd>
+                </div>
+              </dl>
+
+              <p className="mt-5 max-w-3xl text-[15px] leading-relaxed">
+                {services.runningCosts.verdict}
+              </p>
+              <p className="mt-4 max-w-3xl text-xs leading-relaxed text-paper-soft">
+                {services.runningCosts.note}
+              </p>
+            </div>
+
+            {/* Folded (Ice, 2026-10-05): who gets paid, the five-year totals
+                and the verdict carry the argument, so they stay open; the
+                row-by-row comparison opens with a tap. */}
+            <details className={paper.dashed}>
+              <summary className={`${styles.foldSummary} px-5 sm:px-6`}>
+                Compare it line by line
+                <ChevronDown size={16} strokeWidth={1.75} aria-hidden className={styles.faqChevron} />
+              </summary>
               {/* Below sm this becomes stacked cards rather than a scrolling
                   table. A side-scrolling comparison hides one of the two columns
                   off-screen with no affordance, which defeats the only thing
                   this section exists to do. Exactly one of the two renderings is
                   ever displayed, so `hidden` keeps the other out of the
                   accessibility tree and nothing is announced twice. */}
-              <div className="divide-y divide-frost/10 sm:hidden">
+              <div className="sm:hidden">
                 {services.runningCosts.rows.map((row) => (
-                  <div key={row.label} className="px-5 py-5">
-                    <div className="text-frost text-sm font-medium">{row.label}</div>
+                  <div
+                    key={row.label}
+                    className="border-b border-paper-rule px-5 py-5 last:border-0"
+                  >
+                    <div className="text-sm font-semibold">{row.label}</div>
                     <div className="mt-3 flex gap-3">
-                      <div className="flex-1 rounded-lg border border-frost/10 bg-white/3 px-3 py-2.5">
-                        <div className="text-[9px] uppercase tracking-[0.2em] text-crystal-500 mb-1">
-                          Webflow
-                        </div>
-                        <div className="text-frost/85 text-sm tabular-nums">
+                      <div className="flex-1 rounded border border-paper-rule px-3 py-2.5">
+                        <div className={styles.label}>Webflow</div>
+                        {/* Some values are words ("You want no yearly bill"), so
+                            they wrap here; the table from sm keeps them on one line. */}
+                        <div className={`${styles.figure} whitespace-normal`}>
                           {row.webflow}
                         </div>
                       </div>
-                      <div className="flex-1 rounded-lg border border-frost/10 bg-white/3 px-3 py-2.5">
-                        <div className="text-[9px] uppercase tracking-[0.2em] text-crystal-500 mb-1">
-                          Coded
-                        </div>
-                        <div className="text-frost/85 text-sm tabular-nums">
+                      <div className="flex-1 rounded border border-paper-rule px-3 py-2.5">
+                        <div className={styles.label}>Coded</div>
+                        <div className={`${styles.figure} whitespace-normal`}>
                           {row.coded}
                         </div>
                       </div>
                     </div>
-                    <p className="mt-3 text-frost/40 font-light text-xs leading-relaxed">
+                    <p className="mt-3 text-xs leading-relaxed text-paper-soft">
                       {row.why}
                     </p>
                   </div>
@@ -587,501 +598,337 @@ export default function ServicesPage() {
               </div>
 
               <div className="hidden overflow-x-auto sm:block">
-                <table className="w-full border-collapse text-left">
+                <table className={styles.table}>
                   <caption className="sr-only">
                     Yearly running costs compared: Webflow versus a coded site
                   </caption>
                   <thead>
-                    <tr className="border-b border-frost/10">
-                      <th scope="col" className="px-5 py-4 text-[10px] uppercase tracking-[0.25em] text-frost/40 font-normal">
-                        Per year
-                      </th>
-                      <th scope="col" className="px-5 py-4 text-[10px] uppercase tracking-[0.25em] text-crystal-500 font-normal">
-                        Webflow
-                      </th>
-                      <th scope="col" className="px-5 py-4 text-[10px] uppercase tracking-[0.25em] text-crystal-500 font-normal">
-                        Coded
-                      </th>
+                    <tr>
+                      <th scope="col">Per year</th>
+                      <th scope="col">Webflow</th>
+                      <th scope="col">Coded</th>
                     </tr>
                   </thead>
                   <tbody>
                     {services.runningCosts.rows.map((row) => (
-                      <tr key={row.label} className="border-b border-frost/10 last:border-0 align-top">
-                        <th scope="row" className="px-5 py-4 font-normal">
-                          <span className="block text-frost text-sm font-medium">
+                      <tr key={row.label}>
+                        <th scope="row" className="font-normal">
+                          <span className="block text-sm font-semibold">
                             {row.label}
                           </span>
-                          <span className="mt-1 block max-w-xs text-frost/40 font-light text-xs leading-relaxed">
+                          <span className="mt-1 block max-w-xs text-xs leading-relaxed text-paper-soft">
                             {row.why}
                           </span>
                         </th>
-                        <td className="px-5 py-4 text-frost/80 text-sm whitespace-nowrap tabular-nums">
-                          {row.webflow}
-                        </td>
-                        <td className="px-5 py-4 text-frost/80 text-sm whitespace-nowrap tabular-nums">
-                          {row.coded}
-                        </td>
+                        <td className={styles.figure}>{row.webflow}</td>
+                        <td className={styles.figure}>{row.coded}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+            </details>
+          </PaperSheet>
+        </FadeIn>
+      </section>
 
-              {/* Who actually receives the yearly money. A band of its own
-                  rather than a footnote: "then, per year — 100 to 1.600 kr" with
-                  no recipient named reads as "he bills me every year forever",
-                  which is the exact fear that stops people hiring a developer. */}
-              <div className="border-t border-frost/10 px-5 py-5 sm:px-6">
-                <p className="max-w-3xl text-frost/75 font-light leading-relaxed text-sm sm:text-[15px]">
-                  {services.runningCosts.paidTo}
-                </p>
-              </div>
+      {/* ── Aftercare ─────────────────────────────────────────────────── */}
+      {/* Directly after the running-cost table, because that section ends by
+          saying there is no yearly bill — and the obvious next question is
+          "so what happens when I want something changed?". Leaving that
+          unanswered is what made the old position feel incomplete.
 
-              {/* The number that actually matters, and the one no competing
-                  quote will show you: build price plus five years of running
-                  cost, same site both ways. */}
-              <div className="border-t border-frost/10 px-5 py-6 sm:px-6">
-                <div className="flex flex-wrap items-baseline justify-between gap-2 mb-4">
-                  <span className="text-crystal-500 text-[10px] uppercase tracking-[0.25em]">
-                    {services.runningCosts.fiveYear.label}
-                  </span>
-                  <span className="text-frost/35 font-light text-xs">
-                    {services.runningCosts.fiveYear.note}
-                  </span>
+          Item 33. It is a prepaid block and an hourly rate, NOT a
+          subscription — see the reasoning on services.aftercare in data.ts
+          for why a monthly plan would contradict the section above it. */}
+      <section aria-labelledby="aftercare-heading" className={styles.section}>
+        <DeskHeading
+          id="aftercare-heading"
+          kicker={services.aftercare.eyebrow}
+          title={services.aftercare.title}
+        />
+
+        <p className="mb-6 max-w-3xl text-base leading-relaxed text-frost/80">
+          {services.aftercare.lead}
+        </p>
+
+        {/* Free and hourly side by side, then the block below at full width.
+            The block is the recommended answer, so it gets the emphasis of
+            its own row (a sticky note) rather than being one of three equal
+            columns — three equal options reads as a pricing table and invites
+            comparison shopping between them, which is not the decision on offer. */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {(
+            [services.aftercare.free, services.aftercare.hourly] as {
+              label: string;
+              body: string;
+              price?: string;
+            }[]
+          ).map((tier, i) => (
+            <FadeIn key={tier.label} y={20}>
+              <PaperCard tilt={tilt(i + 1)} className="h-full">
+                <div className="mb-3 flex items-baseline justify-between gap-3">
+                  <span className={styles.label}>{tier.label}</span>
+                  {tier.price && (
+                    <span className={styles.figure}>{tier.price}</span>
+                  )}
                 </div>
-                {/* Two figures, not four. The build price no longer varies by
-                    build method, so including it buried a ~6.000 kr difference
-                    inside a ~12.000 kr spread. */}
-                <dl className="grid grid-cols-1 gap-3 border-y border-frost/10 py-4 sm:grid-cols-2 sm:gap-6">
-                  <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-1.5">
-                    <dt className="text-frost/35 text-[10px] uppercase tracking-[0.2em]">
-                      Webflow
-                    </dt>
-                    <dd className="text-frost font-medium text-base sm:text-lg tabular-nums">
-                      {services.runningCosts.fiveYear.webflow}
-                    </dd>
-                  </div>
-                  <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-1.5">
-                    <dt className="text-frost/35 text-[10px] uppercase tracking-[0.2em]">
-                      Coded
-                    </dt>
-                    <dd className="text-frost font-medium text-base sm:text-lg tabular-nums">
-                      {services.runningCosts.fiveYear.coded}
-                    </dd>
-                  </div>
-                </dl>
+                <p className="text-sm leading-relaxed">{tier.body}</p>
+              </PaperCard>
+            </FadeIn>
+          ))}
+        </div>
 
-                <p className="mt-5 text-frost/70 font-light leading-relaxed text-sm sm:text-[15px] max-w-3xl">
-                  {services.runningCosts.verdict}
-                </p>
-                <p className="mt-4 text-frost/35 font-light text-xs leading-relaxed max-w-3xl">
-                  {services.runningCosts.note}
-                </p>
-              </div>
-            </div>
-          </FadeIn>
-        </section>
-
-        {/* ── Process ───────────────────────────────────────────────────── */}
-        <section aria-labelledby="process-heading" className="mb-14 md:mb-20">
-          <SectionHeading
-            id="process-heading"
-            eyebrow="How It Works"
-            title="Four steps"
-            align="left"
-            titleClassName="text-frost"
-            titleSize="clamp(1.8rem, 5vw, 3.2rem)"
-            className="mb-8 md:mb-10"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {servicesProcess.map((step, i) => (
-              <FadeIn key={step.n} delay={i * 0.1} y={30}>
-                <div className="h-full flex flex-col rounded-2xl bg-white/3 border border-frost/10 p-6">
-                  <div className="flex items-baseline justify-between gap-3 mb-4">
-                    <span className="text-crystal-500 text-xs tracking-[0.25em] uppercase">
-                      {step.n}
-                    </span>
-                    <span className="text-frost/30 text-[11px] uppercase tracking-wider">
-                      {step.duration}
-                    </span>
-                  </div>
-                  <h3 className="text-frost font-medium text-lg mb-3">
-                    {step.title}
-                  </h3>
-                  {/* mb-5 rather than a margin on the footer below: that one
-                      uses mt-auto to sit flush with the card base, which would
-                      collapse to zero gap on a card with long copy. */}
-                  <p className="mb-5 text-frost/60 font-light text-sm leading-relaxed">
-                    {step.body}
-                  </p>
-                  <p className="mt-auto pt-5 border-t border-frost/10 text-frost/40 font-light text-xs leading-relaxed">
-                    <span className="text-frost/55">You get:</span> {step.youGet}
-                  </p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Aftercare ─────────────────────────────────────────────────── */}
-        {/* Directly after the running-cost table, because that section ends by
-            saying there is no yearly bill — and the obvious next question is
-            "so what happens when I want something changed?". Leaving that
-            unanswered is what made the old position feel incomplete.
-
-            Item 33. It is a prepaid block and an hourly rate, NOT a
-            subscription — see the reasoning on services.aftercare in data.ts
-            for why a monthly plan would contradict the section above it. */}
-        <section aria-labelledby="aftercare-heading" className="mb-14 md:mb-20">
-          <SectionHeading
-            id="aftercare-heading"
-            eyebrow={services.aftercare.eyebrow}
-            title={services.aftercare.title}
-            align="left"
-            titleClassName="text-frost"
-            titleSize="clamp(1.8rem, 5vw, 3.2rem)"
-            className="mb-6 md:mb-8"
-          />
-
-          <p className="mb-8 max-w-3xl text-frost/60 font-light text-sm sm:text-base leading-relaxed">
-            {services.aftercare.lead}
-          </p>
-
-          {/* Free and hourly side by side, then the block below at full width.
-              The block is the recommended answer, so it gets the emphasis of
-              its own row rather than being one of three equal columns — three
-              equal options reads as a pricing table and invites comparison
-              shopping between them, which is not the decision on offer. */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {(
-              [services.aftercare.free, services.aftercare.hourly] as {
-                label: string;
-                body: string;
-                price?: string;
-              }[]
-            ).map((tier) => (
-              <FadeIn key={tier.label} y={24}>
-                <div className="h-full rounded-2xl border border-frost/10 bg-white/3 p-6">
-                  <div className="mb-3 flex items-baseline justify-between gap-3">
-                    <span className="text-[10px] uppercase tracking-[0.25em] text-crystal-500">
-                      {tier.label}
-                    </span>
-                    {tier.price && (
-                      <span className="shrink-0 whitespace-nowrap text-base font-medium tabular-nums text-frost">
-                        {tier.price}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-frost/60 font-light text-sm leading-relaxed">
-                    {tier.body}
-                  </p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-
-          <FadeIn y={24} delay={0.1}>
-            <div className="mt-4 rounded-2xl border border-crystal-500/25 bg-crystal-500/5 p-6">
-              <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                <span className="text-[10px] uppercase tracking-[0.25em] text-crystal-500">
-                  {services.aftercare.block.label}
+        <FadeIn y={20} delay={0.1}>
+          <div className={`${styles.sticky} mt-6`}>
+            <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+              <span className={`${styles.label} text-paper-ink`}>
+                {services.aftercare.block.label}
+              </span>
+              <span className="flex items-baseline gap-3">
+                <span className={`${styles.figure} text-lg`}>
+                  {services.aftercare.block.price}
                 </span>
-                <span className="flex items-baseline gap-3">
-                  <span className="whitespace-nowrap text-lg font-medium tabular-nums text-frost">
-                    {services.aftercare.block.price}
-                  </span>
-                  <span className="text-frost/40 font-light text-xs">
-                    {services.aftercare.block.unit}
-                  </span>
-                </span>
-              </div>
-              <p className="max-w-3xl text-frost/65 font-light text-sm leading-relaxed">
-                {services.aftercare.block.body}
-              </p>
-              <ul className="mt-5 grid grid-cols-1 gap-x-10 gap-y-2 border-t border-frost/10 pt-5 sm:grid-cols-2">
-                {services.aftercare.block.terms.map((term) => (
-                  <li
-                    key={term}
-                    className="relative pl-5 text-sm font-light leading-relaxed text-frost/60"
-                  >
-                    <span
-                      aria-hidden
-                      className="absolute left-0 top-[0.65em] h-1 w-1 rounded-full bg-crystal-500/60"
-                    />
-                    {term}
-                  </li>
-                ))}
-              </ul>
+                <span className="text-xs">{services.aftercare.block.unit}</span>
+              </span>
             </div>
-          </FadeIn>
-        </section>
-
-        {/* ── Handover and scope boundaries ─────────────────────────────── */}
-        {/* Straight after Process, whose last step is handover. The "not in the
-            price" column is the same move as the "Probably not" column further
-            up: on a page arguing that the claims are honest, the fastest way to
-            prove it is to say what you do not do. */}
-        <section aria-labelledby="handover-heading" className="mb-14 md:mb-20">
-          <SectionHeading
-            id="handover-heading"
-            eyebrow={services.handover.eyebrow}
-            title={services.handover.title}
-            align="left"
-            titleClassName="text-frost"
-            titleSize="clamp(1.8rem, 5vw, 3.2rem)"
-            className="mb-6 md:mb-8"
-          />
-
-          <FadeIn y={20}>
-            <p className="text-frost/65 font-light leading-relaxed text-base md:text-lg max-w-2xl mb-8">
-              {services.handover.lead}
+            <p className="max-w-3xl text-sm leading-relaxed">
+              {services.aftercare.block.body}
             </p>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <FadeIn y={30}>
-              <div className="h-full rounded-2xl bg-white/3 border border-frost/10 p-6 md:p-8">
-                <div className="text-crystal-500 text-xs tracking-[0.25em] uppercase mb-4">
-                  You walk away with
-                </div>
-                <ul className="space-y-3">
-                  {services.handover.youGet.map((item) => (
-                    <li
-                      key={item}
-                      className="relative pl-5 text-sm sm:text-[15px] font-light leading-relaxed text-frost/65"
-                    >
-                      <span
-                        aria-hidden
-                        className="absolute left-0 top-[0.65em] h-1 w-1 rounded-full bg-crystal-500/60"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={0.1} y={30}>
-              <div className="h-full rounded-2xl bg-white/3 border border-frost/10 p-6 md:p-8">
-                <div className="text-frost/40 text-xs tracking-[0.25em] uppercase mb-3">
-                  {services.handover.notIncludedLabel}
-                </div>
-                <p className="mb-5 text-frost/45 font-light text-xs leading-relaxed">
-                  {services.handover.notIncludedLead}
-                </p>
-                <dl className="space-y-4">
-                  {services.handover.notIncluded.map((entry) => (
-                    <div key={entry.item}>
-                      <dt className="text-frost/75 font-medium text-sm">
-                        {entry.item}
-                      </dt>
-                      <dd className="mt-1 text-frost/45 font-light text-xs leading-relaxed">
-                        {entry.detail}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            </FadeIn>
+            <ul
+              className={`${styles.bullets} mt-5 grid grid-cols-1 gap-x-10 border-t border-paper-ink/20 pt-5 sm:grid-cols-2 [&_li::marker]:text-paper-ink`}
+            >
+              {services.aftercare.block.terms.map((term) => (
+                <li key={term}>{term}</li>
+              ))}
+            </ul>
           </div>
-        </section>
+        </FadeIn>
+      </section>
 
-        {/* ── Client proof ──────────────────────────────────────────────── */}
-        {proofCase && (
-          <section aria-labelledby="proof-heading" className="mb-14 md:mb-20">
-            <SectionHeading
-              id="proof-heading"
-              eyebrow="Selected Client Work"
-              title={proofCase.title}
-              align="left"
-              titleClassName="text-frost"
-              titleSize="clamp(1.8rem, 5vw, 3.2rem)"
-              className="mb-8 md:mb-10"
-            />
+      {/* ── Process ───────────────────────────────────────────────────── */}
+      <section aria-labelledby="process-heading" className={styles.section}>
+        <DeskHeading
+          id="process-heading"
+          kicker="How It Works"
+          title="Four steps"
+        />
 
-            <FadeIn y={30}>
-              <div className="rounded-2xl bg-white/3 border border-frost/10 overflow-hidden">
-                <div className="grid grid-cols-1 md:grid-cols-2">
-                  {/* A stack that fills the row, rather than one image that either
-                      stretches or leaves a void.
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {servicesProcess.map((step, i) => (
+            <FadeIn key={step.n} delay={i * 0.1} y={24}>
+              <PaperCard tilt={tilt(i)} className="flex h-full flex-col">
+                <div className="mb-3 flex items-baseline justify-between gap-3">
+                  <span className="font-[family-name:var(--font-hand)] text-2xl font-bold">
+                    {step.n}
+                  </span>
+                  <span
+                    className={`${paper.mono} text-[11px] uppercase tracking-wider text-paper-soft`}
+                  >
+                    {step.duration}
+                  </span>
+                </div>
+                <h3 className="mb-2 text-lg font-bold">{step.title}</h3>
+                {/* mb-5 rather than a margin on the footer below: that one
+                    uses mt-auto to sit flush with the card base, which would
+                    collapse to zero gap on a card with long copy. */}
+                <p className="mb-5 text-sm leading-relaxed">{step.body}</p>
+                <p
+                  className={`${paper.dashed} mt-auto pt-4 text-xs leading-relaxed text-paper-soft`}
+                >
+                  <span className="font-semibold text-paper-ink">You get:</span>{" "}
+                  {step.youGet}
+                </p>
+              </PaperCard>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
 
-                      This started as a single `md:aspect-auto md:min-h-full` box, so
-                      object-cover blew one 1600x1005 screenshot up to fill a column
-                      as tall as the text beside it and you saw a magnified crop of
-                      the hero. Pinning it to the screenshot's own ratio fixed the
-                      magnification but left a large empty area under it, because the
-                      text column is roughly twice as tall.
+      {/* ── Client proof ──────────────────────────────────────────────── */}
+      {proofCase && (
+        <section aria-labelledby="proof-heading" className={styles.section}>
+          <DeskHeading
+            id="proof-heading"
+            kicker="Selected Client Work"
+            title={proofCase.title}
+          />
 
-                      Three images on flex-1 solve both without any fragile height
-                      maths: they divide whatever height the row has, so the column is
-                      always full, and each one is only lightly cropped instead of one
-                      being cropped enormously. The count is capped at 3 so a case with
-                      more screenshots does not turn this into a contact sheet. */}
-                  <div className="flex flex-col gap-2 self-stretch p-2 md:gap-3 md:p-3">
-                    {proofCase.images.slice(0, 3).map((src, i) => (
-                      <div
-                        key={src}
-                        className="relative min-h-40 flex-1 overflow-hidden rounded-xl"
-                      >
-                        <Image
-                          src={src}
-                          alt={
-                            i === 0
-                              ? `${proofCase.title} website homepage`
-                              : `${proofCase.title} website, page ${i + 1}`
-                          }
-                          fill
-                          sizes="(max-width: 768px) 100vw, 512px"
-                          className="object-cover object-top"
-                        />
+          <FadeIn y={24}>
+            <PaperSheet className="overflow-hidden p-0">
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                {/* A stack that fills the row, rather than one image that either
+                    stretches or leaves a void.
+
+                    This started as a single `md:aspect-auto md:min-h-full` box, so
+                    object-cover blew one 1600x1005 screenshot up to fill a column
+                    as tall as the text beside it and you saw a magnified crop of
+                    the hero. Pinning it to the screenshot's own ratio fixed the
+                    magnification but left a large empty area under it, because the
+                    text column is roughly twice as tall.
+
+                    Three images on flex-1 solve both without any fragile height
+                    maths: they divide whatever height the row has, so the column is
+                    always full, and each one is only lightly cropped instead of one
+                    being cropped enormously. The count is capped at 3 so a case with
+                    more screenshots does not turn this into a contact sheet.
+                    Since the re-theme they are prints, laid in the sheet's margin. */}
+                <div className="flex flex-col gap-4 bg-paper-dim p-4 md:p-5">
+                  {proofCase.images.slice(0, 3).map((src, i) => (
+                    <Print
+                      key={src}
+                      image={src}
+                      alt={
+                        i === 0
+                          ? `${proofCase.title} website homepage`
+                          : `${proofCase.title} website, page ${i + 1}`
+                      }
+                      ratio="16 / 10"
+                      tilt={[-1, 0.8, -0.5][i]}
+                      sizes="(max-width: 768px) 100vw, 440px"
+                    />
+                  ))}
+                </div>
+
+                <div className="p-6 md:p-10">
+                  <p className="mb-5 font-[family-name:var(--font-hand)] text-2xl leading-snug">
+                    {services.proof.headline}
+                  </p>
+                  <p className="mb-8 text-[15px] leading-relaxed">
+                    {services.proof.body}
+                  </p>
+
+                  {/* Values come straight from the case study. Only the
+                      labels are reworded, for a non-technical reader. */}
+                  <dl
+                    className={`${paper.dashed} mb-8 grid grid-cols-1 gap-4 border-b border-dashed border-paper-rule py-4 sm:grid-cols-3`}
+                  >
+                    {proofCase.metrics.map((metric) => (
+                      <div key={metric.k} className="flex flex-col">
+                        <dt className="order-2 text-xs leading-snug text-paper-soft">
+                          {services.proof.plainLabels[metric.k] ?? metric.k}
+                        </dt>
+                        <dd className="order-1 font-[family-name:var(--font-hand)] text-xl font-bold">
+                          {metric.v}
+                        </dd>
                       </div>
                     ))}
-                  </div>
+                  </dl>
 
-                  <div className="p-6 md:p-10">
-                    <p className="text-frost font-display italic text-xl md:text-2xl leading-relaxed mb-5">
-                      {services.proof.headline}
-                    </p>
-                    <p className="text-frost/65 font-light leading-relaxed text-sm sm:text-base mb-8">
-                      {services.proof.body}
-                    </p>
+                  {/* Renders only once a real, approved quote exists. See the
+                      note on services.testimonial in data.ts. */}
+                  {services.testimonial && (
+                    <figure className="mb-8 border-l-2 border-paper-accent pl-5">
+                      <blockquote className="font-[family-name:var(--font-hand)] text-xl leading-relaxed">
+                        &ldquo;{services.testimonial.text}&rdquo;
+                      </blockquote>
+                      <figcaption className="mt-3 text-xs uppercase tracking-wider text-paper-soft">
+                        {services.testimonial.author} ·{" "}
+                        {services.testimonial.role}
+                      </figcaption>
+                    </figure>
+                  )}
 
-                    {/* Values come straight from the case study. Only the
-                        labels are reworded, for a non-technical reader. */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
-                      {proofCase.metrics.map((metric) => (
-                        <div
-                          key={metric.k}
-                          className="rounded-xl bg-white/3 border border-frost/10 p-4"
-                        >
-                          <div className="text-frost font-medium text-lg mb-1">
-                            {metric.v}
-                          </div>
-                          <div className="text-frost/40 text-[10px] uppercase tracking-wider leading-snug">
-                            {services.proof.plainLabels[metric.k] ?? metric.k}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Renders only once a real, approved quote exists. See the
-                        note on services.testimonial in data.ts. */}
-                    {services.testimonial && (
-                      <figure className="mb-8 border-l-2 border-crystal-500/40 pl-5">
-                        <blockquote className="text-frost/80 font-display italic text-lg leading-relaxed">
-                          &ldquo;{services.testimonial.text}&rdquo;
-                        </blockquote>
-                        <figcaption className="mt-3 text-frost/40 text-xs uppercase tracking-wider">
-                          {services.testimonial.author} · {services.testimonial.role}
-                        </figcaption>
-                      </figure>
-                    )}
-
-                    <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-                      <LiveProjectButton
-                        label="Visit the site"
-                        href={proofCase.links.demo}
-                        external
-                        className="px-6! py-2.5! text-sm!"
-                      />
-                      <Link
-                        href={`/cases/${proofCase.id}`}
-                        className="text-frost/50 hover:text-frost text-sm font-light underline underline-offset-4 decoration-frost/20 hover:decoration-frost/50 transition-colors"
-                      >
-                        Read the full case study
-                      </Link>
-                    </div>
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+                    <InkLink href={proofCase.links.demo} primary external>
+                      <ExternalLink size={15} strokeWidth={1.75} aria-hidden />
+                      Visit the site
+                    </InkLink>
+                    <Link
+                      href={`/cases/${proofCase.id}`}
+                      className="text-sm text-paper-link underline underline-offset-4"
+                    >
+                      Read the full case study
+                    </Link>
                   </div>
                 </div>
               </div>
-            </FadeIn>
-          </section>
-        )}
-
-        {/* ── FAQ ───────────────────────────────────────────────────────── */}
-        <section aria-labelledby="faq-heading" className="mb-14 md:mb-20">
-          <SectionHeading
-            id="faq-heading"
-            eyebrow="Questions"
-            title="Straight answers"
-            align="left"
-            titleClassName="text-frost"
-            titleSize="clamp(1.8rem, 5vw, 3.2rem)"
-            className="mb-8 md:mb-10"
-          />
-
-          {/* Native <details> rather than an animated accordion: no client
-              boundary, keyboard-accessible for free, and it still works if the
-              bundle never arrives. */}
-          <div className="flex flex-col gap-3">
-            {servicesFaq.map((item, i) => (
-              <FadeIn key={item.q} delay={i * 0.08} y={20}>
-                <details className="group rounded-2xl bg-white/3 border border-frost/10 hover:border-frost/25 open:border-frost/25 transition-colors duration-300">
-                  <summary className="flex items-center justify-between gap-4 cursor-pointer list-none rounded-2xl px-6 py-5 text-frost font-medium text-base md:text-lg [&::-webkit-details-marker]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900">
-                    {item.q}
-                    <ChevronDown
-                      size={18}
-                      strokeWidth={1.5}
-                      aria-hidden
-                      className="shrink-0 text-frost/40 transition-transform duration-300 group-open:rotate-180"
-                    />
-                  </summary>
-                  <div className="px-6 pb-6">
-                    <p className="text-frost/65 font-light leading-relaxed text-sm sm:text-base max-w-2xl">
-                      {item.a}
-                    </p>
-                  </div>
-                </details>
-              </FadeIn>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Enquiry ───────────────────────────────────────────────────── */}
-        <section
-          id="enquiry"
-          aria-labelledby="enquiry-heading"
-          className="scroll-mt-28"
-        >
-          <FadeIn y={30}>
-            <div className="pt-10 border-t border-frost/10">
-              <div className="max-w-2xl mx-auto text-center mb-10">
-                <div className="text-crystal-500 text-xs tracking-[0.25em] uppercase mb-4">
-                  {services.cta.eyebrow}
-                </div>
-                <h2
-                  id="enquiry-heading"
-                  className="hero-heading font-black uppercase leading-none tracking-tight mb-5"
-                  style={{ fontSize: "clamp(2rem, 6vw, 3.75rem)" }}
-                >
-                  {services.cta.title}
-                </h2>
-                <p className="text-frost/65 font-light leading-relaxed text-base md:text-lg">
-                  {services.cta.body}
-                </p>
-              </div>
-
-              <div className="max-w-2xl mx-auto rounded-2xl bg-white/3 border border-frost/10 p-6 md:p-8">
-                <ServicesEnquiryForm />
-              </div>
-
-              {/* Plenty of small-business owners will never fill in a form. */}
-              <p className="mt-6 text-center text-frost/40 font-light text-sm">
-                {services.cta.fallback}{" "}
-                <a
-                  href={`mailto:${personalInfo.email}`}
-                  className="text-frost/70 hover:text-crystal-300 underline underline-offset-4 transition-colors"
-                >
-                  {personalInfo.email}
-                </a>
-              </p>
-            </div>
+            </PaperSheet>
           </FadeIn>
         </section>
-      </main>
+      )}
 
-      <ChatWidget variant="services" />
-    </div>
+      {/* ── FAQ ───────────────────────────────────────────────────────── */}
+      <section aria-labelledby="faq-heading" className={styles.section}>
+        <DeskHeading
+          id="faq-heading"
+          kicker="Questions"
+          title="Straight answers"
+        />
+
+        {/* Native <details> rather than an animated accordion: no client
+            boundary, keyboard-accessible for free, and it still works if the
+            bundle never arrives. Each one is an index card. */}
+        <div className="flex flex-col gap-4">
+          {servicesFaq.map((item, i) => (
+            <FadeIn key={item.q} delay={Math.min(i, 5) * 0.06} y={16}>
+              <details className={paper.indexCard}>
+                <summary className={styles.faqSummary}>
+                  {item.q}
+                  <ChevronDown
+                    size={18}
+                    strokeWidth={1.5}
+                    aria-hidden
+                    className={styles.faqChevron}
+                  />
+                </summary>
+                <div className="px-5 pb-5 pt-4">
+                  <p className="max-w-2xl text-[15px] leading-relaxed">
+                    {item.a}
+                  </p>
+                </div>
+              </details>
+            </FadeIn>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Enquiry ───────────────────────────────────────────────────── */}
+      <section
+        id="enquiry"
+        aria-labelledby="enquiry-heading"
+        className="scroll-mt-6"
+      >
+        <FadeIn y={24}>
+          <PaperSheet className="mx-auto max-w-2xl">
+            <div className="mb-8 text-center">
+              <p className="mb-2 font-[family-name:var(--font-hand)] text-lg text-paper-soft">
+                {services.cta.eyebrow}
+              </p>
+              <h2
+                id="enquiry-heading"
+                className="mb-4 font-black tracking-tight"
+                style={{
+                  fontSize: "clamp(1.8rem, 5vw, 2.6rem)",
+                  lineHeight: 1.1,
+                }}
+              >
+                {services.cta.title}
+              </h2>
+              <p className="text-base leading-relaxed text-paper-soft">
+                {services.cta.body}
+              </p>
+            </div>
+
+            <ServicesEnquiryForm tone="paper" />
+
+            {/* Plenty of small-business owners will never fill in a form. */}
+            <p className="mt-6 text-center text-sm text-paper-soft">
+              {services.cta.fallback}{" "}
+              <a
+                href={`mailto:${personalInfo.email}`}
+                className="text-paper-link underline underline-offset-4"
+              >
+                {personalInfo.email}
+              </a>
+            </p>
+          </PaperSheet>
+        </FadeIn>
+      </section>
+
+      {/* Loaded when idle, as on the clock: the chat is the heaviest script
+          on the page and almost nobody opens it in the first seconds. */}
+      <LazyChatWidget variant="services" />
+    </PageShell>
   );
 }

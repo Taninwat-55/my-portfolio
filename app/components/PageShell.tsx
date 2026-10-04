@@ -30,7 +30,10 @@ export function PageShell({ children, back, lang = "en" }: PageShellProps) {
       <SkipLink />
       <header className={styles.top}>
         <Link href="/" className={styles.home} aria-label="Home">
-          <Image src="/clock/face-neutral.webp" alt="" width={96} height={96} sizes="48px" />
+          {/* Eager: it is in the first viewport of every page, and on text-led
+              pages Lighthouse picks it as the LCP element; lazy loading held it
+              back 1.6 s on /services. It is about 2 KB at this size. */}
+          <Image src="/clock/face-neutral.webp" alt="" width={96} height={96} sizes="48px" loading="eager" />
         </Link>
         {back && (
           <Link href={back.href} className={styles.back}>

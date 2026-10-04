@@ -16,10 +16,10 @@ import {
 /**
  * Project enquiry form for /services.
  *
- * Deliberately not the recruiter contact path: HireModal offers a CV download,
- * which is the wrong artefact to put in front of someone deciding whether to
- * pay for a website. This asks the questions that make a reply useful — what
- * kind of project, roughly what budget, roughly when.
+ * Deliberately not the recruiter contact path (that is /contact and the CV): a
+ * CV is the wrong artefact to put in front of someone deciding whether to pay
+ * for a website. This asks the questions that make a reply useful: what kind of
+ * project, roughly what budget, roughly when.
  *
  * Validation lives in app/lib/services-enquiry.ts and is shared with the route
  * handler, so the client and the server never disagree about what is valid.
@@ -97,34 +97,76 @@ export const ENQUIRY_COPY_EN: EnquiryCopy = {
 
 type Status = "idle" | "submitting" | "sent" | "failed";
 
-const LABEL =
-  "block font-mono text-[10px] tracking-[0.22em] uppercase text-frost/50 mb-2";
+/**
+ * Two looks, one form. `night` is the old dark design, still on /th, /sv and
+ * /da until the re-theme's Phase 5 moves them onto paper; its strings are the
+ * originals, unchanged, so those pages render exactly as before. `paper` is the
+ * desk look, on /services since Phase 4. Phase 6 deletes `night`.
+ */
+const TONES = {
+  night: {
+    label: "block font-mono text-[10px] tracking-[0.22em] uppercase text-frost/50 mb-2",
+    optional: "ml-2 font-sans normal-case tracking-normal text-frost/25",
+    fieldBase:
+      "w-full rounded-xl border bg-white/3 px-4 py-3 text-[15px] text-frost " +
+      "placeholder:text-frost/30 transition-colors " +
+      "focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 " +
+      "focus-visible:ring-offset-2 focus-visible:ring-offset-night-900 " +
+      "disabled:opacity-50 disabled:cursor-not-allowed",
+    fieldOk: "border-frost/15 hover:border-frost/25",
+    fieldErr: "border-clay-500/70 focus-visible:ring-clay-400",
+    // appearance-none plus explicit option colours. Without the [&>option] rules the
+    // OS-drawn menu on Windows Chrome inherits the page background and renders
+    // near-white text on near-white.
+    selectExtra:
+      "appearance-none pr-11 cursor-pointer [&>option]:bg-night-800 [&>option]:text-frost",
+    error: "mt-2 font-mono text-[11px] leading-relaxed text-clay-400",
+    hint: "mt-2 text-[12px] leading-relaxed text-frost/40",
+    chevron: "pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-frost/35",
+    summary:
+      "mb-6 rounded-2xl border border-clay-500/40 bg-clay-500/10 px-4 py-3.5 text-[13px] leading-relaxed text-clay-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-400",
+    summaryLink: "underline underline-offset-4 hover:text-clay-200",
+    sentIcon:
+      "flex h-12 w-12 items-center justify-center rounded-full border border-crystal-500/30 bg-crystal-500/10",
+    sentIconSvg: "text-crystal-300",
+    sentTitle: "text-lg font-medium text-frost",
+    sentBody: "max-w-sm text-sm font-light leading-relaxed text-frost/60",
+    sentLink: "text-frost/80 underline underline-offset-4 transition-colors hover:text-crystal-300",
+    submit:
+      "inline-flex w-full items-center justify-center gap-2 rounded-full bg-frost px-6 py-3.5 text-sm font-medium text-night-900 transition-colors hover:bg-crystal-300 disabled:opacity-60 disabled:hover:bg-frost focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900",
+  },
+  // Errors in #8f461c, a darker clay: 6.3:1 on paper (clay-600 is 4.55).
+  paper: {
+    label: "block font-mono text-[11px] tracking-[0.18em] uppercase text-paper-ink mb-2",
+    optional: "ml-2 font-sans normal-case tracking-normal text-paper-soft",
+    fieldBase:
+      "w-full rounded-md border bg-paper px-4 py-3 text-[15px] text-paper-ink " +
+      "placeholder:text-paper-soft transition-colors " +
+      "focus:outline-none focus-visible:ring-2 focus-visible:ring-paper-link " +
+      "focus-visible:ring-offset-2 focus-visible:ring-offset-paper " +
+      "disabled:opacity-50 disabled:cursor-not-allowed",
+    fieldOk: "border-paper-rule hover:border-paper-soft",
+    fieldErr: "border-[#8f461c] focus-visible:ring-[#8f461c]",
+    selectExtra:
+      "appearance-none pr-11 cursor-pointer [&>option]:bg-paper [&>option]:text-paper-ink",
+    error: "mt-2 font-mono text-[11px] leading-relaxed text-[#8f461c]",
+    hint: "mt-2 text-[12px] leading-relaxed text-paper-soft",
+    chevron: "pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-paper-soft",
+    summary:
+      "mb-6 rounded-md border border-[#8f461c]/50 bg-[#8f461c]/8 px-4 py-3.5 text-[13px] leading-relaxed text-[#8f461c] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8f461c]",
+    summaryLink: "underline underline-offset-4 hover:text-paper-ink",
+    sentIcon:
+      "flex h-12 w-12 items-center justify-center rounded-full border border-paper-rule bg-paper-dim",
+    sentIconSvg: "text-paper-ink",
+    sentTitle: "text-lg font-medium text-paper-ink",
+    sentBody: "max-w-sm text-sm leading-relaxed text-paper-soft",
+    sentLink: "text-paper-link underline underline-offset-4",
+    submit:
+      "inline-flex w-full items-center justify-center gap-2 rounded-full bg-paper-ink px-6 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-[#2c3a48] disabled:opacity-60 disabled:hover:bg-paper-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-paper-link focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+  },
+} as const;
 
-const OPTIONAL = "ml-2 font-sans normal-case tracking-normal text-frost/25";
-
-const FIELD_BASE =
-  "w-full rounded-xl border bg-white/3 px-4 py-3 text-[15px] text-frost " +
-  "placeholder:text-frost/30 transition-colors " +
-  "focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 " +
-  "focus-visible:ring-offset-2 focus-visible:ring-offset-night-900 " +
-  "disabled:opacity-50 disabled:cursor-not-allowed";
-
-const FIELD_OK = "border-frost/15 hover:border-frost/25";
-
-const FIELD_ERR = "border-clay-500/70 focus-visible:ring-clay-400";
-
-// appearance-none plus explicit option colours. Without the [&>option] rules the
-// OS-drawn menu on Windows Chrome inherits the page background and renders
-// near-white text on near-white.
-const SELECT_EXTRA =
-  "appearance-none pr-11 cursor-pointer [&>option]:bg-night-800 [&>option]:text-frost";
-
-const ERROR_TEXT = "mt-2 font-mono text-[11px] leading-relaxed text-clay-400";
-
-const HINT_TEXT = "mt-2 text-[12px] leading-relaxed text-frost/40";
-
-const fieldClass = (invalid: boolean, extra = "") =>
-  `${FIELD_BASE} ${invalid ? FIELD_ERR : FIELD_OK} ${extra}`;
+export type EnquiryTone = keyof typeof TONES;
 
 /** Order matters — the error summary lists problems in the order they appear. */
 const FIELD_ORDER: (keyof EnquiryFields)[] = [
@@ -139,9 +181,15 @@ const FIELD_ORDER: (keyof EnquiryFields)[] = [
 
 export function ServicesEnquiryForm({
   copy = ENQUIRY_COPY_EN,
+  tone = "night",
 }: {
   copy?: EnquiryCopy;
+  /** "paper" on the desk (/services); "night" on pages not yet re-themed. */
+  tone?: EnquiryTone;
 } = {}) {
+  const t = TONES[tone];
+  const fieldClass = (invalid: boolean, extra = "") =>
+    `${t.fieldBase} ${invalid ? t.fieldErr : t.fieldOk} ${extra}`;
   const [form, setForm] = useState<EnquiryFields>(EMPTY_ENQUIRY);
   const [errors, setErrors] = useState<EnquiryErrors>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -240,15 +288,15 @@ export function ServicesEnquiryForm({
         role="status"
         className="flex flex-col items-center gap-4 py-8 text-center focus:outline-none"
       >
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-crystal-500/30 bg-crystal-500/10">
-          <Check size={22} strokeWidth={1.6} className="text-crystal-300" />
+        <div className={t.sentIcon}>
+          <Check size={22} strokeWidth={1.6} className={t.sentIconSvg} />
         </div>
-        <p className="text-lg font-medium text-frost">{copy.sentTitle}</p>
-        <p className="max-w-sm text-sm font-light leading-relaxed text-frost/60">
+        <p className={t.sentTitle}>{copy.sentTitle}</p>
+        <p className={t.sentBody}>
           {copy.sentBody} {copy.sentUrgentPrefix}{" "}
           <a
             href={`mailto:${personalInfo.email}`}
-            className="text-frost/80 underline underline-offset-4 transition-colors hover:text-crystal-300"
+            className={t.sentLink}
           >
             {personalInfo.email}
           </a>
@@ -269,7 +317,7 @@ export function ServicesEnquiryForm({
           ref={summaryRef}
           tabIndex={-1}
           role="alert"
-          className="mb-6 rounded-2xl border border-clay-500/40 bg-clay-500/10 px-4 py-3.5 text-[13px] leading-relaxed text-clay-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-400"
+          className={t.summary}
         >
           {formError ? (
             <p>{formError}</p>
@@ -285,7 +333,7 @@ export function ServicesEnquiryForm({
                   <li key={key}>
                     <a
                       href={`#enquiry-${key}`}
-                      className="underline underline-offset-4 hover:text-clay-200"
+                      className={t.summaryLink}
                     >
                       {copy.labels[key]}
                     </a>{" "}
@@ -319,7 +367,7 @@ export function ServicesEnquiryForm({
       <div className="grid gap-5 sm:grid-cols-2">
         {/* Name */}
         <div>
-          <label htmlFor="enquiry-name" className={LABEL}>
+          <label htmlFor="enquiry-name" className={t.label}>
             {copy.labels.name}
           </label>
           <input
@@ -336,7 +384,7 @@ export function ServicesEnquiryForm({
             className={fieldClass(Boolean(errors.name))}
           />
           {errors.name && (
-            <p id="enquiry-name-error" className={ERROR_TEXT}>
+            <p id="enquiry-name-error" className={t.error}>
               {errors.name}
             </p>
           )}
@@ -344,7 +392,7 @@ export function ServicesEnquiryForm({
 
         {/* Email */}
         <div>
-          <label htmlFor="enquiry-email" className={LABEL}>
+          <label htmlFor="enquiry-email" className={t.label}>
             {copy.labels.email}
           </label>
           <input
@@ -361,7 +409,7 @@ export function ServicesEnquiryForm({
             className={fieldClass(Boolean(errors.email))}
           />
           {errors.email && (
-            <p id="enquiry-email-error" className={ERROR_TEXT}>
+            <p id="enquiry-email-error" className={t.error}>
               {errors.email}
             </p>
           )}
@@ -369,9 +417,9 @@ export function ServicesEnquiryForm({
 
         {/* Company */}
         <div className="sm:col-span-2">
-          <label htmlFor="enquiry-company" className={LABEL}>
+          <label htmlFor="enquiry-company" className={t.label}>
             {copy.labels.company}
-            <span className={OPTIONAL}>optional</span>
+            <span className={t.optional}>optional</span>
           </label>
           <input
             id="enquiry-company"
@@ -388,7 +436,7 @@ export function ServicesEnquiryForm({
             className={fieldClass(Boolean(errors.company))}
           />
           {errors.company && (
-            <p id="enquiry-company-error" className={ERROR_TEXT}>
+            <p id="enquiry-company-error" className={t.error}>
               {errors.company}
             </p>
           )}
@@ -396,7 +444,7 @@ export function ServicesEnquiryForm({
 
         {/* Project type */}
         <div className="sm:col-span-2">
-          <label htmlFor="enquiry-projectType" className={LABEL}>
+          <label htmlFor="enquiry-projectType" className={t.label}>
             {copy.labels.projectType}
           </label>
           <div className="relative">
@@ -411,7 +459,7 @@ export function ServicesEnquiryForm({
               value={form.projectType}
               onChange={update("projectType")}
               disabled={submitting}
-              className={fieldClass(Boolean(errors.projectType), SELECT_EXTRA)}
+              className={fieldClass(Boolean(errors.projectType), t.selectExtra)}
             >
               <option value="">{copy.chooseOne}</option>
               {servicesEnquiryOptions.projectType.map((option) => (
@@ -424,11 +472,11 @@ export function ServicesEnquiryForm({
               size={16}
               strokeWidth={1.5}
               aria-hidden
-              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-frost/35"
+              className={t.chevron}
             />
           </div>
           {errors.projectType && (
-            <p id="enquiry-projectType-error" className={ERROR_TEXT}>
+            <p id="enquiry-projectType-error" className={t.error}>
               {errors.projectType}
             </p>
           )}
@@ -436,7 +484,7 @@ export function ServicesEnquiryForm({
 
         {/* Budget */}
         <div>
-          <label htmlFor="enquiry-budget" className={LABEL}>
+          <label htmlFor="enquiry-budget" className={t.label}>
             {copy.labels.budget}
           </label>
           <div className="relative">
@@ -449,7 +497,7 @@ export function ServicesEnquiryForm({
               value={form.budget}
               onChange={update("budget")}
               disabled={submitting}
-              className={fieldClass(Boolean(errors.budget), SELECT_EXTRA)}
+              className={fieldClass(Boolean(errors.budget), t.selectExtra)}
             >
               <option value="">{copy.chooseOne}</option>
               {servicesEnquiryOptions.budget.map((option) => (
@@ -462,15 +510,15 @@ export function ServicesEnquiryForm({
               size={16}
               strokeWidth={1.5}
               aria-hidden
-              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-frost/35"
+              className={t.chevron}
             />
           </div>
           {errors.budget ? (
-            <p id="enquiry-budget-error" className={ERROR_TEXT}>
+            <p id="enquiry-budget-error" className={t.error}>
               {errors.budget}
             </p>
           ) : (
-            <p id="enquiry-budget-hint" className={HINT_TEXT}>
+            <p id="enquiry-budget-hint" className={t.hint}>
               {copy.budgetHint}
             </p>
           )}
@@ -478,7 +526,7 @@ export function ServicesEnquiryForm({
 
         {/* Timeline */}
         <div>
-          <label htmlFor="enquiry-timeline" className={LABEL}>
+          <label htmlFor="enquiry-timeline" className={t.label}>
             {copy.labels.timeline}
           </label>
           <div className="relative">
@@ -493,7 +541,7 @@ export function ServicesEnquiryForm({
               value={form.timeline}
               onChange={update("timeline")}
               disabled={submitting}
-              className={fieldClass(Boolean(errors.timeline), SELECT_EXTRA)}
+              className={fieldClass(Boolean(errors.timeline), t.selectExtra)}
             >
               <option value="">{copy.chooseOne}</option>
               {servicesEnquiryOptions.timeline.map((option) => (
@@ -506,11 +554,11 @@ export function ServicesEnquiryForm({
               size={16}
               strokeWidth={1.5}
               aria-hidden
-              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-frost/35"
+              className={t.chevron}
             />
           </div>
           {errors.timeline && (
-            <p id="enquiry-timeline-error" className={ERROR_TEXT}>
+            <p id="enquiry-timeline-error" className={t.error}>
               {errors.timeline}
             </p>
           )}
@@ -518,7 +566,7 @@ export function ServicesEnquiryForm({
 
         {/* Message */}
         <div className="sm:col-span-2">
-          <label htmlFor="enquiry-message" className={LABEL}>
+          <label htmlFor="enquiry-message" className={t.label}>
             {copy.labels.message}
           </label>
           <textarea
@@ -539,11 +587,11 @@ export function ServicesEnquiryForm({
             )}
           />
           {errors.message ? (
-            <p id="enquiry-message-error" className={ERROR_TEXT}>
+            <p id="enquiry-message-error" className={t.error}>
               {errors.message}
             </p>
           ) : (
-            <p id="enquiry-message-hint" className={HINT_TEXT}>
+            <p id="enquiry-message-hint" className={t.hint}>
               {copy.messageHint}
             </p>
           )}
@@ -554,7 +602,7 @@ export function ServicesEnquiryForm({
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-frost px-6 py-3.5 text-sm font-medium text-night-900 transition-colors hover:bg-crystal-300 disabled:opacity-60 disabled:hover:bg-frost focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900"
+          className={t.submit}
         >
           {submitting ? (
             <>

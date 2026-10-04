@@ -1259,53 +1259,6 @@ export const services = {
     } as Record<string, string>,
   },
 
-  // Two lists that mostly do not appear on freelancer sites, for opposite
-  // reasons. The first is what the client physically walks away owning, which
-  // matters because "who actually holds the domain" is where small businesses
-  // get trapped by their previous developer. The second is what is NOT in the
-  // price — and that one prevents the single most common scope blow-up in small
-  // web projects, which is a client assuming their developer will write their
-  // copy and take their photos. Saying it here costs one section and saves an
-  // argument in week two.
-  handover: {
-    eyebrow: "What You End Up With",
-    title: "Yours, not mine",
-    lead: "At handover everything is in your name and nothing depends on me. If you want to hand the whole site to another developer next year, there is nothing to untangle and nothing to ask me for.",
-    youGet: [
-      "The live site on your own domain",
-      "The domain registered in your name, with the login",
-      "The hosting or Webflow account in your name — you can remove my access entirely",
-      "The source: a code repository you own, or the Webflow project transferred to your account",
-      "A short screen recording walking you through editing your own text and images",
-      "Google Business profile connected and Search Console set up, so you can see what people search to find you",
-      "The written scope, so what was agreed is on paper rather than in memory",
-    ],
-    notIncludedLabel: "Not in the price",
-    notIncludedLead: "Said plainly so it is never a surprise halfway through. Most of these I can point you to someone good for.",
-    notIncluded: [
-      {
-        item: "Writing your content",
-        detail: "I will structure it, edit it, and tell you what each page needs — but the words about your own business should come from you or a copywriter. It is the most common thing that delays a project.",
-      },
-      {
-        item: "Professional photography",
-        detail: "A site is only as good as its pictures. Phone photos in good light are often fine; if you need a photographer, budget for one separately.",
-      },
-      {
-        item: "Logo and brand identity",
-        detail: "I design around the brand you already have. Creating one from nothing is a different job.",
-      },
-      {
-        item: "Ongoing SEO or advertising",
-        detail: "I set the foundations so you can be found, and that is included. Running campaigns month to month is somebody else's speciality, not mine.",
-      },
-      {
-        item: "Legal wording",
-        detail: "I put the privacy page, cookie notice and structure in place. The actual wording should be checked by someone qualified — I am not.",
-      },
-    ],
-  },
-
   // What the site costs to KEEP, not to build. Almost nobody publishes this,
   // which is exactly why it earns trust: the running cost is the thing a small
   // business gets surprised by a year later, and the honest comparison is the
@@ -1532,6 +1485,16 @@ export const servicesFaq: FaqItem[] = [
   {
     q: "What does a website actually cost?",
     a: `It depends on how many pages, and the answer is published rather than quoted on request. A one-pager or simple three-page site is ${services.offers[0].priceLadder![0].price}, and a full four-to-eight page site is ${services.offers[0].priceLadder![1].price}. That is the price whether I build it in Webflow or code it from scratch — the build method changes what the site costs to keep, not what it costs to make. Fixing an existing site is ${services.offers[2].priceRange}, and frontend work on a web app is ${services.offers[1].priceRange}. The exact number is fixed in writing before any work starts. ${vat.note} For context, a simple site from a Danish freelancer or agency typically runs 5.000 to 25.000 kroner before moms, so this sits at the lower half of the market.`,
+  },
+  // Second, beside the price questions (Ice, 2026-10-05). It replaced the
+  // "Yours, not mine" section on /services, whose ownership half the FAQ already
+  // covered ("Who owns the code?"). This half stays because it prevents the most
+  // common scope blow-up in small web projects: a client assuming their
+  // developer will write their copy and take their photos. Saying it before the
+  // first call costs one answer and saves an argument in week two.
+  {
+    q: "What is not included in the price?",
+    a: "Said plainly so it is never a surprise halfway through. Writing your content: I will structure it, edit it, and tell you what each page needs, but the words about your own business should come from you or a copywriter. It is the most common thing that delays a project. Professional photography: phone photos in good light are often fine; if you need a photographer, budget for one separately. Logo and brand identity: I design around the brand you already have. Ongoing SEO or advertising: the foundations are included, and running campaigns is somebody else's speciality. Legal wording: I put the privacy page, cookie notice and structure in place, but the wording should be checked by someone qualified. For most of these I can point you to someone good.",
   },
   {
     q: "Why not just get a site for 3.000 kroner?",
