@@ -50,6 +50,54 @@ correcting it means moving three blocks, and this file is the source of truth.
 
 ## Progress log
 
+### 2026-10-04
+
+**The clock homepage, on branch `clock-redesign`, not merged** 🚧
+*`0b62642` `0d1043a` `347efcc` `9b36e85` `070f606`*
+
+A new homepage, outside the numbered items above, which belong to the finished
+overhaul. Concept doc: https://claude.ai/code/artifact/daf15c29-d613-4988-afd3-7d47ab46e16d
+
+One screen. Ice's illustrated portrait sits on a disc in the middle, four paper
+objects are pinned around it, and a drawn hand points at whichever one is
+hovered or focused. Each object opens in place at its own URL, and each URL
+also works as a direct visit, rendered open on the server:
+
+| URL | Object | Links on to |
+| --- | --- | --- |
+| `/work` | 4 case-study prints that turn over | `/cases/[id]`, `/projects` |
+| `/about` | envelope that opens into a letter | — |
+| `/writing` | notebook of the 5 newest notes | `/garden/[slug]`, `/garden` |
+| `/rates` | till receipt of the prices | `/services`, `/services#enquiry` |
+| `/contact` | pinned postcard | the visitor's email app, for now |
+
+- **Title changed to Full-stack Engineer** (`0d1043a`). It was Frontend
+  Developer. The reasoning, from 104 postings Ice collected, is on
+  `siteContent.roleLabel`. ⚠️ The CV PDF still says the old title.
+- **The portrait** is two Gemini illustrations made from Ice's photo, cut out
+  and about 31 KB each. The eyes follow the cursor and blink through an SVG
+  layer clipped by `public/clock/eye-mask.png`, a mask built from the
+  portrait's own pixels; an ellipse left slivers. The files are named
+  `face-*.webp` because Next's image cache served the old opaque version under
+  the previous names.
+- **The disc is not decoration.** Black hair vanished against the near-black
+  page without it, and it hides the hand's arm.
+- **`experimental.viewTransition` is on.** A print's photo grows into its case
+  study's hero, which therefore has no FadeIn.
+- **`RESCUE_AUDIT_PRICE`** now feeds both the rescue offer's note and the
+  receipt.
+
+**Open:**
+- The About letter is a draft condensed from `aboutStory`. Ice rewrites it.
+- Never checked in a real browser by Claude (Chrome was not connected). Ice has
+  seen the cluster, the postcard and the portrait at localhost; the prints,
+  notebook and receipt still need his eye.
+- The old sections in `app/sections/` are unused but not deleted yet.
+- Step 2b, still to plan: a postcard that really sends (a `/api/contact` on the
+  existing rate-limit and Resend pattern, prefix `rl:contact`), the
+  Copenhagen-time desk lamp, and draggable objects.
+- Nothing is pushed. Pushing `main` deploys to production.
+
 ### 2026-08-22 (night, last)
 
 **Performance — LCP fixed across the site** ✅ *`8f9f5e3`*
