@@ -50,10 +50,29 @@ correcting it means moving three blocks, and this file is the source of truth.
 
 ## Progress log
 
+### 2026-10-04 (afternoon)
+
+**Production: the enquiry form was refusing every enquiry. Fixed** ✅ *(no commit: config only)*
+
+The Upstash database behind the rate limiters no longer existed. Its hostname
+did not resolve, even on public DNS. Because `/api/services-enquiry` fails
+closed in production, every enquiry on the live site got "briefly unavailable"
+(503) for as long as that lasted. Found while testing the clock's postcard,
+which hit the same 503.
+
+Ice created a new database, put its URL and token in `.env.local` and in
+Netlify, and redeployed `main`. He then sent a real enquiry on the live site,
+and it arrived.
+
+⚠️ **Lesson: a fail-closed form fails silently for the owner.** Nothing alerted
+anyone; the visitor just saw a polite 503. Something should notice next time,
+e.g. an uptime check that posts an invalid enquiry and expects a 400 rather than
+a 503.
+
 ### 2026-10-04
 
 **The clock homepage, on branch `clock-redesign`, not merged** 🚧
-*`0b62642` `0d1043a` `347efcc` `9b36e85` `070f606`*
+*`0b62642` `0d1043a` `347efcc` `9b36e85` `070f606` `5af51a9` `b4146b9`*
 
 A new homepage, outside the numbered items above, which belong to the finished
 overhaul. Concept doc: https://claude.ai/code/artifact/daf15c29-d613-4988-afd3-7d47ab46e16d
@@ -69,7 +88,7 @@ also works as a direct visit, rendered open on the server:
 | `/about` | envelope that opens into a letter | — |
 | `/writing` | notebook of the 5 newest notes | `/garden/[slug]`, `/garden` |
 | `/rates` | till receipt of the prices | `/services`, `/services#enquiry` |
-| `/contact` | pinned postcard | the visitor's email app, for now |
+| `/contact` | pinned postcard that really posts | Ice's inbox, via `/api/contact` |
 
 - **Title changed to Full-stack Engineer** (`0d1043a`). It was Frontend
   Developer. The reasoning, from 104 postings Ice collected, is on
@@ -86,16 +105,32 @@ also works as a direct visit, rendered open on the server:
   study's hero, which therefore has no FadeIn.
 - **`RESCUE_AUDIT_PRICE`** now feeds both the rescue offer's note and the
   receipt.
+- **Step 2b** (`5af51a9`):
+  - **`/api/contact`** has the enquiry route's defences in the same order, with
+    its own `rl:contact` and `rl:contact:global` buckets (3 per visitor, 20 in
+    total, per hour). `getResend()` now lives in `app/lib/resend.ts`, shared by
+    both routes.
+  - **A pendant lamp** hangs from the top of the page, on at night in
+    Copenhagen. It switches by its pull cord, a click, or the keyboard. At night
+    the drawings and the portrait dim, never text.
+  - **Objects can be dragged** with a mouse. Positions live in the visitor's
+    localStorage, and "Tidy the desk" resets them.
+  - The hand now rests pointing at Work (`HAND_REST_ANGLE`), since the lamp
+    hangs where it used to point.
+- **A wall clock** on Copenhagen's time (`b4146b9`) replaced the digital time
+  text. It has hour and minute hands only, by choice.
 
 **Open:**
 - The About letter is a draft condensed from `aboutStory`. Ice rewrites it.
+- ⚠️ **Remove the `?preview` night switch** (`PREVIEW_NIGHT_TIME` in
+  `ClockHome.tsx`) before merging.
 - Never checked in a real browser by Claude (Chrome was not connected). Ice has
-  seen the cluster, the postcard and the portrait at localhost; the prints,
-  notebook and receipt still need his eye.
+  seen the cluster, the postcard, the portrait, the lamp and dragging at
+  localhost. The prints, notebook and receipt still need his eye, and so does
+  the wall clock.
+- No real postcard has been sent through `/api/contact` yet.
+- About 10 fonts are preloaded on the clock pages but never used.
 - The old sections in `app/sections/` are unused but not deleted yet.
-- Step 2b, still to plan: a postcard that really sends (a `/api/contact` on the
-  existing rate-limit and Resend pattern, prefix `rl:contact`), the
-  Copenhagen-time desk lamp, and draggable objects.
 - Nothing is pushed. Pushing `main` deploys to production.
 
 ### 2026-08-22 (night, last)
