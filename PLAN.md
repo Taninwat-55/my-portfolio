@@ -164,9 +164,35 @@ stylesheet (Lighthouse: ~1 s, the 4 KB paper file ~300 ms). It is site-wide (eve
 re-themed page sits near 90), so **Ice chose to fix it in Phase 6**; the roadmap
 item now says so.
 
+- **Fixes before Phase 6 (Ice, 2026-10-05):**
+  - **Hero notes removed on `/th` and `/sv`**, from the pages and the language files
+    (so `npm run copy` drops those two lines, by request). **The `/da` note stays**
+    (Ice's call after the flag): it is the page's only plain statement that calls
+    are in English. `LandingPage`'s `note` is now optional.
+  - **Six prints on `/work`:** Saep and Lumina joined (concept pieces; each print's
+    back opens with "A concept piece…" / "A self-initiated…"). The grid is 3x2 on a
+    wide screen and 2x3 on a tall one, driven by per-print `--col`/`--row` variables
+    so one transform stacks any of them. Desktop sizes prints from the viewport
+    (the open object does not scroll there); phones size from the width (their sheet
+    scrolls). Measured at 1280x900, 1366x768, 390x844, 375x667, 320x568 and 844x390.
+  - **Found on the way:** on small phones a turned print hid its "Read the case
+    study" link under `overflow: hidden`. The one-liner now gives way (fades) before
+    the link does, and prints under 180px drop the stack line so the one-liner keeps
+    room for the concept label. Turning a print back no longer waits for the fan-in
+    stagger (`.settled`).
+  - Explained to Ice, no change: the clock's mood line is picked by Copenhagen hour,
+    five fixed lines (`clockContent.desk.moods`). Advised against a time-based
+    background (Copenhagen vs visitor time, overriding the OS dark-mode setting, a
+    pre-hydration flash, a second palette to design and contrast-check); a subtle
+    evening lamp glow on every page is the small version, optional, after Phase 6.
+
 **Open:**
 - Ice's preview check: all three pages on phone and laptop; Thai line height; the
-  share cards (paste a link into a chat to preview).
+  share cards (paste a link into a chat to preview); `/work`'s six prints, turned
+  over, on a phone.
+- Ice's call (reviewer): the concept pieces are only labelled on the back of their
+  prints; a small "Concept" mark on the front would say it where the "this is my
+  work" impression forms.
 - Later: the footer nav's `aria-label="Languages"` is English inside a th/sv/da
   wrapper; an aria-label cannot carry its own `lang`, so a translated label would
   have to come from the proofread files.
