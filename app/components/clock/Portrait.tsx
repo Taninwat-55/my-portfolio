@@ -1,28 +1,44 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import styles from "./clock.module.css";
 
-// Where the pupils sit at rest, in the SVG's 200×200 space.
-const PUPILS = [
-  { cx: 77, cy: 93 },
-  { cx: 123, cy: 93 },
+/**
+ * Eye geometry, measured from the 2048×2048 Gemini originals, so the overlay
+ * lands exactly on the painted eyes.
+ *
+ * The eye shape itself is not drawn: it is /clock/eye-mask.png, built from the
+ * portrait's own pixels (everything inside each eye that is not skin, grown by
+ * 4px). An ellipse was tried first and left a sliver of the painted pupil and a
+ * white crescent under the closed lid, because the eyes are not ellipses. The
+ * whites are pure #FFFFFF, so a masked white patch hides the painted pupil.
+ */
+const EYES = [
+  { x: 600, width: 300, cx: 754.5, pupil: { cx: 756, cy: 1007 } },
+  { x: 1140, width: 310, cx: 1292.5, pupil: { cx: 1292, cy: 1007 } },
 ];
-// How far a pupil may travel from rest. Kept small so the eyes glance rather
-// than roll.
-const REACH = 4.5;
+const EYE_BAND = { y: 900, height: 230 };
+const LASH_Y = 1010;
+const PUPIL_R = 59;
+const HIGHLIGHT = { dx: 24, dy: -18, r: 17 };
+// How far a pupil may travel from rest. The eye is far wider than it is tall
+// (242 × 155 around a 118 pupil), so it glances sideways and only nudges up
+// and down; the mask clips the rest, which reads as looking up or down.
+const REACH = { x: 42, y: 20 };
+const SKIN = "#df9d7a";
+const INK = "#362724";
 
 const WINK_CLICKS = 5;
 const WINK_WINDOW_MS = 2000;
 
 /**
- * The portrait in the middle of the clock. PLACEHOLDER ART: the drawn face is a
- * stand-in for the illustrated SVG portrait. When that arrives, keep the class
- * names on the eyes, pupils and mouths and only the drawing changes.
+ * The portrait in the middle of the clock: Ice's illustrated face, as two
+ * images (neutral and smiling) that crossfade, plus an SVG layer that redraws
+ * the pupils so they can follow the cursor, and the eyelids so it can blink.
  *
- * Everything alive here runs on refs and the DOM, not React state, because it
- * updates on every pointer move. Re-rendering the face 60 times a second to move
- * two circles would be the slowest possible way to do it.
+ * Everything that moves runs on refs and the DOM, not React state, because it
+ * updates on every pointer move.
  */
 export function Portrait({
   smiling,
@@ -32,15 +48,15 @@ export function Portrait({
   /** The element to look at instead of the cursor, e.g. the object the hand points to. */
   lookAt: () => HTMLElement | null;
 }) {
-  const svgRef = useRef<SVGSVGElement>(null);
-  const pupilRefs = useRef<(SVGCircleElement | null)[]>([]);
+  const overlayRef = useRef<SVGSVGElement>(null);
+  const pupilRefs = useRef<(SVGGElement | null)[]>([]);
   const clicks = useRef<number[]>([]);
   const [hovered, setHovered] = useState(false);
   const [greeting, setGreeting] = useState(false);
   const [winking, setWinking] = useState(false);
 
   useEffect(() => {
-    const svg = svgRef.current;
+    const svg = overlayRef.current;
     if (!svg) return;
     const finePointer = matchMedia("(pointer: fine)").matches;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -62,25 +78,25 @@ export function Portrait({
     const aim = () => {
       frame = 0;
       const box = svg.getBoundingClientRect();
-      const scale = box.width / 200;
+      const scale = box.width / 2048;
       const target = lookAt()?.getBoundingClientRect();
       const point = target
         ? { x: target.left + target.width / 2, y: target.top + target.height / 2 }
         : pointer;
-      PUPILS.forEach((rest, i) => {
+      EYES.forEach((eye, i) => {
         const pupil = pupilRefs.current[i];
         if (!pupil) return;
         let dx = 0;
         let dy = 0;
         if (point) {
-          const ex = box.left + rest.cx * scale;
-          const ey = box.top + rest.cy * scale;
+          const ex = box.left + eye.pupil.cx * scale;
+          const ey = box.top + eye.pupil.cy * scale;
           const angle = Math.atan2(point.y - ey, point.x - ex);
-          const distance = Math.min(1, Math.hypot(point.x - ex, point.y - ey) / 240);
-          dx = Math.cos(angle) * REACH * distance;
-          dy = Math.sin(angle) * REACH * distance;
+          const pull = Math.min(1, Math.hypot(point.x - ex, point.y - ey) / 260);
+          dx = Math.cos(angle) * REACH.x * pull;
+          dy = Math.sin(angle) * REACH.y * pull;
         }
-        pupil.setAttribute("transform", `translate(${dx.toFixed(2)} ${dy.toFixed(2)})`);
+        pupil.setAttribute("transform", `translate(${dx.toFixed(1)} ${dy.toFixed(1)})`);
       });
     };
     const schedule = () => {
@@ -124,11 +140,10 @@ export function Portrait({
     }
   };
 
-  const classes = [
-    styles.face,
-    smiling || hovered || greeting || winking ? styles.smile : "",
-    winking ? styles.wink : "",
-  ].join(" ");
+  // The wink keeps the neutral face, so the closed eye reads as a wink rather
+  // than as both eyes smiling shut.
+  const showSmile = (smiling || hovered || greeting) && !winking;
+  const classes = [styles.face, showSmile ? styles.smile : "", winking ? styles.wink : ""].join(" ");
 
   return (
     <div
@@ -138,37 +153,70 @@ export function Portrait({
       onPointerLeave={() => setHovered(false)}
       onClick={onClick}
     >
-      <svg ref={svgRef} viewBox="0 0 200 200">
-        <rect className={styles.faceBg} width="200" height="200" />
-        <path className={styles.faceBody} d="M30 200 C40 160 70 150 100 150 C130 150 160 160 170 200 Z" />
-        <ellipse className={styles.faceHead} cx="100" cy="92" rx="66" ry="72" />
-        <path
-          className={styles.faceHair}
-          d="M36 84 C34 34 70 16 102 18 C140 20 168 42 164 86 C152 62 132 52 104 54 C78 52 52 60 36 84 Z"
-        />
-        <path className={styles.faceLine} d="M64 70 Q76 64 88 70" />
-        <path className={styles.faceLine} d="M112 70 Q124 64 136 70" />
-        <g className={styles.eyes}>
-          {PUPILS.map((pupil, i) => (
-            <g key={i} className={i === 1 ? styles.eyeRight : undefined}>
-              <circle className={styles.eyeWhite} cx={pupil.cx - 1} cy="92" r="12" />
-              <circle
+      {/* The neutral face decides LCP, so it is preloaded; the smile is not. */}
+      <Image
+        className={styles.portrait}
+        src="/clock/portrait-neutral.webp"
+        alt=""
+        width={840}
+        height={840}
+        sizes="(max-width: 767px) 260px, 420px"
+        priority
+      />
+      <Image
+        className={`${styles.portrait} ${styles.portraitSmile}`}
+        src="/clock/portrait-smile.webp"
+        alt=""
+        width={840}
+        height={840}
+        sizes="(max-width: 767px) 260px, 420px"
+      />
+      <svg ref={overlayRef} className={styles.eyeLayer} viewBox="0 0 2048 2048">
+        <defs>
+          <mask id="portrait-eyes" maskUnits="userSpaceOnUse" x="0" y="0" width="2048" height="2048">
+            <image href="/clock/eye-mask.png" x="0" y="0" width="2048" height="2048" />
+          </mask>
+        </defs>
+        {EYES.map((eye, i) => (
+          <g key={i} className={i === 1 ? styles.eyeRight : undefined}>
+            <g mask="url(#portrait-eyes)">
+              {/* Covers the painted pupil and highlight. */}
+              <rect x={eye.x} y={EYE_BAND.y} width={eye.width} height={EYE_BAND.height} fill="#fff" />
+              <g
                 ref={(el) => {
                   pupilRefs.current[i] = el;
                 }}
                 className={styles.pupil}
-                cx={pupil.cx}
-                cy={pupil.cy}
-                r="5.5"
+              >
+                <circle cx={eye.pupil.cx} cy={eye.pupil.cy} r={PUPIL_R} fill={INK} />
+                <circle
+                  cx={eye.pupil.cx + HIGHLIGHT.dx}
+                  cy={eye.pupil.cy + HIGHLIGHT.dy}
+                  r={HIGHLIGHT.r}
+                  fill="#fff"
+                />
+              </g>
+            </g>
+            {/* The eyelid: hidden until a blink or wink closes it over the eye. */}
+            <g className={styles.lid}>
+              <rect
+                x={eye.x}
+                y={EYE_BAND.y}
+                width={eye.width}
+                height={EYE_BAND.height}
+                fill={SKIN}
+                mask="url(#portrait-eyes)"
+              />
+              <path
+                d={`M${eye.cx - 118} ${LASH_Y} Q${eye.cx} ${LASH_Y + 30} ${eye.cx + 118} ${LASH_Y}`}
+                fill="none"
+                stroke={INK}
+                strokeWidth="14"
+                strokeLinecap="round"
               />
             </g>
-          ))}
-        </g>
-        <path className={`${styles.faceLine} ${styles.mouthNeutral}`} d="M84 134 Q100 130 116 134" />
-        <path className={`${styles.faceLine} ${styles.mouthSmile}`} d="M78 126 Q100 152 122 126" />
-        <text className={styles.faceTag} x="100" y="186" textAnchor="middle">
-          placeholder portrait
-        </text>
+          </g>
+        ))}
       </svg>
     </div>
   );

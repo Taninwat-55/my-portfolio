@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import styles from "./clock.module.css";
 
 /**
- * The pointing hand. PLACEHOLDER ART, like the portrait.
+ * The pointing hand, drawn in code and coloured from the portrait's skin tone.
  *
  * It pivots at the portrait's centre and is rotated by ClockHome through the
  * --angle custom property, so pointing never re-renders React.
