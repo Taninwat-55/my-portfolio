@@ -288,11 +288,12 @@ export interface CvEntry {
 }
 
 export const cvData = {
-  // Matches roleLabel and the PDF. See the note on roleLabel for why it is a
-  // single searchable title rather than the hybrid it used to be.
-  title: "Frontend Developer",
+  // roleLabel itself, not a copy of it: the CV said "Frontend Developer" here
+  // after the site had moved on. See the note on roleLabel for why it is a
+  // single searchable title rather than a hybrid.
+  title: siteContent.roleLabel,
   summary:
-    "Frontend developer who also runs the delivery. React, Next.js, and TypeScript are my depth, most recently at Trailr AI, where I owned a full platform redesign scoped to what the existing backend could support. I work full-stack too — Node.js, Express, and PostgreSQL — and I am clear that the backend is the newer half of my toolkit. Before Trailr, four cycles at Millennial Consulting, growing from Operations Assistant to Head of Organization and coordinating ~20 client engagements with no full-time staff. Building the thing and running the delivery are the same job to me.",
+    "Full-stack engineer who also runs the delivery. React, Next.js and TypeScript are my depth, most recently at Trailr AI, where I owned a full platform redesign scoped to what the existing backend could support. Behind the interface I build with Node.js, PostgreSQL and Supabase: Bevisly keeps its access rules in the database as row-level security, and MockMate grades interviews in an AWS Lambda pipeline. Before Trailr, four cycles at Millennial Consulting, growing from Operations Assistant to Head of Organization and coordinating ~20 client engagements with no full-time staff. Building the thing and running the delivery are the same job to me.",
 
   // Four technical groups mirroring the PDF, plus the operations group the PDF
   // has no room for. A one-page CV has to cut; the page does not.
