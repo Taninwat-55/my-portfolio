@@ -126,6 +126,50 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ## Progress log
 
+### 2026-10-04 (night)
+
+**Re-theme Phase 0: Foundation, on branch `retheme-0-foundation`, not merged** 🚧 *`be302b1`*
+
+- **Desk tokens** in `globals.css` (`@theme static`, so Tailwind emits them even
+  with no utility using them yet): paper, paper-dim, paper-ink, paper-soft,
+  paper-rule, paper-accent, ink-soft, sticky, and a new **`paper-link`**. The
+  clock's `.page` now reads them; its computed values were checked identical.
+- **`PageShell`** (portrait home, back link, languages, a static postcard linking
+  to `/contact`; Ice chose the link over the real form, so pages carry no extra JS)
+  and **paper primitives** in `app/components/paper/`: `PaperSheet` (`ruled`,
+  `ruleTop`), `PageHeader` (always `FadeIn immediate`), `Tag` (tag/chip),
+  `PaperCard` (`href`, `tilt`).
+- **`app/not-found.tsx`**, the first page built on them. Returns a real 404.
+- Lighthouse mobile: 404 page 95 to 98 perf, 100 a11y, 100 best practices; `/`
+  89 (baseline 89 to 90), a11y 100.
+
+⚠️ **Things the next phases must know:**
+- **`--font-hand` lives on `body`, not in `@theme`.** next/font defines
+  `--font-kalam` on body, so declared on `:root` the var resolves to nothing.
+- **`paper.module.css` is in `@layer components`** so a Tailwind `className` can
+  override it. Unlayered, module rules beat every utility. Checked that Tailwind's
+  base still loses to the module (h1 keeps its size and weight).
+- **`paper-accent` is 3.3:1 on paper**: fine for focus rings and washes, too faint
+  for small text. Text links use `paper-link` (5.5:1). The clock's "Read the case
+  study" link still uses the faint one; fix it in Phase 1.
+- **Links inside a `PaperSheet` are underlined** (colour alone is 2.5:1 against
+  the ink). Pass `no-underline` for link lists, as the 404 page does.
+- **`PageShell` takes `lang`** for the current-language mark, but its own few
+  words are English. Phase 5 adds translations from the proofread language files.
+- **Headless Chrome on macOS never goes below 500px wide**, so a `--window-size=390`
+  screenshot is a cropped 500px layout that looks broken. Use DevTools device
+  emulation for phone widths.
+- **Lighthouse refuses pages that return 404.** The 404 page was measured through
+  a local proxy that rewrites the status to 200.
+
+**Open:**
+- Ice's browser check of the 404 page on the preview (phone and desktop, keyboard).
+- The ruled lines run through the 404 page's text. Aligning text to the rules
+  belongs to Phase 2's notebook pages.
+- The site-wide title template and `siteName` in `layout.tsx` contain an em dash
+  ("Ice — Taninwat Kaewpankan"). Older than this phase, and changing it changes
+  every page's search title, so it is Ice's call.
+
 ### 2026-10-04 (afternoon)
 
 **Production: the enquiry form was refusing every enquiry. Fixed** ✅ *(no commit: config only)*
