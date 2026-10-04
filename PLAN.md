@@ -172,8 +172,17 @@ Lighthouse mobile, before → after:
   earlier case of `next build` leaving it serving stale CSS. `node_modules` is
   cloned with `cp -c` (a symlink fails: Turbopack rejects links outside the root).
 
+- **Phone-only pagination on `/garden`** (Ice, before merging): five notes a page
+  below 768px with a Newer/Older pager; laptops keep the full list. All notes stay
+  in the HTML as real links (CSS hides off-page ones on phones), so none becomes an
+  orphan. The page is in the URL (`?page=2`, replaceState), restored before first
+  paint, so Back from a note lands on its page; focus moves to the first note of the
+  new page; a bad `?page` is cleaned out. Tested at 360px, including Back from a
+  note on page 2. `/garden` still static, Lighthouse 97/100, CLS 0.
+
 **Open:**
-- Ice's preview check: a note on phone and desktop, the converter, `/garden`.
+- Ice's preview check: a note on phone and desktop, the converter, `/garden` and
+  its phone pager.
 
 ### 2026-10-04 (late night)
 
