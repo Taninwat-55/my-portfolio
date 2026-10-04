@@ -57,9 +57,6 @@ export default function ThaiPage() {
     <LandingPage
       lang="th"
       content={th}
-      // The language note: this page is a sales layer, not the language the
-      // sites get built in.
-      note={th.hero.languageNote}
       quoteTranslated={th.proof.quoteTh}
       line={{ label: th.contact.lineLabel, id: th.contact.lineId }}
       form={{ ...th.form, messages: th.errors }}

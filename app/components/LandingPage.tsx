@@ -46,8 +46,12 @@ interface LandingPageProps {
   /** "th" | "sv" | "da": the wrapper's lang, the section ids, the footer's mark. */
   lang: string;
   content: LandingCopy;
-  /** The sentence that decides whether the rest is worth reading (see the page). */
-  note: string;
+  /**
+   * A sticky note in the hero. Only /da has one since 2026-10-05: Ice removed
+   * the Thai and Swedish notes, and kept the Danish one because it is the
+   * page's only plain statement that calls are in English.
+   */
+  note?: string;
   noteIcon?: LucideIcon;
   /** The testimonial in this language, shown labelled as a translation. */
   quoteTranslated: string;
@@ -118,15 +122,16 @@ export function LandingPage({
           </FadeIn>
 
           {/* The note that decides whether the rest of the page is worth reading
-              (/sv: the geography claim; /da and /th: the language note), so it
-              sits in the hero as a sticky note, styled to be read rather than
-              skimmed. */}
-          <FadeIn immediate delay={0.15} y={12}>
-            <p className={`${paper.sticky} flex max-w-2xl items-start gap-3 text-base ${leading}`}>
-              {NoteIcon && <NoteIcon size={19} strokeWidth={1.75} aria-hidden className="mt-1 shrink-0" />}
-              {note}
-            </p>
-          </FadeIn>
+              (on /da, the meeting language), so it sits in the hero as a sticky
+              note, styled to be read rather than skimmed. */}
+          {note && (
+            <FadeIn immediate delay={0.15} y={12}>
+              <p className={`${paper.sticky} flex max-w-2xl items-start gap-3 text-base ${leading}`}>
+                {NoteIcon && <NoteIcon size={19} strokeWidth={1.75} aria-hidden className="mt-1 shrink-0" />}
+                {note}
+              </p>
+            </FadeIn>
+          )}
         </header>
 
         {/* ── Why me ────────────────────────────────────────────────────── */}

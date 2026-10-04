@@ -90,13 +90,6 @@ export const svContent = {
     title: "Hemsida till ditt företag",
     lead: "Fast pris. Du äger allt. Inga månadsavgifter du inte har bett om.",
     body: "Jag heter Ice. Jag bygger hemsidor åt små företag — själv, från första samtalet till överlämningen. Ingen byrå och ingen projektledare emellan: du pratar med den som faktiskt bygger sidan, och det är jag som svarar om något går fel.",
-    /**
-     * The geography claim, which is the page's real differentiator. Kept in a
-     * highlighted block for the same reason /th highlights its language note:
-     * it is the one sentence that decides whether the rest is worth reading.
-     */
-    locationNote:
-      "Jag bor i Köpenhamn, 35 minuter från Malmö med tåget. Vi kan ses på plats i Skåne om du vill träffas, eller sköta allt på distans — det som passar dig bäst. Svenska hela vägen, både i mötena och på sidan.",
   },
 
   /** Why a Skåne owner should pick him over a local agency or a template. */

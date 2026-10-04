@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Train } from "lucide-react";
 import { LandingPage } from "../components/LandingPage";
 import { svContent as sv, svUnits, svPrice } from "../data.sv";
 
@@ -60,10 +59,6 @@ export default function SwedishPage() {
     <LandingPage
       lang="sv"
       content={sv}
-      // The geography claim: 35 minutes from Malmö. Highlighted for the same
-      // reason /th highlights its language note.
-      note={sv.hero.locationNote}
-      noteIcon={Train}
       quoteTranslated={sv.proof.quoteSv}
       contactAside={sv.contact.meetingNote}
       form={{ ...sv.form, messages: sv.errors }}
