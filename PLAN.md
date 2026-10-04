@@ -162,13 +162,21 @@ was added to the project), and it reflowed the whole file. The top of the file
 (metadata, JSON-LD) was restored to the committed formatting; the new markup keeps
 prettier's layout. Do not run formatters the repo does not configure.
 
+- **Shortened before merge (Ice: "very long scroll", phone and desktop).** Measured
+  first: 13.9 screens on a laptop, 22.2 on a phone, and the website receipt alone
+  was 3.4 / 5.4 screens. Ice chose two folds (native `<details>`, every word still
+  in the HTML): on the website receipt the price ladder stays open and "included in
+  every build" plus the seven add-ons fold; in running costs the who-gets-paid band,
+  five-year totals and verdict stay open and the line-by-line table folds. Now
+  **11.0 screens on a laptop, 17.4 on a phone.** Considered and not taken: one proof
+  photo on phones, "on this page" jump links.
+- **Aftercare moved up** (Ice's call) to sit straight after the running costs, as
+  its comment argued; the order is now Running costs, Aftercare, Process, Handover,
+  and both section-order comments are true again.
+
 **Open:**
-- Ice's preview check: `/services` on phone and laptop, the receipts, the FAQ, the
-  form (try sending it empty to see the error state).
-- Ice's call: two comments said Aftercare comes "directly after" the running costs
-  and Handover "straight after" Process, but the page order (unchanged) is Running
-  costs, Process, Aftercare, Handover. The comments now describe the real order;
-  whether the order should change is a content decision.
+- Ice's preview check: `/services` on phone and laptop, the receipts and their
+  fold, the FAQ, the form (send it empty to see the error state).
 
 ### 2026-10-05
 
