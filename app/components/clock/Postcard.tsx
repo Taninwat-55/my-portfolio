@@ -1,30 +1,91 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { clockContent, personalInfo } from "../../data";
+import { validateContact, type ContactErrors } from "../../lib/contact";
 import styles from "./clock.module.css";
 
+type Status = "idle" | "posting" | "posted" | "failed";
+
 /**
- * The Contact object: a postcard that flips over to its writing side.
+ * The Contact object: a postcard that turns over to its writing side and
+ * really posts, through /api/contact.
  *
  * `stage` comes from ClockHome: 0 shows the picture side, 1 turns it over once
- * the fly-in has landed. After that the visitor's own "Turn over" wins.
+ * the fly-in has landed. After that the visitor's own "Turn over" wins. Once
+ * posted, it turns back to the picture side and takes a Copenhagen postmark.
+ *
+ * Spam traps mirror ServicesEnquiryForm: an off-screen honeypot field, and the
+ * time since the card opened, which the server checks.
  */
 export function Postcard({ stage }: { stage: number }) {
   const { contact } = clockContent;
   const [turned, setTurned] = useState<boolean | null>(null);
   const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState<ContactErrors>({});
+  const [status, setStatus] = useState<Status>("idle");
+  const [failure, setFailure] = useState("");
   const [copied, setCopied] = useState<"idle" | "copied" | "selected">("idle");
-  const flipped = turned ?? stage >= 1;
+  const [postedOn, setPostedOn] = useState("");
+  // Set on mount, not during render: when the card opened is what the server's
+  // timing trap measures against.
+  const openedAt = useRef(0);
+  const honeypot = useRef<HTMLInputElement>(null);
+  const statusRef = useRef<HTMLParagraphElement>(null);
 
-  const send = (event: React.FormEvent) => {
+  useEffect(() => {
+    openedAt.current = Date.now();
+  }, []);
+
+  const posted = status === "posted";
+  const flipped = !posted && (turned ?? stage >= 1);
+
+  const send = async (event: React.FormEvent) => {
     event.preventDefault();
-    const params = new URLSearchParams({
-      subject: "A postcard from your portfolio",
-      body: message,
-    });
-    // URLSearchParams encodes spaces as "+", which mail apps show literally.
-    window.location.href = `mailto:${personalInfo.email}?${params.toString().replace(/\+/g, "%20")}`;
+    if (status === "posting") return;
+    const found = validateContact({ message, email });
+    setErrors(found);
+    if (Object.keys(found).length > 0) return;
+
+    setStatus("posting");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message,
+          email,
+          website: honeypot.current?.value ?? "",
+          elapsedMs: Date.now() - openedAt.current,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setPostedOn(
+          new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }),
+        );
+        setStatus("posted");
+        window.setTimeout(() => statusRef.current?.focus(), 0);
+      } else if (res.status === 400 && data.fields) {
+        setErrors(data.fields);
+        setStatus("idle");
+      } else {
+        setFailure(data.error ?? contact.failed.replace("{email}", personalInfo.email));
+        setStatus("failed");
+      }
+    } catch {
+      setFailure(contact.failed.replace("{email}", personalInfo.email));
+      setStatus("failed");
+    }
+  };
+
+  const writeAnother = () => {
+    setMessage("");
+    setErrors({});
+    setStatus("idle");
+    setTurned(true);
+    openedAt.current = Date.now();
   };
 
   const copy = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,7 +100,7 @@ export function Postcard({ stage }: { stage: number }) {
   };
 
   return (
-    <div className={`${styles.postcard} ${flipped ? styles.flipped : ""}`}>
+    <div className={`${styles.postcard} ${flipped ? styles.flipped : ""} ${posted ? styles.posted : ""}`}>
       <div className={styles.card}>
         <div className={`${styles.cardSide} ${styles.cardFront}`} aria-hidden={flipped}>
           <div className={styles.cardPicture}>
@@ -50,22 +111,62 @@ export function Postcard({ stage }: { stage: number }) {
             <br />
             post
           </span>
+          {posted && (
+            <span className={styles.postmark} aria-hidden="true">
+              <span>{contact.postmark}</span>
+              <span>{postedOn}</span>
+            </span>
+          )}
         </div>
 
         <div className={`${styles.cardSide} ${styles.cardBack}`} aria-hidden={!flipped} inert={!flipped}>
-          <form className={styles.cardForm} onSubmit={send}>
-            <label htmlFor="postcard-message">Your message</label>
+          <form className={styles.cardForm} onSubmit={send} noValidate>
+            <label htmlFor="postcard-message">{contact.messageLabel}</label>
             <textarea
               id="postcard-message"
               value={message}
               onChange={(event) => setMessage(event.target.value)}
               placeholder={contact.placeholder}
-              required
+              aria-invalid={errors.message ? true : undefined}
+              aria-describedby={errors.message ? "postcard-message-error" : undefined}
+              disabled={status === "posting"}
             />
-            <button type="submit" className={styles.cardSend}>
-              {contact.sendLabel}
+            {errors.message && (
+              <p id="postcard-message-error" className={styles.cardError}>
+                {errors.message}
+              </p>
+            )}
+            <label htmlFor="postcard-email">{contact.emailLabel}</label>
+            <input
+              id="postcard-email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="you@company.com"
+              aria-invalid={errors.email ? true : undefined}
+              aria-describedby={errors.email ? "postcard-email-error" : undefined}
+              disabled={status === "posting"}
+            />
+            {errors.email && (
+              <p id="postcard-email-error" className={styles.cardError}>
+                {errors.email}
+              </p>
+            )}
+            {/* Off-screen rather than hidden, so bots fill it; aria-hidden so
+                screen readers never ask a person to. */}
+            <div aria-hidden="true" className={styles.honeypot}>
+              <label htmlFor="postcard-website">Website</label>
+              <input ref={honeypot} id="postcard-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+            </div>
+            <button type="submit" className={styles.cardSend} disabled={status === "posting"}>
+              {status === "posting" ? contact.sendingLabel : contact.sendLabel}
             </button>
-            <p className={styles.cardNote}>{contact.sendNote}</p>
+            {status === "failed" && (
+              <p className={styles.cardError} role="alert">
+                {failure}
+              </p>
+            )}
           </form>
 
           <div className={styles.cardAddress}>
@@ -99,9 +200,18 @@ export function Postcard({ stage }: { stage: number }) {
         </div>
       </div>
 
-      <button type="button" className={styles.turn} onClick={() => setTurned(!flipped)}>
-        Turn over
-      </button>
+      {posted ? (
+        <p ref={statusRef} className={styles.postedNote} role="status" tabIndex={-1}>
+          {contact.posted.replace("{email}", email.trim())}{" "}
+          <button type="button" onClick={writeAnother}>
+            {contact.another}
+          </button>
+        </p>
+      ) : (
+        <button type="button" className={styles.turn} onClick={() => setTurned(!flipped)}>
+          Turn over
+        </button>
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { clockContent, personalInfo, siteContent, type ClockObjectId } from "../../data";
 import { Portrait } from "./Portrait";
@@ -11,6 +11,8 @@ import { Postcard } from "./Postcard";
 import { Prints } from "./Prints";
 import { Notebook } from "./Notebook";
 import { Receipt } from "./Receipt";
+import { Lamp } from "./Lamp";
+import { useCopenhagenTime, hourOf } from "./useCopenhagenTime";
 import type { ClockContentProps } from "./types";
 import styles from "./clock.module.css";
 
@@ -53,12 +55,76 @@ const DIALOG_LABELS: Record<InPlace, string> = {
   services: "Services and prices",
   contact: "Contact Ice",
 };
+/**
+ * Where the hand rests when nothing is pointed at: up and to the left, at Work.
+ * Not straight up, because that is where the lamp hangs, and a finger poking
+ * the shade looked like a mistake. Pointing at Work also says "start here".
+ * The same value is the CSS default for --angle on .hand in clock.module.css.
+ */
+const HAND_REST_ANGLE = -40;
+
 // Long enough to see the hand swing before the object flies in.
 const SWING_BEFORE_OPEN_MS = 380;
+
+/**
+ * Dragging objects around the desk. Mouse only: on touch a drag is a scroll,
+ * and the keyboard has nothing to drag with, so both simply open objects as
+ * before. A press that moves less than DRAG_THRESHOLD is still a click.
+ *
+ * Positions are kept in this visitor's localStorage. That is a convenience, not
+ * data: if storage is blocked or cleared, the desk is tidy again.
+ */
+type Offset = { x: number; y: number };
+type Offsets = Partial<Record<ClockObjectId, Offset>>;
+const DESK_KEY = "clock-desk-v1";
+const DRAG_THRESHOLD = 6;
+
+function loadOffsets(): Offsets {
+  try {
+    const saved: unknown = JSON.parse(window.localStorage.getItem(DESK_KEY) ?? "{}");
+    if (!saved || typeof saved !== "object") return {};
+    return Object.fromEntries(
+      Object.entries(saved).filter(
+        ([id, o]) =>
+          clockContent.objects.some((object) => object.id === id) &&
+          typeof o?.x === "number" &&
+          typeof o?.y === "number",
+      ),
+    ) as Offsets;
+  } catch {
+    return {};
+  }
+}
+
+function saveOffsets(offsets: Offsets) {
+  try {
+    if (Object.keys(offsets).length === 0) window.localStorage.removeItem(DESK_KEY);
+    else window.localStorage.setItem(DESK_KEY, JSON.stringify(offsets));
+  } catch {
+    // Storage blocked (private window, settings): the drag still works, it just
+    // will not be remembered.
+  }
+}
 
 const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isCompact = () =>
   window.matchMedia("(max-width: 767px), (max-height: 520px) and (orientation: landscape)").matches;
+/**
+ * TEMPORARY, remove before merging clock-redesign: a switch for previewing night
+ * mode in daytime. It only renders when the URL has ?preview (e.g.
+ * localhost:3100/?preview), so no ordinary visitor can see it, and it fakes
+ * Copenhagen's clock rather than a "night" flag, so the lamp, the dimming and
+ * the mood line all change together the way they really would.
+ */
+const PREVIEW_NIGHT_TIME = "23:10";
+const noSubscribe = () => () => {};
+const usePreviewSwitch = () =>
+  useSyncExternalStore(
+    noSubscribe,
+    () => new URLSearchParams(window.location.search).has("preview"),
+    () => false,
+  );
+
 const isPlainClick = (event: React.MouseEvent) =>
   event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 
@@ -70,21 +136,47 @@ export function ClockHome({
   content: ClockContentProps;
 }) {
   const coreRef = useRef<HTMLDivElement>(null);
+  const clusterRef = useRef<HTMLDivElement>(null);
   const handRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const artRefs = useRef(new Map<Pointable, HTMLElement>());
   const triggerRefs = useRef(new Map<Pointable, HTMLAnchorElement>());
-  const angle = useRef(0);
+  const angle = useRef(HAND_REST_ANGLE);
   const pointedRef = useRef<Pointable | null>(initialOpen);
   const openRef = useRef<InPlace | null>(initialOpen);
   const pushedRef = useRef(false);
   const flyInRef = useRef(false);
   const timers = useRef<number[]>([]);
+  const drag = useRef<{
+    id: ClockObjectId;
+    el: HTMLAnchorElement;
+    startX: number;
+    startY: number;
+    from: Offset;
+    to: Offset;
+    min: Offset;
+    max: Offset;
+    moved: boolean;
+  } | null>(null);
+  const suppressClick = useRef(false);
+  const [offsets, setOffsets] = useState<Offsets>({});
 
   const [pointed, setPointed] = useState<Pointable | null>(initialOpen);
   const [open, setOpen] = useState<InPlace | null>(initialOpen);
   const [stage, setStage] = useState(initialOpen ? STAGE_DELAYS[initialOpen].length : 0);
+
+  // The desk lamp follows Copenhagen's clock until the visitor flips it.
+  const { desk } = clockContent;
+  const realTime = useCopenhagenTime();
+  const showPreview = usePreviewSwitch();
+  const [previewingNight, setPreviewingNight] = useState(false);
+  const time = previewingNight ? PREVIEW_NIGHT_TIME : realTime;
+  const hour = time ? hourOf(time) : null;
+  const night = hour !== null && (hour >= desk.lampOnFrom || hour < desk.lampOffAt);
+  const [lampFlipped, setLampFlipped] = useState<boolean | null>(null);
+  const lampOn = lampFlipped ?? night;
+  const mood = hour !== null ? desk.moods.find((m) => hour < m.until)?.text : null;
 
   const [firstName, ...rest] = personalInfo.name.split(" ");
   const lastName = rest.join(" ");
@@ -123,7 +215,7 @@ export function ClockHome({
     if (openRef.current) return;
     pointedRef.current = null;
     setPointed(null);
-    swingTo(0);
+    swingTo(HAND_REST_ANGLE);
     window.setTimeout(() => {
       if (!pointedRef.current) handRef.current?.classList.add(styles.idle);
     }, 600);
@@ -287,7 +379,7 @@ export function ClockHome({
     if (event.key !== "Tab") return;
     const scrim = event.currentTarget;
     const focusable = Array.from(
-      scrim.querySelectorAll<HTMLElement>("button, a[href], textarea, [tabindex='0']"),
+      scrim.querySelectorAll<HTMLElement>("button, a[href], textarea, input:not([tabindex='-1']), [tabindex='0']"),
     ).filter((el) => !el.closest("[inert]"));
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
@@ -300,9 +392,84 @@ export function ClockHome({
     }
   };
 
+  // ---- dragging -------------------------------------------------------------
+
+  // Read after mount: the server has no storage, and the first paint must match it.
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setOffsets(loadOffsets()));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  const startDrag = (event: React.PointerEvent<HTMLAnchorElement>, id: ClockObjectId) => {
+    if (event.pointerType !== "mouse" || event.button !== 0 || isCompact()) return;
+    const el = event.currentTarget;
+    const box = el.getBoundingClientRect();
+    const bounds = clusterRef.current?.getBoundingClientRect();
+    if (!bounds) return;
+    const from = offsets[id] ?? { x: 0, y: 0 };
+    // Keep the whole object inside the cluster.
+    drag.current = {
+      id,
+      el,
+      startX: event.clientX,
+      startY: event.clientY,
+      from,
+      to: from,
+      min: { x: from.x + bounds.left - box.left, y: from.y + bounds.top - box.top },
+      max: { x: from.x + bounds.right - box.right, y: from.y + bounds.bottom - box.bottom },
+      moved: false,
+    };
+  };
+
+  const moveDrag = (event: React.PointerEvent<HTMLAnchorElement>) => {
+    const d = drag.current;
+    if (!d) return;
+    const dx = event.clientX - d.startX;
+    const dy = event.clientY - d.startY;
+    if (!d.moved) {
+      if (Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+      d.moved = true;
+      d.el.setPointerCapture(event.pointerId);
+      d.el.classList.add(styles.dragging);
+    }
+    const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
+    d.to = {
+      x: clamp(d.from.x + dx, d.min.x, d.max.x),
+      y: clamp(d.from.y + dy, d.min.y, d.max.y),
+    };
+    // Straight onto the element: re-rendering React per pointer move would lag.
+    d.el.style.setProperty("--dx", `${d.to.x}px`);
+    d.el.style.setProperty("--dy", `${d.to.y}px`);
+    swingTo(angleTo(d.id), false);
+  };
+
+  const endDrag = () => {
+    const d = drag.current;
+    drag.current = null;
+    if (!d?.moved) return;
+    d.el.classList.remove(styles.dragging);
+    // The click that follows this pointerup must not open the object.
+    suppressClick.current = true;
+    setOffsets((previous) => {
+      const next = { ...previous, [d.id]: d.to };
+      saveOffsets(next);
+      return next;
+    });
+  };
+
+  const tidyDesk = () => {
+    setOffsets({});
+    saveOffsets({});
+  };
+
   // ---- triggers -------------------------------------------------------------
 
   const onTriggerClick = (event: React.MouseEvent<HTMLAnchorElement>, id: Pointable) => {
+    if (suppressClick.current) {
+      suppressClick.current = false;
+      event.preventDefault();
+      return;
+    }
     if (!isPlainClick(event)) return; // new tab and friends keep working
     event.preventDefault();
     const alreadyPointing = pointedRef.current === id;
@@ -343,7 +510,9 @@ export function ClockHome({
   // ---- render ---------------------------------------------------------------
 
   return (
-    <div className={styles.page}>
+    <div
+      className={[styles.page, night ? styles.night : "", lampOn ? styles.lampIsOn : ""].join(" ")}
+    >
       <div className={styles.frame} inert={open !== null}>
         <header className={styles.top}>
           <div className={styles.identity}>
@@ -352,6 +521,20 @@ export function ClockHome({
             </h1>
             <p className={styles.role}>
               <strong>{siteContent.roleLabel}</strong> in Copenhagen
+            </p>
+            {/* Always rendered, so the line's height is reserved before the
+                client knows the time and nothing below it jumps. */}
+            <p className={styles.localTime}>
+              {time ? (
+                <>
+                  <span>
+                    {time} {desk.timeSuffix}
+                  </span>{" "}
+                  · {mood}
+                </>
+              ) : (
+                "\u00a0"
+              )}
             </p>
             <p className={styles.availability}>{clockContent.availability}</p>
           </div>
@@ -373,11 +556,14 @@ export function ClockHome({
         </header>
 
         <main id="main-content" className={styles.stage}>
-          <div className={styles.cluster}>
+          <div ref={clusterRef} className={styles.cluster}>
             <div className={styles.coreWrap}>
               <div ref={coreRef} className={styles.core}>
                 <Hand ref={handRef} />
                 <Portrait smiling={pointed !== null} lookAt={lookAt} />
+                {/* The pool of light on the head, then the lamp above it. */}
+                <div className={styles.lampLight} aria-hidden="true" />
+                <Lamp on={lampOn} onToggle={() => setLampFlipped(!lampOn)} />
               </div>
             </div>
 
@@ -387,6 +573,19 @@ export function ClockHome({
                   <li key={object.id}>
                     <a
                       className={`${styles.thing} ${styles[object.id]} ${pointed === object.id ? styles.pointed : ""}`}
+                      style={
+                        offsets[object.id]
+                          ? ({
+                              "--dx": `${offsets[object.id]!.x}px`,
+                              "--dy": `${offsets[object.id]!.y}px`,
+                            } as React.CSSProperties)
+                          : undefined
+                      }
+                      onPointerDown={(event) => startDrag(event, object.id)}
+                      onPointerMove={moveDrag}
+                      onPointerUp={endDrag}
+                      onPointerCancel={endDrag}
+                      onDragStart={(event) => event.preventDefault()}
                       {...triggerProps(object.id, object.href)}
                     >
                       <span ref={artRef(object.id)} className={styles.artWrap}>
@@ -402,18 +601,38 @@ export function ClockHome({
           </div>
         </main>
 
-        <nav aria-label="Languages" className={styles.languages}>
-          {siteContent.languages.map((language) => (
-            <Link
-              key={language.code}
-              href={language.href}
-              lang={language.code}
-              aria-current={language.code === "en" ? "page" : undefined}
+        <div className={styles.bottom}>
+          <nav aria-label="Languages" className={styles.languages}>
+            {siteContent.languages.map((language) => (
+              <Link
+                key={language.code}
+                href={language.href}
+                lang={language.code}
+                aria-current={language.code === "en" ? "page" : undefined}
+              >
+                {language.label}
+              </Link>
+            ))}
+          </nav>
+          {Object.keys(offsets).length > 0 && (
+            <button type="button" className={styles.tidy} onClick={tidyDesk}>
+              {desk.tidyLabel}
+            </button>
+          )}
+          {showPreview && (
+            <button
+              type="button"
+              className={styles.tidy}
+              aria-pressed={previewingNight}
+              onClick={() => {
+                setPreviewingNight(!previewingNight);
+                setLampFlipped(null); // let the lamp follow the previewed clock
+              }}
             >
-              {language.label}
-            </Link>
-          ))}
-        </nav>
+              Preview: {previewingNight ? `night (${PREVIEW_NIGHT_TIME})` : "real time"}
+            </button>
+          )}
+        </div>
       </div>
 
       {open && (

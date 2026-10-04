@@ -82,6 +82,16 @@
   font-weight: 500;
 }
 
+.localTime {
+  margin: -2px 0 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.localTime span {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
 /* A sticky note, so it reads as a status rather than a slogan. */
 .availability {
   margin: 4px 0 0;
@@ -151,7 +161,175 @@
   transform: translate(-50%, -50%);
 }
 
-/* The hand pivots at the portrait's centre; ClockHome sets --angle. */
+/* The pendant. Anchored to the portrait (inside .core), hanging just above the
+   head; the cable runs up past the header to the very top of the page, where
+   .frame's overflow cuts it, so it reads as coming from the ceiling. It paints
+   under the header (z-index 5), so the cable passes behind the name. */
+.lampRig {
+  --pull: 0px;
+  position: absolute;
+  left: 50%;
+  /* About half the shade's height clear of the disc, so the beam is visible
+     between the lamp and the head instead of the shade sitting on the hair. */
+  bottom: calc(100% + 40px);
+  z-index: 4;
+  width: 140px;
+  transform: translateX(-50%);
+}
+.cable {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 8px);
+  width: 2px;
+  height: 100vh;
+  background: #3b4652;
+  transform: translateX(-50%);
+}
+.shades {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: visible;
+  cursor: pointer;
+}
+.shade {
+  fill: #e7e2d8;
+  stroke: #b9b2a5;
+  stroke-width: 1;
+  transition: fill 300ms;
+}
+.bulb {
+  fill: #4a525b;
+  transition: fill 300ms;
+}
+.lampOn .shade {
+  fill: #f6efe0;
+}
+.lampOn .bulb {
+  fill: #ffe7b0;
+}
+/* The beam under the shade: drawn light, fading to nothing before its edges. */
+.cone {
+  position: absolute;
+  left: 50%;
+  top: 58px;
+  width: 260px;
+  height: 200px;
+  pointer-events: none;
+  background: radial-gradient(closest-side at 50% 0%, rgba(255, 221, 160, 0.28), transparent);
+  clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 400ms;
+}
+.lampOn .cone {
+  opacity: 1;
+}
+
+/* The pull cord, hanging from the right of the shade. --pull stretches it while
+   the bead is dragged, and the transition springs it back on release. */
+.cord {
+  position: absolute;
+  left: 118px;
+  top: 54px;
+  width: 1.5px;
+  height: calc(46px + var(--pull));
+  background: #8a939c;
+  transition: height 380ms cubic-bezier(0.3, 1.8, 0.5, 1);
+}
+.bead {
+  position: absolute;
+  left: 110px;
+  top: 96px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f1d9a8, #b98a4a);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  cursor: grab;
+  touch-action: none;
+  transform: translateY(var(--pull));
+  transition: transform 380ms cubic-bezier(0.3, 1.8, 0.5, 1);
+}
+/* A bigger invisible hit area than the 18px bead. */
+.bead::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+}
+.bead:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.pulling .cord,
+.pulling .bead {
+  transition: none;
+}
+.pulling .bead {
+  cursor: grabbing;
+}
+/* A plain click or key press still shows the cord being tugged. */
+.tug .cord {
+  animation: tug-cord 420ms ease-out;
+}
+.tug .bead {
+  animation: tug-bead 420ms ease-out;
+}
+@keyframes tug-cord {
+  40% {
+    height: 70px;
+  }
+}
+@keyframes tug-bead {
+  40% {
+    transform: translateY(24px);
+  }
+}
+
+/* The pool of light on the head. closest-side makes the gradient reach zero
+   exactly at the box's edges, so it can never show a hard rectangle. Screen
+   blending only ever lightens what is underneath. */
+.lampLight {
+  position: absolute;
+  inset: -45% -40% 15%;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(closest-side at 50% 42%, rgba(255, 214, 150, 0.22), transparent);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 600ms;
+}
+.lampIsOn .lampLight {
+  opacity: 1;
+}
+
+/* Night in Copenhagen: the desk dims. Only drawings and the portrait, never
+   text, so every label keeps its contrast. The lamp brings most of it back. */
+.thing .art,
+.pinCard .art,
+.portraitRoot {
+  transition: filter 600ms;
+}
+.night .thing .art,
+.night .pinCard .art {
+  filter: drop-shadow(0 8px 12px var(--shadow)) brightness(0.6);
+}
+.night .portraitRoot {
+  filter: brightness(0.72);
+}
+.night.lampIsOn .thing .art,
+.night.lampIsOn .pinCard .art {
+  filter: drop-shadow(0 8px 12px var(--shadow)) brightness(0.85);
+}
+.night.lampIsOn .portraitRoot {
+  filter: none;
+}
+
+/* The hand pivots at the portrait's centre; ClockHome sets --angle. The
+   fallback is HAND_REST_ANGLE in ClockHome.tsx, so the first paint already
+   rests on Work rather than jumping there after hydration. */
 .hand {
   position: absolute;
   left: 50%;
@@ -159,7 +337,7 @@
   width: 64px;
   height: var(--hand-len);
   transform-origin: 50% 100%;
-  transform: translateX(-50%) rotate(var(--angle, 0deg));
+  transform: translateX(-50%) rotate(var(--angle, -40deg));
   transition: transform 600ms var(--ease-swing);
   z-index: 1;
 }
@@ -292,8 +470,10 @@
   border-radius: 10px;
   color: inherit;
   text-decoration: none;
-  transform: translate(-50%, -50%) rotate(var(--r));
+  /* --dx/--dy: where a visitor has dragged it (ClockHome), 0 on a tidy desk. */
+  transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) rotate(var(--r));
   transition: transform 320ms var(--ease-swing);
+  touch-action: manipulation;
 }
 .work {
   --x: 19%;
@@ -342,7 +522,22 @@
 .thing:hover,
 .thing:focus-visible,
 .thing.pointed {
-  transform: translate(-50%, -54%) rotate(0deg) scale(1.04);
+  transform: translate(calc(-50% + var(--dx, 0px)), calc(-54% + var(--dy, 0px))) rotate(0deg) scale(1.04);
+}
+@media (pointer: fine) {
+  .thing {
+    cursor: grab;
+  }
+}
+/* Picked up: follows the pointer with no easing, lifted higher than a hover. */
+.thing.dragging {
+  z-index: 5;
+  cursor: grabbing;
+  transition: none;
+  transform: translate(calc(-50% + var(--dx, 0px)), calc(-56% + var(--dy, 0px))) rotate(0deg) scale(1.07);
+}
+.thing.dragging .art {
+  filter: drop-shadow(0 24px 22px var(--shadow));
 }
 .thing:hover .art,
 .thing.pointed .art {
@@ -426,7 +621,26 @@
   font: 600 9px var(--font-jetbrains-mono), ui-monospace, monospace;
 }
 
-/* ---------- languages ---------- */
+/* ---------- bottom row: languages, and Tidy the desk once something moved ---------- */
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+}
+.tidy {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.tidy:hover {
+  text-decoration: underline;
+}
 
 .languages {
   display: flex;
@@ -727,9 +941,10 @@
   font-size: 12px;
   color: var(--paper-soft);
 }
-.cardForm textarea {
+.cardForm textarea,
+.cardForm input {
   width: 100%;
-  height: 140px;
+  height: 112px;
   box-sizing: border-box;
   padding: 0 2px;
   border: 0;
@@ -738,7 +953,11 @@
   color: var(--paper-ink);
   font: 400 16px/28px var(--font-hand);
 }
+.cardForm input {
+  height: 28px;
+}
 .cardForm textarea:focus-visible,
+.cardForm input:focus-visible,
 .cardSend:focus-visible,
 .cardCopy:focus-visible,
 .cardLine a:focus-visible,
@@ -817,6 +1036,79 @@
   white-space: nowrap;
   cursor: pointer;
   transform: translateX(-50%);
+}
+
+/* Postcard sending: errors, the honeypot, the postmark and the posted line. */
+.cardError {
+  margin: -2px 0 2px;
+  color: #a33a2a;
+  font-size: 12px;
+}
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.cardSend:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+/* A round Copenhagen cancellation that thunks onto the stamp once posted. */
+.postmark {
+  position: absolute;
+  top: 26px;
+  right: 46px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  width: 92px;
+  height: 92px;
+  border: 3px solid rgba(29, 39, 49, 0.75);
+  border-radius: 50%;
+  color: rgba(29, 39, 49, 0.8);
+  font: 700 10px/1.3 var(--font-jetbrains-mono), ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  text-align: center;
+  transform: rotate(-14deg);
+  animation: postmark 420ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+@keyframes postmark {
+  from {
+    opacity: 0;
+    transform: rotate(-14deg) scale(1.8);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-14deg) scale(1);
+  }
+}
+.posted .card {
+  transition-duration: 500ms;
+}
+.postedNote {
+  position: absolute;
+  bottom: -52px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  text-align: center;
+}
+.postedNote:focus {
+  outline: none;
+}
+.postedNote button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* Shared line under an object: a hint on the left, the way to the full page on the right. */
@@ -1286,6 +1578,11 @@
   .languages {
     padding-top: 14px;
   }
+  /* No room above the portrait on a phone; the local-time line stays. */
+  .lampRig,
+  .lampLight {
+    display: none;
+  }
   .scrim {
     place-items: end center;
     padding: 0;
@@ -1306,8 +1603,11 @@
     padding: 24px 20px;
     font-size: 16px;
   }
+  /* Tall enough that the writing side never scrolls inside itself: on a short
+     screen 68dvh squeezed it, and Firefox draws a scrolled, flipped card face
+     with its lines over each other. The sheet scrolls instead. */
   .postcard {
-    height: min(68dvh, 560px);
+    height: max(68dvh, 520px);
     margin-top: 48px;
     aspect-ratio: auto;
   }
@@ -1320,12 +1620,16 @@
     padding-right: 0;
     border-right: 0;
   }
+  .cardForm textarea {
+    height: 84px;
+  }
   .cardAddress {
     min-height: 80px;
     padding-top: 0;
     padding-right: 76px;
   }
-  .turn {
+  .turn,
+  .postedNote {
     top: -44px;
     bottom: auto;
   }

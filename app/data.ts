@@ -1773,16 +1773,42 @@ export const clockContent = {
     thanks: "Tak, come again",
   },
 
+  /**
+   * The desk: a line with Copenhagen's local time, and a lamp that is on at
+   * night there (whatever the visitor's own clock says) and can be switched by
+   * hand. Moods are picked by Copenhagen hour, first match wins.
+   */
+  desk: {
+    timeSuffix: "local time",
+    moods: [
+      { until: 6, text: "Ice is asleep. The postcard will wait." },
+      { until: 9, text: "Coffee first, then code." },
+      { until: 17, text: "Ice is probably at his desk." },
+      { until: 20, text: "Dinner, then maybe one more commit." },
+      { until: 24, text: "Ice is probably coding." },
+    ],
+    lampOnFrom: 20,
+    lampOffAt: 7,
+    lampLabel: "Desk lamp",
+    // Shown once a visitor has dragged something off its spot.
+    tidyLabel: "Tidy the desk",
+  },
+
   // The pinned postcard. `lines` are written on the card itself, so they stay short.
   contact: {
     label: "Contact",
     lines: ["Say hej,", "write me", "a line"],
     front: "Greetings from Copenhagen",
     placeholder: "Hej Ice, we're hiring…",
-    // No backend yet: Send opens the visitor's own email app with the message
-    // filled in. A real send endpoint comes with the step 2 interactions.
-    sendLabel: "Send postcard",
-    sendNote: "Opens your email app with this message ready to send.",
+    messageLabel: "Your message",
+    emailLabel: "Your email, so I can reply",
+    sendLabel: "Post it",
+    sendingLabel: "Posting…",
+    // Sent through /api/contact. {email} is the visitor's own address.
+    posted: "Posted. I'll reply to {email}.",
+    another: "Write another",
+    postmark: "KØBENHAVN",
+    failed: "That did not go through. Email me directly at {email}.",
   },
 
   /**
