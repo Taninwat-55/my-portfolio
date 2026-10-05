@@ -194,15 +194,22 @@
   text-underline-offset: 3px;
 }
 
-/* A notebook page: the clock's ruled lines, from --rule-top down (PaperSheet's
-   ruleTop prop), so a heading can sit above them. Read with a fallback rather
-   than declared here, or a value set from outside could never win. */
+/* A notebook page: a margin line and the room beside it. The rules are .lines. */
 .ruled {
   padding-left: clamp(36px, 7vw, 72px);
-  background:
-    repeating-linear-gradient(transparent 0 35px, var(--color-paper-rule) 35px 36px) 0
-      var(--rule-top, 0px) / 100% calc(100% - var(--rule-top, 0px)) no-repeat,
-    var(--color-paper);
+}
+/* The rules themselves, per block (the notes' method, notebook.module.css): a
+   block with .lines draws its own lines from its own top at its own line
+   height, so its text sits on them at any width. Sheet-wide lines ran through
+   the 404 page's text, because its header is not a whole number of lines. */
+.lines {
+  --line: 36px;
+  margin: 0;
+  line-height: var(--line);
+  background: repeating-linear-gradient(
+    transparent 0 calc(var(--line) - 1px),
+    var(--color-paper-rule) calc(var(--line) - 1px) var(--line)
+  );
 }
 /* The margin line. */
 .ruled::before {

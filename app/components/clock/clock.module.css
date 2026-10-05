@@ -175,7 +175,8 @@
 .night .wallClock svg {
   filter: drop-shadow(0 6px 10px var(--shadow)) brightness(0.6);
 }
-.night.lampIsOn .wallClock svg {
+.night.lampIsOn .wallClock svg,
+:global(html[data-desk-night]) .page .wallClock svg {
   filter: drop-shadow(0 6px 10px var(--shadow)) brightness(0.85);
 }
 
@@ -277,10 +278,12 @@
   fill: #4a525b;
   transition: fill 300ms;
 }
-.lampOn .shade {
+.lampOn .shade,
+:global(html[data-desk-night]) .page .shade {
   fill: #f6efe0;
 }
-.lampOn .bulb {
+.lampOn .bulb,
+:global(html[data-desk-night]) .page .bulb {
   fill: #ffe7b0;
 }
 /* The beam under the shade: drawn light, fading to nothing before its edges. */
@@ -297,7 +300,8 @@
   transform: translateX(-50%);
   transition: opacity 400ms;
 }
-.lampOn .cone {
+.lampOn .cone,
+:global(html[data-desk-night]) .page .cone {
   opacity: 1;
 }
 
@@ -376,12 +380,18 @@
   opacity: 0;
   transition: opacity 600ms;
 }
-.lampIsOn .lampLight {
+.lampIsOn .lampLight,
+:global(html[data-desk-night]) .page .lampLight {
   opacity: 1;
 }
 
 /* Night in Copenhagen: the desk dims. Only drawings and the portrait, never
-   text, so every label keeps its contrast. The lamp brings most of it back. */
+   text, so every label keeps its contrast. The lamp brings most of it back.
+
+   html[data-desk-night] is set by an inline script in Clock.tsx before the
+   first paint, from Copenhagen's clock, so a night visitor never sees a day
+   frame while React loads. It stands for night with the lamp on (the default
+   after dark); ClockHome removes it once it knows the hour itself. */
 .thing .art,
 .pinCard .art,
 .portraitRoot {
@@ -395,10 +405,13 @@
   filter: brightness(0.72);
 }
 .night.lampIsOn .thing .art,
-.night.lampIsOn .pinCard .art {
+.night.lampIsOn .pinCard .art,
+:global(html[data-desk-night]) .page .thing .art,
+:global(html[data-desk-night]) .page .pinCard .art {
   filter: drop-shadow(0 8px 12px var(--shadow)) brightness(0.85);
 }
-.night.lampIsOn .portraitRoot {
+.night.lampIsOn .portraitRoot,
+:global(html[data-desk-night]) .page .portraitRoot {
   filter: none;
 }
 
