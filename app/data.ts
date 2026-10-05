@@ -414,6 +414,12 @@ export interface CaseStudy {
   metrics: { v: string; k: string }[];
   stack: string[];
   links: { demo: string; code: string; docs?: string; demoLabel?: string };
+  /**
+   * A concept piece, not client or product work: no real business behind it.
+   * Marked on the front of its print on /work, where the "this is my work"
+   * impression forms; its `sub` says it again in the first words.
+   */
+  concept?: boolean;
 }
 
 export const cases: CaseStudy[] = [
@@ -649,6 +655,7 @@ export const cases: CaseStudy[] = [
   // "no client" sentence is load-bearing wherever it appears, not a disclaimer.
   {
     id: "lumina",
+    concept: true,
     n: "08",
     tag: "Motion & Craft",
     title: "Lumina Spa",
@@ -680,6 +687,7 @@ export const cases: CaseStudy[] = [
   },
   {
     id: "saep",
+    concept: true,
     n: "09",
     tag: "Motion & Craft",
     title: "Saep Fire Kitchen",
@@ -1615,6 +1623,8 @@ export const clockContent = {
     hint: "Click a print to turn it over",
     readLabel: "Read the case study",
     turnBack: "Turn back",
+    // Beside the caption of a concept piece's print (CaseStudy.concept).
+    conceptLabel: "Concept",
     allLabel: "All projects",
     allHref: "/projects",
   },

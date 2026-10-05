@@ -48,7 +48,9 @@ export function Prints({
                 type="button"
                 className={`${styles.printSide} ${styles.printFront}`}
                 onClick={() => setFlipped(print.id)}
-                aria-label={`${print.title}: turn over`}
+                // The concept mark is in the name too: aria-label replaces the
+                // visible text for screen readers.
+                aria-label={`${print.title}${print.concept ? `, ${work.conceptLabel}` : ""}: turn over`}
                 inert={isFlipped}
               >
                 <ViewTransition name={`case-hero-${print.id}`}>
@@ -56,7 +58,10 @@ export function Prints({
                     <Image src={print.image} alt="" fill sizes="(max-width: 767px) 42vw, 230px" />
                   </span>
                 </ViewTransition>
-                <span className={styles.printCaption}>{print.title}</span>
+                <span className={styles.printCaption}>
+                  {print.title}
+                  {print.concept && <span className={styles.printConcept}>{work.conceptLabel}</span>}
+                </span>
               </button>
 
               <div className={`${styles.printSide} ${styles.printBack}`} inert={!isFlipped}>

@@ -33,6 +33,7 @@ export function Clock({ initialOpen = null }: { initialOpen?: InPlace | null }) 
         sub: study.sub,
         stack: study.stack.slice(0, STACK_SHOWN),
         image: study.images[0],
+        concept: Boolean(study.concept),
       };
     }),
     notes: getSortedPostsData()
