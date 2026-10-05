@@ -49,6 +49,8 @@ export type EnquiryCopy = {
     Record<"projectType" | "budget" | "timeline", Record<string, string>>
   >;
   chooseOne: string;
+  /** Beside the one optional field's label. */
+  optional: string;
   honeypotLabel: string;
   budgetHint: string;
   messageHint: string;
@@ -78,6 +80,7 @@ export const ENQUIRY_COPY_EN: EnquiryCopy = {
     message: "About the project",
   },
   chooseOne: "Choose one…",
+  optional: "optional",
   honeypotLabel: "Website",
   budgetHint: "A rough band is fine — it just tells me what is realistic.",
   messageHint: "A few sentences is plenty. Links to anything existing help.",
@@ -385,7 +388,7 @@ export function ServicesEnquiryForm({
         <div className="sm:col-span-2">
           <label htmlFor="enquiry-company" className={t.label}>
             {copy.labels.company}
-            <span className={t.optional}>optional</span>
+            <span className={t.optional}>{copy.optional}</span>
           </label>
           <input
             id="enquiry-company"

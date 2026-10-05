@@ -36,6 +36,8 @@ export interface LandingCopy {
     altHome: string;
     altTreatments: string;
     quoteTranslationLabel: string;
+    /** Racha's figures in this language, keyed by the English label in `cases`. */
+    metrics?: Record<string, { v: string; k: string }>;
   };
   process: { heading: string; steps: readonly { title: string; youGet: string }[] };
   contact: { heading: string; body: string; emailLabel: string; orForm: string };
@@ -280,12 +282,20 @@ export function LandingPage({
 
                 {/* Metrics read from the case study so they cannot drift. */}
                 <dl className={`${paper.dashed} mt-6 grid grid-cols-1 gap-4 border-b border-dashed border-paper-rule py-4 sm:grid-cols-3`}>
-                  {racha.metrics.map((metric) => (
-                    <div key={metric.k} className="flex flex-col">
-                      <dt className="order-2 text-[11px] uppercase tracking-wider text-paper-soft">{metric.k}</dt>
-                      <dd className="order-1 font-[family-name:var(--font-hand)] text-xl font-bold">{metric.v}</dd>
-                    </div>
-                  ))}
+                  {racha.metrics.map((metric) => {
+                    // In this language when the page has it; the English is the fallback.
+                    const local = c.proof.metrics?.[metric.k];
+                    return (
+                      <div key={metric.k} className="flex flex-col">
+                        <dt className="order-2 text-[11px] uppercase tracking-wider text-paper-soft [:lang(th)_&]:tracking-normal">
+                          {local?.k ?? metric.k}
+                        </dt>
+                        <dd className="order-1 font-[family-name:var(--font-hand)] text-xl font-bold">
+                          {local?.v ?? metric.v}
+                        </dd>
+                      </div>
+                    );
+                  })}
                 </dl>
 
                 {/* The English original is what Racha actually approved, so it is
