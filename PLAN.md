@@ -23,9 +23,10 @@ the add-ons table or the aftercare section. All of that is live as of PR #4.
 🔒 **The lesson worth keeping: the build succeeds and the deploy still fails.**
 `next build` compiled and prerendered all 37 pages before the plugin threw, so a
 green build proves nothing about a deploy. Read the deploy log, not the build log.
-**In progress:** the re-theme roadmap below. The clock homepage shipped (PR #12); the
-pages behind it follow in phases.
-**Next up after that:** nothing. The overhaul plan is finished. What is left is running the business it
+**✅ The re-theme is complete (2026-10-05).** Seven phases, PRs #13 to #19: every page
+behind the clock is now paper on the desk, the chatbot works again, and an uptime check
+watches the form and the chat every 6 hours. The roadmap below is closed.
+**Next up:** nothing planned. The overhaul and the re-theme are both finished. What is left is running the business it
 was built for — item 31's Facebook groups, Racha's testimonial in Appendix B, and
 whatever the first Danish enquiry teaches.
 **⚠️ Your homework:** none. Both proofreads are in.
@@ -47,9 +48,12 @@ correcting it means moving three blocks, and this file is the source of truth.
 
 ---
 
-## Re-theme roadmap (started 2026-10-04)
+## Re-theme roadmap (started 2026-10-04, ✅ closed 2026-10-05)
 
-> **New session? Start here.** Each phase is its own session, branch
+> **Closed.** All seven phases are merged; nothing here is open. The log below holds
+> what each one shipped and the few calls left with Ice.
+>
+> How it was run: each phase was its own session, branch
 > (`retheme-N-name`), PR and deploy preview. Plan the phase first (plan mode), then
 > build. Ice checks the preview in a real browser and merges. Tick the box here
 > when it is merged.
@@ -116,7 +120,8 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
   - **Proof that no word changed:** `npm run copy th|sv|da` before and after must
     diff to nothing.
   - Restyle the three OG cards.
-- [ ] **Phase 6: Clean-up and measure.**
+- [x] **Phase 6: Clean-up and measure.** Merged 2026-10-05 (PR #19), with 6.1 the
+  chatbot fix, the last translations and the uptime check.
   - **Speed (Ice, 2026-10-05):** move the shared paper styles out of the CSS
     module into the main stylesheet, so re-themed pages load one render-blocking
     stylesheet instead of two. Lighthouse blamed it for ~1 s on /sv; every
@@ -133,7 +138,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ### 2026-10-05 (night)
 
-**Re-theme Phase 6: clean-up and measure, plus 6.1 the chatbot, on branch `retheme-6-cleanup`, not merged** 🚧
+**Re-theme Phase 6: clean-up and measure, plus 6.1 the chatbot, merged (PR #19)** ✅
 *`3c44a44` `c02b92d`*
 
 - **6.1 The chatbot was broken on the live site.** Every answer was "The model
