@@ -109,7 +109,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
     language pages. Swap in `LazyChatWidget`.
   - **Keep** the JSON-LD `@graph`, the offer anchor ids and `FadeIn immediate`
     above the fold.
-- [ ] **Phase 5: Languages** (`/th`, `/sv`, `/da`)
+- [x] **Phase 5: Languages** (`/th`, `/sv`, `/da`) Merged 2026-10-05 (PR #18).
   - Three near-identical ~500-line pages become one shared `LandingPage` fed by
     `thContent`/`svContent`/`daContent` (identical keys).
   - Keep `svPrice`, the unit helpers, the `/da` DRAFT switch and `backToEnglish`.
@@ -133,7 +133,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ### 2026-10-05 (evening)
 
-**Re-theme Phase 5: Languages, on branch `retheme-5-languages`, not merged** 🚧 *`694258e`*
+**Re-theme Phase 5: Languages, merged (PR #18)** ✅ *`694258e`*
 
 - **`/th`, `/sv`, `/da` are one shared `LandingPage`** (`app/components/LandingPage.tsx`)
   on the desk: hero note as a sticky note, prices as a till receipt, proof as a
