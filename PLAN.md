@@ -31,7 +31,7 @@ was built for — item 31's Facebook groups, Racha's testimonial in Appendix B, 
 whatever the first Danish enquiry teaches.
 **⚠️ Your homework:** none. Both proofreads are in.
 
-⚠️ **Known defect in this log, not yet fixed:** three entries below are dated
+⚠️ **Known defect in this log, not yet fixed** (*Known small things* #9): three entries below are dated
 `2026-08-22` but describe items 37, 38 and 8, whose commits are all authored
 `2026-08-18` (`8f432fe`, `6a2ce7b`). The log is newest-at-top otherwise, so those
 three blocks are also out of position. Left alone rather than silently reordered —
@@ -133,6 +133,25 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
   - Update the concept doc.
 
 ---
+
+## Known small things (swept 2026-10-05)
+
+> **The one list of what is still open.** Everything else in the log's "Open" lists is
+> done: every preview check (each PR was checked by Ice and merged), the restyle of
+> the case and note pages, and the uptime check. Add new loose ends here, not in a
+> log entry, and strike them through here when they close.
+
+| # | What | Where | Why it is small | Decides |
+| --- | --- | --- | --- | --- |
+| 1 | The MSc degree name has an em dash ("Business and Management — Entrepreneurship"), on `/cv` and in the PDF | `cvData.education` in `app/data.ts`, then `npm run cv` | One string, then regenerate the PDF | Ice (CV copy) |
+| 2 | "Open to full-time full-stack roles…" reads like a stutter; e.g. "Open to full-stack roles, full time, in Denmark, Sweden or remote across the EU." | `app/cv/page.tsx` sign-off | One sentence | Ice (copy) |
+| 3 | The footer nav's `aria-label="Languages"` is English inside the th/sv/da pages; an aria-label cannot carry its own `lang` | `PageShell.tsx` footer | Screen readers only; needs three translated words | Ice (new copy) |
+| 4 | The 404 page's ruled lines run through its text; the notes solved this with per-block lines | `app/not-found.tsx`, `PaperSheet ruled` | Polish on one page | Claude can do it |
+| 5 | The clock's eyes check the cursor every 250 ms; they could react to movement instead | `app/components/clock/Portrait.tsx` | Works as is; a small efficiency win | Claude can do it |
+| 6 | Night visitors see a brief day frame before the clock hydrates | `ClockHome.tsx` (lamp state) | A flash of under a second | Claude can do it |
+| 7 | The root share card renders in the default font, not Kanit | `app/opengraph-image.tsx` | Cosmetic; `/th`'s card shows how to bundle Kanit | Claude can do it |
+| 8 | Simulated mobile LCP is 3.4 to 4.2 s on most pages (observed on the clock: 0.14 s). Ruled out: the second stylesheet (Phase 6) and inlining CSS (Phase 2) | Site-wide | Scores are 85 to 96; real visits are fast | Only if it matters |
+| 9 | Three log entries dated `2026-08-22` describe items 37, 38 and 8, committed `2026-08-18`, and sit out of order | This file, see the note at the top | History only | Ice |
 
 ## Progress log
 
@@ -270,7 +289,7 @@ item now says so.
     pre-hydration flash, a second palette to design and contrast-check); a subtle
     evening lamp glow on every page is the small version, optional, after Phase 6.
 
-**Open:**
+**Open at the time** (since closed, or moved to *Known small things* above):
 - Ice's preview check: all three pages on phone and laptop; Thai line height; the
   share cards (paste a link into a chat to preview); `/work`'s six prints, turned
   over, on a phone.
@@ -339,7 +358,7 @@ prettier's layout. Do not run formatters the repo does not configure.
   JSON-LD went 12 → 13 questions, the rest of the graph identical. **/services is
   now 10.2 screens on a laptop and 15.9 on a phone.**
 
-**Open:**
+**Open at the time** (since closed, or moved to *Known small things* above):
 - Ice's preview check: `/services` on phone and laptop, the receipts and their
   fold, the FAQ (new second question), the form (send it empty to see the error
   state).
@@ -374,7 +393,7 @@ prettier's layout. Do not run formatters the repo does not configure.
 Lighthouse mobile: `/cv` 88/96 → 94/100 (perf/a11y), LCP 3.9 → 3.1 s. `/about`
 89/100. `/cases/trailr` 90–93/100 over three runs, unchanged from Phase 1.
 
-**Open:**
+**Open at the time** (since closed, or moved to *Known small things* above):
 - Ice's preview check: `/cv` on phone and laptop; the letter's new link.
 - Ice's call: the MSc degree in `cvData` contains an em dash ("Business and
   Management — Entrepreneurship"), in the PDF too. Changing it means editing
@@ -437,7 +456,7 @@ Lighthouse mobile, before → after:
   new page; a bad `?page` is cleaned out. Tested at 360px, including Back from a
   note on page 2. `/garden` still static, Lighthouse 97/100, CLS 0.
 
-**Open:**
+**Open at the time** (since closed, or moved to *Known small things* above):
 - Ice's preview check: a note on phone and desktop, the converter, `/garden` and
   its phone pager.
 
@@ -480,7 +499,7 @@ Lighthouse mobile, before → after:
 - **Eager-loading the first prints on `/projects` did not help** (3.3 s lazy, 3.6 s
   with three eager, 3.4 s with one). Reverted rather than kept.
 
-**Open:**
+**Open at the time** (since closed, or moved to *Known small things* above):
 - Ice's preview check, especially the morph: `/work` → turn a print → Read; and
   `/projects` → open a print → Back. Headless Chrome cannot show view transitions.
 
@@ -522,7 +541,7 @@ Lighthouse mobile, before → after:
 - **Lighthouse refuses pages that return 404.** The 404 page was measured through
   a local proxy that rewrites the status to 200.
 
-**Open:**
+**Open at the time** (since closed, or moved to *Known small things* above):
 - Ice's browser check of the 404 page on the preview (phone and desktop, keyboard).
 - The ruled lines run through the 404 page's text. Aligning text to the rules
   belongs to Phase 2's notebook pages.
@@ -630,7 +649,7 @@ also works as a direct visit, rendered open on the server:
     Highlights: the dialog's Close button was outside the dialog; a double tap
     pushed history twice; Back/Close state drifted; drags could stick.
 
-**Open:**
+**Open at the time** (since closed, or moved to *Known small things* above):
 - **Browser QA by Ice** (prints, notebook, receipt, wall clock; phone size;
   Safari/Chrome; keyboard only). Claude never saw the page render: Chrome was
   never connected.
