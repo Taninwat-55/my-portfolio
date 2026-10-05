@@ -33,7 +33,7 @@ whatever the first Danish enquiry teaches.
 
 ✅ **Log dates corrected 2026-10-05** (*Known small things* #9): the twelve entries from
 item 4 to item 38 were all committed on `2026-08-18`, but had been dated across
-`2026-08-18` to `2026-08-22`. They now read `2026-08-18 (HH:MM)`, the commit time.
+`2026-08-18` to `2026-08-22`. They now read `2026-08-18 (HH:MM)`, the commit time (the last one, where an entry has two).
 Their order was already right; only the dates were wrong.
 
 > This file is the source of truth for the overhaul. The item numbers here
@@ -1179,7 +1179,7 @@ floating over the composition. Dividers return either side of the inline links.
 
 ### 2026-08-18 (22:00)
 
-**Item 38 — hero corners** ✅ (see git log)
+**Item 38 — hero corners** ✅ `ef1abf8`
 
 At 360px the two corner blocks fought over one row: left text wrapped mid-phrase,
 right column broke into four ragged right-aligned lines running into it. They now
