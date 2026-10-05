@@ -49,6 +49,8 @@ export type EnquiryCopy = {
     Record<"projectType" | "budget" | "timeline", Record<string, string>>
   >;
   chooseOne: string;
+  /** Beside the one optional field's label. */
+  optional: string;
   honeypotLabel: string;
   budgetHint: string;
   messageHint: string;
@@ -78,6 +80,7 @@ export const ENQUIRY_COPY_EN: EnquiryCopy = {
     message: "About the project",
   },
   chooseOne: "Choose one…",
+  optional: "optional",
   honeypotLabel: "Website",
   budgetHint: "A rough band is fine — it just tells me what is realistic.",
   messageHint: "A few sentences is plenty. Links to anything existing help.",
@@ -98,75 +101,44 @@ export const ENQUIRY_COPY_EN: EnquiryCopy = {
 type Status = "idle" | "submitting" | "sent" | "failed";
 
 /**
- * Two looks, one form. `night` is the old dark design, still on /th, /sv and
- * /da until the re-theme's Phase 5 moves them onto paper; its strings are the
- * originals, unchanged, so those pages render exactly as before. `paper` is the
- * desk look, on /services since Phase 4. Phase 6 deletes `night`.
+ * The form's look: paper on the desk, the only one since the re-theme
+ * (Phase 6 removed the old dark "night" tone once no page used it).
  */
-const TONES = {
-  night: {
-    label: "block font-mono text-[10px] tracking-[0.22em] uppercase text-frost/50 mb-2",
-    optional: "ml-2 font-sans normal-case tracking-normal text-frost/25",
-    fieldBase:
-      "w-full rounded-xl border bg-white/3 px-4 py-3 text-[15px] text-frost " +
-      "placeholder:text-frost/30 transition-colors " +
-      "focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 " +
-      "focus-visible:ring-offset-2 focus-visible:ring-offset-night-900 " +
-      "disabled:opacity-50 disabled:cursor-not-allowed",
-    fieldOk: "border-frost/15 hover:border-frost/25",
-    fieldErr: "border-clay-500/70 focus-visible:ring-clay-400",
-    // appearance-none plus explicit option colours. Without the [&>option] rules the
-    // OS-drawn menu on Windows Chrome inherits the page background and renders
-    // near-white text on near-white.
-    selectExtra:
-      "appearance-none pr-11 cursor-pointer [&>option]:bg-night-800 [&>option]:text-frost",
-    error: "mt-2 font-mono text-[11px] leading-relaxed text-clay-400",
-    hint: "mt-2 text-[12px] leading-relaxed text-frost/40",
-    chevron: "pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-frost/35",
-    summary:
-      "mb-6 rounded-2xl border border-clay-500/40 bg-clay-500/10 px-4 py-3.5 text-[13px] leading-relaxed text-clay-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-clay-400",
-    summaryLink: "underline underline-offset-4 hover:text-clay-200",
-    sentIcon:
-      "flex h-12 w-12 items-center justify-center rounded-full border border-crystal-500/30 bg-crystal-500/10",
-    sentIconSvg: "text-crystal-300",
-    sentTitle: "text-lg font-medium text-frost",
-    sentBody: "max-w-sm text-sm font-light leading-relaxed text-frost/60",
-    sentLink: "text-frost/80 underline underline-offset-4 transition-colors hover:text-crystal-300",
-    submit:
-      "inline-flex w-full items-center justify-center gap-2 rounded-full bg-frost px-6 py-3.5 text-sm font-medium text-night-900 transition-colors hover:bg-crystal-300 disabled:opacity-60 disabled:hover:bg-frost focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500 focus-visible:ring-offset-2 focus-visible:ring-offset-night-900",
-  },
-  // Errors in #8f461c, a darker clay: 6.3:1 on paper (clay-600 is 4.55).
-  paper: {
-    label: "block font-mono text-[11px] tracking-[0.18em] uppercase text-paper-ink mb-2",
-    optional: "ml-2 font-sans normal-case tracking-normal text-paper-soft",
-    fieldBase:
-      "w-full rounded-md border bg-paper px-4 py-3 text-[15px] text-paper-ink " +
-      "placeholder:text-paper-soft transition-colors " +
-      "focus:outline-none focus-visible:ring-2 focus-visible:ring-paper-link " +
-      "focus-visible:ring-offset-2 focus-visible:ring-offset-paper " +
-      "disabled:opacity-50 disabled:cursor-not-allowed",
-    fieldOk: "border-paper-rule hover:border-paper-soft",
-    fieldErr: "border-[#8f461c] focus-visible:ring-[#8f461c]",
-    selectExtra:
-      "appearance-none pr-11 cursor-pointer [&>option]:bg-paper [&>option]:text-paper-ink",
-    error: "mt-2 font-mono text-[11px] leading-relaxed text-[#8f461c]",
-    hint: "mt-2 text-[12px] leading-relaxed text-paper-soft",
-    chevron: "pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-paper-soft",
-    summary:
-      "mb-6 rounded-md border border-[#8f461c]/50 bg-[#8f461c]/8 px-4 py-3.5 text-[13px] leading-relaxed text-[#8f461c] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8f461c]",
-    summaryLink: "underline underline-offset-4 hover:text-paper-ink",
-    sentIcon:
-      "flex h-12 w-12 items-center justify-center rounded-full border border-paper-rule bg-paper-dim",
-    sentIconSvg: "text-paper-ink",
-    sentTitle: "text-lg font-medium text-paper-ink",
-    sentBody: "max-w-sm text-sm leading-relaxed text-paper-soft",
-    sentLink: "text-paper-link underline underline-offset-4",
-    submit:
-      "inline-flex w-full items-center justify-center gap-2 rounded-full bg-paper-ink px-6 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-[#2c3a48] disabled:opacity-60 disabled:hover:bg-paper-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-paper-link focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
-  },
-} as const;
+// Errors in #8f461c, a darker clay: 6.3:1 on paper (clay-600 is 4.55).
+const PAPER = {
+  // No letter-spacing in Thai: tracking pulls a Thai word apart into letters.
+  label:
+    "block font-mono text-[11px] tracking-[0.18em] uppercase text-paper-ink mb-2 [:lang(th)_&]:tracking-normal",
+  optional: "ml-2 font-sans normal-case tracking-normal text-paper-soft",
+  fieldBase:
+    "w-full rounded-md border bg-paper px-4 py-3 text-[15px] text-paper-ink " +
+    "placeholder:text-paper-soft transition-colors " +
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-paper-link " +
+    "focus-visible:ring-offset-2 focus-visible:ring-offset-paper " +
+    "disabled:opacity-50 disabled:cursor-not-allowed",
+  fieldOk: "border-paper-rule hover:border-paper-soft",
+  fieldErr: "border-[#8f461c] focus-visible:ring-[#8f461c]",
+  // appearance-none plus explicit option colours. Without the [&>option] rules the
+  // OS-drawn menu on Windows Chrome inherits the page background, and the text
+  // can end up unreadable against it.
+  selectExtra:
+    "appearance-none pr-11 cursor-pointer [&>option]:bg-paper [&>option]:text-paper-ink",
+  error: "mt-2 font-mono text-[11px] leading-relaxed text-[#8f461c]",
+  hint: "mt-2 text-[12px] leading-relaxed text-paper-soft",
+  chevron: "pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-paper-soft",
+  summary:
+    "mb-6 rounded-md border border-[#8f461c]/50 bg-[#8f461c]/8 px-4 py-3.5 text-[13px] leading-relaxed text-[#8f461c] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#8f461c]",
+  summaryLink: "underline underline-offset-4 hover:text-paper-ink",
+  sentIcon:
+    "flex h-12 w-12 items-center justify-center rounded-full border border-paper-rule bg-paper-dim",
+  sentIconSvg: "text-paper-ink",
+  sentTitle: "text-lg font-medium text-paper-ink",
+  sentBody: "max-w-sm text-sm leading-relaxed text-paper-soft",
+  sentLink: "text-paper-link underline underline-offset-4",
+  submit:
+    "inline-flex w-full items-center justify-center gap-2 rounded-full bg-paper-ink px-6 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-[#2c3a48] disabled:opacity-60 disabled:hover:bg-paper-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-paper-link focus-visible:ring-offset-2 focus-visible:ring-offset-paper",
+  } as const;
 
-export type EnquiryTone = keyof typeof TONES;
 
 /** Order matters — the error summary lists problems in the order they appear. */
 const FIELD_ORDER: (keyof EnquiryFields)[] = [
@@ -181,13 +153,10 @@ const FIELD_ORDER: (keyof EnquiryFields)[] = [
 
 export function ServicesEnquiryForm({
   copy = ENQUIRY_COPY_EN,
-  tone = "night",
 }: {
   copy?: EnquiryCopy;
-  /** "paper" on the desk (/services); "night" on pages not yet re-themed. */
-  tone?: EnquiryTone;
 } = {}) {
-  const t = TONES[tone];
+  const t = PAPER;
   const fieldClass = (invalid: boolean, extra = "") =>
     `${t.fieldBase} ${invalid ? t.fieldErr : t.fieldOk} ${extra}`;
   const [form, setForm] = useState<EnquiryFields>(EMPTY_ENQUIRY);
@@ -419,7 +388,7 @@ export function ServicesEnquiryForm({
         <div className="sm:col-span-2">
           <label htmlFor="enquiry-company" className={t.label}>
             {copy.labels.company}
-            <span className={t.optional}>optional</span>
+            <span className={t.optional}>{copy.optional}</span>
           </label>
           <input
             id="enquiry-company"

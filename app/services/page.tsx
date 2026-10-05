@@ -910,7 +910,7 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <ServicesEnquiryForm tone="paper" />
+            <ServicesEnquiryForm />
 
             {/* Plenty of small-business owners will never fill in a form. */}
             <p className="mt-6 text-center text-sm text-paper-soft">

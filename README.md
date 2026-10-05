@@ -79,7 +79,7 @@ app/
 │   │                       # Portrait, Hand, Lamp, WallClock, and one file per object
 │   ├── ChatWidget.tsx      # AI chat; LazyChatWidget loads it when the page is idle
 │   ├── HireModal.tsx       # Contact + CV download
-│   ├── Navbar.tsx, FadeIn.tsx
+│   ├── FadeIn.tsx
 │   └── post-tools/         # Interactive widgets embedded in MDX posts
 ├── about/, contact/, work/, writing/, rates/   # The clock opened on each object
 ├── cases/[slug]/           # Case study pages

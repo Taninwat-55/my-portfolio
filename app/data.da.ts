@@ -175,6 +175,17 @@ export const daContent = {
       "(oversat fra det engelske original, som ejeren har godkendt)",
     quoteDa:
       "Ice byggede vores første hjemmeside. Den er hurtig, den virker, og den er på dansk — og siden den gik i luften, har vi ikke skullet ændre noget eller betale ekstra.",
+    /**
+     * Racha's three figures in this language, keyed by the English label in
+     * cases (data.ts). The values come from there too; only the words change.
+     * Added 2026-10-05: until then they showed in English on this page.
+     * Not yet read by the Danish proofreader (item 28), unlike the rest.
+     */
+    metrics: {
+      "Lighthouse score": { v: "95+", k: "Googles hastighedsscore fra første dag" },
+      "Paid client project": { v: "Første", k: "betalende kunde" },
+      "Contact form fallback": { v: "2 veje", k: "reserveveje, så ingen henvendelse går tabt" },
+    },
   },
 
   process: {
@@ -253,6 +264,8 @@ export const daContent = {
       },
     },
     chooseOne: "Vælg én…",
+    // Not yet read by the Danish proofreader (item 28), unlike the rest.
+    optional: "valgfrit",
     messagePlaceholder: "Hvad laver virksomheden, og hvad vil du gerne have på siden?",
     budgetHint: "Cirka er fint. Jeg skal bare vide, hvad der er muligt.",
     messageHint:

@@ -182,6 +182,16 @@ export const svContent = {
     quoteTranslationLabel: "(översatt från det engelska original som ägaren godkänt)",
     quoteSv:
       "Ice byggde vår första hemsida. Den är snabb, den fungerar och den är på danska — och sedan den gick live har vi inte behövt ändra något eller betala extra.",
+    /**
+     * Racha's three figures in this language, keyed by the English label in
+     * cases (data.ts). The values come from there too; only the words change.
+     * Added 2026-10-05: until then they showed in English on this page.
+     */
+    metrics: {
+      "Lighthouse score": { v: "95+", k: "Googles hastighetspoäng, från första dagen" },
+      "Paid client project": { v: "Första", k: "betalande kund" },
+      "Contact form fallback": { v: "2 vägar", k: "reservvägar, så ingen förfrågan försvinner" },
+    },
   },
 
   process: {
@@ -261,6 +271,7 @@ export const svContent = {
       },
     },
     chooseOne: "Välj ett…",
+    optional: "valfritt",
     messagePlaceholder: "Vad gör företaget, och vad vill du ha på sidan?",
     budgetHint: "Ungefär räcker. Jag behöver bara veta vad som är möjligt.",
     messageHint:

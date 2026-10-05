@@ -168,6 +168,16 @@ export const thContent = {
     quoteTranslationLabel: "(แปลจากต้นฉบับภาษาอังกฤษที่เจ้าของร้านอนุมัติ)",
     quoteTh:
       "ไอซ์ทำเว็บไซต์แรกให้ร้าน เว็บเร็ว ใช้งานได้ดี เป็นภาษาเดนมาร์ก และตั้งแต่เปิดมาก็ไม่ต้องแก้อะไรหรือจ่ายเพิ่มเลย",
+    /**
+     * Racha's three figures in this language, keyed by the English label in
+     * cases (data.ts). The values come from there too; only the words change.
+     * Added 2026-10-05: until then they showed in English on this page.
+     */
+    metrics: {
+      "Lighthouse score": { v: "95+", k: "คะแนนความเร็วจาก Google ตั้งแต่วันแรก" },
+      "Paid client project": { v: "รายแรก", k: "ลูกค้าที่จ่ายเงินรายแรก" },
+      "Contact form fallback": { v: "2 ทาง", k: "ช่องทางสำรอง ข้อความไม่หายแน่นอน" },
+    },
   },
 
   process: {
@@ -235,6 +245,7 @@ export const thContent = {
       },
     },
     chooseOne: "เลือกหนึ่งข้อ…",
+    optional: "ไม่บังคับ",
     messagePlaceholder: "ร้านทำอะไร และอยากได้อะไรบนเว็บไซต์",
     budgetHint: "บอกคร่าว ๆ ก็ได้ครับ แค่ให้ผมรู้ว่าอะไรเป็นไปได้",
     messageHint: "สองสามประโยคก็พอครับ ถ้ามีลิงก์เว็บเดิมหรือเพจเฟซบุ๊กก็ช่วยได้มาก",

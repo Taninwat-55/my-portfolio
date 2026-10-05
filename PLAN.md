@@ -109,7 +109,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
     language pages. Swap in `LazyChatWidget`.
   - **Keep** the JSON-LD `@graph`, the offer anchor ids and `FadeIn immediate`
     above the fold.
-- [ ] **Phase 5: Languages** (`/th`, `/sv`, `/da`)
+- [x] **Phase 5: Languages** (`/th`, `/sv`, `/da`) Merged 2026-10-05 (PR #18).
   - Three near-identical ~500-line pages become one shared `LandingPage` fed by
     `thContent`/`svContent`/`daContent` (identical keys).
   - Keep `svPrice`, the unit helpers, the `/da` DRAFT switch and `backToEnglish`.
@@ -131,9 +131,85 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ## Progress log
 
+### 2026-10-05 (night)
+
+**Re-theme Phase 6: clean-up and measure, plus 6.1 the chatbot, on branch `retheme-6-cleanup`, not merged** 🚧
+*`3c44a44` `c02b92d`*
+
+- **6.1 The chatbot was broken on the live site.** Every answer was "The model
+  `llama-3.3-70b-versatile` does not exist": Groq had retired it. Now
+  `openai/gpt-oss-120b`, picked by testing the widget's own seven questions against
+  `gpt-oss-20b` (20b answered as Ice in the first person and asked needless questions).
+  `CHAT_MODEL` in the environment overrides it, so the next retirement can be fixed in
+  Netlify without new code. Low reasoning effort; reasoning is not sent to the browser.
+- ⚠️ **The second problem behind it: the rate limit.** The free Groq tier allows
+  **8,000 tokens a minute** per model, and the single prompt was ~7,000 tokens, so the
+  whole site got one answer a minute (others waited ~50 s). Prompt caching does not
+  help (tested: cached or not, each call counts in full). Each widget now sends only
+  its half: portfolio ~3,150 tokens, services ~2,700, chosen by the widget's
+  `variant`. Measured: answers start in ~1 s; five back-to-back questions in a minute
+  wait 18 to 24 s at worst. The chatbot's job line now says full-stack first (Ice).
+- **Lesson, the second time:** like the Upstash outage, this failed quietly for the
+  owner. The widget showed a polite error; nobody was told.
+- **6.2 Speed: investigated, no change shipped.** Every page loads two blocking
+  stylesheets (the global one plus one module chunk), the clock homepage included.
+  Importing the paper styles in the root layout made Next emit them as a THIRD file,
+  so it was reverted. Combined with Phase 2's finding (inlining all CSS did not lower
+  LCP anywhere), the second stylesheet is not what holds pages near 90; Lighthouse's
+  "~1 s" estimate overstated it. The numbers are good enough not to chase further.
+- **6.3 Deleted, each with no importers left:** `Navbar`, `SectionHeading`,
+  `.hero-heading`, `.frost-text`, `.hero-marquee`, the ice and charcoal tokens,
+  `--font-display` and Instrument Serif (no longer downloaded), and the enquiry form's
+  `night` tone (paper is now its only look; the `tone` prop is gone). `globals.css`
+  199 → 138 lines. Services copy and JSON-LD, and the language pages' strings and head
+  tags, re-verified unchanged. Also: Thai labels lost their letter-spacing, which
+  pulled Thai words apart.
+- **6.5 Concept doc updated:** the Work and About rows, three settled open questions,
+  and a "Behind the clock" section with every re-themed page.
+
+**6.4 Lighthouse mobile, every page type, two runs each (perf/a11y, LCP):**
+
+| route | before Phase 6 | after |
+| --- | --- | --- |
+| `/` | 86–89 / 100, 3.7–4.2 s | 85–89 / 100, 3.7–4.2 s |
+| `/work` | 87–93 / 100 | 87–93 / 100 |
+| `/cases/trailr` | 86–90 / 100 | 89–91 / 100 |
+| `/projects` | 89–92 / 100 | 89–91 / 100 |
+| `/garden` | 96 / 100, 2.8 s | 96 / 100, 2.8 s |
+| a note | 95–96 / 100, 2.9 s | 95–96 / 100, 2.9 s |
+| `/cv` | 94 / 100, 3.1 s | 94 / 100, 3.1 s |
+| `/services` | 88–89 / 100 | 89 / 100 |
+| `/th` `/sv` `/da` | 90 / 100, 3.5 s | 90–91 / 100, 3.4–3.5 s |
+
+Accessibility is 100 on every page type. Performance is unchanged, as expected:
+the deletions were code nothing used.
+
+- **The last English on the language pages, translated** (Ice, before merging): the
+  form's "optional" and Racha's three proof figures ("First", "2 paths", "Lighthouse
+  score"…), which had shown in English on `/th`, `/sv` and `/da` since before the
+  re-theme. New `optional` in the form copy and `proof.metrics` per language file,
+  keyed by the English label in `cases`. Verified: no English left on the three pages.
+  ⚠️ **New copy, so `npm run copy` grows by these lines.** Thai and Swedish are for Ice
+  to read; **the Danish lines are not yet proofread** (marked in `data.da.ts`).
+- **Uptime check** (`.github/workflows/uptime.yml` + `scripts/uptime-check.mjs`):
+  every 6 hours, free (public repo). Loads eight pages, sends a deliberately invalid
+  enquiry (healthy = 400; the Upstash outage was 503; nothing is sent), and asks the
+  chat one short question (healthy = text back). A failure makes GitHub email the
+  repo owner. **Proven locally:** Upstash off fails the enquiry check; the retired
+  `llama-3.3-70b-versatile` fails the chat check with its exact error. GitHub pauses
+  scheduled workflows after 60 days with no repo activity; it emails first.
+- The Groq key is set for Production only, on purpose: previews cannot spend the free
+  quota. So the chat does not answer on PR previews; test it on the live site.
+
+**Open:**
+- Ice's preview check: `/th` `/sv` `/da` forms and proof figures; nothing else should
+  look different. The chat: on the live site after merge.
+- After merge: Actions tab → "Uptime check" → "Run workflow" once, to see it pass.
+- The Danish proofreader: the three new Danish proof lines and "valgfrit".
+
 ### 2026-10-05 (evening)
 
-**Re-theme Phase 5: Languages, on branch `retheme-5-languages`, not merged** 🚧 *`694258e`*
+**Re-theme Phase 5: Languages, merged (PR #18)** ✅ *`694258e`*
 
 - **`/th`, `/sv`, `/da` are one shared `LandingPage`** (`app/components/LandingPage.tsx`)
   on the desk: hero note as a sticky note, prices as a till receipt, proof as a
