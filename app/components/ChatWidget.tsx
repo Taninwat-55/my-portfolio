@@ -1,6 +1,7 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import { isTextUIPart } from "ai";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -47,6 +48,9 @@ export function ChatWidget({ variant = "portfolio" }: { variant?: ChatVariant })
   const prompts = chatPrompts[variant];
 
   const { messages, sendMessage, setMessages, status } = useChat({
+    // The variant picks the route's prompt: each widget sends only what its
+    // visitors ask about (see SYSTEM_PROMPTS in app/api/chat/route.ts).
+    transport: new DefaultChatTransport({ api: "/api/chat", body: { variant } }),
     onError: (error) =>
       setChatError(/rate limit/i.test(error.message) ? "limit" : "transient"),
   });

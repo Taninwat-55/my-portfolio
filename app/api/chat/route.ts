@@ -24,7 +24,24 @@ const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
-const SYSTEM_PROMPT = `You are a helpful assistant representing ${personalInfo.name}, who goes by ${personalInfo.nickname}.
+/**
+ * The chat model. GROQ RETIRES MODELS: llama-3.3-70b-versatile disappeared in
+ * 2026 and the widget answered nothing but an error until someone noticed
+ * (logged in PLAN.md, 2026-10-05). The current list for this key:
+ *   curl https://api.groq.com/openai/v1/models -H "Authorization: Bearer $GROQ_API_KEY"
+ * CHAT_MODEL in the environment overrides this, so the next retirement can be
+ * fixed in Netlify's settings without a deploy of new code.
+ *
+ * gpt-oss is a reasoning model, and its reasoning tokens count against
+ * maxOutputTokens, so reasoning is kept low for these short, grounded answers.
+ */
+const CHAT_MODEL = process.env.CHAT_MODEL || "openai/gpt-oss-120b";
+
+/**
+ * The instructions every chat shares: who he is, how to tell a recruiter from a
+ * client, and the rules (third person, no exact prices or dates).
+ */
+const RULES = `You are a helpful assistant representing ${personalInfo.name}, who goes by ${personalInfo.nickname}.
 
 "${personalInfo.nickname}" and "${personalInfo.name}" are the same person. The site brands itself around the nickname, so most visitors will call him ${personalInfo.nickname} — treat that as simply his name. Answer using whichever name the visitor used, and never correct them for saying ${personalInfo.nickname} or imply it is the wrong name.
 
@@ -41,9 +58,17 @@ Never quote an exact price or promise a delivery date. The published ranges on /
 Answer questions about his background, skills, projects, and experience. Be conversational, concise, and honest.
 If asked something you don't know about him, say so rather than making things up.
 Don't be overly promotional — be genuine and grounded.
-Keep responses under 150 words unless a detailed answer clearly requires more.
+Keep responses under 150 words unless a detailed answer clearly requires more.`;
 
-== ABOUT ==
+/**
+ * WHY TWO PROMPTS. The free Groq tier allows 8,000 tokens a minute per model,
+ * and the old single prompt was about 7,000 tokens: the whole site got one
+ * answer a minute, and every other visitor waited ~50 s (measured 2026-10-05).
+ * Each widget now sends only what its visitors ask about, about half the size,
+ * and points to the other half by URL. The services widget runs on /services;
+ * every clock page uses the portfolio one.
+ */
+const PORTFOLIO_CONTEXT = `== ABOUT ==
 ${siteContent.aboutStory.join("\n\n")}
 
 == WHAT HE DOES ==
@@ -52,28 +77,39 @@ ${siteContent.whatIDo.map((w) => `${w.title}: ${w.body}`).join("\n\n")}
 == EXPERIENCE ==
 ${experience.map((e) => `- ${e.role} at ${e.organization} (${e.period}): ${e.description}`).join("\n")}
 
-== FEATURED CASE STUDIES ==
-${cases.map((c) => `
-Project: ${c.title} (${c.tag})
-Summary: ${c.sub}
-Problem: ${c.challenge}
-How he built it: ${c.engineering}
-Stack: ${c.stack.join(", ")}
-Key results: ${c.metrics.map((m) => `${m.v} ${m.k}`).join(", ")}
-${c.links.demo ? `Live: ${c.links.demo}` : ""}
-${c.links.code ? `Code: ${c.links.code}` : ""}
-`.trim()).join("\n\n")}
+== CASE STUDIES ==
+Summaries only; each full write-up is at https://taninwatkaewpankan.xyz/cases/<id>. Concept pieces have no real client behind them, so never present them as client work.
+${cases
+  .map((c) =>
+    [
+      `- ${c.title} (${c.tag}${c.concept ? ", concept piece" : ""}): ${c.sub}`,
+      `  Stack: ${c.stack.join(", ")}. Results: ${c.metrics.map((m) => `${m.v} ${m.k}`).join(", ")}.`,
+      `  Case study: https://taninwatkaewpankan.xyz/cases/${c.id}`,
+    ].join("\n"),
+  )
+  .join("\n")}
 
 == JOB SEARCH & CURRENT SITUATION ==
 ${chatbotContext}
 
 == FREELANCE & SERVICES ==
-${servicesContext}
+He also takes on a small number of freelance projects for small businesses. Prices are published and the enquiry form is at https://taninwatkaewpankan.xyz/services; send potential clients there rather than quoting anything.`;
 
-== CONTACT ==
+const SERVICES_CONTEXT = `== ABOUT, IN SHORT ==
+A ${siteContent.roleLabel} in ${personalInfo.location} who also runs a small freelance practice. His story, CV and case studies are at https://taninwatkaewpankan.xyz; point recruiters there.
+
+== FREELANCE & SERVICES ==
+${servicesContext}`;
+
+const CONTACT = `== CONTACT ==
 Email: ${personalInfo.email}
 LinkedIn: ${personalInfo.socials.linkedin}
 GitHub: ${personalInfo.socials.github}`;
+
+const SYSTEM_PROMPTS = {
+  portfolio: [RULES, PORTFOLIO_CONTEXT, CONTACT].join("\n\n"),
+  services: [RULES, SERVICES_CONTEXT, CONTACT].join("\n\n"),
+};
 
 export async function POST(request: Request) {
   const verdict = await checkRateLimit(getClientIp(request));
@@ -95,17 +131,20 @@ export async function POST(request: Request) {
   // Anything below can fail on bad input or an upstream outage. Without this the
   // widget just receives an opaque 500 and shows nothing useful.
   try {
-    const { messages } = await request.json();
+    const { messages, variant } = await request.json();
+    const system = variant === "services" ? SYSTEM_PROMPTS.services : SYSTEM_PROMPTS.portfolio;
     const modelMessages = await convertToModelMessages(messages);
 
     const result = await streamText({
-      model: groq("llama-3.3-70b-versatile"),
-      system: SYSTEM_PROMPT,
+      model: groq(CHAT_MODEL),
+      system,
       messages: modelMessages,
       maxOutputTokens: 400,
+      providerOptions: { groq: { reasoningEffort: "low" } },
     });
 
-    return result.toUIMessageStreamResponse();
+    // The widget shows text parts only; the model's reasoning stays server-side.
+    return result.toUIMessageStreamResponse({ sendReasoning: false });
   } catch (error) {
     console.error("[chat] request failed:", error);
     return new Response(
