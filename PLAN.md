@@ -190,9 +190,11 @@ item now says so.
 - Ice's preview check: all three pages on phone and laptop; Thai line height; the
   share cards (paste a link into a chat to preview); `/work`'s six prints, turned
   over, on a phone.
-- Ice's call (reviewer): the concept pieces are only labelled on the back of their
-  prints; a small "Concept" mark on the front would say it where the "this is my
-  work" impression forms.
+- ~~Ice's call: a "Concept" mark on the front of the concept pieces' prints.~~ Done:
+  a `CaseStudy.concept` flag (Saep, Lumina) puts a small "Concept" stamp beside the
+  caption and into the print's accessible name.
+- **No Phase 7** (Ice, 2026-10-05): the time-based background was declined for the
+  reasons above. Phase 6 is the last phase.
 - Later: the footer nav's `aria-label="Languages"` is English inside a th/sv/da
   wrapper; an aria-label cannot carry its own `lang`, so a translated label would
   have to come from the proofread files.
