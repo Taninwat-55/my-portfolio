@@ -385,7 +385,7 @@ export function LandingPage({
 
               {/* The real form, in this language. Same endpoint, same validation,
                   same option values: only the visible strings differ. */}
-              <ServicesEnquiryForm tone="paper" copy={form} />
+              <ServicesEnquiryForm copy={form} />
             </PaperSheet>
           </FadeIn>
         </section>

@@ -332,6 +332,10 @@ a.card:hover {
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+/* Tracking pulls a Thai word apart into letters; Thai labels keep normal spacing. */
+:lang(th) .label {
+  letter-spacing: normal;
+}
 
 /* Row spacing on the list, not on `li + li`: in the two-column lists the
    second item sits beside the first, and a sibling margin pushed it 8px down. */

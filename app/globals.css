@@ -3,9 +3,6 @@
 @theme {
   --font-sans: var(--font-kanit);
   --font-mono: var(--font-jetbrains-mono);
-  /* Italic-only display serif. Pair it with the `italic` utility — the loaded
-     face declares font-style: italic, so it will not match upright text. */
-  --font-display: var(--font-instrument-serif);
 
   /* Night — dark surface scale */
   --color-night-900: #0C0C0C;
@@ -26,13 +23,6 @@
   --color-clay-500: #C4713E;
   --color-clay-400: #D4895A;
   --color-clay-300: #E4A87A;
-
-  /* Ice & charcoal — used by embedded garden tools */
-  --color-ice-400: #8EC9E8;
-  --color-charcoal-400: #9CA1A8;
-  --color-charcoal-500: #6E747C;
-  --color-charcoal-900: #161616;
-  --color-charcoal-950: #0C0C0C;
 }
 
 /* `static`: emitted whether or not a utility uses them, because
@@ -81,57 +71,6 @@
 }
 
 @layer utilities {
-  .hero-heading {
-    background: linear-gradient(180deg, #44697D 0%, #A9D6E8 60%, #E3F4FC 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  /* Frost treatment for the "ICE" name — keeps the vertical ice gradient,
-     adds a cold glint sweeping across plus a frost-over reveal on load. */
-  .frost-text {
-    background-image:
-      linear-gradient(
-        100deg,
-        transparent 35%,
-        rgba(227, 244, 252, 0.9) 50%,
-        transparent 65%
-      ),
-      linear-gradient(180deg, #44697d 0%, #a9d6e8 60%, #e3f4fc 100%);
-    background-size: 250% 100%, 100% 100%;
-    background-position: 130% 0, 0 0;
-    background-repeat: no-repeat;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 22px rgba(142, 201, 232, 0.22));
-    /* The reveal runs once. A perpetual background-position sweep used to run
-       alongside it, but animating background-position repaints the whole text
-       node every frame — forever, and offscreen — for a glint most visitors
-       never caught. The static ice gradient is the part that was doing the work.
-       The sweep layer stays parked at 130% so the gradient is unaffected. */
-    animation: frost-in 1.3s cubic-bezier(0.25, 0.1, 0.25, 1) both;
-  }
-
-  @keyframes frost-in {
-    0% {
-      filter: blur(18px) drop-shadow(0 0 0 rgba(142, 201, 232, 0));
-      opacity: 0;
-    }
-    100% {
-      filter: blur(0) drop-shadow(0 0 22px rgba(142, 201, 232, 0.22));
-      opacity: 1;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .frost-text {
-      animation: none;
-      filter: drop-shadow(0 0 22px rgba(142, 201, 232, 0.22));
-    }
-  }
-
   /* FIRST-SCREEN ENTRANCE — CSS, not framer-motion, and that is the entire point.
      <FadeIn> server-renders opacity:0 and only animates once React has hydrated.
      On a throttled phone that meant every above-fold element stayed invisible
@@ -174,30 +113,6 @@
       animation: none;
       opacity: 1;
       transform: none;
-    }
-  }
-
-  /* Hero name marquee. The track holds two identical halves, so translating it
-     by -50% lands exactly on the start of the second copy and loops seamlessly. */
-  .hero-marquee {
-    animation: hero-marquee 30s linear infinite;
-    /* Promotes the track to its own layer so the perpetual scroll composites
-       instead of repainting a viewport-wide block of 20vh type. */
-    will-change: transform;
-  }
-
-  @keyframes hero-marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-marquee {
-      animation: none;
     }
   }
 
