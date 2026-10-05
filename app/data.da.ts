@@ -179,7 +179,8 @@ export const daContent = {
      * Racha's three figures in this language, keyed by the English label in
      * cases (data.ts). The values come from there too; only the words change.
      * Added 2026-10-05: until then they showed in English on this page.
-     * Not yet read by the Danish proofreader (item 28), unlike the rest.
+     * Not read by the Danish proofreader (item 28), unlike the rest: Ice
+     * accepted them on 2026-10-05 after a second read by Claude.
      */
     metrics: {
       "Lighthouse score": { v: "95+", k: "Googles hastighedsscore fra første dag" },
@@ -264,7 +265,7 @@ export const daContent = {
       },
     },
     chooseOne: "Vælg én…",
-    // Not yet read by the Danish proofreader (item 28), unlike the rest.
+    // Not read by the Danish proofreader (item 28): accepted by Ice, 2026-10-05.
     optional: "valgfrit",
     messagePlaceholder: "Hvad laver virksomheden, og hvad vil du gerne have på siden?",
     budgetHint: "Cirka er fint. Jeg skal bare vide, hvad der er muligt.",
