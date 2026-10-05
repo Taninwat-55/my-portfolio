@@ -42,6 +42,8 @@ export interface LandingCopy {
   process: { heading: string; steps: readonly { title: string; youGet: string }[] };
   contact: { heading: string; body: string; emailLabel: string; orForm: string };
   backToEnglish: string;
+  /** The footer nav's accessible name (PageShell's `languagesLabel`). */
+  languagesLabel: string;
 }
 
 interface LandingPageProps {
@@ -113,7 +115,7 @@ export function LandingPage({
       // handwritten lines in Kanit, the face Thai is set in everywhere else.
       style={loose ? ({ "--font-hand": "var(--font-kanit), sans-serif" } as React.CSSProperties) : undefined}
     >
-      <PageShell back={{ href: "/", label: c.backToEnglish, lang: "en" }} lang={lang} postcard={false}>
+      <PageShell back={{ href: "/", label: c.backToEnglish, lang: "en" }} lang={lang} languagesLabel={c.languagesLabel} postcard={false}>
         {banner}
 
         {/* ── Header ────────────────────────────────────────────────────── */}

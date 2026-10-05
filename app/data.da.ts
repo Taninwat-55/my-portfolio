@@ -224,6 +224,8 @@ export const daContent = {
   },
 
   backToEnglish: "English",
+  // Not read by the Danish proofreader (item 28): accepted by Ice, 2026-10-05.
+  languagesLabel: "Sprog",
 
   /**
    * Form chrome, passed into ServicesEnquiryForm as its `copy` prop.

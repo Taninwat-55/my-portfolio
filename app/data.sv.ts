@@ -226,6 +226,7 @@ export const svContent = {
   },
 
   backToEnglish: "English",
+  languagesLabel: "Språk",
 
   /**
    * Form chrome, passed into ServicesEnquiryForm as its `copy` prop.
