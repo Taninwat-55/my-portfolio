@@ -43,10 +43,13 @@ const WINK_WINDOW_MS = 2000;
 export function Portrait({
   smiling,
   lookAt,
+  aimKey,
 }: {
   smiling: boolean;
   /** The element to look at instead of the cursor, e.g. the object the hand points to. */
   lookAt: () => HTMLElement | null;
+  /** Changes whenever lookAt's answer may have changed (the pointed object's id). */
+  aimKey: string | null;
 }) {
   const overlayRef = useRef<SVGSVGElement>(null);
   const pupilRefs = useRef<(SVGGElement | null)[]>([]);
@@ -54,6 +57,8 @@ export function Portrait({
   const [hovered, setHovered] = useState(false);
   const [greeting, setGreeting] = useState(false);
   const [winking, setWinking] = useState(false);
+  // The aim scheduler from the effect below, so a new aimKey can re-aim.
+  const scheduleRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     const svg = overlayRef.current;
@@ -108,8 +113,14 @@ export function Portrait({
     };
 
     if (finePointer) window.addEventListener("pointermove", onMove);
-    // The pointed-at object can change without the pointer moving (keyboard).
-    const poll = window.setInterval(schedule, 250);
+    // Event-driven, not a 250 ms poll (until 2026-10-05). The pointed-at object
+    // changing (keyboard included) arrives as `aimKey` below; resize and scroll
+    // cover a target moving under a still pointer.
+    scheduleRef.current = schedule;
+    window.addEventListener("resize", schedule);
+    // Objects moving under a still pointer: drags and opening (ClockHome).
+    window.addEventListener("desk:moved", schedule);
+    window.addEventListener("scroll", schedule, { capture: true, passive: true });
 
     // Blink every 3 to 6 seconds, like a person rather than a metronome.
     let blinkTimer = 0;
@@ -122,12 +133,20 @@ export function Portrait({
 
     return () => {
       window.removeEventListener("pointermove", onMove);
-      window.clearInterval(poll);
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("desk:moved", schedule);
+      window.removeEventListener("scroll", schedule, { capture: true });
+      scheduleRef.current = null;
       window.clearTimeout(blinkTimer);
       greetTimers.forEach((id) => window.clearTimeout(id));
       cancelAnimationFrame(frame);
     };
   }, [lookAt]);
+
+  // Re-aim when the pointed-at object changes: hover, keyboard focus, or none.
+  useEffect(() => {
+    scheduleRef.current?.();
+  }, [aimKey]);
 
   // The easter egg: five clicks inside two seconds earns a wink.
   const onClick = () => {

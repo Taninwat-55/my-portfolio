@@ -169,6 +169,24 @@ export function ClockHome({
   const lampOn = lampFlipped ?? night;
   const mood = hour !== null ? desk.moods.find((m) => hour < m.until)?.text : null;
 
+  // The eyes re-aim on events, not a poll, so tell them when the objects move
+  // by themselves: a drag (touch included, which has no hover pointermove) or
+  // the fly-in and fly-out of opening. Once now, once after the 560 ms
+  // transitions settle. Portrait listens for "desk:moved".
+  useEffect(() => {
+    const moved = () => window.dispatchEvent(new Event("desk:moved"));
+    moved();
+    const settle = window.setTimeout(moved, 650);
+    return () => window.clearTimeout(settle);
+  }, [offsets, stage, open]);
+
+  // Clock.tsx's inline script marked <html> as night before React loaded. Once
+  // the hour is known here, the classes below take over (including a lamp the
+  // visitor flips), so the stand-in mark goes.
+  useEffect(() => {
+    if (hour !== null) document.documentElement.removeAttribute("data-desk-night");
+  }, [hour]);
+
   const [firstName, ...rest] = personalInfo.name.split(" ");
   const lastName = rest.join(" ");
 
@@ -580,7 +598,7 @@ export function ClockHome({
             <div className={styles.coreWrap}>
               <div ref={coreRef} className={styles.core}>
                 <Hand ref={handRef} />
-                <Portrait smiling={pointed !== null} lookAt={lookAt} />
+                <Portrait smiling={pointed !== null} lookAt={lookAt} aimKey={pointed} />
                 {/* The pool of light on the head, then the lamp above it. */}
                 <div className={styles.lampLight} aria-hidden="true" />
                 <Lamp on={lampOn} onToggle={() => setLampFlipped(!lampOn)} />

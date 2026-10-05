@@ -9,6 +9,12 @@ export const contentType = "image/png";
 
 const DISC = 420;
 
+// The site's typeface, so the card matches the page it links to (until
+// 2026-10-05 it rendered in next/og's default font). The same SemiBold file
+// /th's card bundles; satori reads ttf but not woff2 (see assets/fonts). The
+// card's 700 and 800 headings use this one weight, the nearest available.
+const kanit = readFile(path.join(process.cwd(), "assets/fonts/Kanit-SemiBold.ttf"));
+
 /**
  * The homepage's share card, matching the clock homepage: Ice's portrait on its
  * disc on the right, who and what on the left.
@@ -157,6 +163,9 @@ export default async function OgImage() {
         <img src={portraitSrc} width={DISC} height={DISC} alt="" style={{ position: "absolute", left: 0, top: 0 }} />
       </div>
     </div>,
-    { ...size },
+    {
+      ...size,
+      fonts: [{ name: "Kanit", data: await kanit, weight: 600, style: "normal" }],
+    },
   );
 }

@@ -50,5 +50,15 @@ export function Clock({ initialOpen = null }: { initialOpen?: InPlace | null }) 
     caseCount: cases.length,
   };
 
-  return <ClockHome initialOpen={initialOpen} content={content} />;
+  // Marks <html> as night before the first paint, from Copenhagen's hour (the
+  // same rule as ClockHome's lamp), so night visitors get no day frame while
+  // React loads. Plain inline JS: it must run before hydration, not after.
+  const nightScript = `try{var h=+new Intl.DateTimeFormat("en-GB",{hour:"2-digit",hourCycle:"h23",timeZone:"Europe/Copenhagen"}).format(new Date());if(h>=${clockContent.desk.lampOnFrom}||h<${clockContent.desk.lampOffAt})document.documentElement.setAttribute("data-desk-night","")}catch(e){}`;
+
+  return (
+    <>
+      <script dangerouslySetInnerHTML={{ __html: nightScript }} />
+      <ClockHome initialOpen={initialOpen} content={content} />
+    </>
+  );
 }

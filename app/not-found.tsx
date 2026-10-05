@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageShell } from "./components/PageShell";
 import { PaperSheet } from "./components/paper/PaperSheet";
 import { PageHeader } from "./components/paper/PageHeader";
+import paper from "./components/paper/paper.module.css";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -29,7 +30,11 @@ export default function NotFound() {
           title="This page isn't on the desk"
           lead="The link may be old, or the page has moved. Here is where most things are."
         />
-        <ul className="m-0 grid list-none gap-3 p-0 text-lg">
+        {/* On the lines: each item is whole lines tall, and two blank ruled lines
+            follow, like the rest of a notebook page. */}
+        {/* text-[18px], not text-lg: text-lg also sets a 28px line height, and a
+            utility beats .lines, which would knock the text off the rules. */}
+        <ul className={`${paper.lines} list-none p-0 pb-[72px] text-[18px]`}>
           {ways.map((way) => (
             <li key={way.href}>
               <Link href={way.href} className="font-bold no-underline">
