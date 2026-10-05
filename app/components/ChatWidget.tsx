@@ -3,7 +3,7 @@
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { isTextUIPart } from "ai";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Loader2, RotateCcw } from "lucide-react";
 import { chatPrompts } from "../data";
@@ -47,13 +47,32 @@ export function ChatWidget({ variant = "portfolio" }: { variant?: ChatVariant })
   const copy = COPY[variant];
   const prompts = chatPrompts[variant];
 
+  // The variant picks the route's prompt: each widget sends only what its
+  // visitors ask about (see SYSTEM_PROMPTS in app/api/chat/route.ts). useChat
+  // keeps its first transport, so it is built once per variant, and `id`
+  // makes a variant change start a fresh chat rather than keep the old one.
+  const transport = useMemo(
+    () => new DefaultChatTransport({ api: "/api/chat", body: { variant } }),
+    [variant],
+  );
   const { messages, sendMessage, setMessages, status } = useChat({
-    // The variant picks the route's prompt: each widget sends only what its
-    // visitors ask about (see SYSTEM_PROMPTS in app/api/chat/route.ts).
-    transport: new DefaultChatTransport({ api: "/api/chat", body: { variant } }),
+    id: variant,
+    transport,
     onError: (error) =>
       setChatError(/rate limit/i.test(error.message) ? "limit" : "transient"),
   });
+
+  // A reasoning model can spend its whole token budget thinking and finish
+  // with no text. The bubble would then just vanish; say something instead.
+  const last = messages[messages.length - 1];
+  const emptyReply =
+    status === "ready" &&
+    last?.role === "assistant" &&
+    !last.parts.filter(isTextUIPart).some((p) => p.text.trim());
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reacting to a finished stream
+    if (emptyReply) setChatError("transient");
+  }, [emptyReply]);
 
   const isRateLimited = chatError === "limit";
 

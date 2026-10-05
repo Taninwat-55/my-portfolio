@@ -43,21 +43,22 @@ const CHAT_MODEL = process.env.CHAT_MODEL || "openai/gpt-oss-120b";
  */
 const RULES = `You are a helpful assistant representing ${personalInfo.name}, who goes by ${personalInfo.nickname}.
 
-"${personalInfo.nickname}" and "${personalInfo.name}" are the same person. The site brands itself around the nickname, so most visitors will call him ${personalInfo.nickname} — treat that as simply his name. Answer using whichever name the visitor used, and never correct them for saying ${personalInfo.nickname} or imply it is the wrong name.
+"${personalInfo.nickname}" and "${personalInfo.name}" are the same person. The site brands itself around the nickname, so most visitors will call him ${personalInfo.nickname}: treat that as simply his name. Answer using whichever name the visitor used, and never correct them for saying ${personalInfo.nickname} or imply it is the wrong name.
 
 He is a ${siteContent.roleLabel} based in ${personalInfo.location}.
 He builds and ships web products (React, Next.js, TypeScript) and also leads product and project delivery: scoping, prioritization, stakeholder alignment, shipping. He can talk directly with developers because he is one.
 
 He is available two ways, and which one applies depends entirely on who is asking:
 - Someone asking about his background, experience, skills, or whether he is open to roles is a recruiter or hiring manager. Answer from the sections below as normal.
-- Someone who mentions their own business, a website or app they want built, a budget, or a deadline — or who asks anything like "can you build me a website?" — is a potential client. Answer from the FREELANCE & SERVICES section, point them to /services and its enquiry form, and do not bring up his job search, his CV, or his availability for employment unless they ask.
+- Someone who mentions their own business, a website or app they want built, a budget, or a deadline, or who asks anything like "can you build me a website?", is a potential client. Answer from the FREELANCE & SERVICES section, point them to /services and its enquiry form, and do not bring up his job search, his CV, or his availability for employment unless they ask.
 When you genuinely cannot tell which it is, ask one short question before answering.
-Always speak about him in the third person — "he builds", "he takes on", never "I build". You represent him; you are not him. This holds for freelance questions too, where the pull toward answering as him is strongest.
-Never quote an exact price or promise a delivery date. The published ranges on /services are fine to repeat; anything more specific is scoped through the enquiry form, not here.
+Always speak about him in the third person: "he builds", "he takes on", never "I build". You represent him; you are not him. This holds for freelance questions too, where the pull toward answering as him is strongest.
+Never quote an exact price or promise a delivery date. Anything specific is scoped through the enquiry form on /services, not here.
 
 Answer questions about his background, skills, projects, and experience. Be conversational, concise, and honest.
 If asked something you don't know about him, say so rather than making things up.
-Don't be overly promotional — be genuine and grounded.
+Don't be overly promotional; be genuine and grounded.
+Never use em dashes in replies; use a comma, a colon or a full stop instead.
 Keep responses under 150 words unless a detailed answer clearly requires more.`;
 
 /**
@@ -85,7 +86,12 @@ ${cases
       `- ${c.title} (${c.tag}${c.concept ? ", concept piece" : ""}): ${c.sub}`,
       `  Stack: ${c.stack.join(", ")}. Results: ${c.metrics.map((m) => `${m.v} ${m.k}`).join(", ")}.`,
       `  Case study: https://taninwatkaewpankan.xyz/cases/${c.id}`,
-    ].join("\n"),
+      // "Is it live?" and "where's the code?" are typical recruiter questions.
+      c.links.demo ? `  Live: ${c.links.demo}` : "",
+      c.links.code ? `  Code: ${c.links.code}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n"),
   )
   .join("\n")}
 
@@ -99,6 +105,7 @@ const SERVICES_CONTEXT = `== ABOUT, IN SHORT ==
 A ${siteContent.roleLabel} in ${personalInfo.location} who also runs a small freelance practice. His story, CV and case studies are at https://taninwatkaewpankan.xyz; point recruiters there.
 
 == FREELANCE & SERVICES ==
+The published ranges below are fine to repeat.
 ${servicesContext}`;
 
 const CONTACT = `== CONTACT ==
@@ -139,7 +146,10 @@ export async function POST(request: Request) {
       model: groq(CHAT_MODEL),
       system,
       messages: modelMessages,
-      maxOutputTokens: 400,
+      // 800, not 400: on a reasoning model the cap covers the thinking AND the
+      // answer, so a cap sized for the answer alone can starve it. RULES still
+      // hold answers to ~150 words.
+      maxOutputTokens: 800,
       providerOptions: { groq: { reasoningEffort: "low" } },
     });
 
