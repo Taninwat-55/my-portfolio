@@ -204,6 +204,7 @@ export const thContent = {
   },
 
   backToEnglish: "English",
+  languagesLabel: "ภาษา",
 
   /**
    * Form chrome, passed into ServicesEnquiryForm as its `copy` prop.

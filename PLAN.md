@@ -31,11 +31,10 @@ was built for — item 31's Facebook groups, Racha's testimonial in Appendix B, 
 whatever the first Danish enquiry teaches.
 **⚠️ Your homework:** none. Both proofreads are in.
 
-⚠️ **Known defect in this log, not yet fixed** (*Known small things* #9): three entries below are dated
-`2026-08-22` but describe items 37, 38 and 8, whose commits are all authored
-`2026-08-18` (`8f432fe`, `6a2ce7b`). The log is newest-at-top otherwise, so those
-three blocks are also out of position. Left alone rather than silently reordered —
-correcting it means moving three blocks, and this file is the source of truth.
+✅ **Log dates corrected 2026-10-05** (*Known small things* #9): the twelve entries from
+item 4 to item 38 were all committed on `2026-08-18`, but had been dated across
+`2026-08-18` to `2026-08-22`. They now read `2026-08-18 (HH:MM)`, the commit time (the last one, where an entry has two).
+Their order was already right; only the dates were wrong.
 
 > This file is the source of truth for the overhaul. The item numbers here
 > supersede any numbering used in chat.
@@ -143,15 +142,15 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 | # | What | Where | Why it is small | Decides |
 | --- | --- | --- | --- | --- |
-| 1 | The MSc degree name has an em dash ("Business and Management — Entrepreneurship"), on `/cv` and in the PDF | `cvData.education` in `app/data.ts`, then `npm run cv` | One string, then regenerate the PDF | Ice (CV copy) |
-| 2 | "Open to full-time full-stack roles…" reads like a stutter; e.g. "Open to full-stack roles, full time, in Denmark, Sweden or remote across the EU." | `app/cv/page.tsx` sign-off | One sentence | Ice (copy) |
-| 3 | The footer nav's `aria-label="Languages"` is English inside the th/sv/da pages; an aria-label cannot carry its own `lang` | `PageShell.tsx` footer | Screen readers only; needs three translated words | Ice (new copy) |
+| 1 | ~~The MSc degree name has an em dash ("Business and Management — Entrepreneurship"), on `/cv` and in the PDF~~ Kept as is 2026-10-05, Ice's call: it is the degree's own name. | `cvData.education` in `app/data.ts`, then `npm run cv` | One string, then regenerate the PDF | Ice (CV copy) |
+| 2 | ~~"Open to full-time full-stack roles…" reads like a stutter~~ Kept as is 2026-10-05, Ice's call. | `app/cv/page.tsx` sign-off | One sentence | Ice (copy) |
+| 3 | ~~The footer nav's `aria-label="Languages"` is English inside the th/sv/da pages~~ Done 2026-10-05: PageShell takes `languagesLabel`; ภาษา, Språk, Sprog (the Danish not proofread, accepted by Ice). | `PageShell.tsx` footer | Screen readers only; needs three translated words | Ice (new copy) |
 | 4 | ~~The 404 page's ruled lines run through its text; the notes solved this with per-block lines~~ Done 2026-10-05: the rules moved onto the text blocks (`paper.lines`), every line exactly 36px at 390px and 1280px. | `app/not-found.tsx`, `PaperSheet ruled` | Polish on one page | Claude can do it |
 | 5 | ~~The clock's eyes check the cursor every 250 ms; they could react to movement instead~~ Done 2026-10-05: event-driven (`aimKey`, resize, scroll); verified the pupils follow keyboard focus and return to rest. | `app/components/clock/Portrait.tsx` | Works as is; a small efficiency win | Claude can do it |
 | 6 | ~~Night visitors see a brief day frame before the clock hydrates~~ Done 2026-10-05: an inline script marks `<html>` as night from Copenhagen's hour before the first paint; verified dimmed before hydration at a simulated 23:30. | `ClockHome.tsx` (lamp state) | A flash of under a second | Claude can do it |
 | 7 | ~~The root share card renders in the default font, not Kanit~~ Done 2026-10-05: bundles the same Kanit SemiBold as `/th`'s card. | `app/opengraph-image.tsx` | Cosmetic; `/th`'s card shows how to bundle Kanit | Claude can do it |
-| 8 | Simulated mobile LCP is 3.4 to 4.2 s on most pages (observed on the clock: 0.14 s). Ruled out: the second stylesheet (Phase 6) and inlining CSS (Phase 2) | Site-wide | Scores are 85 to 96; real visits are fast | Only if it matters |
-| 9 | Three log entries dated `2026-08-22` describe items 37, 38 and 8, committed `2026-08-18`, and sit out of order | This file, see the note at the top | History only | Ice |
+| 8 | ~~Simulated mobile LCP is 3.4 to 4.2 s on most pages~~ Closed 2026-10-05, nothing to fix: Lighthouse's observed LCP equals FCP (97 ms on `/sv`, 60 ms on `/garden`); the 3.4 s is Lantern's simulation, not the page. Also ruled out: the fade-in starting at opacity 0. | Site-wide | Scores are 85 to 96; real visits are fast | Only if it matters |
+| 9 | ~~Three log entries dated `2026-08-22` describe work committed `2026-08-18`~~ Done 2026-10-05: wider than thought, twelve entries (items 4 to 38) were all 08-18 work; re-dated to their commit times. The order was already right. | This file, see the note at the top | History only | Ice |
 
 ## Progress log
 
@@ -1178,9 +1177,9 @@ Full width put the wordmark and the CTA in opposite corners with a hundred empty
 pixels between them, which reads as a page header; an island reads as something
 floating over the composition. Dividers return either side of the inline links.
 
-### 2026-08-22 (later still)
+### 2026-08-18 (22:00)
 
-**Item 38 — hero corners** ✅ (see git log)
+**Item 38 — hero corners** ✅ `ef1abf8`
 
 At 360px the two corner blocks fought over one row: left text wrapped mid-phrase,
 right column broke into four ragged right-aligned lines running into it. They now
@@ -1195,7 +1194,7 @@ thumb — while the DOM order stays left-then-right for `sm:flex-row`.
 - ✅ **Item 37 confirmed working by Ice:** panel, X animation, and the bar clears the
   portrait.
 
-### 2026-08-22 (later)
+### 2026-08-18 (21:54)
 
 **Item 37 — the nav, plus two side fixes** ✅ `8f432fe`
 
@@ -1236,7 +1235,7 @@ would have shipped a broken link; checking the `<title>` caught it.*
   confirm the bar sits clear of the portrait at **744px** — the width where the old
   pill crossed the eyes.
 
-### 2026-08-22
+### 2026-08-18 (21:17)
 
 **Item 8 — day rate raised, and `/projects` made findable** ✅ `6a2ce7b`
 
@@ -1266,7 +1265,7 @@ would have shipped a broken link; checking the `<title>` caught it.*
 - ➕ **New items 37, 38, 39**, and **20b substantially rewritten** — the VAT problem is
   the *framing*, not the constant. See the item.
 
-### 2026-08-21 (later)
+### 2026-08-18 (20:47)
 
 **Image fixes from Ice's screenshots** ✅ `a292693`, `4b40431`
 
@@ -1307,7 +1306,7 @@ project and inventing more would be fabricating case studies. Routed to an itemi
 add-on table plus capability proof from his own products, with the edit-fee question
 sent to item 33 and the CMS question to item 7 rather than becoming a third position.
 
-### 2026-08-21
+### 2026-08-18 (18:29)
 
 **Item 35 — `/projects`, plus a `/th` bug fix** ✅ `92b9b85`
 
@@ -1367,7 +1366,7 @@ hash and scroll-spy intact; both `/th` proof boxes share one ratio; `/projects` 
   5. The **hero rule** vs the CTA at ≥768px (`b11ad9e`) — lowest risk; the rule is
      hidden behind the portrait below that width anyway
 
-### 2026-08-20 (later)
+### 2026-08-18 (18:18)
 
 **Items 30b + 25b — making `/th` reachable** ✅ `e346d00`
 
@@ -1423,7 +1422,7 @@ the earlier grep hit false positives in the RSC payload and CSS class names).
 - ⚠️ **Thai proofread still outstanding** and still the gate on sharing the link.
 - ✅ **Closed:** 30b, 25b. Item 30 is now fully done rather than partial.
 
-### 2026-08-20
+### 2026-08-18 (17:39)
 
 **Items 24 + 25 + 26, and 30 in part — the Thai page** ✅ `d5faf81`
 
@@ -1490,7 +1489,7 @@ case-insensitive, so Googlebot reads it correctly)*; `/th` in `sitemap.xml`.
 - ➕ **Extend item 20b:** the VAT claim now has three more homes in
   `data.th.ts` (`pricing.terms`). Nine copies total.
 
-### 2026-08-19 (later still)
+### 2026-08-18 (17:18)
 
 **Items 18 + 19 + 20 — Block 4, conversion** ✅ `c5a8e8a`
 
@@ -1535,7 +1534,7 @@ and no step text.
   should sit behind one constant. Every location is listed in the comment above
   `services.termsShort`. **Do this before changing any of them individually.**
 
-### 2026-08-19 (later)
+### 2026-08-18 (16:48)
 
 **Items 13, 14, 15, 16, 17b + 12b — Block 3, page surgery** ✅ `a5ff868`
 
@@ -1592,7 +1591,7 @@ content); `roleLabel` still live in all four intended places; `/cv` in
 - ⏸ **Open:** items 6 and 8 (Block 1), item 17 (CV PDF — **Framer in, phone
   number out**), item 33 (care plan). Item 12b is now closed.
 
-### 2026-08-19
+### 2026-08-18 (15:51)
 
 **Items 21 + 22 — Racha's testimonial published** ✅ `b11ad9e`
 
@@ -1654,7 +1653,7 @@ added, removed or strengthened. `approvedOn: "2026-08-18"`.
   destinations — `PillNav`'s "Say hi" → `HireModal` (CV download) and the hero's
   "Start a project" → enquiry. Not broken, but item 15 should converge them.
 
-### 2026-08-18 (later)
+### 2026-08-18 (15:35)
 
 **Items 1 + 2 + 3 — Collapse the price tracks into one ladder** ✅ `28ec667`
 
@@ -1701,7 +1700,7 @@ prerendered `/services` HTML.
   `label === "Platform fee"` instead of `rows[1]`, so reordering the table cannot
   silently change a published figure.
 
-### 2026-08-18
+### 2026-08-18 (15:19)
 
 **Item 4 — Correct the platform-fee figure** ✅ `ef2a806`
 

@@ -15,10 +15,14 @@ interface PageShellProps {
   /**
    * The page's language, for the footer's current-language mark. The shell's
    * own few words stay English, also on /th, /sv and /da: Ice's rule for
-   * those pages is no new copy, and the skip link is marked lang="en". The
-   * footer nav's English aria-label is logged in PLAN.md for a later pass.
+   * those pages is no new copy, and the skip link is marked lang="en".
    */
   lang?: string;
+  /**
+   * The footer nav's accessible name, in the page's language. An aria-label
+   * cannot carry its own lang, so the language pages pass their own word.
+   */
+  languagesLabel?: string;
   /**
    * The English postcard in the footer. Off on /th, /sv and /da (Ice,
    * 2026-10-05): it would be the one English card on a Thai or Danish sales
@@ -35,7 +39,7 @@ interface PageShellProps {
  * Not fixed to the top: these are documents to read, and a fixed bar only
  * covers them.
  */
-export function PageShell({ children, back, lang = "en", postcard = true }: PageShellProps) {
+export function PageShell({ children, back, lang = "en", languagesLabel = "Languages", postcard = true }: PageShellProps) {
   return (
     <div className={styles.desk}>
       <SkipLink />
@@ -58,7 +62,7 @@ export function PageShell({ children, back, lang = "en", postcard = true }: Page
       </main>
 
       <footer className={styles.bottom}>
-        <nav aria-label="Languages" className={styles.languages}>
+        <nav aria-label={languagesLabel} className={styles.languages}>
           {siteContent.languages.map((language) => (
             <Link
               key={language.code}
