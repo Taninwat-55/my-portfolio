@@ -194,8 +194,8 @@ the deletions were code nothing used.
   score"…), which had shown in English on `/th`, `/sv` and `/da` since before the
   re-theme. New `optional` in the form copy and `proof.metrics` per language file,
   keyed by the English label in `cases`. Verified: no English left on the three pages.
-  ⚠️ **New copy, so `npm run copy` grows by these lines.** Thai and Swedish are for Ice
-  to read; **the Danish lines are not yet proofread** (marked in `data.da.ts`).
+  ⚠️ **New copy, so `npm run copy` grows by these lines.** Accepted by Ice (see below);
+  the Danish lines are not proofread, and `data.da.ts` says so.
 - **Uptime check** (`.github/workflows/uptime.yml` + `scripts/uptime-check.mjs`):
   every 6 hours, free (public repo). Loads eight pages, sends a deliberately invalid
   enquiry (healthy = 400; the Upstash outage was 503; nothing is sent), and asks the
@@ -206,11 +206,14 @@ the deletions were code nothing used.
 - The Groq key is set for Production only, on purpose: previews cannot spend the free
   quota. So the chat does not answer on PR previews; test it on the live site.
 
-**Open:**
-- Ice's preview check: `/th` `/sv` `/da` forms and proof figures; nothing else should
-  look different. The chat: on the live site after merge.
-- After merge: Actions tab → "Uptime check" → "Run workflow" once, to see it pass.
-- The Danish proofreader: the three new Danish proof lines and "valgfrit".
+**Closed (2026-10-05, after merge):**
+- Preview checked and merged by Ice. The live chat answers ("Ice is a Copenhagen-based
+  full-stack engineer…"), verified once the new build was live.
+- The uptime check's first run on GitHub passed all ten checks
+  (https://github.com/Taninwat-55/my-portfolio/actions/runs/37308527829).
+- The new translations are accepted by Ice: Thai and Swedish as the native reviewer;
+  the four Danish lines without the Danish proofreader, after a second read by Claude.
+  Recorded as such in `data.da.ts`, so nobody takes them for proofread copy.
 
 ### 2026-10-05 (evening)
 
