@@ -184,13 +184,28 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 Accessibility is 100 on every page type. Performance is unchanged, as expected:
 the deletions were code nothing used.
 
+- **The last English on the language pages, translated** (Ice, before merging): the
+  form's "optional" and Racha's three proof figures ("First", "2 paths", "Lighthouse
+  score"…), which had shown in English on `/th`, `/sv` and `/da` since before the
+  re-theme. New `optional` in the form copy and `proof.metrics` per language file,
+  keyed by the English label in `cases`. Verified: no English left on the three pages.
+  ⚠️ **New copy, so `npm run copy` grows by these lines.** Thai and Swedish are for Ice
+  to read; **the Danish lines are not yet proofread** (marked in `data.da.ts`).
+- **Uptime check** (`.github/workflows/uptime.yml` + `scripts/uptime-check.mjs`):
+  every 6 hours, free (public repo). Loads eight pages, sends a deliberately invalid
+  enquiry (healthy = 400; the Upstash outage was 503; nothing is sent), and asks the
+  chat one short question (healthy = text back). A failure makes GitHub email the
+  repo owner. **Proven locally:** Upstash off fails the enquiry check; the retired
+  `llama-3.3-70b-versatile` fails the chat check with its exact error. GitHub pauses
+  scheduled workflows after 60 days with no repo activity; it emails first.
+- The Groq key is set for Production only, on purpose: previews cannot spend the free
+  quota. So the chat does not answer on PR previews; test it on the live site.
+
 **Open:**
-- Ice's preview check: ask the chat something on `/` and on `/services`; `/th` form
-  labels; nothing should look different anywhere else.
-- Ice's call: the enquiry form's "optional" (next to the business field) is English on
-  all three language pages; translating it is new copy.
-- Worth doing next: an uptime check that would have caught both silent failures (the
-  enquiry form's 503 and the chat's retired model).
+- Ice's preview check: `/th` `/sv` `/da` forms and proof figures; nothing else should
+  look different. The chat: on the live site after merge.
+- After merge: Actions tab → "Uptime check" → "Run workflow" once, to see it pass.
+- The Danish proofreader: the three new Danish proof lines and "valgfrit".
 
 ### 2026-10-05 (evening)
 
