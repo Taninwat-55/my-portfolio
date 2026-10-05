@@ -102,7 +102,7 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 - [x] **Phase 3: CV** (`/cv`) Merged 2026-10-05 (PR #16).
   - A paper document in the PDF's order.
   - Restyle `ContactButton`/`HireModal`, or replace them with `/contact`.
-- [ ] **Phase 4: Services** (`/services`, 1,087 lines, the biggest page)
+- [x] **Phase 4: Services** (`/services`, 1,087 lines, the biggest page) Merged 2026-10-05 (PR #17).
   - Offers as receipt cards (like `/rates`), the running-costs table on paper, the
     FAQ as index cards.
   - Replace `SectionHeading`. Restyle `ServicesEnquiryForm`; it's shared with the
@@ -117,8 +117,13 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
     diff to nothing.
   - Restyle the three OG cards.
 - [ ] **Phase 6: Clean-up and measure.**
+  - **Speed (Ice, 2026-10-05):** move the shared paper styles out of the CSS
+    module into the main stylesheet, so re-themed pages load one render-blocking
+    stylesheet instead of two. Lighthouse blamed it for ~1 s on /sv; every
+    re-themed page sits near 90 performance because of it.
   - Delete what nothing uses any more: `Navbar`, `SectionHeading`,
-    `.hero-heading`, `.frost-text`, Instrument Serif and old tokens.
+    `.hero-heading`, `.frost-text`, Instrument Serif and old tokens, and the
+    `night` tone of `ServicesEnquiryForm`.
   - Lighthouse every route type.
   - Update the concept doc.
 
@@ -126,9 +131,77 @@ design, so "Read the case study" or a note drops the visitor out of the desk wor
 
 ## Progress log
 
+### 2026-10-05 (evening)
+
+**Re-theme Phase 5: Languages, on branch `retheme-5-languages`, not merged** 🚧 *`694258e`*
+
+- **`/th`, `/sv`, `/da` are one shared `LandingPage`** (`app/components/LandingPage.tsx`)
+  on the desk: hero note as a sticky note, prices as a till receipt, proof as a
+  sheet with prints, the form in its paper tone. The three page files went from
+  ~1,470 lines to 267; each keeps its metadata, hreflang and doc comment.
+- **Every word kept, proven:** the roadmap said "identical keys", but the keys differ
+  (`locationNote`/`languageNote`, `quoteSv/Da/Th`, `meetingNote`/`writtenFirst`/LINE)
+  and `npm run copy` prints keys, so renaming them would have broken the proof.
+  Instead **`data.{th,sv,da}.ts` are not edited**; each page maps its keys into
+  props. Verified: `npm run copy th|sv|da` identical; every content string renders
+  as before; hreflang, canonical, robots and the wrapper `lang` identical; `/da`
+  `DRAFT=true` still gives the banner and noindex (tested in a throwaway copy).
+- **Ice's call:** no English postcard on these pages (`PageShell postcard={false}`);
+  no new copy anywhere. The back link "English" carries `lang="en"`, and so does
+  the skip link.
+- Thai keeps its taller lines, and writes its handwritten lines in Kanit (Kalam has
+  no Thai glyphs).
+- **Share cards** are paper sheets on the dark desk, same text and prices; all three
+  fit without wrapping.
+- Six shared classes (label, bullets, row, rowLine, figure, sticky) moved from the
+  `/services` stylesheet into `paper.module.css`; `/services` re-verified unchanged.
+- Also fixed in the move: the old pages put a `<div>` (FadeIn) straight inside
+  `<ol>`/`<ul>` (invalid), and the metrics `<dl>` had term and value reversed.
+
+Lighthouse mobile, before → after: all three **a11y 90 → 100**; **perf 95–97 → 90**,
+LCP 2.6–3.0 → 3.5 s. Cause: the shared paper styles are a second render-blocking
+stylesheet (Lighthouse: ~1 s, the 4 KB paper file ~300 ms). It is site-wide (every
+re-themed page sits near 90), so **Ice chose to fix it in Phase 6**; the roadmap
+item now says so.
+
+- **Fixes before Phase 6 (Ice, 2026-10-05):**
+  - **Hero notes removed on `/th` and `/sv`**, from the pages and the language files
+    (so `npm run copy` drops those two lines, by request). **The `/da` note stays**
+    (Ice's call after the flag): it is the page's only plain statement that calls
+    are in English. `LandingPage`'s `note` is now optional.
+  - **Six prints on `/work`:** Saep and Lumina joined (concept pieces; each print's
+    back opens with "A concept piece…" / "A self-initiated…"). The grid is 3x2 on a
+    wide screen and 2x3 on a tall one, driven by per-print `--col`/`--row` variables
+    so one transform stacks any of them. Desktop sizes prints from the viewport
+    (the open object does not scroll there); phones size from the width (their sheet
+    scrolls). Measured at 1280x900, 1366x768, 390x844, 375x667, 320x568 and 844x390.
+  - **Found on the way:** on small phones a turned print hid its "Read the case
+    study" link under `overflow: hidden`. The one-liner now gives way (fades) before
+    the link does, and prints under 180px drop the stack line so the one-liner keeps
+    room for the concept label. Turning a print back no longer waits for the fan-in
+    stagger (`.settled`).
+  - Explained to Ice, no change: the clock's mood line is picked by Copenhagen hour,
+    five fixed lines (`clockContent.desk.moods`). Advised against a time-based
+    background (Copenhagen vs visitor time, overriding the OS dark-mode setting, a
+    pre-hydration flash, a second palette to design and contrast-check); a subtle
+    evening lamp glow on every page is the small version, optional, after Phase 6.
+
+**Open:**
+- Ice's preview check: all three pages on phone and laptop; Thai line height; the
+  share cards (paste a link into a chat to preview); `/work`'s six prints, turned
+  over, on a phone.
+- ~~Ice's call: a "Concept" mark on the front of the concept pieces' prints.~~ Done:
+  a `CaseStudy.concept` flag (Saep, Lumina) puts a small "Concept" stamp beside the
+  caption and into the print's accessible name.
+- **No Phase 7** (Ice, 2026-10-05): the time-based background was declined for the
+  reasons above. Phase 6 is the last phase.
+- Later: the footer nav's `aria-label="Languages"` is English inside a th/sv/da
+  wrapper; an aria-label cannot carry its own `lang`, so a translated label would
+  have to come from the proofread files.
+
 ### 2026-10-05 (later)
 
-**Re-theme Phase 4: Services, on branch `retheme-4-services`, not merged** 🚧 *`ec01189`*
+**Re-theme Phase 4: Services, merged (PR #17)** ✅ *`ec01189`*
 
 - **`/services` is paper cards on the dark desk.** Offers are till receipts with the
   clock receipt's torn edge (`.receipt` in `paper.module.css`; its shadow sits on a

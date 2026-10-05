@@ -11,6 +11,8 @@ export type ClockPrint = {
   sub: string;
   stack: string[];
   image: string;
+  /** A concept piece: marked on the print's front. */
+  concept: boolean;
 };
 
 export type ClockNote = {

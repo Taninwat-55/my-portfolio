@@ -1,7 +1,6 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
-import { ogBackdrop, OG_ACCENT } from "../lib/og-backdrop";
 import { services } from "../data";
 import { thContent as th, thUnits } from "../data.th";
 
@@ -39,22 +38,33 @@ export default async function ThaiOgImage() {
         style={{
           width: 1200,
           height: 630,
-          ...ogBackdrop(OG_ACCENT.crystal),
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          padding: "64px 80px",
           position: "relative",
           overflow: "hidden",
           fontFamily: "Kanit",
+          // The dark desk, with one sheet of paper on it (re-theme, Phase 5).
+          padding: 36,
+          backgroundColor: "#0C0C0C",
         }}
       >
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            padding: "48px 60px",
+            backgroundColor: "#f6f5f1",
+            borderRadius: 8,
+            boxShadow: "0 18px 40px rgba(0, 0, 0, 0.55)",
+          }}
+        >
 
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           <div
             style={{
               fontSize: 26,
-              color: "#7FC8E3",
+              color: "#286a87",
               display: "flex",
             }}
           >
@@ -65,7 +75,7 @@ export default async function ThaiOgImage() {
             style={{
               fontSize: 76,
               lineHeight: 1.25,
-              color: "#BBCCD7",
+              color: "#1d2731",
               display: "flex",
             }}
           >
@@ -75,7 +85,7 @@ export default async function ThaiOgImage() {
           <div
             style={{
               fontSize: 30,
-              color: "rgba(215, 226, 234, 0.75)",
+              color: "#5a6672",
               display: "flex",
             }}
           >
@@ -96,20 +106,20 @@ export default async function ThaiOgImage() {
                   gap: 6,
                   padding: "16px 22px",
                   borderRadius: 12,
-                  border: "1px solid rgba(215, 226, 234, 0.15)",
-                  background: "rgba(255, 255, 255, 0.04)",
+                  border: "1.5px dashed #c9d5e6",
+                  background: "#ece9e2",
                 }}
               >
                 <div
                   style={{
                     fontSize: 20,
-                    color: "rgba(215, 226, 234, 0.5)",
+                    color: "#5a6672",
                     display: "flex",
                   }}
                 >
                   {thUnits(rung.scope)}
                 </div>
-                <div style={{ fontSize: 26, color: "#D7E2EA", display: "flex" }}>
+                <div style={{ fontSize: 26, color: "#1d2731", display: "flex" }}>
                   {rung.price}
                 </div>
               </div>
@@ -119,12 +129,13 @@ export default async function ThaiOgImage() {
           <div
             style={{
               fontSize: 22,
-              color: "rgba(215, 226, 234, 0.4)",
+              color: "#5a6672",
               display: "flex",
             }}
           >
             taninwatkaewpankan.xyz/th
           </div>
+        </div>
         </div>
       </div>
     ),

@@ -237,8 +237,8 @@ export default function ServicesPage() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <FadeIn immediate y={20}>
             <PaperCard tilt={-0.6} className="h-full">
-              <p className={styles.label}>A good fit</p>
-              <ul className={styles.bullets}>
+              <p className={paper.label}>A good fit</p>
+              <ul className={paper.bullets}>
                 {services.audience.fit.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -248,10 +248,10 @@ export default function ServicesPage() {
 
           <FadeIn immediate delay={0.1} y={20}>
             <PaperCard tilt={0.5} className="h-full">
-              <p className={styles.label}>Probably not</p>
+              <p className={paper.label}>Probably not</p>
               {/* The softer ink, as the old dimmer column: what he does not
                   take on reads as quieter than what he does. */}
-              <ul className={`${styles.bullets} text-paper-soft`}>
+              <ul className={`${paper.bullets} text-paper-soft`}>
                 {services.audience.notFit.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -302,8 +302,8 @@ export default function ServicesPage() {
                     </div>
 
                     <div>
-                      <p className={styles.label}>What&apos;s included</p>
-                      <ul className={styles.bullets}>
+                      <p className={paper.label}>What&apos;s included</p>
+                      <ul className={paper.bullets}>
                         {offer.includes.map((item) => (
                           <li key={item}>{item}</li>
                         ))}
@@ -316,17 +316,17 @@ export default function ServicesPage() {
                       ServiceOffer in data.ts for why that was a mistake. */}
                   {offer.priceLadder && (
                     <div className={`${paper.dashed} mt-8 pt-6`}>
-                      <p className={styles.label}>Priced by scope</p>
+                      <p className={paper.label}>Priced by scope</p>
                       <div>
                         {offer.priceLadder.map((rung) => (
-                          <div key={rung.scope} className={styles.row}>
+                          <div key={rung.scope} className={paper.row}>
                             {/* Both nowrap: at 320px "1–3 pages" was breaking
                                 after the dash. */}
-                            <div className={styles.rowLine}>
+                            <div className={paper.rowLine}>
                               <span className="whitespace-nowrap text-[15px] font-semibold">
                                 {rung.scope}
                               </span>
-                              <span className={styles.figure}>
+                              <span className={paper.figure}>
                                 {rung.price}
                               </span>
                             </div>
@@ -367,14 +367,14 @@ export default function ServicesPage() {
                         client has to ask it. */}
                     {offer.includedInEvery && (
                       <div className={`${paper.dashed} mt-8 pt-6`}>
-                        <p className={styles.label}>
+                        <p className={paper.label}>
                           {offer.includedInEvery.label}
                         </p>
                         <p className="mb-4 max-w-3xl text-sm leading-relaxed text-paper-soft">
                           {offer.includedInEvery.body}
                         </p>
                         <ul
-                          className={`${styles.bullets} grid grid-cols-1 gap-x-10 lg:grid-cols-2`}
+                          className={`${paper.bullets} grid grid-cols-1 gap-x-10 lg:grid-cols-2`}
                         >
                           {offer.includedInEvery.items.map((item) => (
                             <li key={item}>{item}</li>
@@ -394,19 +394,19 @@ export default function ServicesPage() {
                         KEEP, never to build. */}
                     {offer.addOns && (
                       <div className={`${paper.dashed} mt-8 pt-6`}>
-                        <p className={styles.label}>{offer.addOns.label}</p>
+                        <p className={paper.label}>{offer.addOns.label}</p>
                         <p className="mb-2 max-w-3xl text-sm leading-relaxed text-paper-soft">
                           {offer.addOns.body}
                         </p>
 
                         <div>
                           {offer.addOns.items.map((item) => (
-                            <div key={item.name} className={styles.row}>
-                              <div className={styles.rowLine}>
+                            <div key={item.name} className={paper.row}>
+                              <div className={paper.rowLine}>
                                 <span className="text-[15px] font-semibold">
                                   {item.name}
                                 </span>
-                                <span className={styles.figure}>
+                                <span className={paper.figure}>
                                   {item.price}
                                 </span>
                               </div>
@@ -426,7 +426,7 @@ export default function ServicesPage() {
                         </div>
 
                         <div className="mt-5 max-w-2xl">
-                          <p className={styles.label}>
+                          <p className={paper.label}>
                             {offer.addOns.includedLabel}
                           </p>
                           <p className="text-sm leading-relaxed">
@@ -451,7 +451,7 @@ export default function ServicesPage() {
                   >
                     <dl className="flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-12">
                       <div>
-                        <dt className={styles.label}>Price</dt>
+                        <dt className={paper.label}>Price</dt>
                         <dd
                           className={`${paper.mono} text-xl font-bold md:text-2xl`}
                         >
@@ -464,7 +464,7 @@ export default function ServicesPage() {
                         )}
                       </div>
                       <div>
-                        <dt className={styles.label}>Typical timeline</dt>
+                        <dt className={paper.label}>Typical timeline</dt>
                         <dd className="text-base">{offer.timeline}</dd>
                       </div>
                     </dl>
@@ -516,7 +516,7 @@ export default function ServicesPage() {
                 cost, same site both ways. */}
             <div className={`${paper.dashed} px-5 py-6 sm:px-6`}>
               <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
-                <span className={styles.label}>
+                <span className={paper.label}>
                   {services.runningCosts.fiveYear.label}
                 </span>
                 <span className="text-xs text-paper-soft">
@@ -528,7 +528,7 @@ export default function ServicesPage() {
                   inside a ~12.000 kr spread. */}
               <dl className="grid grid-cols-1 gap-3 border-y border-paper-rule py-4 sm:grid-cols-2 sm:gap-6">
                 <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-1.5">
-                  <dt className={styles.label}>Webflow</dt>
+                  <dt className={paper.label}>Webflow</dt>
                   <dd
                     className={`${paper.mono} text-base font-bold sm:text-lg`}
                   >
@@ -536,7 +536,7 @@ export default function ServicesPage() {
                   </dd>
                 </div>
                 <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-1.5">
-                  <dt className={styles.label}>Coded</dt>
+                  <dt className={paper.label}>Coded</dt>
                   <dd
                     className={`${paper.mono} text-base font-bold sm:text-lg`}
                   >
@@ -576,16 +576,16 @@ export default function ServicesPage() {
                     <div className="text-sm font-semibold">{row.label}</div>
                     <div className="mt-3 flex gap-3">
                       <div className="flex-1 rounded border border-paper-rule px-3 py-2.5">
-                        <div className={styles.label}>Webflow</div>
+                        <div className={paper.label}>Webflow</div>
                         {/* Some values are words ("You want no yearly bill"), so
                             they wrap here; the table from sm keeps them on one line. */}
-                        <div className={`${styles.figure} whitespace-normal`}>
+                        <div className={`${paper.figure} whitespace-normal`}>
                           {row.webflow}
                         </div>
                       </div>
                       <div className="flex-1 rounded border border-paper-rule px-3 py-2.5">
-                        <div className={styles.label}>Coded</div>
-                        <div className={`${styles.figure} whitespace-normal`}>
+                        <div className={paper.label}>Coded</div>
+                        <div className={`${paper.figure} whitespace-normal`}>
                           {row.coded}
                         </div>
                       </div>
@@ -620,8 +620,8 @@ export default function ServicesPage() {
                             {row.why}
                           </span>
                         </th>
-                        <td className={styles.figure}>{row.webflow}</td>
-                        <td className={styles.figure}>{row.coded}</td>
+                        <td className={paper.figure}>{row.webflow}</td>
+                        <td className={paper.figure}>{row.coded}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -668,9 +668,9 @@ export default function ServicesPage() {
             <FadeIn key={tier.label} y={20}>
               <PaperCard tilt={tilt(i + 1)} className="h-full">
                 <div className="mb-3 flex items-baseline justify-between gap-3">
-                  <span className={styles.label}>{tier.label}</span>
+                  <span className={paper.label}>{tier.label}</span>
                   {tier.price && (
-                    <span className={styles.figure}>{tier.price}</span>
+                    <span className={paper.figure}>{tier.price}</span>
                   )}
                 </div>
                 <p className="text-sm leading-relaxed">{tier.body}</p>
@@ -680,13 +680,13 @@ export default function ServicesPage() {
         </div>
 
         <FadeIn y={20} delay={0.1}>
-          <div className={`${styles.sticky} mt-6`}>
+          <div className={`${paper.sticky} mt-6`}>
             <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-              <span className={`${styles.label} text-paper-ink`}>
+              <span className={`${paper.label} text-paper-ink`}>
                 {services.aftercare.block.label}
               </span>
               <span className="flex items-baseline gap-3">
-                <span className={`${styles.figure} text-lg`}>
+                <span className={`${paper.figure} text-lg`}>
                   {services.aftercare.block.price}
                 </span>
                 <span className="text-xs">{services.aftercare.block.unit}</span>
@@ -696,7 +696,7 @@ export default function ServicesPage() {
               {services.aftercare.block.body}
             </p>
             <ul
-              className={`${styles.bullets} mt-5 grid grid-cols-1 gap-x-10 border-t border-paper-ink/20 pt-5 sm:grid-cols-2 [&_li::marker]:text-paper-ink`}
+              className={`${paper.bullets} mt-5 grid grid-cols-1 gap-x-10 border-t border-paper-ink/20 pt-5 sm:grid-cols-2 [&_li::marker]:text-paper-ink`}
             >
               {services.aftercare.block.terms.map((term) => (
                 <li key={term}>{term}</li>
