@@ -65,7 +65,9 @@ export const daContent = {
   hero: {
     eyebrow: "For små virksomheder i Danmark",
     title: "Hjemmeside til din virksomhed",
-    lead: "Fast pris. Du ejer det hele. Ingen månedlige gebyrer, du ikke har bedt om.",
+    // ⚠️ NOT YET PROOFREAD (2026-10-11). Replaced "Ingen månedlige gebyrer, du ikke
+    // har bedt om" when the optional Local visibility plan arrived.
+    lead: "Fast pris. Du ejer det hele. Og ingen binding på noget.",
     body: "Jeg hedder Ice. Jeg bygger hjemmesider til små virksomheder — selv, fra den første samtale til overleveringen. Intet bureau og ingen projektleder imellem: du taler med den, der faktisk bygger siden, og det er mig, der svarer, hvis noget går galt.",
     /**
      * ITEM 29, AND THE MOST IMPORTANT PARAGRAPH ON THE PAGE.
@@ -99,7 +101,9 @@ export const daContent = {
 
   pricing: {
     heading: "Priser",
-    lead: "Samme pris, uanset hvordan siden bygges. Det, der afgør prisen, er hvor mange sider du har brug for.",
+    // ⚠️ NOT YET PROOFREAD (2026-10-11): the lead and the last two terms. The old
+    // lead compared two build methods; every site is now coded.
+    lead: "Hver side bliver kodet i hånden. Det, der afgør prisen, er hvor mange sider du har brug for.",
     /**
      * Danish renderings of services.termsShort. Same three claims, same order.
      *
@@ -114,6 +118,8 @@ export const daContent = {
       "Fast pris aftalt skriftligt, før arbejdet begynder",
       "Alle priser er ekskl. moms",
       "Domæne, hosting og kode står i dit navn",
+      "Sat op, så Google og AI-assistenter som ChatGPT kan finde og gengive dine oplysninger korrekt",
+      "Har du allerede en WordPress- eller Wix-side, retter jeg det, der er gået i stykker. Et helt nyt udseende betyder en ny side i kode",
     ],
   },
 
@@ -121,9 +127,9 @@ export const daContent = {
    * ITEM 44. What changes cost after launch.
    *
    * This section was missing, and its absence left a hole in the page's own
-   * argument rather than merely omitting a detail: hero.lead promises "ingen
-   * månedlige gebyrer, du ikke har bedt om", which raises the retainer question in
-   * the third sentence and then never answers it. What changes cost is the second
+   * argument rather than merely omitting a detail: hero.lead used to promise "ingen
+   * månedlige gebyrer, du ikke har bedt om", which raised the retainer question in
+   * the third sentence and then never answered it. What changes cost is the second
    * thing an owner asks, straight after the price.
    *
    * Sits directly after Priser for that reason — price, then "and if I want
@@ -135,7 +141,10 @@ export const daContent = {
    */
   aftercare: {
     heading: "Hvis du vil have noget ændret senere",
-    lead: "Der er ingen plugins, der skal opdateres, og intet, der forfalder af sig selv — det er hele pointen med at bygge siden på den måde, og derfor er der ingen månedlig aftale, jeg skal sælge dig. Det, folk faktisk vil have bagefter, er ændringer, og her er hvad de koster.",
+    // ⚠️ NOT YET PROOFREAD (2026-10-11): rewritten so it no longer says there is
+    // no monthly agreement of any kind. Block body below: "abonnement" became
+    // "serviceaftale" for the same reason.
+    lead: "Der er ingen plugins, der skal opdateres, og intet, der forfalder af sig selv. Det er hele pointen med at bygge siden på den måde, og derfor sælger jeg ingen serviceaftale. Det, folk faktisk vil have bagefter, er ændringer, og her er hvad de koster.",
     free: {
       label: "Gratis — bare spørg",
       body: "En pris, et telefonnummer, en åbningstid, en stavefejl. Tager det mig et par minutter, er det ikke værd at sende en faktura for, så det gør jeg ikke.",
@@ -146,7 +155,7 @@ export const daContent = {
     },
     block: {
       label: "En klump timer",
-      body: "De fleste af mine kunder får aldrig brug for det, og det siger jeg hellere end at sælge dig et abonnement. Men vil du helst ikke tænke over det, hver gang du vil have noget rettet, kan du købe timerne på forhånd og trække på dem. Brug dem på hvad som helst: tekst, billeder, priser, en ny side, et spørgsmål. Jeg skriver ned, hvad hver ændring tog, og siger, hvor meget der er tilbage.",
+      body: "De fleste af mine kunder får aldrig brug for det, og det siger jeg hellere end at sælge dig en serviceaftale. Men vil du helst ikke tænke over det, hver gang du vil have noget rettet, kan du købe timerne på forhånd og trække på dem. Brug dem på hvad som helst: tekst, billeder, priser, en ny side, et spørgsmål. Jeg skriver ned, hvad hver ændring tog, og siger, hvor meget der er tilbage.",
       terms: [
         "Det svarer til {effective} kr. i timen i stedet for {hourly}",
         "Ubrugte timer går videre til endnu et år — én gang",
@@ -154,6 +163,36 @@ export const daContent = {
         "Når de er brugt op, køber du nye eller lader det være — der sker ikke noget automatisk",
       ],
     },
+  },
+
+  /**
+   * The optional monthly plan, mirroring services.localVisibility in data.ts.
+   *
+   * ⚠️ NOT YET PROOFREAD (2026-10-11). Drafted by Claude; needs a native Danish
+   * read before anyone relies on it, same rule as the rest of this file.
+   * The price comes from localVisibilityRates; no number is typed here.
+   */
+  localVisibility: {
+    eyebrow: "Valgfrit, hver måned",
+    heading: "Lokal synlighed",
+    lead: "En hjemmeside er kun den ene halvdel af at blive fundet. Den anden halvdel ligger på Google, i dine anmeldelser og i stigende grad i det, AI-assistenter svarer, når nogen spørger, hvor de skal gå hen. Den del passer jeg på hver måned, så du kan passe din forretning.",
+    perMonth: "/ måned",
+    includes: [
+      "Din Google-virksomhedsprofil holdt opdateret: åbningstider, helligdage, billeder, menukort eller prisliste og et jævnligt opslag, så den forbliver aktiv",
+      "Hjælp til flere anmeldelser: en nem måde at spørge glade kunder på og forslag til svar på hver anmeldelse, god eller dårlig, som du godkender",
+      "Ændringer ud over de gratis småting, fx nye billeder, et sæsonmenukort eller et afsnit skrevet om, uden at det bliver afregnet efter timen",
+      "Et månedligt tjek af, hvordan Google og AI-assistenter som ChatGPT beskriver din virksomhed, og rettelser i de kilder, de læser, når de tager fejl",
+      "Navn, adresse og telefonnummer holdt ens på de vigtige oversigter som Krak og De Gule Sider",
+      "En kort rapport hver måned i almindeligt sprog: hvor mange der fandt dig, ringede, fik en rutevejledning eller besøgte siden, og hvad jeg har lavet",
+    ],
+    terms: [
+      "Ingen binding: du kan stoppe hver måned uden opsigelsesperiode",
+      "Intet oprettelsesgebyr",
+      "Virker bedst på en side, jeg har bygget, men jeg kan også passe din Google-profil og dine anmeldelser alene",
+      "Ikke annoncering: der bruges ingen annoncekroner på dine vegne",
+    ],
+    notCare:
+      "Det her er ikke en serviceaftale. Din side skal ikke lappes, og jeg tager ikke penge for at holde øje med den. Det, du betaler for, er arbejdet med at få kunderne ind, og det bliver aldrig helt færdigt.",
   },
 
   proof: {
@@ -250,6 +289,8 @@ export const daContent = {
         "small-business-site": "Hjemmeside til virksomheden",
         "web-app-frontend": "Frontend til en webapp",
         "redesign-rescue": "Lave en eksisterende side om eller gøre den hurtigere",
+        // ⚠️ NOT YET PROOFREAD (2026-10-11).
+        "local-visibility": "Lokal synlighed (hver måned)",
         "something-else": "Noget andet",
       },
       budget: {

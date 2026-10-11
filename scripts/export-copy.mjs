@@ -100,6 +100,7 @@ const TITLES = {
   process: "How it works",
   contact: "Contact",
   aftercare: "After launch — what changes cost",
+  localVisibility: "Local visibility, the optional monthly plan",
   form: "The enquiry form",
   errors: "Form error messages",
   backToEnglish: "Link back to English",

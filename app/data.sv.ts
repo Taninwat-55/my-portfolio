@@ -88,7 +88,7 @@ export const svContent = {
   hero: {
     eyebrow: "För småföretag i Skåne",
     title: "Hemsida till ditt företag",
-    lead: "Fast pris. Du äger allt. Inga månadsavgifter du inte har bett om.",
+    lead: "Fast pris. Du äger allt. Och ingen bindningstid på något.",
     body: "Jag heter Ice. Jag bygger hemsidor åt små företag — själv, från första samtalet till överlämningen. Ingen byrå och ingen projektledare emellan: du pratar med den som faktiskt bygger sidan, och det är jag som svarar om något går fel.",
   },
 
@@ -105,7 +105,7 @@ export const svContent = {
 
   pricing: {
     heading: "Priser",
-    lead: "Samma pris oavsett hur sidan byggs. Det som styr priset är hur många sidor du behöver.",
+    lead: "Varje sida kodas för hand. Det som styr priset är hur många sidor du behöver.",
     /**
      * Prices in data.ts are in DKK because that is the market Ice invoices in.
      * No conversion rate is printed on purpose: it would be wrong within a month,
@@ -126,6 +126,8 @@ export const svContent = {
       "Fast pris skriftligt innan arbetet börjar",
       "Alla priser är exkl. moms",
       "Domän, hosting och kod står på dig",
+      "Uppsatt så att Google och AI-assistenter som ChatGPT hittar och återger dina uppgifter rätt",
+      "Har du redan en WordPress- eller Wix-sida fixar jag det som är trasigt. Ett helt nytt utseende betyder en ny sida i kod",
     ],
   },
 
@@ -143,7 +145,7 @@ export const svContent = {
    */
   aftercare: {
     heading: "Om du vill ändra något senare",
-    lead: "Det finns inga plugins att uppdatera och inget som förfaller av sig självt — det är hela poängen med att bygga sidan så här, och därför finns ingen månadsplan att sälja dig. Vad folk faktiskt vill ha efteråt är ändringar, så det här är vad de kostar.",
+    lead: "Det finns inga plugins att uppdatera och inget som förfaller av sig självt. Det är hela poängen med att bygga sidan så här, och därför säljer jag inget serviceavtal. Vad folk faktiskt vill ha efteråt är ändringar, så det här är vad de kostar.",
     free: {
       label: "Gratis — bara fråga",
       body: "Ett pris, ett telefonnummer, en öppettid, ett stavfel. Tar det mig ett par minuter är det inte värt en faktura för någon av oss, så jag skickar ingen.",
@@ -154,7 +156,7 @@ export const svContent = {
     },
     block: {
       label: "Ett block timmar",
-      body: "De flesta av mina kunder behöver aldrig det här, och det säger jag hellre än att sälja dig en prenumeration. Men vill du slippa tänka på det varje gång du vill ändra något kan du köpa timmarna i förväg och dra på dem. Använd dem till vad som helst: text, bilder, priser, en ny sida, en fråga. Jag antecknar vad varje ändring tog och säger vad som är kvar.",
+      body: "De flesta av mina kunder behöver aldrig det här, och det säger jag hellre än att sälja dig ett serviceavtal. Men vill du slippa tänka på det varje gång du vill ändra något kan du köpa timmarna i förväg och dra på dem. Använd dem till vad som helst: text, bilder, priser, en ny sida, en fråga. Jag antecknar vad varje ändring tog och säger vad som är kvar.",
       terms: [
         "Det blir {effective} DKK i timmen i stället för {hourly}",
         "Oanvända timmar följer med till ett andra år — en gång",
@@ -162,6 +164,35 @@ export const svContent = {
         "När de är slut köper du nya eller inte — ingenting händer av sig självt",
       ],
     },
+  },
+
+  /**
+   * The optional monthly plan, mirroring services.localVisibility in data.ts.
+   * Added 2026-10-11; Ice is the native reviewer here. The price comes from
+   * localVisibilityRates through svPrice(), and pricing.currencyNote above
+   * already covers SEK quotes, so no number or currency rule is typed here.
+   */
+  localVisibility: {
+    eyebrow: "Valfritt, varje månad",
+    heading: "Lokal synlighet",
+    lead: "En hemsida är bara ena halvan av att bli hittad. Den andra halvan finns på Google, i dina recensioner och allt oftare i vad AI-assistenter svarar när någon frågar vart de ska gå. Den halvan tar jag hand om varje månad, så att du kan sköta företaget.",
+    perMonth: "/ månad",
+    includes: [
+      "Din Google-företagsprofil hålls uppdaterad: öppettider, helgdagar, bilder, meny eller prislista och ett inlägg då och då så att den håller sig aktiv",
+      "Hjälp att få fler recensioner: ett enkelt sätt att fråga nöjda kunder, och förslag på svar till varje recension, bra eller dålig, som du godkänner",
+      "Ändringar utöver de gratis småsakerna, till exempel nya bilder, en säsongsmeny eller ett omskrivet avsnitt, utan timdebitering",
+      "En månadskoll av hur Google och AI-assistenter som ChatGPT beskriver ditt företag, och rättelser i källorna de läser när de har fel",
+      "Namn, adress och telefonnummer likadana i de kataloger som spelar roll, som Hitta och Eniro",
+      "En kort rapport varje månad på vanlig svenska: hur många som hittade dig, ringde, sökte vägbeskrivning eller besökte sidan, och vad jag gjorde",
+    ],
+    terms: [
+      "Ingen bindningstid: säg upp när du vill, ingen uppsägningstid",
+      "Ingen startavgift",
+      "Fungerar bäst på en sida jag har byggt, men jag kan också ta hand om bara din Google-profil och dina recensioner",
+      "Inte annonsering: ingen annonsbudget läggs på din räkning",
+    ],
+    notCare:
+      "Det här är inget serviceavtal. Din sida behöver inte lappas, och jag tar inte betalt för att titta på den. Det du betalar för är jobbet med att få in kunder, och det blir aldrig riktigt klart.",
   },
 
   proof: {
@@ -255,6 +286,7 @@ export const svContent = {
         "small-business-site": "Hemsida till företaget",
         "web-app-frontend": "Frontend till en webbapp",
         "redesign-rescue": "Göra om eller snabba upp en befintlig sida",
+        "local-visibility": "Lokal synlighet (varje månad)",
         "something-else": "Något annat",
       },
       budget: {

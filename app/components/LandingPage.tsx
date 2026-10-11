@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import { Check, Mail, MessageCircle } from "lucide-react";
-import { personalInfo, services, servicesProcess, cases, fillAftercareRates } from "../data";
+import { personalInfo, services, servicesProcess, cases, fillAftercareRates, localVisibilityRates } from "../data";
 import { PageShell } from "./PageShell";
 import { FadeIn } from "./FadeIn";
 import { ServicesEnquiryForm, type EnquiryCopy } from "./ServicesEnquiryForm";
@@ -28,6 +28,17 @@ export interface LandingCopy {
     free: { label: string; body: string };
     hourly: { label: string; body: string };
     block: { label: string; body: string; terms: readonly string[] };
+  };
+  /** The optional monthly plan. The price is read from localVisibilityRates. */
+  localVisibility: {
+    eyebrow: string;
+    heading: string;
+    lead: string;
+    /** Follows the price: "/ måned", "/ månad", "/ เดือน". */
+    perMonth: string;
+    includes: readonly string[];
+    terms: readonly string[];
+    notCare: string;
   };
   proof: {
     heading: string;
@@ -202,9 +213,7 @@ export function LandingPage({
         {/* ── After launch ───────────────────────────────────────────────
             ITEM 44. Directly after the prices, because that is where the
             question arrives: what changes cost is the next thing a shop owner
-            asks, not a detail. On /da, hero.lead promises "ingen månedlige
-            gebyrer, du ikke har bedt om", which raises the retainer question in
-            the third sentence and, until this section existed, never answered it.
+            asks, not a detail.
 
             Every figure comes from services.aftercare and aftercareRates.
             units() translates the unit words inside them ("650 DKK / hour"
@@ -250,6 +259,45 @@ export function LandingPage({
                   </li>
                 ))}
               </ul>
+            </PaperCard>
+          </FadeIn>
+        </section>
+
+        {/* ── Local visibility ─────────────────────────────────────────────
+            The optional monthly plan, straight after aftercare because that
+            section has just said there is no maintenance plan, and the reader
+            needs to see at once that this is a different thing. The figure is
+            localVisibilityRates passed through price(), so /sv gets its
+            thousands space and no language file holds a number. */}
+        <section aria-labelledby={`${lang}-local-visibility`} className="mb-14 md:mb-20">
+          <DeskHeading id={`${lang}-local-visibility`} title={c.localVisibility.heading} />
+          <p className={`mb-6 max-w-2xl text-base text-frost/80 ${leading}`}>{c.localVisibility.lead}</p>
+
+          <FadeIn y={16}>
+            <PaperCard tilt={-0.4}>
+              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <p className={paper.label}>{c.localVisibility.eyebrow}</p>
+                <p className={`${paper.figure} text-base sm:text-lg`}>
+                  {price(localVisibilityRates.monthly)} {localVisibilityRates.currency} {c.localVisibility.perMonth}
+                </p>
+              </div>
+              <ul className="mt-4 flex flex-col gap-2.5">
+                {c.localVisibility.includes.map((item) => (
+                  <li key={item} className={`flex items-start gap-2.5 text-sm ${leading}`}>
+                    <Check size={15} strokeWidth={2} aria-hidden className={`${loose ? "mt-1.5" : "mt-1"} shrink-0`} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <ul className={`${paper.dashed} mt-5 flex flex-col gap-2.5 pt-5`}>
+                {c.localVisibility.terms.map((term) => (
+                  <li key={term} className={`flex items-start gap-2.5 text-sm ${leading}`}>
+                    <Check size={15} strokeWidth={2} aria-hidden className={`${loose ? "mt-1.5" : "mt-1"} shrink-0`} />
+                    {term}
+                  </li>
+                ))}
+              </ul>
+              <p className={`${paper.dashed} mt-5 pt-5 text-sm text-paper-soft ${leading}`}>{c.localVisibility.notCare}</p>
             </PaperCard>
           </FadeIn>
         </section>
