@@ -1591,6 +1591,9 @@ export const servicesEnquiryOptions = {
     { value: "small-business-site", label: "A website for my business" },
     { value: "web-app-frontend", label: "A web app frontend build" },
     { value: "redesign-rescue", label: "Redesign / make my site faster" },
+    // The monthly plan. Before it had a value of its own, an owner who only
+    // wanted their Google profile looked after had to pick "Something else".
+    { value: "local-visibility", label: "Local visibility (monthly)" },
     { value: "something-else", label: "Something else" },
   ],
   // Bands straddle the published prices rather than mirroring them: a visitor
