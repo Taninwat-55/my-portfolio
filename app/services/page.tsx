@@ -21,6 +21,8 @@ import {
   services,
   servicesProcess,
   servicesFaq,
+  localVisibilityRates,
+  vat,
 } from "../data";
 
 const BASE_URL = "https://taninwatkaewpankan.xyz";
@@ -30,7 +32,7 @@ const PAGE_URL = `${BASE_URL}/services`;
 // competing page says "contact us for a quote". A description that answers the
 // question in the SERP earns the click, and gives answer engines something
 // concrete enough to quote.
-const DESCRIPTION = `Freelance web development in Copenhagen. Small-business websites ${services.offers[0].priceRange}, the same price in Webflow or coded from scratch. Also web app frontends and redesign work. Published prices, fixed scope, written quote before anything starts.`;
+const DESCRIPTION = `Freelance web development in Copenhagen. Small-business websites ${services.offers[0].priceRange}, coded by hand and set up to be found on Google and by AI assistants. Optional Local visibility plan, ${services.localVisibility.price}, no binding. Also web app frontends and redesign work. Published prices, fixed scope, written quote before anything starts.`;
 
 export const metadata: Metadata = {
   title: "Services",
@@ -42,8 +44,9 @@ export const metadata: Metadata = {
     "freelance webudvikler København",
     "hjemmeside til lille virksomhed",
     "hvad koster en hjemmeside",
-    "Webflow developer Denmark",
-    "Webflow udvikler Danmark",
+    "lokal SEO lille virksomhed",
+    "Google Business profil hjælp",
+    "synlig i ChatGPT",
     "React Next.js freelancer Copenhagen",
     "web app frontend freelance",
     "website redesign Denmark",
@@ -127,7 +130,8 @@ export default function ServicesPage() {
         },
         knowsAbout: [
           "Web development",
-          "Webflow",
+          "Local SEO",
+          "Answer engine optimisation",
           "React",
           "Next.js",
           "TypeScript",
@@ -137,21 +141,54 @@ export default function ServicesPage() {
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Freelance web development services",
-          itemListElement: services.offers.map((offer) => ({
-            "@type": "Offer",
-            "@id": `${PAGE_URL}#${offer.id}`,
-            url: `${PAGE_URL}#${offer.id}`,
-            priceCurrency: "DKK",
-            // The machine-readable form of "a small number of selected projects".
-            availability: "https://schema.org/LimitedAvailability",
-            itemOffered: {
-              "@type": "Service",
-              name: offer.name,
-              serviceType: offer.name,
-              description: offer.tagline,
-              provider: { "@type": "Person", name: personalInfo.name, url: BASE_URL },
+          itemListElement: [
+            ...services.offers.map((offer) => ({
+              "@type": "Offer",
+              "@id": `${PAGE_URL}#${offer.id}`,
+              url: `${PAGE_URL}#${offer.id}`,
+              priceCurrency: "DKK",
+              // The machine-readable form of "a small number of selected projects".
+              availability: "https://schema.org/LimitedAvailability",
+              itemOffered: {
+                "@type": "Service",
+                name: offer.name,
+                serviceType: offer.name,
+                description: offer.tagline,
+                provider: { "@type": "Person", name: personalInfo.name, url: BASE_URL },
+              },
+            })),
+            // The monthly plan is one exact figure, unlike the offers' ranges,
+            // so it can carry a real price. Read from localVisibilityRates so
+            // the structured data cannot drift from the visible page.
+            {
+              "@type": "Offer",
+              "@id": `${PAGE_URL}#local-visibility`,
+              url: `${PAGE_URL}#local-visibility`,
+              priceCurrency: "DKK",
+              availability: "https://schema.org/LimitedAvailability",
+              priceSpecification: {
+                "@type": "UnitPriceSpecification",
+                price: Number(localVisibilityRates.monthly.replace(/\./g, "")),
+                priceCurrency: localVisibilityRates.currency,
+                unitCode: "MON",
+                unitText: "month",
+                referenceQuantity: {
+                  "@type": "QuantitativeValue",
+                  value: 1,
+                  unitCode: "MON",
+                },
+                // Only claim "moms on top" once it actually is.
+                ...(vat.registered ? { valueAddedTaxIncluded: false } : {}),
+              },
+              itemOffered: {
+                "@type": "Service",
+                name: services.localVisibility.title,
+                serviceType: "Local SEO and Google Business Profile management",
+                description: services.localVisibility.lead,
+                provider: { "@type": "Person", name: personalInfo.name, url: BASE_URL },
+              },
             },
-          })),
+          ],
         },
         ...(proofCase && {
           subjectOf: {
@@ -388,10 +425,10 @@ export default function ServicesPage() {
                         options read as options rather than as the real price
                         arriving in instalments.
 
-                        One price per row, no Webflow/coded fork — see the lock note
-                        on ServiceOffer.addOns in data.ts. Where a row carries a
+                        One price per row; see the lock note on
+                        ServiceOffer.addOns in data.ts. Where a row carries a
                         `note` about cost, it is always about what the thing costs to
-                        KEEP, never to build. */}
+                        KEEP or who else gets paid, never a second build price. */}
                     {offer.addOns && (
                       <div className={`${paper.dashed} mt-8 pt-6`}>
                         <p className={paper.label}>{offer.addOns.label}</p>
@@ -512,8 +549,8 @@ export default function ServicesPage() {
             </div>
 
             {/* The number that actually matters, and the one no competing
-                quote will show you: build price plus five years of running
-                cost, same site both ways. */}
+                quote will show you: five years of running cost. One figure
+                since Webflow stopped being offered (2026-10-11). */}
             <div className={`${paper.dashed} px-5 py-6 sm:px-6`}>
               <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
                 <span className={paper.label}>
@@ -523,27 +560,11 @@ export default function ServicesPage() {
                   {services.runningCosts.fiveYear.note}
                 </span>
               </div>
-              {/* Two figures, not four. The build price no longer varies by
-                  build method, so including it buried a ~6.000 kr difference
-                  inside a ~12.000 kr spread. */}
-              <dl className="grid grid-cols-1 gap-3 border-y border-paper-rule py-4 sm:grid-cols-2 sm:gap-6">
-                <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-1.5">
-                  <dt className={paper.label}>Webflow</dt>
-                  <dd
-                    className={`${paper.mono} text-base font-bold sm:text-lg`}
-                  >
-                    {services.runningCosts.fiveYear.webflow}
-                  </dd>
-                </div>
-                <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-1.5">
-                  <dt className={paper.label}>Coded</dt>
-                  <dd
-                    className={`${paper.mono} text-base font-bold sm:text-lg`}
-                  >
-                    {services.runningCosts.fiveYear.coded}
-                  </dd>
-                </div>
-              </dl>
+              <p
+                className={`${paper.mono} border-y border-paper-rule py-4 text-base font-bold sm:text-lg`}
+              >
+                {services.runningCosts.fiveYear.value}
+              </p>
 
               <p className="mt-5 max-w-3xl text-[15px] leading-relaxed">
                 {services.runningCosts.verdict}
@@ -553,79 +574,30 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            {/* Folded (Ice, 2026-10-05): who gets paid, the five-year totals
+            {/* Folded (Ice, 2026-10-05): who gets paid, the five-year total
                 and the verdict carry the argument, so they stay open; the
-                row-by-row comparison opens with a tap. */}
+                line-by-line list opens with a tap. One column, so it is the
+                same receipt rows as the add-ons at every width, with no
+                table/card split to keep in step. */}
             <details className={paper.dashed}>
               <summary className={`${styles.foldSummary} px-5 sm:px-6`}>
-                Compare it line by line
+                See it line by line
                 <ChevronDown size={16} strokeWidth={1.75} aria-hidden className={styles.faqChevron} />
               </summary>
-              {/* Below sm this becomes stacked cards rather than a scrolling
-                  table. A side-scrolling comparison hides one of the two columns
-                  off-screen with no affordance, which defeats the only thing
-                  this section exists to do. Exactly one of the two renderings is
-                  ever displayed, so `hidden` keeps the other out of the
-                  accessibility tree and nothing is announced twice. */}
-              <div className="sm:hidden">
+              <div className="px-5 pb-4 sm:px-6">
                 {services.runningCosts.rows.map((row) => (
-                  <div
-                    key={row.label}
-                    className="border-b border-paper-rule px-5 py-5 last:border-0"
-                  >
-                    <div className="text-sm font-semibold">{row.label}</div>
-                    <div className="mt-3 flex gap-3">
-                      <div className="flex-1 rounded border border-paper-rule px-3 py-2.5">
-                        <div className={paper.label}>Webflow</div>
-                        {/* Some values are words ("You want no yearly bill"), so
-                            they wrap here; the table from sm keeps them on one line. */}
-                        <div className={`${paper.figure} whitespace-normal`}>
-                          {row.webflow}
-                        </div>
-                      </div>
-                      <div className="flex-1 rounded border border-paper-rule px-3 py-2.5">
-                        <div className={paper.label}>Coded</div>
-                        <div className={`${paper.figure} whitespace-normal`}>
-                          {row.coded}
-                        </div>
-                      </div>
+                  <div key={row.label} className={paper.row}>
+                    <div className={paper.rowLine}>
+                      <span className="text-[15px] font-semibold">
+                        {row.label}
+                      </span>
+                      <span className={paper.figure}>{row.value}</span>
                     </div>
-                    <p className="mt-3 text-xs leading-relaxed text-paper-soft">
+                    <p className="mt-1 max-w-xl text-sm leading-relaxed text-paper-soft">
                       {row.why}
                     </p>
                   </div>
                 ))}
-              </div>
-
-              <div className="hidden overflow-x-auto sm:block">
-                <table className={styles.table}>
-                  <caption className="sr-only">
-                    Yearly running costs compared: Webflow versus a coded site
-                  </caption>
-                  <thead>
-                    <tr>
-                      <th scope="col">Per year</th>
-                      <th scope="col">Webflow</th>
-                      <th scope="col">Coded</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {services.runningCosts.rows.map((row) => (
-                      <tr key={row.label}>
-                        <th scope="row" className="font-normal">
-                          <span className="block text-sm font-semibold">
-                            {row.label}
-                          </span>
-                          <span className="mt-1 block max-w-xs text-xs leading-relaxed text-paper-soft">
-                            {row.why}
-                          </span>
-                        </th>
-                        <td className={paper.figure}>{row.webflow}</td>
-                        <td className={paper.figure}>{row.coded}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
               </div>
             </details>
           </PaperSheet>
@@ -639,8 +611,10 @@ export default function ServicesPage() {
           unanswered is what made the old position feel incomplete.
 
           Item 33. It is a prepaid block and an hourly rate, NOT a
-          subscription — see the reasoning on services.aftercare in data.ts
-          for why a monthly plan would contradict the section above it. */}
+          subscription; see the reasoning on services.aftercare in data.ts
+          for why a maintenance plan would contradict the section above it.
+          The one monthly product, Local visibility, follows as its own
+          section and is framed as getting customers, never as care. */}
       <section aria-labelledby="aftercare-heading" className={styles.section}>
         <DeskHeading
           id="aftercare-heading"
@@ -703,6 +677,66 @@ export default function ServicesPage() {
               ))}
             </ul>
           </div>
+        </FadeIn>
+      </section>
+
+      {/* ── Local visibility ──────────────────────────────────────────── */}
+      {/* After aftercare on purpose: the reader has just been told there is
+          no maintenance plan, so `notCare` says why this monthly plan is not
+          one before the price can read as a contradiction. The id is the
+          JSON-LD Offer's anchor. */}
+      <section
+        id="local-visibility"
+        aria-labelledby="visibility-heading"
+        className={`${styles.section} scroll-mt-24`}
+      >
+        <DeskHeading
+          id="visibility-heading"
+          kicker={services.localVisibility.eyebrow}
+          title={services.localVisibility.title}
+        />
+
+        <p className="mb-6 max-w-3xl text-base leading-relaxed text-frost/80">
+          {services.localVisibility.lead}
+        </p>
+
+        <FadeIn y={20}>
+          <PaperSheet className="p-0">
+            <div className={`${paper.dashed} px-5 py-6 sm:px-6`}>
+              <div className={paper.rowLine}>
+                <span className={paper.label}>Every month</span>
+                <span className={`${paper.figure} text-lg`}>
+                  {services.localVisibility.price}
+                </span>
+              </div>
+              <ul
+                className={`${paper.bullets} mt-4 grid grid-cols-1 gap-x-10 lg:grid-cols-2`}
+              >
+                {services.localVisibility.includes.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="px-5 py-6 sm:px-6">
+              <ul
+                className={`${paper.bullets} grid grid-cols-1 gap-x-10 sm:grid-cols-2`}
+              >
+                {services.localVisibility.terms.map((term) => (
+                  <li key={term}>{term}</li>
+                ))}
+              </ul>
+              <p className="mt-5 max-w-3xl border-l-2 border-paper-rule pl-3 text-sm leading-relaxed text-paper-soft">
+                {services.localVisibility.notCare}
+              </p>
+              <p className="mt-4 text-xs text-paper-soft">{vat.note}</p>
+              <div className="mt-5">
+                <InkLink href="#enquiry">
+                  Ask about it
+                  <ArrowRight size={15} strokeWidth={1.75} aria-hidden />
+                </InkLink>
+              </div>
+            </div>
+          </PaperSheet>
         </FadeIn>
       </section>
 

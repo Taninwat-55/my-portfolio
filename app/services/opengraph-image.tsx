@@ -117,7 +117,7 @@ export default function ServicesOgImage() {
               display: "flex",
             }}
           >
-            Built in Webflow or coded from scratch. Fixed scope, fixed price.
+            Coded by hand, set up for Google and AI. Fixed scope, fixed price.
           </div>
 
           {/* Price row — the whole reason this card exists. */}
