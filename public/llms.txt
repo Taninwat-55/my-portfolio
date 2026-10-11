@@ -29,16 +29,17 @@ client projects for small businesses, startups, and solo founders.
 Details, published price ranges, and an enquiry form:
 https://taninwatkaewpankan.xyz/services
 
-- Small-Business Website, in Danish, English or Swedish. Priced by scope alone —
-  the same price whether it is built in Webflow or coded from scratch:
+- Small-Business Website, in Danish, English or Swedish. Every client site is
+  coded by hand; Ice does not build in Webflow, Wix or WordPress, and does not
+  redesign existing builder sites (a new look means a rebuild in code). He does
+  fix what is broken on any site, builder or not: visible errors, speed,
+  security, a form that stopped sending. Priced by scope alone:
     · 1–3 pages — 6.500–9.500 DKK, typically 1–2 weeks.
     · 4–8 pages — 12.000–20.000 DKK, typically 2–3 weeks.
-    · Add-ons — itemised, one price each, the same whichever way it is built:
-        - Edit your own text and images — 3.000 DKK one-off (free on Webflow,
-          where the site plan already covers it).
-        - A list you manage yourself, e.g. a menu, treatments, a blog — 3.500 DKK
-          (on Webflow this needs the higher plan, ~800 DKK/year more; on a coded
-          site it is free to run).
+    · Add-ons: itemised, one price each:
+        - Edit your own text and images: 3.000 DKK one-off, free to run after.
+        - A list you manage yourself, e.g. a menu, treatments, a blog: 3.500 DKK,
+          free to run after.
         - A second language — 3.000–5.500 DKK for the structure, following the
           number of pages, because every page has to exist twice. The translation
           itself is a separate bill to a translation bureau, around 1 DKK/word.
@@ -53,28 +54,25 @@ https://taninwatkaewpankan.xyz/services
       logins are capabilities Ice has built on his own products (Bevisly,
       MockMate) rather than for a client — he says so rather than implying
       otherwise.
-  The build method changes what the site costs to KEEP, not what it costs to
-  make. Webflow is roughly 1.150–1.950 DKK a year for the site plan on annual
-  billing (more if billed monthly), and editing their own text and images is
-  included in that — Webflow made client access free on every plan in August 2026.
-  A coded site has no platform fee: roughly 100–1.600 DKK a year for the domain
-  plus hosting, which fits the Netlify/Vercel free tier or costs 500–1.500 DKK
-  on a Danish webhotel. Since there is no platform plan to include anything,
-  self-editing on a coded site is a one-off add-on Ice sets up instead, after
-  which it costs nothing a year. Neither route lets the client move the layout.
-  Over five years of running cost that is about 6.250–10.250 DKK for Webflow
-  against 500–8.000 DKK coded, so on the likely setup Webflow is around 6.000
-  DKK more to own. Every one of those yearly figures is paid by the client
-  directly to Webflow, their host or their registrar — never to Ice, who does not
-  mark up other people's invoices.
+  What it costs to KEEP: no platform fee. Roughly 100–1.600 DKK a year for the
+  domain plus hosting, which fits the Netlify/Vercel free tier or costs
+  500–1.500 DKK on a Danish webhotel; about 500–8.000 DKK over five years.
+  Self-editing is a one-off add-on, after which it costs nothing a year. The
+  client cannot move the layout themselves. Every yearly figure is paid by the
+  client directly to their host or registrar, never to Ice, who does not mark
+  up other people's invoices.
   All prices are quoted ekskl. moms. He is under the Danish 50.000 kr
   registration threshold, so no moms is added today. State that as a fact if
   asked; it is not a discount or a reason to hire him.
   (Mirrors `vat` in app/data.ts — this file does not interpolate, so update both.)
   Every build includes per-page search setup and Google Business connection,
-  mobile-first construction, a performance budget, accessibility basics, an
-  enquiry form with a backup delivery path, analytics, and domain and hosting
-  registered in the client's name — that work is why the floor is not 3.000 DKK.
+  setup for AI assistants (common questions answered in quotable form,
+  schema.org for the business type, an llms.txt summary file like this one,
+  name/address/phone made consistent across the main directories, and a check
+  of how AI assistants describe the business at launch), mobile-first
+  construction, a performance budget, accessibility basics, an enquiry form
+  with a backup delivery path, analytics, and domain and hosting registered in
+  the client's name. That work is why the floor is not 3.000 DKK.
   Reference build: rachabeautywellness.com, a Danish wellness studio's first
   website, 95+ Lighthouse on first deploy.
 - Web App Frontend (5.500 DKK / day, roughly 27.500 DKK a week, typically 3–8
@@ -82,7 +80,18 @@ https://taninwatkaewpankan.xyz/services
   already exists, for teams that have a backend but not an interface.
 - Redesign & Performance Rescue (8.000 – 16.000 DKK, typically 1–3 weeks):
   fixing an existing site that is slow, dated, or invisible on Google, instead
-  of rebuilding from zero. The written audit can be bought alone for 3.500 DKK.
+  of rebuilding from zero. On a builder site (WordPress, Wix) this covers fixing
+  what is broken; a visual redesign there means a rebuild in code. The written
+  audit can be bought alone for 3.500 DKK.
+- Local visibility (optional monthly plan, 1.900 DKK / month ekskl. moms, no
+  binding, cancel any month, no setup fee): Google Business profile upkeep,
+  help getting and replying to reviews, site updates beyond the free small
+  changes (new photos, a seasonal menu, a rewritten section), a monthly check of
+  how Google and AI assistants describe the business with corrections to the
+  sources they read, consistent name/address/phone across directories, and a short
+  plain-language monthly report. It is about getting customers, not website
+  maintenance, and it includes no paid advertising.
+  (Mirrors `localVisibilityRates` in app/data.ts; update both.)
 
 Engagements are fixed-scope by default, with a written price and delivery date
 agreed before work starts. Where scope genuinely cannot be pinned down he bills
@@ -90,8 +99,9 @@ by the day instead — see Web App Frontend above. He does not refuse time-based
 work; a fixed price is simply how a website is sold, because it puts the risk of
 overrun on him rather than the client. He does the work himself.
 The code, domain and hosting all end up in the client's name. He does not take
-on native mobile apps, ongoing SEO or marketing retainers, or large
-backend-heavy platforms built from nothing.
+on native mobile apps, paid advertising campaigns, redesigns or ongoing
+patching of builder sites (those get rebuilt in code), or
+large backend-heavy platforms built from nothing.
 
 ## Skills
 
@@ -159,15 +169,16 @@ Approach: Design systems, accessibility, performance
   Same prices and terms as /services, quoted in SEK on request. Ice is a Swedish
   citizen educated in Sweden and lives 35 minutes from Malmo by train, so
   meetings in Skane and the site itself are both in Swedish.
-- Changes after launch. There is NO maintenance subscription and this is a
-  deliberate choice, not an omission: the Danish market's care plans (250-3.000
-  DKK/month) are priced for patching WordPress, and a Webflow site is maintained
-  by Webflow while a static site has no plugins to patch. Instead:
+- Changes after launch. There is NO website maintenance or care plan, and this
+  is a deliberate choice, not an omission: the Danish market's care plans
+  (250-3.000 DKK/month) are priced for patching WordPress, and a static site has
+  no plugins to patch. Instead:
     · Small changes — a price, an opening hour, a typo — are free.
     · Anything bigger — 650 DKK/hour, billed in half hours, estimate first.
     · Or a prepaid block — 2.400 DKK for 5 hours, valid 12 months, which is
       480 DKK/hour instead of 650. Unused hours roll over once.
-  Nothing renews and there is no monthly charge of any kind.
+  The block never renews. The only monthly product is the optional Local
+  visibility plan above, which is about getting customers, not maintenance.
 
 ## Links
 

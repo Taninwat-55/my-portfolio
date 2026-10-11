@@ -168,12 +168,12 @@ export const siteContent = {
     },
     // The fifth block exists because the four above are all about working
     // inside someone else's organisation. This is the one where the commercial
-    // side is mine too — quoting, pricing, handover. It is also the only honest
-    // home for Webflow: putting a visual builder inside "Frontend Engineering"
-    // would dilute the React/TypeScript claim that block is there to make.
+    // side is mine too: quoting, pricing, handover. Client sites are coded,
+    // not built in a visual builder (decided 2026-10-11), so this block no
+    // longer offers Webflow; it stays in the skills list as a skill only.
     {
       title: "Client Work",
-      body: "Taking a paying client from the first call to handover: working out what they actually need, quoting a fixed price, building it, and leaving them owning the result. I build in Webflow or in code, and I pick based on how the client wants to live with the site rather than which is faster for me. Racha Beauty has run since launch without maintenance.",
+      body: "Taking a paying client from the first call to handover: working out what they actually need, quoting a fixed price, building it, and leaving them owning the result. I code every client site by hand, so it is fast, easy to find on Google, and has no platform fee to pay each year. Racha Beauty has run since launch without maintenance.",
     },
   ],
 
@@ -757,44 +757,33 @@ export interface ServiceOffer {
    * kr, and the honest answer is that the pages are not the work.
    * includedInEvery is that answer, stated before anyone has to ask for it.
    *
-   * There used to be two price ladders here, one for Webflow and one for a
-   * coded build, on the theory that Webflow is quicker to make and should
-   * therefore cost less. That was removed deliberately, for three reasons.
-   * It discounted the build method with no shipped client work behind it, so a
-   * client choosing on price bought the slowest work at the lowest rate. It
-   * priced my cost rather than their outcome, which invites negotiation on
-   * hours. And the cheaper figure anchored first, with the monthly platform fee
-   * arriving later — the most trust-damaging possible moment on a page whose
-   * entire argument is that its numbers are honest.
+   * There used to be two build methods on offer, Webflow and coded, first with
+   * two price ladders and later with one shared price. Both are gone: since
+   * 2026-10-11 every client site is coded, and Webflow is not sold at all. A
+   * second method doubled every explanation on this page (two running costs,
+   * two editing stories, two FAQ answers) for a route with no shipped client
+   * work behind it, and a builder site is exactly what the Local visibility
+   * plan cannot promise to keep fast and findable.
    *
-   * So the price is the same either way, and the build method decides what the
-   * site costs to KEEP and whether the client can edit it. That comparison
-   * lives in runningCosts below, because it is a question a non-technical buyer
-   * can actually answer. It also means there is no financial reason to steer
-   * anyone toward either option — which the page now says out loud, because it
-   * is the strongest thing the single price buys.
+   * So there is one price ladder, priced by scope, and what the site costs to
+   * KEEP lives in runningCosts below, because it is a question a non-technical
+   * buyer can actually answer.
    */
   includedInEvery?: { label: string; body: string; items: string[] };
-  /**
-   * The single price ladder. Priced by scope alone; build method deliberately
-   * does not appear here.
-   */
+  /** The single price ladder. Priced by scope alone. */
   priceLadder?: { scope: string; detail: string; price: string; timeline: string }[];
-  /** One line pointing from the price down to the running-cost comparison. */
+  /** One line pointing from the price down to the running-cost section. */
   buildMethodNote?: string;
   /**
    * The itemised add-ons. Offer 01 only.
    *
-   * 🔒 ONE PRICE PER ADD-ON, METHOD-AGNOSTIC. The instinct is "Webflow CMS is
-   * quicker to set up, so charge less for it" — which is exactly the mistake the
-   * note above describes on the base price, and every reason applies again: the
-   * OUTCOME is identical ("I can update my own content"), and the AMBUSH is
-   * identical (cheaper to build, then a higher plan forever). One number; the
-   * build method is a recommendation made on the call.
+   * 🔒 ONE PRICE PER ADD-ON. Each item is a single published figure (the
+   * second language is the one span, and its comment says why). Never quote a
+   * cheaper "light" version of an add-on on a call: a second number for the
+   * same outcome is how a published price list turns into a negotiation.
    *
-   * Where the two methods genuinely differ is the RUNNING cost, and that story
-   * already has a home in runningCosts. So `note` on an item may say what it
-   * costs to keep — never what it costs to build.
+   * `note` on an item may say what it costs to KEEP, or who else gets paid
+   * (Stripe, a booking tool, a translator), never a different build price.
    */
   addOns?: {
     label: string;
@@ -865,12 +854,9 @@ export const vat = {
  * nothing behind it charged — on the one page whose whole argument is that the
  * numbers survive checking.
  *
- * 🔒 ONE PRICE PER ADD-ON, METHOD-AGNOSTIC. Do not fork any of these by Webflow
- * versus coded. The instinct is "Webflow's CMS is quicker to set up, so charge
- * less" — the same mistake the base price already fixed, and every reason
- * applies again: the OUTCOME is identical ("I can update my own content") and so
- * is the AMBUSH (cheaper to build, then a higher plan forever). Where the two
- * methods really differ is the RUNNING cost, which is what `note` is for.
+ * 🔒 ONE PRICE PER ADD-ON. See the lock note on ServiceOffer.addOns: one
+ * published figure per outcome, and `note` is only ever about what something
+ * costs to keep or who else gets paid.
  */
 const WEBSITE_ADD_ONS: { name: string; price: string; body: string; note?: string }[] = [
   {
@@ -879,13 +865,13 @@ const WEBSITE_ADD_ONS: { name: string; price: string; body: string; note?: strin
   body: "A small editor built onto the site so you can change your opening hours, your prices and your photos yourself. Setup, your own login, and a recording of me walking through it.",
   // The one place the running-cost story belongs on an add-on: it is
   // about what it costs to KEEP, not what it costs to build.
-  note: "Free on Webflow, where it comes with the site plan you are already paying for. A coded site has no plan, so this is the one-off that replaces it — and then there is nothing to pay each year.",
+  note: "A one-off. The editor runs on a free tier, so there is nothing to pay for it each year.",
   },
   {
   name: "A list you manage yourself",
   price: "3.500 DKK",
-  body: "Treatments, a menu, a team page, or a blog you post to yourself — anything where you add and remove entries rather than editing a fixed page. You get a simple form per entry instead of a page to lay out.",
-  note: "This is the one thing the two build methods really part company on afterwards: on Webflow it needs the higher site plan, roughly 800 kr a year more. On a coded site it is free to run.",
+  body: "Treatments, a menu, a team page, or a blog you post to yourself. Anything where you add and remove entries rather than editing a fixed page. You get a simple form per entry instead of a page to lay out.",
+  note: "Free to run afterwards: there is no higher plan to move up to.",
   },
   {
   name: "A second language",
@@ -897,8 +883,8 @@ const WEBSITE_ADD_ONS: { name: string; price: string; body: string; note?: strin
   // undercharged. The span is tied to the two rungs above it, not
   // invented: 3.000 at 1–3 pages, 5.500 at 4–8.
   //
-  // Still ONE price in the sense that matters: it does not fork by
-  // build method. The market model is proportional too — Danish
+  // Still ONE price in the sense that matters: one published span for
+  // one outcome. The market model is proportional too: Danish
   // agencies describe a second language as roughly doubling the
   // content work rather than as a fixed fee.
   price: "3.000 – 5.500 DKK",
@@ -975,6 +961,21 @@ export const aftercareRates = {
   blockPrice: "2.400",
   blockHours: "5",
   blockMonths: "12",
+} as const;
+
+/**
+ * The Local visibility plan's price, as a figure. Same idea as aftercareRates:
+ * the number lives here once, and the page, the JSON-LD, the FAQ and the chatbot
+ * all read it from here.
+ *
+ * ⚠️ PLACEHOLDER, set 2026-10-11, NOT YET CONFIRMED BY ICE. Danish local SEO
+ * retainers publish at 1.800 – 5.000 kr/md (mfwebdesign, Wayfab, WebWorq), so
+ * 1.900 sits near the floor on purpose, the same reasoning as offer 01's price.
+ * Also hand-edit public/llms.txt, which does not interpolate.
+ */
+export const localVisibilityRates = {
+  currency: "DKK",
+  monthly: "1.900",
 } as const;
 
 /**
@@ -1063,10 +1064,19 @@ export const services = {
         "One round of revisions, and a walkthrough so you can edit the text yourself",
       ],
       includedInEvery: {
-        label: "In every build, either way",
-        body: "This is the part that separates a real site from a 3.000-kroner template job, and it is why the starting price is what it is. None of it is an upsell — it is in the price whichever way we build.",
+        label: "In every build",
+        body: "This is the part that separates a real site from a 3.000-kroner template job, and it is why the starting price is what it is. None of it is an upsell. It is in the price of every site.",
         items: [
           "Search setup that actually works: page titles and descriptions written per page, a sitemap, structured data, and your Google Business profile connected — so you turn up when someone searches your town and your service, not just your name",
+          // AEO/GEO, added 2026-10-11. Written for the owner, so each item says
+          // what it does before it names the technique. "Answer engine" and
+          // "generative engine" never appear on the page; the outcome does.
+          "Set up to be found by AI assistants too, not just Google. When someone asks ChatGPT, Gemini or Google's AI answers for the best place in your area, those tools read your site and repeat what it says, so it needs answers they can quote",
+          "Your common questions answered on the site (prices, opening hours, parking, whether you take walk-ins), written so a person can read them and an AI assistant can quote them word for word",
+          "A label for search engines that says exactly what kind of business you are, such as a restaurant, a massage clinic or a cleaning firm, with your hours, prices and area. This is called schema.org, and it is how Google and AI tools tell your business apart from a blog about it",
+          "A short summary file for AI tools (llms.txt): one page that tells them who you are, what you offer and where, in plain words",
+          "Your name, address and phone number checked so they match everywhere that matters: Google, Apple Maps, Krak and De Gule Sider (or Hitta and Eniro in Sweden). Mismatches are one of the most common reasons a business ranks lower than it should",
+          "A check of how AI assistants describe your business today, at launch, so you know where you stand and what they get wrong",
           "Built mobile-first and checked at real phone widths, because that is where nearly all of your visitors are",
           "A performance budget: compressed images, minimal scripts, and a site that opens fast on mobile data rather than on your office wifi",
           "Accessibility basics — keyboard navigation, readable contrast, labelled forms — which is both the right thing and increasingly a legal expectation",
@@ -1102,11 +1112,8 @@ export const services = {
           timeline: "+ 2–4 days each",
         },
       ],
-      // These are the hand-built timelines even though Webflow is usually
-      // quicker. A published timeline the build method can beat is a promise
-      // that gets kept; the reverse is one that gets broken.
       buildMethodNote:
-        "The same price whether I build it in Webflow or code it from scratch. What the build method changes is what the site costs to keep afterwards, and whether you can edit it yourself — that is the next section.",
+        "Every site is coded by hand, with no platform underneath it. What it costs to keep afterwards, and who that money goes to, is the next section.",
       /**
        * Prices set against the Danish market rather than invented, August 2026.
        * Where an agency publishes a band, this sits at or just under its floor:
@@ -1131,7 +1138,7 @@ export const services = {
        */
       addOns: {
         label: "What more money buys",
-        body: "Each of these is one price, whichever way the site is built. Take one, take none, or add one later — none of them has to be decided now, and none of them changes the price of the pages themselves.",
+        body: "Each of these is one price. Take one, take none, or add one later. None of them has to be decided now, and none of them changes the price of the pages themselves.",
         items: WEBSITE_ADD_ONS,
         includedLabel: "Not add-ons",
         included: "A map with directions, a gallery, a contact form and a cookie and privacy page are in every build already. They take minutes, and charging for them would make the list above less believable rather than more profitable.",
@@ -1146,7 +1153,7 @@ export const services = {
         ownWork: "Two of these — taking payment, and anything with logins — I have built on my own products rather than for a client. Bevisly runs multi-role accounts with row-level security, and MockMate runs a graded AI pipeline; both are written up under Projects, and you can go and use them. I would rather say that plainly than imply a client history I do not have.",
       },
       priceRange: "From 6.500 DKK",
-      priceNote: `The same price whichever way we build it. ${vat.note} It is fixed in writing before we start, and domain, hosting and any platform fee are billed to you directly rather than through me.`,
+      priceNote: `${vat.note} It is fixed in writing before we start, and the domain and any hosting are billed to you directly rather than through me.`,
       timeline: "1 – 3 weeks",
     },
     {
@@ -1191,7 +1198,7 @@ export const services = {
       includes: [
         "A written audit — speed, mobile, accessibility and search basics, in plain language",
         "A prioritised list of fixes with what each one is actually worth, so you can stop at any point",
-        "A visual refresh on the structure you already have",
+        "A visual refresh on the structure you already have, on a coded site. On WordPress or Wix I fix what is broken, and a new look means a rebuild in code",
         "Image, font and bundle work, usually where most of the speed is hiding",
         "Before-and-after numbers, measured the same way both times",
         "An honest call on rebuilding: if starting over is cheaper than repairing, I will say so and tell you why",
@@ -1269,18 +1276,16 @@ export const services = {
 
   // What the site costs to KEEP, not to build. Almost nobody publishes this,
   // which is exactly why it earns trust: the running cost is the thing a small
-  // business gets surprised by a year later, and the honest comparison is the
-  // strongest argument that the build choice is being made for the client's
-  // benefit rather than for whichever tool is quicker to work in.
+  // business gets surprised by a year later.
   //
-  // Figures are approximate and in DKK per year. Webflow's own site plans are
-  // priced in USD and moved in May 2026 (Premium replaced CMS/Business), so
-  // these are stated as "around" rather than to the krone, and the page says so.
+  // One column since 2026-10-11, when Webflow stopped being offered. The old
+  // two-column comparison is in git history if a builder route ever returns.
+  // Figures are approximate and in DKK per year.
   runningCosts: {
     eyebrow: "After Launch",
     title: "What it costs to keep",
-    lead: "The build price is the same whichever way we build it. This is the part that differs: what you pay every year after launch, and whether you can edit the site yourself.",
-    note: "Approximate, in DKK per year. Webflow prices in dollars and changed its plans in May 2026, so treat that column as a close estimate rather than a quote.",
+    lead: "What you pay every year after launch, and who that money goes to. A coded site has no platform underneath it, so the list is short.",
+    note: "Approximate, in DKK per year. Hosting depends on where the site lives, so it is a range rather than one figure.",
     /**
      * Stated as a full sentence, directly under the table, rather than as the
      * footnote it used to be.
@@ -1291,70 +1296,42 @@ export const services = {
      * money genuinely goes to third parties, so say so where the numbers are.
      */
     paidTo:
-      "Every figure here is paid to Webflow, your host or your domain registrar — directly, and in your name. None of it comes to me, and I do not mark up other people's invoices. After handover I do not invoice you again unless you ask me for more work.",
+      "Every figure here is paid to your host or your domain registrar, directly and in your name. None of it comes to me, and I do not mark up other people's invoices. After handover I do not invoice you again unless you ask me for more work, or choose the optional Local visibility plan further down.",
     rows: [
-      // Leads the table because it is the only row that answers the question
-      // the client is actually trying to answer. The rest is arithmetic.
-      {
-        label: "Best if…",
-        webflow: "You want it managed",
-        coded: "You want no yearly bill",
-        why: "Both ways you can change your own text and images, so that is not what decides it. Webflow suits you if you would rather pay a little every year for a platform somebody else maintains, with editing built in. Coded suits you if you would rather pay nothing every year and treat self-editing as a one-off piece of setup.",
-      },
       {
         label: "Platform fee",
-        webflow: "≈ 1.150 – 1.950 kr",
-        coded: "0 kr",
-        why: "Webflow charges a monthly site plan: around 1.150 kr a year on Basic and 1.950 kr on Premium if you pay annually, and roughly half again as much if you pay month to month. A hand-coded site has no platform underneath it, so there is nothing to subscribe to.",
+        value: "0 kr",
+        why: "A hand-coded site has no platform underneath it, so there is nothing to subscribe to. Builders like Wix, Squarespace and Webflow charge a site plan every year; this does not.",
       },
       {
         label: "Hosting",
-        webflow: "Included",
-        coded: "0 – 1.500 kr",
-        why: "Included in Webflow's plan. For a coded site, a marketing site this size fits inside the free tier at Netlify or Vercel — but that is a company's free tier, not a promise, so if it ever changes or you would rather sit on a Danish webhotel, budget 500 – 1.500 kr a year.",
+        value: "0 – 1.500 kr",
+        why: "A marketing site this size fits inside the free tier at Netlify or Vercel. That is a company's free tier, not a promise, so if it ever changes or you would rather sit on a Danish webhotel, budget 500 – 1.500 kr a year.",
       },
       {
         label: "Domain",
-        webflow: "≈ 100 kr",
-        coded: "≈ 100 kr",
-        why: "A .dk domain, the same either way, registered in your name and not mine.",
+        value: "≈ 100 kr",
+        why: "A .dk domain, registered in your name and not mine.",
       },
       {
         label: "Editing it yourself",
-        webflow: "Included",
-        coded: "Optional add-on",
-        why: "Webflow retired its old editor in August 2026 and replaced it with free client seats, so editing your own text and images no longer costs extra on any plan — it comes with the site plan you are already paying for. A coded site has no plan, so there is nothing to include: I set up a free editor on it instead, once, as an add-on. Neither route lets you rearrange the layout yourself; that is still a call to me.",
+        value: "One-off add-on",
+        why: "If you want to change your own text, prices and images, I set up a free editor on the site once, as an add-on. After that it costs nothing a year. Rearranging the layout is still a call to me.",
       },
     ],
     /**
-     * Five years of RUNNING cost only — the build price is identical both ways,
-     * so including it buried a ~6.000 kr difference inside a ~12.000 kr spread
-     * and made the comparison harder to read, not easier.
+     * Five years of RUNNING cost only. The build price is a separate, one-off
+     * figure on the receipt above, and adding it here would hide the point.
      *
-     * Webflow: 5 × (platform 1.150–1.950 + domain ~100) = 6.250 – 10.250.
-     * Coded:   5 × (hosting 0–1.500 + domain ~100)      =   500 –  8.000.
+     * 5 × (hosting 0–1.500 + domain ~100) = 500 – 8.000.
      */
     fiveYear: {
       label: "Five years of running cost",
-      note: "The build price is the same either way, so this is the only part that differs.",
-      webflow: "6.250 – 10.250 kr",
-      coded: "500 – 8.000 kr",
+      note: "Hosting and domain only. The build is paid once.",
+      value: "500 – 8.000 kr",
     },
-    /**
-     * Rewritten when the two price ladders collapsed into one. The old version
-     * opened "over five years the two land close together, and that is the
-     * point" — true only while Webflow's build price was lower. With identical
-     * build prices Webflow is simply the more expensive site to own, and the
-     * page has to say that plainly or it is selling something.
-     *
-     * The difference figure is qualified on purpose. 6.000 kr is the LIKELY
-     * setup (Webflow Basic billed annually, against a coded site on a free
-     * hosting tier). Compare the extremes and it ranges from about 2.250 to
-     * 5.750, so an unqualified "6.000 kr" would be a number that fails checking
-     * — on the one section whose whole job is to survive being checked.
-     */
     verdict:
-      "The build costs the same either way, so the only real question is what happens after launch. Both ways you can change your own text and images — that is not the difference, whatever you may have read elsewhere. On Webflow it is included, because the plan you are paying for covers it. On a coded site there is no plan to pay, so editing is a one-off piece of setup instead. On the likely setup Webflow works out roughly 6.000 kroner more over five years, and what that buys is a platform somebody else maintains with editing already in it; coded trades that for no yearly bill at all. Where the two genuinely part company is structured content — a menu, a treatment list, a blog you post to yourself — which needs a CMS either way: Webflow's higher plan, or a build on the coded side. I will tell you which one I think you are on the call — and since the build price is the same to me either way, I have no reason to push you toward one.",
+      "On the likely setup, a free hosting tier and a .dk domain, that is about 100 kroner a year. There is no plan, no plugin to patch and no platform that can raise its price on you. Content you post to repeatedly, like a menu or a treatment list, is the one add-on that changes what you can do afterwards, and it is free to run once it is built.",
   },
 
   /**
@@ -1363,12 +1340,18 @@ export const services = {
    * WHY NOT THE STANDARD PRODUCT. Danish agencies sell website care at 250 – 3.000
    * kr a MONTH, typically 500 – 2.000. Read what is in those plans and they are all
    * the same product: hosting, security patches, daily backups, WordPress core and
-   * plugin updates. That plan exists because WordPress rots. A Webflow site is
-   * maintained by Webflow, and a static site on Netlify has no plugins to patch —
-   * so selling a monthly plan here would mean charging for a problem this stack
-   * deliberately does not have, and it would undercut the exact technical choice
-   * that makes "no yearly bill" true in runningCosts. That is not a small
-   * inconsistency to accept for recurring revenue; it is the argument.
+   * plugin updates. That plan exists because WordPress rots. A static site on
+   * Netlify has no plugins to patch, so selling a monthly CARE plan here would
+   * mean charging for a problem this stack deliberately does not have, and it
+   * would undercut the exact technical choice that makes "no yearly bill" true
+   * in runningCosts. That is not a small inconsistency to accept for recurring
+   * revenue; it is the argument.
+   *
+   * AMENDED 2026-10-11. There IS now one monthly product, `localVisibility`
+   * below, and it is deliberately not care: it sells getting customers (Google
+   * profile, reviews, AI assistants, a report), not keeping software alive.
+   * The reasoning above still rules out a maintenance plan, and the block below
+   * still never renews. Keep the two apart in every sentence that mentions them.
    *
    * SO THE PRODUCT IS CHANGES, NOT MAINTENANCE. That is also what clients actually
    * want, and it closes the one thing the old position left dangling: what a
@@ -1382,15 +1365,15 @@ export const services = {
    * (550 – 750) and above offer 01's implied project rate, which is correct — ad-hoc
    * work has no economies of scale and every change is a context switch.
    *
-   * ⚠️ NOTHING HERE RENEWS. No subscription, no automatic billing, no monthly
-   * anything. If a future version of this grows a recurring charge, `paidTo` and
-   * the "no monthly retainer" claim in servicesFaq both become false and have to
-   * change in the same commit.
+   * ⚠️ NOTHING HERE RENEWS. No subscription, no automatic billing. The only
+   * recurring charge on the page is `localVisibility`, which the client opts
+   * into separately. If anything in THIS object ever renews, `paidTo` and the
+   * aftercare FAQ both become false and have to change in the same commit.
    */
   aftercare: {
     eyebrow: "After Launch",
     title: "If you want changes later",
-    lead: "Your site has no plugins to patch and nothing that rots — that is the point of building it this way, and it is why there is no monthly plan here to sell you. What people do want later is changes, so this is what those cost.",
+    lead: "Your site has no plugins to patch and nothing that rots. That is the point of building it this way, and it is why there is no maintenance plan here to sell you. What people do want later is changes, so this is what those cost.",
     free: {
       label: "Free, just ask",
       body: "A price, a phone number, an opening hour, a typo. Anything that takes me a few minutes is not worth either of us raising an invoice for, so I do not.",
@@ -1412,6 +1395,43 @@ export const services = {
         "When it runs out you buy another or you do not — there is no default",
       ],
     },
+  },
+
+  /**
+   * The one monthly product, added 2026-10-11. Read the AMENDED note on
+   * aftercare before changing the framing: this is sold as getting customers,
+   * never as looking after the website, because the site does not need looking
+   * after and the page says so two sections earlier.
+   *
+   * 🔒 NO BINDING. Cancel any month, no notice period, no setup fee. Danish
+   * owners on amino.dk complain most about agency lock-in and paying for work
+   * nobody can see; this plan answers both, so neither promise may soften.
+   * The price is localVisibilityRates above; never type it here.
+   */
+  localVisibility: {
+    eyebrow: "Optional, Monthly",
+    title: "Local visibility",
+    lead: "A website is only half of being found. The other half lives on Google, in your reviews and, more and more, in what AI assistants say when someone asks where to go. This plan looks after that half every month, so you can get on with running the business.",
+    price: `${localVisibilityRates.monthly} ${localVisibilityRates.currency} / month`,
+    includes: [
+      "Your Google Business profile kept up to date: hours, holiday closures, photos, menu or price list, and a regular post so it stays active",
+      "Help getting more reviews: a simple way to ask happy customers, and suggested replies to every review, good or bad, for you to approve",
+      "Updates beyond the free small changes, such as new photos, a seasonal menu or a rewritten section, included rather than billed by the hour",
+      "A monthly check of how Google and AI assistants like ChatGPT describe your business, and corrections to the sources they read when they get it wrong",
+      "Your name, address and phone number kept consistent across the directories that matter",
+      "A short report each month in plain language: how many people found you, called, asked for directions or visited the site, and what I did",
+    ],
+    terms: [
+      "No binding: cancel any month, no notice period",
+      "No setup fee",
+      "Works best on a site I built, but I can take on your Google profile and reviews alone",
+      "Not advertising: no ad budget is spent on your behalf",
+    ],
+    /**
+     * Said on the page because the reader just saw "no maintenance plan" in
+     * the aftercare section and will otherwise think this contradicts it.
+     */
+    notCare: "This is not website care. Your site does not need patching, and I will not charge you to watch it. What this pays for is the work that brings customers in, which never really finishes.",
   },
 
   /**
@@ -1492,7 +1512,7 @@ export const servicesFaq: FaqItem[] = [
   // "it depends" — is what gets a page quoted by search and AI assistants.
   {
     q: "What does a website actually cost?",
-    a: `It depends on how many pages, and the answer is published rather than quoted on request. A one-pager or simple three-page site is ${services.offers[0].priceLadder![0].price}, and a full four-to-eight page site is ${services.offers[0].priceLadder![1].price}. That is the price whether I build it in Webflow or code it from scratch — the build method changes what the site costs to keep, not what it costs to make. Fixing an existing site is ${services.offers[2].priceRange}, and frontend work on a web app is ${services.offers[1].priceRange}. The exact number is fixed in writing before any work starts. ${vat.note} For context, a simple site from a Danish freelancer or agency typically runs 5.000 to 25.000 kroner before moms, so this sits at the lower half of the market.`,
+    a: `It depends on how many pages, and the answer is published rather than quoted on request. A one-pager or simple three-page site is ${services.offers[0].priceLadder![0].price}, and a full four-to-eight page site is ${services.offers[0].priceLadder![1].price}. Every site is coded by hand, so there is no platform fee on top afterwards, only a domain and possibly hosting. Fixing an existing site is ${services.offers[2].priceRange}, and frontend work on a web app is ${services.offers[1].priceRange}. The exact number is fixed in writing before any work starts. ${vat.note} For context, a simple site from a Danish freelancer or agency typically runs 5.000 to 25.000 kroner before moms, so this sits at the lower half of the market.`,
   },
   // Second, beside the price questions (Ice, 2026-10-05). It replaced the
   // "Yours, not mine" section on /services, whose ownership half the FAQ already
@@ -1502,7 +1522,7 @@ export const servicesFaq: FaqItem[] = [
   // first call costs one answer and saves an argument in week two.
   {
     q: "What is not included in the price?",
-    a: "Said plainly so it is never a surprise halfway through. Writing your content: I will structure it, edit it, and tell you what each page needs, but the words about your own business should come from you or a copywriter. It is the most common thing that delays a project. Professional photography: phone photos in good light are often fine; if you need a photographer, budget for one separately. Logo and brand identity: I design around the brand you already have. Ongoing SEO or advertising: the foundations are included, and running campaigns is somebody else's speciality. Legal wording: I put the privacy page, cookie notice and structure in place, but the wording should be checked by someone qualified. For most of these I can point you to someone good.",
+    a: "Said plainly so it is never a surprise halfway through. Writing your content: I will structure it, edit it, and tell you what each page needs, but the words about your own business should come from you or a copywriter. It is the most common thing that delays a project. Professional photography: phone photos in good light are often fine; if you need a photographer, budget for one separately. Logo and brand identity: I design around the brand you already have. Ongoing work after launch: the search and AI foundations are included, and keeping your Google profile, reviews and listings active is the optional Local visibility plan, ${services.localVisibility.price}. Paid advertising: running ad campaigns is somebody else's speciality. Legal wording: I put the privacy page, cookie notice and structure in place, but the wording should be checked by someone qualified. For most of these I can point you to someone good.",
   },
   {
     q: "Why not just get a site for 3.000 kroner?",
@@ -1512,9 +1532,17 @@ export const servicesFaq: FaqItem[] = [
     q: "Can I pay by the hour instead?",
     a: `For a website I would rather you did not, and that is more for your protection than mine. A fixed price means you know the number before anything starts and I carry the risk if it takes longer than I estimated — billing by the hour moves that risk onto you, and you are the one who cannot see how long things ought to take. Where scope genuinely cannot be pinned down, a day rate is the honest shape and I do use one: ${services.offers[1].priceRange} for frontend work on a product, which is the second offer above. That fits ongoing work, an open-ended list of changes, or anything waiting on decisions nobody has made yet. What it is not is a cheaper way to buy a website — a fixed-price site will almost always cost you less than the same site billed by the day.`,
   },
+  // Added 2026-10-11 with the Webflow removal. Many of the businesses this page
+  // is for already have a WordPress, Wix or Elementor site, often a broken one,
+  // so this is a real first question rather than a hypothetical.
   {
-    q: "Webflow or coded from scratch — which should I choose?",
-    a: `The build price is identical, so this is not a money question in the way people expect. What differs is the year after. A Webflow site costs roughly 1.250 to 2.050 kroner a year, and editing your own text and images is included in that — Webflow made client access free on every plan in August 2026. A coded site costs roughly 100 to 1.600 kroner a year with no platform fee at all, and because there is no plan to include anything, self-editing is a one-off add-on I set up instead. Neither lets you move the layout around yourself. Over five years that is about 6.250 to 10.250 kroner against 500 to 8.000 — so on the likely setup, Webflow works out around 6.000 kroner more to own. That money buys you independence from me for small changes. If you will genuinely use it, take Webflow. If the site will mostly sit still once it is live, take coded and keep the 6.000. I will give you my honest read on the call, and because the build price is the same to me either way, I have no reason to talk you into one.`,
+    q: "Can you fix my WordPress or Wix site?",
+    a: "Yes, when something is broken: error messages on the page, a slow or insecure site, a form that stopped sending. I fix those on the site you already have, as a Rescue or at the hourly rate. What I do not do is redesign a builder site or keep patching it month after month. A WordPress site breaks when its plugins and its PHP version drift apart, so ongoing patching only buys time until the next update does the same. Wix and Squarespace lock the parts that make a site fast and findable inside the platform. So when you want a new look, I rebuild in code: priced like any new site, often reusing your text and photos, with no plugins to update and no platform fee afterwards. The written audit tells you honestly which of the two you need.",
+  },
+  // AEO in the FAQ itself: the question an owner actually types into ChatGPT.
+  {
+    q: "Will my business show up when people ask ChatGPT or Google's AI?",
+    a: `More and more people ask an AI assistant where to eat or who to call, and those tools answer from what they can read about you: your website, your Google profile, your reviews and the big directories. Every site I build is set up for that: your common questions answered in plain words they can quote, a label that tells them exactly what kind of business you are, a short summary file written for AI tools, and your name, address and phone number matching everywhere. I also check what the assistants say about you at launch. Nobody can promise a place in an AI answer, and anyone who does is guessing. What I can do is make sure the facts they find are right and easy to repeat. Keeping that up every month is part of the optional Local visibility plan, ${services.localVisibility.price} with no binding.`,
   },
   // Deliberately a FAQ rather than a line on the offer card. To the buyer this
   // page is written for, "React · Next.js · TypeScript" is noise, and jargon in
@@ -1523,15 +1551,15 @@ export const servicesFaq: FaqItem[] = [
   // there instantly for anyone checking whether they would be locked in.
   {
     q: "What do you build it with, and could another developer take it over?",
-    a: "Hand-coded sites are built with React and Next.js in TypeScript, styled with Tailwind CSS, and hosted on Netlify or Vercel. Forms go through a service like Resend so messages reach you even though there is no server to maintain. If we build in Webflow instead, the site lives in Webflow and there is no code to hand over at all. The part that actually matters: these are mainstream tools, not anything invented here. Any React developer can open the repository and continue, which is deliberate — you should be able to replace me without replacing your website. Racha Beauty's site is React and Tailwind, and the full stack for every project I have built is listed on its case study page.",
+    a: "Hand-coded sites are built with React and Next.js in TypeScript, styled with Tailwind CSS, and hosted on Netlify or Vercel. Forms go through a service like Resend so messages reach you even though there is no server to maintain. The part that actually matters: these are mainstream tools, not anything invented here. Any React developer can open the repository and continue, which is deliberate: you should be able to replace me without replacing your website. Racha Beauty's site is React and Tailwind, and the full stack for every project I have built is listed on its case study page.",
   },
   {
-    q: "Do I have to pay a monthly fee for Webflow?",
-    a: "Only if we build it in Webflow, and it does not change what the build costs. You pay it directly rather than through me — I do not mark up other people's invoices. A Webflow site plan is roughly 1.150 to 1.950 kroner a year and covers hosting, security and your own editing access. A coded site has no platform fee. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though I will not pretend a company's free tier is a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. Either way the domain is about 100 kroner, in your name.",
+    q: "Is there a monthly fee for the website?",
+    a: "Not to me, and not to a platform. A coded site has no site plan underneath it. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though I will not pretend a company's free tier is a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. The domain is about 100 kroner, in your name. You pay those directly; I do not mark up other people's invoices. The only monthly thing I sell is the optional Local visibility plan, which is about getting customers rather than keeping the site running, and you can cancel it any month.",
   },
   {
     q: "Can I update the website myself afterwards?",
-    a: "Yes, either way — and this used to be the thing that decided Webflow versus coded, but as of August 2026 it is not. Webflow made client editing free on every plan, so building there means you get access to change text, prices and images as part of the plan you are already paying for. A coded site has no plan, so I set up a free editor on it instead as a one-off add-on, after which it costs nothing a year to keep. What neither gives you is moving the layout around yourself — a new section is still a call to me. Content you post to repeatedly, like a menu or a treatment list, is a CMS: 3.500 kroner either way, and the only thing the two routes really differ on afterwards — on Webflow it needs the higher plan, about 800 kroner a year more, while on a coded site it is free to run. Self-editing on a coded site is 3.000 kroner as a one-off, and free on Webflow because the plan covers it. Either way you get a walkthrough at handover, and either way you are not locked into paying me for small changes.",
+    a: `Yes, if you want to. I set up a free editor on the site as a one-off add-on (${WEBSITE_ADD_ONS[0].price}), and after that you can change text, prices and images yourself and it costs nothing a year to keep. Content you post to repeatedly, like a menu or a treatment list, is a list you manage yourself (${WEBSITE_ADD_ONS[1].price}), also free to run afterwards. What you cannot do is move the layout around yourself; a new section is still a call to me. Either way you get a walkthrough at handover, and you are not locked into paying me for small changes.`,
   },
   {
     q: "Do you only work with clients in Copenhagen?",
@@ -1539,7 +1567,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Do you maintain the site afterwards?",
-    a: `Not by default, and that is deliberate. I build sites that do not need a monthly retainer to keep working — Racha Beauty's site has run since launch without anyone touching it, and there is no plan here for me to sell you. What I do not do is pretend that means you will never want anything changed. Small things — a price, an opening hour, a typo — are free, because a 100-kroner invoice costs us both more in admin than it is worth. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, with the estimate given before I start. And if you would rather not think about it each time, a block of ${services.aftercare.block.unit.split(" · ")[0]} costs ${services.aftercare.block.price} and you draw on it as you go, which works out cheaper per hour. Nothing renews, and there is no monthly anything.`,
+    a: `The site itself does not need maintaining, and that is deliberate. It has no plugins to patch, so I do not sell a care plan: Racha Beauty's site has run since launch without anyone touching it. What I do not do is pretend you will never want anything changed. Small things, like a price, an opening hour or a typo, are free, because a 100-kroner invoice costs us both more in admin than it is worth. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, with the estimate given before I start. Or buy a block of ${services.aftercare.block.unit.split(" · ")[0]} for ${services.aftercare.block.price} and draw on it as you go, which works out cheaper per hour and never renews. Separately, if you want someone keeping your Google profile, reviews and AI listings working for you every month, that is the Local visibility plan at ${services.localVisibility.price}, with no binding. It is about getting customers, not looking after software.`,
   },
   {
     q: "Which languages can you work in?",
@@ -1806,34 +1834,32 @@ ${services.offers
 
 Proof: rachabeautywellness.com, a Danish-language site he built end to end for a wellness studio in Næstved that had only a Facebook page. 95+ Lighthouse on first deploy, and it has run since launch without maintenance.
 
-A small-business website is priced by scope alone. The price is the SAME whether it is built in Webflow or coded from scratch — never quote two different build prices, and never suggest one build method is cheaper to commission than the other. You may quote these figures, they are published on the services page:
+A small-business website is priced by scope alone, and every client site is coded by hand. Ice does not build client sites in Webflow, Wix, WordPress or any other builder, and does not redesign existing builder sites: a new look means a rebuild in code. He does fix what is broken on any existing site, builder or not (visible errors, speed, security, a form that stopped sending), as a Rescue or at the hourly rate. Never offer to build a new site in a builder. You may quote these figures, they are published on the services page:
 ${services.offers[0]
   .priceLadder!.map((r) => `- ${r.scope}: ${r.price} (typically ${r.timeline})`)
   .join("\n")}
 
-Add-ons are itemised and each has ONE price, the same whichever way the site is built. You may quote these; they are published on the services page:
+Add-ons are itemised and each has ONE price. You may quote these; they are published on the services page:
 ${services.offers[0]
   .addOns!.items.map((a) => `- ${a.name}: ${a.price}${a.note ? ` (${a.note})` : ""}`)
   .join("\n")}
 ${services.offers[0].addOns!.included} Taking payment and anything involving logins are capabilities Ice has built on his own products — Bevisly and MockMate — rather than for a client. Say that plainly if asked; never imply a client build that does not exist.
 
-What the build method changes is the year after launch, not the build price. Webflow costs roughly ${services.runningCosts.rows.find((r) => r.label === "Platform fee")!.webflow} a year for the site plan, and editing their own text and images is included in that — Webflow made client access free on every plan in August 2026. A coded site has no platform fee and costs roughly 100 – 1.600 kr a year for hosting and domain; with no plan to include anything, self-editing there is a one-off add-on Ice sets up instead. Neither route lets the client rearrange the layout. Never say Webflow is the only way to edit your own site: that stopped being true in August 2026. Over five years that is about ${services.runningCosts.fiveYear.webflow} against ${services.runningCosts.fiveYear.coded}, so on the likely setup Webflow is around 6.000 kr more to own. Always qualify that figure as the likely setup rather than stating it flatly — comparing the extremes gives a range, not one number.
+What the site costs to keep: there is no platform fee. Hosting fits a free tier or costs 500 – 1.500 kr a year on a Danish webhotel, and a .dk domain is about 100 kr a year, so five years of running cost is about ${services.runningCosts.fiveYear.value}. Self-editing is a one-off add-on Ice sets up, free to run afterwards; nobody can rearrange the layout themselves. All of these yearly costs are paid by the client directly to their host and registrar, never to Ice, and he does not mark up other people's invoices. If someone worries about an ongoing bill from him, say that plainly.
 
-There is NO maintenance subscription and Ice does not want one — say so plainly and do not invent one. Danish agencies sell website care at 250 – 3.000 kr a month, but that product is patching WordPress, and a Webflow site is maintained by Webflow while a static site has no plugins to patch. Charging monthly here would be charging for a problem this stack does not have.
+There is NO website maintenance or care plan. Danish agencies sell website care at 250 – 3.000 kr a month, but that product is patching WordPress, and a static site has no plugins to patch. Charging for that would be charging for a problem this stack does not have.
 
-What he does have, for changes after launch: small things — a price, an opening hour, a typo — are FREE, because a 100 kr invoice costs more in admin than it earns. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, estimate given first. Or a prepaid block: ${services.aftercare.block.price} for ${services.aftercare.block.unit}, which works out at ${aftercareRates.effective} kr an hour instead of ${aftercareRates.hourly} and rolls over once. Nothing renews, and there is no monthly anything — if someone asks about a retainer, that is the answer.
+For changes after launch: small things, like a price, an opening hour or a typo, are FREE, because a 100 kr invoice costs more in admin than it earns. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, estimate given first. Or a prepaid block: ${services.aftercare.block.price} for ${services.aftercare.block.unit}, which works out at ${aftercareRates.effective} kr an hour instead of ${aftercareRates.hourly} and rolls over once. The block never renews.
 
-All of those yearly costs are paid by the client directly to Webflow, their host and their registrar. None of it is paid to Ice, and he does not mark up other people's invoices. If someone worries about an ongoing bill from him, say that plainly.
+There IS one optional monthly plan, and it is about getting customers, not maintaining the site: Local visibility, ${services.localVisibility.price} ekskl. moms, no binding, cancel any month, no setup fee. It covers: ${services.localVisibility.includes.join("; ")}. It does not include paid advertising or an ad budget. If someone asks about a retainer or ongoing SEO, this plan is the answer; never call it maintenance or website care, and never imply it is required.
 
-The honest advice is to choose on whether the client wants to edit the site themselves, not on cost — and because the build price is identical, Ice has no financial reason to prefer either option.
+Every build includes per-page search setup and Google Business connection, setup for AI assistants (common questions answered in quotable form, schema.org for the business type, an llms.txt summary file, name/address/phone made consistent across the main directories, and a check of how AI assistants describe the business at launch), mobile-first construction, a performance budget, accessibility basics, an enquiry form with a backup delivery path, analytics, and domain and hosting in the client's name. If someone asks why it is not 3.000 kroner, that list is the answer: a template shop skips it, and it is the part that makes the site actually get found and convert. Never promise a ranking or a place in an AI answer; promise correct, consistent, quotable facts.
 
-Every build, either way, includes per-page search setup and Google Business connection, mobile-first construction, a performance budget, accessibility basics, an enquiry form with a backup delivery path, analytics, and domain and hosting in the client's name. If someone asks why it is not 3.000 kroner, that list is the answer: a template shop skips it, and it is the part that makes the site actually get found and convert.
-
-Note that his shipped client work to date is hand-coded. Webflow and Framer are both in his skill list, but neither has a shipped client project behind it yet — do not claim Webflow or Framer case studies until there are some.
+Note that his shipped client work to date is hand-coded. Webflow and Framer are in his skill list as skills, but he does not sell builder sites and has no Webflow or Framer client work; never offer either or claim case studies.
 
 How he works: a short call, then a written scope with a fixed price and a delivery date before any work starts. Fixed price is the default, and it is how a website is sold — the client knows the number before anything begins and Ice carries the risk if it runs long. Where scope genuinely cannot be pinned down, such as ongoing frontend work on a product or an open-ended list of changes, he bills by the day at ${services.offers[1].priceRange} instead. Never say he refuses hourly or time-based work: the day rate is a published offer on the same page. He does the work himself — there is no agency and no handoff to someone else. The code, domain and hosting all end up in the client's name.
 
-What he does not take on: native iOS/Android apps, ongoing SEO or marketing retainers, and large backend-heavy platforms built from nothing.
+What he does not take on: native iOS/Android apps, paid advertising campaigns, redesigns or ongoing patching of builder sites (WordPress, Wix, Squarespace; those get rebuilt in code), and large backend-heavy platforms built from nothing.
 
 VAT: ${vat.briefing}
 
