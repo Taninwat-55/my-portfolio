@@ -122,7 +122,7 @@ Approach: Design systems, accessibility, performance
   lightweight Scrum and Kanban system for internal tracking. Took over budget
   tracking in the final cycle when the finance lead left.
 - Trailr AI (https://trailr.ai): Early-stage AI video platform that secured
-  enterprise trials with Nordisk Film and DR. Owned the product side of a full
+  enterprise trials with two major Danish media companies. Owned the product side of a full
   UI/UX redesign: benchmarked competitors, set a design direction, and scoped
   ruthlessly to what the existing backend could support, cutting features rather
   than forcing rewrites. Led a click-reduction navigation overhaul in React.

@@ -170,7 +170,8 @@ export const siteContent = {
     // inside someone else's organisation. This is the one where the commercial
     // side is mine too: quoting, pricing, handover. Client sites are coded,
     // not built in a visual builder (decided 2026-10-11), so this block no
-    // longer offers Webflow; it stays in the skills list as a skill only.
+    // longer offers Webflow. It left the CV skills too on 2026-10-14, as a weak
+    // signal for engineering roles.
     {
       title: "Client Work",
       body: "Taking a paying client from the first call to handover: working out what they actually need, quoting a fixed price, building it, and leaving them owning the result. I code every client site by hand, so it is fast, easy to find on Google, and has no platform fee to pay each year. Racha Beauty has run since launch without maintenance.",
@@ -197,14 +198,14 @@ export const cvData = {
   // single searchable title rather than a hybrid.
   title: siteContent.roleLabel,
   summary:
-    "I build web apps, mostly with React, Next.js and TypeScript. At Trailr AI I led a redesign of the platform, keeping it within what the existing backend could support. In my own projects I build the backend too, with Node.js, PostgreSQL and Supabase. Before that, I spent four cycles at Millennial Consulting, going from Operations Assistant to Head of Organization and coordinating around 20 client projects with no full-time staff. I like building things, and I like getting them shipped.",
+    "I build web apps, mostly with React, Next.js and TypeScript. At Trailr AI, an early-stage AI startup, I work part-time on the frontend and UI/UX, and I led a redesign of the platform within what the existing backend could support. In my own projects I build the backend too, with Node.js, PostgreSQL and Supabase, including AI features on Gemini where a person keeps the final say. Before that, I spent four cycles at Millennial Consulting, going from Operations Assistant to Head of Organization and coordinating around 20 client projects with no full-time staff. I like building things, and I like getting them shipped.",
 
   // Four technical groups mirroring the PDF, plus the operations group the PDF
   // has no room for. A one-page CV has to cut; the page does not.
   skills: [
     {
       label: "Languages",
-      items: ["TypeScript", "JavaScript", "Python", "SQL", "HTML5", "CSS3"],
+      items: ["TypeScript", "JavaScript", "SQL", "HTML5", "CSS3"],
     },
     {
       label: "Frontend",
@@ -225,6 +226,8 @@ export const cvData = {
         "Express.js",
         "REST APIs",
         "PostgreSQL",
+        "Supabase",
+        "Prisma",
         "Authentication & Authorization (JWT/OAuth)",
       ],
     },
@@ -234,15 +237,16 @@ export const cvData = {
         "Git/GitHub",
         "Vitest",
         "CI/CD (GitHub Actions)",
+        "Vercel",
+        "Figma",
+        "LLM integration (Gemini)",
         "Claude Code",
-        "AI Prototyping",
-        "Webflow",
-        "Framer",
       ],
     },
     {
       label: "Operations & Product",
       items: [
+        "Product Development",
         "Client Relations",
         "Recruitment & Onboarding",
         "Requirements Gathering",
@@ -261,10 +265,11 @@ export const cvData = {
       period: "Sep 2025 – Present",
       place: "Remote, Denmark",
       bullets: [
-        "Working within an existing React + Zustand codebase, I took on a full overhaul of the platform's navigation UI, reworking state connections and wiring components to fit new design requirements.",
-        "Most work arrived as rough briefs with no formal specs; I'd interpret the intent, flag feasibility gaps early, and work toward components that matched what the team had in mind.",
-        "Collaborated across a small remote team where product, design, and engineering often overlapped.",
-        "The platform secured enterprise trials with Nordisk Film and DR during this period.",
+        "Part of a small remote team where product, design and engineering overlap, working on the trailer report, the back office and the platform's tools in React and TypeScript.",
+        "A full overhaul of the navigation UI inside an existing Zustand codebase, reworking state connections and wiring components to new design requirements.",
+        "A shared side-panel layout across tools like Story Builder and Screening Room, so each new tool starts from the same structure.",
+        "Most work arrives as rough briefs with no formal specs, so the job is reading the intent, flagging feasibility gaps early and checking with the backend team before building.",
+        "The platform is in enterprise trials with two major Danish media companies.",
       ],
     },
     {
@@ -273,10 +278,10 @@ export const cvData = {
       period: "Sep 2023 – May 2025",
       place: "Copenhagen, Denmark",
       bullets: [
-        "20+ client engagements across 4 cycles, 90%+ satisfaction each time.",
-        "~5 projects and over 25 student consultants per cycle.",
-        "Partner workshops with Deloitte, Accenture, EY-Parthenon, PwC, BearingPoint, and Round.",
-        "Kept every cycle fully staffed in an all-volunteer organisation where anyone could walk away at any time, owning recruitment, onboarding, and staffing teams to projects, with no full-time staff to fall back on.",
+        "20+ client engagements across 4 cycles, with 90%+ client satisfaction each time.",
+        "Around 5 projects and 25+ student consultants per cycle, all volunteers, with recruitment, onboarding and team staffing as my responsibility.",
+        "A hybrid Agile and waterfall process of my design, with fixed milestones for clients and flexible mentor sessions for teams, later adopted across the organisation.",
+        "Partner workshops with Deloitte, Accenture, EY-Parthenon, PwC, BearingPoint and Round.",
       ],
     },
   ] satisfies CvEntry[],
@@ -288,8 +293,9 @@ export const cvData = {
       period: "Aug 2025 – Present",
       place: "Copenhagen, Denmark",
       bullets: [
-        "Built a full hiring platform alone: employers post roles, candidates prove skills with real tasks, AI grades the work and drafts job listings.",
-        "Designed both sides of the product, the employer flow and the candidate flow, so I know what each side needs to trust the process.",
+        "A hiring platform built solo, where candidates prove their skills with real tasks instead of CVs, with separate flows for candidates, employers and admins.",
+        "Row-level security and role-based access in Supabase from the start, so each role only sees its own data.",
+        "Gemini runs in Supabase Edge Functions to suggest a score for each submission and draft job listings. The employer makes the final call, in line with the EU AI Act.",
       ],
     },
     {
@@ -298,31 +304,31 @@ export const cvData = {
       period: "May 2026 – Present",
       place: "Copenhagen, Denmark",
       bullets: [
-        "Built an AI interview practice tool where candidates rehearse real interviews and get feedback, born from my own job search.",
-        "Designed a two-pass evaluation flow: the live interview stays conversational, while a separate grading pass reads only summarized notes, not the raw answers, keeping scores consistent and closing a prompt injection risk.",
-        "Developed structured feedback scoring so each answer is graded on technical accuracy, clarity, and problem-solving, with one strength, one weakness, and one concrete tip per area.",
+        "An AI interview practice tool where candidates rehearse real interviews and get feedback, born from my own job search.",
+        "Evaluation runs in two passes. The live interview stays conversational, while a separate grading pass reads only summarized notes, not the raw answers, which keeps scores consistent and closes a prompt injection risk.",
+        "Each answer is scored on technical accuracy, clarity and problem solving, with one strength, one weakness and one concrete tip per area.",
       ],
     },
   ] satisfies CvEntry[],
 
   education: [
     {
-      school: "Uppsala University",
-      degree: "BA in Game Design and Project Management",
-      period: "Aug 2019 – Jun 2022",
-      place: "Uppsala, Sweden",
+      school: "Jensen Yrkeshögskola",
+      degree: "Higher Vocational Education Diploma, Frontend Developer (2-year program), passed with distinction in 8 of 12 courses",
+      period: "Aug 2024 – May 2026",
+      place: "Malmö, Sweden",
     },
     {
       school: "Uppsala University",
-      degree: "MSc in Business and Management — Entrepreneurship",
+      degree: "Magister (one-year master's) in Entrepreneurship",
       period: "Aug 2022 – Jun 2023",
       place: "Uppsala, Sweden",
     },
     {
-      school: "Jensen Yrkeshögskola",
-      degree: "Higher Vocational Diploma in Frontend Development (2-year program)",
-      period: "Aug 2024 – May 2026",
-      place: "Malmö, Sweden",
+      school: "Uppsala University",
+      degree: "BA in Game Design and Project Management",
+      period: "Aug 2019 – Jun 2022",
+      place: "Uppsala, Sweden",
     },
   ],
 
@@ -330,11 +336,11 @@ export const cvData = {
     { label: "Certificates", value: "Google Project Management Certificate" },
     {
       label: "Languages",
-      value: "Thai (Native), English (Fluent), Swedish (Fluent), Danish (Beginner)",
+      value: "Thai (Native), English (Fluent), Swedish (Fluent), Danish (Basic)",
     },
     {
       label: "Work authorization",
-      value: "EU citizen — full right to work in Denmark and across the EU",
+      value: "EU citizen with full right to work in Denmark and across the EU, no sponsorship needed",
     },
   ],
 };
@@ -349,7 +355,7 @@ export const experience = [
     organization: "Trailr.ai (Remote)",
     period: "Sep 2025 – Present",
     description:
-      "Joined as a frontend intern at an early-stage AI startup. After graduating, continued part-time with equity warrants. Led the redesign of the platform's UI/UX: benchmarked direct and indirect competitors, synthesized findings into a design direction, and scoped the work to what the existing backend could support, cutting features rather than forcing backend changes. Took on a full navigation overhaul in React and Zustand. The platform secured enterprise trials with Nordisk Film and DR during this period.",
+      "Joined as a frontend intern at an early-stage AI startup. After graduating, continued part-time with equity warrants. Led the redesign of the platform's UI/UX: benchmarked direct and indirect competitors, synthesized findings into a design direction, and scoped the work to what the existing backend could support, cutting features rather than forcing backend changes. Took on a full navigation overhaul in React and Zustand. The platform secured enterprise trials with two major Danish media companies during this period.",
   },
   {
     id: "edu-1",
@@ -475,15 +481,15 @@ export const cases: CaseStudy[] = [
       "/assets/trailr/trailr-story-builder.webp",
     ],
     overview:
-      "An early-stage AI video platform that secured enterprise trials with Nordisk Film and DR. I joined as a frontend intern and, after graduating, continued part-time with equity warrants, owning the product side of a full UI/UX redesign.",
+      "An early-stage AI video platform that secured enterprise trials with two major Danish media companies. I joined as a frontend intern and, after graduating, continued part-time with equity warrants, owning the product side of a full UI/UX redesign.",
     challenge:
       "The platform had grown feature-first and the UX had drifted. Most requests arrived as rough briefs with no formal specs. The real constraint: improve the product meaningfully without forcing backend changes a small team couldn't afford. The job was deciding what was worth building against what the existing backend could actually support.",
     stackWhy:
       "Product judgment over raw output. Competitor research to find the gaps, ruthless scoping to ship within real constraints.",
     engineering:
-      "Benchmarked direct and indirect competitors, synthesized the findings into a single design direction, and scoped ruthlessly to the backend's limits, cutting features rather than forcing rewrites. When the navigation proved convoluted, I led a click-reduction overhaul, pulling Settings and Feedback out of the primary workspace so screening and building stayed front and centre. After the Nordisk Film pitch surfaced a need to make the AI less of a black box, I pushed for a thinking UI that streams the model's reasoning word by word, trading a flashy result for the transparency enterprise clients actually trust. Throughout, I worked directly with the founder and engineers to sequence what shipped.",
+      "Benchmarked direct and indirect competitors, synthesized the findings into a single design direction, and scoped ruthlessly to the backend's limits, cutting features rather than forcing rewrites. When the navigation proved convoluted, I led a click-reduction overhaul, pulling Settings and Feedback out of the primary workspace so screening and building stayed front and centre. After a client pitch surfaced a need to make the AI less of a black box, I pushed for a thinking UI that streams the model's reasoning word by word, trading a flashy result for the transparency enterprise clients actually trust. Throughout, I worked directly with the founder and engineers to sequence what shipped.",
     metrics: [
-      { v: "Nordisk Film · DR", k: "Enterprise trials" },
+      { v: "Danish media", k: "Enterprise trials" },
       { v: "Full redesign", k: "Scoped to backend" },
       { v: "Nav overhaul", k: "Shipped" },
     ],
