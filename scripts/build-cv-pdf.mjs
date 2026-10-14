@@ -50,6 +50,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CHROME =
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const OUT = path.join(ROOT, "public/assets/Taninwat_Kaewpankan_CV.pdf");
+const CAMBRIA_URL = "file://" + encodeURI("/Applications/Microsoft Word.app/Contents/Resources/DFonts");
 
 const { cvData, personalInfo } = await import(path.join(ROOT, "app/data.ts"));
 
@@ -89,6 +90,14 @@ const html = `<!doctype html>
      inch that the summary needs. */
   @page { size: A4; margin: 15mm; }
 
+  /* Cambria, embedded in the PDF. It isn't a system font on macOS, only one
+     Word ships privately, so it is loaded from there. Without Word installed
+     the build falls back to Georgia. */
+  @font-face { font-family: "CV Cambria"; font-weight: 400; font-style: normal; src: url("${CAMBRIA_URL}/Cambria.ttc"); }
+  @font-face { font-family: "CV Cambria"; font-weight: 700; font-style: normal; src: url("${CAMBRIA_URL}/Cambriab.ttf"); }
+  @font-face { font-family: "CV Cambria"; font-weight: 400; font-style: italic; src: url("${CAMBRIA_URL}/Cambriai.ttf"); }
+  @font-face { font-family: "CV Cambria"; font-weight: 700; font-style: italic; src: url("${CAMBRIA_URL}/Cambriaz.ttf"); }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   html {
@@ -97,7 +106,7 @@ const html = `<!doctype html>
   }
 
   body {
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: "CV Cambria", Cambria, Georgia, serif;
     color: #14181c;
     line-height: 1.42;
     /* Chrome's default is to drop backgrounds when printing; the rules below
