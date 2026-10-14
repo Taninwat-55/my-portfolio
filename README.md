@@ -143,8 +143,6 @@ To check on a real phone, open the Network URL that `next dev` prints
 
 - [ ] Verify the CV veil on **real iOS Safari** — it relies on `mask-image`
       (`-webkit-` prefixed), which is the most browser-sensitive thing on the site
-- [ ] Trailr bullet differs between `cvData` and the PDF (page says "…Nordisk Film
-      and DR during this period", PDF says "Enterprise trials with Nordisk Film")
 - [ ] The "hybrid Agile/waterfall adopted org-wide" claim appears in the Millennial
       case study and `posts/leading-volunteers.mdx`, but was deliberately dropped
       from the CV. Decide once, apply everywhere.
