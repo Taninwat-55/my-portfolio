@@ -210,8 +210,8 @@ export const cvData = {
     {
       label: "Frontend",
       items: [
+        "Next.js (Server Components, Server Actions)",
         "React",
-        "Next.js",
         "TailwindCSS",
         "Zustand",
         "Redux",
@@ -225,7 +225,7 @@ export const cvData = {
         "Node.js",
         "Express.js",
         "REST APIs",
-        "PostgreSQL",
+        "PostgreSQL (schema design, migrations, indexes, row-level security)",
         "Supabase",
         "Prisma",
         "Authentication & Authorization (JWT/OAuth)",
@@ -234,13 +234,13 @@ export const cvData = {
     {
       label: "Tools & AI",
       items: [
+        "Agentic coding (Claude Code, custom review agents)",
         "Git/GitHub",
         "Vitest",
         "CI/CD (GitHub Actions)",
         "Vercel",
         "Figma",
         "LLM integration (Gemini)",
-        "Claude Code",
       ],
     },
     {
@@ -294,19 +294,20 @@ export const cvData = {
       place: "Copenhagen, Denmark",
       bullets: [
         "A hiring platform built solo, where candidates prove their skills with real tasks instead of CVs, with separate flows for candidates, employers and admins.",
-        "Row-level security and role-based access in Supabase from the start, so each role only sees its own data.",
-        "Gemini runs in Supabase Edge Functions to suggest a score for each submission and draft job listings. The employer makes the final call, in line with the EU AI Act.",
+        "63 PostgreSQL migrations so far, covering row-level security per role, triggers and SQL scoring functions, with the schema changed step by step as the product moved.",
+        "AI grades used to feed the public score employers see. A rewrite in October 2026 made that score count employer judgement only and kept the Gemini grade as private feedback for the candidate, in line with the EU AI Act.",
       ],
     },
     {
       org: "MockMate",
-      role: "Personal Project (Next.js, Neon PostgreSQL + Prisma, Tailwind)",
+      role: "Personal Project (Next.js 16, Server Actions, Neon PostgreSQL, Prisma)",
       period: "May 2026 – Present",
       place: "Copenhagen, Denmark",
       bullets: [
         "An AI interview practice tool where candidates rehearse real interviews and get feedback, born from my own job search.",
         "Evaluation runs in two passes. The live interview stays conversational, while a separate grading pass reads only summarized notes, not the raw answers, which keeps scores consistent and closes a prompt injection risk.",
         "Each answer is scored on technical accuracy, clarity and problem solving, with one strength, one weakness and one concrete tip per area.",
+        "Composite indexes chosen for the real query paths, for example the cleanup job that finds stale interview sessions.",
       ],
     },
   ] satisfies CvEntry[],
