@@ -198,7 +198,7 @@ export const cvData = {
   // single searchable title rather than a hybrid.
   title: siteContent.roleLabel,
   summary:
-    "I build web apps, mostly with React, Next.js and TypeScript. At Trailr AI, an early-stage AI startup, I work part-time on the frontend and UI/UX, and I led a redesign of the platform within what the existing backend could support. In my own projects I build the backend too, with Node.js, PostgreSQL and Supabase, including AI features on Gemini where a person keeps the final say. Before that, I spent four cycles at Millennial Consulting, going from Operations Assistant to Head of Organization and coordinating around 20 client projects with no full-time staff. I like building things, and I like getting them shipped.",
+    "TypeScript engineer working across Next.js and PostgreSQL. Part-time on the frontend at Trailr AI, an early-stage startup doing AI video analysis for Danish media, where work starts from a rough brief rather than a spec. In my own products I own the database too, from schema and migrations to row-level security, and I design AI features so the model suggests and a person decides. Learning C through CS50x alongside a self-set plan to become a full-stack TypeScript engineer.",
 
   // Four technical groups mirroring the PDF, plus the operations group the PDF
   // has no room for. A one-page CV has to cut; the page does not.
@@ -210,37 +210,33 @@ export const cvData = {
     {
       label: "Frontend",
       items: [
+        "Next.js (Server Components, Server Actions)",
         "React",
-        "Next.js",
         "TailwindCSS",
         "Zustand",
-        "Redux",
-        "Responsive Design",
         "Accessibility (WCAG)",
       ],
     },
     {
       label: "Backend & Databases",
       items: [
-        "Node.js",
-        "Express.js",
-        "REST APIs",
-        "PostgreSQL",
-        "Supabase",
+        "PostgreSQL (schema design, migrations, indexes, row-level security)",
         "Prisma",
-        "Authentication & Authorization (JWT/OAuth)",
+        "Supabase",
+        "Node.js",
+        "REST APIs",
       ],
     },
     {
       label: "Tools & AI",
       items: [
+        "Agentic coding (Claude Code, custom review agents)",
+        "LLM integration (Gemini)",
         "Git/GitHub",
         "Vitest",
         "CI/CD (GitHub Actions)",
         "Vercel",
         "Figma",
-        "LLM integration (Gemini)",
-        "Claude Code",
       ],
     },
     {
@@ -265,10 +261,10 @@ export const cvData = {
       period: "Sep 2025 – Present",
       place: "Remote, Denmark",
       bullets: [
+        "Most work arrives as rough briefs with no formal specs, so the job is reading the intent, flagging feasibility gaps early and checking with the backend team before building.",
         "Part of a small remote team where product, design and engineering overlap, working on the trailer report, the back office and the platform's tools in React and TypeScript.",
         "A full overhaul of the navigation UI inside an existing Zustand codebase, reworking state connections and wiring components to new design requirements.",
         "A shared side-panel layout across tools like Story Builder and Screening Room, so each new tool starts from the same structure.",
-        "Most work arrives as rough briefs with no formal specs, so the job is reading the intent, flagging feasibility gaps early and checking with the backend team before building.",
         "The platform is in enterprise trials with two major Danish media companies.",
       ],
     },
@@ -279,9 +275,6 @@ export const cvData = {
       place: "Copenhagen, Denmark",
       bullets: [
         "20+ client engagements across 4 cycles, with 90%+ client satisfaction each time.",
-        "Around 5 projects and 25+ student consultants per cycle, all volunteers, with recruitment, onboarding and team staffing as my responsibility.",
-        "A hybrid Agile and waterfall process of my design, with fixed milestones for clients and flexible mentor sessions for teams, later adopted across the organisation.",
-        "Partner workshops with Deloitte, Accenture, EY-Parthenon, PwC, BearingPoint and Round.",
       ],
     },
   ] satisfies CvEntry[],
@@ -294,19 +287,20 @@ export const cvData = {
       place: "Copenhagen, Denmark",
       bullets: [
         "A hiring platform built solo, where candidates prove their skills with real tasks instead of CVs, with separate flows for candidates, employers and admins.",
-        "Row-level security and role-based access in Supabase from the start, so each role only sees its own data.",
-        "Gemini runs in Supabase Edge Functions to suggest a score for each submission and draft job listings. The employer makes the final call, in line with the EU AI Act.",
+        "63 PostgreSQL migrations so far, covering row-level security per role, triggers and SQL scoring functions, with the schema changed step by step as the product moved.",
+        "AI grades used to feed the public score employers see. A rewrite in October 2026 made that score count employer judgement only and kept the Gemini grade as private feedback for the candidate, in line with the EU AI Act.",
       ],
     },
     {
       org: "MockMate",
-      role: "Personal Project (Next.js, Neon PostgreSQL + Prisma, Tailwind)",
+      role: "Personal Project (Next.js 16, Server Actions, Neon PostgreSQL, Prisma)",
       period: "May 2026 – Present",
       place: "Copenhagen, Denmark",
       bullets: [
         "An AI interview practice tool where candidates rehearse real interviews and get feedback, born from my own job search.",
         "Evaluation runs in two passes. The live interview stays conversational, while a separate grading pass reads only summarized notes, not the raw answers, which keeps scores consistent and closes a prompt injection risk.",
         "Each answer is scored on technical accuracy, clarity and problem solving, with one strength, one weakness and one concrete tip per area.",
+        "Composite indexes chosen for the real query paths, for example the cleanup job that finds stale interview sessions.",
       ],
     },
   ] satisfies CvEntry[],
