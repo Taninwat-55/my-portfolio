@@ -1660,7 +1660,14 @@ export const clockContent = {
     { id: "work", label: "Work", sub: "Projects and case studies", href: "/work" },
     { id: "about", label: "About", sub: "A letter from me", href: "/about" },
     { id: "writing", label: "Writing", sub: "Notes on building", href: "/writing" },
-    { id: "services", label: "Services", sub: "Hire me for a project", href: "/rates" },
+    // Says who it is for and the entry price before a click. The price is read
+    // from the website offer, so it cannot drift from /services.
+    {
+      id: "services",
+      label: "Services",
+      sub: `Websites for small businesses, ${services.offers[0].priceRange.replace(/^From/, "from")}`,
+      href: "/rates",
+    },
   ] satisfies readonly { id: ClockObjectId; label: string; sub: string; href: string }[],
 
   /**
@@ -1696,7 +1703,9 @@ export const clockContent = {
    */
   rates: {
     heading: "ICE · WEB STUDIO",
-    place: "Copenhagen · DA / EN / SV",
+    // TH since 2026-10-17: Thai-run businesses are half the client audience,
+    // and the receipt is the one object they are sure to open.
+    place: "Copenhagen · DA / EN / SV / TH",
     auditLabel: "Audit only",
     footnote: "Fixed price in writing before anything starts.",
     detailsLabel: "Full details",

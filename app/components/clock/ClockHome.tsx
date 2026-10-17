@@ -14,6 +14,7 @@ import { Notebook } from "./Notebook";
 import { Receipt } from "./Receipt";
 import { Lamp } from "./Lamp";
 import { WallClock } from "./WallClock";
+import { ChaYen } from "./ChaYen";
 import { useCopenhagenTime, hourOf } from "./useCopenhagenTime";
 import type { ClockContentProps } from "./types";
 import styles from "./clock.module.css";
@@ -644,6 +645,7 @@ export function ClockHome({
                 ))}
               </ul>
             </nav>
+            <ChaYen />
           </div>
         </main>
 
