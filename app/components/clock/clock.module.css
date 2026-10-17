@@ -1594,10 +1594,7 @@
   box-sizing: border-box;
   overflow-y: auto;
   border-radius: 4px 10px 10px 4px;
-  background:
-    repeating-linear-gradient(transparent 0 35px, var(--paper-rule) 35px 36px) 0 92px / 100%
-      calc(100% - 92px) no-repeat,
-    var(--paper);
+  background: var(--paper);
   box-shadow:
     0 10px 30px var(--shadow),
     inset 12px 0 14px -10px rgba(0, 0, 0, 0.25);
@@ -1607,24 +1604,29 @@
   font-size: 24px;
   font-weight: 700;
 }
+/* The rules are drawn on the list, one per 32px line, and every title line
+   and date takes exactly one line, so a title that wraps still lands on the
+   rules. The list fills the page (its grid row is 1fr), so the rules run on
+   to the link at the bottom like a real page. Nudged up 3px so a rule sits
+   just under the writing rather than a gap below it. */
 .notebookPages ol {
   margin: 0;
   padding: 0;
   list-style: none;
+  background: repeating-linear-gradient(transparent 0 31px, var(--paper-rule) 31px 32px) 0 -3px;
 }
 .notebookPages li a {
   display: grid;
-  gap: 2px;
-  padding: 6px 0 10px;
   color: var(--paper-ink);
   text-decoration: none;
 }
 .notebookPages li span {
-  font: 400 17px/1.35 var(--font-hand);
+  font: 400 17px/32px var(--font-hand);
 }
 .notebookPages li time {
   color: var(--paper-soft);
   font-size: 12px;
+  line-height: 32px;
 }
 .notebookPages li a:hover span {
   color: var(--paper-link);
