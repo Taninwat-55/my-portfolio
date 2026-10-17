@@ -566,6 +566,14 @@ export function ClockHome({
             <p className={styles.role}>
               <strong>{siteContent.roleLabel}</strong> in Copenhagen
             </p>
+            <ul className={styles.stack} aria-label="Stack">
+              {clockContent.stack.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <Link className={styles.topCv} href={clockContent.cvLink.href}>
+              {clockContent.cvLink.label} <span aria-hidden="true">→</span>
+            </Link>
             {/* Always rendered, so the line's height is reserved before the
                 client knows the time and nothing below it jumps. The time
                 itself is on the wall clock. */}

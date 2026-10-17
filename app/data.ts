@@ -1639,6 +1639,15 @@ export const clockContent = {
    */
   availability: "Open to full-time roles in Copenhagen, and taking on client projects.",
 
+  /**
+   * The stack and the CV, on the first screen. A recruiter scans for these
+   * keywords in seconds, and before 2026-10-17 both sat behind a click (the
+   * stack on the back of a print, the CV at the end of the letter). Every item
+   * is in cvData.skills, so nothing here outruns the CV.
+   */
+  stack: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"],
+  cvLink: { label: "Read my CV", href: "/cv" },
+
   // Order is clockwise from top left, which is also the Tab order.
   objects: [
     { id: "work", label: "Work", sub: "Projects and case studies", href: "/work" },
@@ -1739,8 +1748,8 @@ export const clockContent = {
   letter: {
     greeting: "Hej,",
     signature: "Ice",
-    // The only link on the site to /cv: a recruiter who has read the letter is
-    // ready for the details. The PDF button beside it stays.
+    // A recruiter who has read the letter is ready for the details. The PDF
+    // button beside it stays. The other link to /cv is clockContent.cvLink.
     cvLink: { label: "Read my CV", href: "/cv" },
   },
 } as const;

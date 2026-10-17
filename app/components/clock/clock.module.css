@@ -86,6 +86,43 @@
   font-weight: 500;
 }
 
+/* The stack and the CV link: what a recruiter scans for, without a click. */
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+/* The dot is a separator, not content: the alt text after "/" keeps screen
+   readers from announcing it. It trails its item so a wrapped line never
+   starts with one. */
+.stack li:not(:last-child)::after {
+  content: "·" / "";
+  margin-inline: 0.5em;
+}
+.topCv {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  min-height: 44px;
+  margin-block: -10px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.topCv:hover {
+  text-decoration-thickness: 2px;
+}
+.topCv:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .localTime {
   margin: -2px 0 0;
   font-size: 13px;
