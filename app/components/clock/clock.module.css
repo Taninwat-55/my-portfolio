@@ -583,6 +583,11 @@
   margin: 0;
   padding: 0;
 }
+/* Contact's second door, a card for phones (see the compact layout below). On
+   the desk the pinned postcard is the door. */
+.contactItem {
+  display: none;
+}
 .thing {
   position: absolute;
   left: var(--x);
@@ -1832,6 +1837,20 @@
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
+  /* Contact moves down here, full width and in thumb reach; the pin at the
+     top would be the one door a phone visitor has to stretch for. */
+  .contactItem {
+    display: block;
+    grid-column: 1 / -1;
+  }
+  .wall .pin {
+    display: none;
+  }
+  /* Clear of the chat button (fixed 24px from the corner, 56px wide), which
+     otherwise sits on the last language link. */
+  .bottom {
+    padding-right: 88px;
+  }
   .thing,
   .thing:hover,
   .thing:focus-visible,
@@ -1857,7 +1876,7 @@
     grid-row: span 2;
   }
   .thing .art {
-    width: 54px;
+    width: 44px;
     filter: none;
   }
   .thing .label {
