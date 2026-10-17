@@ -82,7 +82,8 @@ export function Prints({
         })}
       </ul>
       <p className={styles.objectFooter}>
-        <span>{work.hint}</span>
+        <span className={styles.hintMouse}>{work.hint}</span>
+        <span className={styles.hintTouch}>{work.hintTouch}</span>
         <Link href={work.allHref}>
           {work.allLabel} ({caseCount}) →
         </Link>

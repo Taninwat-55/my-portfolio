@@ -7,21 +7,21 @@ import { GardenList } from "./GardenList";
 import styles from "./notebook.module.css";
 
 export const metadata: Metadata = {
-  title: "Garden",
+  title: "Writing",
   description:
     "Notes on building products, engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
   alternates: {
     canonical: "https://taninwatkaewpankan.xyz/garden",
   },
   openGraph: {
-    title: "Garden | Ice · Taninwat Kaewpankan",
+    title: "Writing | Ice · Taninwat Kaewpankan",
     description:
       "Notes on building products, engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
     url: "https://taninwatkaewpankan.xyz/garden",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Garden | Ice · Taninwat Kaewpankan",
+    title: "Writing | Ice · Taninwat Kaewpankan",
     description:
       "Notes on building products, engineering, product thinking, and the occasional interactive tool embedded right inside the post.",
   },
@@ -45,7 +45,7 @@ export default function GardenIndex() {
       <PaperSheet className={styles.notebook}>
         <PageHeader
           kicker="The notebook"
-          title="Garden"
+          title="Writing"
           lead="Notes on building products, engineering, product thinking, and the occasional tool that runs right inside the post."
         />
 

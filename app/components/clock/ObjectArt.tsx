@@ -42,7 +42,7 @@ export function ObjectArt({ id }: { id: ClockObjectId | "contact" }) {
         <rect className={styles.cover} x="44" y="6" width="88" height="124" rx="4" />
         <path className={styles.spine} d="M54 6 V130" />
         <rect className={styles.paper} x="66" y="40" width="54" height="24" rx="2" />
-        <text className={styles.handText} x="93" y="57" textAnchor="middle" fontSize="11">Garden</text>
+        <text className={styles.handText} x="93" y="57" textAnchor="middle" fontSize="11">Writing</text>
         <path className={styles.band} d="M122 6 V130" />
       </svg>
     );

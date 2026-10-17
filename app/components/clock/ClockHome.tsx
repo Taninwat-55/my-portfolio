@@ -624,17 +624,12 @@ export function ClockHome({
 
         <main id="main-content" className={styles.stage}>
           <div ref={clusterRef} className={styles.cluster}>
-            <div className={styles.coreWrap}>
-              <div ref={coreRef} className={styles.core}>
-                <Hand ref={handRef} />
-                <Portrait smiling={pointed !== null} lookAt={lookAt} aimKey={pointed} />
-                {/* The pool of light on the head, then the lamp above it. */}
-                <div className={styles.lampLight} aria-hidden="true" />
-                <Lamp on={lampOn} onToggle={() => setLampFlipped(!lampOn)} />
-              </div>
-            </div>
-
-            <nav aria-label="Sections">
+            {/* The objects come before the portrait in the source, so Tab reaches
+                them before the lamp switch; the layout places them visually. */}
+            <nav aria-labelledby="sections-heading">
+              <h2 id="sections-heading" className="sr-only">
+                Sections
+              </h2>
               <ul className={styles.things}>
                 {clockContent.objects.map((object) => (
                   <li key={object.id}>
@@ -679,6 +674,16 @@ export function ClockHome({
                 </li>
               </ul>
             </nav>
+            <div className={styles.coreWrap}>
+              <div ref={coreRef} className={styles.core}>
+                <Hand ref={handRef} />
+                <Portrait smiling={pointed !== null} lookAt={lookAt} aimKey={pointed} />
+                {/* The pool of light on the head, then the lamp above it. */}
+                <div className={styles.lampLight} aria-hidden="true" />
+                <Lamp on={lampOn} onToggle={() => setLampFlipped(!lampOn)} />
+              </div>
+            </div>
+
             <ChaYen />
           </div>
         </main>

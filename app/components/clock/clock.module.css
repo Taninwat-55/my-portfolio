@@ -862,6 +862,20 @@
   font-weight: 700;
   cursor: pointer;
 }
+/* Wording and hints by input, not by width: a touch screen gets "tap" and no
+   Esc key it does not have. */
+.hintTouch {
+  display: none;
+}
+@media (hover: none) and (pointer: coarse) {
+  .hintMouse,
+  .close kbd {
+    display: none;
+  }
+  .hintTouch {
+    display: inline;
+  }
+}
 .close kbd {
   padding: 1px 5px;
   border: 1px solid var(--ink-soft);
@@ -1809,7 +1823,10 @@
     padding-block: 10px 4px;
     box-sizing: border-box;
   }
+  /* First on screen, though it follows the objects in the source (so Tab
+     reaches the objects before the lamp). */
   .coreWrap {
+    order: -1;
     display: grid;
     place-items: center;
     min-height: 0;

@@ -1680,7 +1680,9 @@ export const clockContent = {
     // Six since 2026-10-05: Saep and Lumina are concept pieces, and each
     // print's back says so in its first words (their `sub`).
     caseIds: ["trailr", "bevisly", "mockmate", "racha", "saep", "lumina"],
+    // Two wordings, shown by input: "click" means nothing on a phone.
     hint: "Click a print to turn it over",
+    hintTouch: "Tap a print to turn it over",
     readLabel: "Read the case study",
     turnBack: "Turn back",
     // Beside the caption of a concept piece's print (CaseStudy.concept).
@@ -1691,7 +1693,9 @@ export const clockContent = {
 
   // The notebook lists the newest notes; Clock.tsx decides how many.
   writing: {
-    title: "Garden notes",
+    // "Writing" everywhere a visitor reads it since 2026-10-17; "Garden" was
+    // web-insider slang. The URL stays /garden so shared links keep working.
+    title: "Writing",
     allLabel: "All notes",
     allHref: "/garden",
   },
@@ -1702,7 +1706,9 @@ export const clockContent = {
    * lives here.
    */
   rates: {
-    heading: "ICE · WEB STUDIO",
+    // "Services", like the object and the page it leads to. "Web Studio" read
+    // as an agency with a team, and it is one person.
+    heading: "ICE · SERVICES",
     // TH since 2026-10-17: Thai-run businesses are half the client audience,
     // and the receipt is the one object they are sure to open.
     place: "Copenhagen · DA / EN / SV / TH",
