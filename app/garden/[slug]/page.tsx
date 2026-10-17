@@ -4,6 +4,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 
 import { getPostData, getSortedPostsData } from "../../lib/posts";
+import { clockContent } from "../../data";
 import { PageShell } from "../../components/PageShell";
 import { PaperSheet } from "../../components/paper/PaperSheet";
 import { PageHeader } from "../../components/paper/PageHeader";
@@ -115,7 +116,7 @@ export default async function GardenPost({
   };
 
   return (
-    <PageShell back={{ href: "/garden", label: "Garden" }}>
+    <PageShell back={{ href: "/garden", label: clockContent.writing.title }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}

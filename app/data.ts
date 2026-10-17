@@ -136,12 +136,20 @@ export const siteContent = {
     "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language, just with a few more tools.",
   ],
 
-  // Under the About letter on the clock homepage. Every value here traces to
-  // aboutStory or the CV — nothing is inferred.
+  // The About letter's letterhead on the clock homepage. Every value here traces
+  // to aboutStory or the CV — nothing is inferred. Now and Before lead because
+  // they are the positioning ("an engineer who has run things"), which the
+  // story only reaches in its fifth and sixth paragraphs.
   aboutFacts: [
-    { label: "Path", value: "Thailand → Sweden → England → Denmark" },
+    { label: "Now", value: "Frontend and UI/UX at Trailr AI, part-time" },
+    // An arrow, like Path: "Assistant to Head of" alone read as one title.
+    {
+      label: "Before",
+      value: "Operations Assistant → Head of Organization, Millennial Consulting",
+    },
     { label: "Languages", value: "Thai, Swedish, English, Danish" },
     { label: "Based", value: "Copenhagen since 2023 · EU citizen" },
+    { label: "Path", value: "Thailand → Sweden → England → Denmark" },
   ],
 
   // Written for the old homepage's About section and moved rather than deleted.
@@ -1639,12 +1647,28 @@ export const clockContent = {
    */
   availability: "Open to full-time roles in Copenhagen, and taking on client projects.",
 
+  /**
+   * The stack and the CV, on the first screen. A recruiter scans for these
+   * keywords in seconds, and before 2026-10-17 both sat behind a click (the
+   * stack on the back of a print, the CV at the end of the letter). Every item
+   * is in cvData.skills, so nothing here outruns the CV.
+   */
+  stack: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"],
+  cvLink: { label: "Read my CV", href: "/cv" },
+
   // Order is clockwise from top left, which is also the Tab order.
   objects: [
     { id: "work", label: "Work", sub: "Projects and case studies", href: "/work" },
     { id: "about", label: "About", sub: "A letter from me", href: "/about" },
     { id: "writing", label: "Writing", sub: "Notes on building", href: "/writing" },
-    { id: "services", label: "Services", sub: "Hire me for a project", href: "/rates" },
+    // Says who it is for and the entry price before a click. The price is read
+    // from the website offer, so it cannot drift from /services.
+    {
+      id: "services",
+      label: "Services",
+      sub: `Websites for small businesses, ${services.offers[0].priceRange.replace(/^From/, "from")}`,
+      href: "/rates",
+    },
   ] satisfies readonly { id: ClockObjectId; label: string; sub: string; href: string }[],
 
   /**
@@ -1657,7 +1681,9 @@ export const clockContent = {
     // Six since 2026-10-05: Saep and Lumina are concept pieces, and each
     // print's back says so in its first words (their `sub`).
     caseIds: ["trailr", "bevisly", "mockmate", "racha", "saep", "lumina"],
+    // Two wordings, shown by input: "click" means nothing on a phone.
     hint: "Click a print to turn it over",
+    hintTouch: "Tap a print to turn it over",
     readLabel: "Read the case study",
     turnBack: "Turn back",
     // Beside the caption of a concept piece's print (CaseStudy.concept).
@@ -1668,7 +1694,9 @@ export const clockContent = {
 
   // The notebook lists the newest notes; Clock.tsx decides how many.
   writing: {
-    title: "Garden notes",
+    // "Writing" everywhere a visitor reads it since 2026-10-17; "Garden" was
+    // web-insider slang. The URL stays /garden so shared links keep working.
+    title: "Writing",
     allLabel: "All notes",
     allHref: "/garden",
   },
@@ -1679,8 +1707,12 @@ export const clockContent = {
    * lives here.
    */
   rates: {
-    heading: "ICE · WEB STUDIO",
-    place: "Copenhagen · DA / EN / SV",
+    // "Services", like the object and the page it leads to. "Web Studio" read
+    // as an agency with a team, and it is one person.
+    heading: "ICE · SERVICES",
+    // TH since 2026-10-17: Thai-run businesses are half the client audience,
+    // and the receipt is the one object they are sure to open.
+    place: "Copenhagen · DA / EN / SV / TH",
     auditLabel: "Audit only",
     footnote: "Fixed price in writing before anything starts.",
     detailsLabel: "Full details",
@@ -1739,8 +1771,8 @@ export const clockContent = {
   letter: {
     greeting: "Hej,",
     signature: "Ice",
-    // The only link on the site to /cv: a recruiter who has read the letter is
-    // ready for the details. The PDF button beside it stays.
+    // A recruiter who has read the letter is ready for the details. The PDF
+    // button beside it stays. The other link to /cv is clockContent.cvLink.
     cvLink: { label: "Read my CV", href: "/cv" },
   },
 } as const;

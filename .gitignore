@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .agent/skills/
+
+# impeccable engine binary (re-downloads on first run)
+.claude/skills/impeccable/scripts/bin/

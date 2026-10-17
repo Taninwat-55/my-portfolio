@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { flushSync } from "react-dom";
 import { clockContent, personalInfo, siteContent, type ClockObjectId } from "../../data";
 import { Portrait } from "./Portrait";
 import { Hand } from "./Hand";
@@ -14,6 +15,7 @@ import { Notebook } from "./Notebook";
 import { Receipt } from "./Receipt";
 import { Lamp } from "./Lamp";
 import { WallClock } from "./WallClock";
+import { ChaYen } from "./ChaYen";
 import { useCopenhagenTime, hourOf } from "./useCopenhagenTime";
 import type { ClockContentProps } from "./types";
 import styles from "./clock.module.css";
@@ -115,6 +117,20 @@ const isCompact = () =>
 const isPlainClick = (event: React.MouseEvent) =>
   event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 
+// An object can have a second door: Contact is a card on phones as well as the
+// pin on the wall, and only one of them is shown at a time. Refs are kept per
+// slot ("contact", "contact@card"), and a lookup takes the one on screen.
+const slotKey = (id: Pointable, slot?: string) => (slot ? `${id}@${slot}` : id);
+function shown<T extends HTMLElement>(refs: Map<string, T>, id: Pointable): T | undefined {
+  let fallback: T | undefined;
+  for (const [key, el] of refs) {
+    if (key !== id && !key.startsWith(`${id}@`)) continue;
+    if (el.getClientRects().length > 0) return el;
+    fallback ??= el;
+  }
+  return fallback;
+}
+
 export function ClockHome({
   initialOpen = null,
   content,
@@ -127,8 +143,8 @@ export function ClockHome({
   const handRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const artRefs = useRef(new Map<Pointable, HTMLElement>());
-  const triggerRefs = useRef(new Map<Pointable, HTMLAnchorElement>());
+  const artRefs = useRef(new Map<string, HTMLElement>());
+  const triggerRefs = useRef(new Map<string, HTMLAnchorElement>());
   const angle = useRef(HAND_REST_ANGLE);
   const pointedRef = useRef<Pointable | null>(initialOpen);
   const openRef = useRef<InPlace | null>(initialOpen);
@@ -203,7 +219,7 @@ export function ClockHome({
 
   const angleTo = useCallback((id: Pointable) => {
     const core = coreRef.current?.getBoundingClientRect();
-    const target = artRefs.current.get(id)?.getBoundingClientRect();
+    const target = shown(artRefs.current, id)?.getBoundingClientRect();
     if (!core || !target) return 0;
     const dx = target.left + target.width / 2 - (core.left + core.width / 2);
     const dy = target.top + target.height / 2 - (core.top + core.height / 2);
@@ -244,7 +260,7 @@ export function ClockHome({
   }, [initialOpen, angleTo, swingTo]);
 
   const lookAt = useCallback(
-    () => (pointedRef.current ? artRefs.current.get(pointedRef.current) ?? null : null),
+    () => (pointedRef.current ? shown(artRefs.current, pointedRef.current) ?? null : null),
     [],
   );
 
@@ -258,7 +274,7 @@ export function ClockHome({
   // Offset from the sheet's centre to the object's spot, so it can fly from there.
   const offsetTo = (id: Pointable) => {
     const sheet = sheetRef.current?.getBoundingClientRect();
-    const art = artRefs.current.get(id)?.getBoundingClientRect();
+    const art = shown(artRefs.current, id)?.getBoundingClientRect();
     if (!sheet || !art) return { x: 0, y: 0 };
     return {
       x: art.left + art.width / 2 - (sheet.left + sheet.width / 2),
@@ -323,9 +339,14 @@ export function ClockHome({
     });
     animation.finished
       .then(() => {
-        setOpen(null);
-        setStage(0);
-        const trigger = triggerRefs.current.get(id);
+        // flushSync, so the frame has lost `inert` before focus moves back:
+        // focusing an inert element is silently ignored, which used to leave
+        // keyboard users on <body> after every close.
+        flushSync(() => {
+          setOpen(null);
+          setStage(0);
+        });
+        const trigger = shown(triggerRefs.current, id);
         trigger?.focus({ preventScroll: true });
         // Keyboard users land back on the object, so the hand stays on it too.
         if (!trigger?.matches(":hover") && !trigger?.matches(":focus-visible")) release();
@@ -525,10 +546,10 @@ export function ClockHome({
     }, delay);
   };
 
-  const triggerProps = (id: Pointable, href: string) => ({
+  const triggerProps = (id: Pointable, href: string, slot?: string) => ({
     ref: (el: HTMLAnchorElement | null) => {
-      if (el) triggerRefs.current.set(id, el);
-      else triggerRefs.current.delete(id);
+      if (el) triggerRefs.current.set(slotKey(id, slot), el);
+      else triggerRefs.current.delete(slotKey(id, slot));
     },
     href,
     onPointerEnter: (event: React.PointerEvent) => {
@@ -545,9 +566,9 @@ export function ClockHome({
     onClick: (event: React.MouseEvent<HTMLAnchorElement>) => onTriggerClick(event, id),
   });
 
-  const artRef = (id: Pointable) => (el: HTMLElement | null) => {
-    if (el) artRefs.current.set(id, el);
-    else artRefs.current.delete(id);
+  const artRef = (id: Pointable, slot?: string) => (el: HTMLElement | null) => {
+    if (el) artRefs.current.set(slotKey(id, slot), el);
+    else artRefs.current.delete(slotKey(id, slot));
   };
 
   // ---- render ---------------------------------------------------------------
@@ -566,6 +587,14 @@ export function ClockHome({
             <p className={styles.role}>
               <strong>{siteContent.roleLabel}</strong> in Copenhagen
             </p>
+            <ul className={styles.stack} aria-label="Stack">
+              {clockContent.stack.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <Link className={styles.topCv} href={clockContent.cvLink.href}>
+              {clockContent.cvLink.label} <span aria-hidden="true">→</span>
+            </Link>
             {/* Always rendered, so the line's height is reserved before the
                 client knows the time and nothing below it jumps. The time
                 itself is on the wall clock. */}
@@ -595,17 +624,12 @@ export function ClockHome({
 
         <main id="main-content" className={styles.stage}>
           <div ref={clusterRef} className={styles.cluster}>
-            <div className={styles.coreWrap}>
-              <div ref={coreRef} className={styles.core}>
-                <Hand ref={handRef} />
-                <Portrait smiling={pointed !== null} lookAt={lookAt} aimKey={pointed} />
-                {/* The pool of light on the head, then the lamp above it. */}
-                <div className={styles.lampLight} aria-hidden="true" />
-                <Lamp on={lampOn} onToggle={() => setLampFlipped(!lampOn)} />
-              </div>
-            </div>
-
-            <nav aria-label="Sections">
+            {/* The objects come before the portrait in the source, so Tab reaches
+                them before the lamp switch; the layout places them visually. */}
+            <nav aria-labelledby="sections-heading">
+              <h2 id="sections-heading" className="sr-only">
+                Sections
+              </h2>
               <ul className={styles.things}>
                 {clockContent.objects.map((object) => (
                   <li key={object.id}>
@@ -634,8 +658,33 @@ export function ClockHome({
                     </a>
                   </li>
                 ))}
+                {/* Phones: Contact as a full-width card under the others, in
+                    thumb reach. The pin on the wall hides at that size. */}
+                <li className={styles.contactItem}>
+                  <a
+                    className={`${styles.thing} ${pointed === "contact" ? styles.pointed : ""}`}
+                    {...triggerProps("contact", IN_PLACE.contact, "card")}
+                  >
+                    <span ref={artRef("contact", "card")} className={styles.artWrap}>
+                      <ObjectArt id="contact" />
+                    </span>
+                    <span className={styles.label}>{clockContent.contact.label}</span>
+                    <span className={styles.sub}>{clockContent.contact.lines.join(" ")}</span>
+                  </a>
+                </li>
               </ul>
             </nav>
+            <div className={styles.coreWrap}>
+              <div ref={coreRef} className={styles.core}>
+                <Hand ref={handRef} />
+                <Portrait smiling={pointed !== null} lookAt={lookAt} aimKey={pointed} />
+                {/* The pool of light on the head, then the lamp above it. */}
+                <div className={styles.lampLight} aria-hidden="true" />
+                <Lamp on={lampOn} onToggle={() => setLampFlipped(!lampOn)} />
+              </div>
+            </div>
+
+            <ChaYen />
           </div>
         </main>
 

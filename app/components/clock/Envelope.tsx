@@ -23,12 +23,9 @@ export function Envelope({ stage }: { stage: 0 | 1 | 2 | 3 }) {
     <div className={`${styles.envelope} ${stageClass}`}>
       <div className={styles.envelopeBack} />
       <article className={styles.letter} tabIndex={0} aria-labelledby="letter-greeting">
-        <p id="letter-greeting">{letter.greeting}</p>
-        {paragraphs.map((paragraph) => (
-          <p key={paragraph.slice(0, 24)}>{paragraph}</p>
-        ))}
-        <p className={styles.signature}>{letter.signature}</p>
-        <footer className={styles.letterFacts}>
+        {/* The letterhead: the facts and the CV first, for the reader who
+            won't finish the letter. */}
+        <header className={styles.letterFacts}>
           <dl>
             {siteContent.aboutFacts.map((fact) => (
               <div key={fact.label}>
@@ -45,7 +42,16 @@ export function Envelope({ stage }: { stage: 0 | 1 | 2 | 3 }) {
               {siteContent.cv.label}
             </Link>
           </div>
-        </footer>
+        </header>
+        <div className={styles.letterBody}>
+          <p id="letter-greeting" className={styles.greeting}>
+            {letter.greeting}
+          </p>
+          {paragraphs.map((paragraph) => (
+            <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+          ))}
+          <p className={styles.signature}>{letter.signature}</p>
+        </div>
       </article>
       <div className={styles.envelopeFront} />
       <div className={styles.envelopeFlap} />

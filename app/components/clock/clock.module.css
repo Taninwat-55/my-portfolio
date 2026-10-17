@@ -86,6 +86,46 @@
   font-weight: 500;
 }
 
+/* The stack and the CV link: what a recruiter scans for, without a click. */
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+/* The dot is a separator, not content: the alt text after "/" keeps screen
+   readers from announcing it. It trails its item so a wrapped line never
+   starts with one. */
+.stack li:not(:last-child)::after {
+  /* Plain first: browsers without the alt-text syntax (Safari before 17.4)
+     drop the second line and keep this one. */
+  content: "·";
+  content: "·" / "";
+  margin-inline: 0.5em;
+}
+.topCv {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  min-height: 44px;
+  margin-block: -10px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.topCv:hover {
+  text-decoration-thickness: 2px;
+}
+.topCv:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .localTime {
   margin: -2px 0 0;
   font-size: 13px;
@@ -546,6 +586,11 @@
   margin: 0;
   padding: 0;
 }
+/* Contact's second door, a card for phones (see the compact layout below). On
+   the desk the pinned postcard is the door. */
+.contactItem {
+  display: none;
+}
 .thing {
   position: absolute;
   left: var(--x);
@@ -587,6 +632,47 @@
   display: block;
   line-height: 0;
 }
+
+/* The cha yen beside the receipt (ChaYen.tsx). Decoration, so it never takes
+   a click from the objects around it. Dims at night with the other drawings. */
+.chaYen {
+  position: absolute;
+  /* The 16px keeps it clear of the Services caption around 800px wide, where
+     the caption's fixed text width meets the percentage gap. */
+  left: calc(93% + 16px);
+  top: 82%;
+  z-index: 2;
+  line-height: 0;
+  transform: translate(-50%, -50%) rotate(3deg);
+  pointer-events: none;
+}
+.chaYen .art {
+  width: clamp(44px, 4.4vw, 64px);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 8px 12px var(--shadow));
+  transition: filter 600ms;
+}
+.night .chaYen .art {
+  filter: drop-shadow(0 8px 12px var(--shadow)) brightness(0.6);
+}
+.night.lampIsOn .chaYen .art,
+:global(html[data-desk-night]) .page .chaYen .art {
+  filter: drop-shadow(0 8px 12px var(--shadow)) brightness(0.85);
+}
+.chaYenGlass {
+  stroke: #d7e2ea;
+  stroke-opacity: 0.75;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+/* Phones lay the objects out as a grid of cards; there is no desk to stand
+   a glass on. */
+@media (max-width: 767px), (max-height: 520px) and (orientation: landscape) {
+  .chaYen {
+    display: none;
+  }
+}
 .thing .art {
   width: clamp(130px, 14vw, 196px);
   height: auto;
@@ -604,8 +690,11 @@
 }
 .sub {
   margin-top: -4px;
+  max-width: 24ch;
   font-size: 13px;
   color: var(--ink-soft);
+  text-align: center;
+  text-wrap: balance;
 }
 .thing:hover,
 .thing:focus-visible,
@@ -778,6 +867,20 @@
   font-weight: 700;
   cursor: pointer;
 }
+/* Wording and hints by input, not by width: a touch screen gets "tap" and no
+   Esc key it does not have. */
+.hintTouch {
+  display: none;
+}
+@media (hover: none) and (pointer: coarse) {
+  .hintMouse,
+  .close kbd {
+    display: none;
+  }
+  .hintTouch {
+    display: inline;
+  }
+}
 .close kbd {
   padding: 1px 5px;
   border: 1px solid var(--ink-soft);
@@ -868,15 +971,19 @@
   box-sizing: border-box;
   overflow: hidden;
   border-radius: 3px;
-  background:
-    repeating-linear-gradient(transparent 0 31px, var(--paper-rule) 31px 32px) 0 60px / 100%
-      calc(100% - 60px) no-repeat,
-    var(--paper);
+  background: var(--paper);
   box-shadow: 0 6px 24px var(--shadow);
-  font: 400 18px/32px var(--font-hand);
+  font: 400 17px/32px var(--font-kanit), sans-serif;
   transform-origin: 50% 100%;
   transform: scaleY(0.28);
   transition: transform 520ms var(--ease-out);
+}
+/* The story is set in Kanit so it can be skimmed; the hand stays for the
+   greeting and the signature, which is where a letter is handwritten. The
+   rules are drawn on the body itself, one per 32px line, so they sit under
+   the text at any padding and stop at the letterhead. */
+.letterBody {
+  background: repeating-linear-gradient(transparent 0 31px, var(--paper-rule) 31px 32px);
 }
 .letter p {
   margin: 0;
@@ -884,10 +991,17 @@
 .letter p + p {
   margin-top: 32px;
 }
+.greeting,
+.signature {
+  font-family: var(--font-hand);
+  font-weight: 700;
+}
+.greeting {
+  font-size: 22px;
+}
 .signature {
   color: var(--paper-accent);
   font-size: 26px;
-  font-weight: 700;
 }
 .letterFacts {
   display: flex;
@@ -895,9 +1009,9 @@
   align-items: end;
   justify-content: space-between;
   gap: 14px 20px;
-  margin-top: 28px;
-  padding-top: 14px;
-  border-top: 1px solid var(--paper-dim);
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--paper-dim);
   font: 400 13px/1.5 var(--font-kanit), sans-serif;
 }
 .letterFacts dl {
@@ -930,6 +1044,7 @@
 .cvLink {
   display: inline-flex;
   align-items: center;
+  gap: 0.3em;
   min-height: 44px;
   color: var(--paper-link);
   font-weight: 500;
@@ -1484,10 +1599,7 @@
   box-sizing: border-box;
   overflow-y: auto;
   border-radius: 4px 10px 10px 4px;
-  background:
-    repeating-linear-gradient(transparent 0 35px, var(--paper-rule) 35px 36px) 0 92px / 100%
-      calc(100% - 92px) no-repeat,
-    var(--paper);
+  background: var(--paper);
   box-shadow:
     0 10px 30px var(--shadow),
     inset 12px 0 14px -10px rgba(0, 0, 0, 0.25);
@@ -1497,24 +1609,29 @@
   font-size: 24px;
   font-weight: 700;
 }
+/* The rules are drawn on the list, one per 32px line, and every title line
+   and date takes exactly one line, so a title that wraps still lands on the
+   rules. The list fills the page (its grid row is 1fr), so the rules run on
+   to the link at the bottom like a real page. Nudged up 3px so a rule sits
+   just under the writing rather than a gap below it. */
 .notebookPages ol {
   margin: 0;
   padding: 0;
   list-style: none;
+  background: repeating-linear-gradient(transparent 0 31px, var(--paper-rule) 31px 32px) 0 -3px;
 }
 .notebookPages li a {
   display: grid;
-  gap: 2px;
-  padding: 6px 0 10px;
   color: var(--paper-ink);
   text-decoration: none;
 }
 .notebookPages li span {
-  font: 400 17px/1.35 var(--font-hand);
+  font: 400 17px/32px var(--font-hand);
 }
 .notebookPages li time {
   color: var(--paper-soft);
   font-size: 12px;
+  line-height: 32px;
 }
 .notebookPages li a:hover span {
   color: var(--paper-link);
@@ -1713,7 +1830,10 @@
     padding-block: 10px 4px;
     box-sizing: border-box;
   }
+  /* First on screen, though it follows the objects in the source (so Tab
+     reaches the objects before the lamp). */
   .coreWrap {
+    order: -1;
     display: grid;
     place-items: center;
     min-height: 0;
@@ -1741,6 +1861,20 @@
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
+  /* Contact moves down here, full width and in thumb reach; the pin at the
+     top would be the one door a phone visitor has to stretch for. */
+  .contactItem {
+    display: block;
+    grid-column: 1 / -1;
+  }
+  .wall .pin {
+    display: none;
+  }
+  /* Clear of the chat button (fixed 24px from the corner, 56px wide), which
+     otherwise sits on the last language link. */
+  .bottom {
+    padding-right: 88px;
+  }
   .thing,
   .thing:hover,
   .thing:focus-visible,
@@ -1766,7 +1900,7 @@
     grid-row: span 2;
   }
   .thing .art {
-    width: 54px;
+    width: 44px;
     filter: none;
   }
   .thing .label {
@@ -1774,8 +1908,11 @@
   }
   .thing .sub {
     margin-top: 0;
+    max-width: none;
     font-size: 12px;
     color: var(--paper-soft);
+    text-align: start;
+    text-wrap: wrap;
   }
   .thing.pointed .label {
     color: var(--paper-link);
