@@ -100,6 +100,9 @@
    readers from announcing it. It trails its item so a wrapped line never
    starts with one. */
 .stack li:not(:last-child)::after {
+  /* Plain first: browsers without the alt-text syntax (Safari before 17.4)
+     drop the second line and keep this one. */
+  content: "·";
   content: "·" / "";
   margin-inline: 0.5em;
 }
@@ -634,7 +637,9 @@
    a click from the objects around it. Dims at night with the other drawings. */
 .chaYen {
   position: absolute;
-  left: 93%;
+  /* The 16px keeps it clear of the Services caption around 800px wide, where
+     the caption's fixed text width meets the percentage gap. */
+  left: calc(93% + 16px);
   top: 82%;
   z-index: 2;
   line-height: 0;

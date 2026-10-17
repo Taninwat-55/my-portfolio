@@ -59,11 +59,11 @@ export function SatsConverter({
       ref={ref}
       className="not-prose my-8 overflow-hidden rounded-md border border-paper-rule bg-paper-dim text-paper-ink shadow-[0_6px_18px_rgba(0,0,0,0.18)]"
     >
-      {/* Top bar — Garden tool label + animated rate */}
+      {/* Top bar — tool label + animated rate */}
       <div className="flex items-center justify-between gap-3 px-5 py-3 border-b border-paper-rule">
         <div className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] uppercase text-paper-ink">
           <Bitcoin size={12} strokeWidth={1.6} />
-          Garden tool · Sats Converter
+          Writing tool · Sats Converter
         </div>
         <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-paper-ink">
           1 BTC ={" "}
