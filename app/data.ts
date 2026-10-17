@@ -142,9 +142,10 @@ export const siteContent = {
   // story only reaches in its fifth and sixth paragraphs.
   aboutFacts: [
     { label: "Now", value: "Frontend and UI/UX at Trailr AI, part-time" },
+    // An arrow, like Path: "Assistant to Head of" alone read as one title.
     {
       label: "Before",
-      value: "Operations Assistant to Head of Organization, Millennial Consulting",
+      value: "Operations Assistant → Head of Organization, Millennial Consulting",
     },
     { label: "Languages", value: "Thai, Swedish, English, Danish" },
     { label: "Based", value: "Copenhagen since 2023 · EU citizen" },
