@@ -55,7 +55,7 @@ export function ObjectArt({ id }: { id: ClockObjectId | "contact" }) {
           className={styles.paper}
           d="M50 6 H130 V128 l-8 -6 l-8 6 l-8 -6 l-8 6 l-8 -6 l-8 6 l-8 -6 l-8 6 l-8 -6 l-8 6 Z"
         />
-        <text className={styles.monoText} x="90" y="24" textAnchor="middle">ICE · WEB</text>
+        <text className={styles.monoText} x="90" y="24" textAnchor="middle">SERVICES</text>
         <path className={styles.pencil} d="M60 34 H120" strokeDasharray="3 3" />
         <path className={styles.pencil} d="M60 48 H96 M108 48 H120 M60 62 H90 M108 62 H120 M60 76 H98 M108 76 H120" />
         <path className={styles.pencil} d="M60 90 H120" strokeDasharray="3 3" />
