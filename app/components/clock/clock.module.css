@@ -905,15 +905,19 @@
   box-sizing: border-box;
   overflow: hidden;
   border-radius: 3px;
-  background:
-    repeating-linear-gradient(transparent 0 31px, var(--paper-rule) 31px 32px) 0 60px / 100%
-      calc(100% - 60px) no-repeat,
-    var(--paper);
+  background: var(--paper);
   box-shadow: 0 6px 24px var(--shadow);
-  font: 400 18px/32px var(--font-hand);
+  font: 400 17px/32px var(--font-kanit), sans-serif;
   transform-origin: 50% 100%;
   transform: scaleY(0.28);
   transition: transform 520ms var(--ease-out);
+}
+/* The story is set in Kanit so it can be skimmed; the hand stays for the
+   greeting and the signature, which is where a letter is handwritten. The
+   rules are drawn on the body itself, one per 32px line, so they sit under
+   the text at any padding and stop at the letterhead. */
+.letterBody {
+  background: repeating-linear-gradient(transparent 0 31px, var(--paper-rule) 31px 32px);
 }
 .letter p {
   margin: 0;
@@ -921,10 +925,17 @@
 .letter p + p {
   margin-top: 32px;
 }
+.greeting,
+.signature {
+  font-family: var(--font-hand);
+  font-weight: 700;
+}
+.greeting {
+  font-size: 22px;
+}
 .signature {
   color: var(--paper-accent);
   font-size: 26px;
-  font-weight: 700;
 }
 .letterFacts {
   display: flex;
@@ -932,9 +943,9 @@
   align-items: end;
   justify-content: space-between;
   gap: 14px 20px;
-  margin-top: 28px;
-  padding-top: 14px;
-  border-top: 1px solid var(--paper-dim);
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--paper-dim);
   font: 400 13px/1.5 var(--font-kanit), sans-serif;
 }
 .letterFacts dl {
@@ -967,6 +978,7 @@
 .cvLink {
   display: inline-flex;
   align-items: center;
+  gap: 0.3em;
   min-height: 44px;
   color: var(--paper-link);
   font-weight: 500;

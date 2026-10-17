@@ -136,12 +136,19 @@ export const siteContent = {
     "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language, just with a few more tools.",
   ],
 
-  // Under the About letter on the clock homepage. Every value here traces to
-  // aboutStory or the CV — nothing is inferred.
+  // The About letter's letterhead on the clock homepage. Every value here traces
+  // to aboutStory or the CV — nothing is inferred. Now and Before lead because
+  // they are the positioning ("an engineer who has run things"), which the
+  // story only reaches in its fifth and sixth paragraphs.
   aboutFacts: [
-    { label: "Path", value: "Thailand → Sweden → England → Denmark" },
+    { label: "Now", value: "Frontend and UI/UX at Trailr AI, part-time" },
+    {
+      label: "Before",
+      value: "Operations Assistant to Head of Organization, Millennial Consulting",
+    },
     { label: "Languages", value: "Thai, Swedish, English, Danish" },
     { label: "Based", value: "Copenhagen since 2023 · EU citizen" },
+    { label: "Path", value: "Thailand → Sweden → England → Denmark" },
   ],
 
   // Written for the old homepage's About section and moved rather than deleted.
