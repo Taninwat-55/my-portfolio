@@ -1,58 +1,23 @@
 @import "tailwindcss";
 
+/*
+ * The site-wide base. Since phase 2 of the stack (2026-10-18) every page is a
+ * one-bit card (DESIGN.md), so this only sets what sits outside a card: the
+ * page ground, selection, scrollbars and anchor offsets. The stack's own
+ * system lives in app/components/stack/.
+ */
 @theme {
   --font-sans: var(--font-kanit);
   --font-mono: var(--font-jetbrains-mono);
-
-  /* Night — dark surface scale */
-  --color-night-900: #0C0C0C;
-  --color-night-800: #141414;
-  --color-night-700: #1C1C1C;
-
-  /* Frost — cool light text scale */
-  --color-frost: #D7E2EA;
-
-  /* Crystal — icy accent scale (primary UI accent) */
-  --color-crystal-600: #3E8FB0;
-  --color-crystal-500: #7FC8E3;
-  --color-crystal-400: #9BD6EC;
-  --color-crystal-300: #B6E2F2;
-
-  /* Clay — warm terracotta (kept for the single "open to work" spark) */
-  --color-clay-600: #A85C2E;
-  --color-clay-500: #C4713E;
-  --color-clay-400: #D4895A;
-  --color-clay-300: #E4A87A;
-}
-
-/* `static`: emitted whether or not a utility uses them, because
-   clock.module.css and paper.module.css read them through var(). */
-@theme static {
-  /* Desk: the clock's paper world, shared by every page behind it (re-theme,
-     2026-10-04). Paper stays light on the dark desk in every theme: the pages are
-     objects lying on it, not UI chrome. clock.module.css reads these too, so the
-     clock and the pages cannot drift apart. */
-  --color-paper: #f6f5f1;
-  --color-paper-dim: #e4e1d9;
-  --color-paper-ink: #1d2731;
-  --color-paper-soft: #5a6672;
-  --color-paper-rule: #c9d5e6;
-  --color-paper-accent: #3e8fb0;
-  /* Text links on paper. The accent above is 3.3:1 on paper, too faint for
-     small text; this is 5.5:1 (4.6:1 on paper-dim). Keep the accent for
-     washes and focus rings, where 3:1 is enough. */
-  --color-paper-link: #286a87;
-  --color-ink-soft: #8c99a5;
-  --color-sticky: #f3dfa2;
 }
 
 @layer base {
   html {
-    color-scheme: dark;
-    background-color: #0C0C0C;
+    color-scheme: light;
+    background-color: #fff;
     scroll-behavior: smooth;
-    /* Keeps the fixed pill nav from covering the top of an anchored section. */
-    scroll-padding-top: 6rem;
+    /* Keeps the sticky menu bar from covering the top of an anchored section. */
+    scroll-padding-top: 64px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -60,79 +25,30 @@
       scroll-behavior: auto;
     }
   }
+
   body {
-    background-color: #0C0C0C;
-    color: #D7E2EA;
+    background-color: #fff;
+    color: #000;
     font-family: var(--font-kanit), sans-serif;
-    /* The desk's handwriting. Declared here, not in @theme: next/font defines
-       --font-kalam on <body>, so on :root this var() would resolve to nothing. */
-    --font-hand: var(--font-kalam), "Bradley Hand", "Segoe Print", cursive;
   }
 }
 
 @layer utilities {
-  /* FIRST-SCREEN ENTRANCE — CSS, not framer-motion, and that is the entire point.
-     <FadeIn> server-renders opacity:0 and only animates once React has hydrated.
-     On a throttled phone that meant every above-fold element stayed invisible
-     until ~435 KB of JS had run. Measured LCP before/after, mobile at 4x CPU:
-
-       /            7928ms -> 1880ms
-       /da          6580ms -> see the log entry
-       /services    4372ms
-       /sv          3588ms
-       /th          3516ms
-
-     On the homepage the element deciding LCP was a 162x20 line of hero text,
-     while the portrait's `priority` preload was thrown away because the image also
-     sat at opacity 0 until hydration — so the biggest thing on screen could not
-     even be an LCP candidate.
-
-     A CSS animation starts at first paint. The choreography a human sees is
-     unchanged, delays included; it simply no longer waits for JavaScript.
-
-     Used via <FadeIn immediate>. Do NOT reach for it below the fold: there,
-     whileInView is the whole feature and being invisible until hydration costs
-     nothing, because the reader has not scrolled to it yet. */
-  .fade-enter {
-    animation: fade-enter 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) both;
-  }
-
-  @keyframes fade-enter {
-    from {
-      opacity: 0;
-      transform: translate(var(--fade-x, 0px), var(--fade-y, 0px));
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .fade-enter {
-      animation: none;
-      opacity: 1;
-      transform: none;
-    }
-  }
-
   ::selection {
-    background-color: #C4713E;
-    color: #0C0C0C;
+    background-color: #000;
+    color: #fff;
   }
 
+  /* The page scrollbar in the stack's terms: an ink thumb on a white track. */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 10px;
+    height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: transparent;
+    background: #fff;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: rgba(215, 226, 234, 0.2);
-    border-radius: 9999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(215, 226, 234, 0.35);
+    background-color: #000;
+    border: 2px solid #fff;
   }
 }

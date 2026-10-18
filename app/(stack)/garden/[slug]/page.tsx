@@ -3,13 +3,10 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 
-import { getPostData, getSortedPostsData } from "../../lib/posts";
-import { clockContent } from "../../data";
-import { PageShell } from "../../components/PageShell";
-import { PaperSheet } from "../../components/paper/PaperSheet";
-import { PageHeader } from "../../components/paper/PageHeader";
-import { SatsConverter } from "../../components/post-tools/SatsConverter";
-import styles from "../notebook.module.css";
+import { getPostData, getSortedPostsData } from "../../../lib/posts";
+import { SatsConverter } from "../../../components/post-tools/SatsConverter";
+import stack from "../../../components/stack/stack.module.css";
+import styles from "../../../components/stack/reading.module.css";
 
 // ─── Static params + metadata ──────────────────────────────────────────────
 
@@ -86,7 +83,7 @@ const mdxComponents = {
 
 // ─── Page ───────────────────────────────────────────────────────────────────
 
-/** A note: a page of the notebook, with the text written on its lines. */
+/** A note: a reading card, the prose at a comfortable measure. */
 export default async function GardenPost({
   params,
 }: {
@@ -116,33 +113,34 @@ export default async function GardenPost({
   };
 
   return (
-    <PageShell back={{ href: "/garden", label: clockContent.writing.title }}>
+    <article className={styles.page}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
-      <PaperSheet as="article" className={styles.notebook}>
-        {/* The page's top margin: header and meta above the lines. */}
-        <PageHeader kicker={post.category} title={post.title} lead={post.excerpt} />
+      <header className={styles.header}>
+        <h1 className={stack.title}>{post.title}</h1>
+        <p className={stack.lead}>{post.excerpt}</p>
         <p className={styles.meta}>
+          <span>{post.category}</span>
           <span>{post.author}</span>
           <time dateTime={post.date}>{post.date}</time>
           <span>{post.readTime}</span>
         </p>
+      </header>
 
-        <div className={styles.body} data-note-body>
-          <MDXRemote
-            source={post.content}
-            components={mdxComponents}
-            options={{
-              mdxOptions: {
-                remarkPlugins: [remarkGfm],
-              },
-            }}
-          />
-        </div>
-      </PaperSheet>
-    </PageShell>
+      <div className={styles.prose} data-note-body>
+        <MDXRemote
+          source={post.content}
+          components={mdxComponents}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkGfm],
+            },
+          }}
+        />
+      </div>
+    </article>
   );
 }

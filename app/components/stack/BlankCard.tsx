@@ -3,7 +3,7 @@
 import { personalInfo, servicesEnquiryOptions, stackContent } from "../../data";
 import { FIELD_LIMITS, type EnquiryFields } from "../../lib/services-enquiry";
 import { useEnquiryForm } from "../../lib/useEnquiryForm";
-import { ENQUIRY_COPY_EN, type EnquiryCopy } from "../ServicesEnquiryForm";
+import { ENQUIRY_COPY_EN, type EnquiryCopy } from "../../lib/enquiry-copy";
 import styles from "./stack.module.css";
 
 type Choice = "projectType" | "budget" | "timeline";

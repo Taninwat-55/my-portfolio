@@ -60,7 +60,11 @@ export function StackNav() {
       <p className={styles.navPos} aria-live="polite">
         {onCard
           ? nav.position.replace("{n}", String(index + 1)).replace("{total}", String(total))
-          : (nav.pages[pathname] ?? stackContent.grid.title)}
+          : (nav.pages[pathname] ??
+            // A page under a labelled section (a note under /garden) takes
+            // its section's name.
+            Object.entries(nav.pages).find(([href]) => pathname.startsWith(`${href}/`))?.[1] ??
+            stackContent.name)}
       </p>
       <Link
         href="/work"
