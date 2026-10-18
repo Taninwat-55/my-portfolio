@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Kanit, JetBrains_Mono, Kalam } from "next/font/google";
-import { GoogleTagManager } from "@next/third-parties/google";
+import Script from "next/script";
 import { personalInfo, siteContent } from "./data";
 import "./globals.css";
 
@@ -169,7 +169,15 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
         {children}
-        <GoogleTagManager gtmId="GTM-NJ6FFTVW" />
+        {/* Cloudflare Web Analytics: cookie-free, so no consent banner. It
+            replaced GTM-NJ6FFTVW on 2026-10-18, whose container had no tags and
+            shipped ~330 KB of script that recorded nothing. afterInteractive
+            keeps it off the LCP path. */}
+        <Script
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "1fc05a95def54e78859eae949cc2df5f"}'
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
