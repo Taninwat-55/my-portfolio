@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
-import { services } from "../data";
-import { thContent as th, thUnits } from "../data.th";
+import { services } from "../../data";
+import { thContent as th, thUnits } from "../../data.th";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

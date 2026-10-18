@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { LandingPage } from "../components/LandingPage";
-import { thContent as th, thUnits } from "../data.th";
+import { LandingPage } from "../../components/LandingPage";
+import { thai } from "../../components/stack/fonts";
+import { thContent as th, thUnits } from "../../data.th";
 
 const BASE_URL = "https://taninwatkaewpankan.xyz";
 const PAGE_URL = `${BASE_URL}/th`;
@@ -61,7 +62,7 @@ export default function ThaiPage() {
       line={{ label: th.contact.lineLabel, id: th.contact.lineId }}
       form={{ ...th.form, messages: th.errors }}
       units={thUnits}
-      loose
+      fontClass={thai.variable}
     />
   );
 }

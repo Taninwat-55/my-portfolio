@@ -1,24 +1,14 @@
-import type { LucideIcon } from "lucide-react";
-import { Check, Mail, MessageCircle } from "lucide-react";
-import { personalInfo, services, servicesProcess, cases, fillAftercareRates, localVisibilityRates } from "../data";
-import { PageShell } from "./PageShell";
-import { FadeIn } from "./FadeIn";
-import { ServicesEnquiryForm, type EnquiryCopy } from "./ServicesEnquiryForm";
-import { PaperSheet } from "./paper/PaperSheet";
-import { PaperCard } from "./paper/PaperCard";
-import { PageHeader } from "./paper/PageHeader";
-import { DeskHeading } from "./paper/DeskHeading";
-import { Print } from "./paper/Print";
-import paper from "./paper/paper.module.css";
+import { personalInfo, services, servicesProcess, cases, fillAftercareRates, localVisibilityRates, ditheredSrc, stackContent } from "../data";
+import type { EnquiryCopy } from "./ServicesEnquiryForm";
+import { BlankCard } from "./stack/BlankCard";
+import { DevelopImage } from "./stack/DevelopImage";
+import { DitherPicture } from "./stack/DitherPicture";
+import { ReceiptRow } from "./stack/ReceiptRow";
+import stack from "./stack/stack.module.css";
+import lc from "./stack/longcard.module.css";
 
-/**
- * The shape the three language files share. Their content objects are passed
- * in as they are: the keys that differ between them (the hero note, the
- * translated quote, the contact extras) arrive as separate props, so the
- * language files never have to change. `npm run copy` prints their keys, and
- * it is the proof that no word moved (Phase 5).
- */
-export interface LandingCopy {
+/** The copy a language file supplies. Every number comes from app/data.ts. */
+export type LandingCopy = {
   hero: { eyebrow: string; title: string; lead: string; body: string };
   why: { heading: string; items: readonly string[] };
   pricing: { heading: string; lead: string; currencyNote?: string; terms: readonly string[] };
@@ -29,12 +19,10 @@ export interface LandingCopy {
     hourly: { label: string; body: string };
     block: { label: string; body: string; terms: readonly string[] };
   };
-  /** The optional monthly plan. The price is read from localVisibilityRates. */
   localVisibility: {
     eyebrow: string;
     heading: string;
     lead: string;
-    /** Follows the price: "/ måned", "/ månad", "/ เดือน". */
     perMonth: string;
     includes: readonly string[];
     terms: readonly string[];
@@ -47,409 +35,288 @@ export interface LandingCopy {
     altHome: string;
     altTreatments: string;
     quoteTranslationLabel: string;
-    /** Racha's figures in this language, keyed by the English label in `cases`. */
-    metrics?: Record<string, { v: string; k: string }>;
+    /** Keyed by the English metric label in cases; the English is the fallback. */
+    metrics?: Readonly<Record<string, { v: string; k: string }>>;
   };
   process: { heading: string; steps: readonly { title: string; youGet: string }[] };
   contact: { heading: string; body: string; emailLabel: string; orForm: string };
   backToEnglish: string;
-  /** The footer nav's accessible name (PageShell's `languagesLabel`). */
   languagesLabel: string;
-}
+};
 
 interface LandingPageProps {
-  /** "th" | "sv" | "da": the wrapper's lang, the section ids, the footer's mark. */
-  lang: string;
+  lang: "th" | "sv" | "da";
   content: LandingCopy;
-  /**
-   * A sticky note in the hero. Only /da has one since 2026-10-05: Ice removed
-   * the Thai and Swedish notes, and kept the Danish one because it is the
-   * page's only plain statement that calls are in English.
-   */
+  /** A line that decides whether the rest is worth reading (on /da, the meeting language). */
   note?: string;
-  noteIcon?: LucideIcon;
-  /** The testimonial in this language, shown labelled as a translation. */
   quoteTranslated: string;
-  /** /th leads with LINE; the other two do not offer it. */
   line?: { label: string; id: string };
-  /** A note beside the email: /sv's meeting note, /da's written-first note. */
   contactAside?: string;
-  /** The form's copy and messages, already in this language. */
   form: EnquiryCopy;
-  /** Translates unit words inside figures ("/ hour", "weeks"). */
+  /** Translates the unit words inside a figure ("2–3 days" → "2–3 dage"). */
   units: (s: string) => string;
-  /** Reformats a price for this language. Identity unless the page needs it (/sv). */
+  /** Reformats a price for this language (/sv's thousands space). */
   price?: (s: string) => string;
-  /** Thai needs taller lines; its stacked vowels and tone marks collide at 1.6. */
-  loose?: boolean;
-  /** Rendered above the header (the /da DRAFT banner). */
+  /** The next/font variable class for this language's face (/th's Chakra Petch). */
+  fontClass?: string;
   banner?: React.ReactNode;
 }
 
 const same = (s: string) => s;
 
 /**
- * The landing page for /th, /sv and /da: one component, three languages.
+ * The landing card for /th, /sv and /da: one component, three languages.
  *
- * Not a translation of /services: a different page for a different reader,
+ * Not a translation of /services: a different card for a different reader,
  * per D6 in PLAN.md (standalone language pages, no i18n machinery). Each page
- * file keeps its own metadata, hreflang and reasoning; this holds the layout
- * they had copied three times.
- *
- * Since the re-theme (Phase 5) it is paper on the desk like /services: the
- * hero note a sticky note, the prices a till receipt, the proof a sheet with
- * prints. lang sits on the wrapper because App Router allows only one <html>,
- * which the root layout hard-codes to "en".
+ * file keeps its own metadata and hreflang. Since phase 2 (2026-10-18) it is a
+ * long stack card like /services, built from the same pieces (longcard.module
+ * .css, ReceiptRow, DevelopImage, BlankCard). lang sits on the wrapper because
+ * App Router allows only one <html>, which the root layout sets to "en".
  */
 export function LandingPage({
   lang,
   content: c,
   note,
-  noteIcon: NoteIcon,
   quoteTranslated,
   line,
   contactAside,
   form,
   units,
   price = same,
-  loose = false,
+  fontClass,
   banner,
 }: LandingPageProps) {
   const racha = cases.find((x) => x.id === "racha");
-  const leading = loose ? "leading-loose" : "leading-relaxed";
-  const tilt = (i: number) => [-0.8, 0.6, -0.4, 0.9][i % 4];
+  const bullets = (items: readonly string[], two = false) => (
+    <ul className={`${lc.bullets} ${two ? lc.bulletsTwo : ""}`}>
+      {items.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
+  );
 
   return (
-    <div
-      lang={lang}
-      // Kalam, the desk's handwriting, has no Thai glyphs, so Thai writes its
-      // handwritten lines in Kanit, the face Thai is set in everywhere else.
-      style={loose ? ({ "--font-hand": "var(--font-kanit), sans-serif" } as React.CSSProperties) : undefined}
-    >
-      <PageShell back={{ href: "/", label: c.backToEnglish, lang: "en" }} lang={lang} languagesLabel={c.languagesLabel} postcard={false}>
-        {banner}
+    <div lang={lang} className={`${lc.page} ${fontClass ?? ""} ${lang === "th" ? lc.thai : ""}`}>
+      {banner}
 
-        {/* ── Header ────────────────────────────────────────────────────── */}
-        <header className="mb-14 md:mb-20">
-          <PageHeader onDesk kicker={c.hero.eyebrow} title={c.hero.title} lead={c.hero.lead} />
-          <FadeIn immediate delay={0.1} y={12}>
-            <p className={`mb-6 max-w-2xl text-base text-frost/80 md:text-lg ${leading}`}>{c.hero.body}</p>
-          </FadeIn>
+      <header className={lc.intro}>
+        <h1 className={stack.title}>{c.hero.title}</h1>
+        <p className={stack.lead}>{c.hero.lead}</p>
+        <p className={`${stack.body} ${lc.introBody}`}>{c.hero.body}</p>
+        {note && <p className={lc.aside}>{note}</p>}
+      </header>
 
-          {/* The note that decides whether the rest of the page is worth reading
-              (on /da, the meeting language), so it sits in the hero as a sticky
-              note, styled to be read rather than skimmed. */}
-          {note && (
-            <FadeIn immediate delay={0.15} y={12}>
-              <p className={`${paper.sticky} flex max-w-2xl items-start gap-3 text-base ${leading}`}>
-                {NoteIcon && <NoteIcon size={19} strokeWidth={1.75} aria-hidden className="mt-1 shrink-0" />}
-                {note}
-              </p>
-            </FadeIn>
-          )}
-        </header>
+      {/* ── Why me ────────────────────────────────────────────────────── */}
+      <section aria-labelledby={`${lang}-why`} className={lc.section}>
+        <h2 id={`${lang}-why`} className={lc.sectionTitle}>
+          {c.why.heading}
+        </h2>
+        <div className={stack.window}>{bullets(c.why.items)}</div>
+      </section>
 
-        {/* ── Why me ────────────────────────────────────────────────────── */}
-        <section aria-labelledby={`${lang}-why`} className="mb-14 md:mb-20">
-          <DeskHeading immediate id={`${lang}-why`} title={c.why.heading} />
-          <FadeIn immediate y={16}>
-            <PaperCard tilt={-0.5}>
-              <ul className="flex flex-col gap-3.5">
-                {c.why.items.map((item) => (
-                  <li key={item} className={`flex items-start gap-3 text-base ${leading}`}>
-                    <Check size={17} strokeWidth={2} aria-hidden className={`${loose ? "mt-1.5" : "mt-1"} shrink-0`} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </PaperCard>
-          </FadeIn>
-        </section>
-
-        {/* ── Prices ────────────────────────────────────────────────────── */}
-        <section aria-labelledby={`${lang}-pricing`} className="mb-14 md:mb-20">
-          <DeskHeading id={`${lang}-pricing`} title={c.pricing.heading} />
-          <p className={`mb-6 max-w-2xl text-base text-frost/80 ${leading}`}>{c.pricing.lead}</p>
-
-          {/* Read from services.offers, never retyped, so this cannot drift from
-              /services. `price` is identity except on /sv, where svPrice()
-              reformats the thousands separator: a Swedish reader can parse
-              "6.500" as six and a half, the one number that must not be
-              ambiguous. /da needs no transform; data.ts writes these the Danish
-              way already. */}
-          <FadeIn y={20}>
-            <div className={paper.receiptShadow}>
-              <div className={paper.receipt}>
-                <div>
-                  {services.offers[0].priceLadder?.map((rung) => (
-                    <div key={rung.scope} className={paper.row}>
-                      <div className={paper.rowLine}>
-                        <span className="text-base font-semibold">{units(rung.scope)}</span>
-                        <span className={paper.figure}>{price(rung.price)}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {c.pricing.currencyNote && (
-                  <p className={`${paper.dashed} mt-4 pt-4 text-sm text-paper-soft ${leading}`}>
-                    {c.pricing.currencyNote}
-                  </p>
-                )}
-
-                <ul className={`${paper.dashed} mt-5 flex flex-col gap-3 pt-5`}>
-                  {c.pricing.terms.map((term) => (
-                    <li key={term} className={`flex items-start gap-2.5 text-sm ${leading}`}>
-                      <Check size={15} strokeWidth={2} aria-hidden className={`${loose ? "mt-1.5" : "mt-1"} shrink-0`} />
-                      {term}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </FadeIn>
-        </section>
-
-        {/* ── After launch ───────────────────────────────────────────────
-            ITEM 44. Directly after the prices, because that is where the
-            question arrives: what changes cost is the next thing a shop owner
-            asks, not a detail.
-
-            Every figure comes from services.aftercare and aftercareRates.
-            units() translates the unit words inside them ("650 DKK / hour"
-            becomes "650 DKK / time" in Danish) and fillAftercareRates() fills the
-            {effective} / {hourly} placeholders in the terms. No number is typed
-            in any language file. */}
-        <section aria-labelledby={`${lang}-aftercare`} className="mb-14 md:mb-20">
-          <DeskHeading id={`${lang}-aftercare`} title={c.aftercare.heading} />
-          <p className={`mb-6 max-w-2xl text-base text-frost/80 ${leading}`}>{c.aftercare.lead}</p>
-
-          <div className="mb-6 grid gap-6 sm:grid-cols-2">
-            {[
-              { ...c.aftercare.free, price: null },
-              { ...c.aftercare.hourly, price: price(units(services.aftercare.hourly.price)) },
-            ].map((tier, i) => (
-              <FadeIn key={tier.label} y={16}>
-                <PaperCard tilt={tilt(i)} className="h-full">
-                  <p className={paper.label}>{tier.label}</p>
-                  {tier.price && <p className={`${paper.figure} mb-2 text-lg`}>{tier.price}</p>}
-                  <p className={`text-sm ${leading}`}>{tier.body}</p>
-                </PaperCard>
-              </FadeIn>
+      {/* ── Prices ────────────────────────────────────────────────────── */}
+      {/* Read from services.offers, never retyped, so this cannot drift from
+          /services. `price` is identity except on /sv, where svPrice()
+          reformats the thousands separator. */}
+      <section aria-labelledby={`${lang}-pricing`} className={lc.section}>
+        <h2 id={`${lang}-pricing`} className={lc.sectionTitle}>
+          {c.pricing.heading}
+        </h2>
+        <p className={stack.lead}>{c.pricing.lead}</p>
+        <div className={`${stack.window} ${lc.spaced}`}>
+          <div className={lc.offerBody}>
+            {services.offers[0].priceLadder?.map((rung) => (
+              <ReceiptRow key={rung.scope} label={units(rung.scope)} value={price(rung.price)} />
             ))}
+            {c.pricing.currencyNote && <p className={lc.note}>{c.pricing.currencyNote}</p>}
+            <div className={lc.block}>{bullets(c.pricing.terms)}</div>
           </div>
+        </div>
+      </section>
 
-          <FadeIn y={16}>
-            <PaperCard tilt={0.4}>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <p className={paper.label}>{c.aftercare.block.label}</p>
-                <p className={`${paper.figure} text-lg`}>
-                  {price(services.aftercare.block.price)}
-                  <span className="ml-2 font-sans text-sm font-normal text-paper-soft">
-                    {units(services.aftercare.block.unit)}
-                  </span>
-                </p>
-              </div>
-              <p className={`mt-2 text-sm ${leading}`}>{c.aftercare.block.body}</p>
-              <ul className={`${paper.dashed} mt-5 flex flex-col gap-2.5 pt-5`}>
-                {c.aftercare.block.terms.map((term) => (
-                  <li key={term} className={`flex items-start gap-2.5 text-sm ${leading}`}>
-                    <Check size={15} strokeWidth={2} aria-hidden className={`${loose ? "mt-1.5" : "mt-1"} shrink-0`} />
-                    {fillAftercareRates(term, price)}
-                  </li>
-                ))}
-              </ul>
-            </PaperCard>
-          </FadeIn>
-        </section>
-
-        {/* ── Local visibility ─────────────────────────────────────────────
-            The optional monthly plan, straight after aftercare because that
-            section has just said there is no maintenance plan, and the reader
-            needs to see at once that this is a different thing. The figure is
-            localVisibilityRates passed through price(), so /sv gets its
-            thousands space and no language file holds a number. */}
-        <section aria-labelledby={`${lang}-local-visibility`} className="mb-14 md:mb-20">
-          <DeskHeading id={`${lang}-local-visibility`} title={c.localVisibility.heading} />
-          <p className={`mb-6 max-w-2xl text-base text-frost/80 ${leading}`}>{c.localVisibility.lead}</p>
-
-          <FadeIn y={16}>
-            <PaperCard tilt={-0.4}>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <p className={paper.label}>{c.localVisibility.eyebrow}</p>
-                <p className={`${paper.figure} text-base sm:text-lg`}>
-                  {price(localVisibilityRates.monthly)} {localVisibilityRates.currency} {c.localVisibility.perMonth}
-                </p>
-              </div>
-              <ul className="mt-4 flex flex-col gap-2.5">
-                {c.localVisibility.includes.map((item) => (
-                  <li key={item} className={`flex items-start gap-2.5 text-sm ${leading}`}>
-                    <Check size={15} strokeWidth={2} aria-hidden className={`${loose ? "mt-1.5" : "mt-1"} shrink-0`} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <ul className={`${paper.dashed} mt-5 flex flex-col gap-2.5 pt-5`}>
-                {c.localVisibility.terms.map((term) => (
-                  <li key={term} className={`flex items-start gap-2.5 text-sm ${leading}`}>
-                    <Check size={15} strokeWidth={2} aria-hidden className={`${loose ? "mt-1.5" : "mt-1"} shrink-0`} />
-                    {term}
-                  </li>
-                ))}
-              </ul>
-              <p className={`${paper.dashed} mt-5 pt-5 text-sm text-paper-soft ${leading}`}>{c.localVisibility.notCare}</p>
-            </PaperCard>
-          </FadeIn>
-        </section>
-
-        {/* ── Proof ─────────────────────────────────────────────────────── */}
-        {racha && (
-          <section aria-labelledby={`${lang}-proof`} className="mb-14 md:mb-20">
-            <DeskHeading id={`${lang}-proof`} title={c.proof.heading} />
-
-            <FadeIn y={20}>
-              <PaperSheet>
-                {/* Prints at Racha's own capture ratio (1600x1005): the first
-                    version on /th declared width={800} height={600}, a 4:3
-                    placeholder against a 1.59:1 image, so the boxes never matched
-                    and every load shifted layout. Real alt text, not alt="":
-                    these carry the argument of the section, and an empty alt is
-                    also why a failed load used to show an unexplained box. */}
-                <div className="grid grid-cols-2 gap-4">
-                  {racha.images.slice(0, 2).map((src, i) => (
-                    <Print
-                      key={src}
-                      image={src}
-                      alt={`${racha.title} — ${i === 0 ? c.proof.altHome : c.proof.altTreatments}`}
-                      ratio="1600 / 1005"
-                      tilt={i === 0 ? -1 : 0.8}
-                      sizes="(min-width: 768px) 400px, 45vw"
-                    />
-                  ))}
-                </div>
-
-                <p className={`mt-6 text-base ${leading}`}>{c.proof.body}</p>
-
-                {/* Metrics read from the case study so they cannot drift. */}
-                <dl className={`${paper.dashed} mt-6 grid grid-cols-1 gap-4 border-b border-dashed border-paper-rule py-4 sm:grid-cols-3`}>
-                  {racha.metrics.map((metric) => {
-                    // In this language when the page has it; the English is the fallback.
-                    const local = c.proof.metrics?.[metric.k];
-                    return (
-                      <div key={metric.k} className="flex flex-col">
-                        <dt className="order-2 text-[11px] uppercase tracking-wider text-paper-soft [:lang(th)_&]:tracking-normal">
-                          {local?.k ?? metric.k}
-                        </dt>
-                        <dd className="order-1 font-[family-name:var(--font-hand)] text-xl font-bold">
-                          {local?.v ?? metric.v}
-                        </dd>
-                      </div>
-                    );
-                  })}
-                </dl>
-
-                {/* The English original is what Racha actually approved, so it is
-                    shown as the quote. The translation is labelled as one rather
-                    than presented as her wording; on /da, her own Danish sentence
-                    would be worth more and should replace it if it ever arrives. */}
-                {services.testimonial && (
-                  <figure className="mt-8 border-l-2 border-paper-accent pl-5">
-                    <p className={paper.label}>{c.proof.quoteLabel}</p>
-                    <blockquote lang="en" className="font-[family-name:var(--font-hand)] text-xl leading-relaxed">
-                      &ldquo;{services.testimonial.text}&rdquo;
-                    </blockquote>
-                    <p className="mt-3 text-xs text-paper-soft">{c.proof.quoteTranslationLabel}</p>
-                    <p className={`mt-1.5 text-base text-paper-soft ${leading}`}>&ldquo;{quoteTranslated}&rdquo;</p>
-                    <figcaption className="mt-3 text-xs uppercase tracking-wider text-paper-soft">
-                      {services.testimonial.author}
-                    </figcaption>
-                  </figure>
-                )}
-              </PaperSheet>
-            </FadeIn>
-          </section>
-        )}
-
-        {/* ── Process ───────────────────────────────────────────────────── */}
-        <section aria-labelledby={`${lang}-process`} className="mb-14 md:mb-20">
-          <DeskHeading id={`${lang}-process`} title={c.process.heading} />
-          <ol className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {c.process.steps.map((step, i) => (
-              <li key={step.title}>
-                <FadeIn delay={i * 0.08} y={20} className="h-full">
-                  <PaperCard tilt={tilt(i + 1)} className="flex h-full flex-col">
-                    <div className="mb-3 flex items-baseline justify-between gap-3">
-                      <span className="font-[family-name:var(--font-hand)] text-2xl font-bold">
-                        {servicesProcess[i]?.n}
-                      </span>
-                      {/* Duration read from servicesProcess: a number, not copy. */}
-                      <span className={`${paper.mono} text-[11px] tracking-wider text-paper-soft`}>
-                        {units(servicesProcess[i]?.duration ?? "")}
-                      </span>
-                    </div>
-                    <h3 className="mb-2 text-lg font-bold">{step.title}</h3>
-                    <p className={`mt-auto text-sm ${leading}`}>{step.youGet}</p>
-                  </PaperCard>
-                </FadeIn>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        {/* ── Contact ───────────────────────────────────────────────────── */}
-        <section aria-labelledby={`${lang}-contact`} id={`${lang}-enquiry`}>
-          <FadeIn y={20}>
-            <PaperSheet>
-              <h2 id={`${lang}-contact`} className="mb-3 text-2xl font-black tracking-tight md:text-3xl">
-                {c.contact.heading}
-              </h2>
-              <p className={`mb-6 text-base text-paper-soft ${leading}`}>{c.contact.body}</p>
-
-              {/* /th leads with LINE because that is how that community actually
-                  talks: a message is a far smaller ask than a form with a budget
-                  dropdown. /sv and /da offer email: a Skåne owner expects an
-                  address and a form, and on /da a flow implying a Danish phone call
-                  would set up exactly the discovery the hero note exists to prevent. */}
-              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-stretch">
-                {line && (
-                  <div className="flex items-center gap-3 rounded-md border border-paper-rule px-5 py-4">
-                    <MessageCircle size={18} strokeWidth={1.75} aria-hidden className="shrink-0" />
-                    <div>
-                      <div className={paper.label}>{line.label}</div>
-                      <div lang="en" className="text-base font-semibold">
-                        {line.id}
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <a
-                  href={`mailto:${personalInfo.email}`}
-                  className="flex items-center gap-3 rounded-md border border-paper-rule px-5 py-4 hover:border-paper-soft"
-                >
-                  <Mail size={18} strokeWidth={1.75} aria-hidden className="shrink-0" />
-                  <div>
-                    <div className={paper.label}>{c.contact.emailLabel}</div>
-                    <div lang="en" className="text-sm font-semibold text-paper-link underline underline-offset-4">
-                      {personalInfo.email}
-                    </div>
-                  </div>
-                </a>
-                {contactAside && (
-                  <p className={`flex items-center rounded-md bg-paper-dim px-5 py-4 text-sm ${leading}`}>
-                    {contactAside}
-                  </p>
+      {/* ── After launch ────────────────────────────────────────────────
+          Every figure comes from services.aftercare and aftercareRates;
+          units() translates the unit words and fillAftercareRates() fills
+          the placeholders in the terms. No number is typed in a language file. */}
+      <section aria-labelledby={`${lang}-aftercare`} className={lc.section}>
+        <h2 id={`${lang}-aftercare`} className={lc.sectionTitle}>
+          {c.aftercare.heading}
+        </h2>
+        <p className={stack.lead}>{c.aftercare.lead}</p>
+        <div className={`${lc.twoUp} ${lc.spaced}`}>
+          {[
+            { ...c.aftercare.free, price: null },
+            { ...c.aftercare.hourly, price: price(units(services.aftercare.hourly.price)) },
+          ].map((tier) => (
+            <div key={tier.label} className={lc.field}>
+              <div className={lc.rowLine}>
+                <span className={lc.label}>{tier.label}</span>
+                {tier.price && (
+                  <>
+                    <span className={lc.leader} aria-hidden="true" />
+                    <span className={lc.figure}>{tier.price}</span>
+                  </>
                 )}
               </div>
+              <p className={stack.body}>{tier.body}</p>
+            </div>
+          ))}
+        </div>
+        <div className={`${stack.window} ${lc.spaced}`}>
+          <div className={stack.titlebar}>
+            <span>{c.aftercare.block.label}</span>
+          </div>
+          <div className={lc.offerBody}>
+            <p className={lc.bigFigure}>
+              {price(services.aftercare.block.price)} <small>{units(services.aftercare.block.unit)}</small>
+            </p>
+            <p className={stack.body}>{c.aftercare.block.body}</p>
+            <ul className={`${lc.bullets} ${lc.bulletsTwo}`}>
+              {c.aftercare.block.terms.map((term) => (
+                <li key={term}>{fillAftercareRates(term, price)}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
 
-              <p className={`mb-6 text-sm text-paper-soft ${leading}`}>{c.contact.orForm}</p>
+      {/* ── Local visibility ────────────────────────────────────────────
+          Straight after aftercare, which has just said there is no
+          maintenance plan: this is a different thing. */}
+      <section aria-labelledby={`${lang}-local-visibility`} className={lc.section}>
+        <h2 id={`${lang}-local-visibility`} className={lc.sectionTitle}>
+          {c.localVisibility.heading}
+        </h2>
+        <p className={stack.lead}>{c.localVisibility.lead}</p>
+        <div className={`${stack.window} ${lc.spaced}`}>
+          <div className={stack.titlebar}>
+            <span>{c.localVisibility.eyebrow}</span>
+          </div>
+          <div className={lc.offerBody}>
+            <p className={lc.bigFigure}>
+              {price(localVisibilityRates.monthly)} {localVisibilityRates.currency} {c.localVisibility.perMonth}
+            </p>
+            {bullets(c.localVisibility.includes, true)}
+            <div className={lc.block}>
+              {bullets(c.localVisibility.terms, true)}
+              <p className={lc.aside}>{c.localVisibility.notCare}</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-              {/* The real form, in this language. Same endpoint, same validation,
-                  same option values: only the visible strings differ. */}
-              <ServicesEnquiryForm copy={form} />
-            </PaperSheet>
-          </FadeIn>
+      {/* ── Proof ───────────────────────────────────────────────────────
+          Racha's real site, dithered, with the same develop control as its
+          card. Metrics come from the case study, labels in this language
+          where the page has them. The English quote is what Racha approved,
+          so it is the quote; the translation is labelled as one. */}
+      {racha && (
+        <section aria-labelledby={`${lang}-proof`} className={lc.section}>
+          <h2 id={`${lang}-proof`} className={lc.sectionTitle}>
+            {c.proof.heading}
+          </h2>
+          <div className={lc.proof}>
+            <DevelopImage
+              colourSrc={racha.images[0]}
+              colourAlt={`${racha.title}, ${c.proof.altHome}`}
+              developLabel={stackContent.project.develop}
+              developedLabel={stackContent.project.developed}
+              hint={stackContent.project.developHint}
+              windowTitle={new URL(racha.links.demo).host.replace(/^www\./, "")}
+            >
+              <DitherPicture src={ditheredSrc(racha.images[0])} alt={`${racha.title}, ${c.proof.altHome}`} />
+            </DevelopImage>
+            <div>
+              <p className={stack.body}>{c.proof.body}</p>
+              <dl className={stack.facts}>
+                {racha.metrics.map((metric) => {
+                  const local = c.proof.metrics?.[metric.k];
+                  return (
+                    <div key={metric.k} style={{ display: "contents" }}>
+                      <dt>{local?.v ?? metric.v}</dt>
+                      <dd>{local?.k ?? metric.k}</dd>
+                    </div>
+                  );
+                })}
+              </dl>
+              {services.testimonial && (
+                <figure className={lc.quote}>
+                  <p className={lc.label}>{c.proof.quoteLabel}</p>
+                  <blockquote lang="en">&ldquo;{services.testimonial.text}&rdquo;</blockquote>
+                  <p className={lc.rowMeta}>{c.proof.quoteTranslationLabel}</p>
+                  <p className={stack.body}>&ldquo;{quoteTranslated}&rdquo;</p>
+                  <figcaption className={lc.rowMeta}>{services.testimonial.author}</figcaption>
+                </figure>
+              )}
+            </div>
+          </div>
         </section>
-      </PageShell>
+      )}
+
+      {/* ── Process ─────────────────────────────────────────────────────── */}
+      <section aria-labelledby={`${lang}-process`} className={lc.section}>
+        <h2 id={`${lang}-process`} className={lc.sectionTitle}>
+          {c.process.heading}
+        </h2>
+        <ol className={lc.steps}>
+          {c.process.steps.map((step, i) => (
+            <li key={step.title} className={lc.field}>
+              <div className={lc.rowLine}>
+                <span className={lc.stepN}>{servicesProcess[i]?.n}</span>
+                {/* Duration read from servicesProcess: a number, not copy. */}
+                <span className={lc.rowMeta}>{units(servicesProcess[i]?.duration ?? "")}</span>
+              </div>
+              <h3 className={stack.heading}>{step.title}</h3>
+              <p className={stack.body}>{step.youGet}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ── Contact ─────────────────────────────────────────────────────
+          /th leads with LINE because that is how that community talks; /sv
+          and /da offer email. Then the blank card in this language: same
+          endpoint, validation and option values, only the visible strings
+          differ. */}
+      <section aria-labelledby={`${lang}-contact`} id={`${lang}-enquiry`} className={lc.section}>
+        <h2 id={`${lang}-contact`} className={lc.sectionTitle}>
+          {c.contact.heading}
+        </h2>
+        <p className={stack.lead}>{c.contact.body}</p>
+        <div className={`${lc.twoUp} ${lc.spaced}`}>
+          {line && (
+            <div className={lc.field}>
+              <p className={lc.label}>{line.label}</p>
+              <p lang="en" className={stack.body}>
+                <strong>{line.id}</strong>
+              </p>
+            </div>
+          )}
+          <div className={lc.field}>
+            <p className={lc.label}>{c.contact.emailLabel}</p>
+            <p lang="en" className={stack.body}>
+              <a href={`mailto:${personalInfo.email}`} className={stack.inlineLink}>
+                {personalInfo.email}
+              </a>
+            </p>
+          </div>
+          {contactAside && <p className={lc.aside}>{contactAside}</p>}
+        </div>
+        <p className={`${stack.body} ${lc.spacedText}`}>{c.contact.orForm}</p>
+        <div className={`${stack.window} ${lc.spaced}`}>
+          <div className={stack.titlebar}>
+            <i className={stack.closeBox} aria-hidden="true" />
+            <span>{form.submit}</span>
+          </div>
+          <div className={lc.offerBody}>
+            <BlankCard
+              copy={form}
+              card={{ save: form.submit, saving: form.submitting, savedTitle: form.sentTitle }}
+            />
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

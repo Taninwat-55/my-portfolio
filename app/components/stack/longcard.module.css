@@ -1,6 +1,7 @@
 /*
- * The services card. Built from the stack's vocabulary (DESIGN.md): one bit,
- * titled windows, square fields, ruled receipts, painted buttons. Sizes stay
+ * Long stack cards: /services and the /th, /sv and /da landing cards.
+ * Built from the stack's vocabulary (DESIGN.md): one bit, titled windows,
+ * square fields, ruled receipts, painted buttons. Sizes stay
  * on the documented ramp; the only display-size type is section titles.
  */
 
@@ -354,4 +355,19 @@
   .rowLabel {
     white-space: normal;
   }
+}
+
+/* Thai (/th): every voice in Chakra Petch, which next/font provides as
+   --font-thai on this wrapper, and looser leading, because Thai stacks
+   vowels and tone marks above and below the line. */
+.thai {
+  --font-display: var(--font-thai);
+  --font-pixel: var(--font-thai);
+  --font-atkinson: var(--font-thai);
+  line-height: 1.8;
+}
+
+.thai p,
+.thai li {
+  line-height: 1.8;
 }

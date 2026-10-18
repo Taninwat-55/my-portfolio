@@ -3,8 +3,9 @@ import Link from "next/link";
 import { BlankCard } from "../../components/stack/BlankCard";
 import { DevelopImage } from "../../components/stack/DevelopImage";
 import { DitherPicture } from "../../components/stack/DitherPicture";
+import { ReceiptRow } from "../../components/stack/ReceiptRow";
 import stack from "../../components/stack/stack.module.css";
-import styles from "./services.module.css";
+import styles from "../../components/stack/longcard.module.css";
 import {
   personalInfo,
   siteContent,
@@ -222,18 +223,6 @@ export default function ServicesPage() {
   };
 
   // A small turn per card, so a row reads as paper put down by hand.
-  /** A receipt row: the label, a dotted leader, the figure. */
-  const Row = ({ label, value, children }: { label: string; value: string; children?: React.ReactNode }) => (
-    <div className={styles.row}>
-      <div className={styles.rowLine}>
-        <span className={styles.rowLabel}>{label}</span>
-        <span className={styles.leader} aria-hidden="true" />
-        <span className={styles.figure}>{value}</span>
-      </div>
-      {children}
-    </div>
-  );
-
   return (
     <div className={styles.page}>
       <script
@@ -320,10 +309,10 @@ export default function ServicesPage() {
                   <div className={styles.block}>
                     <p className={styles.label}>Priced by scope</p>
                     {offer.priceLadder.map((rung) => (
-                      <Row key={rung.scope} label={rung.scope} value={rung.price}>
+                      <ReceiptRow key={rung.scope} label={rung.scope} value={rung.price}>
                         <p className={styles.rowDetail}>{rung.detail}</p>
                         <p className={styles.rowMeta}>{rung.timeline}</p>
-                      </Row>
+                      </ReceiptRow>
                     ))}
                     {offer.buildMethodNote && <p className={styles.note}>{offer.buildMethodNote}</p>}
                   </div>
@@ -356,10 +345,10 @@ export default function ServicesPage() {
                         <p className={styles.label}>{offer.addOns.label}</p>
                         <p className={styles.note}>{offer.addOns.body}</p>
                         {offer.addOns.items.map((item) => (
-                          <Row key={item.name} label={item.name} value={item.price}>
+                          <ReceiptRow key={item.name} label={item.name} value={item.price}>
                             <p className={styles.rowDetail}>{item.body}</p>
                             {item.note && <p className={styles.aside}>{item.note}</p>}
-                          </Row>
+                          </ReceiptRow>
                         ))}
                         <p className={styles.label}>{offer.addOns.includedLabel}</p>
                         <p className={stack.body}>{offer.addOns.included}</p>
@@ -418,9 +407,9 @@ export default function ServicesPage() {
               <summary>See it line by line</summary>
               <div className={styles.block}>
                 {services.runningCosts.rows.map((row) => (
-                  <Row key={row.label} label={row.label} value={row.value}>
+                  <ReceiptRow key={row.label} label={row.label} value={row.value}>
                     <p className={styles.rowDetail}>{row.why}</p>
-                  </Row>
+                  </ReceiptRow>
                 ))}
               </div>
             </details>

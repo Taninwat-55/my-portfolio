@@ -1,4 +1,4 @@
-import { Atkinson_Hyperlegible, DotGothic16, Pixelify_Sans } from "next/font/google";
+import { Atkinson_Hyperlegible, Chakra_Petch, DotGothic16, Pixelify_Sans } from "next/font/google";
 
 /**
  * The stack's three voices. Loaded here rather than in the root layout so only
@@ -34,3 +34,16 @@ export const atkinson = Atkinson_Hyperlegible({
   weight: ["400", "700"],
   variable: "--font-atkinson",
 });
+
+/**
+ * Thai. Neither pixel face has Thai glyphs, so /th sets every voice in Chakra
+ * Petch (Cadson Demak, OFL): squared, technical letterforms that sit beside
+ * pixel type without pretending to be it. Applied only by app/(stack)/th, so
+ * no other page downloads it.
+ */
+export const thai = Chakra_Petch({
+  subsets: ["thai", "latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-thai",
+});
+

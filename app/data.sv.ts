@@ -80,16 +80,16 @@ export const svContent = {
   locale: "sv",
 
   meta: {
-    title: "Hemsida till småföretag i Skåne — fast pris, du äger allt",
+    title: "Hemsida till småföretag i Skåne: fast pris, du äger allt",
     description:
-      "Jag bygger hemsidor åt små företag i Skåne — Malmö, Lund, Helsingborg. Fast pris skriftligt innan vi börjar, och du äger domän, hosting och kod. Bor i Köpenhamn, 35 minuter från Malmö.",
+      "Jag bygger hemsidor åt små företag i Skåne: Malmö, Lund, Helsingborg. Fast pris skriftligt innan vi börjar, och du äger domän, hosting och kod. Bor i Köpenhamn, 35 minuter från Malmö.",
   },
 
   hero: {
     eyebrow: "För småföretag i Skåne",
     title: "Hemsida till ditt företag",
     lead: "Fast pris. Du äger allt. Och ingen bindningstid på något.",
-    body: "Jag heter Ice. Jag bygger hemsidor åt små företag — själv, från första samtalet till överlämningen. Ingen byrå och ingen projektledare emellan: du pratar med den som faktiskt bygger sidan, och det är jag som svarar om något går fel.",
+    body: "Jag heter Ice. Jag bygger hemsidor åt små företag, själv, från första samtalet till överlämningen. Ingen byrå och ingen projektledare emellan: du pratar med den som faktiskt bygger sidan, och det är jag som svarar om något går fel.",
   },
 
   /** Why a Skåne owner should pick him over a local agency or a template. */
@@ -99,7 +99,7 @@ export const svContent = {
       "Fast pris skriftligt innan vi börjar. Inget tillkommer efteråt.",
       "Du äger domän, hosting och kod. Vill du byta utvecklare senare går det direkt, utan att fråga mig.",
       "Du pratar med den som bygger sidan. Ingen säljare, ingen projektledare, ingen som lämnar över till någon annan.",
-      "Svensk medborgare och utbildad i Sverige — Uppsala universitet och en tvåårig frontendutbildning i Malmö. Svenska är inte något jag översätter till.",
+      "Svensk medborgare och utbildad i Sverige: Uppsala universitet och en tvåårig frontendutbildning i Malmö. Svenska är inte något jag översätter till.",
     ],
   },
 
@@ -147,21 +147,21 @@ export const svContent = {
     heading: "Om du vill ändra något senare",
     lead: "Det finns inga plugins att uppdatera och inget som förfaller av sig självt. Det är hela poängen med att bygga sidan så här, och därför säljer jag inget serviceavtal. Vad folk faktiskt vill ha efteråt är ändringar, så det här är vad de kostar.",
     free: {
-      label: "Gratis — bara fråga",
+      label: "Gratis, bara fråga",
       body: "Ett pris, ett telefonnummer, en öppettid, ett stavfel. Tar det mig ett par minuter är det inte värt en faktura för någon av oss, så jag skickar ingen.",
     },
     hourly: {
       label: "Per timme",
-      body: "Debiteras i halvtimmar, när det är något större — nya bilder, en omskriven sida, en meny för säsongen. Du får uppskattningen innan jag börjar, inte efteråt.",
+      body: "Debiteras i halvtimmar, när det är något större: nya bilder, en omskriven sida, en meny för säsongen. Du får uppskattningen innan jag börjar, inte efteråt.",
     },
     block: {
       label: "Ett block timmar",
       body: "De flesta av mina kunder behöver aldrig det här, och det säger jag hellre än att sälja dig ett serviceavtal. Men vill du slippa tänka på det varje gång du vill ändra något kan du köpa timmarna i förväg och dra på dem. Använd dem till vad som helst: text, bilder, priser, en ny sida, en fråga. Jag antecknar vad varje ändring tog och säger vad som är kvar.",
       terms: [
         "Det blir {effective} DKK i timmen i stället för {hourly}",
-        "Oanvända timmar följer med till ett andra år — en gång",
+        "Oanvända timmar följer med till ett andra år, en gång",
         "Ingen månadsfaktura, och ingenting förnyas automatiskt",
-        "När de är slut köper du nya eller inte — ingenting händer av sig självt",
+        "När de är slut köper du nya eller inte. Ingenting händer av sig självt",
       ],
     },
   },
@@ -198,7 +198,7 @@ export const svContent = {
   proof: {
     heading: "Ett riktigt exempel",
     /** Every metric and screenshot comes from cases[racha]; this is framing only. */
-    body: "Racha Beauty & Wellness är en massagesalong i Næstved i Danmark. Innan hade de bara en Facebooksida. Jag byggde hela hemsidan på danska — behandlingar, priser, bilder och kontaktformulär. Ägaren hade inte utrymme för en månadsavgift för underhåll, så jag byggde den så att den klarar sig själv, och den har rullat sedan dess utan att jag behövt gå in i den.",
+    body: "Racha Beauty & Wellness är en massagesalong i Næstved i Danmark. Innan hade de bara en Facebooksida. Jag byggde hela hemsidan på danska: behandlingar, priser, bilder och kontaktformulär. Ägaren hade inte utrymme för en månadsavgift för underhåll, så jag byggde den så att den klarar sig själv, och den har rullat sedan dess utan att jag behövt gå in i den.",
     quoteLabel: "Vad ägaren säger",
     /** Not decorative: these screenshots are the evidence the section rests on. */
     altHome: "Startsidan",
@@ -212,7 +212,7 @@ export const svContent = {
      */
     quoteTranslationLabel: "(översatt från det engelska original som ägaren godkänt)",
     quoteSv:
-      "Ice byggde vår första hemsida. Den är snabb, den fungerar och den är på danska — och sedan den gick live har vi inte behövt ändra något eller betala extra.",
+      "Ice byggde vår första hemsida. Den är snabb, den fungerar och den är på danska, och sedan den gick live har vi inte behövt ändra något eller betala extra.",
     /**
      * Racha's three figures in this language, keyed by the English label in
      * cases (data.ts). The values come from there too; only the words change.
@@ -244,7 +244,7 @@ export const svContent = {
 
   contact: {
     heading: "Hör av dig",
-    body: "Berätta kort vad företaget gör och vad du vill ha — det räcker för att börja. Är jag inte rätt för jobbet säger jag det direkt och tipsar om någon annan.",
+    body: "Berätta kort vad företaget gör och vad du vill ha. Det räcker för att börja. Är jag inte rätt för jobbet säger jag det direkt och tipsar om någon annan.",
     emailLabel: "E-post",
     /**
      * Named cities rather than "Skåne", because a shop owner in Lund wants to
@@ -260,7 +260,7 @@ export const svContent = {
   languagesLabel: "Språk",
 
   /**
-   * Form chrome, passed into ServicesEnquiryForm as its `copy` prop.
+   * Form chrome, passed into the stack's BlankCard as its `copy` prop.
    *
    * 🔒 Only labels. The option VALUES stay exactly as servicesEnquiryOptions
    * defines them, because app/lib/services-enquiry.ts builds its server-side
@@ -314,7 +314,7 @@ export const svContent = {
     submittingSr: "Skickar meddelandet",
     sentTitle: "Tack, jag har fått det",
     sentBody:
-      "Jag läser allt själv och svarar på alla — även på jobb jag inte är rätt för.",
+      "Jag läser allt själv och svarar på alla, även på jobb jag inte är rätt för.",
     sentUrgentPrefix: "Är det brådskande, mejla mig på",
     fixOne: "En sak behöver rättas:",
     fixMany: "{n} saker behöver rättas:",

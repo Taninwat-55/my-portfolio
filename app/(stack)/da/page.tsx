@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Languages, PenLine } from "lucide-react";
-import { LandingPage } from "../components/LandingPage";
-import { daContent as da, daUnits } from "../data.da";
+import { LandingPage } from "../../components/LandingPage";
+import { daContent as da, daUnits } from "../../data.da";
 
 const BASE_URL = "https://taninwatkaewpankan.xyz";
 const PAGE_URL = `${BASE_URL}/da`;
@@ -93,7 +92,6 @@ export default function DanishPage() {
       // The language note: written-first, beginner Danish, said up front.
       // Item 29: it used to be buried in servicesFaq.
       note={da.hero.languageNote}
-      noteIcon={Languages}
       quoteTranslated={da.proof.quoteDa}
       contactAside={da.contact.writtenFirst}
       form={{ ...da.form, messages: da.errors }}
@@ -105,12 +103,9 @@ export default function DanishPage() {
            finished by accident — the only way to lose it is to flip DRAFT,
            which is the same act as publishing. */
         DRAFT && (
-          <div lang="en" className="mb-10 rounded-md bg-sticky px-5 py-4 text-paper-ink">
-            <div className="mb-1.5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em]">
-              <PenLine size={13} strokeWidth={2} aria-hidden />
-              Draft — not published
-            </div>
-            <p className="text-sm leading-relaxed">
+          <div lang="en" className="mb-10 border-4 border-double border-black bg-white px-5 py-4 text-black">
+            <div className="mb-1.5 text-[15px] font-bold">Draft, not published</div>
+            <p className="text-[15px] leading-relaxed">
               The Danish on this page was drafted by an AI and has not been read
               by a native speaker. It is excluded from Google and linked from
               nowhere on the site. If you are reading it as a favour: corrections
