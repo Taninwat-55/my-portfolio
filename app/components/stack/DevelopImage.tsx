@@ -4,8 +4,8 @@ import { useState } from "react";
 import styles from "./stack.module.css";
 
 /**
- * Develop in colour: the one place the stack shows colour, and only a client's
- * real work. The dithered picture (server-rendered, passed as children) stays
+ * Develop in colour: where the stack shows a client's real work in colour
+ * (the only other colour is Ice's portrait, see DevelopPortrait). The dithered picture (server-rendered, passed as children) stays
  * where it is; the colour original is laid over it and comes up through the
  * stipple densities. The colour file is not requested until someone shows
  * intent (hover, focus or press), so it never competes with the first paint.

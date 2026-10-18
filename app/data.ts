@@ -1710,6 +1710,10 @@ export const stackContent = {
       "I'm Ice (Taninwat Kaewpankan), a full-stack engineer in Copenhagen, and every card in this stack is something I built.",
     availability: clockContent.availability,
     portraitAlt: "Ice, dithered in black and white: glasses, a dark blazer over a light shirt, a small smile.",
+    portraitColourAlt: "Ice in colour: square glasses, a navy blazer over a cream shirt, a small smile, bookshelves behind.",
+    portraitDevelop: "Develop the portrait in colour",
+    portraitHint: "Tap or click to develop in colour.",
+    portraitDevelopedHint: "Tap or click again to go back to one bit.",
     buttons: [
       { label: "See the work", href: "/cases/racha" },
       { label: "Build mine", href: "/build" },
