@@ -21,6 +21,9 @@ const nextConfig: NextConfig = {
       { source: "/contact", destination: "/build", permanent: true },
       { source: "/rates", destination: "/services", permanent: true },
       { source: "/writing", destination: "/garden", permanent: true },
+      // One list of projects, not two: the stack's All cards grid replaced
+      // the paper /projects page in phase 2 (2026-10-18).
+      { source: "/projects", destination: "/work", permanent: true },
     ];
   },
   // Security headers for improved protection

@@ -918,20 +918,20 @@ const WEBSITE_ADD_ONS: { name: string; price: string; body: string; note?: strin
   // agencies describe a second language as roughly doubling the
   // content work rather than as a fixed fee.
   price: "3.000 – 5.500 DKK",
-  body: "The whole site in a second language, with its own web addresses and its own page titles for search, so Google serves the right one to the right person — plus a switcher. Danish, English, Swedish or Thai. This is the one add-on that follows the size of the site, because every page has to exist twice.",
+  body: "The whole site in a second language, with its own web addresses and its own page titles for search, so Google serves the right one to the right person, plus a switcher. Danish, English, Swedish or Thai. This is the one add-on that follows the size of the site, because every page has to exist twice.",
   note: "The translation itself is not in this. A translation bureau charges around 1 kr a word and you pay them directly, so on a small site expect a separate bill of one to two thousand kroner. What I build is the structure around the words.",
   },
   {
   name: "Online booking",
   price: "3.500 DKK",
-  body: "A booking tool wired properly into the site and its design, with confirmation emails that work — rather than a grey box dropped onto a page. Building a booking engine from nothing is a different job and a different price.",
+  body: "A booking tool wired properly into the site and its design, with confirmation emails that work, rather than a grey box dropped onto a page. Building a booking engine from nothing is a different job and a different price.",
   note: "The booking tool's own subscription is paid by you, directly, like the domain and the hosting.",
   },
   {
   name: "Take payment online",
   price: "5.000 DKK",
-  body: "Card, MobilePay, Apple Pay and Google Pay through Stripe, set up in your name and tested with real payments before it goes live. Suited to a handful of services or products — a full webshop is a bigger job than this.",
-  note: "Stripe's own fee is theirs and comes out of each payment — currently about 1,4% plus 1,80 kr on a European card. It never passes through me.",
+  body: "Card, MobilePay, Apple Pay and Google Pay through Stripe, set up in your name and tested with real payments before it goes live. Suited to a handful of services or products. A full webshop is a bigger job than this.",
+  note: "Stripe's own fee is theirs and comes out of each payment, currently about 1,4% plus 1,80 kr on a European card. It never passes through me.",
   },
   {
   name: "Motion and animation",
@@ -1066,12 +1066,12 @@ export const services = {
       "You want to own the result outright when it is finished.",
       // The niche, stated on the English page too — a Thai owner who lands here
       // first should find the Thai page rather than bounce.
-      "You run a Thai-owned business in Denmark or Sweden and would rather run the whole project in Thai — there is a page in Thai at /th.",
+      "You run a Thai-owned business in Denmark or Sweden and would rather run the whole project in Thai: there is a page in Thai at /th.",
     ],
     notFit: [
       "You need a native iOS or Android app.",
       "You need a large backend or data platform built from nothing.",
-      "You want the cheapest possible option — a template builder will serve you better.",
+      "You want the cheapest possible option. A template builder will serve you better.",
       "You need someone on call around the clock after launch.",
     ],
   },
@@ -1081,7 +1081,7 @@ export const services = {
       id: "website",
       n: "01",
       name: "Small-Business Website",
-      tagline: "The site your business should already have — fast, findable, and yours.",
+      tagline: "The site your business should already have: fast, findable, and yours.",
       forWho: "Salons, studios, clinics, trades, and one-person businesses in Denmark and Sweden.",
       includes: [
         "Three to six pages, structured around what customers actually come looking for",
@@ -1097,7 +1097,7 @@ export const services = {
         label: "In every build",
         body: "This is the part that separates a real site from a 3.000-kroner template job, and it is why the starting price is what it is. None of it is an upsell. It is in the price of every site.",
         items: [
-          "Search setup that actually works: page titles and descriptions written per page, a sitemap, structured data, and your Google Business profile connected — so you turn up when someone searches your town and your service, not just your name",
+          "Search setup that actually works: page titles and descriptions written per page, a sitemap, structured data, and your Google Business profile connected, so you turn up when someone searches your town and your service, not just your name",
           // AEO/GEO, added 2026-10-11. Written for the owner, so each item says
           // what it does before it names the technique. "Answer engine" and
           // "generative engine" never appear on the page; the outcome does.
@@ -1109,7 +1109,7 @@ export const services = {
           "A check of how AI assistants describe your business today, at launch, so you know where you stand and what they get wrong",
           "Built mobile-first and checked at real phone widths, because that is where nearly all of your visitors are",
           "A performance budget: compressed images, minimal scripts, and a site that opens fast on mobile data rather than on your office wifi",
-          "Accessibility basics — keyboard navigation, readable contrast, labelled forms — which is both the right thing and increasingly a legal expectation",
+          "Accessibility basics (keyboard navigation, readable contrast, labelled forms), which is both the right thing and increasingly a legal expectation",
           "An enquiry form that reaches your inbox, with a second delivery path so a lost message never costs you a customer",
           "Analytics, so you can see how many people found you and what they clicked",
           "Domain and hosting registered in your name, and a walkthrough at handover so nothing depends on me afterwards",
@@ -1180,7 +1180,7 @@ export const services = {
          * inventing a case study is the line the testimonial was held to for
          * weeks, and it is not crossed here for an upsell table.
          */
-        ownWork: "Two of these — taking payment, and anything with logins — I have built on my own products rather than for a client. Bevisly runs multi-role accounts with row-level security, and MockMate runs a graded AI pipeline; both are written up under Projects, and you can go and use them. I would rather say that plainly than imply a client history I do not have.",
+        ownWork: "Two of these, taking payment and anything with logins, I have built on my own products rather than for a client. Bevisly runs multi-role accounts with row-level security, and MockMate runs a graded AI pipeline; both are written up under Projects, and you can go and use them. I would rather say that plainly than imply a client history I do not have.",
       },
       priceRange: "From 6.500 DKK",
       priceNote: `${vat.note} It is fixed in writing before we start, and the domain and any hosting are billed to you directly rather than through me.`,
@@ -1195,7 +1195,7 @@ export const services = {
       includes: [
         "React, Next.js and TypeScript, built into your repository and your workflow",
         "A component set your team can keep building on after I am gone",
-        "Wired to the API you already have — I scope to what your backend supports rather than asking you to change it",
+        "Wired to the API you already have. I scope to what your backend supports rather than asking you to change it",
         "Loading, empty and error states designed, not left to chance",
         "Keyboard paths, screen-reader labels and reduced-motion handled as part of the build",
         "Reviewed pull requests, so nothing lands that your team has not seen",
@@ -1226,7 +1226,7 @@ export const services = {
       tagline: "The site exists. It is slow, dated, or invisible. I fix it without starting over.",
       forWho: "Businesses with a site that works but is quietly losing them enquiries.",
       includes: [
-        "A written audit — speed, mobile, accessibility and search basics, in plain language",
+        "A written audit of speed, mobile, accessibility and search basics, in plain language",
         "A prioritised list of fixes with what each one is actually worth, so you can stop at any point",
         "A visual refresh on the structure you already have, on a coded site. On WordPress or Wix I fix what is broken, and a new look means a rebuild in code",
         "Image, font and bundle work, usually where most of the speed is hiding",
@@ -1294,7 +1294,7 @@ export const services = {
     // costs more than it wins.
     headline:
       "Her customers can now see every treatment and price without messaging first.",
-    body: "Racha is a Thai-owned wellness studio in Næstved, and she had a Facebook page and nothing else. I built her a Danish-language site covering treatments, prices, a gallery and an enquiry form. She has no budget for maintenance and nobody to call when something breaks, so the site was built to keep running without me — and it has.",
+    body: "Racha is a Thai-owned wellness studio in Næstved, and she had a Facebook page and nothing else. I built her a Danish-language site covering treatments, prices, a gallery and an enquiry form. She has no budget for maintenance and nobody to call when something breaks, so the site was built to keep running without me, and it has.",
     // Retitles the case study's metric keys for a non-technical reader. The
     // values are untouched; only the wording changes.
     plainLabels: {
@@ -1411,7 +1411,7 @@ export const services = {
     hourly: {
       label: "By the hour",
       price: `${aftercareRates.hourly} ${aftercareRates.currency} / hour`,
-      body: "Billed in half hours, for anything bigger — new photos, a rewritten page, a seasonal menu. I tell you the estimate before I start, not after.",
+      body: "Billed in half hours, for anything bigger: new photos, a rewritten page, a seasonal menu. I tell you the estimate before I start, not after.",
     },
     block: {
       label: "A block of hours",
@@ -1422,7 +1422,7 @@ export const services = {
         `Works out at ${aftercareRates.effective} kroner an hour instead of ${aftercareRates.hourly}`,
         "Unused hours roll over once, into a second year",
         "No monthly bill, and nothing renews automatically",
-        "When it runs out you buy another or you do not — there is no default",
+        "When it runs out you buy another or you do not. There is no default",
       ],
     },
   },
@@ -1556,11 +1556,11 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Why not just get a site for 3.000 kroner?",
-    a: "You can, and for some businesses that is genuinely the right call — if you need a placeholder page and nothing more, a template builder will do it cheaper than I will. What you usually do not get at that price is the part that makes the site earn its money: search setup written per page so you turn up when someone searches your town and your service, a performance budget so it opens fast on mobile data, accessibility basics, an enquiry form with a backup delivery path, and analytics so you can tell whether any of it is working. That work is the same amount of work whether the site has three pages or eight, which is why the starting price is where it is. If your budget is firmly under 6.500, say so in the enquiry form — I will tell you honestly whether to spend it with me or somewhere else.",
+    a: "You can, and for some businesses that is genuinely the right call: if you need a placeholder page and nothing more, a template builder will do it cheaper than I will. What you usually do not get at that price is the part that makes the site earn its money: search setup written per page so you turn up when someone searches your town and your service, a performance budget so it opens fast on mobile data, accessibility basics, an enquiry form with a backup delivery path, and analytics so you can tell whether any of it is working. That work is the same amount of work whether the site has three pages or eight, which is why the starting price is where it is. If your budget is firmly under 6.500, say so in the enquiry form. I will tell you honestly whether to spend it with me or somewhere else.",
   },
   {
     q: "Can I pay by the hour instead?",
-    a: `For a website I would rather you did not, and that is more for your protection than mine. A fixed price means you know the number before anything starts and I carry the risk if it takes longer than I estimated — billing by the hour moves that risk onto you, and you are the one who cannot see how long things ought to take. Where scope genuinely cannot be pinned down, a day rate is the honest shape and I do use one: ${services.offers[1].priceRange} for frontend work on a product, which is the second offer above. That fits ongoing work, an open-ended list of changes, or anything waiting on decisions nobody has made yet. What it is not is a cheaper way to buy a website — a fixed-price site will almost always cost you less than the same site billed by the day.`,
+    a: `For a website I would rather you did not, and that is more for your protection than mine. A fixed price means you know the number before anything starts and I carry the risk if it takes longer than I estimated. Billing by the hour moves that risk onto you, and you are the one who cannot see how long things ought to take. Where scope genuinely cannot be pinned down, a day rate is the honest shape and I do use one: ${services.offers[1].priceRange} for frontend work on a product, which is the second offer above. That fits ongoing work, an open-ended list of changes, or anything waiting on decisions nobody has made yet. What it is not is a cheaper way to buy a website: a fixed-price site will almost always cost you less than the same site billed by the day.`,
   },
   // Added 2026-10-11 with the Webflow removal. Many of the businesses this page
   // is for already have a WordPress, Wix or Elementor site, often a broken one,
@@ -1601,11 +1601,11 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Which languages can you work in?",
-    a: "I build in Danish, English and Swedish. Racha Beauty's site is entirely Danish, down to the page addresses. My own spoken Danish is still improving, so we can run the project itself in English or Swedish and still ship a fully Danish site — the language of the meetings and the language of the website are two different things.",
+    a: "I build in Danish, English and Swedish. Racha Beauty's site is entirely Danish, down to the page addresses. My own spoken Danish is still improving, so we can run the project itself in English or Swedish and still ship a fully Danish site. The language of the meetings and the language of the website are two different things.",
   },
   {
     q: "How long does it actually take?",
-    a: "A small-business site is usually two to three weeks, a rescue one to three, an app frontend three to eight. Those are real numbers, not best cases. The most common delay is not the build — it is waiting on text and photos from you, which is why the scope says exactly what I need from you and when.",
+    a: "A small-business site is usually two to three weeks, a rescue one to three, an app frontend three to eight. Those are real numbers, not best cases. The most common delay is not the build. It is waiting on text and photos from you, which is why the scope says exactly what I need from you and when.",
   },
   {
     q: "Who owns the code?",
@@ -1762,6 +1762,8 @@ export const stackContent = {
     grid: "All cards",
     /** Contains {n} and {total}. */
     position: "{n} of {total}",
+    /** What the bar shows on stack pages that are not cards in the stack. */
+    pages: { "/work": "All cards", "/services": "Prices" } as Record<string, string>,
   },
   menus: [
     {

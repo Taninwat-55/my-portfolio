@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { stackContent } from "../../data";
 import type { MessageEngineHandle } from "./MessageEngine";
@@ -20,6 +21,9 @@ const MessageEngine = dynamic(() => import("./MessageEngine").then((m) => m.Mess
  */
 export function MessageBox() {
   const copy = stackContent.messageBox;
+  // On the prices page the visitor is a prospective client, so the box asks
+  // the services prompt (prices, process); everywhere else, the portfolio one.
+  const variant = usePathname().startsWith("/services") ? "services" : "portfolio";
   const [armed, setArmed] = useState(false);
   const [value, setValue] = useState("");
   // True while a question is queued, streaming or rate-limited: Send is off
@@ -45,7 +49,7 @@ export function MessageBox() {
 
   return (
     <div className={styles.msgDock}>
-      {armed && <MessageEngine handleRef={engineRef} queuedRef={queuedRef} onBusy={setBusy} />}
+      {armed && <MessageEngine variant={variant} handleRef={engineRef} queuedRef={queuedRef} onBusy={setBusy} />}
       <form className={styles.msgBox} onSubmit={submit} aria-label="Ask about Ice">
         <label htmlFor="message-box" className={styles.msgLabel}>
           Message

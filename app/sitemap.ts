@@ -29,16 +29,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { path: '', changeFrequency: "weekly" as const, priority: 1.0 },
         // Above the case pages: it is the commercial page, not a write-up.
         { path: '/services', changeFrequency: "monthly" as const, priority: 0.9 },
-        // Above /cv and /garden: it is the hub every case study hangs off, and
-        // the reason none of them can be orphaned again.
-        { path: '/projects', changeFrequency: "monthly" as const, priority: 0.8 },
         { path: '/garden', changeFrequency: "weekly" as const, priority: 0.8 },
         // The stack's cards that are not case studies (those come from `cases`
         // below). /about, /contact, /rates and /writing redirect since the clock
         // retired, so they are out of this list.
         { path: '/engineer', changeFrequency: "monthly" as const, priority: 0.8 },
         { path: '/build', changeFrequency: "monthly" as const, priority: 0.8 },
-        { path: '/work', changeFrequency: "monthly" as const, priority: 0.6 },
+        { path: '/work', changeFrequency: "monthly" as const, priority: 0.8 },
         // The canonical home for the CV text since it left the homepage.
         { path: '/cv', changeFrequency: "monthly" as const, priority: 0.7 },
         // The Thai landing page. Its real channel is Facebook groups rather than

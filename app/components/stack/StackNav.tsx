@@ -60,7 +60,7 @@ export function StackNav() {
       <p className={styles.navPos} aria-live="polite">
         {onCard
           ? nav.position.replace("{n}", String(index + 1)).replace("{total}", String(total))
-          : stackContent.grid.title}
+          : (nav.pages[pathname] ?? stackContent.grid.title)}
       </p>
       <Link
         href="/work"
