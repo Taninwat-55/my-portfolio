@@ -391,8 +391,16 @@
   280,
   373
  ],
+ "/stack/ice-portrait-og.png": [
+  288,
+  383
+ ],
  "/stack/ice-portrait-thumb.png": [
   240,
   118
+ ],
+ "/stack/og-desk.png": [
+  1200,
+  630
  ]
 }
