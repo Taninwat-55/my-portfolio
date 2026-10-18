@@ -2,7 +2,7 @@
 
 import { useEffect, useImperativeHandle, useRef } from "react";
 import { personalInfo, stackContent } from "../../data";
-import { messageText, useIceChat } from "../../lib/useIceChat";
+import { messageText, useIceChat, type ChatVariant } from "../../lib/useIceChat";
 import styles from "./stack.module.css";
 
 export type MessageEngineHandle = { send: (text: string) => boolean };
@@ -12,17 +12,19 @@ export type MessageEngineHandle = { send: (text: string) => boolean };
  * in above the box. Loaded only after the box is first focused (MessageBox.tsx).
  */
 export function MessageEngine({
+  variant,
   handleRef,
   queuedRef,
   onBusy,
 }: {
+  variant: ChatVariant;
   handleRef: React.RefObject<MessageEngineHandle | null>;
   queuedRef: React.RefObject<string | null>;
   /** Tells the box when a send could not go through, so Send can say so. */
   onBusy: (busy: boolean) => void;
 }) {
   const copy = stackContent.messageBox;
-  const { messages, chatError, isLoading, isRateLimited, send, reset } = useIceChat("portfolio");
+  const { messages, chatError, isLoading, isRateLimited, send, reset } = useIceChat(variant);
   const bodyRef = useRef<HTMLDivElement>(null);
 
   useImperativeHandle(handleRef, () => ({ send }), [send]);
