@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { LandingPage } from "../components/LandingPage";
-import { svContent as sv, svUnits, svPrice } from "../data.sv";
+import { LandingPage } from "../../components/LandingPage";
+import { svContent as sv, svUnits, svPrice } from "../../data.sv";
 
 const BASE_URL = "https://taninwatkaewpankan.xyz";
 const PAGE_URL = `${BASE_URL}/sv`;

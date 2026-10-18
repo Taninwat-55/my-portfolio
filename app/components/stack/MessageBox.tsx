@@ -21,9 +21,11 @@ const MessageEngine = dynamic(() => import("./MessageEngine").then((m) => m.Mess
  */
 export function MessageBox() {
   const copy = stackContent.messageBox;
-  // On the prices page the visitor is a prospective client, so the box asks
-  // the services prompt (prices, process); everywhere else, the portfolio one.
-  const variant = usePathname().startsWith("/services") ? "services" : "portfolio";
+  // On the prices page and the language landing pages the visitor is a
+  // prospective client, so the box asks the services prompt (prices,
+  // process); everywhere else, the portfolio one.
+  const pathname = usePathname();
+  const variant = /^\/(services|th|sv|da)(\/|$)/.test(pathname) ? "services" : "portfolio";
   const [armed, setArmed] = useState(false);
   const [value, setValue] = useState("");
   // True while a question is queued, streaming or rate-limited: Send is off

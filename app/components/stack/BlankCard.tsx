@@ -3,7 +3,7 @@
 import { personalInfo, servicesEnquiryOptions, stackContent } from "../../data";
 import { FIELD_LIMITS, type EnquiryFields } from "../../lib/services-enquiry";
 import { useEnquiryForm } from "../../lib/useEnquiryForm";
-import { ENQUIRY_COPY_EN } from "../ServicesEnquiryForm";
+import { ENQUIRY_COPY_EN, type EnquiryCopy } from "../ServicesEnquiryForm";
 import styles from "./stack.module.css";
 
 type Choice = "projectType" | "budget" | "timeline";
@@ -13,10 +13,20 @@ type Choice = "projectType" | "budget" | "timeline";
  * saves. Same fields, values, validation and endpoint as the /services form
  * (useEnquiryForm), so the route's allowlist and traps apply unchanged; only
  * the look differs, and the three dropdowns become HyperCard radio families.
+ *
+ * `copy` is the same EnquiryCopy the paper form took, so /th, /sv and /da pass
+ * their translations; option VALUES are never translated (the route checks
+ * them against an allowlist), only their visible labels. `card` holds the
+ * stack's own words for saving the card.
  */
-export function BlankCard() {
-  const copy = ENQUIRY_COPY_EN;
-  const stack = stackContent.build;
+export function BlankCard({
+  copy = ENQUIRY_COPY_EN,
+  card = stackContent.build,
+}: {
+  copy?: EnquiryCopy;
+  card?: { save: string; saving: string; savedTitle: string };
+} = {}) {
+  const stack = card;
   const {
     form,
     errors,
@@ -89,7 +99,7 @@ export function BlankCard() {
               onChange={() => setField(key, option.value)}
               disabled={submitting}
             />
-            {option.label}
+            {copy.optionLabels?.[key]?.[option.value] ?? option.label}
           </label>
         ))}
       </div>

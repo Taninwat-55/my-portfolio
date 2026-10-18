@@ -1,44 +1,28 @@
 import { ImageResponse } from "next/og";
-import { services } from "../data";
-import { daContent as da, daUnits } from "../data.da";
+import { services } from "../../data";
+import { svContent as sv, svUnits, svPrice } from "../../data.sv";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt =
-  "Hjemmeside til små virksomheder i Danmark — fast pris, og du ejer domæne, hosting og kode.";
+  "Hemsida till småföretag i Skåne — fast pris, du äger allt. Malmö, Lund, Helsingborg.";
 
 /**
- * The Danish share card. ITEM 43.
+ * The Swedish share card.
  *
- * WITHOUT THIS FILE, /da INHERITED THE ROOT CARD — English, "Hi, i'm Ice" over a
- * list of frameworks. app/sv/opengraph-image.tsx already names that outcome as the
- * wrong first impression for a Nordic shop owner, which is the whole reason that
- * file exists; /da simply never got the same treatment, because it was built after
- * the share-card work rather than during it.
+ * Without one, /sv would inherit the root card, which is in English and says
+ * "Hi, i'm Ice" over a list of frameworks — the wrong first impression for a
+ * Skåne shop owner.
  *
- * ⚠️ `noindex` DID NOT PROTECT THIS. While DRAFT is true the only way anyone
- * reaches /da is a pasted link — which is exactly when a card renders — so the
- * item-28 proofreader was going to be the first person to ever see it.
- *
- * NOT MARKED AS A DRAFT, deliberately. The page itself carries an unmissable draft
- * banner and is excluded from search, so the card's job is to show what the page
- * genuinely is. A "kladde" badge here would also have to be removed at publish
- * time, which is one more thing to forget — and DRAFT is a local const in page.tsx,
- * not exported, so this file cannot read it without making the flag public.
- *
- * NO BUNDLED FONT, same as /sv and unlike /th. Danish is Latin plus æ ø å, all of
- * which next/og's default font covers. Kanit is shipped as raw ttf on /th only
- * because satori reads ttf/otf/woff but not woff2 and every Thai glyph rendered as
- * a tofu box without it.
- *
- * NO PRICE TRANSFORM, unlike /sv. The figures in data.ts are already written the
- * Danish way — "6.500", a dot for thousands — so they render correctly as-is.
- * svPrice() exists because a Swedish reader can parse "6.500" as six and a half.
+ * NO BUNDLED FONT HERE, unlike /th. Kanit had to be shipped as raw ttf because
+ * satori reads ttf/otf/woff but not woff2, and every Thai glyph rendered as a
+ * tofu box without it. Swedish is Latin with three diacritics (å ä ö), which
+ * next/og's default font covers, so a font file would be weight for nothing.
  *
  * Since the re-theme (Phase 5) it is a paper sheet on the dark desk, like the
  * page it shares, rather than ogBackdrop()'s glow.
  */
-export default function DanishOgImage() {
+export default function SwedishOgImage() {
   const ladder = services.offers[0].priceLadder;
 
   return new ImageResponse(
@@ -67,43 +51,35 @@ export default function DanishOgImage() {
         >
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ fontSize: 26, color: "#286a87", display: "flex" }}>
-            {da.hero.eyebrow}
+            {sv.hero.eyebrow}
           </div>
 
-          {/* 66, not the 78 that /sv and /th use. Danish is a longer language
-              than Swedish for the same sentence — "Hjemmeside til din virksomhed"
-              against "Hemsida till ditt företag" — and at 78 the title wrapped to
-              two lines while the lead wrapped to a second as well, which left the
-              card visibly more cramped than its siblings and put an ugly break
-              mid-sentence. Tuned per language rather than shared, because the
-              constraint is the string length, not the design. */}
           <div
             style={{
-              fontSize: 66,
+              fontSize: 78,
               fontWeight: 700,
               lineHeight: 1.1,
               color: "#1d2731",
               display: "flex",
             }}
           >
-            {da.hero.title}
+            {sv.hero.title}
           </div>
 
           <div
             style={{
-              fontSize: 26,
+              fontSize: 30,
               color: "#5a6672",
               display: "flex",
             }}
           >
-            {da.hero.lead}
+            {sv.hero.lead}
           </div>
         </div>
 
         {/* Price row, read from services.offers so a shared card can never
-            advertise a figure the page no longer charges. daUnits() translates
-            the scope's unit word — "1–3 pages" becomes "1–3 sider" — while the
-            numerals keep coming from data.ts. */}
+            advertise a figure the page no longer charges — and put through
+            svPrice() so the thousands separator is the Swedish one here too. */}
         <div
           style={{
             display: "flex",
@@ -132,10 +108,10 @@ export default function DanishOgImage() {
                     display: "flex",
                   }}
                 >
-                  {daUnits(rung.scope)}
+                  {svUnits(rung.scope)}
                 </div>
                 <div style={{ fontSize: 26, color: "#1d2731", display: "flex" }}>
-                  {rung.price}
+                  {svPrice(rung.price)}
                 </div>
               </div>
             ))}
@@ -148,7 +124,7 @@ export default function DanishOgImage() {
               display: "flex",
             }}
           >
-            taninwatkaewpankan.xyz/da
+            taninwatkaewpankan.xyz/sv
           </div>
         </div>
         </div>

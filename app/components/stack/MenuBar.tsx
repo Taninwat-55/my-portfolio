@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { siteContent, stackContent } from "../../data";
+import { stackContent } from "../../data";
+import { LangLinks } from "./LangLinks";
 import { Menu } from "./Menu";
 import styles from "./stack.module.css";
 
@@ -31,24 +32,7 @@ export function MenuBar() {
           </Menu>
         ))}
       </nav>
-      <nav aria-label="Languages" className={styles.langs}>
-        {siteContent.languages.map((lang) => (
-          <a
-            key={lang.code}
-            href={lang.href}
-            hrefLang={lang.code}
-            lang={lang.code}
-            aria-current={lang.code === "en" ? "true" : undefined}
-            aria-label={lang.label}
-          >
-            {/* The endonym where there is room; the code on a phone's bar. */}
-            <span className={styles.langLong}>{lang.label}</span>
-            <span className={styles.langShort} aria-hidden="true">
-              {lang.code.toUpperCase()}
-            </span>
-          </a>
-        ))}
-      </nav>
+      <LangLinks />
     </header>
   );
 }

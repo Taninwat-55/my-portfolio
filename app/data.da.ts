@@ -57,7 +57,7 @@ export const daContent = {
   locale: "da",
 
   meta: {
-    title: "Hjemmeside til små virksomheder — fast pris, du ejer det hele",
+    title: "Hjemmeside til små virksomheder: fast pris, du ejer det hele",
     description:
       "Jeg bygger hjemmesider til små virksomheder i Danmark. Fast pris aftalt skriftligt, før vi begynder, og du ejer domæne, hosting og kode.",
   },
@@ -68,7 +68,7 @@ export const daContent = {
     // ⚠️ NOT YET PROOFREAD (2026-10-11). Replaced "Ingen månedlige gebyrer, du ikke
     // har bedt om" when the optional Local visibility plan arrived.
     lead: "Fast pris. Du ejer det hele. Og ingen binding på noget.",
-    body: "Jeg hedder Ice. Jeg bygger hjemmesider til små virksomheder — selv, fra den første samtale til overleveringen. Intet bureau og ingen projektleder imellem: du taler med den, der faktisk bygger siden, og det er mig, der svarer, hvis noget går galt.",
+    body: "Jeg hedder Ice. Jeg bygger hjemmesider til små virksomheder, selv, fra den første samtale til overleveringen. Intet bureau og ingen projektleder imellem: du taler med den, der faktisk bygger siden, og det er mig, der svarer, hvis noget går galt.",
     /**
      * ITEM 29, AND THE MOST IMPORTANT PARAGRAPH ON THE PAGE.
      *
@@ -83,7 +83,7 @@ export const daContent = {
      * promise one — see contact.writtenFirst.
      */
     languageNote:
-      "Siden bliver på dansk — det er dine kunder, der skal læse den, ikke mig. Selve samtalerne tager vi på engelsk, eller skriftligt på dansk, hvis du foretrækker det. Sproget i møderne og sproget på siden er to forskellige ting, og jeg vil hellere sige det på forhånd end lade dig opdage det undervejs.",
+      "Siden bliver på dansk. Det er dine kunder, der skal læse den, ikke mig. Selve samtalerne tager vi på engelsk, eller skriftligt på dansk, hvis du foretrækker det. Sproget i møderne og sproget på siden er to forskellige ting, og jeg vil hellere sige det på forhånd end lade dig opdage det undervejs.",
   },
 
   /** Why a Danish owner should pick him over a bureau or a template. */
@@ -91,7 +91,7 @@ export const daContent = {
     heading: "Hvorfor mig",
     items: [
       "Fast pris aftalt skriftligt, før vi begynder. Der kommer ikke noget oveni bagefter.",
-      "Du ejer domæne, hosting og kode. Vil du skifte udvikler næste år, kan du gøre det med det samme — uden at spørge mig først.",
+      "Du ejer domæne, hosting og kode. Vil du skifte udvikler næste år, kan du gøre det med det samme, uden at spørge mig først.",
       "Du taler med den, der bygger siden. Ingen sælger, ingen projektleder, ingen der giver opgaven videre til en anden.",
       // Deliberately the narrowest true claim available. He has built one Danish
       // site for one Danish client; the sentence says exactly that and no more.
@@ -146,21 +146,21 @@ export const daContent = {
     // "serviceaftale" for the same reason.
     lead: "Der er ingen plugins, der skal opdateres, og intet, der forfalder af sig selv. Det er hele pointen med at bygge siden på den måde, og derfor sælger jeg ingen serviceaftale. Det, folk faktisk vil have bagefter, er ændringer, og her er hvad de koster.",
     free: {
-      label: "Gratis — bare spørg",
+      label: "Gratis, bare spørg",
       body: "En pris, et telefonnummer, en åbningstid, en stavefejl. Tager det mig et par minutter, er det ikke værd at sende en faktura for, så det gør jeg ikke.",
     },
     hourly: {
       label: "Efter timen",
-      body: "Afregnet i halve timer, når det er noget større — nye billeder, en side skrevet om, et menukort til sæsonen. Du får overslaget, før jeg begynder, ikke bagefter.",
+      body: "Afregnet i halve timer, når det er noget større: nye billeder, en side skrevet om, et menukort til sæsonen. Du får overslaget, før jeg begynder, ikke bagefter.",
     },
     block: {
       label: "En klump timer",
       body: "De fleste af mine kunder får aldrig brug for det, og det siger jeg hellere end at sælge dig en serviceaftale. Men vil du helst ikke tænke over det, hver gang du vil have noget rettet, kan du købe timerne på forhånd og trække på dem. Brug dem på hvad som helst: tekst, billeder, priser, en ny side, et spørgsmål. Jeg skriver ned, hvad hver ændring tog, og siger, hvor meget der er tilbage.",
       terms: [
         "Det svarer til {effective} kr. i timen i stedet for {hourly}",
-        "Ubrugte timer går videre til endnu et år — én gang",
+        "Ubrugte timer går videre til endnu et år, én gang",
         "Ingen månedlig regning, og intet fornyes af sig selv",
-        "Når de er brugt op, køber du nye eller lader det være — der sker ikke noget automatisk",
+        "Når de er brugt op, køber du nye eller lader det være. Der sker ikke noget automatisk",
       ],
     },
   },
@@ -198,7 +198,7 @@ export const daContent = {
   proof: {
     heading: "Et rigtigt eksempel",
     /** Every metric and screenshot comes from cases[racha]; this is framing only. */
-    body: "Racha Beauty & Wellness er en massageklinik i Næstved. Før havde de kun en Facebookside. Jeg byggede hele hjemmesiden på dansk — behandlinger, priser, billeder og kontaktformular. Ejeren havde ikke plads i budgettet til et månedligt gebyr for vedligeholdelse, så jeg byggede siden, så den kan køre selv. Det har den gjort siden, uden at jeg har været inde i den.",
+    body: "Racha Beauty & Wellness er en massageklinik i Næstved. Før havde de kun en Facebookside. Jeg byggede hele hjemmesiden på dansk: behandlinger, priser, billeder og kontaktformular. Ejeren havde ikke plads i budgettet til et månedligt gebyr for vedligeholdelse, så jeg byggede siden, så den kan køre selv. Det har den gjort siden, uden at jeg har været inde i den.",
     quoteLabel: "Hvad ejeren siger",
     /** Not decorative: these screenshots are the evidence the section rests on. */
     altHome: "Forsiden",
@@ -213,7 +213,7 @@ export const daContent = {
     quoteTranslationLabel:
       "(oversat fra det engelske original, som ejeren har godkendt)",
     quoteDa:
-      "Ice byggede vores første hjemmeside. Den er hurtig, den virker, og den er på dansk — og siden den gik i luften, har vi ikke skullet ændre noget eller betale ekstra.",
+      "Ice byggede vores første hjemmeside. Den er hurtig, den virker, og den er på dansk, og siden den gik i luften, har vi ikke skullet ændre noget eller betale ekstra.",
     /**
      * Racha's three figures in this language, keyed by the English label in
      * cases (data.ts). The values come from there too; only the words change.
@@ -258,7 +258,7 @@ export const daContent = {
      * hero note exists to prevent.
      */
     writtenFirst:
-      "Skriv gerne først — på dansk eller engelsk, alt efter hvad du har lyst til. Så kan jeg læse ordentligt, hvad du har brug for, inden vi taler sammen.",
+      "Skriv gerne først, på dansk eller engelsk, alt efter hvad du har lyst til. Så kan jeg læse ordentligt, hvad du har brug for, inden vi taler sammen.",
     orForm: "Eller udfyld formularen nedenfor. Jeg ser begge.",
   },
 
@@ -267,7 +267,7 @@ export const daContent = {
   languagesLabel: "Sprog",
 
   /**
-   * Form chrome, passed into ServicesEnquiryForm as its `copy` prop.
+   * Form chrome, passed into the stack's BlankCard as its `copy` prop.
    *
    * 🔒 Only labels. The option VALUES stay exactly as servicesEnquiryOptions
    * defines them, because app/lib/services-enquiry.ts builds its server-side
@@ -319,7 +319,7 @@ export const daContent = {
     submittingSr: "Sender beskeden",
     sentTitle: "Tak, jeg har modtaget den",
     sentBody:
-      "Jeg læser alt selv og svarer på alle — også på opgaver, jeg ikke er den rigtige til.",
+      "Jeg læser alt selv og svarer på alle, også på opgaver, jeg ikke er den rigtige til.",
     sentUrgentPrefix: "Er det hastende, så skriv til mig på",
     fixOne: "Én ting skal rettes:",
     fixMany: "{n} ting skal rettes:",

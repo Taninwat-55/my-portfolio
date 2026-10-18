@@ -1763,7 +1763,13 @@ export const stackContent = {
     /** Contains {n} and {total}. */
     position: "{n} of {total}",
     /** What the bar shows on stack pages that are not cards in the stack. */
-    pages: { "/work": "All cards", "/services": "Prices" } as Record<string, string>,
+    pages: {
+      "/work": "All cards",
+      "/services": "Prices",
+      "/th": "ภาษาไทย",
+      "/sv": "Svenska",
+      "/da": "Dansk",
+    } as Record<string, string>,
   },
   menus: [
     {
