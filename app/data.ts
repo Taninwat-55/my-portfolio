@@ -543,7 +543,9 @@ export const cases: CaseStudy[] = [
       { v: "100", k: "SEO score" },
     ],
     stack: ["React", "TypeScript", "Vite", "Supabase", "Tailwind CSS", "Vitest"],
-    links: { demo: "https://bevisly.com/", code: "https://github.com/Taninwat-55/Bevisly" },
+    // No code link: the Bevisly repo is private, so the button sent every
+    // visitor to GitHub's 404 page (found 2026-10-18).
+    links: { demo: "https://bevisly.com/", code: "" },
   },
   {
     id: "mockmate",
