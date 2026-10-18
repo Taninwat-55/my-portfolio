@@ -1708,15 +1708,8 @@ export const stackContent = {
       "I'm Ice (Taninwat Kaewpankan), a full-stack engineer in Copenhagen, and every card in this stack is something I built.",
     availability: clockContent.availability,
     portraitAlt: "Ice, dithered in black and white: glasses, a dark blazer over a light shirt, a small smile.",
-    // The work leads the Home card (Ice, 2026-10-18: "showcase the projects,
-    // not my life"). One of each kind: client site, product, full-stack.
-    featured: [
-      { id: "racha", line: "Client website, 95+ Lighthouse" },
-      { id: "trailr", line: "Led the UI/UX redesign" },
-      { id: "bevisly", line: "Full-stack, Postgres row-level security" },
-    ],
     buttons: [
-      { label: "See all 12 cards", href: "/work" },
+      { label: "See the work", href: "/cases/racha" },
       { label: "Build mine", href: "/build" },
       { label: "Engineer", href: "/engineer" },
     ],
@@ -1739,16 +1732,14 @@ export const stackContent = {
     title: "Engineer",
     lead: "Full-stack engineer in Copenhagen. TypeScript from the interface to the database.",
     stack: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"],
-    // Each skill pointed at the card that proves it, rather than a CV in
-    // miniature. Every line restates a claim the case card itself backs up.
-    proofLabel: "What I do, and the card that shows it",
-    proof: [
-      { skill: "Design", id: "trailr", line: "Led the platform's UI/UX redesign" },
-      { skill: "Frontend", id: "racha", line: "95+ Lighthouse on first deploy" },
-      { skill: "Full-stack", id: "bevisly", line: "Postgres row-level security on Supabase" },
-      { skill: "", id: "mockmate", line: "AI grading pipeline on Next.js and Prisma" },
-      { skill: "Leadership", id: "millennial", line: "Operations Assistant to Head of Organization" },
-    ],
+    now: {
+      label: "Now",
+      text: "Product engineer at Trailr AI, an early-stage AI video startup, part-time with equity warrants. I joined as a frontend intern and led the platform's UI/UX redesign, scoped to what the existing backend could support.",
+    },
+    before: {
+      label: "Before",
+      text: "Four cycles at Millennial Consulting, from Operations Assistant to Operations Manager to Head of Organization, coordinating around five client projects per cycle with no full-time staff.",
+    },
     cv: { label: "Read my CV", href: "/cv" },
     pdf: { label: "Download the PDF", href: "/assets/Taninwat_Kaewpankan_CV.pdf" },
     scriptTitle: "Script of card “Ice's Stack”",

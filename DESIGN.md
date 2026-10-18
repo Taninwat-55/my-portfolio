@@ -162,10 +162,10 @@ Four one-bit 4x4 SVG tiles, drawn with `shape-rendering: crispEdges` at `backgro
 
 ### Hierarchy
 - **Display** (Pixelify Sans 700, 64px desktop, 44px phones, line-height 1, balanced wrap): the card title, one per card. Never fluid.
-- **Headline** (DotGothic16 400, 24px, 1.15): section headings inside a card, button labels, form labels.
+- **Headline** (DotGothic16 400, 24px, 1.15): section headings inside a card, button labels, form labels, timeline labels.
 - **Label** (DotGothic16 400, 16px, 1): menu bar, menus, nav position ("n of N"), window titles, mini-card titles, the stack list, the concept tag, small buttons, chat questions.
 - **Lead** (Atkinson 400, 18 to 20px, 1.5, max 54ch): the one-sentence intro under a card title.
-- **Body** (Atkinson 400, 17px desktop, 16px phones, 1.55, max 66ch): case write-ups, replies, proof lines. Bold 700 for fact terms, availability and errors.
+- **Body** (Atkinson 400, 17px desktop, 16px phones, 1.55, max 66ch): case write-ups, replies, timeline detail. Bold 700 for fact terms, availability and errors.
 - **Small** (Atkinson 400, 14 to 15px): hints, captions, built-with lines, optional markers.
 - **Code** (JetBrains Mono, 13px, 1.55, `white-space: pre`): the script window. Never wraps mid-expression.
 
@@ -180,7 +180,7 @@ The desk is a full-height column: sticky menu bar (40px min), then the stage, wh
 
 Rhythm is in small fixed steps: 6px between a label and its field, 14px between buttons, 18px between form rows, 22 to 28px between blocks. Button groups either wrap in a row or stack as an equal-width column as wide as the widest label.
 
-Dithered artwork sits at fixed widths: 480px on cards, a 150px square ID photo on Home, 320px on phones, and 240px thumbnails cropped to 118px tall on `/work` and in Home's featured row. The all-cards grid uses fixed 256px tracks (`repeat(auto-fill, 256px)`), spaced, never stretched.
+Dithered artwork sits at fixed widths: 480px on cards, 360px for the Home portrait, 320px and 280px on phones, 240px thumbnails cropped to 118px tall on `/work`. The all-cards grid uses fixed 256px tracks (`repeat(auto-fill, 256px)`), spaced, never stretched.
 
 One breakpoint, 760px. Below it the grids collapse to one column, art moves above text and centres, the stacked edges shrink to 6px and 3px, the title drops to 44px, the nav bar sticks 8px above the bottom at the thumb, the menu bar drops its stack name and uses short language codes, and the message box hides its label.
 
@@ -277,8 +277,3 @@ The all-cards grid: 256px tiles, 2px rule, 6px radius, 6px padding, a 240x118 di
 - **Don't** round a non-interactive container.
 - **Don't** use library icons or text glyphs as icons; draw them on the 16x16 grid.
 - **Don't** fade between cards or into colour; one bit has no half-ink.
-
-## The work leads
-
-Home and Engineer exist to show projects and craft, not biography (Ice, 2026-10-18). Home is a small ID photo, the title, one sentence and the availability line, then three featured project miniatures (one client site, one product, one full-stack build) before any button. Engineer points every skill at the card that proves it, as a ruled list of links, instead of a CV-style timeline.
-

@@ -188,16 +188,6 @@ async function main() {
   await rm(thumbFull);
   manifest["/stack/ice-portrait-thumb.png"] = [240, 118];
 
-  // The Home card's ID photo beside the title: head and shoulders, square,
-  // cropped from a 150px dither.
-  const idFull = path.join(OUT, "ice-portrait-full-id.png");
-  await dither(path.join(ROOT, PORTRAIT.src), idFull, 150, { lift: 1.35, contrast: 1.1 });
-  const id = path.join(OUT, "ice-portrait-id.png");
-  await sharp(idFull).extract({ left: 0, top: 6, width: 150, height: 150 }).png({ palette: true, colours: 2 }).toFile(id);
-  await embedOrigin(id, `Not generated. A 150x150 crop of the Atkinson dither of ${PORTRAIT.src} at 150px, by scripts/dither-images.mjs.`);
-  await rm(idFull);
-  manifest["/stack/ice-portrait-id.png"] = [150, 150];
-
   // The favicon is drawn, not derived: any photo scaled to 32px dithers or
   // thresholds into noise. These are the features that make it read as Ice,
   // taken from the portrait: swept-up hair, square glasses, a small smile, a

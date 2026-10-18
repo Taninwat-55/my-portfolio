@@ -37,7 +37,7 @@ An engineer who has run things. Ice ships real product (frontend at Trailr AI, a
 - Four languages: English, Thai (`/th`), Swedish (`/sv`), Danish (`/da`).
 - The headline title is **Full-stack Engineer**. "Web developer" is used only on `/services`, for the audience that searches for it.
 - Performance rule: anything in the first viewport must render without waiting for hydration (`<FadeIn immediate>`); the default path once cost an LCP of 7.9s.
-- Current homepage: "Ice's Stack", a one-bit HyperCard-style stack of cards (since 2026-10-18; DESIGN.md is the system of record). The work leads: the site exists to showcase projects and his design, frontend and engineering craft, not his life story. Older pages keep the paper-on-desk world until their phase 2 reskin.
+- Current homepage: "Ice's Stack", a one-bit HyperCard-style stack of cards (since 2026-10-18; DESIGN.md is the system of record). The site exists to showcase projects and his design, frontend and engineering craft, not his life story. Older pages keep the paper-on-desk world until their phase 2 reskin.
 
 ## Brand Commitments
 
