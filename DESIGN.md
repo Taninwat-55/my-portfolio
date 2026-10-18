@@ -123,7 +123,7 @@ The site is a HyperCard stack on a classic one-bit Mac screen: a menu bar across
 
 Density is calm: one card per screen, generous card padding, heavy 3px rules for the card and its chrome, 2px rules for everything inside it. Pixel type does the talking at the scale where pixels are legible (titles, menus, buttons, labels); Atkinson Hyperlegible carries everything read at length, because a pixel face at paragraph length is a costume. Motion is stepped, never faded: a one-bit screen has no half-ink.
 
-Scope: this system covers the stack routes only (`/`, `/cases/*`, `/work`, `/engineer`, `/build`), all rendered inside `app/(stack)/layout.tsx`. The older pages (`/services`, `/cv`, `/garden`, `/th`, `/sv`, `/da`, `/projects`) still use the previous paper-on-desk world and are not part of this system until a phase 2 reskin brings them into the stack. Do not read their styles as precedent here, and do not apply these rules to them piecemeal.
+Scope: since phase 2 (2026-10-18) this system covers every page. All routes render inside `app/(stack)/layout.tsx`: the cards (`/`, `/cases/*`, `/work`, `/engineer`, `/build`), the long cards (`/services`, `/th`, `/sv`, `/da`, built from `longcard.module.css`), the reading cards (`/cv`, `/garden`, `/garden/*`, built from `reading.module.css`), and the 404, which wraps itself in the stack layout. The old paper-on-desk world is deleted. Thai pages set every voice in Chakra Petch (`--font-thai`), since neither pixel face has Thai glyphs. The one exception left is the share images (`opengraph-image.tsx`), which still use the old palette until they are redesigned.
 
 **Key Characteristics:**
 - One bit: ink and card only; greys exist only as stipple tiles, never behind text.

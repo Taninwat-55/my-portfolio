@@ -1769,6 +1769,8 @@ export const stackContent = {
       "/th": "ภาษาไทย",
       "/sv": "Svenska",
       "/da": "Dansk",
+      "/cv": "CV",
+      "/garden": "Writing",
     } as Record<string, string>,
   },
   menus: [

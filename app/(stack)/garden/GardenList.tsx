@@ -2,12 +2,14 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
-import type { Post } from "../lib/posts";
-import styles from "./notebook.module.css";
+import type { Post } from "../../lib/posts";
+import { PixelIcon } from "../../components/stack/PixelIcon";
+import stack from "../../components/stack/stack.module.css";
+import styles from "../../components/stack/reading.module.css";
 
 export type GardenEntry = Omit<Post, "content" | "author">;
 
-// Matches the clock's notebook, which shows the 5 newest.
+// Five notes a page keeps the list a screen or so long.
 const PER_PAGE = 5;
 
 /** Puts the page in the address (page 1 has none), without a navigation. */
@@ -76,18 +78,18 @@ export function GardenList({ posts }: { posts: GardenEntry[] }) {
 
   return (
     <>
-      <ol ref={listRef} className={`${styles.lined} ${styles.contents}`}>
+      <ol ref={listRef} className={styles.notes}>
         {posts.map((post, i) => (
           <li key={post.slug} className={i < first || i >= first + PER_PAGE ? styles.offPage : undefined}>
-            <h2 className={styles.entryTitle}>
+            <h2 className={styles.noteTitle}>
               <Link href={`/garden/${post.slug}`}>{post.title}</Link>
             </h2>
-            <p className={styles.entryMeta}>
+            <p className={styles.noteMeta}>
               {post.category} <span aria-hidden="true">·</span>{" "}
               <time dateTime={post.date}>{post.date}</time> <span aria-hidden="true">·</span>{" "}
               {post.readTime}
             </p>
-            <p className={styles.entryExcerpt}>{post.excerpt}</p>
+            <p className={styles.noteExcerpt}>{post.excerpt}</p>
           </li>
         ))}
       </ol>
@@ -96,22 +98,22 @@ export function GardenList({ posts }: { posts: GardenEntry[] }) {
         <nav aria-label="Notes pages" className={styles.pager}>
           <button
             type="button"
-            className={styles.pagerButton}
+            className={stack.btn}
             onClick={() => goTo(page - 1)}
             disabled={page === 1}
           >
-            <span aria-hidden="true">←</span> Newer
+            <PixelIcon name="prev" /> Newer
           </button>
           <p className={styles.pagerStatus} aria-live="polite">
             Page {page} of {pages}
           </p>
           <button
             type="button"
-            className={styles.pagerButton}
+            className={stack.btn}
             onClick={() => goTo(page + 1)}
             disabled={page === pages}
           >
-            Older <span aria-hidden="true">→</span>
+            Older <PixelIcon name="next" />
           </button>
         </nav>
       )}

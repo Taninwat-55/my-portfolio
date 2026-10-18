@@ -1,5 +1,5 @@
 import { personalInfo, services, servicesProcess, cases, fillAftercareRates, localVisibilityRates, ditheredSrc, stackContent } from "../data";
-import type { EnquiryCopy } from "./ServicesEnquiryForm";
+import type { EnquiryCopy } from "../lib/enquiry-copy";
 import { BlankCard } from "./stack/BlankCard";
 import { DevelopImage } from "./stack/DevelopImage";
 import { DitherPicture } from "./stack/DitherPicture";

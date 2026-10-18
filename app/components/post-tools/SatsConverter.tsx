@@ -57,18 +57,18 @@ export function SatsConverter({
   return (
     <div
       ref={ref}
-      className="not-prose my-8 overflow-hidden rounded-md border border-paper-rule bg-paper-dim text-paper-ink shadow-[0_6px_18px_rgba(0,0,0,0.18)]"
+      className="not-prose my-8 overflow-hidden border-[3px] border-black bg-white text-black"
     >
       {/* Top bar — tool label + animated rate */}
-      <div className="flex items-center justify-between gap-3 px-5 py-3 border-b border-paper-rule">
-        <div className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] uppercase text-paper-ink">
+      <div className="flex items-center justify-between gap-3 px-5 py-3 border-b-2 border-black">
+        <div className="inline-flex items-center gap-2 font-[family-name:var(--font-pixel)] text-base text-black">
           <Bitcoin size={12} strokeWidth={1.6} />
           Writing tool · Sats Converter
         </div>
-        <div className="font-mono text-[10px] tracking-[0.18em] uppercase text-paper-ink">
+        <div className="font-[family-name:var(--font-pixel)] text-base text-black">
           1 BTC ={" "}
           <motion.span
-            className="text-paper-ink"
+            className="text-black"
             initial={false}
             animate={{ opacity: inView ? 1 : 0.4 }}
           >
@@ -85,7 +85,7 @@ export function SatsConverter({
           value={sats.toLocaleString("en-US")}
           onChange={onSatsChange}
         />
-        <div className="hidden sm:flex items-center justify-center font-mono text-paper-ink">
+        <div className="hidden sm:flex items-center justify-center font-mono text-black">
           ⇌
         </div>
         <Field
@@ -102,7 +102,7 @@ export function SatsConverter({
 
       {/* Quick picks */}
       <div className="flex flex-wrap items-center gap-2 px-5 pb-5">
-        <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-paper-ink mr-1">
+        <span className="font-[family-name:var(--font-pixel)] text-base text-black mr-1">
           Try
         </span>
         {QUICK_PICKS.map((q) => {
@@ -113,10 +113,10 @@ export function SatsConverter({
               type="button"
               onClick={() => setSats(q.sats)}
               aria-pressed={active}
-              className={`px-3 py-1.5 rounded-full border font-mono text-[10px] tracking-[0.18em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper-ink ${
+              className={`px-3 py-1.5 rounded-[10px] border-2 font-[family-name:var(--font-pixel)] text-base focus-visible:outline-[3px] focus-visible:outline-dotted focus-visible:outline-offset-2 focus-visible:outline-black ${
                 active
-                  ? "border-paper-ink bg-paper-ink text-paper"
-                  : "border-paper-rule bg-paper text-paper-ink hover:border-paper-ink"
+                  ? "border-black bg-black text-white"
+                  : "border-black bg-white text-black hover:border-[3px]"
               }`}
             >
               {q.label} · {q.sats.toLocaleString("en-US")} sats
@@ -126,7 +126,7 @@ export function SatsConverter({
       </div>
 
       {caption && (
-        <div className="px-5 pb-4 text-[12px] text-paper-ink leading-relaxed">
+        <div className="px-5 pb-4 text-[15px] text-black leading-relaxed">
           {caption}
         </div>
       )}
@@ -151,12 +151,12 @@ function Field({
 }) {
   return (
     <label className="block">
-      <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-paper-ink mb-2">
+      <div className="font-[family-name:var(--font-pixel)] text-base text-black mb-2">
         {label}
       </div>
       <div className="relative">
         {prefix && (
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-paper-soft font-mono text-lg">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-black font-mono text-lg">
             {prefix}
           </span>
         )}
@@ -165,11 +165,11 @@ function Field({
           inputMode="decimal"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className={`w-full rounded-md bg-paper border border-paper-rule ${
+          className={`w-full bg-white border-2 border-black ${
             prefix ? "pl-9" : "pl-4"
-          } pr-14 py-3.5 text-paper-ink font-mono text-lg tracking-tight focus:outline-none focus-visible:border-paper-ink focus-visible:ring-2 focus-visible:ring-paper-link transition-colors`}
+          } pr-14 py-3.5 text-black font-mono text-lg focus:outline-none focus-visible:outline-[3px] focus-visible:outline-dotted focus-visible:outline-offset-2 focus-visible:outline-black`}
         />
-        <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[10px] tracking-[0.2em] uppercase text-paper-soft">
+        <span className="absolute right-4 top-1/2 -translate-y-1/2 font-[family-name:var(--font-pixel)] text-base text-black">
           {unit}
         </span>
       </div>
