@@ -311,6 +311,14 @@
   margin-top: 28px;
 }
 
+/* A column of equal-width buttons, as wide as the widest label. */
+.buttonsStacked {
+  display: grid;
+  width: max-content;
+  gap: 14px;
+  margin-top: 30px;
+}
+
 .btn {
   display: inline-flex;
   min-height: 48px;
@@ -520,26 +528,15 @@
 
 /* ─── Home card ────────────────────────────────────────────────────────── */
 
-/* The Home card: a small ID photo beside the title, then the work. */
-.homeHead {
-  display: flex;
+.homeGrid {
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 28px;
+  gap: clamp(28px, 4vw, 56px);
 }
 
-.idPhoto {
-  --art: 150px;
-}
-
-/* Compound selector: .miniGrid, declared later, resets margin to 0. */
-.miniGrid.featured {
-  margin-top: 36px;
-}
-
-.miniLine {
-  padding: 0 4px 6px;
-  font-size: 15px;
-  line-height: 1.35;
+.homeGrid .art {
+  --art: 360px;
 }
 
 .availability {
@@ -718,51 +715,23 @@
   padding: 0 9px;
 }
 
-/* The proof list: a skill, then the card that shows it. Each row is a link
-   into that card, so the claim is one click from its evidence. */
-.proofLabel {
-  margin: 28px 0 10px;
+.timeline {
+  margin: 24px 0 0;
 }
 
-.proof {
-  margin: 0;
-  border: var(--rule-thin);
-  padding: 0;
-  list-style: none;
+.timeline > div + div {
+  margin-top: 14px;
 }
 
-.proof li + li {
-  border-top: 2px dotted var(--ink);
-}
-
-.proof a {
-  display: grid;
-  grid-template-columns: 7.5em minmax(0, 1fr) 24px;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  text-decoration: none;
-}
-
-.proof a:hover,
-.proof a:focus-visible {
-  background: var(--ink);
-  color: var(--card);
-  outline: none;
-}
-
-.proofSkill {
+.timeline dt {
   font-family: var(--font-pixel), system-ui, sans-serif;
-  font-size: 16px;
+  font-size: 24px;
+  font-weight: 400;
 }
 
-.proofWork strong {
-  display: block;
-}
-
-.proof svg {
-  width: 24px;
-  height: 24px;
+.timeline dd {
+  margin: 2px 0 0;
+  max-width: 58ch;
 }
 
 .script {
@@ -1211,6 +1180,7 @@ textarea.input {
     font-size: 44px;
   }
 
+  .homeGrid,
   .caseGrid,
   .engGrid,
   .buildGrid,
@@ -1218,10 +1188,10 @@ textarea.input {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .homeHead {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
+  .homeGrid .art {
+    --art: 280px;
+    order: -1;
+    justify-self: center;
   }
 
   .caseArt {
@@ -1255,14 +1225,6 @@ textarea.input {
 
   .miniGrid {
     justify-content: center;
-  }
-
-  .proof a {
-    grid-template-columns: minmax(0, 1fr) 24px;
-  }
-
-  .proofSkill {
-    grid-column: 1 / -1;
   }
 }
 
