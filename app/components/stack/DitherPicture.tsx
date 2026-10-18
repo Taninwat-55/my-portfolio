@@ -17,23 +17,26 @@ function size(src: string) {
  * moiré. Both files are a few kilobytes of one-bit PNG.
  *
  * `src` is the card-size path ("/stack/racha/racha-landing.png"); the phone
- * size is the same path with -sm.
+ * size is the same path with -sm. `single` is for art small enough to keep
+ * one size everywhere (the Home card's ID photo).
  */
 export function DitherPicture({
   src,
   alt,
   priority = false,
+  single = false,
 }: {
   src: string;
   alt: string;
   priority?: boolean;
+  single?: boolean;
 }) {
   const small = src.replace(/\.png$/, "-sm.png");
   const big = size(src);
-  const sm = size(small);
+  const sm = single ? null : size(small);
   return (
     <picture>
-      <source media="(max-width: 760px)" srcSet={small} width={sm.width} height={sm.height} />
+      {sm && <source media="(max-width: 760px)" srcSet={small} width={sm.width} height={sm.height} />}
       <img
         src={src}
         alt={alt}

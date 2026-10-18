@@ -57,6 +57,7 @@ Never quote an exact price or promise a delivery date. Anything specific is scop
 
 Answer questions about his background, skills, projects, and experience. Be conversational, concise, and honest.
 If asked something you don't know about him, say so rather than making things up.
+Describe how a project was built only from its "Built as" line. Never call a project full-stack, or say it has a backend, server or database, unless that line says so.
 Don't be overly promotional; be genuine and grounded.
 Never use em dashes in replies; use a comma, a colon or a full stop instead.
 Keep responses under 150 words unless a detailed answer clearly requires more.`;
@@ -67,7 +68,7 @@ Keep responses under 150 words unless a detailed answer clearly requires more.`;
  * answer a minute, and every other visitor waited ~50 s (measured 2026-10-05).
  * Each widget now sends only what its visitors ask about, about half the size,
  * and points to the other half by URL. The services widget runs on /services;
- * every clock page uses the portfolio one.
+ * the stack's message box uses the portfolio one.
  */
 const PORTFOLIO_CONTEXT = `== ABOUT ==
 ${siteContent.aboutStory.join("\n\n")}
@@ -84,6 +85,7 @@ ${cases
   .map((c) =>
     [
       `- ${c.title} (${c.tag}${c.concept ? ", concept piece" : ""}): ${c.sub}`,
+      `  Built as: ${c.scope}`,
       `  Stack: ${c.stack.join(", ")}. Results: ${c.metrics.map((m) => `${m.v} ${m.k}`).join(", ")}.`,
       `  Case study: https://taninwatkaewpankan.xyz/cases/${c.id}`,
       // "Is it live?" and "where's the code?" are typical recruiter questions.

@@ -28,7 +28,7 @@ An engineer who has run things. Ice ships real product (frontend at Trailr AI, a
 - Recruiters skim on a laptop between other candidates; clients often browse on a phone.
 - The site is judged as a work sample in itself: as a frontend developer's portfolio, its craft is evidence.
 - An AI chatbot answers questions about Ice, grounded in `app/data.ts`.
-- Enquiries go through the `/services` form (Resend, rate-limited) and the `/contact` postcard.
+- Enquiries go through one endpoint (`/api/services-enquiry`, Resend, rate-limited), reached from the `/services` form and the stack's Build mine card (`/build`).
 
 ## Capabilities and Constraints
 
@@ -37,7 +37,7 @@ An engineer who has run things. Ice ships real product (frontend at Trailr AI, a
 - Four languages: English, Thai (`/th`), Swedish (`/sv`), Danish (`/da`).
 - The headline title is **Full-stack Engineer**. "Web developer" is used only on `/services`, for the audience that searches for it.
 - Performance rule: anything in the first viewport must render without waiting for hydration (`<FadeIn immediate>`); the default path once cost an LCP of 7.9s.
-- Current homepage: the "clock" (illustrated portrait on a disc, a pointing hand, paper objects that open in place), with pages behind it in a paper-on-desk world. This is the incumbent, **not a binding commitment**; it may change if a critique makes the case.
+- Current homepage: "Ice's Stack", a one-bit HyperCard-style stack of cards (since 2026-10-18; DESIGN.md is the system of record). The work leads: the site exists to showcase projects and his design, frontend and engineering craft, not his life story. Older pages keep the paper-on-desk world until their phase 2 reskin.
 
 ## Brand Commitments
 

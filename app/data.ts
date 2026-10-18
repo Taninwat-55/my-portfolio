@@ -418,6 +418,13 @@ export interface CaseStudy {
   id: string;
   n: string;
   tag: string;
+  /**
+   * What kind of build it is, in plain words: frontend only, full-stack, or
+   * not software. The chatbot reads this; without it, it saw "Full-stack
+   * Engineer" plus a React stack and called Racha, a static site with no
+   * backend, "full-stack" (2026-10-18).
+   */
+  scope: string;
   title: string;
   sub: string;
   images: string[];
@@ -441,6 +448,7 @@ export const cases: CaseStudy[] = [
     id: "millennial",
     n: "01",
     tag: "Management",
+    scope: "Not a software project: operations and people leadership at a volunteer consulting organization.",
     title: "Millennial Consulting",
     sub: "Coordinating a 25+ consultant student consultancy across simultaneous client projects.",
     images: [
@@ -480,6 +488,7 @@ export const cases: CaseStudy[] = [
     id: "trailr",
     n: "02",
     tag: "Product",
+    scope: "Frontend and product work on an existing platform. Ice owned the UI/UX redesign and the React frontend; the backend belongs to the team and was not his.",
     title: "Trailr AI",
     sub: "Leading a platform redesign at an early-stage AI video startup.",
     images: [
@@ -512,6 +521,7 @@ export const cases: CaseStudy[] = [
     id: "bevisly",
     n: "03",
     tag: "Full-Stack",
+    scope: "Full-stack: a React frontend on Supabase (Postgres with row-level security, auth and storage).",
     title: "Bevisly",
     sub: "Turn skill claims into structured, verifiable proof.",
     images: [
@@ -539,6 +549,7 @@ export const cases: CaseStudy[] = [
     id: "mockmate",
     n: "04",
     tag: "Full-Stack",
+    scope: "Full-stack: a Next.js app with a Prisma-backed database and a server-side AI grading pipeline.",
     title: "MockMate",
     sub: "Paste a job description. Get a tailored interview. Get graded like a hiring panel would.",
     images: [
@@ -566,6 +577,7 @@ export const cases: CaseStudy[] = [
     id: "satoshi",
     n: "05",
     tag: "FinTech",
+    scope: "Frontend only: a React dashboard that reads a live public price API. No backend of its own.",
     title: "Satoshi Standard",
     sub: "Live Bitcoin purchasing-power dashboard across every major currency.",
     images: [
@@ -601,6 +613,7 @@ export const cases: CaseStudy[] = [
     id: "cinema",
     n: "06",
     tag: "Full-Stack",
+    scope: "Full-stack: a React frontend with a Node.js REST API and a PostgreSQL database.",
     title: "Cinema Booking",
     sub: "My first full-stack project, a complete booking system built with a team of students at Jensen.",
     images: [
@@ -631,6 +644,7 @@ export const cases: CaseStudy[] = [
     id: "racha",
     n: "07",
     tag: "Client Work",
+    scope: "Frontend only: a static React site with no backend or database. The contact form posts to Web3Forms, a hosted form service.",
     title: "Racha Beauty",
     sub: "A paying client's first website: 95+ Lighthouse, Danish-language, no maintenance budget.",
     images: [
@@ -672,6 +686,7 @@ export const cases: CaseStudy[] = [
     concept: true,
     n: "08",
     tag: "Motion & Craft",
+    scope: "Frontend only: a static HTML, CSS and JavaScript page with no backend, and a concept with no client.",
     title: "Lumina Spa",
     sub: "A self-initiated scroll-choreography piece: ten animated sections, no build step, 10.8 KB over the wire.",
     images: [
@@ -704,6 +719,7 @@ export const cases: CaseStudy[] = [
     concept: true,
     n: "09",
     tag: "Motion & Craft",
+    scope: "Frontend only: a static page built on the platform alone (canvas and CSS), no backend, and a concept with no client.",
     title: "Saep Fire Kitchen",
     sub: "A concept piece for an invented Thai restaurant: scroll-driven, every ingredient drawn in code, and no animation library underneath it.",
     images: [
@@ -1692,8 +1708,15 @@ export const stackContent = {
       "I'm Ice (Taninwat Kaewpankan), a full-stack engineer in Copenhagen, and every card in this stack is something I built.",
     availability: clockContent.availability,
     portraitAlt: "Ice, dithered in black and white: glasses, a dark blazer over a light shirt, a small smile.",
+    // The work leads the Home card (Ice, 2026-10-18: "showcase the projects,
+    // not my life"). One of each kind: client site, product, full-stack.
+    featured: [
+      { id: "racha", line: "Client website, 95+ Lighthouse" },
+      { id: "trailr", line: "Led the UI/UX redesign" },
+      { id: "bevisly", line: "Full-stack, Postgres row-level security" },
+    ],
     buttons: [
-      { label: "See the work", href: "/cases/racha" },
+      { label: "See all 12 cards", href: "/work" },
       { label: "Build mine", href: "/build" },
       { label: "Engineer", href: "/engineer" },
     ],
@@ -1716,14 +1739,16 @@ export const stackContent = {
     title: "Engineer",
     lead: "Full-stack engineer in Copenhagen. TypeScript from the interface to the database.",
     stack: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"],
-    now: {
-      label: "Now",
-      text: "Product engineer at Trailr AI, an early-stage AI video startup, part-time with equity warrants. I joined as a frontend intern and led the platform's UI/UX redesign, scoped to what the existing backend could support.",
-    },
-    before: {
-      label: "Before",
-      text: "Four cycles at Millennial Consulting, from Operations Assistant to Operations Manager to Head of Organization, coordinating around five client projects per cycle with no full-time staff.",
-    },
+    // Each skill pointed at the card that proves it, rather than a CV in
+    // miniature. Every line restates a claim the case card itself backs up.
+    proofLabel: "What I do, and the card that shows it",
+    proof: [
+      { skill: "Design", id: "trailr", line: "Led the platform's UI/UX redesign" },
+      { skill: "Frontend", id: "racha", line: "95+ Lighthouse on first deploy" },
+      { skill: "Full-stack", id: "bevisly", line: "Postgres row-level security on Supabase" },
+      { skill: "", id: "mockmate", line: "AI grading pipeline on Next.js and Prisma" },
+      { skill: "Leadership", id: "millennial", line: "Operations Assistant to Head of Organization" },
+    ],
     cv: { label: "Read my CV", href: "/cv" },
     pdf: { label: "Download the PDF", href: "/assets/Taninwat_Kaewpankan_CV.pdf" },
     scriptTitle: "Script of card “Ice's Stack”",
@@ -1889,7 +1914,7 @@ Add-ons are itemised and each has ONE price. You may quote these; they are publi
 ${services.offers[0]
   .addOns!.items.map((a) => `- ${a.name}: ${a.price}${a.note ? ` (${a.note})` : ""}`)
   .join("\n")}
-${services.offers[0].addOns!.included} Taking payment and anything involving logins are capabilities Ice has built on his own products — Bevisly and MockMate — rather than for a client. Say that plainly if asked; never imply a client build that does not exist.
+${services.offers[0].addOns!.included} Taking payment and anything involving logins are capabilities Ice has built on his own products (Bevisly and MockMate) rather than for a client. Say that plainly if asked; never imply a client build that does not exist.
 
 What the site costs to keep: there is no platform fee. Hosting fits a free tier or costs 500 – 1.500 kr a year on a Danish webhotel, and a .dk domain is about 100 kr a year, so five years of running cost is about ${services.runningCosts.fiveYear.value}. Self-editing is a one-off add-on Ice sets up, free to run afterwards; nobody can rearrange the layout themselves. All of these yearly costs are paid by the client directly to their host and registrar, never to Ice, and he does not mark up other people's invoices. If someone worries about an ongoing bill from him, say that plainly.
 
@@ -1903,13 +1928,13 @@ Every build includes per-page search setup and Google Business connection, setup
 
 Note that his shipped client work to date is hand-coded. Webflow and Framer are in his skill list as skills, but he does not sell builder sites and has no Webflow or Framer client work; never offer either or claim case studies.
 
-How he works: a short call, then a written scope with a fixed price and a delivery date before any work starts. Fixed price is the default, and it is how a website is sold — the client knows the number before anything begins and Ice carries the risk if it runs long. Where scope genuinely cannot be pinned down, such as ongoing frontend work on a product or an open-ended list of changes, he bills by the day at ${services.offers[1].priceRange} instead. Never say he refuses hourly or time-based work: the day rate is a published offer on the same page. He does the work himself — there is no agency and no handoff to someone else. The code, domain and hosting all end up in the client's name.
+How he works: a short call, then a written scope with a fixed price and a delivery date before any work starts. Fixed price is the default, and it is how a website is sold: the client knows the number before anything begins and Ice carries the risk if it runs long. Where scope genuinely cannot be pinned down, such as ongoing frontend work on a product or an open-ended list of changes, he bills by the day at ${services.offers[1].priceRange} instead. Never say he refuses hourly or time-based work: the day rate is a published offer on the same page. He does the work himself. There is no agency and no handoff to someone else. The code, domain and hosting all end up in the client's name.
 
 What he does not take on: native iOS/Android apps, paid advertising campaigns, redesigns or ongoing patching of builder sites (WordPress, Wix, Squarespace; those get rebuilt in code), and large backend-heavy platforms built from nothing.
 
 VAT: ${vat.briefing}
 
-Availability: he takes a few projects at a time, so it varies. You may state the price ranges listed above, because they are published on the services page. Never invent a figure outside them, never quote an exact price for a specific project, and never promise a delivery date — every project is scoped individually. Point people at the enquiry form on /services, which asks for project type, budget and timeline so he can reply with something specific.
+Availability: he takes a few projects at a time, so it varies. You may state the price ranges listed above, because they are published on the services page. Never invent a figure outside them, never quote an exact price for a specific project, and never promise a delivery date: every project is scoped individually. Point people at the enquiry form on /services, which asks for project type, budget and timeline so he can reply with something specific.
 
 Being available for freelance work does not conflict with him being open to employment. Do not raise his job search, his CV, or his availability for hire with someone who is asking about hiring him for a project.
 `.trim();
