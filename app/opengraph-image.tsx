@@ -1,171 +1,48 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { ImageResponse } from "next/og";
-import { clockContent, personalInfo, siteContent } from "./data";
-import { ogBackdrop, OG_ACCENT } from "./lib/og-backdrop";
+import { clockContent, siteContent, stackContent } from "./data";
+import { OG_FONT, OG_SIZE, stackOgImage } from "./lib/og-card";
 
-export const size = { width: 1200, height: 630 };
+export const size = OG_SIZE;
 export const contentType = "image/png";
-
-const DISC = 420;
-
-// The site's typeface, so the card matches the page it links to (until
-// 2026-10-05 it rendered in next/og's default font). The same SemiBold file
-// /th's card bundles; satori reads ttf but not woff2 (see assets/fonts). The
-// card's 700 and 800 headings use this one weight, the nearest available.
-const kanit = readFile(path.join(process.cwd(), "assets/fonts/Kanit-SemiBold.ttf"));
+export const alt = "Ice's Stack: Ice (Taninwat Kaewpankan), full-stack engineer in Copenhagen.";
 
 /**
- * The homepage's share card, matching the clock homepage: Ice's portrait on its
- * disc on the right, who and what on the left.
- *
- * The portrait is a PNG because next/og (satori) cannot decode WebP. It is read
- * from disk at build time, since this route is prerendered.
+ * The homepage's share card: the Home card itself, in miniature. Title,
+ * one line, availability and the stack on the left; the dithered portrait
+ * on the right, drawn 1:1 from public/stack/ice-portrait-og.png.
  */
 export default async function OgImage() {
-  const portrait = await readFile(path.join(process.cwd(), "public/clock/face-neutral.png"));
+  const portrait = await readFile(path.join(process.cwd(), "public/stack/ice-portrait-og.png"));
   const portraitSrc = `data:image/png;base64,${portrait.toString("base64")}`;
 
-  return new ImageResponse(
-    <div
-      style={{
-        width: 1200,
-        height: 630,
-        ...ogBackdrop(OG_ACCENT.home),
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "64px 72px 64px 80px",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Left: who and what */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          height: "100%",
-          width: 620,
-        }}
-      >
+  return stackOgImage(
+    <div style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center" }}>
+      <div style={{ display: "flex", flexDirection: "column", width: 600, gap: 22 }}>
+        <div style={{ display: "flex", fontFamily: OG_FONT.display, fontSize: 88, lineHeight: 1 }}>
+          {stackContent.home.title}
+        </div>
+        <div style={{ display: "flex", fontFamily: OG_FONT.body, fontSize: 30, lineHeight: 1.35 }}>
+          {siteContent.roleLabel} in Copenhagen. Every card in this stack is something I built.
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, fontFamily: OG_FONT.body, fontWeight: 700, fontSize: 22 }}>
+          <div style={{ display: "flex", width: 14, height: 14, background: "#000" }} />
+          {clockContent.availability}
+        </div>
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 52,
-            height: 52,
-            borderRadius: 12,
-            background: "#D7E2EA",
-            fontSize: 17,
-            fontWeight: 700,
-            color: "#0C0C0C",
-            letterSpacing: "-0.5px",
+            alignSelf: "flex-start",
+            border: "3px solid #000",
+            padding: "8px 16px",
+            fontFamily: OG_FONT.pixel,
+            fontSize: 22,
           }}
         >
-          ICE
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 14,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              color: "#7FC8E3",
-              fontFamily: "monospace",
-            }}
-          >
-            {/* The job title, not the client tagline: the homepage now leads
-                with it, and the share card should say what the page says. */}
-            {siteContent.roleLabel} · Copenhagen
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 84,
-              fontWeight: 800,
-              lineHeight: 0.95,
-              letterSpacing: "-3px",
-              textTransform: "uppercase",
-              color: "#BBCCD7",
-            }}
-          >
-            Hi, I&apos;m Ice
-          </div>
-          <div style={{ display: "flex", fontSize: 24, color: "rgba(215, 226, 234, 0.85)" }}>
-            {personalInfo.name}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 20,
-              lineHeight: 1.45,
-              color: "rgba(215, 226, 234, 0.6)",
-              maxWidth: 560,
-            }}
-          >
-            {clockContent.availability}
-          </div>
-          <div style={{ display: "flex", gap: 10, marginTop: 6 }}>
-            {/* A deliberate four-tag pick for a 1200px card, not a mirror of
-                cvData.skills. PostgreSQL is here because the title is full-stack. */}
-            {["React", "TypeScript", "Next.js", "PostgreSQL"].map((tag) => (
-              <div
-                key={tag}
-                style={{
-                  display: "flex",
-                  padding: "6px 14px",
-                  borderRadius: 6,
-                  border: "1px solid rgba(215, 226, 234, 0.15)",
-                  background: "rgba(255, 255, 255, 0.04)",
-                  fontSize: 13,
-                  color: "rgba(215, 226, 234, 0.6)",
-                  fontFamily: "monospace",
-                  letterSpacing: "0.04em",
-                }}
-              >
-                {tag}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            fontSize: 14,
-            letterSpacing: "0.1em",
-            color: "rgba(215, 226, 234, 0.4)",
-            fontFamily: "monospace",
-          }}
-        >
-          taninwatkaewpankan.xyz
+          {stackContent.engineer.stack.join(" · ")}
         </div>
       </div>
-
-      {/* Right: the portrait on its disc, as on the homepage */}
-      <div
-        style={{
-          display: "flex",
-          position: "relative",
-          width: DISC,
-          height: DISC,
-          borderRadius: "50%",
-          backgroundImage: "radial-gradient(circle at 50% 40%, #2b3843, #1c252d 72%)",
-          border: "1px solid rgba(127, 200, 227, 0.14)",
-        }}
-      >
-        {/* A plain <img>: satori renders it, next/image does not apply here. */}
-        <img src={portraitSrc} width={DISC} height={DISC} alt="" style={{ position: "absolute", left: 0, top: 0 }} />
-      </div>
+      <img src={portraitSrc} width={288} height={383} alt="" style={{ border: "3px solid #000" }} />
     </div>,
-    {
-      ...size,
-      fonts: [{ name: "Kanit", data: await kanit, weight: 600, style: "normal" }],
-    },
   );
 }

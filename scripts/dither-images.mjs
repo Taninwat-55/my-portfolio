@@ -31,7 +31,47 @@ const SIZES = [
   { suffix: "-sm", width: 320 },
   { suffix: "-thumb", width: 240 },
 ];
-const PORTRAIT = { src: "assets/stack-src/ice-portrait.jpg", sizes: [{ suffix: "", width: 360 }, { suffix: "-sm", width: 280 }] };
+const PORTRAIT = {
+  src: "assets/stack-src/ice-portrait.jpg",
+  // 288px (384 tall) is the share card's portrait (app/lib/og-card.tsx), drawn 1:1
+  // inside the card's 396px inner height.
+  sizes: [{ suffix: "", width: 360 }, { suffix: "-sm", width: 280 }, { suffix: "-og", width: 288 }],
+};
+
+/**
+ * The share cards' backdrop, 1200x630: the stack's desk (25% stipple), the
+ * menu bar, and an empty ruled card with two stacked edges. Drawn here as
+ * pixels because satori (next/og) cannot tile a stipple pattern; the cards
+ * set their text over it. Geometry is mirrored in app/lib/og-card.tsx.
+ */
+export const OG = { w: 1200, h: 630, bar: 48, card: { x: 56, y: 84, w: 1074, h: 500 }, edge: 7, rule: 3, radius: 10 };
+
+function ogDesk() {
+  const { w, h, bar, card, edge, rule, radius } = OG;
+  const px = Buffer.alloc(w * h, 255);
+  const set = (x, y, v) => (px[y * w + x] = v);
+  // Desk: 25% stipple, the same tile as the site's desk.
+  for (let y = bar + rule; y < h; y++) for (let x = 0; x < w; x++) if (x % 2 === 0 && y % 2 === 0) set(x, y, 0);
+  // Menu bar rule.
+  for (let y = bar; y < bar + rule; y++) for (let x = 0; x < w; x++) set(x, y, 0);
+  // A rounded, ruled, white rectangle.
+  const box = (bx, by, bw, bh) => {
+    for (let y = by; y < by + bh; y++) {
+      for (let x = bx; x < bx + bw; x++) {
+        const cx = x < bx + radius ? bx + radius : x >= bx + bw - radius ? bx + bw - radius - 1 : x;
+        const cy = y < by + radius ? by + radius : y >= by + bh - radius ? by + bh - radius - 1 : y;
+        const d = Math.hypot(x - cx, y - cy);
+        if (d > radius) continue;
+        const edgeDist = Math.min(x - bx, bx + bw - 1 - x, y - by, by + bh - 1 - y, radius - d);
+        set(x, y, edgeDist < rule ? 0 : 255);
+      }
+    }
+  };
+  box(card.x + edge * 2, card.y + edge * 2, card.w, card.h);
+  box(card.x + edge, card.y + edge, card.w, card.h);
+  box(card.x, card.y, card.w, card.h);
+  return px;
+}
 
 /**
  * Atkinson error diffusion on a greyscale buffer. Only 6/8 of the error is
@@ -199,6 +239,14 @@ async function main() {
     path.join(ROOT, "app/icon.png"),
     "Not generated. A 32x32 one-bit face drawn pixel by pixel in code (pixelFace() in scripts/dither-images.mjs), after Ice's portrait.",
   );
+
+  // The share cards' backdrop.
+  const desk = path.join(ROOT, "public/stack/og-desk.png");
+  await sharp(ogDesk(), { raw: { width: OG.w, height: OG.h, channels: 1 } })
+    .png({ palette: true, colours: 2, compressionLevel: 9 })
+    .toFile(desk);
+  await embedOrigin(desk, "Not generated. The share-card backdrop (desk stipple, menu bar, ruled card), drawn pixel by pixel in ogDesk() in scripts/dither-images.mjs.");
+  manifest["/stack/og-desk.png"] = [OG.w, OG.h];
 
   await writeFile(path.join(ROOT, "app/stack-manifest.json"), JSON.stringify(manifest, null, 1) + "\n");
   console.log(`Dithered ${Object.keys(manifest).length} images into public/stack/, plus app/icon.png and app/stack-manifest.json`);

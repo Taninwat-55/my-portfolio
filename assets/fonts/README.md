@@ -1,27 +1,21 @@
 # Bundled fonts
 
-## Kanit-SemiBold.ttf
-
-Used **only** by `app/th/opengraph-image.tsx`.
+Used **only** by the share cards (`app/lib/og-card.tsx`, rendered by every
+`opengraph-image.tsx`). The site itself loads its faces through `next/font`.
 
 `next/og` renders through satori, which needs raw font bytes and supports
-**ttf, otf and woff — not woff2**. `next/font/google` does not expose the files it
-downloads, and everything it caches is woff2, so the OG route cannot reuse them.
-Without this file every Thai character on the `/th` share card renders as a tofu
-box, which is worse than no card at all on a page whose whole channel is being
-pasted into Facebook groups.
+**ttf, otf and woff, not woff2**. `next/font/google` does not expose the files
+it downloads, and everything it caches is woff2, so the share cards cannot reuse
+them. These are static (non-variable) woff files, one per weight and subset.
 
-Kanit rather than Noto Sans Thai because Kanit is already the site's body
-typeface (`--font-kanit`, see `app/layout.tsx`), so the card matches the page.
+| File | Role on the card |
+| --- | --- |
+| `pixelify-sans-latin-700.woff` | Card titles (as on the site) |
+| `dotgothic16-latin-400.woff` | Menu bar, figures, the stack field |
+| `atkinson-hyperlegible-latin-{400,700}.woff` | Body text and row labels |
+| `chakra-petch-{thai,latin}-{400,700}.woff` | Every word on the `/th` card |
 
-- **Source:** <https://github.com/google/fonts/tree/main/ofl/kanit> (canonical
-  upstream — Google Fonts' CSS endpoint serves woff2 to modern clients and EOT to
-  old ones, never a usable ttf)
-- **Version:** v17, SemiBold (600). One weight only; the card needs no others.
-- **Licence:** SIL Open Font License 1.1 — see `OFL.txt`. Bundling and
-  redistribution are permitted; the licence file must travel with the font.
-- **Coverage checked:** 87 of the 91 assigned codepoints in U+0E01–U+0E5B, plus
-  Latin. The four absent are unassigned in Unicode.
-
-Not in `public/` on purpose: it is read at build time by the OG route and should
-never be served to visitors as a static asset.
+- **Source:** Fontsource's CDN (`cdn.jsdelivr.net/fontsource/fonts/<family>@latest/<subset>-<weight>-normal.woff`),
+  which republishes the Google Fonts releases as static files. Fetched 2026-10-18.
+- **Licence:** all four families are under the SIL Open Font License 1.1
+  (`OFL.txt`), which allows bundling and redistribution with software.
