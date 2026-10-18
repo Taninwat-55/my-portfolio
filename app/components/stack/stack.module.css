@@ -1,0 +1,1228 @@
+/*
+ * Ice's Stack: the portfolio as a HyperCard stack.
+ *
+ * The rules, which are the whole design:
+ *   - One bit. Ink is #000, card is #fff. Greys exist only as stipple fills
+ *     (4x4 one-bit SVG tiles, see stack-global.css), and no stipple ever sits
+ *     behind text.
+ *   - The only colour on the site is a client's real work, after "develop".
+ *   - Pixel faces: --font-display (Pixelify) for card titles only, and
+ *     --font-pixel (Tiny5) for menus, buttons, headings and labels (fonts.ts
+ *     says why two). Tiny5 is set only at 16 or 24px: its strokes land on
+ *     whole pixels at multiples of 8 and split unevenly in between. Atkinson Hyperlegible (--font-atkinson) for anything
+ *     read at length.
+ *   - Depth is stacked card edges and borders, never blur or offset shadows.
+ *   - Active means inverted: black ground, white ink.
+ */
+
+.desk {
+  --ink: #000;
+  --card: #fff;
+  --rule: 3px solid var(--ink);
+  --rule-thin: 2px solid var(--ink);
+  --radius: 8px;
+  --card-pad: clamp(20px, 3.4vw, 44px);
+  /* Dithered artwork is drawn at exactly the width it was dithered at
+     (scripts/dither-images.mjs): 480 here, 320 on phones. */
+  --art: 480px;
+
+  position: relative;
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+  background-color: var(--card);
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'4'%20height%3D'4'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'0'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'0'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3C%2Fsvg%3E");
+  background-size: 4px 4px;
+  color: var(--ink);
+  font-family: var(--font-atkinson), system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  caret-color: var(--ink);
+  image-rendering: auto;
+  /* Never fake a weight the pixel faces do not ship: a synthesised bold
+     smears the pixel grid. */
+  font-synthesis: none;
+}
+
+/* The page under the desk shows on overscroll; keep it paper, not night. */
+:global(body):has(.desk) {
+  background: #fff;
+}
+
+.desk ::selection {
+  background: var(--ink);
+  color: var(--card);
+}
+
+.desk :focus-visible {
+  outline: 3px dotted var(--ink);
+  outline-offset: 3px;
+}
+
+.desk a {
+  color: inherit;
+}
+
+/* Thai, Danish and Swedish names in the menus fall back to Kanit, which the
+   root layout already loads; Pixelify has no Thai. */
+.pixel {
+  font-family: var(--font-pixel), var(--font-kanit), system-ui, sans-serif;
+}
+
+/* ─── Menu bar ─────────────────────────────────────────────────────────── */
+
+.menubar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 4px;
+  border-bottom: var(--rule);
+  background: var(--card);
+  padding: 0 12px;
+  font-family: var(--font-pixel), var(--font-kanit), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.stackIcon {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 10px;
+  padding: 4px 8px;
+  text-decoration: none;
+}
+
+.stackIcon img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
+
+.menu {
+  position: relative;
+}
+
+.menu > summary {
+  cursor: default;
+  list-style: none;
+  padding: 10px 12px;
+}
+
+.menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.menu > summary:hover,
+.menu[open] > summary {
+  background: var(--ink);
+  color: var(--card);
+}
+
+.menuList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 200px;
+  margin: 0;
+  border: var(--rule-thin);
+  background: var(--card);
+  padding: 4px 0;
+  list-style: none;
+}
+
+/* A drop shadow in the world's own material: a stipple strip, offset. */
+.menuList::after {
+  content: "";
+  position: absolute;
+  inset: 4px -6px -6px 4px;
+  z-index: -1;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'4'%20height%3D'4'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'0'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'1'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'1'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'0'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'3'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'3'%20width%3D'1'%20height%3D'1'%2F%3E%3C%2Fsvg%3E");
+  background-size: 4px 4px;
+}
+
+.menuList a {
+  display: block;
+  padding: 9px 18px;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.menuList a:hover,
+.menuList a:focus-visible {
+  background: var(--ink);
+  color: var(--card);
+  outline: none;
+}
+
+.langs {
+  display: flex;
+  margin-left: auto;
+  gap: 2px;
+}
+
+.langs a {
+  padding: 10px 8px;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.langs a:hover {
+  background: var(--ink);
+  color: var(--card);
+}
+
+.langShort {
+  display: none;
+}
+
+/* Pixelify has no Thai, so ไทย falls back to Kanit, which runs larger and
+   heavier; bring it to the bar's size and weight. */
+.langs a:lang(th) {
+  font-family: var(--font-kanit), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.langs a[aria-current="true"] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+/* ─── The card on the desk ─────────────────────────────────────────────── */
+
+.stage {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(16px, 3vw, 36px) 16px 8px;
+}
+
+.frame {
+  position: relative;
+  width: min(1100px, 100%);
+}
+
+/* Two cards under this one: the stack's edges, bottom right, each a shade
+   of stipple darker the deeper it sits, the way the card stack drew depth. */
+.frame::before,
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: var(--rule);
+  border-radius: var(--radius);
+  background-color: var(--card);
+  background-size: 4px 4px;
+}
+
+.frame::before {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'4'%20height%3D'4'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'0'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'1'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'1'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'0'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'3'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'3'%20width%3D'1'%20height%3D'1'%2F%3E%3C%2Fsvg%3E");
+}
+
+.frame::after {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'4'%20height%3D'4'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'0'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'0'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3C%2Fsvg%3E");
+}
+
+.frame::before {
+  transform: translate(10px, 10px);
+}
+
+.frame::after {
+  transform: translate(5px, 5px);
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  min-height: min(640px, calc(100dvh - 210px));
+  border: var(--rule);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: var(--card-pad);
+}
+
+/* ─── Type ─────────────────────────────────────────────────────────────── */
+
+.title {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  /* Whole pixels only: a fluid size puts the face off its pixel grid and
+     blurs the edges. 64 here, 44 on phones. */
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.lead {
+  margin: 18px 0 0;
+  max-width: 54ch;
+  font-size: clamp(18px, 1.5vw, 20px);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.body {
+  margin: 0;
+  max-width: 66ch;
+  text-wrap: pretty;
+}
+
+.small {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.inlineLink {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.inlineLink:hover {
+  background: var(--ink);
+  color: var(--card);
+  text-decoration: none;
+}
+
+/* ─── Buttons: painted, rounded, inverted when pressed ─────────────────── */
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+/* A column of equal-width buttons, as wide as the widest label. */
+.buttonsStacked {
+  display: grid;
+  width: max-content;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.btn {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: var(--rule-thin);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+  padding: 0 22px;
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-width: 3px;
+  padding: 0 21px;
+}
+
+.btn:active,
+.btn[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--card);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  border-style: dashed;
+}
+
+/* The default button: the classic heavy ring around the one you should press. */
+.btnDefault {
+  border-width: 3px;
+  box-shadow:
+    0 0 0 3px var(--card),
+    0 0 0 6px var(--ink);
+}
+
+.btnDefault:hover {
+  padding: 0 22px;
+}
+
+.btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ─── Bottom nav bar ───────────────────────────────────────────────────── */
+
+.nav {
+  display: grid;
+  width: min(1100px, 100%);
+  grid-template-columns: auto auto 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  border: var(--rule);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: 6px;
+}
+
+.navBtn {
+  display: inline-flex;
+  width: 52px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: var(--rule-thin);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--ink);
+}
+
+.navBtn:hover,
+.navBtn[aria-current="page"] {
+  background: var(--ink);
+  color: var(--card);
+}
+
+.navBtn[aria-disabled="true"] {
+  border-style: dashed;
+  pointer-events: none;
+}
+
+.navBtn svg {
+  width: 32px;
+  height: 32px;
+}
+
+.navPos {
+  text-align: center;
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* ─── Fields, scrolling fields, windows ────────────────────────────────── */
+
+.art {
+  width: calc(var(--art) + 4px);
+  flex: none;
+  margin: 0;
+  border: var(--rule-thin);
+  background: var(--card);
+  line-height: 0;
+}
+
+.art img {
+  display: block;
+  width: var(--art);
+  height: auto;
+  image-rendering: pixelated;
+}
+
+/* The screenshot's window: the art loses its own rule inside the frame. */
+.artWindow {
+  width: fit-content;
+}
+
+.artWindow .art {
+  border: 0;
+  width: var(--art);
+}
+
+.caption {
+  border-top: var(--rule-thin);
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* The case write-up's field. It shows everything: a capped scrolling field
+   hid half of every story behind a scrollbar no browser reliably drew. */
+.scrollField {
+  border: var(--rule-thin);
+  padding: 18px 22px;
+}
+
+.script::-webkit-scrollbar {
+  height: 18px;
+}
+
+.script::-webkit-scrollbar-track {
+  border-top: var(--rule-thin);
+  background-color: var(--card);
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'4'%20height%3D'4'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'0'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'1'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'1'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'0'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'3'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'3'%20width%3D'1'%20height%3D'1'%2F%3E%3C%2Fsvg%3E");
+  background-size: 4px 4px;
+}
+
+.script::-webkit-scrollbar-thumb {
+  border: var(--rule-thin);
+  background: var(--card);
+}
+
+.scrollSection + .scrollSection {
+  margin-top: 22px;
+}
+
+.scrollSection h2 {
+  margin: 0 0 6px;
+}
+
+.window {
+  border: var(--rule);
+  border-radius: 6px;
+  background: var(--card);
+  overflow: hidden;
+}
+
+/* The striped title bar of a classic Mac window: 1px rules, a close box, and
+   the title set on a white plate in the middle. */
+.titlebar {
+  position: relative;
+  display: flex;
+  height: 26px;
+  align-items: center;
+  justify-content: center;
+  border-bottom: var(--rule-thin);
+  background: repeating-linear-gradient(var(--card) 0 3px, var(--ink) 3px 4px);
+  background-clip: content-box;
+  padding: 4px 6px;
+}
+
+.titlebar span {
+  background: var(--card);
+  padding: 0 10px;
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.closeBox {
+  position: absolute;
+  left: 12px;
+  width: 14px;
+  height: 14px;
+  border: var(--rule-thin);
+  background: var(--card);
+}
+
+/* ─── Home card ────────────────────────────────────────────────────────── */
+
+.homeGrid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: clamp(28px, 4vw, 56px);
+}
+
+.homeGrid .art {
+  --art: 360px;
+}
+
+.availability {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 18px 0 0;
+  font-weight: 700;
+}
+
+/* A one-bit "on" lamp: a solid square, the way old Macs drew a selected box. */
+.availability::before {
+  content: "";
+  flex: none;
+  width: 12px;
+  height: 12px;
+  background: var(--ink);
+  transform: translateY(1px);
+}
+
+.hint {
+  margin: 26px 0 0;
+  font-size: 15px;
+}
+
+/* ─── Project card ─────────────────────────────────────────────────────── */
+
+.caseGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr;
+  gap: 28px clamp(24px, 3.4vw, 48px);
+}
+
+.caseHead {
+  min-width: 0;
+}
+
+.sub {
+  margin: 16px 0 0;
+  max-width: 46ch;
+  font-size: 19px;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 18px;
+  margin: 22px 0 0;
+}
+
+.facts dt {
+  font-weight: 700;
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.builtWith {
+  margin: 18px 0 0;
+  font-size: 15px;
+}
+
+.note {
+  display: inline-block;
+  margin-top: 16px;
+  border: var(--rule-thin);
+  padding: 4px 10px;
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.caseArt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.caseText {
+  grid-column: 1 / -1;
+}
+
+/* ─── Develop into colour ──────────────────────────────────────────────── */
+
+.develop {
+  position: relative;
+}
+
+.colour {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  image-rendering: auto !important;
+  visibility: hidden;
+}
+
+/* The colour comes up through the stipple densities, like a print in the
+   tray: the world's own dots, not a fade. */
+.developed .colour {
+  visibility: visible;
+  animation: develop 700ms steps(1, end) both;
+  mask-size: 4px 4px;
+  mask-repeat: repeat;
+}
+
+@keyframes develop {
+  0% {
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'4'%20height%3D'4'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'0'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3C%2Fsvg%3E");
+  }
+  20% {
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'4'%20height%3D'4'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'0'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'0'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3C%2Fsvg%3E");
+  }
+  40% {
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'4'%20height%3D'4'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'0'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'1'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'1'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'0'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'3'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'3'%20width%3D'1'%20height%3D'1'%2F%3E%3C%2Fsvg%3E");
+  }
+  60% {
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'4'%20height%3D'4'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'0'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'0'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'1'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'1'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'0'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'2'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'1'%20y%3D'3'%20width%3D'1'%20height%3D'1'%2F%3E%3Crect%20x%3D'3'%20y%3D'3'%20width%3D'1'%20height%3D'1'%2F%3E%3C%2Fsvg%3E");
+  }
+  80%,
+  100% {
+    mask-image: none;
+  }
+}
+
+.developHint {
+  max-width: calc(var(--art) + 4px);
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* ─── Engineer card ────────────────────────────────────────────────────── */
+
+.engGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: clamp(24px, 3.4vw, 48px);
+  align-items: start;
+}
+
+/* The stack as a field of words, square-cornered so nothing in it reads as
+   a button: in this world, round corners mean "press me". */
+.stackList {
+  display: flex;
+  width: fit-content;
+  flex-wrap: wrap;
+  gap: 4px 0;
+  margin: 20px 0 0;
+  border: var(--rule-thin);
+  padding: 8px 14px;
+  list-style: none;
+}
+
+.stackList li {
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.stackList li:not(:last-child)::after {
+  content: "·";
+  padding: 0 9px;
+}
+
+.timeline {
+  margin: 24px 0 0;
+}
+
+.timeline > div + div {
+  margin-top: 14px;
+}
+
+.timeline dt {
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.timeline dd {
+  margin: 2px 0 0;
+  max-width: 58ch;
+}
+
+.script {
+  overflow-x: auto;
+  margin: 0;
+  padding: 16px 18px;
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  tab-size: 2;
+  /* Never wrap code mid-expression; the source keeps its lines short. */
+  white-space: pre;
+  scrollbar-color: var(--ink) var(--card);
+}
+
+.scriptNote {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* ─── Build mine: the blank card ───────────────────────────────────────── */
+
+.buildGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(24px, 3.4vw, 52px);
+  align-items: start;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 20px;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.optional {
+  margin-left: 8px;
+  font-family: var(--font-atkinson), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.input {
+  width: 100%;
+  border: var(--rule-thin);
+  border-radius: 0;
+  background: var(--card);
+  color: var(--ink);
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.input::placeholder {
+  color: var(--ink);
+  opacity: 0.62;
+}
+
+textarea.input {
+  min-height: 132px;
+  resize: vertical;
+}
+
+/* Invalid: a double rule. Colour would break the one-bit world; the double
+   line and the message under it carry the state instead. */
+.input[aria-invalid="true"] {
+  border: 4px double var(--ink);
+}
+
+.family {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.family legend {
+  padding: 0;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+.option {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* HyperCard radio buttons: a one-bit circle, filled when chosen. */
+.option input {
+  appearance: none;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border: var(--rule-thin);
+  border-radius: 50%;
+  background: var(--card);
+  cursor: pointer;
+}
+
+.option input:checked {
+  background: var(--ink);
+  box-shadow: inset 0 0 0 3px var(--card);
+}
+
+.family[aria-invalid="true"] .option input {
+  border-style: double;
+  border-width: 4px;
+}
+
+.error {
+  margin: 6px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hintText {
+  margin: 6px 0 0;
+  font-size: 14px;
+}
+
+.summary {
+  grid-column: 1 / -1;
+  border: 4px double var(--ink);
+  padding: 12px 16px;
+  font-size: 15px;
+}
+
+.summary ul {
+  margin: 6px 0 0;
+  padding-left: 20px;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.filed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ─── All cards ────────────────────────────────────────────────────────── */
+
+.gridLead {
+  margin-bottom: 28px;
+}
+
+/* Fixed-width tiles: a thumbnail is 240px and must not be resized. */
+.miniGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 256px);
+  justify-content: space-between;
+  gap: 24px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mini {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  border: var(--rule-thin);
+  border-radius: 6px;
+  background: var(--card);
+  padding: 6px;
+  text-decoration: none;
+}
+
+.mini:hover {
+  border-width: 3px;
+  padding: 5px;
+}
+
+/* Every thumbnail is cropped to one height (top-aligned) so titles line up.
+   Cropping keeps the dither at 1:1; 118 is under the shortest thumbnail, so
+   object-fit never has to scale one up. */
+.mini img,
+.miniArt {
+  display: block;
+  width: 240px;
+  max-width: none;
+  height: 118px;
+  border: var(--rule-thin);
+  object-fit: cover;
+  object-position: top;
+  image-rendering: pixelated;
+}
+
+/* Drawn miniatures for the cards that have no screenshot. */
+.miniArt {
+  position: relative;
+  overflow: hidden;
+  background: var(--card);
+}
+
+.miniCode {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 26px 14px 0;
+}
+
+.miniCode i {
+  display: block;
+  height: 4px;
+  background: var(--ink);
+}
+
+.miniBar {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 14px;
+  border-bottom: var(--rule-thin);
+  background: repeating-linear-gradient(var(--card) 0 2px, var(--ink) 2px 3px);
+}
+
+.miniForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 12px 14px;
+}
+
+.miniForm i {
+  display: block;
+  height: 18px;
+  border: var(--rule-thin);
+}
+
+.miniForm i:nth-child(n + 3) {
+  grid-column: 1 / -1;
+}
+
+.miniForm i:last-child {
+  height: 30px;
+}
+
+.miniTitle {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 4px 4px;
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.miniTitle small {
+  font-size: 16px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.archiveHeading {
+  margin: 36px 0 16px;
+}
+
+/* ─── Message box ──────────────────────────────────────────────────────── */
+
+.msgDock {
+  position: relative;
+  width: min(1100px, calc(100% - 32px));
+  margin: 18px auto 22px;
+}
+
+.msgBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: var(--rule);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: 6px 6px 6px 14px;
+}
+
+.msgLabel {
+  flex: none;
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.msgInput {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  border-left: var(--rule-thin);
+  background: transparent;
+  color: var(--ink);
+  padding: 8px 12px;
+  font: inherit;
+}
+
+.msgInput::placeholder {
+  color: var(--ink);
+  opacity: 0.62;
+}
+
+.msgInput:focus-visible {
+  outline: none;
+}
+
+.msgBox:focus-within {
+  border-style: double;
+  border-width: 5px;
+  padding: 4px 4px 4px 12px;
+}
+
+.msgBox .btn {
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 16px;
+}
+
+.answers {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  left: 0;
+  z-index: 30;
+  display: flex;
+  max-height: min(52vh, 460px);
+  flex-direction: column;
+}
+
+.answersBody {
+  overflow-y: auto;
+  padding: 14px 18px;
+}
+
+.turn + .turn {
+  margin-top: 14px;
+  border-top: 2px dotted var(--ink);
+  padding-top: 14px;
+}
+
+.question {
+  margin: 0;
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.reply {
+  margin: 6px 0 0;
+  max-width: 70ch;
+  white-space: pre-wrap;
+}
+
+.answersFoot {
+  display: flex;
+  justify-content: flex-end;
+  border-top: var(--rule-thin);
+  padding: 6px;
+}
+
+.answersFoot .btn {
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 16px;
+}
+
+/* ─── Phones ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 760px) {
+  .desk {
+    --art: 320px;
+    font-size: 16px;
+  }
+
+  .menubar {
+    gap: 0;
+    padding: 0 4px;
+    font-size: 16px;
+  }
+
+  .stackIcon {
+    margin-right: 0;
+  }
+
+  .stackIcon span {
+    display: none;
+  }
+
+  .menu > summary {
+    padding: 10px 8px;
+  }
+
+  .langs a {
+    padding: 10px 5px;
+  }
+
+  .langLong {
+    display: none;
+  }
+
+  .langShort {
+    display: inline;
+  }
+
+  .stage {
+    padding: 12px 10px 4px;
+  }
+
+  .frame::before {
+    transform: translate(6px, 6px);
+  }
+
+  .frame::after {
+    transform: translate(3px, 3px);
+  }
+
+  .card {
+    min-height: 0;
+  }
+
+  .title {
+    font-size: 44px;
+  }
+
+  .homeGrid,
+  .caseGrid,
+  .engGrid,
+  .buildGrid,
+  .form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .homeGrid .art {
+    --art: 280px;
+    order: -1;
+    justify-self: center;
+  }
+
+  .caseArt {
+    align-items: center;
+  }
+
+  .nav {
+    position: sticky;
+    bottom: 8px;
+    z-index: 20;
+    margin-top: 16px;
+  }
+
+  .navBtn {
+    width: 46px;
+  }
+
+  .msgDock {
+    width: calc(100% - 20px);
+    margin: 12px auto 16px;
+  }
+
+  .msgLabel {
+    display: none;
+  }
+
+  .msgInput {
+    border-left: 0;
+    padding-left: 2px;
+  }
+
+  .miniGrid {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .developed .colour {
+    animation: none;
+  }
+}

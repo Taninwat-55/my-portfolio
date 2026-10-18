@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { FileDown } from "lucide-react";
 import { PageShell } from "../components/PageShell";
 import { PaperSheet } from "../components/paper/PaperSheet";
@@ -84,8 +83,8 @@ function Entry({ entry }: { entry: CvEntry }) {
 
 export default function CvPage() {
   return (
-    // Back to the letter: the only link to /cv is at its foot.
-    <PageShell back={{ href: "/about", label: "About" }}>
+    // Back to the Engineer card, which is where the stack links to the CV.
+    <PageShell back={{ href: "/engineer", label: "Engineer" }}>
       <PaperSheet as="article" className={styles.document}>
         {/* The PDF's header: name, title, contact line. */}
         <PageHeader
@@ -182,9 +181,9 @@ export default function CvPage() {
         <div className={styles.signoff}>
           <p>Open to full-time full-stack roles in Denmark, Sweden or remote across the EU.</p>
           <p>
-            <Link href="/contact">
-              Write me a postcard <span aria-hidden="true">→</span>
-            </Link>
+            <a href={`mailto:${personalInfo.email}`}>
+              Email me at {personalInfo.email}
+            </a>
           </p>
         </div>
       </PaperSheet>

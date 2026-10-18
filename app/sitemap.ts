@@ -33,13 +33,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         // the reason none of them can be orphaned again.
         { path: '/projects', changeFrequency: "monthly" as const, priority: 0.8 },
         { path: '/garden', changeFrequency: "weekly" as const, priority: 0.8 },
-        // The About letter on the clock homepage, opened. Same page, own URL.
-        { path: '/about', changeFrequency: "monthly" as const, priority: 0.7 },
-        { path: '/contact', changeFrequency: "monthly" as const, priority: 0.6 },
-        // The other clock objects, opened. Each previews a fuller page above.
+        // The stack's cards that are not case studies (those come from `cases`
+        // below). /about, /contact, /rates and /writing redirect since the clock
+        // retired, so they are out of this list.
+        { path: '/engineer', changeFrequency: "monthly" as const, priority: 0.8 },
+        { path: '/build', changeFrequency: "monthly" as const, priority: 0.8 },
         { path: '/work', changeFrequency: "monthly" as const, priority: 0.6 },
-        { path: '/writing', changeFrequency: "weekly" as const, priority: 0.6 },
-        { path: '/rates', changeFrequency: "monthly" as const, priority: 0.6 },
         // The canonical home for the CV text since it left the homepage.
         { path: '/cv', changeFrequency: "monthly" as const, priority: 0.7 },
         // The Thai landing page. Its real channel is Facebook groups rather than

@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 };
 
 const ways = [
-  { href: "/work", label: "The work", note: "case studies, as prints" },
-  { href: "/writing", label: "The notebook", note: "notes and essays" },
-  { href: "/contact", label: "A postcard", note: "write to me directly" },
+  { href: "/work", label: "All cards", note: "every project in the stack" },
+  { href: "/garden", label: "The notebook", note: "notes and essays" },
+  { href: "/build", label: "Build mine", note: "ask me to build your website" },
 ];
 
 /**
@@ -23,7 +23,7 @@ const ways = [
  */
 export default function NotFound() {
   return (
-    <PageShell back={{ href: "/", label: "Desk" }}>
+    <PageShell back={{ href: "/", label: "Home" }}>
       <PaperSheet ruled as="article">
         <PageHeader
           kicker="404"

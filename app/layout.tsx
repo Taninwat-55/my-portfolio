@@ -149,9 +149,6 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
   },
-  icons: {
-    icon: "/icon.svg",
-  },
 };
 
 export default function RootLayout({

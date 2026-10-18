@@ -1,19 +1,10 @@
 "use client";
 
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
-import { isTextUIPart } from "ai";
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Loader2, RotateCcw } from "lucide-react";
 import { chatPrompts } from "../data";
-
-/**
- * Two audiences visit this site, and they do not open the chat with the same
- * question. The "services" variant runs on /services, where the visitor is a
- * prospective client rather than a recruiter.
- */
-type ChatVariant = "portfolio" | "services";
+import { useIceChat, messageText, type ChatVariant } from "../lib/useIceChat";
 
 const COPY: Record<ChatVariant, { title: string; intro: string }> = {
   portfolio: {
@@ -28,62 +19,21 @@ const COPY: Record<ChatVariant, { title: string; intro: string }> = {
   },
 };
 
-/**
- * Only a genuine rate-limit response should shut the input down. Everything else
- * — a dropped connection, an upstream hiccup — is recoverable and clears on the
- * next send. This used to be a single sticky boolean, which meant one transient
- * 502 permanently disabled the widget behind a "Limit reached" message that was
- * usually a lie.
- */
-type ChatError = null | "limit" | "transient";
-
 export function ChatWidget({ variant = "portfolio" }: { variant?: ChatVariant }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [chatError, setChatError] = useState<ChatError>(null);
   const [inputValue, setInputValue] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const copy = COPY[variant];
   const prompts = chatPrompts[variant];
-
-  // The variant picks the route's prompt: each widget sends only what its
-  // visitors ask about (see SYSTEM_PROMPTS in app/api/chat/route.ts). useChat
-  // keeps its first transport, so it is built once per variant, and `id`
-  // makes a variant change start a fresh chat rather than keep the old one.
-  const transport = useMemo(
-    () => new DefaultChatTransport({ api: "/api/chat", body: { variant } }),
-    [variant],
-  );
-  const { messages, sendMessage, setMessages, status } = useChat({
-    id: variant,
-    transport,
-    onError: (error) =>
-      setChatError(/rate limit/i.test(error.message) ? "limit" : "transient"),
-  });
-
-  // A reasoning model can spend its whole token budget thinking and finish
-  // with no text. The bubble would then just vanish; say something instead.
-  const last = messages[messages.length - 1];
-  const emptyReply =
-    status === "ready" &&
-    last?.role === "assistant" &&
-    !last.parts.filter(isTextUIPart).some((p) => p.text.trim());
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- reacting to a finished stream
-    if (emptyReply) setChatError("transient");
-  }, [emptyReply]);
-
-  const isRateLimited = chatError === "limit";
+  const { messages, chatError, isLoading, isRateLimited, send, reset } = useIceChat(variant);
 
   const resetChat = () => {
-    setMessages([]);
-    setChatError(null);
+    reset();
     setInputValue("");
     inputRef.current?.focus();
   };
-
-  const isLoading = status === "submitted" || status === "streaming";
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -102,12 +52,7 @@ export function ChatWidget({ variant = "portfolio" }: { variant?: ChatVariant })
   }, []);
 
   const submit = () => {
-    const text = inputValue.trim();
-    if (!text || isLoading || isRateLimited) return;
-    setInputValue("");
-    // A transient failure clears on retry; only a rate limit persists.
-    setChatError(null);
-    sendMessage({ text });
+    if (send(inputValue)) setInputValue("");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -170,7 +115,7 @@ export function ChatWidget({ variant = "portfolio" }: { variant?: ChatVariant })
                       {prompts.map((prompt) => (
                         <button
                           key={prompt}
-                          onClick={() => sendMessage({ text: prompt })}
+                          onClick={() => send(prompt)}
                           className="text-left text-[12px] px-3 py-2 rounded-lg border border-frost/10 bg-white/3 hover:bg-white/7 text-frost/80 transition-colors"
                         >
                           {prompt}
@@ -181,10 +126,7 @@ export function ChatWidget({ variant = "portfolio" }: { variant?: ChatVariant })
                 )}
 
                 {messages.map((msg) => {
-                  const text = msg.parts
-                    .filter(isTextUIPart)
-                    .map((p) => p.text)
-                    .join("");
+                  const text = messageText(msg);
                   if (!text) return null;
                   return (
                     <div

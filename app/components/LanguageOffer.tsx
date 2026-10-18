@@ -2,7 +2,6 @@
 
 import { useSyncExternalStore } from "react";
 import Link from "next/link";
-import { ArrowRight, X } from "lucide-react";
 import { siteContent } from "../data";
 
 type Language = (typeof siteContent.languages)[number];
@@ -101,17 +100,18 @@ export function LanguageOffer() {
   if (!offer) return null;
 
   return (
-    // Left side on purpose: the chat widget owns bottom-right at the same z-index.
+    // A one-bit dialog under the menu bar, top right: the stack's message box
+    // owns the bottom of the screen, and this is the homepage's only overlay.
     <div
       role="region"
       aria-label={`${offer.label} version available`}
-      className="fixed bottom-5 left-4 z-50 flex max-w-[calc(100vw-2rem)] items-center gap-2 rounded-full border border-frost/15 bg-night-800/90 py-2 pl-4 pr-2 shadow-lg shadow-black/40 backdrop-blur-md sm:left-6"
+      className="fixed top-14 right-3 z-50 flex max-w-[calc(100vw-1.5rem)] items-center gap-3 rounded-lg border-[3px] border-black bg-white py-2 pr-2 pl-4 text-black"
     >
       <Link
         href={offer.href}
         lang={offer.code}
         hrefLang={offer.code}
-        className="group inline-flex items-center gap-2 text-sm font-medium whitespace-nowrap text-frost transition-colors hover:text-crystal-300"
+        className="text-[15px] font-bold whitespace-nowrap underline decoration-2 underline-offset-4 hover:bg-black hover:text-white hover:no-underline"
       >
         {/* Written in the language being offered — an English sentence is the one
             thing this particular reader may not parse. Comes from the registry in
@@ -119,21 +119,17 @@ export function LanguageOffer() {
             arrived and turned a shortcut into a bug: a Swedish visitor was being
             offered /sv in Thai. */}
         <span lang={offer.code}>{offer.offer ?? offer.label}</span>
-        <ArrowRight
-          size={15}
-          strokeWidth={1.8}
-          aria-hidden
-          className="transition-transform duration-200 group-hover:translate-x-0.5"
-        />
       </Link>
 
       <button
         type="button"
         onClick={() => dismiss(offer)}
         aria-label="Dismiss"
-        className="shrink-0 rounded-full p-1.5 text-frost/40 transition-colors hover:bg-white/5 hover:text-frost focus:outline-none focus-visible:ring-2 focus-visible:ring-crystal-500"
+        // A classic Mac close box, an empty square that fills when pressed,
+        // drawn small inside a 44px tap area.
+        className="group grid h-11 w-11 shrink-0 place-items-center"
       >
-        <X size={15} strokeWidth={1.8} aria-hidden />
+        <span className="h-5 w-5 border-2 border-black bg-white group-hover:bg-black group-active:bg-black" />
       </button>
     </div>
   );

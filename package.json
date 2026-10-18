@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "eslint",
     "cv": "node scripts/build-cv-pdf.mjs",
-    "copy": "node scripts/export-copy.mjs"
+    "copy": "node scripts/export-copy.mjs",
+    "dither": "node scripts/dither-images.mjs"
   },
   "dependencies": {
     "@ai-sdk/groq": "^3.0.39",
@@ -38,6 +39,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "^16.0.7",
+    "sharp": "0.34.5",
     "tailwindcss": "^4.1.17",
     "typescript": "^5"
   },

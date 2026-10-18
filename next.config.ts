@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Lets <ViewTransition> animate client navigations: on the clock's /work, a
-  // print's photo grows into its case study's hero (case-hero-<id>).
+  // Lets <ViewTransition> animate client navigations: the stack's stipple
+  // dissolve between cards (app/(stack)/layout.tsx, stack-global.css).
   experimental: {
     viewTransition: true,
   },
@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
     return [
       { source: "/blog", destination: "/garden", permanent: true },
       { source: "/blog/:slug", destination: "/garden/:slug", permanent: true },
+      // The clock homepage's in-place objects, retired with it on 2026-10-18.
+      // Each goes to the card or page that now does its job.
+      { source: "/about", destination: "/engineer", permanent: true },
+      { source: "/contact", destination: "/build", permanent: true },
+      { source: "/rates", destination: "/services", permanent: true },
+      { source: "/writing", destination: "/garden", permanent: true },
     ];
   },
   // Security headers for improved protection

@@ -642,11 +642,11 @@ export const cases: CaseStudy[] = [
     overview:
       "A wellness studio in Næstved had no website at all, just a Facebook page. I built their first one: a Danish-language site covering treatments, prices, a gallery and an enquiry form. My first paid client project.",
     challenge:
-      "A small local business has no budget for ongoing maintenance and nobody to call when something breaks. The site had to be fast on first deploy, cheap to host, and keep working without me — especially the contact form, since that is the only channel enquiries arrive through.",
+      "A small local business has no budget for ongoing maintenance and nobody to call when something breaks. The site had to be fast on first deploy, cheap to host, and keep working without me. Especially the contact form, since that is the only channel enquiries arrive through.",
     stackWhy:
       "React with Vite for a fast build and a small bundle. React Router for the Danish URLs the client wanted (/behandlinger, /kontakt). Tailwind so she could react to something visual instead of a spec. react-helmet-async for per-page titles and descriptions.",
     engineering:
-      "95+ Lighthouse on first deploy. Every route is code-split with lazy() and Suspense behind a loader, all imagery is WebP, and an ErrorBoundary stops one failure from blanking the site. The contact form posts to Web3Forms and falls back to a Google Form if that request fails — on a site with no backend, a dropped enquiry is a lost customer.",
+      "95+ Lighthouse on first deploy. Every route is code-split with lazy() and Suspense behind a loader, all imagery is WebP, and an ErrorBoundary stops one failure from blanking the site. The contact form posts to Web3Forms and falls back to a Google Form if that request fails. On a site with no backend, a dropped enquiry is a lost customer.",
     metrics: [
       { v: "95+", k: "Lighthouse score" },
       { v: "First", k: "Paid client project" },
@@ -681,13 +681,13 @@ export const cases: CaseStudy[] = [
       "/assets/lumina/lumina-experience.webp",
     ],
     overview:
-      "A landing page for a spa that does not exist. No client, no brief — I wanted to build the kind of scroll-choreographed site that usually arrives as a framework plus a few hundred kilobytes of JavaScript, and find out how far plain HTML, CSS and two libraries would get instead. Ten sections move with the scroll: a layered hero, a pinned arrival, oil cards, hand and stone compositions, water ripples, a horizontal ritual carousel and a sequential benefit reveal.",
+      "A landing page for a spa that does not exist. No client, no brief. I wanted to build the kind of scroll-choreographed site that usually arrives as a framework plus a few hundred kilobytes of JavaScript, and find out how far plain HTML, CSS and two libraries would get instead. Ten sections move with the scroll: a layered hero, a pinned arrival, oil cards, hand and stone compositions, water ripples, a horizontal ritual carousel and a sequential benefit reveal.",
     challenge:
-      "Scroll animation is where responsive layout quietly breaks. The techniques that read as premium on a desktop — pinned sections, fixed viewport heights, multi-column grids — are the same ones that strand content off-screen on a phone, and they fail silently: nothing throws, the text is simply unreachable. Holding the whole thing to three static files with no build step meant every fix had to be a layout decision rather than a new dependency.",
+      "Scroll animation is where responsive layout quietly breaks. The techniques that read as premium on a desktop (pinned sections, fixed viewport heights, multi-column grids) are the same ones that strand content off-screen on a phone, and they fail silently: nothing throws, the text is simply unreachable. Holding the whole thing to three static files with no build step meant every fix had to be a layout decision rather than a new dependency.",
     stackWhy:
-      "GSAP with ScrollTrigger for scrubbed timelines and pinning, because CSS scroll-driven animations still cannot express scroll-linked easing reliably across browsers. Lenis for smooth scroll, with its scroll event wired into ScrollTrigger.update so the two share one scroll position instead of fighting over two. Both from CDN — no install, no bundler, no lockfile.",
+      "GSAP with ScrollTrigger for scrubbed timelines and pinning, because CSS scroll-driven animations still cannot express scroll-linked easing reliably across browsers. Lenis for smooth scroll, with its scroll event wired into ScrollTrigger.update so the two share one scroll position instead of fighting over two. Both from CDN: no install, no bundler, no lockfile.",
     engineering:
-      "A responsive audit turned up three real bugs, two of them the same mistake. A position: sticky element taller than the viewport pins at top: 0 and can never scroll its own bottom into view, so both pinned sections stranded their lower content below the fold on phones; the fix was to unpin them under 1100px and let them flow. The benefit list declared a two-column grid but had three children, so auto-placement dropped every paragraph into the 60px number gutter and wrapped it one word per line. Full-height sections moved to 100dvh with a 100vh fallback — except the four values the pinning maths reads, which stay in vh so the sticky range cannot reflow mid-scroll.",
+      "A responsive audit turned up three real bugs, two of them the same mistake. A position: sticky element taller than the viewport pins at top: 0 and can never scroll its own bottom into view, so both pinned sections stranded their lower content below the fold on phones; the fix was to unpin them under 1100px and let them flow. The benefit list declared a two-column grid but had three children, so auto-placement dropped every paragraph into the 60px number gutter and wrapped it one word per line. Full-height sections moved to 100dvh with a 100vh fallback, except the four values the pinning maths reads, which stay in vh so the sticky range cannot reflow mid-scroll.",
     metrics: [
       { v: "10.8 KB", k: "Total page weight" },
       { v: "Zero", k: "Build steps" },
@@ -713,13 +713,13 @@ export const cases: CaseStudy[] = [
       "/assets/saep/saep-menu.webp",
     ],
     overview:
-      "A site for an invented Thai fire kitchen in Nørrebro. Thai cooking balances five tastes and no dish tastes of one thing, so scrolling descends through them one pinned chapter at a time — spicy, sour, salty, sweet, aromatic — while that taste's ingredient draws itself on canvas and the page's accent colour travels with it. One self-contained HTML file: no framework, no libraries, no build step.",
+      "A site for an invented Thai fire kitchen in Nørrebro. Thai cooking balances five tastes and no dish tastes of one thing, so scrolling descends through them one pinned chapter at a time (spicy, sour, salty, sweet, aromatic) while that taste's ingredient draws itself on canvas and the page's accent colour travels with it. One self-contained HTML file: no framework, no libraries, no build step.",
     challenge:
       "Two problems, and the second one was the real one. The obvious challenge was building scroll choreography with nothing underneath it: no GSAP, no ScrollTrigger, no Lenis, which is what Lumina Spa leans on. The harder challenge was that a page like this cannot be reviewed by reading its source. A hand-drawn chilli is either recognisable or it isn't, and the only way to find out is to look at it.",
     stackWhy:
-      "Nothing but the platform. One requestAnimationFrame loop, canvas 2D, and CSS custom properties — partly to show the animation library is a convenience rather than a requirement, and partly because a bundler buys you nothing on a page with no state, no routing and no data to fetch.",
+      "Nothing but the platform. One requestAnimationFrame loop, canvas 2D, and CSS custom properties, partly to show the animation library is a convenience rather than a requirement, and partly because a bundler buys you nothing on a page with no state, no routing and no data to fetch.",
     engineering:
-      "The scroll engine writes exactly one number: a single loop sets a 0-to-1 progress value per section as a CSS custom property, and every bit of motion is CSS calc() off that value. No scroll listeners, no per-element style writes. The ingredients are procedural — bezier curves sampled to points, with progress controlling how much of the stroke set exists, which is what makes them appear to draw themselves. The accent colour is interpolated per frame rather than switched, and canvases repaint while it is still travelling; without that, a chapter's drawing keeps the previous chapter's colour the moment you stop scrolling. Because I couldn't review the drawings by reading them, I built a proofing harness that drives headless Chrome over the DevTools Protocol and renders every motif at 760px on one contact sheet. It paid for itself immediately: my first chilli cluster read unmistakably as a cannabis leaf, and the kaffir lime leaf read as a fish skeleton. Neither was visible at the size they appear on the page. The menu taught the same lesson from the visitor's side — I had shipped abstract circles as plates, when the thing anyone actually wants from a restaurant menu is to see the food, so each plate became a photograph with the kitchen's heat rating drawn around its rim as a gauge arc. prefers-reduced-motion unpins every section and renders each chapter in its finished state rather than freezing it mid-animation.",
+      "The scroll engine writes exactly one number: a single loop sets a 0-to-1 progress value per section as a CSS custom property, and every bit of motion is CSS calc() off that value. No scroll listeners, no per-element style writes. The ingredients are procedural: bezier curves sampled to points, with progress controlling how much of the stroke set exists, which is what makes them appear to draw themselves. The accent colour is interpolated per frame rather than switched, and canvases repaint while it is still travelling; without that, a chapter's drawing keeps the previous chapter's colour the moment you stop scrolling. Because I couldn't review the drawings by reading them, I built a proofing harness that drives headless Chrome over the DevTools Protocol and renders every motif at 760px on one contact sheet. It paid for itself immediately: my first chilli cluster read unmistakably as a cannabis leaf, and the kaffir lime leaf read as a fish skeleton. Neither was visible at the size they appear on the page. The menu taught the same lesson from the visitor's side. I had shipped abstract circles as plates, when the thing anyone actually wants from a restaurant menu is to see the food, so each plate became a photograph with the kitchen's heat rating drawn around its rim as a gauge arc. prefers-reduced-motion unpins every section and renders each chapter in its finished state rather than freezing it mid-animation.",
     metrics: [
       { v: "0", k: "Animation libraries" },
       { v: "5 tastes", k: "Pinned chapters, one CSS variable" },
@@ -1628,156 +1628,159 @@ export const servicesEnquiryOptions = {
   ],
 } as const;
 
-// ─── CLOCK HOMEPAGE ───────────────────────────────────────────────────────────
-// The one-screen homepage: a portrait in the middle, four paper objects pinned
-// around it, and a hand that points at whichever one you are about to open.
-// Concept doc: https://claude.ai/code/artifact/daf15c29-d613-4988-afd3-7d47ab46e16d
-//
-// Every object opens in place over the clock at its own short URL (/work,
-// /about, /writing, /rates, /contact), and each one links on to the full page
-// behind it (/projects, /garden, /services), which stays as it was.
-
-export type ClockObjectId = "work" | "about" | "writing" | "services";
+// ─── WHAT SURVIVES OF THE CLOCK ──────────────────────────────────────────────
+// The clock homepage ran 2026-10-04 to 2026-10-18; the stack replaced it. Two
+// of its strings are still read elsewhere: the availability line (the share
+// card and the stack's Home card) and the label garden posts link back with.
 
 export const clockContent = {
-  /**
-   * Both audiences in one line. "Open to work" alone told a business client the
-   * price was negotiable; "available for projects" alone hid
-   * the job search from recruiters. Saying both is true and costs neither.
-   */
   availability: "Open to full-time roles in Copenhagen, and taking on client projects.",
-
-  /**
-   * The stack and the CV, on the first screen. A recruiter scans for these
-   * keywords in seconds, and before 2026-10-17 both sat behind a click (the
-   * stack on the back of a print, the CV at the end of the letter). Every item
-   * is in cvData.skills, so nothing here outruns the CV.
-   */
-  stack: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"],
-  cvLink: { label: "Read my CV", href: "/cv" },
-
-  // Order is clockwise from top left, which is also the Tab order.
-  objects: [
-    { id: "work", label: "Work", sub: "Projects and case studies", href: "/work" },
-    { id: "about", label: "About", sub: "A letter from me", href: "/about" },
-    { id: "writing", label: "Writing", sub: "Notes on building", href: "/writing" },
-    // The entry price before a click, read from the website offer so it cannot
-    // drift from /services. Kept to two lines on a 360px phone like the other
-    // cards; "Websites for small businesses, from…" ran to four and stretched
-    // its grid row (2026-10-18).
-    {
-      id: "services",
-      label: "Services",
-      sub: `Websites ${services.offers[0].priceRange.replace(/^From/, "from")}`,
-      href: "/rates",
-    },
-  ] satisfies readonly { id: ClockObjectId; label: string; sub: string; href: string }[],
-
-  /**
-   * The prints. Ids into `cases`: everything shown on a print (title, sub,
-   * stack, screenshot) is read from there, so a print cannot drift from its
-   * case study. Three for the job search, plus Racha as the one live client
-   * site. The full list stays on /projects.
-   */
-  work: {
-    // Six since 2026-10-05: Saep and Lumina are concept pieces, and each
-    // print's back says so in its first words (their `sub`).
-    caseIds: ["trailr", "bevisly", "mockmate", "racha", "saep", "lumina"],
-    // Two wordings, shown by input: "click" means nothing on a phone.
-    hint: "Click a print to turn it over",
-    hintTouch: "Tap a print to turn it over",
-    readLabel: "Read the case study",
-    turnBack: "Turn back",
-    // Beside the caption of a concept piece's print (CaseStudy.concept).
-    conceptLabel: "Concept",
-    allLabel: "All projects",
-    allHref: "/projects",
-  },
-
-  // The notebook lists the newest notes; Clock.tsx decides how many.
-  writing: {
-    // "Writing" everywhere a visitor reads it since 2026-10-17; "Garden" was
-    // web-insider slang. The URL stays /garden so shared links keep working.
-    title: "Writing",
-    allLabel: "All notes",
-    allHref: "/garden",
-  },
-
-  /**
-   * The receipt. Line items are read from services.offers (name, priceRange)
-   * plus RESCUE_AUDIT_PRICE, so it always matches /services. Only the framing
-   * lives here.
-   */
-  rates: {
-    // "Services", like the object and the page it leads to. "Web Studio" read
-    // as an agency with a team, and it is one person.
-    heading: "ICE · SERVICES",
-    // TH since 2026-10-17: Thai-run businesses are half the client audience,
-    // and the receipt is the one object they are sure to open.
-    place: "Copenhagen · DA / EN / SV / TH",
-    auditLabel: "Audit only",
-    footnote: "Fixed price in writing before anything starts.",
-    detailsLabel: "Full details",
-    detailsHref: "/services",
-    ctaLabel: "Start a project",
-    ctaHref: "/services#enquiry",
-    thanks: "Tak, come again",
-  },
-
-  /**
-   * The desk: a wall clock on Copenhagen's time, a mood line, and a lamp that is on at
-   * night there (whatever the visitor's own clock says) and can be switched by
-   * hand. Moods are picked by Copenhagen hour, first match wins.
-   */
-  desk: {
-    // The wall clock's words: read out by screen readers, shown on hover.
-    clockLabel: "{time} in Copenhagen",
-    yourTime: "your time {time}",
-    moods: [
-      { until: 6, text: "Ice is asleep. The postcard will wait." },
-      { until: 9, text: "Coffee first, then code." },
-      { until: 17, text: "Ice is probably at his desk." },
-      { until: 20, text: "Dinner, then maybe one more commit." },
-      { until: 24, text: "Ice is probably coding." },
-    ],
-    lampOnFrom: 20,
-    lampOffAt: 7,
-    lampLabel: "Desk lamp",
-    // Shown once a visitor has dragged something off its spot.
-    tidyLabel: "Tidy the desk",
-  },
-
-  // The pinned postcard. `lines` are written on the card itself, so they stay short.
-  contact: {
-    label: "Contact",
-    lines: ["Say hej,", "write me", "a line"],
-    front: "Greetings from Copenhagen",
-    placeholder: "Hej Ice, we're hiring…",
-    messageLabel: "Your message",
-    emailLabel: "Your email, so I can reply",
-    sendLabel: "Post it",
-    sendingLabel: "Posting…",
-    // Sent through /api/contact. {email} is the visitor's own address.
-    posted: "Posted. I'll reply to {email}.",
-    another: "Write another",
-    postmark: "KØBENHAVN",
-    failed: "That did not go through. Email me directly at {email}.",
-  },
-
-  /**
-   * The About letter's envelope. The body is siteContent.aboutStory, word for
-   * word: Ice's own text, read from one place so the letter cannot drift from
-   * it. An earlier shortened draft cut most of what made it his and turned
-   * "internship, then part-time" into something bigger.
-   */
-  letter: {
-    greeting: "Hej,",
-    signature: "Ice",
-    // A recruiter who has read the letter is ready for the details. The PDF
-    // button beside it stays. The other link to /cv is clockContent.cvLink.
-    cvLink: { label: "Read my CV", href: "/cv" },
-  },
+  writing: { title: "Writing" },
 } as const;
+
+// ─── THE STACK (homepage since 2026-10-18) ───────────────────────────────────
+// The portfolio as a HyperCard stack: one card per thing Ice made, flipped with
+// painted buttons and the arrow keys. It replaced the clock. Every claim on a
+// card is read from cases, experience or services above; nothing is new here
+// except the words that frame them.
+
+export type StackCardId = "home" | "engineer" | "build" | CaseStudy["id"];
+
+/**
+ * The stack's order, which is also the order the arrow keys flip through. The
+ * seven lead projects first: Racha leads because it is the one search actually
+ * sends people to (Search Console, Oct 2026), and Millennial closes the lead run
+ * because it is the people work, not the code. Satoshi and Cinema are the
+ * archive, kept as cards but after the leads.
+ */
+export const stackOrder: StackCardId[] = [
+  "home",
+  "racha",
+  "trailr",
+  "bevisly",
+  "mockmate",
+  "lumina",
+  "saep",
+  "millennial",
+  "satoshi",
+  "cinema",
+  "engineer",
+  "build",
+];
+
+export const stackArchive: CaseStudy["id"][] = ["satoshi", "cinema"];
+
+export const stackHref = (id: StackCardId) =>
+  id === "home" ? "/" : id === "engineer" ? "/engineer" : id === "build" ? "/build" : `/cases/${id}`;
+
+/**
+ * The dithered artwork for a case image: same path, under /stack, as a PNG made
+ * by scripts/dither-images.mjs at one fixed width per size (card 480, sm 320,
+ * thumb 240), because a dither only stays crisp at the width it was made for.
+ */
+export const ditheredSrc = (src: string, size: "card" | "sm" | "thumb" = "card") =>
+  src
+    .replace(/^\/assets\//, "/stack/")
+    .replace(/\.webp$/, size === "card" ? ".png" : `-${size}.png`);
+
+export const stackContent = {
+  name: "Ice's Stack",
+  home: {
+    title: "Ice's Stack",
+    // One sentence, per the stack's direction contract: the cards say the rest.
+    intro:
+      "I'm Ice (Taninwat Kaewpankan), a full-stack engineer in Copenhagen, and every card in this stack is something I built.",
+    availability: clockContent.availability,
+    portraitAlt: "Ice, dithered in black and white: glasses, a dark blazer over a light shirt, a small smile.",
+    buttons: [
+      { label: "See the work", href: "/cases/racha" },
+      { label: "Build mine", href: "/build" },
+      { label: "Engineer", href: "/engineer" },
+    ],
+    hint: "Flip cards with the arrow keys, or the buttons under the card.",
+  },
+  project: {
+    develop: "Develop in colour",
+    developed: "Back to one bit",
+    developHint: "This screenshot is dithered. Develop it to see the real thing.",
+    concept: "Concept, no client",
+    sections: [
+      { key: "overview", label: "Overview" },
+      { key: "challenge", label: "The challenge" },
+      { key: "stackWhy", label: "Why this stack" },
+      { key: "engineering", label: "How it was built" },
+    ] as const,
+    code: "Code",
+  },
+  engineer: {
+    title: "Engineer",
+    lead: "Full-stack engineer in Copenhagen. TypeScript from the interface to the database.",
+    stack: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"],
+    now: {
+      label: "Now",
+      text: "Product engineer at Trailr AI, an early-stage AI video startup, part-time with equity warrants. I joined as a frontend intern and led the platform's UI/UX redesign, scoped to what the existing backend could support.",
+    },
+    before: {
+      label: "Before",
+      text: "Four cycles at Millennial Consulting, from Operations Assistant to Operations Manager to Head of Organization, coordinating around five client projects per cycle with no full-time staff.",
+    },
+    cv: { label: "Read my CV", href: "/cv" },
+    pdf: { label: "Download the PDF", href: "/assets/Taninwat_Kaewpankan_CV.pdf" },
+    scriptTitle: "Script of card “Ice's Stack”",
+    scriptNote:
+      "The function that drew every picture in this stack. Bill Atkinson's dither, the one MacPaint and HyperCard shipped, running in this site's build script.",
+  },
+  build: {
+    title: "Build mine",
+    lead: "A new blank card. Fill it in, save it, and it lands in my inbox. I reply to every one myself.",
+    price: `Websites ${services.offers[0].priceRange.replace(/^From/, "from")}, at a fixed price agreed in writing before any work starts.`,
+    save: "Save card",
+    saving: "Saving…",
+    savedTitle: "Card saved.",
+    details: { label: "Prices and what's included", href: "/services" },
+  },
+  nav: {
+    prev: "Previous card",
+    next: "Next card",
+    home: "Home card",
+    grid: "All cards",
+    /** Contains {n} and {total}. */
+    position: "{n} of {total}",
+  },
+  menus: [
+    {
+      label: "Stack",
+      items: [
+        { label: "Home card", href: "/" },
+        { label: "All cards", href: "/work" },
+        { label: "Writing", href: "/garden" },
+      ],
+    },
+    {
+      label: "Hire",
+      items: [
+        { label: "Build mine", href: "/build" },
+        { label: "Prices", href: "/services" },
+        { label: "Engineer", href: "/engineer" },
+        { label: "CV", href: "/cv" },
+      ],
+    },
+  ],
+  messageBox: {
+    label: "Message box. Ask anything about Ice or his work.",
+    placeholder: "Ask anything about Ice…",
+    send: "Send",
+    thinking: "Thinking…",
+    limit: "That's the limit for this hour. Email Ice instead.",
+    transient: "That didn't go through. Send it again.",
+    clear: "Clear",
+  },
+  grid: {
+    title: "All cards",
+    lead: "Every card in the stack. The lead work first, then the archive.",
+    archive: "Archive",
+  },
+};
 
 // ─── HOMEPAGE PROJECT CARDS ───────────────────────────────────────────────────
 // The sticky-stacking cards in the Projects section — a FEATURED selection, not

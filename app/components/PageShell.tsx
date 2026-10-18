@@ -83,8 +83,9 @@ export function PageShell({ children, back, lang = "en", languagesLabel = "Langu
             <a href={`mailto:${personalInfo.email}`} className={styles.postcardEmail}>
               {personalInfo.email}
             </a>
-            <Link href="/contact" className={styles.postcardLink}>
-              Write me a postcard →
+            {/* The email above is for roles; a project goes to the blank card. */}
+            <Link href="/build" className={styles.postcardLink}>
+              Planning a website? Build mine →
             </Link>
             <span className={styles.postcardStamp} aria-hidden="true" />
           </div>

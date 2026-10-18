@@ -232,7 +232,7 @@ export default function ServicesPage() {
   const tilt = (i: number) => [-0.8, 0.6, -0.4, 0.9][i % 4];
 
   return (
-    <PageShell back={{ href: "/rates", label: "Rates" }}>
+    <PageShell back={{ href: "/", label: "Home" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
