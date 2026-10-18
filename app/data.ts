@@ -1661,12 +1661,14 @@ export const clockContent = {
     { id: "work", label: "Work", sub: "Projects and case studies", href: "/work" },
     { id: "about", label: "About", sub: "A letter from me", href: "/about" },
     { id: "writing", label: "Writing", sub: "Notes on building", href: "/writing" },
-    // Says who it is for and the entry price before a click. The price is read
-    // from the website offer, so it cannot drift from /services.
+    // The entry price before a click, read from the website offer so it cannot
+    // drift from /services. Kept to two lines on a 360px phone like the other
+    // cards; "Websites for small businesses, from…" ran to four and stretched
+    // its grid row (2026-10-18).
     {
       id: "services",
       label: "Services",
-      sub: `Websites for small businesses, ${services.offers[0].priceRange.replace(/^From/, "from")}`,
+      sub: `Websites ${services.offers[0].priceRange.replace(/^From/, "from")}`,
       href: "/rates",
     },
   ] satisfies readonly { id: ClockObjectId; label: string; sub: string; href: string }[],
