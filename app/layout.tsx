@@ -107,6 +107,8 @@ export const metadata: Metadata = {
     template: "%s | Ice · Taninwat Kaewpankan",
   },
   description: SITE_DESCRIPTION,
+  // LinkedIn's Post Inspector reads the author from this meta tag.
+  authors: [{ name: personalInfo.name, url: "https://taninwatkaewpankan.xyz" }],
   // Both audiences, deliberately. The engineer terms are what a recruiter
   // searches; the Danish terms are what a business owner actually types, and the
   // site is now written for them first.
