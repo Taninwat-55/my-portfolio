@@ -43,3 +43,10 @@ next-env.d.ts
 
 # impeccable engine binary (re-downloads on first run)
 .claude/skills/impeccable/scripts/bin/
+
+# impeccable working files: review screenshots, decision mocks, quality-bar
+# downloads and build state. The surface brief (.impeccable/surfaces/) and
+# design.json are committed; these are regenerated per run.
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/build/

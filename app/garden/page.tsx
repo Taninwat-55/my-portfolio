@@ -41,7 +41,7 @@ export default function GardenIndex() {
   }));
 
   return (
-    <PageShell back={{ href: "/writing", label: "Writing" }}>
+    <PageShell back={{ href: "/", label: "Home" }}>
       <PaperSheet className={styles.notebook}>
         <PageHeader
           kicker="The notebook"
