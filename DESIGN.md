@@ -18,12 +18,12 @@ typography:
     lineHeight: 1
     letterSpacing: "0"
   headline:
-    fontFamily: "Tiny5, Kanit, system-ui, sans-serif"
+    fontFamily: "DotGothic16, Kanit, system-ui, sans-serif"
     fontSize: "24px"
     fontWeight: 400
     lineHeight: 1.15
   label:
-    fontFamily: "Tiny5, Kanit, system-ui, sans-serif"
+    fontFamily: "DotGothic16, Kanit, system-ui, sans-serif"
     fontSize: "16px"
     fontWeight: 400
     lineHeight: 1
@@ -128,7 +128,7 @@ Scope: this system covers the stack routes only (`/`, `/cases/*`, `/work`, `/eng
 **Key Characteristics:**
 - One bit: ink and card only; greys exist only as stipple tiles, never behind text.
 - Colour appears only as a client's real work, through the develop-into-colour reveal.
-- Pixel faces at their pixel grid only: Tiny5 at 16 or 24px, Pixelify Sans at 64 or 44px.
+- Pixel faces at their pixel grid only: DotGothic16 at 16 or 24px, Pixelify Sans at 64 or 44px.
 - Dithered images are drawn at exactly the width they were dithered at.
 - Round corners mean pressable; active means inverted.
 - Depth is stacked card edges filled with stipple, never blur.
@@ -154,25 +154,25 @@ Four one-bit 4x4 SVG tiles, drawn with `shape-rendering: crispEdges` at `backgro
 ## Typography
 
 **Display Font:** Pixelify Sans 700 (with system-ui)
-**UI Font:** Tiny5 400 (with Kanit for Thai, then system-ui)
+**UI Font:** DotGothic16 400 (with Kanit for Thai, then system-ui)
 **Body Font:** Atkinson Hyperlegible 400/700 (with system-ui)
 **Code Font:** JetBrains Mono (with ui-monospace), in the script window only
 
-**Character:** Two OFL pixel faces share the job of the Mac's Chicago: Pixelify at display size, where it is heaviest and closest, and Tiny5 at UI size, where its C, 5 and B stay distinct. Atkinson Hyperlegible makes long reading comfortable without leaving the period.
+**Character:** Two OFL pixel faces share the job of the Mac's Chicago: Pixelify at display size, where it is heaviest and closest, and DotGothic16 at UI size, drawn on a 16px bitmap grid with open letters that read at a glance (it replaced the condensed DotGothic16, whose pinhole counters made labels hard to read). Atkinson Hyperlegible makes long reading comfortable without leaving the period.
 
 ### Hierarchy
 - **Display** (Pixelify Sans 700, 64px desktop, 44px phones, line-height 1, balanced wrap): the card title, one per card. Never fluid.
-- **Headline** (Tiny5 400, 24px, 1.15): section headings inside a card, button labels, form labels, timeline years.
-- **Label** (Tiny5 400, 16px, 1): menu bar, menus, nav position ("n of N"), window titles, mini-card titles, the stack list, the concept tag, small buttons, chat questions.
+- **Headline** (DotGothic16 400, 24px, 1.15): section headings inside a card, button labels, form labels.
+- **Label** (DotGothic16 400, 16px, 1): menu bar, menus, nav position ("n of N"), window titles, mini-card titles, the stack list, the concept tag, small buttons, chat questions.
 - **Lead** (Atkinson 400, 18 to 20px, 1.5, max 54ch): the one-sentence intro under a card title.
-- **Body** (Atkinson 400, 17px desktop, 16px phones, 1.55, max 66ch): case write-ups, replies, timeline detail. Bold 700 for fact terms, availability and errors.
+- **Body** (Atkinson 400, 17px desktop, 16px phones, 1.55, max 66ch): case write-ups, replies, proof lines. Bold 700 for fact terms, availability and errors.
 - **Small** (Atkinson 400, 14 to 15px): hints, captions, built-with lines, optional markers.
 - **Code** (JetBrains Mono, 13px, 1.55, `white-space: pre`): the script window. Never wraps mid-expression.
 
 ### Named Rules
-**The Pixel Grid Rule.** Tiny5 is set only at 16 or 24px, where its strokes land on whole pixels; Pixelify only at 64 or 44px, for card titles. Pixel faces never take a fluid or in-between size and never a synthesised weight (`font-synthesis: none`).
+**The Pixel Grid Rule.** DotGothic16 is set only at 16 or 24px, where its one-pixel strokes stay crisp; Pixelify only at 64 or 44px, for card titles. Pixel faces never take a fluid or in-between size and never a synthesised weight (`font-synthesis: none`).
 
-**The Closed C Rule.** Pixelify never sets a label, menu or button: below about 28px its C closes into an O. Labels belong to Tiny5.
+**The Closed C Rule.** Pixelify never sets a label, menu or button: below about 28px its C closes into an O. Labels belong to DotGothic16.
 
 ## Layout
 
@@ -180,7 +180,7 @@ The desk is a full-height column: sticky menu bar (40px min), then the stage, wh
 
 Rhythm is in small fixed steps: 6px between a label and its field, 14px between buttons, 18px between form rows, 22 to 28px between blocks. Button groups either wrap in a row or stack as an equal-width column as wide as the widest label.
 
-Dithered artwork sits at fixed widths: 480px on cards, 360px for the Home portrait, 320px and 280px on phones, 240px thumbnails cropped to 118px tall on `/work`. The all-cards grid uses fixed 256px tracks (`repeat(auto-fill, 256px)`), spaced, never stretched.
+Dithered artwork sits at fixed widths: 480px on cards, a 150px square ID photo on Home, 320px on phones, and 240px thumbnails cropped to 118px tall on `/work` and in Home's featured row. The all-cards grid uses fixed 256px tracks (`repeat(auto-fill, 256px)`), spaced, never stretched.
 
 One breakpoint, 760px. Below it the grids collapse to one column, art moves above text and centres, the stacked edges shrink to 6px and 3px, the title drops to 44px, the nav bar sticks 8px above the bottom at the thumb, the menu bar drops its stack name and uses short language codes, and the message box hides its label.
 
@@ -211,12 +211,12 @@ Rules come in two weights: 3px for the card, menu bar, nav bar, message box and 
 
 ### Buttons
 Painted, rounded, inverted when pressed.
-- **Shape:** gently rounded (12px), 2px ink rule, 48px tall, 22px side padding, Tiny5 24px; 20px pixel icons inline.
+- **Shape:** gently rounded (12px), 2px ink rule, 48px tall, 22px side padding, DotGothic16 24px; 20px pixel icons inline.
 - **Default:** the one primary action per card gets a 3px rule plus the concentric default ring (white 3px, then ink 3px).
 - **Hover / Focus:** hover thickens the rule to 3px; focus is the 3px dotted outline.
 - **Active / Pressed:** inverted, ink ground and card text, for `:active` and `aria-pressed="true"` (the Develop button stays inverted while developed).
 - **Disabled:** dashed rule, not-allowed cursor.
-- **Small:** in the message box and chat foot, 34 to 40px tall at Tiny5 16px.
+- **Small:** in the message box and chat foot, 34 to 40px tall at DotGothic16 16px.
 
 ### Cards / Containers
 - **Corner Style:** 8px.
@@ -227,13 +227,13 @@ Painted, rounded, inverted when pressed.
 - **Transition:** the card body is one named view transition; the new card arrives through the stipple densities 12, 25, 50, 75 then solid in hard steps over 400ms. The old card stays underneath. Off under reduced motion.
 
 ### Inputs / Fields
-- **Style:** square, 2px ink rule, card ground, Atkinson body text, 10px 12px padding. Labels in Tiny5 24px above; optional markers in Atkinson 14px.
+- **Style:** square, 2px ink rule, card ground, Atkinson body text, 10px 12px padding. Labels in DotGothic16 24px above; optional markers in Atkinson 14px.
 - **Focus:** the 3px dotted outline.
 - **Error:** a 4px double rule plus a bold 14px message under the field; the form summary is a double-ruled box with links to each field. No colour.
 - **Radios:** 18px one-bit circles, filled with an ink dot inside a white gap when chosen.
 
 ### Navigation
-- **Menu bar:** sticky, 40px, card ground with a 3px bottom rule, Tiny5 16px. The 32px pixel stack icon and name on the left, pull-down menus (native `details`), language links on the right. Hovered or open items invert; the current language is underlined 2px. Thai falls back to Kanit at the bar's size and weight.
+- **Menu bar:** sticky, 40px, card ground with a 3px bottom rule, DotGothic16 16px. The 32px pixel stack icon and name on the left, pull-down menus (native `details`), language links on the right. Hovered or open items invert; the current language is underlined 2px. Thai falls back to Kanit at the bar's size and weight.
 - **Menus:** 2px-ruled list, min 200px, with the stipple drop strip; items invert on hover and focus.
 - **Nav bar:** a 3px-ruled, 8px-rounded bar under the card: back, home, n of N, all cards, forward. Each button is 52x44 (46 wide on phones), 2px rule, 8px radius, a 32px pixel icon. Hover and `aria-current="page"` invert; unavailable is dashed and inert. Sticky at the thumb on phones.
 
@@ -247,10 +247,10 @@ A 3px-ruled, 6px-rounded window with the striped title bar and close box. It fra
 The case screenshot shows dithered inside its window; a Develop button lays the colour original over it and reveals it through the stipple masks 12, 25, 50, 75 then solid over 700ms in hard steps, like a print in the tray. The colour file is only requested on intent (hover, focus or press). Off under reduced motion.
 
 ### Message Box (signature)
-A 3px-ruled, 8px-rounded line under the stack: a Tiny5 "Message" label, an unruled input separated by a 2px rule, and a small button. Focus-within turns the box's rule to a 5px double. Answers open above it in a window; turns are divided by a 2px dotted rule, questions in Tiny5 16px, replies in Atkinson.
+A 3px-ruled, 8px-rounded line under the stack: a DotGothic16 "Message" label, an unruled input separated by a 2px rule, and a small button. Focus-within turns the box's rule to a 5px double. Answers open above it in a window; turns are divided by a 2px dotted rule, questions in DotGothic16 16px, replies in Atkinson.
 
 ### Mini Cards
-The all-cards grid: 256px tiles, 2px rule, 6px radius, 6px padding, a 240x118 dithered thumbnail (top-cropped, 2px ruled) or a drawn one-bit miniature, and a Tiny5 16px title row. Hover thickens the rule to 3px.
+The all-cards grid: 256px tiles, 2px rule, 6px radius, 6px padding, a 240x118 dithered thumbnail (top-cropped, 2px ruled) or a drawn one-bit miniature, and a DotGothic16 16px title row. Hover thickens the rule to 3px.
 
 ## Do's and Don'ts
 
@@ -258,7 +258,7 @@ The all-cards grid: 256px tiles, 2px rule, 6px radius, 6px padding, a 240x118 di
 - **Do** draw every surface in ink (`#000`) and card (`#fff`) only, and every grey as one of the four 4x4 stipple tiles.
 - **Do** give every text-bearing surface a solid card ground.
 - **Do** keep colour for a client's real screenshot, shown through the develop reveal.
-- **Do** set Tiny5 at exactly 16 or 24px and Pixelify Sans only for card titles at 64px (44px on phones).
+- **Do** set DotGothic16 at exactly 16 or 24px and Pixelify Sans only for card titles at 64px (44px on phones).
 - **Do** ship dithered art at the width it was dithered at (480, 320, 240) via `npm run dither`, and add new art to the manifest the same way.
 - **Do** write stipple data URIs inline at each use.
 - **Do** round what is pressable and square what is not; invert what is active, hovered or current.
@@ -277,3 +277,8 @@ The all-cards grid: 256px tiles, 2px rule, 6px radius, 6px padding, a 240x118 di
 - **Don't** round a non-interactive container.
 - **Don't** use library icons or text glyphs as icons; draw them on the 16x16 grid.
 - **Don't** fade between cards or into colour; one bit has no half-ink.
+
+## The work leads
+
+Home and Engineer exist to show projects and craft, not biography (Ice, 2026-10-18). Home is a small ID photo, the title, one sentence and the availability line, then three featured project miniatures (one client site, one product, one full-stack build) before any button. Engineer points every skill at the card that proves it, as a ruled list of links, instead of a CV-style timeline.
+

@@ -7,9 +7,9 @@
  *     behind text.
  *   - The only colour on the site is a client's real work, after "develop".
  *   - Pixel faces: --font-display (Pixelify) for card titles only, and
- *     --font-pixel (Tiny5) for menus, buttons, headings and labels (fonts.ts
- *     says why two). Tiny5 is set only at 16 or 24px: its strokes land on
- *     whole pixels at multiples of 8 and split unevenly in between. Atkinson Hyperlegible (--font-atkinson) for anything
+ *     --font-pixel (DotGothic16) for menus, buttons, headings and labels
+ *     (fonts.ts says why two). It is set only at 16 or 24px, the sizes
+ *     where its one-pixel strokes stay crisp. Atkinson Hyperlegible (--font-atkinson) for anything
  *     read at length.
  *   - Depth is stacked card edges and borders, never blur or offset shadows.
  *   - Active means inverted: black ground, white ink.
@@ -181,12 +181,12 @@
   display: none;
 }
 
-/* Pixelify has no Thai, so ไทย falls back to Kanit, which runs larger and
-   heavier; bring it to the bar's size and weight. */
+/* The pixel faces have no Thai, so ไทย falls back to Kanit, which runs
+   heavier than DotGothic16's one-pixel strokes; its light weight matches. */
 .langs a:lang(th) {
   font-family: var(--font-kanit), system-ui, sans-serif;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300;
 }
 
 .langs a[aria-current="true"] {
@@ -309,14 +309,6 @@
   flex-wrap: wrap;
   gap: 14px;
   margin-top: 28px;
-}
-
-/* A column of equal-width buttons, as wide as the widest label. */
-.buttonsStacked {
-  display: grid;
-  width: max-content;
-  gap: 14px;
-  margin-top: 30px;
 }
 
 .btn {
@@ -452,7 +444,7 @@
 .caption {
   border-top: var(--rule-thin);
   padding: 10px 12px;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.4;
 }
 
@@ -528,15 +520,26 @@
 
 /* ─── Home card ────────────────────────────────────────────────────────── */
 
-.homeGrid {
-  display: grid;
-  grid-template-columns: 1fr auto;
+/* The Home card: a small ID photo beside the title, then the work. */
+.homeHead {
+  display: flex;
   align-items: center;
-  gap: clamp(28px, 4vw, 56px);
+  gap: 28px;
 }
 
-.homeGrid .art {
-  --art: 360px;
+.idPhoto {
+  --art: 150px;
+}
+
+/* Compound selector: .miniGrid, declared later, resets margin to 0. */
+.miniGrid.featured {
+  margin-top: 36px;
+}
+
+.miniLine {
+  padding: 0 4px 6px;
+  font-size: 15px;
+  line-height: 1.35;
 }
 
 .availability {
@@ -562,6 +565,13 @@
   font-size: 15px;
 }
 
+/* The arrow-key tip, only where there are arrow keys to press. */
+@media (hover: none) {
+  .keysHint {
+    display: none;
+  }
+}
+
 /* ─── Project card ─────────────────────────────────────────────────────── */
 
 .caseGrid {
@@ -578,7 +588,7 @@
 .sub {
   margin: 16px 0 0;
   max-width: 46ch;
-  font-size: 19px;
+  font-size: clamp(18px, 1.5vw, 20px);
   line-height: 1.45;
   text-wrap: pretty;
 }
@@ -671,7 +681,7 @@
 .developHint {
   max-width: calc(var(--art) + 4px);
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.4;
 }
 
@@ -708,23 +718,51 @@
   padding: 0 9px;
 }
 
-.timeline {
-  margin: 24px 0 0;
+/* The proof list: a skill, then the card that shows it. Each row is a link
+   into that card, so the claim is one click from its evidence. */
+.proofLabel {
+  margin: 28px 0 10px;
 }
 
-.timeline > div + div {
-  margin-top: 14px;
+.proof {
+  margin: 0;
+  border: var(--rule-thin);
+  padding: 0;
+  list-style: none;
 }
 
-.timeline dt {
+.proof li + li {
+  border-top: 2px dotted var(--ink);
+}
+
+.proof a {
+  display: grid;
+  grid-template-columns: 7.5em minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  text-decoration: none;
+}
+
+.proof a:hover,
+.proof a:focus-visible {
+  background: var(--ink);
+  color: var(--card);
+  outline: none;
+}
+
+.proofSkill {
   font-family: var(--font-pixel), system-ui, sans-serif;
-  font-size: 24px;
-  font-weight: 400;
+  font-size: 16px;
 }
 
-.timeline dd {
-  margin: 2px 0 0;
-  max-width: 58ch;
+.proofWork strong {
+  display: block;
+}
+
+.proof svg {
+  width: 24px;
+  height: 24px;
 }
 
 .script {
@@ -742,7 +780,7 @@
 
 .scriptNote {
   margin: 12px 0 0;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.45;
 }
 
@@ -776,7 +814,7 @@
 .optional {
   margin-left: 8px;
   font-family: var(--font-atkinson), system-ui, sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
 }
 
@@ -856,13 +894,13 @@ textarea.input {
 
 .error {
   margin: 6px 0 0;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
 }
 
 .hintText {
   margin: 6px 0 0;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .summary {
@@ -1173,7 +1211,6 @@ textarea.input {
     font-size: 44px;
   }
 
-  .homeGrid,
   .caseGrid,
   .engGrid,
   .buildGrid,
@@ -1181,10 +1218,10 @@ textarea.input {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .homeGrid .art {
-    --art: 280px;
-    order: -1;
-    justify-self: center;
+  .homeHead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
   }
 
   .caseArt {
@@ -1218,6 +1255,14 @@ textarea.input {
 
   .miniGrid {
     justify-content: center;
+  }
+
+  .proof a {
+    grid-template-columns: minmax(0, 1fr) 24px;
+  }
+
+  .proofSkill {
+    grid-column: 1 / -1;
   }
 }
 

@@ -1,4 +1,4 @@
-import { Atkinson_Hyperlegible, Pixelify_Sans, Tiny5 } from "next/font/google";
+import { Atkinson_Hyperlegible, DotGothic16, Pixelify_Sans } from "next/font/google";
 
 /**
  * The stack's three voices. Loaded here rather than in the root layout so only
@@ -9,8 +9,11 @@ import { Atkinson_Hyperlegible, Pixelify_Sans, Tiny5 } from "next/font/google";
  *   - Pixelify Sans (--font-display) for card titles only. At display size it
  *     is the closest to Chicago's weight, but below about 28px its C closes
  *     into an O ("Read my OV"), so it never sets a label.
- *   - Tiny5 (--font-pixel) for every menu, button, heading and label: bold,
- *     compact, and its C, 5 and B stay distinct at 16 to 22px.
+ *   - DotGothic16 (--font-pixel) for every menu, button, heading and label.
+ *     It replaced Tiny5 on 2026-10-18: Tiny5 was correct but condensed, with
+ *     pinhole counters that made "Business or company" a decoding job. This
+ *     one is drawn on a 16px bitmap grid with open letters, so a label reads
+ *     at a glance and still looks like a period system font.
  * Atkinson Hyperlegible carries the reading text; a pixel face at paragraph
  * length is a costume, not a reading experience.
  */
@@ -20,8 +23,8 @@ export const display = Pixelify_Sans({
   variable: "--font-display",
 });
 
-export const pixel = Tiny5({
-  subsets: ["latin", "latin-ext"],
+export const pixel = DotGothic16({
+  subsets: ["latin"],
   weight: "400",
   variable: "--font-pixel",
 });

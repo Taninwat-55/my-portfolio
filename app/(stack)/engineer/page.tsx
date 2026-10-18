@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { stackContent } from "../../data";
+import { cases, stackContent, stackHref } from "../../data";
+import { PixelIcon } from "../../components/stack/PixelIcon";
 import styles from "../../components/stack/stack.module.css";
 
 export const dynamic = "force-static";
@@ -27,9 +28,9 @@ function atkinsonSource() {
 }
 
 /**
- * The Engineer card: where the CV links. What a hiring manager needs in one
- * screen (title, stack, the current role, the people work before it, the CV),
- * beside a script window holding real code from this site.
+ * The Engineer card. What a hiring manager needs in one screen: title,
+ * stack, each skill linked to the card that proves it, and the CV, beside a
+ * script window holding real code from this site.
  */
 export default function EngineerPage() {
   const copy = stackContent.engineer;
@@ -43,14 +44,21 @@ export default function EngineerPage() {
             <li key={s}>{s}</li>
           ))}
         </ul>
-        <dl className={styles.timeline}>
-          {[copy.now, copy.before].map((entry) => (
-            <div key={entry.label}>
-              <dt>{entry.label}</dt>
-              <dd>{entry.text}</dd>
-            </div>
+        <h2 className={`${styles.heading} ${styles.proofLabel}`}>{copy.proofLabel}</h2>
+        <ul className={styles.proof}>
+          {copy.proof.map((p) => (
+            <li key={p.id}>
+              <Link href={stackHref(p.id)}>
+                <span className={styles.proofSkill}>{p.skill}</span>
+                <span className={styles.proofWork}>
+                  <strong>{cases.find((c) => c.id === p.id)?.title}</strong>
+                  {p.line}
+                </span>
+                <PixelIcon name="next" />
+              </Link>
+            </li>
           ))}
-        </dl>
+        </ul>
         <div className={styles.buttons}>
           <Link href={copy.cv.href} className={`${styles.btn} ${styles.btnDefault}`}>
             {copy.cv.label}
