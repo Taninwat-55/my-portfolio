@@ -119,7 +119,7 @@ components:
 
 **Creative North Star: "The Stack One Person Made"**
 
-The site is a HyperCard stack on a classic one-bit Mac screen: a menu bar across the top, a single card centred on a dithered desk with two more cards' edges showing beneath it, a nav bar under the card, and a Message Box line at the foot. Each card is one shipped thing. The world is drawn entirely in two values, black ink on white card, and every grey the eye reads is a 4x4 stipple of black dots. Depth comes from stacked edges, state comes from inversion, and the only colour anywhere is a client's real screenshot developing up through the stipple when the visitor asks for it.
+The site is a HyperCard stack on a classic one-bit Mac screen: a menu bar across the top, a single card centred on a dithered desk with two more cards' edges showing beneath it, a nav bar under the card, and a Message Box line at the foot. Each card is one shipped thing. The world is drawn entirely in two values, black ink on white card, and every grey the eye reads is a 4x4 stipple of black dots. Depth comes from stacked edges, state comes from inversion, and the only colour anywhere is something real developing up through the stipple when the visitor asks for it: a client's screenshot, or Ice's portrait on the Home card.
 
 Density is calm: one card per screen, generous card padding, heavy 3px rules for the card and its chrome, 2px rules for everything inside it. Pixel type does the talking at the scale where pixels are legible (titles, menus, buttons, labels); Atkinson Hyperlegible carries everything read at length, because a pixel face at paragraph length is a costume. Motion is stepped, never faded: a one-bit screen has no half-ink.
 
@@ -147,7 +147,7 @@ Four one-bit 4x4 SVG tiles, drawn with `shape-rendering: crispEdges` at `backgro
 ### Named Rules
 **The One Bit Rule.** Ink and card are the whole palette. A grey is a density of black dots, never a tint, an opacity on a fill, or a mid-tone hex. No stipple ever sits behind text: every text-bearing surface (card, menu bar, nav bar, message box, mini card) has a solid card ground.
 
-**The Developed Colour Rule.** The only colour on the site is a client's real screenshot, revealed on request through the develop-into-colour interaction. No accent colour, no coloured state, no coloured error: errors use a double rule and words.
+**The Developed Colour Rule.** The only colour on the site is real: a client's screenshot, or Ice's portrait on the Home card, revealed on request through the develop-into-colour interaction. No accent colour, no coloured state, no coloured error: errors use a double rule and words.
 
 **The Inline Tile Rule.** Stipple data URIs are written out in full at every use, never stored in custom properties: a `data:` URL inside a custom property panics Turbopack's production build (Next 16.0.7). Repetition here is the cost of a build that ships.
 
@@ -257,7 +257,7 @@ The all-cards grid: 256px tiles, 2px rule, 6px radius, 6px padding, a 240x118 di
 ### Do:
 - **Do** draw every surface in ink (`#000`) and card (`#fff`) only, and every grey as one of the four 4x4 stipple tiles.
 - **Do** give every text-bearing surface a solid card ground.
-- **Do** keep colour for a client's real screenshot, shown through the develop reveal.
+- **Do** keep colour for a client's real screenshot or Ice's portrait, shown through the develop reveal.
 - **Do** set DotGothic16 at exactly 16 or 24px and Pixelify Sans only for card titles at 64px (44px on phones).
 - **Do** ship dithered art at the width it was dithered at (480, 320, 240) via `npm run dither`, and add new art to the manifest the same way.
 - **Do** write stipple data URIs inline at each use.

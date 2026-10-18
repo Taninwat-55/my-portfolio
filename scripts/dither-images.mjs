@@ -218,6 +218,13 @@ async function main() {
     const info = await dither(path.join(ROOT, PORTRAIT.src), path.join(ROOT, "public", rel), width, { lift: 1.35, contrast: 1.1 });
     manifest[rel] = [info.width, info.height];
   }
+  // The portrait's colour original for the develop reveal (DevelopPortrait):
+  // the same source, so it lines up with the dither exactly. 720px is 2x the
+  // card size, sharp on retina without shipping the 1792px original.
+  await sharp(path.join(ROOT, PORTRAIT.src))
+    .resize({ width: 720 })
+    .webp({ quality: 80 })
+    .toFile(path.join(OUT, "ice-portrait-colour.webp"));
   // The Home card's miniature on /work: the face, cropped out of a 240px
   // dither (cropping keeps the dots 1:1, resizing would not).
   const thumbFull = path.join(OUT, "ice-portrait-full-thumb.png");

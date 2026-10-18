@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LanguageOffer } from "../components/LanguageOffer";
+import { DevelopPortrait } from "../components/stack/DevelopPortrait";
 import { DitherPicture } from "../components/stack/DitherPicture";
 import { stackContent } from "../data";
 import styles from "../components/stack/stack.module.css";
@@ -23,7 +24,8 @@ export const metadata: Metadata = {
 /**
  * The Home card of Ice's Stack (app/(stack)/layout.tsx). It replaced the clock
  * homepage on 2026-10-18. Everything on it renders on the server: the portrait
- * is the likely LCP element and must not wait for hydration.
+ * is the likely LCP element and must not wait for hydration. Only the develop
+ * button over it is a client component; the dithered picture is passed in.
  */
 export default function Home() {
   const { home } = stackContent;
@@ -46,9 +48,15 @@ export default function Home() {
         </div>
         <p className={`${styles.hint} ${styles.keysHint}`}>{home.hint}</p>
       </div>
-      <figure className={styles.art}>
+      <DevelopPortrait
+        colourSrc="/stack/ice-portrait-colour.webp"
+        colourAlt={home.portraitColourAlt}
+        label={home.portraitDevelop}
+        hint={home.portraitHint}
+        developedHint={home.portraitDevelopedHint}
+      >
         <DitherPicture src="/stack/ice-portrait.png" alt={home.portraitAlt} priority />
-      </figure>
+      </DevelopPortrait>
       <LanguageOffer />
     </div>
   );

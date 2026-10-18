@@ -5,7 +5,8 @@
  *   - One bit. Ink is #000, card is #fff. Greys exist only as stipple fills
  *     (4x4 one-bit SVG tiles, see stack-global.css), and no stipple ever sits
  *     behind text.
- *   - The only colour on the site is a client's real work, after "develop".
+ *   - The only colour on the site is real: a client's work, or Ice's own
+ *     portrait, after "develop".
  *   - Pixel faces: --font-display (Pixelify) for card titles only, and
  *     --font-pixel (DotGothic16) for menus, buttons, headings and labels
  *     (fonts.ts says why two). It is set only at 16 or 24px, the sizes
@@ -535,8 +536,18 @@
   gap: clamp(28px, 4vw, 56px);
 }
 
-.homeGrid .art {
+.homeGrid .portrait {
   --art: 360px;
+}
+
+/* Laid over the portrait, so the picture keeps its own alt text. */
+.portraitButton {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
 }
 
 .availability {
@@ -1188,7 +1199,7 @@ textarea.input {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .homeGrid .art {
+  .homeGrid .portrait {
     --art: 280px;
     order: -1;
     justify-self: center;
