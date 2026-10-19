@@ -328,13 +328,13 @@ export const cvData = {
     },
     {
       school: "Uppsala University",
-      degree: "Magister (one-year master's) in Entrepreneurship",
+      degree: "Master of Social Science (one year, 60 credits), Entrepreneurship",
       period: "Aug 2022 – Jun 2023",
       place: "Uppsala, Sweden",
     },
     {
       school: "Uppsala University",
-      degree: "BA in Game Design and Project Management",
+      degree: "Bachelor of Arts, Game Design",
       period: "Aug 2019 – Jun 2022",
       place: "Uppsala, Sweden",
     },
@@ -395,7 +395,7 @@ export const experience = [
   {
     id: "edu-2",
     type: "education",
-    role: "MSc, Business & Management",
+    role: "Master of Social Science, Entrepreneurship",
     organization: "Uppsala University",
     period: "2022 – 2023",
     description:
@@ -404,7 +404,7 @@ export const experience = [
   {
     id: "edu-3",
     type: "education",
-    role: "BA, Game Design & Project Management",
+    role: "BA, Game Design",
     organization: "Uppsala University",
     period: "2019 – 2022",
     description:
