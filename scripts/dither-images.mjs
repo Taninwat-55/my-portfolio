@@ -246,6 +246,19 @@ async function main() {
     path.join(ROOT, "app/icon.png"),
     "Not generated. A 32x32 one-bit face drawn pixel by pixel in code (pixelFace() in scripts/dither-images.mjs), after Ice's portrait.",
   );
+  // Google wants a favicon in multiples of 48px, and phones want a 180px
+  // home-screen icon. Whole-number nearest-neighbour scales keep the pixels
+  // square: 6x for 192, 5x plus a 10px white margin for 180.
+  await sharp(path.join(ROOT, "app/icon.png"))
+    .resize(192, 192, { kernel: "nearest" })
+    .png({ palette: true, colours: 2 })
+    .toFile(path.join(ROOT, "app/icon1.png"));
+  await sharp(path.join(ROOT, "app/icon.png"))
+    .resize(160, 160, { kernel: "nearest" })
+    .extend({ top: 10, bottom: 10, left: 10, right: 10, background: "#ffffff" })
+    .flatten({ background: "#ffffff" })
+    .png({ palette: true, colours: 2 })
+    .toFile(path.join(ROOT, "app/apple-icon.png"));
 
   // The share cards' backdrop.
   const desk = path.join(ROOT, "public/stack/og-desk.png");
