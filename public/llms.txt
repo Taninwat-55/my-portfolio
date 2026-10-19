@@ -9,7 +9,7 @@ Personal site: https://taninwatkaewpankan.xyz
 Taninwat Kaewpankan (goes by Ice) is a frontend engineer and project coordinator
 based in Copenhagen: frontend engineering, product thinking, and delivery.
 Originally from Thailand, he moved to Sweden at 16, studied at Uppsala
-University (BA Game Design & Project Management, MSc Business & Management), and
+University (BA Game Design, Master of Social Science in Entrepreneurship), and
 now lives in Copenhagen, Denmark.
 
 He builds web products end-to-end (React, TypeScript, Next.js, Node.js) and
@@ -152,8 +152,8 @@ Approach: Design systems, accessibility, performance
 ## Education
 
 - Higher Vocational Diploma in Frontend Development (2-year program), Jensen Yrkeshögskola (2024 – 2026)
-- MSc Business & Management (Entrepreneurship), Uppsala University (2022 – 2023)
-- BA Game Design & Project Management, Uppsala University (2019 – 2022)
+- Master of Social Science, Entrepreneurship (one year), Uppsala University (2022 – 2023)
+- BA Game Design, Uppsala University (2019 – 2022)
 
 ## Links
 
