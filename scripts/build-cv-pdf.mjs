@@ -49,10 +49,34 @@ const execFileAsync = promisify(execFile);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CHROME =
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-const OUT = path.join(ROOT, "public/assets/Taninwat_Kaewpankan_CV.pdf");
 const CAMBRIA_URL = "file://" + encodeURI("/Applications/Microsoft Word.app/Contents/Resources/DFonts");
 
 const { cvData, personalInfo } = await import(path.join(ROOT, "app/data.ts"));
+
+/**
+ * Tailored CVs for one application live outside the repo, so the site's CV stays
+ * generic and a new application never needs a commit:
+ *
+ *   npm run cv -- --variant ~/Documents/applications/2026-10-16-company
+ *
+ * The folder's cv.json holds only the top-level cvData keys that differ (summary,
+ * skills, projects...). Each key replaces the generic one whole, so what the file
+ * says is exactly what prints. The PDF lands in the folder as CV.pdf.
+ */
+const variantArg = process.argv.indexOf("--variant");
+const VARIANT = variantArg === -1 ? null : path.resolve(process.argv[variantArg + 1] ?? "");
+if (VARIANT && !existsSync(path.join(VARIANT, "cv.json"))) {
+  console.error(`No cv.json in ${VARIANT}`);
+  process.exit(1);
+}
+const cv = VARIANT
+  ? { ...cvData, ...JSON.parse(await readFile(path.join(VARIANT, "cv.json"), "utf8")) }
+  : cvData;
+const OUT = VARIANT
+  ? path.join(VARIANT, "CV.pdf")
+  : path.join(ROOT, "public/assets/Taninwat_Kaewpankan_CV.pdf");
+// The timeout check below trusts an existing file, so an old one must not linger.
+await rm(OUT, { force: true });
 
 /** Escapes into HTML text. cvData is ours, but an unescaped & would still break. */
 const e = (s) =>
@@ -84,7 +108,7 @@ const html = `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>${e(personalInfo.name)} — ${e(cvData.title)}</title>
+<title>${e(personalInfo.name)} — ${e(cv.title)}</title>
 <style>
   /* 15mm all round: narrower reads as cramped in print, wider wastes a column
      inch that the summary needs. */
@@ -220,7 +244,7 @@ const html = `<!doctype html>
 
   <header>
     <h1 class="name">${e(personalInfo.name)}</h1>
-    <p class="title">${e(cvData.title)}</p>
+    <p class="title">${e(cv.title)}</p>
     <p class="contact">
       <span>${e(personalInfo.location)}</span>
       <span><a href="mailto:${e(personalInfo.email)}">${e(personalInfo.email)}</a></span>
@@ -232,13 +256,13 @@ const html = `<!doctype html>
 
   <section>
     <h2>Summary</h2>
-    <p class="summary">${e(cvData.summary)}</p>
+    <p class="summary">${e(cv.summary)}</p>
   </section>
 
   <section>
     <h2>Skills</h2>
     <dl class="skills">
-      ${cvData.skills
+      ${cv.skills
         .map(
           (g) =>
             `<dt>${e(g.label)}</dt><dd>${g.items.map(e).join(", ")}</dd>`,
@@ -249,17 +273,17 @@ const html = `<!doctype html>
 
   <section>
     <h2>Projects</h2>
-    ${cvData.projects.map(entry).join("\n    ")}
+    ${cv.projects.map(entry).join("\n    ")}
   </section>
 
   <section>
     <h2>Experience</h2>
-    ${cvData.experience.map(entry).join("\n    ")}
+    ${cv.experience.map(entry).join("\n    ")}
   </section>
 
   <section>
     <h2>Education</h2>
-    ${cvData.education
+    ${cv.education
       .map(
         (s) => `
     <article class="edu">
@@ -276,7 +300,7 @@ const html = `<!doctype html>
   <section>
     <h2>Additional</h2>
     <dl class="extra">
-      ${cvData.additional
+      ${cv.additional
         .map((a) => `<dt>${e(a.label)}</dt><dd>${e(a.value)}</dd>`)
         .join("\n      ")}
     </dl>
@@ -320,4 +344,4 @@ try {
 
 const bytes = (await readFile(OUT)).length;
 console.log(`✓ ${path.relative(ROOT, OUT)} — ${(bytes / 1024).toFixed(0)} KB`);
-console.log(`  title: ${cvData.title}`);
+console.log(`  title: ${cv.title}`);
