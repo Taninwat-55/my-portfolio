@@ -24,6 +24,8 @@ const nextConfig: NextConfig = {
       // One list of projects, not two: the stack's All cards grid replaced
       // the paper /projects page in phase 2 (2026-10-18).
       { source: "/projects", destination: "/work", permanent: true },
+      // Cinema Booking was delisted on 2026-10-24; its card may still be indexed.
+      { source: "/cases/cinema", destination: "/work", permanent: true },
     ];
   },
   // Security headers for improved protection

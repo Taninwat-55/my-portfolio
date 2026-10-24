@@ -252,8 +252,11 @@ A 3px-ruled, 8px-rounded line under the stack: a DotGothic16 "Message" label, an
 ### Mini Cards
 The all-cards grid: 256px tiles, 2px rule, 6px radius, 6px padding, a 240x118 dithered thumbnail (top-cropped, 2px ruled) or a drawn one-bit miniature, and a DotGothic16 16px title row. Hover thickens the rule to 3px.
 
-### Price Placard (Showroom)
-Each concept on /showroom is a window titled with its live domain: the dithered screenshot, title, "business, in style" line, the Concept stamp and what you get on the left; on the right the receipt rows of its build-up (a ladder rung, then each add-on as "+ price"), a big-figure total between 2px rules with the founding price under it in 16px while spots remain, the terms in small type, and the default button "Build me one like this" before See it live and How it was built. Every figure is computed by conceptPrice() in data.ts; none is typed on the page.
+### Showroom Minis and the Price Placard
+/showroom is a Mini Cards grid of every site with a Showroom entry: under the title, a 2px-ruled DotGothic16 stamp ("Real client" or "Concept, no client"), the business and style in Atkinson 15px, and the price in DotGothic16 16px with the founding price under it while spots remain. The whole mini links to the case page. There the Price Placard sits full width between the screenshot and the write-up: a window titled "What a site like this costs (today)", what you get on the left, and on the right the receipt rows of the build-up, a big-figure total between 2px rules, the terms in small type, and the default button "Build me one like this". Every figure comes from conceptPrice() in data.ts.
+
+### Home Doors
+Under the availability line, the question "What brings you here?" (headline, 32px above) and two stacked buttons: "I need a website" (default, to the Showroom) and "I'm hiring an engineer" (to Engineer), then a plain text link "Or see everything" to All cards, so neither door hides anything.
 
 ## Do's and Don'ts
 

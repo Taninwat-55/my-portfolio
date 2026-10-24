@@ -523,13 +523,18 @@
   padding: 4px 6px;
 }
 
-.titlebar span {
+.titlebar span,
+.titlebarHeading {
   background: var(--card);
   padding: 0 10px;
   font-family: var(--font-pixel), system-ui, sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 18px;
+}
+
+.titlebarHeading {
+  margin: 0;
 }
 
 .closeBox {
@@ -652,7 +657,8 @@
   gap: 12px;
 }
 
-.caseText {
+.caseText,
+.casePrice {
   grid-column: 1 / -1;
 }
 
@@ -1030,6 +1036,37 @@ textarea.input {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.2;
+}
+
+/* The Home card's question above its two doors. */
+.question {
+  margin-top: 32px;
+}
+
+/* Showroom minis: the stamp, the one-line description and the price under
+   the title, in the body face so the price reads as a fact, not a label. */
+.miniMeta {
+  display: grid;
+  gap: 4px;
+  padding: 2px 4px 4px;
+  font-family: var(--font-atkinson), system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.miniStamp {
+  justify-self: start;
+  border: var(--rule-thin);
+  padding: 0 6px;
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 14px;
+}
+
+.miniPrice {
+  margin-top: 4px;
+  font-family: var(--font-pixel), system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .miniTitle small {

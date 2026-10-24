@@ -451,6 +451,8 @@ export interface CaseStudy {
    * plus add-ons, all looked up by conceptPrice(), so no figure is typed here.
    */
   showroom?: {
+    /** A real, paid client site rather than a concept. Sets the stamp. */
+    client?: boolean;
     business: string;
     style: string;
     rung: 0 | 1;
@@ -628,37 +630,6 @@ export const cases: CaseStudy[] = [
     },
   },
   {
-    id: "cinema",
-    n: "06",
-    tag: "Full-Stack",
-    scope: "Full-stack: a React frontend with a Node.js REST API and a PostgreSQL database.",
-    title: "Cinema Booking",
-    sub: "My first full-stack project, a complete booking system built with a team of students at Jensen.",
-    images: [
-      "/assets/cinema/cinema-index.webp",
-      "/assets/cinema/cinema-movie-id.webp",
-      "/assets/cinema/cinema-seat.webp",
-    ],
-    overview:
-      "A team project from Jensen: full-stack cinema booking engine with React on the front and Node.js plus PostgreSQL on the back. Covers the full flow: browse movies, pick a showing, select seats, confirm a booking, and manage it from a user account.",
-    challenge:
-      "The main learning challenge was keeping client and server in sync across a multi-step booking flow: seat availability, auth state, booking confirmation, without the project falling apart at the seams. For a first full-stack build, that coordination was the hard part.",
-    stackWhy:
-      "React for the UI, Node.js for the API, PostgreSQL for persistence. Structured around a clean model/controller/route separation so each layer stayed focused and testable in isolation.",
-    engineering:
-      "Built the full REST API from scratch: auth with role-based access (admin and user), seat selection tied to a specific showing, booking creation with confirmation number, history, and cancellation. My first time owning a server, a database schema, and a client at the same time.",
-    metrics: [
-      { v: "PostgreSQL", k: "Database" },
-      { v: "Auth", k: "Admin + user roles" },
-      { v: "Full-stack", k: "React + Node.js" },
-    ],
-    stack: ["React", "Node.js", "PostgreSQL", "REST API"],
-    links: {
-      demo: "https://cinema-booking-system-project.vercel.app",
-      code: "https://github.com/Taninwat-55/cinema-booking-system-project",
-    },
-  },
-  {
     id: "racha",
     n: "07",
     tag: "Client Work",
@@ -688,6 +659,18 @@ export const cases: CaseStudy[] = [
     links: {
       demo: "https://rachabeautywellness.com",
       code: "https://github.com/Taninwat-55/rachabeautywellness",
+    },
+    showroom: {
+      client: true,
+      business: "A massage and wellness studio",
+      style: "A warm, classic style",
+      rung: 1,
+      addOns: [],
+      gets: [
+        "Five pages in Danish: home, treatments with prices, gallery, about and contact",
+        "An enquiry form with a backup path, so a lost message never costs a customer",
+        "95+ Lighthouse on the first deploy, and it has run since launch without maintenance",
+      ],
     },
   },
   // The last two entries — Lumina and Saep — are the only ones with no client
@@ -1792,11 +1775,22 @@ export function conceptPrice(showroom: NonNullable<CaseStudy["showroom"]>) {
   };
 }
 
-/** The one rule for "is this in the Showroom?": a concept with a placard. */
-export const inShowroom = (c: CaseStudy) => Boolean(c.concept && c.showroom);
+/** The one rule for "is this in the Showroom?": real or concept, it has a placard. */
+export const inShowroom = (c: CaseStudy) => Boolean(c.showroom);
 
-/** The concepts with a Showroom entry, in stack order. */
+/** The sites with a Showroom entry, real client work first. */
 export const showroomCases = () => cases.filter(inShowroom);
+
+/** The chatbot's price lines for real client sites, or for concepts. */
+function showroomLines(client: boolean) {
+  return showroomCases()
+    .filter((c) => Boolean(c.showroom!.client) === client)
+    .map((c) => {
+      const p = conceptPrice(c.showroom!);
+      return `- ${c.title} (${c.showroom!.business.toLowerCase()}, ${c.showroom!.style.toLowerCase()}): ${p.rows.map((r) => r.label).join(" + ")} = ${p.total}${foundingOpen ? `, founding client price ${p.founding}` : ""}`;
+    })
+    .join("\n");
+}
 
 // ─── THE STACK (homepage since 2026-10-18) ───────────────────────────────────
 // The portfolio as a HyperCard stack: one card per thing Ice made, flipped with
@@ -1807,30 +1801,25 @@ export const showroomCases = () => cases.filter(inShowroom);
 export type StackCardId = "home" | "engineer" | "showroom" | "build" | CaseStudy["id"];
 
 /**
- * The stack's order, which is also the order the arrow keys flip through. The
- * seven lead projects first: Racha leads because it is the one search actually
- * sends people to (Search Console, Oct 2026), and Millennial closes the lead run
- * because it is the people work, not the code. Satoshi and Cinema are the
- * archive, kept as cards but after the leads.
+ * The stack's order, which is also the order the arrow keys flip through: Home,
+ * then one run per visitor. Clients come first, because client work is what
+ * brings visitors (Racha is the only query Search Console showed, Oct 2026);
+ * recruiters second; the archive last. /work shows the same runs as headed
+ * groups, so the grid and the arrow keys never disagree.
  */
-export const stackOrder: StackCardId[] = [
-  "home",
-  "racha",
-  "trailr",
-  "bevisly",
-  "mockmate",
-  "lumina",
-  "saep",
-  "millennial",
-  "satoshi",
-  "cinema",
-  "engineer",
-  // Just before Build mine: see what a site costs, then ask for one.
-  "showroom",
-  "build",
+export const stackRuns: { id: "client" | "engineer" | "archive"; cards: StackCardId[] }[] = [
+  // Clients first (Ice, 2026-10-24): the shop, the priced sites, then the
+  // enquiry. Saep stays a card, unpriced, until its editorial redesign.
+  { id: "client", cards: ["showroom", "racha", "lumina", "saep", "build"] },
+  // Recruiters second: the engineer card, the product work, the people work.
+  { id: "engineer", cards: ["engineer", "trailr", "bevisly", "mockmate", "millennial"] },
+  // Kept, not led with. Cinema Booking was delisted on 2026-10-24.
+  { id: "archive", cards: ["satoshi"] },
 ];
 
-export const stackArchive: CaseStudy["id"][] = ["satoshi", "cinema"];
+export const stackOrder: StackCardId[] = ["home", ...stackRuns.flatMap((run) => run.cards)];
+
+export const stackArchive: CaseStudy["id"][] = ["satoshi"];
 
 export const stackHref = (id: StackCardId) =>
   id === "home"
@@ -1862,11 +1851,13 @@ export const stackContent = {
     portraitDevelop: "Develop the portrait in colour",
     portraitHint: "Tap or click to develop in colour.",
     portraitDevelopedHint: "Tap or click again to go back to one bit.",
+    // Two doors, clients first, and a way past both so nobody is fenced in.
+    question: "What brings you here?",
     buttons: [
-      { label: "See the work", href: "/cases/racha" },
-      { label: "Build mine", href: "/build" },
-      { label: "Engineer", href: "/engineer" },
+      { label: "I need a website", href: "/showroom" },
+      { label: "I'm hiring an engineer", href: "/engineer" },
     ],
+    everything: { label: "Or see everything", href: "/work" },
     hint: "Flip cards with the arrow keys, or the buttons under the card.",
   },
   project: {
@@ -1908,20 +1899,21 @@ export const stackContent = {
     saving: "Saving…",
     savedTitle: "Card saved.",
     details: { label: "Prices and what's included", href: "/services" },
-    showroom: { label: "See sample sites and what each would cost", href: "/showroom" },
+    showroom: { label: "See sites I have built and what each would cost", href: "/showroom" },
   },
   showroom: {
     title: "Showroom",
-    lead: "Sample sites for businesses that do not exist, each priced as if yours did. I price a site by what it needs, never by its style, so two sites that look nothing alike can cost the same.",
+    lead: "Websites for businesses, real client work and concept sites, each with what a site like it would cost you. I price a site by what it needs, never by its style, so two sites that look nothing alike can cost the same. Open one to see what you get.",
     concept: "Concept, no client",
+    client: "Real client",
     priceLabel: "What a site like this costs",
+    priceLabelClient: "What a site like this costs today",
     total: "Total",
     timeline: "Typically",
     terms: `Prices ${vat.shortLabel}. You pay for the domain and any hosting directly, never through me.`,
     getsLabel: "What you get",
-    live: "See it live",
-    caseStudy: "How it was built",
     buildLike: "Build me one like this",
+    prices: "All prices and add-ons",
     more: "I add a new sample site every week or two. The next one is a restaurant in an editorial, print-inspired style.",
   },
   nav: {
@@ -1973,8 +1965,12 @@ export const stackContent = {
   },
   grid: {
     title: "All cards",
-    lead: "Every card in the stack. The lead work first, then the archive.",
-    archive: "Archive",
+    lead: "Every card in the stack, in the order the arrow keys flip through them.",
+    runs: {
+      client: "Websites for businesses",
+      engineer: "Engineering and leadership",
+      archive: "Archive",
+    },
   },
 };
 
@@ -2091,13 +2087,11 @@ ${
     ? `\nFounding client offer, published on the site: ${foundingTerms} ${foundingSpotsLine} It applies to a website build only. Quote it if asked about price or budget; never extend it, invent another discount or negotiate below it.\n`
     : ""
 }
-The Showroom (https://taninwatkaewpankan.xyz/showroom) shows concept sites for made-up businesses, each with what a site like it would cost. They are concepts with no client; never present them as client work. You may quote these:
-${showroomCases()
-  .map((c) => {
-    const p = conceptPrice(c.showroom!);
-    return `- ${c.title} (${c.showroom!.business.toLowerCase()}, ${c.showroom!.style.toLowerCase()}): ${p.rows.map((r) => r.label).join(" + ")} = ${p.total}${foundingOpen ? `, founding client price ${p.founding}` : ""}`;
-  })
-  .join("\n")}
+The Showroom (https://taninwatkaewpankan.xyz/showroom) shows websites for businesses, each with what a site like it would cost. You may quote these prices.
+Real client work, priced as a site like it costs today (not what the client paid; never state what they paid):
+${showroomLines(true)}
+Concept sites for made-up businesses, with no client; never present them as client work:
+${showroomLines(false)}
 
 Taking payment and anything involving logins are capabilities Ice has built on his own products (Bevisly and MockMate) rather than for a client. Say that plainly if asked; never imply a client build that does not exist.
 
