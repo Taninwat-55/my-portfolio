@@ -22,9 +22,11 @@ type Choice = "projectType" | "budget" | "timeline";
 export function BlankCard({
   copy = ENQUIRY_COPY_EN,
   card = stackContent.build,
+  initial,
 }: {
   copy?: EnquiryCopy;
   card?: { save: string; saving: string; savedTitle: string };
+  initial?: Partial<EnquiryFields>;
 } = {}) {
   const stack = card;
   const {
@@ -40,7 +42,7 @@ export function BlankCard({
     honeypotRef,
     summaryRef,
     sentRef,
-  } = useEnquiryForm(copy);
+  } = useEnquiryForm(copy, initial);
 
   if (status === "sent") {
     return (

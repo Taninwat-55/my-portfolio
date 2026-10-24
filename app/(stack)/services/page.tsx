@@ -17,6 +17,10 @@ import {
   vat,
   ditheredSrc,
   stackContent,
+  founding,
+  foundingOpen,
+  foundingSpotsLine,
+  foundingTerms,
 } from "../../data";
 
 const BASE_URL = "https://taninwatkaewpankan.xyz";
@@ -315,6 +319,18 @@ export default function ServicesPage() {
                       </ReceiptRow>
                     ))}
                     {offer.buildMethodNote && <p className={styles.note}>{offer.buildMethodNote}</p>}
+                    {offer.id === "website" && foundingOpen && (
+                      <p className={styles.note}>
+                        <strong>{founding.label}.</strong> {foundingTerms} {foundingSpotsLine}
+                      </p>
+                    )}
+                    {offer.id === "website" && (
+                      <p className={styles.note}>
+                        <Link href={stackContent.build.showroom.href} className={stack.inlineLink}>
+                          {stackContent.build.showroom.label}
+                        </Link>
+                      </p>
+                    )}
                   </div>
                 )}
 

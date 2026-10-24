@@ -252,6 +252,9 @@ A 3px-ruled, 8px-rounded line under the stack: a DotGothic16 "Message" label, an
 ### Mini Cards
 The all-cards grid: 256px tiles, 2px rule, 6px radius, 6px padding, a 240x118 dithered thumbnail (top-cropped, 2px ruled) or a drawn one-bit miniature, and a DotGothic16 16px title row. Hover thickens the rule to 3px.
 
+### Price Placard (Showroom)
+Each concept on /showroom is a window titled with its live domain: the dithered screenshot, title, "business, in style" line, the Concept stamp and what you get on the left; on the right the receipt rows of its build-up (a ladder rung, then each add-on as "+ price"), a big-figure total between 2px rules with the founding price under it in 16px while spots remain, the terms in small type, and the default button "Build me one like this" before See it live and How it was built. Every figure is computed by conceptPrice() in data.ts; none is typed on the page.
+
 ## Do's and Don'ts
 
 ### Do:

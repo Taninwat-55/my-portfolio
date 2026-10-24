@@ -1,6 +1,7 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { cases, ditheredSrc, stackContent } from "../../../data";
+import { cases, ditheredSrc, inShowroom, stackContent } from "../../../data";
 import { DitherPicture } from "../../../components/stack/DitherPicture";
 import { DevelopImage } from "../../../components/stack/DevelopImage";
 import styles from "../../../components/stack/stack.module.css";
@@ -98,6 +99,13 @@ export default async function CasePage({
         <h1 className={styles.title}>{caseStudy.title}</h1>
         <p className={styles.sub}>{caseStudy.sub}</p>
         {caseStudy.concept && <p className={styles.note}>{copy.concept}</p>}
+        {inShowroom(caseStudy) && (
+          <p className={styles.hint}>
+            <Link href={`/showroom#${caseStudy.id}`} className={styles.inlineLink}>
+              {stackContent.showroom.priceLabel}
+            </Link>
+          </p>
+        )}
 
         <dl className={styles.facts}>
           {caseStudy.metrics.map((m) => (
