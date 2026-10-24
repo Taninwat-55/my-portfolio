@@ -48,12 +48,23 @@ https://taninwatkaewpankan.xyz/services
         - Taking payment via Stripe (card, MobilePay, Apple/Google Pay) — 5.000 DKK.
           Not a full webshop.
         - Motion and animation — 2.500 DKK.
+        - Illustrations and a visual identity (type, colour, icons,
+          illustrations made with design and AI image tools), 4.000 DKK. Every
+          site is already designed for the client; this is for a business with
+          no visual identity yet. A logo and photography are separate jobs.
+        - A page that tells a story as you scroll (scroll storytelling, as in
+          the Lumina Spa concept), 6.000 DKK.
         - An extra page beyond eight — 1.800 DKK per page.
       A map, a gallery, a contact form and a cookie/privacy page are in every
       build already and are not charged for. Taking payment and anything with
       logins are capabilities Ice has built on his own products (Bevisly,
       MockMate) rather than for a client — he says so rather than implying
       otherwise.
+    · Founding client price: 40% off a whole website for Ice's first 3
+      clients, in return for a short testimonial and permission to show the
+      site. Ends when the 3 spots are taken.
+    · Showroom (https://taninwatkaewpankan.xyz/showroom): concept sites for
+      made-up businesses, each priced as a real build. Concepts, no client.
   What it costs to KEEP: no platform fee. Roughly 100–1.600 DKK a year for the
   domain plus hosting, which fits the Netlify/Vercel free tier or costs
   500–1.500 DKK on a Danish webhotel; about 500–8.000 DKK over five years.

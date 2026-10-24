@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { stackContent } from "../../data";
+import { Suspense } from "react";
+import { founding, foundingOpen, foundingSpotsLine, foundingTerms, stackContent } from "../../data";
 import { BlankCard } from "../../components/stack/BlankCard";
+import { ShowroomBlankCard } from "../../components/stack/ShowroomBlankCard";
 import styles from "../../components/stack/stack.module.css";
 
 export const metadata: Metadata = {
@@ -20,13 +22,27 @@ export default function BuildPage() {
         <h1 className={styles.title}>{copy.title}</h1>
         <p className={styles.lead}>{copy.lead}</p>
         <p className={styles.availability}>{copy.price}</p>
+        {foundingOpen && (
+          <p className={styles.hint}>
+            <strong>{founding.label}.</strong> {foundingTerms} {foundingSpotsLine}
+          </p>
+        )}
         <p className={styles.hint}>
           <Link href={copy.details.href} className={styles.inlineLink}>
             {copy.details.label}
           </Link>
         </p>
+        <p className={styles.hint}>
+          <Link href={copy.showroom.href} className={styles.inlineLink}>
+            {copy.showroom.label}
+          </Link>
+        </p>
       </div>
-      <BlankCard />
+      {/* The plain card is the static fallback; ?like= from a Showroom placard
+          fills it in on the client, so /build stays a static page. */}
+      <Suspense fallback={<BlankCard />}>
+        <ShowroomBlankCard />
+      </Suspense>
     </div>
   );
 }

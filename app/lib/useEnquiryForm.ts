@@ -30,12 +30,16 @@ export const FIELD_ORDER: (keyof EnquiryFields)[] = [
   "message",
 ];
 
-export function useEnquiryForm(copy: {
-  messages: EnquiryMessages;
-  /** Contains the literal token {email}. */
-  sendFailed: string;
-}) {
-  const [form, setForm] = useState<EnquiryFields>(EMPTY_ENQUIRY);
+export function useEnquiryForm(
+  copy: {
+    messages: EnquiryMessages;
+    /** Contains the literal token {email}. */
+    sendFailed: string;
+  },
+  /** Fields filled in before the visitor arrives, e.g. from a Showroom link. */
+  initial?: Partial<EnquiryFields>
+) {
+  const [form, setForm] = useState<EnquiryFields>({ ...EMPTY_ENQUIRY, ...initial });
   const [errors, setErrors] = useState<EnquiryErrors>({});
   const [status, setStatus] = useState<EnquiryStatus>("idle");
   const [formError, setFormError] = useState<string | null>(null);

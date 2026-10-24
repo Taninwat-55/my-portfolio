@@ -206,6 +206,20 @@
   padding: clamp(16px, 3vw, 36px) 16px 8px;
 }
 
+/* The business line under the nav bar: on a white slip, because text read
+   straight off the stipple desk is not legible. */
+.colophon {
+  margin-top: 12px;
+  border: 2px solid #000;
+  border-radius: 6px;
+  background: var(--card);
+  padding: 4px 10px;
+  font-family: var(--font-atkinson), system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+}
+
 .frame {
   position: relative;
   width: min(1100px, 100%);

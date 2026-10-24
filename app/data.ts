@@ -8,6 +8,9 @@ export const personalInfo = {
   nickname: "Ice",
   location: "Copenhagen, Denmark",
   email: "taninwat.kaewpankan@gmail.com",
+  // The registered business (a PMV, not moms-registered). Name and CVR are
+  // shown in the stack's footer; the address stays off the site by choice.
+  business: { name: "Ice's Stack v/Taninwat Kaewpankan", cvr: "46871537" },
   socials: {
     linkedin: "https://www.linkedin.com/in/taninwat-k-ice2539/",
     github: "https://github.com/Taninwat-55",
@@ -442,6 +445,18 @@ export interface CaseStudy {
    * impression forms; its `sub` says it again in the first words.
    */
   concept?: boolean;
+  /**
+   * A concept's place in the Showroom: what a site like it would cost a real
+   * business. Priced by scope, never by style: a rung of the website ladder
+   * plus add-ons, all looked up by conceptPrice(), so no figure is typed here.
+   */
+  showroom?: {
+    business: string;
+    style: string;
+    rung: 0 | 1;
+    addOns: AddOnId[];
+    gets: string[];
+  };
 }
 
 export const cases: CaseStudy[] = [
@@ -716,6 +731,17 @@ export const cases: CaseStudy[] = [
       demo: "https://lumina-spa-sample.netlify.app",
       code: "https://github.com/Taninwat-55/lumina-spa",
     },
+    showroom: {
+      business: "A day spa",
+      style: "Scroll storytelling",
+      rung: 0,
+      addOns: ["scroll-story"],
+      gets: [
+        "One long page that walks a visitor through the visit: arriving, the oils, the treatments, the rituals",
+        "Ten sections that move with the scroll, in 10.8 KB over the wire, so it opens fast on a phone",
+        "Everything in every build: search setup, your Google Business profile, an enquiry form and analytics",
+      ],
+    },
   },
   {
     id: "saep",
@@ -891,8 +917,20 @@ export const vat = {
  * published figure per outcome, and `note` is only ever about what something
  * costs to keep or who else gets paid.
  */
-const WEBSITE_ADD_ONS: { name: string; price: string; body: string; note?: string }[] = [
+export type AddOnId =
+  | "self-edit"
+  | "managed-list"
+  | "second-language"
+  | "booking"
+  | "payments"
+  | "motion"
+  | "art-direction"
+  | "scroll-story"
+  | "extra-page";
+
+const WEBSITE_ADD_ONS: { id: AddOnId; name: string; price: string; body: string; note?: string }[] = [
   {
+  id: "self-edit",
   name: "Edit your own text and images",
   price: "3.000 DKK",
   body: "A small editor built onto the site so you can change your opening hours, your prices and your photos yourself. Setup, your own login, and a recording of me walking through it.",
@@ -901,12 +939,14 @@ const WEBSITE_ADD_ONS: { name: string; price: string; body: string; note?: strin
   note: "A one-off. The editor runs on a free tier, so there is nothing to pay for it each year.",
   },
   {
+  id: "managed-list",
   name: "A list you manage yourself",
   price: "3.500 DKK",
   body: "Treatments, a menu, a team page, or a blog you post to yourself. Anything where you add and remove entries rather than editing a fixed page. You get a simple form per entry instead of a page to lay out.",
   note: "Free to run afterwards: there is no higher plan to move up to.",
   },
   {
+  id: "second-language",
   name: "A second language",
   // The ONE add-on priced as a span rather than a figure, because it is
   // the only one whose work genuinely tracks page count: every page has
@@ -925,23 +965,54 @@ const WEBSITE_ADD_ONS: { name: string; price: string; body: string; note?: strin
   note: "The translation itself is not in this. A translation bureau charges around 1 kr a word and you pay them directly, so on a small site expect a separate bill of one to two thousand kroner. What I build is the structure around the words.",
   },
   {
+  id: "booking",
   name: "Online booking",
   price: "3.500 DKK",
   body: "A booking tool wired properly into the site and its design, with confirmation emails that work, rather than a grey box dropped onto a page. Building a booking engine from nothing is a different job and a different price.",
   note: "The booking tool's own subscription is paid by you, directly, like the domain and the hosting.",
   },
   {
+  id: "payments",
   name: "Take payment online",
   price: "5.000 DKK",
   body: "Card, MobilePay, Apple Pay and Google Pay through Stripe, set up in your name and tested with real payments before it goes live. Suited to a handful of services or products. A full webshop is a bigger job than this.",
   note: "Stripe's own fee is theirs and comes out of each payment, currently about 1,4% plus 1,80 kr on a European card. It never passes through me.",
   },
   {
+  id: "motion",
   name: "Motion and animation",
   price: "2.500 DKK",
   body: "Considered movement: sections arriving as you scroll, things that respond when you touch them. Built to go still for a visitor whose device asks for reduced motion, because for some people it is not a preference.",
   },
+  // Added 2026-10-24 with the Showroom, which shows both on concept sites.
+  // Set inside the freelance market rather than at its floor: a Danish
+  // freelancer charges 3.000 – 8.000 extra for custom design, an agency 15.000
+  // – 25.000 for custom design with animation (webworq.dk, louimicheletti.dk).
+  // The founding-client discount, not a lower list price, is what makes them
+  // reachable while there is little client proof behind them.
   {
+  id: "art-direction",
+  // Every site is already designed for the client; this buys the visual
+  // material they do not have yet. Ice makes illustrations with design and
+  // AI image tools, not by hand, so the copy says so rather than implying
+  // an illustrator.
+  name: "Illustrations and a visual identity",
+  price: "4.000 DKK",
+  body: "Every site I build is designed for your business, around the logo, colours and photos you already have. This is for when you have no visual identity yet, or want one that stands out. I create a type and colour system, an icon set, and illustrations or a photo style for the site. The illustrations are made with design and AI image tools and finished by me to fit your site.",
+  note: "A logo and photography are separate jobs. If you need them, you pay the designer or photographer directly.",
+  },
+  {
+  // Not a bigger version of "Motion and animation" above, which adds
+  // movement to a page that would work the same without it. Here the
+  // scroll IS the page's structure, so it is a different outcome with its
+  // own price, not a second price for the same one.
+  id: "scroll-story",
+  name: "A page that tells a story as you scroll",
+  price: "6.000 DKK",
+  body: "I build the whole page around one story that unfolds as the visitor scrolls. Sections pin in place, pictures and words move together, and the visitor sets the pace. Lumina Spa in the Showroom is built this way. A visitor whose device asks for reduced motion gets the same story as a calm, complete page.",
+  },
+  {
+  id: "extra-page",
   name: "An extra page",
   price: "1.800 DKK",
   body: "Per page, beyond the eight. Same standard as the rest, so a ninth page is a line on an invoice rather than a new project.",
@@ -957,15 +1028,17 @@ const WEBSITE_ADD_ONS: { name: string; price: string; body: string; note?: strin
  * than being misparsed as one value.
  */
 function addOnBand(items: { price: string }[]): string {
-  const figures = items.flatMap((item) =>
-    [...item.price.matchAll(/\d+(?:\.\d{3})*/g)].map((match) =>
-      Number(match[0].replace(/\./g, ""))
-    )
-  );
-  // Danish thousands separator, to match every other figure on the page.
-  const dk = (n: number) => n.toLocaleString("da-DK");
-  return `+ ${dk(Math.min(...figures))} – ${dk(Math.max(...figures))} DKK`;
+  const all = items.flatMap((item) => figures(item.price));
+  return `+ ${dk(Math.min(...all))} – ${dk(Math.max(...all))} DKK`;
 }
+
+/** Every number in a price string: "3.000 – 5.500 DKK" gives [3000, 5500]. */
+function figures(price: string): number[] {
+  return [...price.matchAll(/\d+(?:\.\d{3})*/g)].map((match) => Number(match[0].replace(/\./g, "")));
+}
+
+/** Danish thousands separator, to match every other figure on the site. */
+const dk = (n: number) => n.toLocaleString("da-DK");
 
 /**
  * The aftercare figures, as figures. ITEM 44.
@@ -1657,13 +1730,81 @@ export const clockContent = {
   writing: { title: "Writing" },
 } as const;
 
+// ─── FOUNDING CLIENTS AND THE SHOWROOM (2026-10-24) ──────────────────────────
+
+/**
+ * The founding-client offer: how Ice starts below market without printing a
+ * below-market price. The list prices stay where the market puts them, and the
+ * first few clients get a stated discount in return for a testimonial and
+ * permission to show the work, which is the proof the list price lacks today.
+ *
+ * Every founding figure is COMPUTED from the list price, never typed. When the
+ * spots are gone, set `spotsLeft` to 0: every founding line on the site and in
+ * the chatbot disappears, and nobody sees a price rise, only an offer that
+ * closed.
+ *
+ * DOES NOT INTERPOLATE: public/llms.txt repeats these terms by hand. Delete its
+ * Founding bullet when spotsLeft reaches 0, and edit it if spots or discount
+ * change.
+ */
+export const founding = {
+  spots: 3,
+  spotsLeft: 3,
+  discount: 0.4,
+  label: "Founding client price",
+};
+
+export const foundingOpen = founding.spotsLeft > 0;
+
+/** The terms, in one place, with the numbers read from `founding`. */
+export const foundingTerms = `${Math.round(founding.discount * 100)}% off a whole website for my first ${founding.spots} clients. In return you write me a short testimonial and let me show your site in my portfolio.`;
+
+/** List price to founding price, rounded to the nearest hundred kroner. */
+export const foundingFigure = (n: number) => Math.round((n * (1 - founding.discount)) / 100) * 100;
+
+export const foundingSpotsLine = `${founding.spotsLeft} of ${founding.spots} spots left.`;
+
+/**
+ * What a concept would cost a real business: its ladder rung plus its add-ons,
+ * read from the same strings /services shows. Returns the build-up rows for the
+ * placard and the totals, list and founding.
+ */
+export function conceptPrice(showroom: NonNullable<CaseStudy["showroom"]>) {
+  const rung = services.offers[0].priceLadder![showroom.rung];
+  const addOns = showroom.addOns.map((id) => WEBSITE_ADD_ONS.find((a) => a.id === id)!);
+  const [low, high] = figures(rung.price);
+  // A span-priced add-on (the second language) adds its low end to the low
+  // total and its high end to the high one.
+  const addLow = addOns.reduce((sum, a) => sum + Math.min(...figures(a.price)), 0);
+  const addHigh = addOns.reduce((sum, a) => sum + Math.max(...figures(a.price)), 0);
+  const range = (a: number, b: number) => `${dk(a)} – ${dk(b)} DKK`;
+  return {
+    rows: [
+      { label: rung.scope, value: rung.price },
+      ...addOns.map((a) => ({ label: a.name, value: `+ ${a.price}` })),
+    ],
+    total: range(low + addLow, high + addHigh),
+    founding: range(foundingFigure(low + addLow), foundingFigure(high + addHigh)),
+    // The ladder's own Add-ons rung says how much time each add-on adds.
+    timeline: addOns.length
+      ? `${rung.timeline}, ${services.offers[0].priceLadder![2].timeline.replace("+ ", "plus ")}`
+      : rung.timeline,
+  };
+}
+
+/** The one rule for "is this in the Showroom?": a concept with a placard. */
+export const inShowroom = (c: CaseStudy) => Boolean(c.concept && c.showroom);
+
+/** The concepts with a Showroom entry, in stack order. */
+export const showroomCases = () => cases.filter(inShowroom);
+
 // ─── THE STACK (homepage since 2026-10-18) ───────────────────────────────────
 // The portfolio as a HyperCard stack: one card per thing Ice made, flipped with
 // painted buttons and the arrow keys. It replaced the clock. Every claim on a
 // card is read from cases, experience or services above; nothing is new here
 // except the words that frame them.
 
-export type StackCardId = "home" | "engineer" | "build" | CaseStudy["id"];
+export type StackCardId = "home" | "engineer" | "showroom" | "build" | CaseStudy["id"];
 
 /**
  * The stack's order, which is also the order the arrow keys flip through. The
@@ -1684,13 +1825,19 @@ export const stackOrder: StackCardId[] = [
   "satoshi",
   "cinema",
   "engineer",
+  // Just before Build mine: see what a site costs, then ask for one.
+  "showroom",
   "build",
 ];
 
 export const stackArchive: CaseStudy["id"][] = ["satoshi", "cinema"];
 
 export const stackHref = (id: StackCardId) =>
-  id === "home" ? "/" : id === "engineer" ? "/engineer" : id === "build" ? "/build" : `/cases/${id}`;
+  id === "home"
+    ? "/"
+    : id === "engineer" || id === "showroom" || id === "build"
+      ? `/${id}`
+      : `/cases/${id}`;
 
 /**
  * The dithered artwork for a case image: same path, under /stack, as a PNG made
@@ -1761,6 +1908,21 @@ export const stackContent = {
     saving: "Saving…",
     savedTitle: "Card saved.",
     details: { label: "Prices and what's included", href: "/services" },
+    showroom: { label: "See sample sites and what each would cost", href: "/showroom" },
+  },
+  showroom: {
+    title: "Showroom",
+    lead: "Sample sites for businesses that do not exist, each priced as if yours did. I price a site by what it needs, never by its style, so two sites that look nothing alike can cost the same.",
+    concept: "Concept, no client",
+    priceLabel: "What a site like this costs",
+    total: "Total",
+    timeline: "Typically",
+    terms: `Prices ${vat.shortLabel}. You pay for the domain and any hosting directly, never through me.`,
+    getsLabel: "What you get",
+    live: "See it live",
+    caseStudy: "How it was built",
+    buildLike: "Build me one like this",
+    more: "I add a new sample site every week or two. The next one is a restaurant in an editorial, print-inspired style.",
   },
   nav: {
     prev: "Previous card",
@@ -1793,6 +1955,7 @@ export const stackContent = {
       label: "Hire",
       items: [
         { label: "Build mine", href: "/build" },
+        { label: "Showroom", href: "/showroom" },
         { label: "Prices", href: "/services" },
         { label: "Engineer", href: "/engineer" },
         { label: "CV", href: "/cv" },
@@ -1922,7 +2085,21 @@ Add-ons are itemised and each has ONE price. You may quote these; they are publi
 ${services.offers[0]
   .addOns!.items.map((a) => `- ${a.name}: ${a.price}${a.note ? ` (${a.note})` : ""}`)
   .join("\n")}
-${services.offers[0].addOns!.included} Taking payment and anything involving logins are capabilities Ice has built on his own products (Bevisly and MockMate) rather than for a client. Say that plainly if asked; never imply a client build that does not exist.
+${services.offers[0].addOns!.included}
+${
+  foundingOpen
+    ? `\nFounding client offer, published on the site: ${foundingTerms} ${foundingSpotsLine} It applies to a website build only. Quote it if asked about price or budget; never extend it, invent another discount or negotiate below it.\n`
+    : ""
+}
+The Showroom (https://taninwatkaewpankan.xyz/showroom) shows concept sites for made-up businesses, each with what a site like it would cost. They are concepts with no client; never present them as client work. You may quote these:
+${showroomCases()
+  .map((c) => {
+    const p = conceptPrice(c.showroom!);
+    return `- ${c.title} (${c.showroom!.business.toLowerCase()}, ${c.showroom!.style.toLowerCase()}): ${p.rows.map((r) => r.label).join(" + ")} = ${p.total}${foundingOpen ? `, founding client price ${p.founding}` : ""}`;
+  })
+  .join("\n")}
+
+Taking payment and anything involving logins are capabilities Ice has built on his own products (Bevisly and MockMate) rather than for a client. Say that plainly if asked; never imply a client build that does not exist.
 
 What the site costs to keep: there is no platform fee. Hosting fits a free tier or costs 500 – 1.500 kr a year on a Danish webhotel, and a .dk domain is about 100 kr a year, so five years of running cost is about ${services.runningCosts.fiveYear.value}. Self-editing is a one-off add-on Ice sets up, free to run afterwards; nobody can rearrange the layout themselves. All of these yearly costs are paid by the client directly to their host and registrar, never to Ice, and he does not mark up other people's invoices. If someone worries about an ongoing bill from him, say that plainly.
 

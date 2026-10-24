@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { cases, ditheredSrc, stackArchive, stackContent, stackHref, stackOrder, type StackCardId } from "../../data";
+import {
+  cases,
+  ditheredSrc,
+  showroomCases,
+  stackArchive,
+  stackContent,
+  stackHref,
+  stackOrder,
+  type StackCardId,
+} from "../../data";
 import { ditherSize } from "../../components/stack/DitherPicture";
 import styles from "../../components/stack/stack.module.css";
 
@@ -16,6 +25,7 @@ export const metadata: Metadata = {
 const TITLES: Partial<Record<StackCardId, string>> = {
   home: stackContent.home.title,
   engineer: stackContent.engineer.title,
+  showroom: stackContent.showroom.title,
   build: stackContent.build.title,
 };
 
@@ -53,7 +63,9 @@ function MiniArt({ id, thumb }: { id: StackCardId; thumb: string | null }) {
 function Mini({ id, n }: { id: StackCardId; n: number }) {
   const caseStudy = cases.find((c) => c.id === id);
   const title = caseStudy?.title ?? TITLES[id] ?? id;
-  const thumb = caseStudy ? ditheredSrc(caseStudy.images[0], "thumb") : null;
+  // The Showroom card wears its first concept's screenshot.
+  const pictured = caseStudy ?? (id === "showroom" ? showroomCases()[0] : undefined);
+  const thumb = pictured ? ditheredSrc(pictured.images[0], "thumb") : null;
   return (
     <li>
       <Link href={stackHref(id)} className={styles.mini}>

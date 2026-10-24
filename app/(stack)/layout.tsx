@@ -4,6 +4,7 @@ import { MenuBar } from "../components/stack/MenuBar";
 import { StackNav } from "../components/stack/StackNav";
 import { MessageBox } from "../components/stack/MessageBox";
 import { atkinson, display, pixel } from "../components/stack/fonts";
+import { personalInfo } from "../data";
 import styles from "../components/stack/stack.module.css";
 import "../components/stack/stack-global.css";
 
@@ -30,6 +31,9 @@ export default function StackLayout({ children }: { children: React.ReactNode })
           </main>
         </div>
         <StackNav />
+        <footer className={styles.colophon}>
+          {personalInfo.business.name} · CVR {personalInfo.business.cvr}
+        </footer>
       </div>
       <MessageBox />
     </div>
