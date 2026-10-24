@@ -65,9 +65,8 @@ function MiniArt({ id, thumb }: { id: StackCardId; thumb: string | null }) {
 function Mini({ id, n }: { id: StackCardId; n: number }) {
   const caseStudy = cases.find((c) => c.id === id);
   const title = caseStudy?.title ?? TITLES[id] ?? id;
-  // The Showroom card wears its first concept's screenshot, so it never shows
-  // the same picture as the Racha card beside it.
-  const pictured = caseStudy ?? (id === "showroom" ? showroomCases().find((c) => c.concept) : undefined);
+  // The Showroom card wears its first sample's screenshot.
+  const pictured = caseStudy ?? (id === "showroom" ? showroomCases()[0] : undefined);
   const thumb = pictured ? ditheredSrc(pictured.images[0], "thumb") : null;
   return (
     <li>

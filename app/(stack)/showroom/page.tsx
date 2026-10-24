@@ -21,13 +21,13 @@ export const dynamic = "force-static";
 export const metadata: Metadata = {
   title: "Showroom",
   description:
-    "Websites for businesses, real client work and concepts, each with the published price of a site like it. Priced by scope, not by style.",
+    "Sample websites for made-up businesses, each with the published price of a site like it. Priced by scope, not by style.",
   alternates: { canonical: PAGE_URL },
 };
 
 /**
- * The Showroom card: the shop floor. One small card per site, with its stamp
- * (real client or concept) and its price; the card opens the case page, which
+ * The Showroom card: the shop floor. One small card per sample site, with its
+ * concept stamp and its price; the card opens the case page, which
  * carries the full placard (PricePlacard.tsx). Every figure comes from
  * conceptPrice() in data.ts, so it always agrees with /services.
  */
@@ -59,7 +59,7 @@ export default function ShowroomPage() {
                 <img src={thumb} alt="" loading="lazy" decoding="async" {...ditherSize(thumb)} />
                 <span className={stack.miniTitle}>{c.title}</span>
                 <span className={stack.miniMeta}>
-                  <span className={stack.miniStamp}>{showroom.client ? copy.client : copy.concept}</span>
+                  <span className={stack.miniStamp}>{copy.concept}</span>
                   <span>
                     {showroom.business}. {showroom.style}.
                   </span>

@@ -451,8 +451,6 @@ export interface CaseStudy {
    * plus add-ons, all looked up by conceptPrice(), so no figure is typed here.
    */
   showroom?: {
-    /** A real, paid client site rather than a concept. Sets the stamp. */
-    client?: boolean;
     business: string;
     style: string;
     rung: 0 | 1;
@@ -659,18 +657,6 @@ export const cases: CaseStudy[] = [
     links: {
       demo: "https://rachabeautywellness.com",
       code: "https://github.com/Taninwat-55/rachabeautywellness",
-    },
-    showroom: {
-      client: true,
-      business: "A massage and wellness studio",
-      style: "A warm, classic style",
-      rung: 1,
-      addOns: [],
-      gets: [
-        "Five pages in Danish: home, treatments with prices, gallery, about and contact",
-        "An enquiry form with a backup path, so a lost message never costs a customer",
-        "95+ Lighthouse on the first deploy, and it has run since launch without maintenance",
-      ],
     },
   },
   // The last two entries — Lumina and Saep — are the only ones with no client
@@ -1775,16 +1761,20 @@ export function conceptPrice(showroom: NonNullable<CaseStudy["showroom"]>) {
   };
 }
 
-/** The one rule for "is this in the Showroom?": real or concept, it has a placard. */
-export const inShowroom = (c: CaseStudy) => Boolean(c.showroom);
+/**
+ * The one rule for "is this in the Showroom?": a sample site with a placard.
+ * Only samples built from 2026-10-24 on, priced for what they are. Old client
+ * work is not re-priced here (Ice, 2026-10-24: Racha is a small static site,
+ * and a page-count price made it look like a 12.000 job).
+ */
+export const inShowroom = (c: CaseStudy) => Boolean(c.concept && c.showroom);
 
-/** The sites with a Showroom entry, real client work first. */
+/** The samples with a Showroom entry, in stack order. */
 export const showroomCases = () => cases.filter(inShowroom);
 
-/** The chatbot's price lines for real client sites, or for concepts. */
-function showroomLines(client: boolean) {
+/** The chatbot's price lines for the Showroom samples. */
+function showroomLines() {
   return showroomCases()
-    .filter((c) => Boolean(c.showroom!.client) === client)
     .map((c) => {
       const p = conceptPrice(c.showroom!);
       return `- ${c.title} (${c.showroom!.business.toLowerCase()}, ${c.showroom!.style.toLowerCase()}): ${p.rows.map((r) => r.label).join(" + ")} = ${p.total}${foundingOpen ? `, founding client price ${p.founding}` : ""}`;
@@ -1899,15 +1889,13 @@ export const stackContent = {
     saving: "Saving…",
     savedTitle: "Card saved.",
     details: { label: "Prices and what's included", href: "/services" },
-    showroom: { label: "See sites I have built and what each would cost", href: "/showroom" },
+    showroom: { label: "See sample sites and what each would cost", href: "/showroom" },
   },
   showroom: {
     title: "Showroom",
-    lead: "Websites for businesses, real client work and concept sites, each with what a site like it would cost you. I price a site by what it needs, never by its style, so two sites that look nothing alike can cost the same. Open one to see what you get.",
+    lead: "Sample sites for made-up businesses, each showing what you would get and what a site like it costs. I price a site by what it needs, never by its style, so two sites that look nothing alike can cost the same. Open one to see what is included.",
     concept: "Concept, no client",
-    client: "Real client",
     priceLabel: "What a site like this costs",
-    priceLabelClient: "What a site like this costs today",
     total: "Total",
     timeline: "Typically",
     terms: `Prices ${vat.shortLabel}. You pay for the domain and any hosting directly, never through me.`,
@@ -2087,11 +2075,8 @@ ${
     ? `\nFounding client offer, published on the site: ${foundingTerms} ${foundingSpotsLine} It applies to a website build only. Quote it if asked about price or budget; never extend it, invent another discount or negotiate below it.\n`
     : ""
 }
-The Showroom (https://taninwatkaewpankan.xyz/showroom) shows websites for businesses, each with what a site like it would cost. You may quote these prices.
-Real client work, priced as a site like it costs today (not what the client paid; never state what they paid):
-${showroomLines(true)}
-Concept sites for made-up businesses, with no client; never present them as client work:
-${showroomLines(false)}
+The Showroom (https://taninwatkaewpankan.xyz/showroom) shows sample sites for made-up businesses, each with what a site like it would cost. They are concepts with no client; never present them as client work, and never put a price on a real client's site. You may quote these:
+${showroomLines()}
 
 Taking payment and anything involving logins are capabilities Ice has built on his own products (Bevisly and MockMate) rather than for a client. Say that plainly if asked; never imply a client build that does not exist.
 

@@ -63,9 +63,9 @@ https://taninwatkaewpankan.xyz/services
     · Founding client price: 40% off a whole website for Ice's first 3
       clients, in return for a short testimonial and permission to show the
       site. Ends when the 3 spots are taken.
-    · Showroom (https://taninwatkaewpankan.xyz/showroom): real client work
-      (Racha Beauty) and concept sites for made-up businesses, each with what
-      a site like it costs today. Concepts are marked as having no client.
+    · Showroom (https://taninwatkaewpankan.xyz/showroom): sample sites for
+      made-up businesses, each with what a site like it costs. Concepts, no
+      client.
   What it costs to KEEP: no platform fee. Roughly 100–1.600 DKK a year for the
   domain plus hosting, which fits the Netlify/Vercel free tier or costs
   500–1.500 DKK on a Danish webhotel; about 500–8.000 DKK over five years.

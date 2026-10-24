@@ -19,7 +19,7 @@ export function PricePlacard({ caseStudy }: { caseStudy: CaseStudy }) {
       <div className={stack.titlebar}>
         {/* A heading, so the price is in the outline between the title and Overview. */}
         <h2 id={`${caseStudy.id}-price`} className={stack.titlebarHeading}>
-          {showroom.client ? copy.priceLabelClient : copy.priceLabel}
+          {copy.priceLabel}
         </h2>
       </div>
       <div className={`${styles.offerBody} ${styles.offerGrid}`}>

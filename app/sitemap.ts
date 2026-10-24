@@ -35,7 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         // retired, so they are out of this list.
         { path: '/engineer', changeFrequency: "monthly" as const, priority: 0.8 },
         { path: '/build', changeFrequency: "monthly" as const, priority: 0.8 },
-        // Client and concept sites with what each would cost; the commercial sibling of /services.
+        // Sample sites with what each would cost; the commercial sibling of /services.
         { path: '/showroom', changeFrequency: "weekly" as const, priority: 0.8 },
         { path: '/work', changeFrequency: "monthly" as const, priority: 0.8 },
         // The canonical home for the CV text since it left the homepage.
