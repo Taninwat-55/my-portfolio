@@ -1,0 +1,88 @@
+/*
+ * Crystallize: the launch world's tokens. Scoped to [data-world] rather than
+ * :root so the stack pages keep their own look until each route moves over.
+ *
+ * Contrast, checked 2026-10-25 (WCAG):
+ *   ink on paper 17.3:1
+ *   signal on paper (#0B6E99) 5.1:1, signal on ink (#7DD3F5) 11.3:1: both AA
+ *   for text, so the accent can carry links and focus rings in either tone
+ *   muted on paper (#5C6166) 5.7:1, muted on ink (#8A8F94) 5.8:1
+ *   lines are decoration (the grid), never the only carrier of meaning, so
+ *   they stay faint on purpose.
+ */
+
+[data-world="crystallize"] {
+  /* Colour. One pair, one accent, one hairline. "Deliver simple". */
+  --paper: #f3f4f2;
+  --ink: #0f1012;
+  --signal-on-paper: #0b6e99;
+  --signal-on-ink: #7dd3f5;
+  --muted-on-paper: #5c6166;
+  --muted-on-ink: #8a8f94;
+  --line-on-paper: #c9ccc8;
+  --line-on-ink: #2a2d31;
+
+  /* Type: two voices and one small. Pairing a by default. */
+  --world-display: var(--font-instrument-serif), Georgia, serif;
+  --world-text: var(--font-geist), system-ui, sans-serif;
+  --world-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Motion. Two easings, three durations (the plan's motion rules 2 and 3). */
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out */
+  --ease-scrub: linear;
+  --dur-ui: 200ms;
+  --dur-reveal: 600ms;
+  --dur-signature: 1200ms;
+
+  /* Grid. The column lines are drawn: they are the material the door bends. */
+  --unit: 8px;
+  --cols: 4;
+  --margin: calc(var(--unit) * 2);
+  --gutter: calc(var(--unit) * 2);
+}
+
+@media (min-width: 900px) {
+  [data-world="crystallize"] {
+    --cols: 12;
+    --margin: calc(var(--unit) * 6);
+    --gutter: calc(var(--unit) * 3);
+  }
+}
+
+[data-world="crystallize"][data-pairing="b"] {
+  --world-display: var(--font-inter-tight), system-ui, sans-serif;
+  --world-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+/*
+ * Tone. Components only read --bg, --fg, --signal, --muted and --line, so an
+ * element flips between the light exterior and the dark work room by setting
+ * data-tone alone.
+ */
+[data-world="crystallize"],
+[data-world="crystallize"] [data-tone="paper"] {
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --signal: var(--signal-on-paper);
+  --muted: var(--muted-on-paper);
+  --line: var(--line-on-paper);
+  color-scheme: light;
+}
+
+[data-world="crystallize"] [data-tone="ink"],
+[data-world="crystallize"][data-tone="ink"] {
+  --bg: var(--ink);
+  --fg: var(--paper);
+  --signal: var(--signal-on-ink);
+  --muted: var(--muted-on-ink);
+  --line: var(--line-on-ink);
+  color-scheme: dark;
+}
+
+/* Motion rule 6: under reduced motion, signature moments collapse to fades. */
+@media (prefers-reduced-motion: reduce) {
+  [data-world="crystallize"] {
+    --dur-reveal: 200ms;
+    --dur-signature: 200ms;
+  }
+}
