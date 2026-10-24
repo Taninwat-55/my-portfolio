@@ -35,6 +35,7 @@ export default function Home() {
         <h1 className={styles.title}>{home.title}</h1>
         <p className={styles.lead}>{home.intro}</p>
         <p className={styles.availability}>{home.availability}</p>
+        <h2 className={`${styles.heading} ${styles.question}`}>{home.question}</h2>
         <div className={styles.buttonsStacked}>
           {home.buttons.map((button, i) => (
             <Link
@@ -46,6 +47,11 @@ export default function Home() {
             </Link>
           ))}
         </div>
+        <p className={styles.hint}>
+          <Link href={home.everything.href} className={styles.inlineLink}>
+            {home.everything.label}
+          </Link>
+        </p>
         <p className={`${styles.hint} ${styles.keysHint}`}>{home.hint}</p>
       </div>
       <DevelopPortrait
