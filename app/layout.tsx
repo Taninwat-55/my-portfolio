@@ -22,8 +22,8 @@ const kanit = Kanit({
   variable: "--font-kanit",
   weight: ["300", "400", "500", "700", "900"],
 });
-// Not preloaded: mono only appears in the footer's block-height counter and in
-// garden post code blocks, none of which are needed for first paint. Preloading it
+// Not preloaded: mono only appears in the footer's block-height counter, which
+// isn't needed for first paint. Preloading it
 // meant the browser fetched a font it wouldn't use for seconds, if at all.
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],

@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 
 const ways = [
   { href: "/work", label: "All cards" },
-  { href: "/garden", label: "Writing" },
   { href: "/build", label: "Build mine" },
 ];
 

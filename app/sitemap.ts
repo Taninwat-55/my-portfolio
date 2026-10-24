@@ -1,20 +1,10 @@
 import { MetadataRoute } from 'next';
-import { getSortedPostsData } from './lib/posts';
 import { cases } from './data';
 
 export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://taninwatkaewpankan.xyz';
-
-    // Get all blog posts
-    const posts = getSortedPostsData();
-    const blogUrls = posts.map((post) => ({
-        url: `${baseUrl}/garden/${post.slug}`,
-        lastModified: new Date(post.date),
-        changeFrequency: "monthly" as const,
-        priority: 0.7,
-    }));
 
     const caseUrls = cases.map((c) => ({
         url: `${baseUrl}/cases/${c.id}`,
@@ -29,7 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { path: '', changeFrequency: "weekly" as const, priority: 1.0 },
         // Above the case pages: it is the commercial page, not a write-up.
         { path: '/services', changeFrequency: "monthly" as const, priority: 0.9 },
-        { path: '/garden', changeFrequency: "weekly" as const, priority: 0.8 },
         // The stack's cards that are not case studies (those come from `cases`
         // below). /about, /contact, /rates and /writing redirect since the clock
         // retired, so they are out of this list.
@@ -62,5 +51,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority,
     }));
 
-    return [...staticUrls, ...caseUrls, ...blogUrls];
+    return [...staticUrls, ...caseUrls];
 }

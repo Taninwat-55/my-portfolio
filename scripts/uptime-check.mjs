@@ -32,7 +32,7 @@ async function check(name, fn) {
 const timed = (url, init = {}) => fetch(url, { ...init, signal: AbortSignal.timeout(60_000) });
 
 // 1. The pages answer.
-for (const path of ["/", "/work", "/services", "/cv", "/garden", "/th", "/sv", "/da"]) {
+for (const path of ["/", "/work", "/services", "/cv", "/th", "/sv", "/da"]) {
   await check(`page ${path}`, async () => {
     const res = await timed(`${BASE}${path}`);
     if (res.status !== 200) throw new Error(`HTTP ${res.status}`);

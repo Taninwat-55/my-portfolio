@@ -1692,11 +1692,10 @@ export const servicesEnquiryOptions = {
 // ─── WHAT SURVIVES OF THE CLOCK ──────────────────────────────────────────────
 // The clock homepage ran 2026-10-04 to 2026-10-18; the stack replaced it. Two
 // of its strings are still read elsewhere: the availability line (the share
-// card and the stack's Home card) and the label garden posts link back with.
+// card and the stack's Home card).
 
 export const clockContent = {
   availability: "Open to full-time roles in Copenhagen, and taking on client projects.",
-  writing: { title: "Writing" },
 } as const;
 
 // ─── FOUNDING CLIENTS AND THE SHOWROOM (2026-10-24) ──────────────────────────
@@ -1919,7 +1918,6 @@ export const stackContent = {
       "/sv": "Svenska",
       "/da": "Dansk",
       "/cv": "CV",
-      "/garden": "Writing",
     } as Record<string, string>,
   },
   menus: [
@@ -1928,7 +1926,6 @@ export const stackContent = {
       items: [
         { label: "Home card", href: "/" },
         { label: "All cards", href: "/work" },
-        { label: "Writing", href: "/garden" },
       ],
     },
     {
