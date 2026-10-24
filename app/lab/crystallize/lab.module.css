@@ -1,0 +1,249 @@
+/* The lab page's layout. Everything reads the world's tokens. */
+
+.world {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--world-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.world :focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.outside,
+.inside {
+  position: relative;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.kicker {
+  margin: 0 0 calc(var(--unit) * 2);
+  font-family: var(--world-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gutter);
+  row-gap: calc(var(--unit) * 6);
+  align-content: center;
+  min-height: 100svh;
+  padding: calc(var(--unit) * 12) var(--margin) calc(var(--unit) * 8);
+}
+
+.heroText,
+.heroClip {
+  grid-column: 1 / -1;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: clamp(52px, 8.4vw, 132px);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+
+.role {
+  margin: calc(var(--unit) * 3) 0 0;
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 500;
+}
+
+.subline {
+  max-width: 36ch;
+  margin: var(--unit) 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+@media (min-width: 900px) {
+  .heroText {
+    grid-column: 1 / span 6;
+  }
+
+  .heroClip {
+    grid-column: 7 / -1;
+  }
+}
+
+/* ─── Statement ──────────────────────────────────────────────────────────── */
+
+.statement {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gutter);
+  padding: calc(var(--unit) * 20) var(--margin) calc(var(--unit) * 24);
+}
+
+.statementText {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: clamp(30px, 4.2vw, 60px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+@media (min-width: 900px) {
+  .statementText {
+    grid-column: 2 / span 9;
+  }
+}
+
+/* ─── Work (inside the door) ─────────────────────────────────────────────── */
+
+.work {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gutter);
+  padding: calc(var(--unit) * 16) var(--margin) calc(var(--unit) * 20);
+}
+
+.work > * {
+  grid-column: 1 / -1;
+}
+
+.workTitle {
+  margin: 0 0 calc(var(--unit) * 12);
+  font-family: var(--world-display);
+  font-size: clamp(40px, 6vw, 88px);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.workList {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gutter);
+  row-gap: calc(var(--unit) * 16);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workItem {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 900px) {
+  .workItem:nth-child(odd) {
+    grid-column: 1 / span 8;
+  }
+
+  .workItem:nth-child(even) {
+    grid-column: 5 / -1;
+  }
+}
+
+.caption {
+  margin-top: calc(var(--unit) * 2);
+}
+
+.captionTitle {
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.captionSub {
+  max-width: 52ch;
+  margin: var(--unit) 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ─── Close ──────────────────────────────────────────────────────────────── */
+
+.close {
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--unit) * 16) var(--margin) calc(var(--unit) * 24);
+}
+
+.closeTitle {
+  margin: 0 0 calc(var(--unit) * 4);
+  font-family: var(--world-display);
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 400;
+}
+
+.doors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--unit) * 2) calc(var(--unit) * 4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 20px;
+}
+
+.doors a {
+  color: var(--fg);
+  text-underline-offset: 6px;
+}
+
+.doors a:hover {
+  color: var(--signal);
+}
+
+.soon {
+  color: var(--muted);
+}
+
+/* ─── Prototype controls ─────────────────────────────────────────────────── */
+
+.controls {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 40;
+  padding: 12px;
+  border: 1px solid var(--fg);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--world-mono);
+  font-size: 12px;
+}
+
+.controlRow {
+  display: flex;
+  gap: 8px;
+}
+
+.controls button {
+  padding: 6px 10px;
+  border: 1px solid var(--fg);
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  cursor: pointer;
+}
+
+.controls button[aria-pressed="true"] {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.controlNote {
+  margin: 8px 0 0;
+  color: var(--muted);
+}

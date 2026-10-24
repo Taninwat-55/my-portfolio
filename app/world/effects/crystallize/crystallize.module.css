@@ -1,0 +1,149 @@
+/* Crystallize effects: loader, scramble glyphs, reveal box, door. */
+
+/* ─── Loader ─────────────────────────────────────────────────────────────── */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: var(--margin);
+  background: var(--bg);
+  color: var(--fg);
+  animation: loader-out 300ms var(--ease-reveal) 1050ms forwards;
+}
+
+.log {
+  width: min(56ch, 100%);
+  font-family: var(--world-mono);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.logLine {
+  margin: 0;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: type 160ms steps(var(--n)) calc(var(--i) * 200ms) forwards;
+}
+
+.logLine:last-child {
+  color: var(--signal);
+}
+
+@keyframes type {
+  to {
+    width: calc((var(--n) + 1) * 1ch);
+  }
+}
+
+@keyframes loader-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+:global(html[data-loader-seen]) .loader {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader {
+    display: none;
+  }
+}
+
+/* ─── Scramble ───────────────────────────────────────────────────────────── */
+
+.glyph {
+  font-family: var(--world-mono);
+  font-style: normal;
+  color: var(--signal);
+}
+
+/* ─── Reveal ─────────────────────────────────────────────────────────────── */
+
+.reveal {
+  position: relative;
+  margin: 0;
+}
+
+.box {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  padding: calc(var(--unit) * 3);
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.boxLabel {
+  position: absolute;
+  top: calc(var(--unit) * 2);
+  left: calc(var(--unit) * 2);
+  font-family: var(--world-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.boxTitle {
+  font-family: var(--world-display);
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1;
+  color: var(--fg);
+}
+
+/* While the glyphs are coming, the finished box waits under the canvas. Only
+   when JS will run (WorldBoot's flag), so no-JS visitors always see it. */
+:global(html[data-world-js]) .reveal[data-reveal="pending"] .box {
+  opacity: 0;
+}
+
+.revealCanvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ─── Door ───────────────────────────────────────────────────────────────── */
+
+/* The default is the quiet door: a short cut from paper to ink. */
+.door {
+  position: relative;
+  height: 40vh;
+}
+
+.doorStage {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(var(--paper), var(--ink));
+}
+
+:global(html[data-world-js]) .door {
+  height: 300vh;
+}
+
+:global(html[data-world-js]) .door .doorStage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  background: var(--paper);
+}
+
+:global(html[data-world-js]) .door[data-mode="quiet"] {
+  height: 40vh;
+}
+
+:global(html[data-world-js]) .door[data-mode="quiet"] .doorStage {
+  position: relative;
+  height: 100%;
+  background: linear-gradient(var(--paper), var(--ink));
+}
