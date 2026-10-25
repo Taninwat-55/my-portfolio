@@ -51,7 +51,7 @@
   display: grid;
   grid-template-columns: repeat(var(--cols), 1fr);
   column-gap: var(--gutter);
-  padding: calc(var(--unit) * 7) var(--margin) calc(var(--unit) * 4);
+  padding: calc(var(--unit) * 5) var(--margin) calc(var(--unit) * 4);
 }
 
 .where {
@@ -85,7 +85,7 @@
 .line {
   display: block;
   font-family: var(--world-display);
-  font-size: clamp(52px, 7.6vw, 150px);
+  font-size: clamp(44px, 5.9vw, 118px);
   line-height: 0.92;
   letter-spacing: -0.025em;
 }
@@ -194,7 +194,7 @@
   .band {
     grid-column: 7 / -1;
     grid-row: 2;
-    margin-top: calc(var(--unit) * 4);
+    margin-top: calc(var(--unit) * 2);
   }
 }
 

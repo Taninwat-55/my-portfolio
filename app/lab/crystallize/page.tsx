@@ -59,14 +59,17 @@ export default function CrystallizeLab() {
           <section className={styles.hero} aria-label="Introduction">
             <p className={styles.where}>Copenhagen, Denmark</p>
 
-            {/* Ice and the role at one size: the name people can remember and
+            {/* Ice and the roles at one size: the name people can remember and
                 what he does, read as one phrase. The full name stays in the
                 heading as a byline, for recruiters matching a CV and for
                 search. */}
             <h1 className={styles.headline}>
               <span className={styles.byline}>{personalInfo.name}</span>
               <Scramble as="span" className={`${styles.line} ${styles.lineName}`} text={`${personalInfo.nickname},`} trigger="loader" />
-              <Scramble as="span" className={styles.line} text={`${siteContent.roleLabel.toLowerCase()}.`} trigger="loader" />
+              <Scramble as="span" className={styles.line} text={`${siteContent.roleLabel.toLowerCase()},`} trigger="loader" />
+              {/* Ice, 2026-10-25: both roles, at the same size. roleLabel stays
+                  "Full-stack Engineer" for the CV, metadata and search. */}
+              <Scramble as="span" className={styles.line} text="creative developer." trigger="loader" />
             </h1>
 
             <div className={styles.intro}>
