@@ -10,14 +10,16 @@ import { Hall } from "@/app/world/effects/crystallize/Hall";
 import { Loader } from "@/app/world/effects/crystallize/Loader";
 import { Reveal } from "@/app/world/effects/crystallize/Reveal";
 import { Scramble } from "@/app/world/effects/crystallize/Scramble";
+import { SkipLink } from "@/app/components/SkipLink";
 import { worldFontVariables } from "@/app/world/fonts";
-import { LabControls } from "./LabControls";
 import "@/app/world/tokens/crystallize.css";
-import styles from "./lab.module.css";
+import styles from "./home.module.css";
 
 /**
- * The site overhaul's prototype: the signature moments, to judge in the
- * browser before anything else is built. Unlinked and noindex.
+ * The homepage, in the Crystallize world. It grew out of the /lab/crystallize
+ * prototype and replaced the Stack home on 2026-10-25. Title, description and
+ * JSON-LD come from the root layout; the world's code only enhances HTML that
+ * is already complete without JS.
  *
  * Hero (plain nav, what and where in one label, the name small above two
  * large roles, availability, two doors, the work cycling in glyphs) →
@@ -25,11 +27,21 @@ import styles from "./lab.module.css";
  * the glyph hall (the work) → close.
  *
  * Posters are the projects' real screenshots until the clips exist (Ice,
- * 2026-10-25). DRAFT copy: the statement is a placeholder for Ice to rewrite.
+ * 2026-10-25).
  */
 export const metadata: Metadata = {
-  title: "Crystallize lab",
-  robots: { index: false, follow: false },
+  alternates: {
+    canonical: "https://taninwatkaewpankan.xyz",
+    // Reciprocates the declarations on /th, /sv and /da. hreflang is ignored
+    // unless every variant names every other one, so all four lists must stay
+    // in sync.
+    languages: {
+      en: "https://taninwatkaewpankan.xyz",
+      th: "https://taninwatkaewpankan.xyz/th",
+      sv: "https://taninwatkaewpankan.xyz/sv",
+      da: "https://taninwatkaewpankan.xyz/da",
+    },
+  },
 };
 
 // Never advertise how the code gets written (Ice, 2026-10-25: telling people
@@ -45,11 +57,12 @@ const slides = lead.map((c) => ({ src: c.images[0], title: c.title }));
 const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c.tag, image: c.images[0] }));
 
 
-export default function CrystallizeLab() {
+export default function Home() {
   return (
     // suppressHydrationWarning: WorldBoot may set data-tone="ink" (a saved
     // dark theme) on this element before React hydrates it.
     <div data-world="crystallize" className={`${worldFontVariables} ${styles.world}`} suppressHydrationWarning>
+      <SkipLink />
       <WorldBoot />
       <Loader />
       <SmoothScroll />
@@ -134,15 +147,18 @@ export default function CrystallizeLab() {
               <li>
                 <Link href="/services">Build mine</Link>
               </li>
-              <li>
-                <span className={styles.soon}>Ask the site (phase 4)</span>
-              </li>
             </ul>
           </section>
+
+          <footer className={styles.footer}>
+            <a href={`mailto:${personalInfo.email}`}>{personalInfo.email}</a>
+            <span>{personalInfo.location}</span>
+            <span>
+              {personalInfo.business.name} · CVR {personalInfo.business.cvr}
+            </span>
+          </footer>
         </div>
       </main>
-
-      <LabControls />
     </div>
   );
 }

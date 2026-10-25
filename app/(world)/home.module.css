@@ -1,4 +1,4 @@
-/* The lab page's layout. Everything reads the world's tokens. */
+/* The homepage's layout. Everything reads the world's tokens. */
 
 .world {
   min-height: 100vh;
@@ -292,35 +292,17 @@
   font-size: 20px;
 }
 
-.soon {
-  color: var(--muted);
-}
-
-/* ─── Prototype controls ─────────────────────────────────────────────────── */
-
-.controls {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 40;
-  padding: 12px;
-  border: 1px solid var(--fg);
-  background: var(--bg);
-  color: var(--fg);
+/* Who runs the business, as the Stack's colophon said it: the CVR belongs on
+   a site that sells. */
+.footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--unit) calc(var(--unit) * 4);
+  padding: calc(var(--unit) * 3) var(--margin) calc(var(--unit) * 4);
+  border-top: 1px solid var(--line);
   font-family: var(--world-mono);
   font-size: 12px;
-}
-
-.controls button {
-  padding: 6px 10px;
-  border: 1px solid var(--fg);
-  background: var(--bg);
-  color: var(--fg);
-  font: inherit;
-  cursor: pointer;
-}
-
-.controlNote {
-  margin: 8px 0 0;
   color: var(--muted);
 }
