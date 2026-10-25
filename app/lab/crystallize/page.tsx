@@ -30,8 +30,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// Never advertise how the code gets written (Ice, 2026-10-25: telling people
+// about agents cuts both ways; some like it, some stop trusting the work).
 const STATEMENT =
-  "Agents write a lot of my code now. The judgment is still mine: what is worth building, what to cut, and how it should feel when it is done.";
+  "Most of building good software is judgment: what is worth building, what to cut, and how it should feel when it is done.";
 
 // Saep stays out until its redesign; Millennial has no screens to show.
 const lead = ["trailr", "bevisly", "mockmate", "racha", "lumina"].flatMap((id) =>
@@ -43,7 +45,7 @@ const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c
 // The role leads the dek line, so it isn't repeated here.
 const FACTS = [
   "React · Next.js · TypeScript · PostgreSQL",
-  "Builds with AI agents",
+  "Interface to database",
   "Websites for small businesses",
 ];
 
