@@ -29,19 +29,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { path: '/work', changeFrequency: "monthly" as const, priority: 0.8 },
         // The canonical home for the CV text since it left the homepage.
         { path: '/cv', changeFrequency: "monthly" as const, priority: 0.7 },
-        // The Thai landing page. Its real channel is Facebook groups rather than
-        // search, but it should still be indexable for anyone who does look.
-        { path: '/th', changeFrequency: "monthly" as const, priority: 0.7 },
-        // The Swedish landing page, for small businesses in Skåne. Unlike /th
-        // this one IS a search play — a Skåne owner googles "hemsida småföretag
-        // Malmö" rather than asking a community — so being indexed is the point
-        // rather than a nice-to-have.
-        { path: '/sv', changeFrequency: "monthly" as const, priority: 0.7 },
-        // The Danish landing page. Held out of this list until item 28 passed —
-        // a native speaker read all 93 lines on 2026-08-22 — because indexing
-        // unproofread Danish was the one outcome that item existed to prevent.
-        // Same priority as its siblings: a language landing page, not a case study.
-        { path: '/da', changeFrequency: "monthly" as const, priority: 0.7 },
     ];
 
     const staticUrls = staticRoutes.map(({ path, changeFrequency, priority }) => ({

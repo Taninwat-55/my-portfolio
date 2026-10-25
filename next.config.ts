@@ -24,6 +24,14 @@ const nextConfig: NextConfig = {
       // One list of projects, not two: the stack's All cards grid replaced
       // the paper /projects page in phase 2 (2026-10-18).
       { source: "/projects", destination: "/work", permanent: true },
+      // The language pages (Thai, Swedish, Danish) were dropped for the site
+      // overhaul on 2026-10-25: English only, no switch. A Danish /services
+      // may come back later.
+      { source: "/th", destination: "/", permanent: true },
+      { source: "/sv", destination: "/", permanent: true },
+      { source: "/da", destination: "/", permanent: true },
+      // The overhaul's prototype became the homepage on 2026-10-25.
+      { source: "/lab/crystallize", destination: "/", permanent: true },
       // Cinema Booking was delisted on 2026-10-24; its card may still be indexed.
       { source: "/cases/cinema", destination: "/work", permanent: true },
     ];

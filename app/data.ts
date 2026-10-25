@@ -37,50 +37,6 @@ export const enquiryInbox = personalInfo.email;
 // One searchable job title (roleLabel). whatIDo below is where the honest detail
 // about relative depth lives, rather than hedging every label.
 
-/**
- * The languages the site is published in.
- *
- * Extracted from siteContent rather than written inline because it needs a type
- * annotation: written as an inline literal, "en" (which has no `offer`) and the
- * others formed a union where the property existed on only some members, and
- * every read of it failed to compile.
- *
- * Two things derive from this array, so adding a language here is most of the
- * work of shipping one: the language links on the clock homepage (ClockHome),
- * and <LanguageOffer />.
- */
-type SiteLanguage = {
-  code: string;
-  label: string;
-  href: string;
-  /**
-   * What <LanguageOffer /> says to a visitor whose browser is set to this
-   * language, written IN that language — an English sentence is the one thing
-   * that particular reader may not parse. Absent for "en", which is never
-   * offered because it is the default; a language without one is skipped rather
-   * than offered in English.
-   */
-  offer?: string;
-};
-
-const SITE_LANGUAGES: readonly SiteLanguage[] = [
-  { code: "en", label: "English", href: "/" },
-  { code: "th", label: "ไทย", href: "/th", offer: "ดูหน้าภาษาไทย" },
-  // Endonym, like ไทย above, rather than "SV" — a chip that names the language in
-  // that language is legible to the person who needs it without their having to
-  // know the site's conventions.
-  { code: "sv", label: "Svenska", href: "/sv", offer: "Se sidan på svenska" },
-  // Added 2026-08-22 when item 28 passed. This single entry is what gives /da its
-  // nav chip and its browser-language banner, which is why it was the last thing
-  // to change rather than the first: while it was absent the page was genuinely
-  // unreachable, not merely unadvertised.
-  //
-  // (It was also the fourth chip in the old pill nav, SiteNav, whose breakpoint
-  // history is in PLAN.md and git. The clock homepage lists languages as plain
-  // links in its bottom row, which has room for more.)
-  { code: "da", label: "Dansk", href: "/da", offer: "Se siden på dansk" },
-];
-
 export const siteContent = {
   /**
    * The job title. Stays a job title on purpose: it feeds schema.org
@@ -111,18 +67,6 @@ export const siteContent = {
    * its description and Danish keywords, for the audience that searches for it.
    */
   roleLabel: "Full-stack Engineer",
-  /**
-   * Every language the site has a real page in.
-   *
-   * Append to this and both the nav chip and the browser-language offer pick the
-   * new page up — nothing else needs editing when /da ships.
-   *
-   * Exists because /th was unreachable: hreflang lets Google serve the Thai page
-   * to a Thai-language searcher, but a Thai visitor who landed on / had no signal
-   * it existed at all, which is exactly the person it was written for.
-   */
-  languages: SITE_LANGUAGES,
-
   // One general CV. Role-tailored versions get sent directly, not offered here —
   // a visitor picking between three versions is a visitor guessing at the identity.
   // Singular, not an array: there was only ever one entry, and both call sites
@@ -1109,9 +1053,9 @@ export const services = {
       "Your site works but is slow, dated, or invisible on Google.",
       "You want one person who is accountable, not an agency with a project manager between you and the work.",
       "You want to own the result outright when it is finished.",
-      // The niche, stated on the English page too — a Thai owner who lands here
-      // first should find the Thai page rather than bounce.
-      "You run a Thai-owned business in Denmark or Sweden and would rather run the whole project in Thai: there is a page in Thai at /th.",
+      // The niche, stated in English since /th was dropped (2026-10-25): Ice
+      // still runs projects in Thai, there is just no Thai page to point to.
+      "You run a Thai-owned business in Denmark or Sweden and would rather run the whole project in Thai.",
     ],
     notFit: [
       "You need a native iOS or Android app.",
@@ -1914,9 +1858,6 @@ export const stackContent = {
     pages: {
       "/work": "All cards",
       "/services": "Prices",
-      "/th": "ภาษาไทย",
-      "/sv": "Svenska",
-      "/da": "Dansk",
       "/cv": "CV",
     } as Record<string, string>,
   },

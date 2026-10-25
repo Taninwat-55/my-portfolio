@@ -30,18 +30,9 @@ import styles from "./home.module.css";
  * 2026-10-25).
  */
 export const metadata: Metadata = {
-  alternates: {
-    canonical: "https://taninwatkaewpankan.xyz",
-    // Reciprocates the declarations on /th, /sv and /da. hreflang is ignored
-    // unless every variant names every other one, so all four lists must stay
-    // in sync.
-    languages: {
-      en: "https://taninwatkaewpankan.xyz",
-      th: "https://taninwatkaewpankan.xyz/th",
-      sv: "https://taninwatkaewpankan.xyz/sv",
-      da: "https://taninwatkaewpankan.xyz/da",
-    },
-  },
+  // English only since 2026-10-25: /th, /sv and /da redirect here, so no
+  // hreflang alternates (they would point at redirects).
+  alternates: { canonical: "https://taninwatkaewpankan.xyz" },
 };
 
 // Never advertise how the code gets written (Ice, 2026-10-25: telling people

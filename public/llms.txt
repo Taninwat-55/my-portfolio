@@ -169,15 +169,6 @@ Approach: Design systems, accessibility, performance
 - Services & project enquiries: https://taninwatkaewpankan.xyz/services
 - Every project with a write-up: https://taninwatkaewpankan.xyz/projects
 - Full CV, skills and track record: https://taninwatkaewpankan.xyz/cv
-- Thai-language page for Thai-owned businesses in Denmark and Sweden
-  (restaurants, massage, nails, cleaning): https://taninwatkaewpankan.xyz/th
-  Same prices and terms as /services; the sites themselves are built in Danish
-  or Swedish because the clients' own customers are local.
-- Swedish-language page for small businesses in Skane (Malmo, Lund,
-  Helsingborg): https://taninwatkaewpankan.xyz/sv
-  Same prices and terms as /services, quoted in SEK on request. Ice is a Swedish
-  citizen educated in Sweden and lives 35 minutes from Malmo by train, so
-  meetings in Skane and the site itself are both in Swedish.
 - Changes after launch. There is NO website maintenance or care plan, and this
   is a deliberate choice, not an omission: the Danish market's care plans
   (250-3.000 DKK/month) are priced for patching WordPress, and a static site has
