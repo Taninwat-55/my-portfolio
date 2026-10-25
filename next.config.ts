@@ -1,8 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Lets <ViewTransition> animate client navigations: the stack's stipple
-  // dissolve between cards (app/(stack)/layout.tsx, stack-global.css).
+  // Lets <ViewTransition> animate client navigations. Unused since the Stack
+  // was cut (2026-10-25); kept for the planned shared-element move from the
+  // hall into a case page.
   experimental: {
     viewTransition: true,
   },
@@ -17,8 +18,12 @@ const nextConfig: NextConfig = {
       { source: "/blog/:slug", destination: "/", permanent: true },
       // The clock homepage's in-place objects, retired with it on 2026-10-18.
       // Each goes to the card or page that now does its job.
-      { source: "/about", destination: "/engineer", permanent: true },
-      { source: "/contact", destination: "/build", permanent: true },
+      // About moved from the Stack's /engineer card to /about, and the
+      // enquiry form from /build to /contact, on 2026-10-25. Next passes the
+      // query on, so /build?like=lumina keeps its prefill.
+      { source: "/build", destination: "/contact", permanent: true },
+      { source: "/engineer", destination: "/about", permanent: true },
+
       { source: "/rates", destination: "/services", permanent: true },
       { source: "/writing", destination: "/", permanent: true },
       // One list of projects, not two: the stack's All cards grid replaced

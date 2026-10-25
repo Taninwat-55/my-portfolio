@@ -1,285 +1,126 @@
 ---
-name: Ice's Stack
-description: The portfolio of Taninwat "Ice" Kaewpankan as a one-bit HyperCard stack, one card per shipped thing.
+name: Crystallize
+description: The portfolio of Taninwat "Ice" Kaewpankan, where everything starts as signal and comes into focus. Restrained, type-led, one material.
 colors:
-  ink: "#000000"
-  card: "#ffffff"
+  paper: "#f3f4f2"
+  ink: "#0f1012"
+  signal-on-paper: "#0b6e99"
+  signal-on-ink: "#7dd3f5"
+  muted-on-paper: "#5c6166"
+  muted-on-ink: "#8a8f94"
+  line-on-paper: "#c9ccc8"
+  line-on-ink: "#2a2d31"
 typography:
   display:
-    fontFamily: "Pixelify Sans, system-ui, sans-serif"
-    fontSize: "64px"
-    fontWeight: 700
-    lineHeight: 1
-    letterSpacing: "0"
-  display-phone:
-    fontFamily: "Pixelify Sans, system-ui, sans-serif"
-    fontSize: "44px"
-    fontWeight: 700
-    lineHeight: 1
-    letterSpacing: "0"
-  headline:
-    fontFamily: "DotGothic16, Kanit, system-ui, sans-serif"
-    fontSize: "24px"
+    fontFamily: "Instrument Serif, Georgia, serif"
+    fontSize: "clamp(56px, 11vw, 168px)"
     fontWeight: 400
-    lineHeight: 1.15
-  label:
-    fontFamily: "DotGothic16, Kanit, system-ui, sans-serif"
-    fontSize: "16px"
-    fontWeight: 400
-    lineHeight: 1
+    lineHeight: 0.92
+    letterSpacing: "-0.025em"
   lead:
-    fontFamily: "Atkinson Hyperlegible, system-ui, sans-serif"
-    fontSize: "clamp(18px, 1.5vw, 20px)"
+    fontFamily: "Instrument Serif, Georgia, serif"
+    fontSize: "clamp(22px, 2.4vw, 32px)"
     fontWeight: 400
-    lineHeight: 1.5
+    lineHeight: 1.2
+  headline:
+    fontFamily: "Instrument Serif, Georgia, serif"
+    fontSize: "clamp(24px, 2.4vw, 36px)"
+    fontWeight: 400
+    lineHeight: 1.1
   body:
-    fontFamily: "Atkinson Hyperlegible, system-ui, sans-serif"
-    fontSize: "17px"
+    fontFamily: "Geist, system-ui, sans-serif"
+    fontSize: "18px"
     fontWeight: 400
-    lineHeight: 1.55
+    lineHeight: 1.6
   small:
-    fontFamily: "Atkinson Hyperlegible, system-ui, sans-serif"
+    fontFamily: "Geist, system-ui, sans-serif"
     fontSize: "15px"
     fontWeight: 400
     lineHeight: 1.5
-  code:
-    fontFamily: "JetBrains Mono, ui-monospace, monospace"
-    fontSize: "13px"
+  label:
+    fontFamily: "Geist Mono, ui-monospace, monospace"
+    fontSize: "11px"
     fontWeight: 400
-    lineHeight: 1.55
-rounded:
-  field: "0px"
-  window: "6px"
-  card: "8px"
-  button: "12px"
-  radio: "50%"
+    lineHeight: 1.4
+    letterSpacing: "0.08em"
 spacing:
-  tight: "6px"
-  button-gap: "14px"
-  field-gap: "18px"
-  block: "28px"
-  card-pad: "clamp(20px, 3.4vw, 44px)"
-components:
-  card:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.card}"
-    padding: "{spacing.card-pad}"
-    width: "min(1100px, 100%)"
-  button:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.ink}"
-    typography: "{typography.headline}"
-    rounded: "{rounded.button}"
-    padding: "0 22px"
-    height: "48px"
-  button-active:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.card}"
-  button-small:
-    typography: "{typography.label}"
-    padding: "0 16px"
-    height: "40px"
-  nav-button:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.card}"
-    width: "52px"
-    height: "44px"
-  nav-button-current:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.card}"
-  input:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body}"
-    rounded: "{rounded.field}"
-    padding: "10px 12px"
-  menu-bar:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.ink}"
-    typography: "{typography.label}"
-    height: "40px"
-  window:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.window}"
-  mini-card:
-    backgroundColor: "{colors.card}"
-    textColor: "{colors.ink}"
-    typography: "{typography.label}"
-    rounded: "{rounded.window}"
-    padding: "6px"
-    width: "256px"
+  unit: "8px"
+  margin-phone: "16px"
+  margin-desktop: "48px"
+  gutter-phone: "16px"
+  gutter-desktop: "24px"
+rounded:
+  none: "0"
 ---
 
-# Design System: Ice's Stack
+# Design System: Crystallize
 
 ## Overview
 
-**Creative North Star: "The Stack One Person Made"**
+**The one feeling: it comes into focus.** Everything starts as signal (glyphs, code, mono type) and crystallizes into the finished thing. Calm wonder, not spectacle. Every motion decision is tested against that sentence; an effect that doesn't resolve into something gets cut.
 
-The site is a HyperCard stack on a classic one-bit Mac screen: a menu bar across the top, a single card centred on a dithered desk with two more cards' edges showing beneath it, a nav bar under the card, and a Message Box line at the foot. Each card is one shipped thing. The world is drawn entirely in two values, black ink on white card, and every grey the eye reads is a 4x4 stipple of black dots. Depth comes from stacked edges, state comes from inversion, and the only colour anywhere is something real developing up through the stipple when the visitor asks for it: a client's screenshot, or Ice's portrait on the Home card.
+The world is one material used three ways: the drawn grid hairlines lie flat behind the hero, bend into a tunnel at the door, and frame the work in the hall. Text is HTML and never waits for an effect. WebGL, GSAP and Lenis are decoration on a page that is already complete.
 
-Density is calm: one card per screen, generous card padding, heavy 3px rules for the card and its chrome, 2px rules for everything inside it. Pixel type does the talking at the scale where pixels are legible (titles, menus, buttons, labels); Atkinson Hyperlegible carries everything read at length, because a pixel face at paragraph length is a costume. Motion is stepped, never faded: a one-bit screen has no half-ink.
-
-Scope: since phase 2 (2026-10-18) this system covers every page. All routes render inside `app/(stack)/layout.tsx`: the cards (`/`, `/cases/*`, `/work`, `/engineer`, `/build`), the long cards (`/services`, `/th`, `/sv`, `/da`, built from `longcard.module.css`), the reading cards (`/cv`, `/garden`, `/garden/*`, built from `reading.module.css`), and the 404, which wraps itself in the stack layout. The old paper-on-desk world is deleted. Thai pages set every voice in Chakra Petch (`--font-thai`), since neither pixel face has Thai glyphs. The share images (`opengraph-image.tsx`) are stack cards too: `app/lib/og-card.tsx` sets text over a prerendered one-bit backdrop (`public/stack/og-desk.png`).
-
-**Key Characteristics:**
-- One bit: ink and card only; greys exist only as stipple tiles, never behind text.
-- Colour appears only as a client's real work, through the develop-into-colour reveal.
-- Pixel faces at their pixel grid only: DotGothic16 at 16 or 24px, Pixelify Sans at 64 or 44px.
-- Dithered images are drawn at exactly the width they were dithered at.
-- Round corners mean pressable; active means inverted.
-- Depth is stacked card edges filled with stipple, never blur.
+Sources of truth: `app/world/tokens/crystallize.css` (tokens), `app/world/fonts.ts` (faces), `app/world/*.module.css` (shell, inner pages, form, cards), `app/world/effects/crystallize/` (the signature moments).
 
 ## Colors
 
-Two values and nothing between them; the stipple densities stand in for every grey.
+One pair, one accent, one hairline. Components read only `--bg`, `--fg`, `--signal`, `--muted` and `--line`; setting `data-tone="paper"` or `data-tone="ink"` on any element flips them.
 
-### Neutral
-- **Ink** (`ink`): every rule, every glyph, every icon pixel, the filled radio dot, the availability lamp, and the ground of anything active, hovered or selected. Also the text-selection ground.
-- **Card** (`card`): the card surface, the menu bar, the nav bar, the message box, fields, and the ink of inverted text. The page body under the desk is also card, so overscroll shows paper, not night.
-
-### Stipple fills (the only greys)
-Four one-bit 4x4 SVG tiles, drawn with `shape-rendering: crispEdges` at `background-size: 4px 4px`: **12%** (2 dots), **25%** (4 dots, the desk ground and the nearer stacked edge), **50%** (checkerboard, the deeper stacked edge, the menu drop strip, the script scrollbar track) and **75%** (12 dots). As a background, black in a tile is ink; as a mask, black is "visible", so the same tiles drive the develop reveal and the card dissolve.
-
-### Named Rules
-**The One Bit Rule.** Ink and card are the whole palette. A grey is a density of black dots, never a tint, an opacity on a fill, or a mid-tone hex. No stipple ever sits behind text: every text-bearing surface (card, menu bar, nav bar, message box, mini card) has a solid card ground.
-
-**The Developed Colour Rule.** The only colour on the site is real: a client's screenshot, or Ice's portrait on the Home card, revealed on request through the develop-into-colour interaction. No accent colour, no coloured state, no coloured error: errors use a double rule and words.
-
-**The Inline Tile Rule.** Stipple data URIs are written out in full at every use, never stored in custom properties: a `data:` URL inside a custom property panics Turbopack's production build (Next 16.0.7). Repetition here is the cost of a build that ships.
+- **Paper / ink.** Light outside, dark inside the door: the homepage turns ink at the hall. The dark-mode toggle sets the whole page to ink. 17.3:1.
+- **Signal.** The only accent: links on hover, focus rings, the status dot, the glyphs themselves. AA on both tones (5.1:1 on paper, 11.3:1 on ink).
+- **Muted.** Labels and secondary text, 5.7:1 / 5.8:1.
+- **Line.** Decoration only (the grid, rules, borders), never the only carrier of meaning.
 
 ## Typography
 
-**Display Font:** Pixelify Sans 700 (with system-ui)
-**UI Font:** DotGothic16 400 (with Kanit for Thai, then system-ui)
-**Body Font:** Atkinson Hyperlegible 400/700 (with system-ui)
-**Code Font:** JetBrains Mono (with ui-monospace), in the script window only
+Two voices and one small.
 
-**Character:** Two OFL pixel faces share the job of the Mac's Chicago: Pixelify at display size, where it is heaviest and closest, and DotGothic16 at UI size, drawn on a 16px bitmap grid with open letters that read at a glance (it replaced the condensed DotGothic16, whose pinhole counters made labels hard to read). Atkinson Hyperlegible makes long reading comfortable without leaving the period.
+- **Instrument Serif** (display): names, titles, leads, big figures. The roles in the hero are sized in container units to fill exactly six columns.
+- **Geist** (text): everything read at length.
+- **Geist Mono** (signal): labels, kickers, the nav, prices in receipt rows, the loader log, and the glyph field. The crystallize motion is literally mono turning into display.
 
-### Hierarchy
-- **Display** (Pixelify Sans 700, 64px desktop, 44px phones, line-height 1, balanced wrap): the card title, one per card. Never fluid.
-- **Headline** (DotGothic16 400, 24px, 1.15): section headings inside a card, button labels, form labels, timeline labels.
-- **Label** (DotGothic16 400, 16px, 1): menu bar, menus, nav position ("n of N"), window titles, mini-card titles, the stack list, the concept tag, small buttons, chat questions.
-- **Lead** (Atkinson 400, 18 to 20px, 1.5, max 54ch): the one-sentence intro under a card title.
-- **Body** (Atkinson 400, 17px desktop, 16px phones, 1.55, max 66ch): case write-ups, replies, timeline detail. Bold 700 for fact terms, availability and errors.
-- **Small** (Atkinson 400, 14 to 15px): hints, captions, built-with lines, optional markers.
-- **Code** (JetBrains Mono, 13px, 1.55, `white-space: pre`): the script window. Never wraps mid-expression.
-
-### Named Rules
-**The Pixel Grid Rule.** DotGothic16 is set only at 16 or 24px, where its one-pixel strokes stay crisp; Pixelify only at 64 or 44px, for card titles. Pixel faces never take a fluid or in-between size and never a synthesised weight (`font-synthesis: none`).
-
-**The Closed C Rule.** Pixelify never sets a label, menu or button: below about 28px its C closes into an O. Labels belong to DotGothic16.
+Labels are 11 to 12px mono, uppercase, tracked 0.08em, in muted. Reading text is 16 to 18px Geist at 1.6, in one column of at most 64ch.
 
 ## Layout
 
-The desk is a full-height column: sticky menu bar (40px min), then the stage, which centres one frame of `min(1100px, 100%)`, then the nav bar at the same width, then the Message Box dock. The card has a min-height of `min(640px, 100dvh - 210px)` on desktop so cards keep their size while flipping. Inside, each card is a two-column grid with the text first and the art second (`1fr auto` on Home, `minmax(0,1fr) auto` on cases, roughly 0.8/1.2 on Build mine), gutters `clamp(24px, 3.4vw, 48–56px)`.
+12 columns on desktop, 4 on phones, 8px unit. Margins 48px / 16px, gutters 24px / 16px. The column lines are drawn (`GridLines`) behind page heads.
 
-Rhythm is in small fixed steps: 6px between a label and its field, 14px between buttons, 18px between form rows, 22 to 28px between blocks. Button groups either wrap in a row or stack as an equal-width column as wide as the widest label.
+Inner pages share one shape (`page.module.css`): nav, kicker, display title, lead, facts on the right; then sections with the mono label in columns 1 to 3 and the content from column 4, the way the case pages read. Each page ends with a large serif door to the next place.
 
-Dithered artwork sits at fixed widths: 480px on cards, 360px for the Home portrait, 320px and 280px on phones, 240px thumbnails cropped to 118px tall on `/work`. The all-cards grid uses fixed 256px tracks (`repeat(auto-fill, 256px)`), spaced, never stretched.
+The nav is plain links in the page, never sticky: Home · Work · About · Contact, then LinkedIn, GitHub and the dark-mode toggle.
 
-One breakpoint, 760px. Below it the grids collapse to one column, art moves above text and centres, the stacked edges shrink to 6px and 3px, the title drops to 44px, the nav bar sticks 8px above the bottom at the thumb, the menu bar drops its stack name and uses short language codes, and the message box hides its label.
+## Motion
 
-**The Fixed Art Rule.** A dithered image reaches the screen at exactly the width `scripts/dither-images.mjs` made it (480, 320, 240). Never scale, stretch or `next/image` it; crop with `object-fit: cover` only when the crop box is smaller than the image, so the dots stay 1:1.
-
-## Elevation & Depth
-
-Depth is the card stack itself. Two cards sit under the current one, each a 3px-ruled, 8px-rounded copy offset down and right (5px and 10px desktop, 3px and 6px phones), filled with stipple that gets denser the deeper it sits (25% near, 50% far). Menus drop a 50% stipple strip offset 4px right and 6px down. There is no blur anywhere and no solid-ink offset block.
-
-### Shadow Vocabulary
-- **Stacked edges** (two pseudo-cards, `translate(5px,5px)` with 25% stipple and `translate(10px,10px)` with 50% stipple): under the main card only.
-- **Menu drop strip** (pseudo-element `inset: 4px -6px -6px 4px`, 50% stipple): under open menus.
-- **Default ring** (`box-shadow: 0 0 0 3px #fff, 0 0 0 6px #000`): the heavy concentric ring around the one button you should press. A ring, not an offset.
-- **Radio fill** (`box-shadow: inset 0 0 0 3px #fff`): the white gap around a chosen radio's black dot.
-
-### Named Rules
-**The Stipple Depth Rule.** Anything lifted is shown by an offset shape filled with stipple and ruled in ink, the way the stack drew it. Never `blur`, never a soft shadow, never a solid black offset block.
-
-## Shapes
-
-Corners carry meaning. Things you press are rounded: buttons (12px), nav buttons (8px), mini cards (6px), and the card and nav bar themselves (8px) as physical objects. Fields of content are square: inputs, the stack list, the scrolling write-up field, captions and the concept tag all have 0 radius so nothing in them reads as a button. Windows (6px) carry a classic striped title bar: 1px ink lines every 4px with a square close box and the title on a white plate. Radios are one-bit circles.
-
-Rules come in two weights: 3px for the card, menu bar, nav bar, message box and windows; 2px for everything inside. State changes the rule rather than the fill where possible: hover thickens 2px to 3px (padding drops 1px so nothing shifts), disabled goes dashed, invalid and focus-within go to a double rule (4px or 5px), focus-visible is a 3px dotted outline offset 3px.
-
-**The Pressable Corner Rule.** Round corners mean "press me". A non-interactive container is square.
+1. Motion means something: signal becomes form.
+2. Two easings: expo-out for reveals, linear for scroll-scrubbed.
+3. Three durations: 200ms (UI), 600ms (reveals), 1200ms (signature).
+4. Scroll drives the big moments.
+5. Text being read never moves. The hero scramble only plays if the page is ready within 0.8s; later, the heading is already being read.
+6. Reduced motion, data saver, low memory or no WebGL2 give the quiet world: the same page, no scramble, no loader, no WebGL, crossfades only.
+7. Effects pause offscreen and when the tab is hidden.
 
 ## Components
 
-### Buttons
-Painted, rounded, inverted when pressed.
-- **Shape:** gently rounded (12px), 2px ink rule, 48px tall, 22px side padding, DotGothic16 24px; 20px pixel icons inline.
-- **Default:** the one primary action per card gets a 3px rule plus the concentric default ring (white 3px, then ink 3px).
-- **Hover / Focus:** hover thickens the rule to 3px; focus is the 3px dotted outline.
-- **Active / Pressed:** inverted, ink ground and card text, for `:active` and `aria-pressed="true"` (the Develop button stays inverted while developed).
-- **Disabled:** dashed rule, not-allowed cursor.
-- **Small:** in the message box and chat foot, 34 to 40px tall at DotGothic16 16px.
-
-### Cards / Containers
-- **Corner Style:** 8px.
-- **Background:** card white, solid.
-- **Shadow Strategy:** the stacked edges (see Elevation & Depth).
-- **Border:** 3px ink.
-- **Internal Padding:** `clamp(20px, 3.4vw, 44px)`.
-- **Transition:** the card body is one named view transition; the new card arrives through the stipple densities 12, 25, 50, 75 then solid in hard steps over 400ms. The old card stays underneath. Off under reduced motion.
-
-### Inputs / Fields
-- **Style:** square, 2px ink rule, card ground, Atkinson body text, 10px 12px padding. Labels in DotGothic16 24px above; optional markers in Atkinson 14px.
-- **Focus:** the 3px dotted outline.
-- **Error:** a 4px double rule plus a bold 14px message under the field; the form summary is a double-ruled box with links to each field. No colour.
-- **Radios:** 18px one-bit circles, filled with an ink dot inside a white gap when chosen.
-
-### Navigation
-- **Menu bar:** sticky, 40px, card ground with a 3px bottom rule, DotGothic16 16px. The 32px pixel stack icon and name on the left, pull-down menus (native `details`), language links on the right. Hovered or open items invert; the current language is underlined 2px. Thai falls back to Kanit at the bar's size and weight.
-- **Menus:** 2px-ruled list, min 200px, with the stipple drop strip; items invert on hover and focus.
-- **Nav bar:** a 3px-ruled, 8px-rounded bar under the card: back, home, n of N, all cards, forward. Each button is 52x44 (46 wide on phones), 2px rule, 8px radius, a 32px pixel icon. Hover and `aria-current="page"` invert; unavailable is dashed and inert. Sticky at the thumb on phones.
-
-### Pixel Icons
-Drawn on a 16x16 one-bit grid as rows of `#` and `.`, rendered at 2x with crisp edges. Never taken from an icon library; a smooth vector arrow in this world is a costume.
-
-### Window and Script Window
-A 3px-ruled, 6px-rounded window with the striped title bar and close box. It frames the case screenshot (titled with the live domain or project name) and the code excerpt on the Engineer card, whose horizontal scrollbar is 18px with a 50% stipple track and a ruled white thumb.
-
-### Develop Into Colour (signature)
-The case screenshot shows dithered inside its window; a Develop button lays the colour original over it and reveals it through the stipple masks 12, 25, 50, 75 then solid over 700ms in hard steps, like a print in the tray. The colour file is only requested on intent (hover, focus or press). Off under reduced motion.
-
-### Message Box (signature)
-A 3px-ruled, 8px-rounded line under the stack: a DotGothic16 "Message" label, an unruled input separated by a 2px rule, and a small button. Focus-within turns the box's rule to a 5px double. Answers open above it in a window; turns are divided by a 2px dotted rule, questions in DotGothic16 16px, replies in Atkinson.
-
-### Mini Cards
-The all-cards grid: 256px tiles, 2px rule, 6px radius, 6px padding, a 240x118 dithered thumbnail (top-cropped, 2px ruled) or a drawn one-bit miniature, and a DotGothic16 16px title row. Hover thickens the rule to 3px.
-
-### Showroom Minis and the Price Placard
-/showroom is a Mini Cards grid of every site with a Showroom entry: under the title, a 2px-ruled DotGothic16 stamp ("Concept, no client"), the business and style in Atkinson 15px, and the price in DotGothic16 16px with the founding price under it while spots remain. The whole mini links to the case page. There the Price Placard sits full width between the screenshot and the write-up: a window titled "What a site like this costs", what you get on the left, and on the right the receipt rows of the build-up, a big-figure total between 2px rules, the terms in small type, and the default button "Build me one like this". Every figure comes from conceptPrice() in data.ts.
-
-### Home Doors
-Under the availability line, the question "What brings you here?" (headline, 32px above) and two stacked buttons: "I need a website" (default, to the Showroom) and "I'm hiring an engineer" (to Engineer), then a plain text link "Or see everything" to All cards, so neither door hides anything.
+- **Buttons.** Square, 1px ink border, at least 44 to 48px tall. Primary is filled ink; quiet is outlined. Both turn signal on hover.
+- **Facts.** A definition list, each item a mono label over a value, separated by hairlines.
+- **Receipt rows.** Label, dotted leader, mono figure; detail underneath. Every price on the site.
+- **Folds.** Native `<details>` with a mono plus and minus, for FAQs and anything long.
+- **Enquiry form.** Square inputs with a hairline border; choices are radio chips that fill ink when picked; errors carry a mark, not only a colour; a summary at the top lists every problem.
+- **Work cards.** The project's first screen (720 / 1280px copies), kicker, serif title, one line; the whole card is the link.
+- **Reveal.** A screenshot crystallizing out of glyphs. The poster image shows from the first paint; the canvas fades in over it.
+- **Share cards and icons.** Generated with `next/og` in the same paper, ink, serif and mono.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** draw every surface in ink (`#000`) and card (`#fff`) only, and every grey as one of the four 4x4 stipple tiles.
-- **Do** give every text-bearing surface a solid card ground.
-- **Do** keep colour for a client's real screenshot or Ice's portrait, shown through the develop reveal.
-- **Do** set DotGothic16 at exactly 16 or 24px and Pixelify Sans only for card titles at 64px (44px on phones).
-- **Do** ship dithered art at the width it was dithered at (480, 320, 240) via `npm run dither`, and add new art to the manifest the same way.
-- **Do** write stipple data URIs inline at each use.
-- **Do** round what is pressable and square what is not; invert what is active, hovered or current.
-- **Do** show state with rule changes: 3px on hover, dashed when disabled, double when invalid or focused-within, dotted outline on focus.
-- **Do** step every motion through the stipple densities with `steps(1, end)`, and turn it off under reduced motion.
+- Read every colour, face and duration from the tokens.
+- Keep the page complete as server HTML; effects only enhance it.
+- Put real numbers and real work on the page, from `app/data.ts`.
+- Give every interactive target 44px.
 
 ### Don't:
-- **Don't** put any stipple, pattern or image behind text.
-- **Don't** add an accent colour, a coloured state or a coloured error.
-- **Don't** use a mid-tone hex, an opacity tint on a fill, or a gradient as a grey.
-- **Don't** use blur, soft shadows or solid-ink offset blocks for depth; use stacked edges and stipple strips.
-- **Don't** set a pixel face at a fluid or in-between size, or let the browser synthesise its weight.
-- **Don't** set Pixelify Sans below display size, or use it for labels, menus or buttons.
-- **Don't** resize, recompress or `next/image` a dithered image.
-- **Don't** put a `data:` URL in a CSS custom property.
-- **Don't** round a non-interactive container.
-- **Don't** use library icons or text glyphs as icons; draw them on the 16x16 grid.
-- **Don't** fade between cards or into colour; one bit has no half-ink.
+- Add a second accent, a shadow, a gradient or a rounded corner.
+- Animate text someone is reading.
+- Hide content until WebGL arrives.
+- Advertise how the code gets written, or invent claims, numbers or testimonials.

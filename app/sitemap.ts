@@ -19,11 +19,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { path: '', changeFrequency: "weekly" as const, priority: 1.0 },
         // Above the case pages: it is the commercial page, not a write-up.
         { path: '/services', changeFrequency: "monthly" as const, priority: 0.9 },
-        // The stack's cards that are not case studies (those come from `cases`
-        // below). /about, /contact, /rates and /writing redirect since the clock
-        // retired, so they are out of this list.
-        { path: '/engineer', changeFrequency: "monthly" as const, priority: 0.8 },
-        { path: '/build', changeFrequency: "monthly" as const, priority: 0.8 },
+        // The pages that are not case studies (those come from `cases` below).
+        { path: '/about', changeFrequency: "monthly" as const, priority: 0.8 },
+        { path: '/contact', changeFrequency: "monthly" as const, priority: 0.8 },
         // Sample sites with what each would cost; the commercial sibling of /services.
         { path: '/showroom', changeFrequency: "weekly" as const, priority: 0.8 },
         { path: '/work', changeFrequency: "monthly" as const, priority: 0.8 },

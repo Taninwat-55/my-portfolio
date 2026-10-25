@@ -3,129 +3,124 @@ import path from "node:path";
 import { ImageResponse } from "next/og";
 
 /**
- * The share cards (opengraph-image.tsx on /, /services, /th, /sv, /da), in the
- * stack's world: one bit, the desk, the menu bar, one ruled card. The desk
- * and card are a prerendered PNG (public/stack/og-desk.png, drawn by
- * scripts/dither-images.mjs) because satori cannot tile a stipple; this sets
- * the menu bar and the card's contents over it.
+ * The share cards (opengraph-image.tsx on / and /services), in the
+ * Crystallize world since 2026-10-25: paper, the drawn column hairlines, a
+ * mono label row, the display serif. The colours are the world's tokens
+ * (app/world/tokens/crystallize.css), written out because satori reads no
+ * CSS variables.
  *
  * Satori needs ttf, otf or woff (never woff2), so the faces are bundled in
- * assets/fonts as static woff files rather than read from next/font.
+ * assets/fonts rather than read from next/font. See assets/fonts/README.md.
  */
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
-/** Mirrors OG in scripts/dither-images.mjs: the card's box inside the backdrop. */
-const CARD = { x: 56, y: 84, w: 1074, h: 500 };
-export const OG_PAD = 52;
-/** The card's inner box, after padding: where content goes. */
-export const OG_INNER = { w: CARD.w - OG_PAD * 2, h: CARD.h - OG_PAD * 2 };
+const PAPER = "#f3f4f2";
+const INK = "#0f1012";
+const LINE = "#c9ccc8";
+const MUTED = "#5c6166";
+const SIGNAL = "#0b6e99";
+const MARGIN = 64;
+const COLS = 12;
 
-const root = process.cwd();
-const file = (p: string) => readFile(path.join(root, p));
-const dataUri = async (p: string) => `data:image/png;base64,${(await file(p)).toString("base64")}`;
+const file = (p: string) => readFile(path.join(process.cwd(), p));
 
 /** Read once per build, shared by every card. */
-const assets = Promise.all([
-  file("assets/fonts/pixelify-sans-latin-700.woff"),
-  file("assets/fonts/dotgothic16-latin-400.woff"),
-  file("assets/fonts/atkinson-hyperlegible-latin-400.woff"),
-  file("assets/fonts/atkinson-hyperlegible-latin-700.woff"),
-  dataUri("public/stack/og-desk.png"),
-  dataUri("app/icon.png"),
-]);
-const thaiFonts = Promise.all([
-  file("assets/fonts/chakra-petch-thai-700.woff"),
-  file("assets/fonts/chakra-petch-latin-700.woff"),
-  file("assets/fonts/chakra-petch-thai-400.woff"),
-  file("assets/fonts/chakra-petch-latin-400.woff"),
-]);
+const assets = Promise.all([file("assets/fonts/instrument-serif-400.ttf"), file("assets/fonts/geist-mono-latin-400.woff")]);
 
-/** The card faces by role, matching the site: display, pixel UI, body. */
-export const OG_FONT = { display: "Pixelify", pixel: "DotGothic", body: "Atkinson" } as const;
-/**
- * /th sets its words in Chakra Petch, as the page does. Figures stay in
- * DotGothic16: in bold Chakra Petch a 5 reads as an S ("6.S00 DKK"), and a
- * price is the one thing on the card that must not be misread.
- */
-export const OG_FONT_TH = { display: "Chakra", pixel: "DotGothic", body: "Chakra" } as const;
+/** The card faces by role, matching the site: display serif, mono signal. */
+export const OG_FONT = { display: "Instrument Serif", mono: "Geist Mono" } as const;
+export const OG_COLOR = { ink: INK, muted: MUTED, signal: SIGNAL, line: LINE } as const;
 
-export async function stackOgImage(content: React.ReactNode, { thai = false } = {}) {
-  const [pixelify, dotgothic, atkinson400, atkinson700, desk, icon] = await assets;
-  const fonts: NonNullable<ConstructorParameters<typeof ImageResponse>[1]>["fonts"] = [
-    { name: "Pixelify", data: pixelify, weight: 700, style: "normal" },
-    { name: "DotGothic", data: dotgothic, weight: 400, style: "normal" },
-    { name: "Atkinson", data: atkinson400, weight: 400, style: "normal" },
-    { name: "Atkinson", data: atkinson700, weight: 700, style: "normal" },
-  ];
-  if (thai) {
-    const [th700, lat700, th400, lat400] = await thaiFonts;
-    fonts.push(
-      { name: "Chakra", data: th700, weight: 700, style: "normal" },
-      { name: "Chakra", data: lat700, weight: 700, style: "normal" },
-      { name: "Chakra", data: th400, weight: 400, style: "normal" },
-      { name: "Chakra", data: lat400, weight: 400, style: "normal" },
-    );
-  }
+/** A small mono label, as the site sets its kickers. */
+export function OgLabel({ children, color = MUTED }: { children: React.ReactNode; color?: string }) {
+  return (
+    <div style={{ display: "flex", fontFamily: OG_FONT.mono, fontSize: 20, letterSpacing: 1.6, color }}>
+      {children}
+    </div>
+  );
+}
+
+/** A receipt row: label, dotted leader, figure. */
+export function OgRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div style={{ display: "flex", alignItems: "flex-end", gap: 14 }}>
+      <div style={{ display: "flex", fontFamily: OG_FONT.display, fontSize: 36 }}>{label}</div>
+      <div style={{ display: "flex", flexGrow: 1, borderBottom: `2px dashed ${MUTED}`, marginBottom: 10 }} />
+      <div style={{ display: "flex", fontFamily: OG_FONT.mono, fontSize: 24 }}>{value}</div>
+    </div>
+  );
+}
+
+export async function worldOgImage(content: React.ReactNode, label: string) {
+  const [serif, mono] = await assets;
+  const colWidth = (OG_SIZE.width - MARGIN * 2) / COLS;
 
   return new ImageResponse(
-    <div style={{ display: "flex", position: "relative", width: 1200, height: 630, background: "#fff" }}>
-      {/* A plain <img>: satori renders it 1:1, which a one-bit image needs;
-          next/image does not exist inside an ImageResponse. */}
-      {/* eslint-disable-next-line @next/next/no-img-element -- satori renders plain <img> only */}
-      <img src={desk} width={1200} height={630} alt="" style={{ position: "absolute", left: 0, top: 0 }} />
+    <div
+      style={{
+        display: "flex",
+        position: "relative",
+        width: OG_SIZE.width,
+        height: OG_SIZE.height,
+        background: PAPER,
+        color: INK,
+      }}
+    >
+      {/* The drawn grid: one hairline per column edge, the world's material. */}
+      {Array.from({ length: COLS + 1 }, (_, i) => (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: MARGIN + i * colWidth,
+            width: 1,
+            background: LINE,
+          }}
+        />
+      ))}
 
-      {/* The menu bar: the stack's icon and name, the address on the right. */}
+      {/* The nav row: what the card is, and the address. */}
       <div
         style={{
           position: "absolute",
-          left: 0,
-          top: 0,
-          width: 1200,
-          height: 48,
+          top: 40,
+          left: MARGIN,
+          right: MARGIN,
           display: "flex",
-          alignItems: "center",
           justifyContent: "space-between",
-          padding: "0 24px",
-          fontFamily: OG_FONT.pixel,
-          fontSize: 22,
-          color: "#000",
+          fontFamily: OG_FONT.mono,
+          fontSize: 20,
+          letterSpacing: 1.6,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          {/* eslint-disable-next-line @next/next/no-img-element -- satori renders plain <img> only */}
-          <img src={icon} width={32} height={32} alt="" />
-          Ice&apos;s Stack
-        </div>
-        <div style={{ display: "flex" }}>taninwatkaewpankan.xyz</div>
+        <div style={{ display: "flex" }}>{label.toUpperCase()}</div>
+        <div style={{ display: "flex" }}>TANINWATKAEWPANKAN.XYZ</div>
       </div>
 
-      {/* The card's contents. */}
       <div
         style={{
           position: "absolute",
-          left: CARD.x + OG_PAD,
-          top: CARD.y + OG_PAD,
-          width: OG_INNER.w,
-          height: OG_INNER.h,
+          top: 110,
+          left: MARGIN,
+          right: MARGIN,
+          bottom: 56,
           display: "flex",
-          color: "#000",
+          flexDirection: "column",
+          justifyContent: "flex-end",
         }}
       >
         {content}
       </div>
     </div>,
-    { ...OG_SIZE, fonts },
-  );
-}
-
-/** A receipt row for a card: label, dashed leader, figure. */
-export function OgRow({ label, value, font = OG_FONT }: { label: string; value: string; font?: typeof OG_FONT | typeof OG_FONT_TH }) {
-  return (
-    <div style={{ display: "flex", alignItems: "flex-end", gap: 14, fontSize: 26 }}>
-      <div style={{ display: "flex", fontFamily: font.body, fontWeight: 700 }}>{label}</div>
-      <div style={{ display: "flex", flexGrow: 1, borderBottom: "3px dashed #000", marginBottom: 8 }} />
-      <div style={{ display: "flex", fontFamily: font.pixel }}>{value}</div>
-    </div>
+    {
+      ...OG_SIZE,
+      fonts: [
+        { name: OG_FONT.display, data: serif, weight: 400, style: "normal" },
+        { name: OG_FONT.mono, data: mono, weight: 400, style: "normal" },
+      ],
+    },
   );
 }

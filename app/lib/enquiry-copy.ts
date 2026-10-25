@@ -1,10 +1,9 @@
 import { ENQUIRY_MESSAGES_EN, type EnquiryFields, type EnquiryMessages } from "./services-enquiry";
 
 /**
- * The enquiry form's visible strings. Every one is injectable, defaulting to
- * English, so /th, /sv and /da render the stack's blank card (BlankCard.tsx)
- * in their language without a second copy of the form existing. Moved here
- * from the paper ServicesEnquiryForm when that form was retired (2026-10-18).
+ * The enquiry form's visible strings (app/world/EnquiryForm.tsx). Kept apart
+ * from the form so the copy can change without touching its behaviour; the
+ * field values and validation live in services-enquiry.ts.
  */
 
 /**

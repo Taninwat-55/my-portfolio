@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { cases, conceptPrice, founding, foundingOpen, inShowroom, leadCaseIds, stackContent } from "@/app/data";
+import { cases, conceptPrice, founding, foundingOpen, inShowroom, leadCaseIds, casePage } from "@/app/data";
 import { GridLines } from "@/app/world/GridLines";
 import { SmoothScroll } from "@/app/world/SmoothScroll";
 import { WorldFooter } from "@/app/world/WorldFooter";
@@ -37,6 +37,9 @@ export async function generateMetadata({
       description: caseStudy.sub,
       url,
       type: "article",
+      // A page-level openGraph replaces the root one rather than merging, so
+      // the share card has to be named again.
+      images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
@@ -69,8 +72,8 @@ export default async function CasePage({
 
   if (!caseStudy) notFound();
 
-  const copy = stackContent.project;
-  const shop = stackContent.showroom;
+  const copy = casePage;
+  const shop = casePage.price;
   const baseUrl = "https://taninwatkaewpankan.xyz";
   const caseUrl = `${baseUrl}/cases/${caseStudy.id}`;
   const sameAs = [caseStudy.links.demo, caseStudy.links.code].filter(Boolean);
@@ -177,11 +180,11 @@ export default async function CasePage({
           {price && (
             <section className={styles.price} aria-labelledby="price-title">
               <h2 id="price-title" className={styles.label}>
-                {shop.priceLabel}
+                {shop.label}
               </h2>
               <div className={styles.priceBody}>
                 <div>
-                  <p className={styles.priceSub}>{shop.getsLabel}</p>
+                  <p className={styles.priceSub}>{shop.gets}</p>
                   <ul className={styles.gets}>
                     {caseStudy.showroom!.gets.map((item) => (
                       <li key={item}>{item}</li>
@@ -208,7 +211,7 @@ export default async function CasePage({
                   <p className={styles.terms}>
                     {shop.timeline} {price.timeline}. {shop.terms}
                   </p>
-                  <Link className={styles.button} href={`/build?like=${caseStudy.id}`}>
+                  <Link className={styles.button} href={`/contact?like=${caseStudy.id}#enquire`}>
                     {shop.buildLike} <span aria-hidden="true">→</span>
                   </Link>
                 </div>

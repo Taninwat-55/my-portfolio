@@ -1,0 +1,254 @@
+/* The world's inner pages (about, contact, services, work, showroom, cv):
+   a head with nav, kicker, title and lead, then sections with the label on
+   the left and the content beside it, the way the case pages read. Reads
+   the world's tokens only. Link styles use two-part selectors to outrank
+   the shell's `.world a`. */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gutter);
+  padding-inline: var(--margin);
+}
+
+/* Small mono voice. */
+.kicker,
+.label,
+.facts dt {
+  margin: 0;
+  font-family: var(--world-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── Head ───────────────────────────────────────────────────────────────── */
+
+.head {
+  composes: grid;
+  position: relative;
+  padding-top: calc(var(--unit) * 3);
+  padding-bottom: calc(var(--unit) * 12);
+}
+
+.head > :not(:first-child) {
+  position: relative;
+  z-index: 1;
+  grid-column: 1 / -1;
+}
+
+.nav {
+  margin-bottom: calc(var(--unit) * 12);
+}
+
+.kicker {
+  margin-bottom: calc(var(--unit) * 2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: clamp(56px, 11vw, 168px);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+}
+
+.lead {
+  max-width: 34ch;
+  margin: calc(var(--unit) * 3) 0 0;
+  font-family: var(--world-display);
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 1.2;
+}
+
+.facts {
+  display: grid;
+  gap: calc(var(--unit) * 2);
+  margin: calc(var(--unit) * 5) 0 0;
+}
+
+.facts div {
+  display: grid;
+  gap: 4px;
+  padding-top: var(--unit);
+  border-top: 1px solid var(--line);
+}
+
+.facts dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+@media (min-width: 900px) {
+  .head > .title,
+  .head > .lead,
+  .head > .actions {
+    grid-column: 1 / span 8;
+  }
+
+  /* Facts beside the title, ending at the right margin. */
+  .head > .facts {
+    grid-column: 9 / -1;
+    grid-row: 3 / span 3;
+    align-self: end;
+    margin-top: 0;
+  }
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--unit) * 1.5);
+  margin: calc(var(--unit) * 4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.actions .button,
+.actions .buttonQuiet {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--unit);
+  min-height: 48px;
+  padding: 0 20px;
+  border: 1px solid var(--fg);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color var(--dur-ui) var(--ease-reveal),
+    color var(--dur-ui) var(--ease-reveal),
+    border-color var(--dur-ui) var(--ease-reveal);
+}
+
+.actions .button {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.actions .buttonQuiet {
+  background: transparent;
+  color: var(--fg);
+}
+
+.actions .button:hover,
+.actions .buttonQuiet:hover {
+  border-color: var(--signal);
+  background: var(--signal);
+  color: var(--bg);
+}
+
+/* ─── Sections ───────────────────────────────────────────────────────────── */
+
+.section {
+  composes: grid;
+  row-gap: calc(var(--unit) * 2);
+  padding-bottom: calc(var(--unit) * 12);
+}
+
+.section > .label {
+  grid-column: 1 / -1;
+  padding-top: var(--unit);
+  border-top: 1px solid var(--line);
+}
+
+.content {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+/* Reading text: one comfortable column. */
+.prose {
+  max-width: 64ch;
+}
+
+.prose p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.prose p + p {
+  margin-top: calc(var(--unit) * 2.5);
+}
+
+@media (min-width: 900px) {
+  .section > .label {
+    grid-column: 1 / span 3;
+  }
+
+  .content {
+    grid-column: 4 / -1;
+    padding-top: var(--unit);
+  }
+
+  .content.narrow {
+    grid-column: 4 / span 7;
+  }
+}
+
+/* A list of titled blocks (what I do, services, process). */
+.blocks {
+  display: grid;
+  gap: calc(var(--unit) * 4) var(--gutter);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.blocks h3 {
+  margin: 0 0 var(--unit);
+  font-family: var(--world-display);
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.blocks p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (min-width: 900px) {
+  .blocks {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ─── Door at the foot ───────────────────────────────────────────────────── */
+
+.next {
+  composes: grid;
+  row-gap: calc(var(--unit) * 1.5);
+  padding-top: calc(var(--unit) * 10);
+  padding-bottom: calc(var(--unit) * 16);
+  border-top: 1px solid var(--line);
+}
+
+.next > * {
+  grid-column: 1 / -1;
+}
+
+.next .nextLink {
+  justify-self: start;
+  font-family: var(--world-display);
+  font-size: clamp(48px, 8vw, 120px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.nextSub {
+  max-width: 48ch;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+}

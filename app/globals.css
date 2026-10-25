@@ -1,23 +1,18 @@
 @import "tailwindcss";
 
 /*
- * The site-wide base. Since phase 2 of the stack (2026-10-18) every page is a
- * one-bit card (DESIGN.md), so this only sets what sits outside a card: the
- * page ground, selection, scrollbars and anchor offsets. The stack's own
- * system lives in app/components/stack/.
+ * The site-wide base. Every page sits in the Crystallize world
+ * (app/world/WorldShell.tsx), whose tokens, fonts and colours live in
+ * app/world/tokens/crystallize.css. This only sets what lies outside it: the
+ * page ground behind an overscroll, selection and anchor offsets. Tailwind
+ * stays for its utilities (sr-only and the skip link).
  */
-@theme {
-  --font-sans: var(--font-kanit);
-  --font-mono: var(--font-jetbrains-mono);
-}
 
 @layer base {
   html {
-    color-scheme: light;
-    background-color: #fff;
+    background-color: #f3f4f2;
     scroll-behavior: smooth;
-    /* Keeps the sticky menu bar from covering the top of an anchored section. */
-    scroll-padding-top: 64px;
+    scroll-padding-top: 24px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -27,28 +22,16 @@
   }
 
   body {
-    background-color: #fff;
-    color: #000;
-    font-family: var(--font-kanit), sans-serif;
+    margin: 0;
+    background-color: #f3f4f2;
+    color: #0f1012;
+    font-family: system-ui, sans-serif;
   }
 }
 
 @layer utilities {
   ::selection {
-    background-color: #000;
-    color: #fff;
-  }
-
-  /* The page scrollbar in the stack's terms: an ink thumb on a white track. */
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #fff;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: #000;
-    border: 2px solid #fff;
+    background-color: #0f1012;
+    color: #f3f4f2;
   }
 }

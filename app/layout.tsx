@@ -3,11 +3,9 @@ import Script from "next/script";
 import { personalInfo, siteContent } from "./data";
 import "./globals.css";
 
-// Fonts live with the pages that use them: the world's in app/world/fonts.ts,
-// the Stack's (Kanit and JetBrains Mono included) in
-// app/components/stack/fonts.ts. Anything declared here is preloaded on every
-// route, which cost the world pages 15 font files they never drew
-// (Lighthouse, 2026-10-25).
+// Fonts live with the world (app/world/fonts.ts), not here: anything declared
+// in the root layout is preloaded on every route, which once cost every page
+// 15 font files it never drew (Lighthouse, 2026-10-25).
 
 const personJsonLd = {
   "@context": "https://schema.org",

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const ways = [
   { href: "/", label: "Home" },
   { href: "/#work-title", label: "Selected work" },
-  { href: "/engineer", label: "Hire me" },
+  { href: "/about", label: "About" },
   { href: "/services", label: "Build my website" },
 ];
 
