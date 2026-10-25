@@ -26,11 +26,22 @@ export const geistMono = Geist_Mono({
 export const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
-  style: ["normal", "italic"],
+  style: "normal",
   variable: "--font-instrument-serif",
 });
 
+// The italic sets only the "(Ice)" beside the name, so it is not preloaded:
+// on a slow phone every preload shares the first round trips with the hero
+// screenshot, the homepage's LCP (live Lighthouse, 2026-10-25).
+export const instrumentSerifItalic = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  variable: "--font-instrument-serif-italic",
+  preload: false,
+});
+
 /** Every world font variable, for a layout's className. */
-export const worldFontVariables = [geist, geistMono, instrumentSerif]
+export const worldFontVariables = [geist, geistMono, instrumentSerif, instrumentSerifItalic]
   .map((font) => font.variable)
   .join(" ");

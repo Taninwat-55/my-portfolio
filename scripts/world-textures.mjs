@@ -1,8 +1,9 @@
 // Builds the screenshots the world draws in WebGL (the hero's work monitor,
 // the glyph hall's cards and each case's reveal) at 1280px wide, plus a
-// 720px copy (name-720.webp) that phones get as the poster <img> through
-// srcset (Reveal.tsx, worldImage.ts): the hero's 2,900px original held the
-// homepage LCP at 3.5s on slow 4G (Lighthouse, 2026-10-25).
+// 960 and 720px copies (name-960.webp, name-720.webp) that phones get as the
+// poster <img> through srcset (Reveal.tsx, worldImage.ts): the hero's
+// 2,900px original held the homepage LCP at 3.5s on slow 4G, and a phone
+// wanting ~721px skipped 720 for the 1280 copy (Lighthouse, 2026-10-25).
 //
 //   npm run textures
 //
@@ -21,7 +22,7 @@ import path from "node:path";
 const ROOT = path.resolve(import.meta.dirname, "..");
 const ASSETS = path.join(ROOT, "public/assets");
 const OUT = path.join(ROOT, "public/world");
-const WIDTHS = [1280, 720];
+const WIDTHS = [1280, 960, 720];
 
 // Every case's screenshot folder: the hall shows five, but every case page
 // reveals its own screens. Add a folder here when a case joins.

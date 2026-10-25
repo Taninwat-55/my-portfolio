@@ -72,6 +72,13 @@
   line-height: 1.1;
 }
 
+/* "(Ice)" in the serif's real italic, a separate face that is not
+   preloaded (app/world/fonts.ts); until it lands, the browser slants the
+   upright one. */
+.name em {
+  font-family: var(--font-instrument-serif-italic), var(--world-display);
+}
+
 /* Sized so the longer role, "Full-stack Engineer" (6.229 em in Instrument
    Serif, measured), exactly fills its columns: the full width on a phone,
    the left six columns on desktop, ending where the work monitor starts.

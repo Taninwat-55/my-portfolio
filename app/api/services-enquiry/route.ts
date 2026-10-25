@@ -150,7 +150,7 @@ export async function POST(req: NextRequest) {
       message,
       ``,
       `--`,
-      `Sent from the /services enquiry form`,
+      `Sent from the /contact enquiry form`,
     ].join("\n");
 
     // Sent multipart. The text part is what most filters read and what shows in
@@ -180,7 +180,7 @@ export async function POST(req: NextRequest) {
     <p style="margin:0 0 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#767676;">Message</p>
     <div style="font-size:15px;white-space:pre-wrap;">${escapeHtml(message)}</div>
   </div>
-  <p style="margin:24px 0 0;font-size:12px;color:#9a9a9a;">Sent from the /services enquiry form. Replying to this email goes straight to ${safeName}.</p>
+  <p style="margin:24px 0 0;font-size:12px;color:#9a9a9a;">Sent from the /contact enquiry form. Replying to this email goes straight to ${safeName}.</p>
 </div>`.trim();
 
     // No acknowledgement email goes back to the enquirer. That would turn this
