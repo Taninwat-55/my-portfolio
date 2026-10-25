@@ -1,157 +1,73 @@
-# Taninwat Kaewpankan — Portfolio
+# Taninwat Kaewpankan, portfolio
 
-Single-page portfolio for **Ice** — Frontend Engineer & Project Coordinator, Copenhagen.
+The personal site of **Ice** (Taninwat Kaewpankan), Full-stack Engineer and Creative Developer in Copenhagen.
 
-🌐 **Live:** [taninwatkaewpankan.xyz](https://taninwatkaewpankan.xyz)
+**Live:** [taninwatkaewpankan.xyz](https://taninwatkaewpankan.xyz)
 
----
+## The idea
 
-## Current state — July 2026
+The site is built around one idea, *it comes into focus*. Everything starts as signal (glyphs, mono type) and crystallizes into the finished thing. The homepage runs as one sequence: a short loader, the hero, a statement, a door built from the page's own grid lines, and a hall where each project resolves out of loose glyphs as you walk past it.
 
-One flat identity: **Frontend Engineer & Project Coordinator**. The old PM/Dev mode
-toggle was removed; there is no longer any mode system, `ModeContext`, or
-role-specific content variant. If you find a reference to one, it's stale.
+The effects are decoration on complete HTML. Every page renders on the server and reads fully without JavaScript. With reduced motion, data saver, low device memory or no WebGL2, visitors get the same content without the effects.
 
-The homepage is a single screen, the "clock": Ice's illustrated portrait on a disc,
-a pointing hand, and paper objects pinned around it. Each object opens in place at
-its own URL and links on to the full page behind it:
+## Pages
 
-| URL | Object | Full page |
-| --- | --- | --- |
-| `/work` | case-study prints | `/projects`, `/cases/[slug]` |
-| `/about` | envelope → letter (`aboutStory`, verbatim) | — |
-| `/writing` | notebook of the newest notes | `/garden` |
-| `/rates` | till receipt of the prices | `/services` |
-| `/contact` | pinned postcard, sends via `/api/contact` | — |
+| Route | What it is |
+| --- | --- |
+| `/` | Hero, statement, door, the glyph hall of five projects |
+| `/cases/[slug]` | A case: facts, screens, numbers, the write-up, the next case |
+| `/work` | Every project with a case page |
+| `/about` | Background, what I do, the story |
+| `/services` | Freelance web development with published prices |
+| `/showroom` | Sample sites for made-up businesses, each with its price |
+| `/contact` | Direct lines for roles, the project enquiry form |
+| `/cv` | The CV, mirroring the PDF |
 
-There is also a pendant lamp (on at night, Copenhagen time), a wall clock, and
-objects can be dragged around with a mouse. Code: `app/components/clock/`.
-Concept doc: https://claude.ai/code/artifact/daf15c29-d613-4988-afd3-7d47ab46e16d
-
-**Claim integrity:** every number and title on this site has to be defensible in an
-interview. Millennial Consulting is **Operations Assistant → Operations Manager →
-Head of Organization** (four cycles, ~20 client engagements, 90%+ satisfaction,
-~5 projects and 25+ consultants per cycle). Don't inflate titles; the real
-progression is the stronger story.
-
----
-
-## Features
-
-- **Single-page scroll narrative** with Framer Motion reveals throughout
-- **Veiled CV section** — scroll-driven mask, PDF download for the full document
-- **Case studies** — long-form project write-ups at `/cases/[slug]` with JSON-LD
-- **Garden** — MDX-powered writing at `/garden/[slug]`, with interactive post tools
-- **AI chatbot** — floating widget answering questions about Ice's background,
-  grounded in `chatbotContext` + `experience` from `data.ts`
-- **Services page** — `/services`, the freelance offer: packaged services with
-  published price ranges, process, FAQ, and a project enquiry form
-- **Enquiry form** — Resend-backed, validated, honeypot-trapped, and rate-limited
-  via Upstash (fails closed — see `app/api/services-enquiry/route.ts`)
-- **SEO** — JSON-LD, Open Graph images, sitemap, robots.txt, `llms.txt`
-
----
-
-## Tech Stack
+## Stack
 
 | Layer | Technology |
-|---|---|
-| Framework | Next.js 16 (App Router, Turbopack) |
-| Language | TypeScript |
-| Styling | Tailwind CSS v4 |
-| Animation | Framer Motion |
-| Content | MDX via `next-mdx-remote` + `gray-matter` |
-| AI | Vercel AI SDK + Groq |
-| Rate limiting | Upstash Redis |
-| Email | Resend |
-| Fonts | Kanit, JetBrains Mono |
-| Icons | lucide-react |
-| Deployment | Netlify (`@netlify/plugin-nextjs`), auto-build from `main` |
+| --- | --- |
+| Framework | Next.js 16 (App Router), React 19, TypeScript |
+| Styling | CSS Modules on design tokens (`app/world/tokens/crystallize.css`), Tailwind for utilities |
+| Motion | GSAP with ScrollTrigger, Lenis smooth scroll |
+| WebGL | three.js and React Three Fiber, loaded after the page is up |
+| Type | Instrument Serif, Geist, Geist Mono via `next/font` |
+| Forms | Resend for delivery, Upstash rate limiting |
+| AI | Vercel AI SDK and Groq (`/api/chat`, kept for a planned "ask the site" layer) |
+| Hosting | Netlify (`@netlify/plugin-nextjs`), production builds from `main` |
 
----
-
-## Project Structure
+## Structure
 
 ```
 app/
-├── components/
-│   ├── clock/              # The homepage: ClockHome (client), Clock (server wrapper),
-│   │                       # Portrait, Hand, Lamp, WallClock, and one file per object
-│   ├── ChatWidget.tsx      # AI chat; LazyChatWidget loads it when the page is idle
-│   ├── HireModal.tsx       # Contact + CV download
-│   ├── FadeIn.tsx
-│   └── post-tools/         # Interactive widgets embedded in MDX posts
-├── about/, contact/, work/, writing/, rates/   # The clock opened on each object
-├── cases/[slug]/           # Case study pages
-├── garden/                 # Blog listing + [slug] pages
-├── services/               # Freelance sales page + enquiry form
-├── api/
-│   ├── chat/               # Groq-backed chatbot (limiter fails open)
-│   └── services-enquiry/   # Resend + Upstash rate limit (fails closed)
-├── lib/
-│   ├── posts.ts            # MDX loading
-│   ├── rate-limit.ts       # Shared Upstash limiter factory
-│   ├── request-ip.ts       # Shared client-IP resolution
-│   └── services-enquiry.ts # Shared enquiry validation (client + server)
-├── data.ts                 # ALL site content — single source of truth
-└── page.tsx                # Homepage composition
-posts/                      # MDX blog posts
-public/assets/              # WebP images + Taninwat_Kaewpankan_CV.pdf
+├── (world)/            # Every page: home, cases, work, about, services, showroom, contact, cv
+├── world/              # The design system: tokens, fonts, shell, nav, footer, form, cards
+│   └── effects/crystallize/   # Loader, scramble, reveal, door, hall (WebGL lazy-loaded)
+├── api/                # services-enquiry (Resend, fails closed), chat (Groq)
+├── lib/                # Enquiry validation, rate limiting, share-card rendering
+└── data.ts             # All site content, the single source of truth
+public/assets/          # Original screenshots and the CV PDF
+public/world/           # 720 and 1280 px copies the site serves (npm run textures)
+assets/fonts/           # Fonts for the generated share images and icons
 ```
 
----
+## Content
 
-## Content model
+`app/data.ts` holds every word and number on the site: `personalInfo`, `siteContent`, `cvData`, `cases`, `services` and each page's own lines. Components read from it rather than hard-coding copy.
 
-**`app/data.ts` is the single source of truth.** Almost nothing is hardcoded in
-components. Key exports:
+`cvData` and `public/assets/Taninwat_Kaewpankan_CV.pdf` must stay in sync. `npm run cv` rebuilds the PDF from `cvData`.
 
-| Export | Drives |
-|---|---|
-| `personalInfo` | Name, location, email, socials |
-| `siteContent` | `roleLabel`, hero tagline, about story, `whatIDo`, CV link |
-| `cvData` | The on-page CV — **mirrors the PDF one-to-one** |
-| `experience` | Chatbot context only (not rendered to visitors) |
-| `cases` | Case study pages |
-| `projectCards` | Homepage project cards |
-| `chatbotContext` | System prompt grounding for the AI widget |
+Every claim on the site has to be defensible in an interview. No invented numbers, titles or testimonials.
 
-⚠️ **`cvData` and `public/assets/Taninwat_Kaewpankan_CV.pdf` must stay in sync.**
-If one changes, change the other. The page and the download are meant to be the
-same document.
-
----
-
-## Getting Started
+## Getting started
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
-npm run build    # production build + type check
+npm run dev        # http://localhost:3000
+npm run build      # production build and type check
 npm run lint
+npm run textures   # after adding or replacing a screenshot in public/assets
+npm run cv         # after changing cvData
 ```
 
-Deployment is automatic: **push to `main` → Netlify builds → production.** There is
-no preview environment, so verify locally before pushing.
-
-To check on a real phone, open the Network URL that `next dev` prints
-(e.g. `http://192.168.0.219:3000`) on a device on the same Wi-Fi.
-
----
-
-## Known open items
-
-- [ ] Verify the CV veil on **real iOS Safari** — it relies on `mask-image`
-      (`-webkit-` prefixed), which is the most browser-sensitive thing on the site
-- [ ] The "hybrid Agile/waterfall adopted org-wide" claim appears in the Millennial
-      case study and `posts/leading-volunteers.mdx`, but was deliberately dropped
-      from the CV. Decide once, apply everywhere.
-- [ ] No `CV` link in the Hero nav (4 items already; adding a 5th risks the mobile
-      wrap that was fixed in `d576cef`)
-
----
-
-## Content Management
-
-See [`.agent/skills/content_manager/SKILL.md`](.agent/skills/content_manager/SKILL.md)
-for the workflow on adding blog posts and case studies.
+Pushing to `main` deploys to production through Netlify.

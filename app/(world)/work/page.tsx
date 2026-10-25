@@ -23,8 +23,8 @@ const rest = cases.filter((c) => !leadCaseIds.includes(c.id));
  * all-cards grid). The hall's five first, in its order, then the rest.
  */
 export default function WorkPage() {
-  const card = (c: (typeof cases)[number]) => (
-    <WorkCard key={c.id} caseStudy={c} kicker={[c.tag, c.year].filter(Boolean).join(" · ")}>
+  const card = (c: (typeof cases)[number], eager: boolean) => (
+    <WorkCard key={c.id} caseStudy={c} kicker={[c.tag, c.year].filter(Boolean).join(" · ")} eager={eager}>
       {inShowroom(c) && <span className={work.price}>{conceptPrice(c.showroom!).total}</span>}
     </WorkCard>
   );
@@ -49,7 +49,7 @@ export default function WorkPage() {
               {group.title}
             </h2>
             <div className={page.content}>
-              <ul className={work.grid}>{group.items.map(card)}</ul>
+              <ul className={work.grid}>{group.items.map((c, i) => card(c, group.id === "lead" && i < 3))}</ul>
             </div>
           </section>
         ))}

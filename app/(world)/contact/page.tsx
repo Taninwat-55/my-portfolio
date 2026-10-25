@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 import { aboutPage, contactPage, founding, foundingOpen, foundingSpotsLine, foundingTerms, personalInfo } from "@/app/data";
-import { EnquiryForm, ShowroomEnquiryForm } from "@/app/world/EnquiryForm";
+import { EnquiryForm } from "@/app/world/EnquiryForm";
 import { GridLines } from "@/app/world/GridLines";
 import { WorldFooter } from "@/app/world/WorldFooter";
 import { WorldNav } from "@/app/world/WorldNav";
@@ -106,11 +105,8 @@ export default function ContactPage() {
               </p>
             </div>
             <div style={{ marginTop: "calc(var(--unit) * 5)" }}>
-              {/* The plain form is the static fallback; ?like= from a
-                  Showroom concept fills it in on the client. */}
-              <Suspense fallback={<EnquiryForm />}>
-                <ShowroomEnquiryForm />
-              </Suspense>
+              {/* ?like= from a Showroom concept fills it in after mount. */}
+              <EnquiryForm />
             </div>
           </div>
         </section>

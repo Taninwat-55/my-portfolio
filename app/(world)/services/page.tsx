@@ -94,7 +94,7 @@ export default function ServicesPage() {
       {
         "@type": "ProfessionalService",
         "@id": `${PAGE_URL}#business`,
-        name: `${personalInfo.name} — Freelance Web Development`,
+        name: `${personalInfo.name} · Freelance Web Development`,
         url: PAGE_URL,
         description: DESCRIPTION,
         image: `${PAGE_URL}/opengraph-image`,

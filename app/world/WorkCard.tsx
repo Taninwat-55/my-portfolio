@@ -11,10 +11,13 @@ import styles from "./work.module.css";
 export function WorkCard({
   caseStudy: c,
   kicker,
+  eager = false,
   children,
 }: {
   caseStudy: CaseStudy;
   kicker: string;
+  /** The first row: likely the LCP, so it must not wait for lazy loading. */
+  eager?: boolean;
   children?: React.ReactNode;
 }) {
   return (
@@ -26,7 +29,8 @@ export function WorkCard({
           {...worldImage(c.images[0])}
           sizes="(min-width: 900px) 33vw, 100vw"
           alt=""
-          loading="lazy"
+          loading={eager ? "eager" : "lazy"}
+          fetchPriority={eager ? "high" : undefined}
           decoding="async"
         />
         <span className={styles.kicker}>{kicker}</span>

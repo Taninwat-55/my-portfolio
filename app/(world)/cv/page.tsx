@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     description: cvData.summary,
     url: PAGE_URL,
     type: "profile",
+    // A page-level openGraph replaces the root one rather than merging, so
+    // the share card has to be named again.
+    images: ["/opengraph-image"],
     locale: "en_DK",
   },
 };

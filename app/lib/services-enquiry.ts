@@ -89,7 +89,7 @@ export const ENQUIRY_MESSAGES_EN: EnquiryMessages = {
   tooLong: "That is a bit long",
   email: "I need a valid email to reply to",
   projectType: "Pick the closest match",
-  budget: "Pick a range — a rough one is fine",
+  budget: "Pick a range. A rough one is fine",
   timeline: "When do you need it?",
   messageShort: "A sentence or two about the project",
   messageLong: "Keep it under {max} characters",

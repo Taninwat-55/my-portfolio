@@ -1,13 +1,13 @@
 # Taninwat Kaewpankan
 
-Frontend Engineer & Project Coordinator based in Copenhagen, Denmark. A
-builder who ships.
+Full-stack Engineer and Creative Developer based in Copenhagen, Denmark.
 Personal site: https://taninwatkaewpankan.xyz
 
 ## About
 
-Taninwat Kaewpankan (goes by Ice) is a frontend engineer and project coordinator
-based in Copenhagen: frontend engineering, product thinking, and delivery.
+Taninwat Kaewpankan (goes by Ice) is a full-stack engineer based in
+Copenhagen: React, Next.js, TypeScript and PostgreSQL, from the interface to
+the database, and he designs the interfaces he builds.
 Originally from Thailand, he moved to Sweden at 16, studied at Uppsala
 University (BA Game Design, Master of Social Science in Entrepreneurship), and
 now lives in Copenhagen, Denmark.
@@ -26,39 +26,39 @@ coordinating simultaneous projects and shipping real products.
 
 Alongside looking for employment, Ice takes on a small number of freelance
 client projects for small businesses, startups, and solo founders.
-Details, published price ranges, and an enquiry form:
-https://taninwatkaewpankan.xyz/services
+Details and published price ranges: https://taninwatkaewpankan.xyz/services
+Enquiry form: https://taninwatkaewpankan.xyz/contact
 
 - Small-Business Website, in Danish, English or Swedish. Every client site is
   coded by hand; Ice does not build in Webflow, Wix or WordPress, and does not
   redesign existing builder sites (a new look means a rebuild in code). He does
   fix what is broken on any site, builder or not: visible errors, speed,
   security, a form that stopped sending. Priced by scope alone:
-    · 1–3 pages — 6.500–9.500 DKK, typically 1–2 weeks.
-    · 4–8 pages — 12.000–20.000 DKK, typically 2–3 weeks.
+    · 1–3 pages, 6.500–9.500 DKK, typically 1–2 weeks.
+    · 4–8 pages, 12.000–20.000 DKK, typically 2–3 weeks.
     · Add-ons: itemised, one price each:
         - Edit your own text and images: 3.000 DKK one-off, free to run after.
         - A list you manage yourself, e.g. a menu, treatments, a blog: 3.500 DKK,
           free to run after.
-        - A second language — 3.000–5.500 DKK for the structure, following the
+        - A second language, 3.000–5.500 DKK for the structure, following the
           number of pages, because every page has to exist twice. The translation
           itself is a separate bill to a translation bureau, around 1 DKK/word.
           This is the only add-on priced as a span rather than a flat figure.
-        - Online booking, an existing tool wired in properly — 3.500 DKK.
-        - Taking payment via Stripe (card, MobilePay, Apple/Google Pay) — 5.000 DKK.
+        - Online booking, an existing tool wired in properly, 3.500 DKK.
+        - Taking payment via Stripe (card, MobilePay, Apple/Google Pay), 5.000 DKK.
           Not a full webshop.
-        - Motion and animation — 2.500 DKK.
+        - Motion and animation, 2.500 DKK.
         - Illustrations and a visual identity (type, colour, icons,
           illustrations made with design and AI image tools), 4.000 DKK. Every
           site is already designed for the client; this is for a business with
           no visual identity yet. A logo and photography are separate jobs.
         - A page that tells a story as you scroll (scroll storytelling, as in
           the Lumina Spa concept), 6.000 DKK.
-        - An extra page beyond eight — 1.800 DKK per page.
+        - An extra page beyond eight, 1.800 DKK per page.
       A map, a gallery, a contact form and a cookie/privacy page are in every
       build already and are not charged for. Taking payment and anything with
       logins are capabilities Ice has built on his own products (Bevisly,
-      MockMate) rather than for a client — he says so rather than implying
+      MockMate) rather than for a client. He says so rather than implying
       otherwise.
     · Founding client price: 40% off a whole website for Ice's first 3
       clients, in return for a short testimonial and permission to show the
@@ -76,7 +76,7 @@ https://taninwatkaewpankan.xyz/services
   All prices are quoted ekskl. moms. He is under the Danish 50.000 kr
   registration threshold, so no moms is added today. State that as a fact if
   asked; it is not a discount or a reason to hire him.
-  (Mirrors `vat` in app/data.ts — this file does not interpolate, so update both.)
+  (Mirrors `vat` in app/data.ts. This file does not interpolate, so update both.)
   Every build includes per-page search setup and Google Business connection,
   setup for AI assistants (common questions answered in quotable form,
   schema.org for the business type, an llms.txt summary file like this one,
@@ -107,7 +107,7 @@ https://taninwatkaewpankan.xyz/services
 
 Engagements are fixed-scope by default, with a written price and delivery date
 agreed before work starts. Where scope genuinely cannot be pinned down he bills
-by the day instead — see Web App Frontend above. He does not refuse time-based
+by the day instead (see Web App Frontend above). He does not refuse time-based
 work; a fixed price is simply how a website is sold, because it puts the risk of
 overrun on him rather than the client. He does the work himself.
 The code, domain and hosting all end up in the client's name. He does not take
@@ -166,16 +166,18 @@ Approach: Design systems, accessibility, performance
 
 ## Links
 
-- Services & project enquiries: https://taninwatkaewpankan.xyz/services
+- About: https://taninwatkaewpankan.xyz/about
 - Every project with a write-up: https://taninwatkaewpankan.xyz/work
 - Full CV, skills and track record: https://taninwatkaewpankan.xyz/cv
+- Services and prices: https://taninwatkaewpankan.xyz/services
+- Contact and project enquiries: https://taninwatkaewpankan.xyz/contact
 - Changes after launch. There is NO website maintenance or care plan, and this
   is a deliberate choice, not an omission: the Danish market's care plans
   (250-3.000 DKK/month) are priced for patching WordPress, and a static site has
   no plugins to patch. Instead:
-    · Small changes — a price, an opening hour, a typo — are free.
-    · Anything bigger — 650 DKK/hour, billed in half hours, estimate first.
-    · Or a prepaid block — 2.400 DKK for 5 hours, valid 12 months, which is
+    · Small changes (a price, an opening hour, a typo) are free.
+    · Anything bigger: 650 DKK/hour, billed in half hours, estimate first.
+    · Or a prepaid block: 2.400 DKK for 5 hours, valid 12 months, which is
       480 DKK/hour instead of 650. Unused hours roll over once.
   The block never renews. The only monthly product is the optional Local
   visibility plan above, which is about getting customers, not maintenance.

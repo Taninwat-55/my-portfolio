@@ -1,8 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Lets <ViewTransition> animate client navigations: the stack's stipple
-  // dissolve between cards (app/(stack)/layout.tsx, stack-global.css).
+  // Lets <ViewTransition> animate client navigations. Unused since the Stack
+  // was cut (2026-10-25); kept for the planned shared-element move from the
+  // hall into a case page.
   experimental: {
     viewTransition: true,
   },

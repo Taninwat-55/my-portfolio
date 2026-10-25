@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { cases, conceptPrice, inShowroom, personalInfo, servicesEnquiryOptions } from "@/app/data";
 import { ENQUIRY_COPY_EN } from "@/app/lib/enquiry-copy";
 import { FIELD_LIMITS, type EnquiryFields } from "@/app/lib/services-enquiry";
@@ -18,6 +18,25 @@ const copy = ENQUIRY_COPY_EN;
  * allowlist applies unchanged; only the look is new. The three choices are
  * radio groups, so every option is visible without opening a menu.
  */
+/**
+ * What a visitor arriving from a Showroom concept (/contact?like=lumina) wants
+ * built: the project type, and a first line naming the concept and its
+ * build-up, so the enquiry starts from a scope rather than a blank page.
+ */
+function likePrefill(like: string | null): Partial<EnquiryFields> | null {
+  const concept = cases.find((c) => c.id === like && inShowroom(c));
+  if (!concept?.showroom) return null;
+  const price = conceptPrice(concept.showroom);
+  // Add-on names start with a capital on /services; mid-sentence they should not.
+  const scope = price.rows
+    .map((row, i) => (i === 0 ? row.label : row.label[0].toLowerCase() + row.label.slice(1)))
+    .join(" + ");
+  return {
+    projectType: "small-business-site",
+    message: `I would like a site like ${concept.title} (${scope}, ${price.total}).\n\nAbout my business: `,
+  };
+}
+
 export function EnquiryForm({ initial }: { initial?: Partial<EnquiryFields> }) {
   const {
     form,
@@ -33,6 +52,19 @@ export function EnquiryForm({ initial }: { initial?: Partial<EnquiryFields> }) {
     summaryRef,
     sentRef,
   } = useEnquiryForm(copy, initial);
+
+  // ?like= is read after mount, into the same form, rather than by swapping
+  // in a second component under Suspense: that swap wiped anything typed
+  // before hydration on a slow phone (review, 2026-10-25). It fills only
+  // fields the visitor has not touched.
+  useEffect(() => {
+    const prefill = likePrefill(new URLSearchParams(location.search).get("like"));
+    if (!prefill) return;
+    if (!form.projectType && prefill.projectType) setField("projectType", prefill.projectType);
+    if (!form.message && prefill.message) setField("message", prefill.message);
+    // Once, on arrival.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (status === "sent") {
     return (
@@ -186,34 +218,5 @@ export function EnquiryForm({ initial }: { initial?: Partial<EnquiryFields> }) {
         )}
       </div>
     </form>
-  );
-}
-
-/**
- * The form, pre-filled when the visitor arrives from a Showroom concept
- * (/contact?like=lumina): the project type, and a first line naming the
- * concept and its build-up, so the enquiry starts from a scope rather than a
- * blank page. Unknown or missing `like` gives the plain form. Wrap it in
- * <Suspense fallback={<EnquiryForm />}> so the page stays static.
- */
-export function ShowroomEnquiryForm() {
-  const like = useSearchParams().get("like");
-  const concept = cases.find((c) => c.id === like && inShowroom(c));
-  // The key starts the form fresh when ?like= changes on the same page.
-  if (!concept?.showroom) return <EnquiryForm key="blank" />;
-
-  const price = conceptPrice(concept.showroom);
-  // Add-on names start with a capital on /services; mid-sentence they should not.
-  const scope = price.rows
-    .map((row, i) => (i === 0 ? row.label : row.label[0].toLowerCase() + row.label.slice(1)))
-    .join(" + ");
-  return (
-    <EnquiryForm
-      key={concept.id}
-      initial={{
-        projectType: "small-business-site",
-        message: `I would like a site like ${concept.title} (${scope}, ${price.total}).\n\nAbout my business: `,
-      }}
-    />
   );
 }

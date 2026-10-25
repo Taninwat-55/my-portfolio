@@ -1709,14 +1709,26 @@ export const showroomPage = {
   prices: "All prices and add-ons",
 };
 
-// ─── WHAT SURVIVES OF THE CLOCK ──────────────────────────────────────────────
-// The clock homepage ran 2026-10-04 to 2026-10-18; the stack replaced it. Two
-// of its strings are still read elsewhere: the availability line (the share
-// card and the stack's Home card).
-
-export const clockContent = {
-  availability: "Open to full-time roles in Copenhagen, and taking on client projects.",
-} as const;
+// ─── CASE PAGES ───────────────────────────────────────────────────────────────
+// The case page's own labels (moved out of stackContent on 2026-10-25).
+export const casePage = {
+  concept: "Concept, no client",
+  code: "Code",
+  sections: [
+    { key: "overview", label: "Overview" },
+    { key: "challenge", label: "The challenge" },
+    { key: "stackWhy", label: "Why this stack" },
+    { key: "engineering", label: "How it was built" },
+  ] as const,
+  price: {
+    label: "What a site like this costs",
+    gets: "What you get",
+    total: "Total",
+    timeline: "Typically",
+    terms: `Prices ${vat.shortLabel}. You pay for the domain and any hosting directly, never through me.`,
+    buildLike: "Build me one like this",
+  },
+};
 
 // ─── FOUNDING CLIENTS AND THE SHOWROOM (2026-10-24) ──────────────────────────
 
@@ -1801,251 +1813,6 @@ function showroomLines() {
     .join("\n");
 }
 
-// ─── THE STACK (homepage since 2026-10-18) ───────────────────────────────────
-// The portfolio as a HyperCard stack: one card per thing Ice made, flipped with
-// painted buttons and the arrow keys. It replaced the clock. Every claim on a
-// card is read from cases, experience or services above; nothing is new here
-// except the words that frame them.
-
-export type StackCardId = "home" | "engineer" | "showroom" | "build" | CaseStudy["id"];
-
-/**
- * The stack's order, which is also the order the arrow keys flip through: Home,
- * then one run per visitor. Clients come first, because client work is what
- * brings visitors (Racha is the only query Search Console showed, Oct 2026);
- * recruiters second; the archive last. /work shows the same runs as headed
- * groups, so the grid and the arrow keys never disagree.
- */
-export const stackRuns: { id: "client" | "engineer" | "archive"; cards: StackCardId[] }[] = [
-  // Clients first (Ice, 2026-10-24): the shop, the priced sites, then the
-  // enquiry. Saep stays a card, unpriced, until its editorial redesign.
-  { id: "client", cards: ["showroom", "racha", "lumina", "saep", "build"] },
-  // Recruiters second: the engineer card, the product work, the people work.
-  { id: "engineer", cards: ["engineer", "trailr", "bevisly", "mockmate", "millennial"] },
-  // Kept, not led with. Cinema Booking was delisted on 2026-10-24.
-  { id: "archive", cards: ["satoshi"] },
-];
-
-export const stackOrder: StackCardId[] = ["home", ...stackRuns.flatMap((run) => run.cards)];
-
-export const stackArchive: CaseStudy["id"][] = ["satoshi"];
-
-export const stackHref = (id: StackCardId) =>
-  id === "home"
-    ? "/"
-    : id === "engineer" || id === "showroom" || id === "build"
-      ? `/${id}`
-      : `/cases/${id}`;
-
-/**
- * The dithered artwork for a case image: same path, under /stack, as a PNG made
- * by scripts/dither-images.mjs at one fixed width per size (card 480, sm 320,
- * thumb 240), because a dither only stays crisp at the width it was made for.
- */
-export const ditheredSrc = (src: string, size: "card" | "sm" | "thumb" = "card") =>
-  src
-    .replace(/^\/assets\//, "/stack/")
-    .replace(/\.webp$/, size === "card" ? ".png" : `-${size}.png`);
-
-export const stackContent = {
-  name: "Ice's Stack",
-  home: {
-    title: "Ice's Stack",
-    // One sentence, per the stack's direction contract: the cards say the rest.
-    intro:
-      "I'm Ice (Taninwat Kaewpankan), a full-stack engineer in Copenhagen, and every card in this stack is something I built.",
-    availability: clockContent.availability,
-    portraitAlt: "Ice, dithered in black and white: glasses, a dark blazer over a light shirt, a small smile.",
-    portraitColourAlt: "Ice in colour: square glasses, a navy blazer over a cream shirt, a small smile, bookshelves behind.",
-    portraitDevelop: "Develop the portrait in colour",
-    portraitHint: "Tap or click to develop in colour.",
-    portraitDevelopedHint: "Tap or click again to go back to one bit.",
-    // Two doors, clients first, and a way past both so nobody is fenced in.
-    question: "What brings you here?",
-    buttons: [
-      { label: "I need a website", href: "/showroom" },
-      { label: "I'm hiring an engineer", href: "/engineer" },
-    ],
-    everything: { label: "Or see everything", href: "/work" },
-    hint: "Flip cards with the arrow keys, or the buttons under the card.",
-  },
-  project: {
-    develop: "Develop in colour",
-    developed: "Back to one bit",
-    developHint: "This screenshot is dithered. Develop it to see the real thing.",
-    concept: "Concept, no client",
-    sections: [
-      { key: "overview", label: "Overview" },
-      { key: "challenge", label: "The challenge" },
-      { key: "stackWhy", label: "Why this stack" },
-      { key: "engineering", label: "How it was built" },
-    ] as const,
-    code: "Code",
-  },
-  engineer: {
-    title: "Engineer",
-    lead: "Full-stack engineer in Copenhagen. TypeScript from the interface to the database.",
-    stack: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"],
-    now: {
-      label: "Now",
-      text: "Product engineer at Trailr AI, an early-stage AI video startup, part-time with equity warrants. I joined as a frontend intern and led the platform's UI/UX redesign, scoped to what the existing backend could support.",
-    },
-    before: {
-      label: "Before",
-      text: "Four cycles at Millennial Consulting, from Operations Assistant to Operations Manager to Head of Organization, coordinating around five client projects per cycle with no full-time staff.",
-    },
-    cv: { label: "Read my CV", href: "/cv" },
-    pdf: { label: "Download the PDF", href: "/assets/Taninwat_Kaewpankan_CV.pdf" },
-    scriptTitle: "Script of card “Ice's Stack”",
-    scriptNote:
-      "The function that drew every picture in this stack. Bill Atkinson's dither, the one MacPaint and HyperCard shipped, running in this site's build script.",
-  },
-  build: {
-    title: "Build mine",
-    lead: "A new blank card. Fill it in, save it, and it lands in my inbox. I reply to every one myself.",
-    price: `Websites ${services.offers[0].priceRange.replace(/^From/, "from")}, at a fixed price agreed in writing before any work starts.`,
-    save: "Save card",
-    saving: "Saving…",
-    savedTitle: "Card saved.",
-    details: { label: "Prices and what's included", href: "/services" },
-    showroom: { label: "See sample sites and what each would cost", href: "/showroom" },
-  },
-  showroom: {
-    title: "Showroom",
-    lead: "Sample sites for made-up businesses, each showing what you would get and what a site like it costs. I price a site by what it needs, never by its style, so two sites that look nothing alike can cost the same. Open one to see what is included.",
-    concept: "Concept, no client",
-    priceLabel: "What a site like this costs",
-    total: "Total",
-    timeline: "Typically",
-    terms: `Prices ${vat.shortLabel}. You pay for the domain and any hosting directly, never through me.`,
-    getsLabel: "What you get",
-    buildLike: "Build me one like this",
-    prices: "All prices and add-ons",
-    more: "I add a new sample site every week or two. The next one is a restaurant in an editorial, print-inspired style.",
-  },
-  nav: {
-    prev: "Previous card",
-    next: "Next card",
-    home: "Home card",
-    grid: "All cards",
-    /** Contains {n} and {total}. */
-    position: "{n} of {total}",
-    /** What the bar shows on stack pages that are not cards in the stack. */
-    pages: {
-      "/work": "All cards",
-      "/services": "Prices",
-      "/cv": "CV",
-    } as Record<string, string>,
-  },
-  menus: [
-    {
-      label: "Stack",
-      items: [
-        { label: "Home card", href: "/" },
-        { label: "All cards", href: "/work" },
-      ],
-    },
-    {
-      label: "Hire",
-      items: [
-        { label: "Build mine", href: "/build" },
-        { label: "Showroom", href: "/showroom" },
-        { label: "Prices", href: "/services" },
-        { label: "Engineer", href: "/engineer" },
-        { label: "CV", href: "/cv" },
-      ],
-    },
-  ],
-  messageBox: {
-    label: "Message box. Ask anything about Ice or his work.",
-    placeholder: "Ask anything about Ice…",
-    send: "Send",
-    thinking: "Thinking…",
-    limit: "That's the limit for this hour. Email Ice instead.",
-    transient: "That didn't go through. Send it again.",
-    clear: "Clear",
-  },
-  grid: {
-    title: "All cards",
-    lead: "Every card in the stack, in the order the arrow keys flip through them.",
-    runs: {
-      client: "Websites for businesses",
-      engineer: "Engineering and leadership",
-      archive: "Archive",
-    },
-  },
-};
-
-// ─── HOMEPAGE PROJECT CARDS ───────────────────────────────────────────────────
-// The sticky-stacking cards in the Projects section — a FEATURED selection, not
-// the full list. Everything with a case study is on /projects, which maps over
-// `cases` so nothing can be orphaned by omission again. Two entries were, for a
-// while: satoshi and cinema were linked from nowhere on the site.
-//
-// This stays curated and separate from `cases` on purpose. Some cards point at a
-// live site rather than a case study (Bevisly), which is an editorial call about
-// what a visitor should see first — not duplication waiting to be collapsed.
-//
-// Three rather than five. Client work, product, and full-stack range in one
-// screenful each, and it takes the sticky deck from roughly 425vh to 255vh, which
-// the homepage needed after gaining the offers list and HowItWorks.
-
-export interface ProjectCard {
-  number: string;
-  title: string;
-  category: string;
-  buttonLabel: string;
-  href: string;
-  external: boolean;
-  images: [string, string, string]; // [col1-top, col1-bottom, col2-tall]
-}
-
-export const projectCards: ProjectCard[] = [
-  {
-    number: "01",
-    title: "Racha Beauty",
-    category: "Client Work",
-    buttonLabel: "View Case",
-    href: "/cases/racha",
-    external: false,
-    // Landing page in the tall slot, not the small one. The bento puts col2 at
-    // full card height, so whatever sits there is the card's real showcase — and
-    // "Velkommen til Racha" is the view that reads as a finished website at a
-    // glance. The About page it swapped with survives fine as a thumbnail.
-    images: [
-      "/assets/racha/racha-about.webp",
-      "/assets/racha/racha-services.webp",
-      "/assets/racha/racha-landing.webp",
-    ],
-  },
-  {
-    number: "02",
-    title: "Trailr AI",
-    category: "Product",
-    buttonLabel: "View Case",
-    href: "/cases/trailr",
-    external: false,
-    images: [
-      "/assets/trailr/trailr-hero.webp",
-      "/assets/trailr/trailr-clip-generator.webp",
-      "/assets/trailr/trailr-screening-room.webp",
-    ],
-  },
-  {
-    number: "03",
-    title: "Bevisly",
-    category: "Full-Stack",
-    buttonLabel: "Live Demo",
-    href: "https://bevisly.com",
-    external: true,
-    images: [
-      "/assets/bevisly/Bevisly-Landing.webp",
-      "/assets/bevisly/bevisly-employer-kanban.webp",
-      "/assets/bevisly/bevisly-candidate.webp",
-    ],
-  },
-];
-
 // ─── CHATBOT CONTEXT ──────────────────────────────────────────────────────────
 
 export const chatbotContext = `
@@ -2112,24 +1879,7 @@ What he does not take on: native iOS/Android apps, paid advertising campaigns, r
 
 VAT: ${vat.briefing}
 
-Availability: he takes a few projects at a time, so it varies. You may state the price ranges listed above, because they are published on the services page. Never invent a figure outside them, never quote an exact price for a specific project, and never promise a delivery date: every project is scoped individually. Point people at the enquiry form on /services, which asks for project type, budget and timeline so he can reply with something specific.
+Availability: he takes a few projects at a time, so it varies. You may state the price ranges listed above, because they are published on the services page. Never invent a figure outside them, never quote an exact price for a specific project, and never promise a delivery date: every project is scoped individually. Point people at the enquiry form on /contact, which asks for project type, budget and timeline so he can reply with something specific.
 
 Being available for freelance work does not conflict with him being open to employment. Do not raise his job search, his CV, or his availability for hire with someone who is asking about hiring him for a project.
 `.trim();
-
-// Chat starter prompts. These live here rather than in the widget because they
-// are user-facing copy, and because the two audiences need different openers —
-// a recruiter and a salon owner do not have the same first question.
-export const chatPrompts = {
-  portfolio: [
-    "What has he built?",
-    "What's his background?",
-    "Is he open to work?",
-    "Can he build a site for my business?",
-  ],
-  services: [
-    "What does a website cost?",
-    "How long does a project take?",
-    "Do you work with small businesses?",
-  ],
-} as const;

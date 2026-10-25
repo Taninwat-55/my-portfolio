@@ -57,11 +57,11 @@ export default function ShowroomPage() {
           </h2>
           <div className={page.content}>
             <ul className={work.grid}>
-              {showroomCases().map((c) => {
+              {showroomCases().map((c, i) => {
                 const showroom = c.showroom!;
                 const price = conceptPrice(showroom);
                 return (
-                  <WorkCard key={c.id} caseStudy={c} kicker={`${showroom.business} · ${showroom.style}`}>
+                  <WorkCard key={c.id} caseStudy={c} kicker={`${showroom.business} · ${showroom.style}`} eager={i < 3}>
                     <span className={`${work.meta} ${work.stamp}`}>{showroomPage.concept}</span>
                     <span className={work.price}>{price.total}</span>
                     {foundingOpen && (

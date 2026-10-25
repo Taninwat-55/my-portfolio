@@ -40,7 +40,9 @@
   width: 100%;
   min-height: 48px;
   padding: 12px 14px;
-  border: 1px solid var(--line);
+  /* Muted, not --line: this edge is the only sign of where the field is,
+     so it needs 3:1 (WCAG 1.4.11). The hairline was 1.5:1. */
+  border: 1px solid var(--muted);
   border-radius: 0;
   background: transparent;
   color: var(--fg);
@@ -51,7 +53,7 @@
 }
 
 .input:hover {
-  border-color: var(--muted);
+  border-color: var(--fg);
 }
 
 .input:focus-visible {
@@ -105,7 +107,7 @@ textarea.input {
   align-items: center;
   min-height: 44px;
   padding: 0 16px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--muted);
   font-size: 15px;
   transition:
     border-color var(--dur-ui) var(--ease-reveal),
@@ -114,7 +116,7 @@ textarea.input {
 }
 
 .option:hover span {
-  border-color: var(--muted);
+  border-color: var(--fg);
 }
 
 .option input:checked + span {
