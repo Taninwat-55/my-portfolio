@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useWorldMode } from "../../useWorldMode";
+import { useFirstInteraction } from "../../useFirstInteraction";
 import { frontAt, stepsAt } from "./hallSteps";
 import styles from "./crystallize.module.css";
 
@@ -81,19 +82,14 @@ export function Hall({ projects }: { projects: HallProject[] }) {
     };
   }, [full, projects.length]);
 
-  // Fetch the hall's code once the page is idle, so arriving through the
-  // door never waits on a download.
+  // Fetch the hall's code once the visitor first moves, not on load:
+  // parsing three.js and the hall in the first seconds blocked a slow phone's
+  // main thread (Lighthouse TBT, 2026-10-25). The hall is at least a door's
+  // length (three screens) below, so that still gives it time to arrive.
+  const awake = useFirstInteraction();
   useEffect(() => {
-    if (!full) return;
-    const fetchHall = () => void import("./HallCanvas");
-    // Safari has no requestIdleCallback; a short timeout does the same job.
-    if ("requestIdleCallback" in window) {
-      const id = requestIdleCallback(fetchHall, { timeout: 4000 });
-      return () => cancelIdleCallback(id);
-    }
-    const id = setTimeout(fetchHall, 1500);
-    return () => clearTimeout(id);
-  }, [full]);
+    if (full && awake) void import("./HallCanvas");
+  }, [full, awake]);
 
   // Tabbing to a caption's link walks the hall to its card.
   const walkTo = useCallback(
