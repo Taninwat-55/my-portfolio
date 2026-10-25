@@ -3,15 +3,14 @@
  * a token file (colour, type, easing, grid as CSS variables) and a set of
  * effect modules that share one interface (effects/types.ts).
  *
- * Crystallize is the launch world: everything starts as signal (glyphs, code,
- * ASCII) and crystallizes into the finished thing. Nordic light (warm, low
- * gold sun) is the planned alternative, kept swappable so it can replace or
- * warm Crystallize later without a rebuild. Its token file is a stub for now.
+ * Crystallize: everything starts as signal (glyphs, code, ASCII) and
+ * crystallizes into the finished thing. Ice chose it on 2026-10-25 over
+ * Nordic light, which turned out to be only a warmer palette.
  *
- * Swapping worlds is this one line plus a token file. Components never hard
- * code a colour or a face; they read the variables the world defines.
+ * A new world is a token file plus a name here. Components never hard code
+ * a colour or a face; they read the variables the world defines.
  */
-export type WorldName = "crystallize" | "nordic";
+export type WorldName = "crystallize";
 
 export const activeWorld: WorldName = "crystallize";
 
