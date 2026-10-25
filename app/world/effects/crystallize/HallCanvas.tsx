@@ -5,6 +5,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { buildGlyphAtlas, RAMP, rgb } from "./glyphs";
 import { aspectOf, coverScale, glyphFragment, glyphUniforms, loadImage, sceneVertex } from "./glyphShader";
+import { frontAt, stepsAt } from "./hallSteps";
 
 export const SPACING = 9; // world units between cards along the hall
 export const CARD_DISTANCE = 3.5; // how far in front of the camera a card sits when its step is centred
@@ -75,18 +76,6 @@ function numeralMask(text: string, fontFamily: string) {
 const rand = (i: number) => {
   const x = Math.sin(i * 91.7 + 13.1) * 43758.5453;
   return x - Math.floor(x);
-};
-
-/**
- * Dwell: the camera stops in front of each card, then moves briskly to the
- * next, instead of gliding past at constant speed (Ice, 2026-10-25: the card
- * was gone before its caption arrived). Whole steps are the cards; around
- * each one the curve is flat, between them it's steep.
- */
-const dwell = (raw: number) => {
-  const base = Math.round(raw);
-  const f = raw - base; // -0.5 … 0.5
-  return base + Math.sign(f) * 0.5 * Math.abs(2 * f) ** 2.4;
 };
 
 const smooth = (a: number, b: number, x: number) => {
@@ -275,7 +264,7 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
     // The DOM has an intro step, one step per card and a trailing step. Card
     // k's step centred in the viewport puts card k CARD_DISTANCE ahead; the
     // intro (steps = -1) starts a full spacing further back, in the glyphs.
-    const target = dwell(progress.current.value * (images.length + 1) - 1);
+    const target = stepsAt(progress.current.value, images.length);
     eased.current =
       eased.current === null ? target : THREE.MathUtils.damp(eased.current, target, 3.2, Math.min(delta, 0.1));
     const steps = eased.current;
@@ -283,9 +272,7 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
 
     // The caption shows while its card is in front: from the moment it has
     // nearly crystallized until just before the camera passes it.
-    const nearest = Math.round(steps);
-    const front =
-      steps < -0.4 ? -1 : steps > images.length - 0.6 ? images.length : Math.abs(steps - nearest) < 0.38 ? nearest : -2;
+    const front = frontAt(steps, images.length);
     if (front !== shown.current) {
       shown.current = front;
       onActive(front);

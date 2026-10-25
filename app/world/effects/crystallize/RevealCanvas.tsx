@@ -69,9 +69,10 @@ function Field({ box, progress, pointer, onReady, images, index }: Props) {
       const label = el.closest("figure")?.querySelector<HTMLElement>("[data-label]");
       const atlas = buildGlyphAtlas(label ? getComputedStyle(label).fontFamily : "monospace");
       let loaded: THREE.Texture[];
-      if (images?.length) {
-        loaded = await Promise.all(images.map((src) => loadImage(src)));
-      } else {
+      try {
+        loaded = images?.length ? await Promise.all(images.map((src) => loadImage(src))) : [drawReplica(el).texture];
+      } catch {
+        // An image that fails to load: crystallize the box itself instead.
         loaded = [drawReplica(el).texture];
       }
       if (cancelled) {
@@ -109,7 +110,7 @@ function Field({ box, progress, pointer, onReady, images, index }: Props) {
       clock.elapsedTime,
       size,
       pointer.current,
-      targets.current[index?.current ?? 0],
+      targets.current[(index?.current ?? 0) % targets.current.length],
     ),
   );
 

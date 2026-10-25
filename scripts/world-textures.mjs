@@ -1,5 +1,8 @@
-// Builds the screenshots the world draws in WebGL (the hero's work monitor
-// and the glyph hall's cards) at 1280px wide.
+// Builds the screenshots the world draws in WebGL (the hero's work monitor,
+// the glyph hall's cards and each case's reveal) at 1280px wide, plus a
+// 720px copy (name-720.webp) that phones get as the poster <img> through
+// srcset (Reveal.tsx, worldImage.ts): the hero's 2,900px original held the
+// homepage LCP at 3.5s on slow 4G (Lighthouse, 2026-10-25).
 //
 //   npm run textures
 //
@@ -18,20 +21,24 @@ import path from "node:path";
 const ROOT = path.resolve(import.meta.dirname, "..");
 const ASSETS = path.join(ROOT, "public/assets");
 const OUT = path.join(ROOT, "public/world");
-const WIDTH = 1280;
+const WIDTHS = [1280, 720];
 
-// The projects the world shows. Add an id here when a project joins the hall.
-const PROJECTS = ["trailr", "bevisly", "mockmate", "racha", "lumina"];
+// Every case's screenshot folder: the hall shows five, but every case page
+// reveals its own screens. Add a folder here when a case joins.
+const PROJECTS = ["trailr", "bevisly", "mockmate", "racha", "lumina", "millennial", "satoshi-standard", "saep"];
 
 for (const project of PROJECTS) {
   const from = path.join(ASSETS, project);
   const to = path.join(OUT, project);
   await mkdir(to, { recursive: true });
   for (const file of (await readdir(from)).filter((f) => f.endsWith(".webp"))) {
-    const info = await sharp(path.join(from, file))
-      .resize({ width: WIDTH, withoutEnlargement: true })
-      .webp({ quality: 80 })
-      .toFile(path.join(to, file));
-    console.log(`${project}/${file}  ${info.width}x${info.height}  ${Math.round(info.size / 1024)} KB`);
+    for (const width of WIDTHS) {
+      const name = width === WIDTHS[0] ? file : file.replace(/\.webp$/, `-${width}.webp`);
+      const info = await sharp(path.join(from, file))
+        .resize({ width, withoutEnlargement: true })
+        .webp({ quality: 80 })
+        .toFile(path.join(to, name));
+      console.log(`${project}/${name}  ${info.width}x${info.height}  ${Math.round(info.size / 1024)} KB`);
+    }
   }
 }

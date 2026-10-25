@@ -8,6 +8,9 @@ import styles from "./crystallize.module.css";
 
 const GLYPHS = "#%&*+=/<>{}[]01";
 
+/** Past this (ms since navigation), the loader scramble is skipped. */
+const LATE_MS = 800;
+
 const escape = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
@@ -42,6 +45,13 @@ export function Scramble({ text, as: Tag = "p", className, trigger }: Props) {
     const el = visual.current;
     if (!el || mode !== "full") return;
     if (trigger === "loader" && document.documentElement.dataset.loaderSeen) return;
+    // Only while the loader still covers the page. Hydrating later (a slow
+    // phone) means the heading is already being read, and read text never
+    // moves. It also keeps the LCP honest: every frame of the scramble
+    // repaints the h1's largest line, so a late scramble moved the LCP to
+    // when it finished (6.0 s in Lighthouse mobile, 2026-10-25). Start by
+    // 0.8 s, and with its 0.5 s delay and 1.2 s run it is done by 2.5 s.
+    if (trigger === "loader" && performance.now() > LATE_MS) return;
 
     // Earlier characters settle first, with noise, so it reads line by line
     // without looking like a typewriter.

@@ -14,9 +14,13 @@ export const geist = Geist({
   variable: "--font-geist",
 });
 
+// Not preloaded: mono only sets small labels, and its fallback (size-matched
+// by next/font) reads fine for the moment it takes to arrive. Each preload
+// competes with the LCP for the first round trips on a slow phone.
 export const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
+  preload: false,
 });
 
 export const instrumentSerif = Instrument_Serif({

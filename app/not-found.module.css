@@ -1,0 +1,63 @@
+/* The 404. Reads the world's tokens only. */
+
+.page {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gutter);
+  align-content: start;
+  min-height: 80vh;
+  padding: calc(var(--unit) * 3) var(--margin) calc(var(--unit) * 16);
+}
+
+.page > :not(:first-child) {
+  position: relative;
+  z-index: 1;
+  grid-column: 1 / -1;
+}
+
+.nav {
+  margin-bottom: calc(var(--unit) * 16);
+}
+
+.kicker {
+  margin: 0 0 calc(var(--unit) * 2);
+  font-family: var(--world-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: clamp(56px, 11vw, 168px);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+}
+
+.lead {
+  max-width: 40ch;
+  margin: calc(var(--unit) * 3) 0 0;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.ways {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--unit) calc(var(--unit) * 4);
+  margin: calc(var(--unit) * 5) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 18px;
+}
+
+.ways a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 44px;
+}

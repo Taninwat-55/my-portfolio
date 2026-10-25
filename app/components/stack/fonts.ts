@@ -1,4 +1,4 @@
-import { Atkinson_Hyperlegible, Chakra_Petch, DotGothic16, Pixelify_Sans } from "next/font/google";
+import { Atkinson_Hyperlegible, DotGothic16, JetBrains_Mono, Kanit, Pixelify_Sans } from "next/font/google";
 
 /**
  * The stack's three voices. Loaded here rather than in the root layout so only
@@ -36,14 +36,21 @@ export const atkinson = Atkinson_Hyperlegible({
 });
 
 /**
- * Thai. Neither pixel face has Thai glyphs, so /th sets every voice in Chakra
- * Petch (Cadson Demak, OFL): squared, technical letterforms that sit beside
- * pixel type without pretending to be it. Applied only by app/(stack)/th, so
- * no other page downloads it.
+ * Kanit and JetBrains Mono, which the stack's CSS still falls back to
+ * (--font-kanit, --font-jetbrains-mono) and globals.css sets as the body
+ * face. They sat in the root layout until 2026-10-25, which preloaded them on
+ * the world pages too; here only stack pages get them. Only the weights in
+ * use: light 300 · normal 400 · medium 500 · bold 700 · black 900. Mono is
+ * not preloaded: nothing on first paint uses it.
  */
-export const thai = Chakra_Petch({
-  subsets: ["thai", "latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-thai",
+export const kanit = Kanit({
+  subsets: ["latin"],
+  variable: "--font-kanit",
+  weight: ["300", "400", "500", "700", "900"],
 });
 
+export const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  preload: false,
+});

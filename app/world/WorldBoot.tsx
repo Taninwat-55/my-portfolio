@@ -9,11 +9,15 @@
  *
  * The root layout's <html> carries suppressHydrationWarning, which covers
  * these attributes arriving before React hydrates.
+ *
+ * React never runs an inline script it inserts on a client navigation (a
+ * Stack page's link to /), so WorldBootClient repeats this after mount.
+ * data-world-boot marks that this script already ran for the session.
  */
 export const LOADER_KEY = "crystallize-loader";
 
 // WorldBoot renders as the world's first child, so its parent is the world.
-const script = `try{var w=document.currentScript&&document.currentScript.parentElement;if(w&&localStorage.getItem("crystallize-theme")==="dark")w.dataset.tone="ink"}catch(e){}try{var d=document.documentElement;if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.dataset.worldJs="1";if(sessionStorage.getItem("${LOADER_KEY}"))d.dataset.loaderSeen="1";else sessionStorage.setItem("${LOADER_KEY}","1")}catch(e){}`;
+const script = `try{var w=document.currentScript&&document.currentScript.parentElement;if(w&&localStorage.getItem("crystallize-theme")==="dark")w.dataset.tone="ink"}catch(e){}try{var d=document.documentElement;d.dataset.worldBoot="1";if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.dataset.worldJs="1";if(sessionStorage.getItem("${LOADER_KEY}"))d.dataset.loaderSeen="1";else sessionStorage.setItem("${LOADER_KEY}","1")}catch(e){}`;
 
 export function WorldBoot() {
   return <script dangerouslySetInnerHTML={{ __html: script }} />;

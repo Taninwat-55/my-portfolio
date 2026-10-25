@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import { gsap } from "gsap";
 import { useWorldMode } from "../../useWorldMode";
+import { worldImage } from "../../worldImage";
 import styles from "./crystallize.module.css";
 
 // three and R3F load only here, after the page is up, never in the first chunk.
@@ -21,6 +22,8 @@ type Props = {
   trigger: "hero" | "view";
   /** A wide band (the hero) instead of a 16:10 box. */
   wide?: boolean;
+  /** The poster's rendered width, for srcset (the <img> sizes attribute). */
+  sizes?: string;
   className?: string;
 };
 
@@ -28,14 +31,16 @@ const HOLD = 2.6; // seconds a screenshot stays resolved before dissolving
 
 /**
  * Work crystallizing out of a glyph field. The box is real DOM: a labelled
- * placeholder, or the first screenshot as an <img>. The WebGL canvas paints
- * over it during the reveal. With several slides it keeps cycling: resolve,
+ * placeholder, or the first screenshot as an <img>, visible from the first
+ * paint. The WebGL canvas fades in over it once its textures are ready, so a
+ * slow or missing WebGL chunk never leaves an empty frame (and the poster,
+ * not the effect, is what the browser counts as painted). With several slides it keeps cycling: resolve,
  * hold, dissolve back to signal, next. No JS, no WebGL or reduced motion: the
  * box (or first screenshot) just shows.
  *
  * The cursor focuses the field: glyphs near it resolve early.
  */
-export function Reveal({ title, slides, label = "Clip", trigger, wide, className }: Props) {
+export function Reveal({ title, slides, label = "Clip", trigger, wide, sizes = "100vw", className }: Props) {
   const figure = useRef<HTMLElement>(null);
   const box = useRef<HTMLDivElement>(null);
   const progress = useRef({ value: 0 });
@@ -120,13 +125,20 @@ export function Reveal({ title, slides, label = "Clip", trigger, wide, className
       ref={figure}
       className={`${styles.reveal} ${className ?? ""}`}
       data-reveal={state}
+      data-canvas={phase === "glyph" ? "on" : undefined}
       onPointerMove={track}
       onPointerLeave={() => (pointer.current = { x: -1, y: -1 })}
     >
       <div ref={box} className={`${styles.box} ${wide ? styles.boxWide : ""}`}>
         {slides?.length ? (
           // eslint-disable-next-line @next/next/no-img-element -- the poster the canvas paints over; same file the texture loads
-          <img className={styles.boxImage} src={slides[0].src} alt={`${slides[0].title}, screenshot`} />
+          <img
+            className={styles.boxImage}
+            {...worldImage(slides[0].src)}
+            sizes={sizes}
+            alt={`${slides[0].title}, screenshot`}
+            fetchPriority={trigger === "hero" ? "high" : undefined}
+          />
         ) : (
           <>
             <span data-replica data-label className={styles.boxLabel}>

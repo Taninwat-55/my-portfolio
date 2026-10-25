@@ -90,7 +90,7 @@ export default function Home() {
               </div>
             </div>
 
-            <Reveal className={styles.band} slides={slides} trigger="hero" wide />
+            <Reveal className={styles.band} slides={slides} trigger="hero" wide sizes="(min-width: 900px) 50vw, 100vw" />
           </section>
 
           <section className={styles.statement} aria-label="How I work">
@@ -117,9 +117,14 @@ export default function Home() {
             </ul>
           </section>
 
-          <WorldFooter />
         </div>
       </main>
+
+      {/* Outside <main>, so it is the page's contentinfo landmark; in the ink
+          tone, so the dark room runs to the bottom of the page. */}
+      <div data-tone="ink" className={styles.inside}>
+        <WorldFooter />
+      </div>
     </WorldShell>
   );
 }

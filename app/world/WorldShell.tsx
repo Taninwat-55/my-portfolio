@@ -1,6 +1,7 @@
 import { SkipLink } from "@/app/components/SkipLink";
 import { worldFontVariables } from "./fonts";
 import { WorldBoot } from "./WorldBoot";
+import { WorldBootClient } from "./WorldBootClient";
 import "./tokens/crystallize.css";
 import styles from "./world.module.css";
 
@@ -16,6 +17,7 @@ export function WorldShell({ children }: { children: React.ReactNode }) {
     // dark theme) on this element before React hydrates it.
     <div data-world="crystallize" className={`${worldFontVariables} ${styles.world}`} suppressHydrationWarning>
       <WorldBoot />
+      <WorldBootClient />
       <SkipLink />
       {children}
     </div>

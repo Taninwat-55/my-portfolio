@@ -46,6 +46,13 @@
   text-decoration: none;
 }
 
+/* 44px tall tap targets around 12px type (WCAG 2.5.5). */
+.navLinks > * {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
 .themeToggle {
   padding: 0;
   border: 0;

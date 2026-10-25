@@ -12,7 +12,7 @@ import { useSyncExternalStore } from "react";
  * first paint, so a dark-mode visitor never sees a flash of paper.
  */
 export const THEME_KEY = "crystallize-theme";
-const EVENT = "crystallize-theme";
+export const THEME_EVENT = "crystallize-theme";
 
 type Theme = "light" | "dark";
 
@@ -23,8 +23,8 @@ function read(): Theme {
 }
 
 function subscribe(onChange: () => void) {
-  addEventListener(EVENT, onChange);
-  return () => removeEventListener(EVENT, onChange);
+  addEventListener(THEME_EVENT, onChange);
+  return () => removeEventListener(THEME_EVENT, onChange);
 }
 
 function set(theme: Theme) {
@@ -35,7 +35,7 @@ function set(theme: Theme) {
   try {
     localStorage.setItem(THEME_KEY, theme);
   } catch {}
-  dispatchEvent(new Event(EVENT));
+  dispatchEvent(new Event(THEME_EVENT));
 }
 
 /** The current theme, for effects that must redraw in the other colours. */

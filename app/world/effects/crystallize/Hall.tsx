@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useWorldMode } from "../../useWorldMode";
+import { frontAt, stepsAt } from "./hallSteps";
 import styles from "./crystallize.module.css";
 
 const HallCanvas = dynamic(() => import("./HallCanvas"), { ssr: false });
@@ -42,6 +43,14 @@ export function Hall({ projects }: { projects: HallProject[] }) {
   const [active, setActive] = useState(-1);
   const images = useMemo(() => projects.map((p) => p.image), [projects]);
   const full = mode === "full";
+  // The DOM owns the captions: the scroll shows them until the canvas is
+  // drawing, then the canvas's damped camera does, so they follow its glide.
+  // A slow or failed WebGL chunk never leaves the hall without captions.
+  const canvasLive = useRef(false);
+  const onCanvasActive = useCallback((k: number) => {
+    canvasLive.current = true;
+    setActive(k);
+  }, []);
 
   useEffect(() => {
     const el = section.current;
@@ -53,6 +62,7 @@ export function Hall({ projects }: { projects: HallProject[] }) {
       end: "bottom bottom",
       onUpdate: (self) => {
         progress.current.value = self.progress;
+        if (!canvasLive.current) setActive(frontAt(stepsAt(self.progress, projects.length), projects.length));
       },
     });
     // Mount early (two screens ahead) so textures are ready on arrival.
@@ -69,7 +79,7 @@ export function Hall({ projects }: { projects: HallProject[] }) {
       st.kill();
       io.disconnect();
     };
-  }, [full]);
+  }, [full, projects.length]);
 
   // Fetch the hall's code once the page is idle, so arriving through the
   // door never waits on a download.
@@ -104,7 +114,7 @@ export function Hall({ projects }: { projects: HallProject[] }) {
       <div className={styles.hallStage} data-phase={phase}>
         <div className={styles.hallCanvas} aria-hidden="true">
           {full && mounted && (
-            <HallCanvas images={images} progress={progress} root={section} active={near} onActive={setActive} />
+            <HallCanvas images={images} progress={progress} root={section} active={near} onActive={onCanvasActive} />
           )}
         </div>
 

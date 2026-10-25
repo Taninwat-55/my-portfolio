@@ -116,16 +116,20 @@
   color: var(--fg);
 }
 
-/* While the glyphs are coming, the finished box waits under the canvas. Only
-   when JS will run (WorldBoot's flag), so no-JS visitors always see it. */
-:global(html[data-world-js]) .reveal[data-reveal="pending"] .box > :not(.revealCanvas) {
-  opacity: 0;
-}
-
+/* The finished box shows from the first paint; the canvas fades in over it
+   once its textures are ready (data-canvas). It used to hide the box until
+   then, which left an empty frame on a slow phone and pushed the LCP back to
+   whenever WebGL arrived (Lighthouse, 2026-10-25). */
 .revealCanvas {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-ui) var(--ease-reveal);
+}
+
+.reveal[data-canvas="on"] .revealCanvas {
+  opacity: 1;
 }
 
 /* ─── Door ───────────────────────────────────────────────────────────────── */
@@ -258,6 +262,10 @@
 }
 
 .hallLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 44px;
   color: var(--fg);
   font-family: var(--world-mono);
   font-size: 13px;

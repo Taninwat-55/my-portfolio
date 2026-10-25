@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { worldImage } from "../../worldImage";
 import { RAMP } from "./glyphs";
 
 /**
@@ -123,7 +124,7 @@ export function coverScale(boxAspect: number, imageAspect: number) {
  * empty for seconds. "/assets/trailr/x.webp" loads "/world/trailr/x.webp".
  */
 export function loadImage(src: string) {
-  const url = src.replace(/^\/assets\//, "/world/");
+  const url = worldImage(src).src;
   return new Promise<THREE.Texture>((resolve, reject) => {
     new THREE.TextureLoader().load(
       url,

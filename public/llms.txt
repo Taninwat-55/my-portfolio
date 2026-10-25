@@ -167,7 +167,7 @@ Approach: Design systems, accessibility, performance
 ## Links
 
 - Services & project enquiries: https://taninwatkaewpankan.xyz/services
-- Every project with a write-up: https://taninwatkaewpankan.xyz/projects
+- Every project with a write-up: https://taninwatkaewpankan.xyz/work
 - Full CV, skills and track record: https://taninwatkaewpankan.xyz/cv
 - Changes after launch. There is NO website maintenance or care plan, and this
   is a deliberate choice, not an omission: the Danish market's care plans
