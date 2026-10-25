@@ -173,28 +173,39 @@
   margin-top: calc(var(--unit) * 5);
 }
 
-/* Desktop: where sits top right; the work takes the right six columns
-   beside the line and the doors, so the hero fits one screen. */
+/* Desktop: two columns that both start at the top. Left: the headline,
+   then the line and the doors right under it. Right: where, then the work
+   monitor beside the headline. Stacking the monitor below the headline left
+   a hole on each side (Ice, 2026-10-25). */
 @media (min-width: 900px) {
+  .hero {
+    grid-template-rows: auto auto 1fr;
+  }
+
   .where {
     grid-column: 7 / -1;
+    grid-row: 1;
     justify-self: end;
     margin: 0;
   }
 
   .headline {
-    grid-row: 1;
+    grid-column: 1 / span 6;
+    grid-row: 1 / span 2;
   }
 
   .intro {
     grid-column: 1 / span 5;
-    grid-row: 2;
+    grid-row: 3;
+    align-self: start;
+    margin-top: calc(var(--unit) * 5);
   }
 
   .band {
     grid-column: 7 / -1;
-    grid-row: 2;
-    margin-top: calc(var(--unit) * 2);
+    grid-row: 2 / span 2;
+    align-self: start;
+    margin-top: calc(var(--unit) * 3);
   }
 }
 
