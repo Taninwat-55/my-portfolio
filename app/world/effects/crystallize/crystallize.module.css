@@ -58,6 +58,20 @@
 
 /* ─── Scramble ───────────────────────────────────────────────────────────── */
 
+.scramble {
+  position: relative;
+}
+
+/* Holds the final text's exact size, so scrambling never moves the page. */
+.scrambleSizer {
+  visibility: hidden;
+}
+
+.scrambleVisual {
+  position: absolute;
+  inset: 0;
+}
+
 .glyph {
   font-family: var(--world-mono);
   font-style: normal;
@@ -77,8 +91,11 @@
   place-items: center;
   aspect-ratio: 16 / 10;
   padding: calc(var(--unit) * 3);
+  overflow: hidden;
   border: 1px solid var(--line);
   background: var(--bg);
+  /* The shader reads its ink colour from here. */
+  color: var(--fg);
 }
 
 .boxLabel {
@@ -101,7 +118,7 @@
 
 /* While the glyphs are coming, the finished box waits under the canvas. Only
    when JS will run (WorldBoot's flag), so no-JS visitors always see it. */
-:global(html[data-world-js]) .reveal[data-reveal="pending"] .box {
+:global(html[data-world-js]) .reveal[data-reveal="pending"] .box > :not(.revealCanvas) {
   opacity: 0;
 }
 
@@ -146,4 +163,174 @@
   position: relative;
   height: 100%;
   background: linear-gradient(var(--paper), var(--ink));
+}
+
+/* ─── Reveal with screenshots ────────────────────────────────────────────── */
+
+.boxImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slideLabel {
+  display: flex;
+  gap: calc(var(--unit) * 2);
+  margin-top: var(--unit);
+  font-family: var(--world-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.boxWide {
+  aspect-ratio: auto;
+  height: clamp(200px, 30svh, 360px);
+}
+
+@media (min-width: 900px) {
+  .boxWide {
+    height: clamp(240px, 40svh, 520px);
+  }
+}
+
+/* ─── Glyph hall ─────────────────────────────────────────────────────────── */
+
+/* Default (no JS, quiet world): a plain list with the real screenshots. */
+.hall {
+  position: relative;
+  padding: calc(var(--unit) * 12) var(--margin);
+}
+
+.hallStage {
+  display: none;
+}
+
+.hallIntro {
+  margin-bottom: calc(var(--unit) * 8);
+}
+
+.hallKicker {
+  margin: 0 0 var(--unit);
+  font-family: var(--world-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hallTitle {
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: clamp(44px, 7vw, 112px);
+  font-weight: 400;
+  line-height: 0.95;
+}
+
+.hallList {
+  display: grid;
+  gap: calc(var(--unit) * 10);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hallStep {
+  display: grid;
+  gap: calc(var(--unit) * 3);
+}
+
+.hallCaption {
+  max-width: 40ch;
+}
+
+.hallName {
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.hallSub {
+  margin: var(--unit) 0 calc(var(--unit) * 2);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.hallLink {
+  color: var(--fg);
+  font-family: var(--world-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-underline-offset: 5px;
+}
+
+.hallLink:hover {
+  color: var(--signal);
+}
+
+.hallImage {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+}
+
+/* Full world: a sticky 3D stage, and each step one screen tall over it. */
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) {
+  padding: 0;
+}
+
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallStage {
+  display: block;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  background: var(--bg);
+}
+
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallIntro {
+  position: relative;
+  display: grid;
+  align-content: center;
+  height: 100vh;
+  height: 100svh;
+  margin: -100vh 0 0;
+  margin-top: -100svh;
+  padding: 0 var(--margin);
+}
+
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallList {
+  position: relative;
+  display: block;
+}
+
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallStep {
+  display: flex;
+  align-items: flex-end;
+  height: 100vh;
+  height: 100svh;
+  padding: 0 var(--margin) calc(var(--unit) * 6);
+}
+
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallStep[data-side="right"] {
+  justify-content: flex-end;
+}
+
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallCaption {
+  padding: calc(var(--unit) * 2) calc(var(--unit) * 3);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+}
+
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallImage {
+  display: none;
+}
+
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallEnd {
+  height: 100vh;
+  height: 100svh;
 }

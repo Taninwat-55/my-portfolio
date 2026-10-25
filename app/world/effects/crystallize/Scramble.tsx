@@ -28,6 +28,11 @@ type Props = {
  * visually hidden span from the first byte of HTML, so screen readers and
  * crawlers only ever get the sentence; the scramble runs on an aria-hidden
  * twin. Without JS or in the quiet world, the twin simply shows the text.
+ *
+ * The twin floats over an invisible copy that holds the layout. Glyphs are
+ * wider than letters, and when the twin itself took space the scrambled text
+ * wrapped onto extra lines and shifted everything below it by a line (137px
+ * on the statement, 2026-10-25), which also threw off every ScrollTrigger.
  */
 export function Scramble({ text, as: Tag = "p", className, trigger }: Props) {
   const visual = useRef<HTMLSpanElement>(null);
@@ -88,9 +93,12 @@ export function Scramble({ text, as: Tag = "p", className, trigger }: Props) {
   }, [mode, text, trigger]);
 
   return (
-    <Tag className={className}>
+    <Tag className={`${styles.scramble} ${className ?? ""}`}>
       <span className="sr-only">{text}</span>
-      <span ref={visual} aria-hidden="true">
+      <span className={styles.scrambleSizer} aria-hidden="true">
+        {text}
+      </span>
+      <span ref={visual} className={styles.scrambleVisual} aria-hidden="true">
         {text}
       </span>
     </Tag>

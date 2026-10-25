@@ -22,7 +22,7 @@
   --line-on-paper: #c9ccc8;
   --line-on-ink: #2a2d31;
 
-  /* Type: two voices and one small. Pairing a by default. */
+  /* Type: two voices and one small. */
   --world-display: var(--font-instrument-serif), Georgia, serif;
   --world-text: var(--font-geist), system-ui, sans-serif;
   --world-mono: var(--font-geist-mono), ui-monospace, monospace;
@@ -47,11 +47,6 @@
     --margin: calc(var(--unit) * 6);
     --gutter: calc(var(--unit) * 3);
   }
-}
-
-[data-world="crystallize"][data-pairing="b"] {
-  --world-display: var(--font-inter-tight), system-ui, sans-serif;
-  --world-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 }
 
 /*

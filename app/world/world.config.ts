@@ -16,16 +16,6 @@ export type WorldName = "crystallize" | "nordic";
 export const activeWorld: WorldName = "crystallize";
 
 /**
- * Two type pairings live side by side until Ice picks one in the prototype
- * (/lab/crystallize, phase 1). The loser gets deleted with its font loads.
- *   a: Instrument Serif display, Geist text, Geist Mono signal
- *   b: Inter Tight display, Geist text, JetBrains Mono signal
- */
-export type Pairing = "a" | "b";
-
-export const defaultPairing: Pairing = "a";
-
-/**
  * The page tone. Outside the door the world is light (paper); the door turns
  * it to ink, so the work lives in a dark room. Set as data-tone on any element.
  */

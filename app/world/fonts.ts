@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Instrument_Serif, Inter_Tight } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 
 /**
  * The world's voices: a display face, a text face, and a mono for signal (the
@@ -6,10 +6,8 @@ import { Geist, Geist_Mono, Instrument_Serif, Inter_Tight } from "next/font/goog
  * literally mono turning into display). Loaded here rather than in the root
  * layout, like the stack's fonts, so only world pages download them.
  *
- * Pairing b's alternates are not preloaded: they only appear when the
- * prototype's switch selects them. JetBrains Mono (pairing b's mono) is
- * already loaded by the root layout as --font-jetbrains-mono, so it isn't
- * loaded twice. See world.config.ts for the pairings.
+ * Instrument Serif (display) with Geist (text) and Geist Mono (signal):
+ * Ice chose this pairing over an all-grotesk one on 2026-10-25.
  */
 export const geist = Geist({
   subsets: ["latin"],
@@ -28,14 +26,7 @@ export const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
 });
 
-export const interTight = Inter_Tight({
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  variable: "--font-inter-tight",
-  preload: false,
-});
-
 /** Every world font variable, for a layout's className. */
-export const worldFontVariables = [geist, geistMono, instrumentSerif, interTight]
+export const worldFontVariables = [geist, geistMono, instrumentSerif]
   .map((font) => font.variable)
   .join(" ");

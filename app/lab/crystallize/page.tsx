@@ -1,46 +1,58 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { cases, personalInfo, siteContent } from "@/app/data";
+import { cases, clockContent, personalInfo, siteContent } from "@/app/data";
 import { GridLines } from "@/app/world/GridLines";
+import { LocalTime } from "@/app/world/LocalTime";
+import { recentCommits } from "@/app/world/recentCommits";
 import { SmoothScroll } from "@/app/world/SmoothScroll";
 import { WorldBoot } from "@/app/world/WorldBoot";
 import { Door } from "@/app/world/effects/crystallize/Door";
+import { Hall } from "@/app/world/effects/crystallize/Hall";
 import { Loader } from "@/app/world/effects/crystallize/Loader";
 import { Reveal } from "@/app/world/effects/crystallize/Reveal";
 import { Scramble } from "@/app/world/effects/crystallize/Scramble";
 import { worldFontVariables } from "@/app/world/fonts";
-import { defaultPairing } from "@/app/world/world.config";
 import { LabControls } from "./LabControls";
 import "@/app/world/tokens/crystallize.css";
 import styles from "./lab.module.css";
 
 /**
- * Phase 1 of the site overhaul: the signature moments, to judge in the
- * browser before anything else is built. Unlinked and noindex. Loader, hero
- * with the glyph-to-clip reveal, statement scramble, the door, and the work
- * room behind it.
+ * The site overhaul's prototype: the signature moments, to judge in the
+ * browser before anything else is built. Unlinked and noindex.
  *
- * Clips are labelled boxes until the end of the build (Ice, 2026-10-25).
- * DRAFT copy: the subline and statement are placeholders for Ice to rewrite.
+ * Hero (who, where, now, the work cycling in glyphs) → statement → door →
+ * the glyph hall (the work) → close.
+ *
+ * Posters are the projects' real screenshots until the clips exist (Ice,
+ * 2026-10-25). DRAFT copy: the statement is a placeholder for Ice to rewrite.
  */
 export const metadata: Metadata = {
   title: "Crystallize lab",
   robots: { index: false, follow: false },
 };
 
-const SUBLINE = "I design and build web products, from the interface to the database.";
 const STATEMENT =
   "Agents write a lot of my code now. The judgment is still mine: what is worth building, what to cut, and how it should feel when it is done.";
 
-const lead = ["trailr", "bevisly", "mockmate"].flatMap((id) => cases.filter((c) => c.id === id));
+// Saep stays out until its redesign; Millennial has no screens to show.
+const lead = ["trailr", "bevisly", "mockmate", "racha", "lumina"].flatMap((id) =>
+  cases.filter((c) => c.id === id),
+);
+const slides = lead.map((c) => ({ src: c.images[0], title: c.title }));
+const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c.tag, image: c.images[0] }));
+
+const FACTS = [
+  siteContent.roleLabel,
+  "React · Next.js · TypeScript · PostgreSQL",
+  "Builds with AI agents",
+  "Websites for small businesses",
+];
 
 export default function CrystallizeLab() {
+  const commits = recentCommits(3);
+
   return (
-    <div
-      data-world="crystallize"
-      data-pairing={defaultPairing}
-      className={`${worldFontVariables} ${styles.world}`}
-    >
+    <div data-world="crystallize" className={`${worldFontVariables} ${styles.world}`}>
       <WorldBoot />
       <Loader />
       <SmoothScroll />
@@ -49,14 +61,49 @@ export default function CrystallizeLab() {
         <div className={styles.outside}>
           <GridLines />
 
-          <section className={styles.hero}>
-            <div className={styles.heroText}>
-              <p className={styles.kicker}>{personalInfo.nickname} · Copenhagen</p>
-              <Scramble as="h1" className={styles.name} text={personalInfo.name} trigger="loader" />
-              <p className={styles.role}>{siteContent.roleLabel}</p>
-              <p className={styles.subline}>{SUBLINE}</p>
+          <section className={styles.hero} aria-label="Introduction">
+            <div className={styles.strip}>
+              <p className={styles.mark}>Ice</p>
+
+              {commits.length > 0 && (
+                <div className={styles.log}>
+                  <p className={styles.kicker}>Build log</p>
+                  <ul>
+                    {commits.map((c) => (
+                      <li key={c.subject}>
+                        <span className={styles.logText}>&gt; {c.subject}</span>
+                        <span className={styles.logWhen}>{c.when}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <nav className={styles.nav} aria-label="Main">
+                <a href="#work-title">Work</a>
+                <Link href="/engineer">About</Link>
+                <a href={`mailto:${personalInfo.email}`}>Contact</a>
+              </nav>
+
+              <p className={styles.where}>
+                Copenhagen
+                <LocalTime />
+              </p>
+
+              <p className={styles.avail}>
+                {clockContent.availability} <Link href="/engineer">Hire me →</Link>
+              </p>
             </div>
-            <Reveal className={styles.heroClip} title={lead[0]?.title ?? "Project"} trigger="hero" />
+
+            <Reveal className={styles.band} slides={slides} trigger="hero" wide />
+
+            <Scramble as="h1" className={styles.name} text={personalInfo.name} trigger="loader" />
+
+            <ul className={styles.facts}>
+              {FACTS.map((f) => (
+                <li key={f}>{f}</li>
+              ))}
+            </ul>
           </section>
 
           <section className={styles.statement} aria-label="How I work">
@@ -67,25 +114,7 @@ export default function CrystallizeLab() {
         <Door />
 
         <div data-tone="ink" className={styles.inside}>
-          <GridLines />
-
-          <section className={styles.work} aria-labelledby="work-title">
-            <p className={styles.kicker}>Work</p>
-            <h2 id="work-title" className={styles.workTitle}>
-              Selected work
-            </h2>
-            <ul className={styles.workList}>
-              {lead.map((c) => (
-                <li key={c.id} className={styles.workItem}>
-                  <Reveal title={c.title} trigger="view" />
-                  <div className={styles.caption}>
-                    <h3 className={styles.captionTitle}>{c.title}</h3>
-                    <p className={styles.captionSub}>{c.sub}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
+          <Hall projects={projects} />
 
           <section className={styles.close} aria-labelledby="close-title">
             <h2 id="close-title" className={styles.closeTitle}>
