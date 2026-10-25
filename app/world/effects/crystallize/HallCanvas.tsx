@@ -210,6 +210,22 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
         u.uMask.value = texture;
         m.userData.aspect = aspect;
       });
+      // Until a screenshot arrives its card is already there, as a field of
+      // glyphs over a blank target: on a slow connection the wait looks like
+      // the effect, never like empty space. It resolves once loaded.
+      const ink = rgb(colours.ink);
+      const blank = new THREE.DataTexture(
+        new Uint8Array([ink.x * 255, ink.y * 255, ink.z * 255, 255]),
+        1,
+        1,
+      );
+      blank.needsUpdate = true;
+      made.push(blank);
+      cards.forEach((m) => {
+        const u = (m.material as THREE.ShaderMaterial).uniforms;
+        u.uAtlas.value = atlas;
+        u.uTarget.value = blank;
+      });
       const shots = await Promise.all(images.map((src) => loadImage(src)));
       if (cancelled) {
         shots.forEach((t) => t.dispose());
@@ -221,13 +237,14 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
         u.uAtlas.value = atlas;
         u.uTarget.value = shots[k];
         u.uCover.value.copy(coverScale(CARD_W / CARD_H, aspectOf(shots[k])));
+        m.userData.loaded = true;
       });
     })();
     return () => {
       cancelled = true;
       made.forEach((t) => t.dispose());
     };
-  }, [root, images, cards, numerals]);
+  }, [root, images, cards, numerals, colours]);
 
   useEffect(() => {
     const move = (e: PointerEvent) => {
@@ -283,7 +300,7 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
       m.scale.setScalar(Math.min(1, Math.max(0.42, spread * 1.3)));
       const d = z - m.position.z; // how far ahead of the camera
       const u = (m.material as THREE.ShaderMaterial).uniforms;
-      u.uProgress.value = smooth(15, 5, d);
+      u.uProgress.value = m.userData.loaded ? smooth(15, 5, d) : 0;
       u.uTime.value = clock.elapsedTime;
       u.uOpacity.value = 1 - smooth(26, 32, d);
     });

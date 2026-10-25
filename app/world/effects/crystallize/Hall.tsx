@@ -71,6 +71,20 @@ export function Hall({ projects }: { projects: HallProject[] }) {
     };
   }, [full]);
 
+  // Fetch the hall's code once the page is idle, so arriving through the
+  // door never waits on a download.
+  useEffect(() => {
+    if (!full) return;
+    const fetchHall = () => void import("./HallCanvas");
+    // Safari has no requestIdleCallback; a short timeout does the same job.
+    if ("requestIdleCallback" in window) {
+      const id = requestIdleCallback(fetchHall, { timeout: 4000 });
+      return () => cancelIdleCallback(id);
+    }
+    const id = setTimeout(fetchHall, 1500);
+    return () => clearTimeout(id);
+  }, [full]);
+
   // Tabbing to a caption's link walks the hall to its card.
   const walkTo = useCallback(
     (k: number) => {
