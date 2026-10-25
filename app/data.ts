@@ -375,8 +375,9 @@ export interface CaseStudy {
   scope: string;
   /**
    * The case page's facts (2026-10-25). Taken from cvData where the CV has
-   * the project, so the two never disagree; left out where nothing confirmed
-   * it, and the page shows only what is set.
+   * the project, so the two never disagree; otherwise the year is when the
+   * project's GitHub repo was created (Racha 2025-06, Satoshi 2025-08, Lumina
+   * and Saep 2026-08). Optional: the page shows only what is set.
    */
   role?: string;
   year?: string;
@@ -555,6 +556,8 @@ export const cases: CaseStudy[] = [
     n: "05",
     tag: "FinTech",
     scope: "Frontend only: a React dashboard that reads a live public price API. No backend of its own.",
+    role: "Personal project",
+    year: "2025",
     title: "Satoshi Standard",
     sub: "Live Bitcoin purchasing-power dashboard across every major currency.",
     images: [
@@ -591,6 +594,8 @@ export const cases: CaseStudy[] = [
     n: "07",
     tag: "Client Work",
     scope: "Frontend only: a static React site with no backend or database. The contact form posts to Web3Forms, a hosted form service.",
+    role: "Freelance, design and build for a paying client",
+    year: "2025",
     title: "Racha Beauty",
     sub: "A paying client's first website: 95+ Lighthouse, Danish-language, no maintenance budget.",
     images: [
@@ -633,6 +638,8 @@ export const cases: CaseStudy[] = [
     n: "08",
     tag: "Motion & Craft",
     scope: "Frontend only: a static HTML, CSS and JavaScript page with no backend, and a concept with no client.",
+    role: "Self-initiated concept",
+    year: "2026",
     title: "Lumina Spa",
     sub: "A self-initiated scroll-choreography piece: ten animated sections, no build step, 10.8 KB over the wire.",
     images: [
@@ -677,6 +684,8 @@ export const cases: CaseStudy[] = [
     n: "09",
     tag: "Motion & Craft",
     scope: "Frontend only: a static page built on the platform alone (canvas and CSS), no backend, and a concept with no client.",
+    role: "Self-initiated concept",
+    year: "2026",
     title: "Saep Fire Kitchen",
     sub: "A concept piece for an invented Thai restaurant: scroll-driven, every ingredient drawn in code, and no animation library underneath it.",
     images: [
