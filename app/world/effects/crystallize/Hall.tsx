@@ -16,8 +16,6 @@ export type HallProject = {
   sub: string;
   tag: string;
   image: string;
-  /** The project's other screenshots, for the hall's walls. */
-  screens: string[];
 };
 
 /**
@@ -38,10 +36,6 @@ export function Hall({ projects }: { projects: HallProject[] }) {
   const [near, setNear] = useState(false);
   const [mounted, setMounted] = useState(false);
   const images = useMemo(() => projects.map((p) => p.image), [projects]);
-  const walls = useMemo(
-    () => projects.flatMap((p, project) => p.screens.map((src) => ({ src, project }))),
-    [projects],
-  );
 
   useEffect(() => {
     const el = section.current;
@@ -76,7 +70,7 @@ export function Hall({ projects }: { projects: HallProject[] }) {
     <section ref={section} className={styles.hall} data-mode={mode ?? "pending"} aria-labelledby="work-title">
       <div className={styles.hallStage} aria-hidden="true">
         {mode === "full" && mounted && (
-          <HallCanvas images={images} walls={walls} progress={progress} root={section} active={near} />
+          <HallCanvas images={images} progress={progress} root={section} active={near} />
         )}
       </div>
 

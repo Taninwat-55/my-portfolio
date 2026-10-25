@@ -11,8 +11,6 @@ export const CARD_DISTANCE = 3.5; // how far in front of the camera a card sits 
 
 type Props = {
   images: string[];
-  /** Each project's other screens, lining the walls around its card. */
-  walls: { src: string; project: number }[];
   progress: RefObject<{ value: number }>;
   root: RefObject<HTMLElement | null>;
   active: boolean;
@@ -20,8 +18,6 @@ type Props = {
 
 const CARD_W = 3.4;
 const CARD_H = CARD_W / 1.6;
-const WALL_W = 2;
-const WALL_H = WALL_W / 1.72;
 const LETTERS = "ICE";
 
 /** A letter made of characters: the mask decides where glyphs live. */
@@ -68,24 +64,6 @@ function letterMask(char: string, fontFamily: string) {
   return t;
 }
 
-/** The crystallize material for a screenshot in the hall: arrives as loose glyphs. */
-function screenMaterial(colours: { ink: string; paper: string; signal: string }) {
-  const material = new THREE.ShaderMaterial({
-    uniforms: glyphUniforms(20),
-    vertexShader: sceneVertex,
-    fragmentShader: glyphFragment,
-    transparent: true,
-    depthWrite: false,
-  });
-  const u = material.uniforms;
-  u.uSolid.value = 0;
-  u.uRes.value.set(1600, 1000);
-  u.uBg.value = rgb(colours.ink);
-  u.uInk.value = rgb(colours.paper);
-  u.uSignal.value = rgb(colours.signal);
-  return material;
-}
-
 // Deterministic scatter, so the hall is the same hall on every visit.
 const rand = (i: number) => {
   const x = Math.sin(i * 91.7 + 13.1) * 43758.5453;
@@ -97,7 +75,7 @@ const smooth = (a: number, b: number, x: number) => {
   return t * t * (3 - 2 * t);
 };
 
-function Hall({ images, walls, progress, root }: Omit<Props, "active">) {
+function Hall({ images, progress, root }: Omit<Props, "active">) {
   const camera = useThree((s) => s.camera);
   const size = useThree((s) => s.size);
   const pointer = useRef({ x: 0, y: 0 });
@@ -120,7 +98,20 @@ function Hall({ images, walls, progress, root }: Omit<Props, "active">) {
     () =>
       images.map((_, k) => {
         const side = k % 2 === 0 ? 1 : -1;
-        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(CARD_W, CARD_H), screenMaterial(colours));
+        const material = new THREE.ShaderMaterial({
+          uniforms: glyphUniforms(20),
+          vertexShader: sceneVertex,
+          fragmentShader: glyphFragment,
+          transparent: true,
+          depthWrite: false,
+        });
+        const u = material.uniforms;
+        u.uSolid.value = 0;
+        u.uRes.value.set(1600, 1000);
+        u.uBg.value = rgb(colours.ink);
+        u.uInk.value = rgb(colours.paper);
+        u.uSignal.value = rgb(colours.signal);
+        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(CARD_W, CARD_H), material);
         mesh.position.set(side * 1.25, (rand(k) - 0.5) * 0.5, -(k + 1) * SPACING);
         mesh.userData.side = side;
         mesh.rotation.set(0, -side * 0.22, side * 0.02);
@@ -128,27 +119,6 @@ function Hall({ images, walls, progress, root }: Omit<Props, "active">) {
       }),
     [images, colours],
   );
-
-  // Walls: each project's other screens, angled along both walls of its
-  // stretch of the hall, so every card stands in a room of its own work.
-  const panels = useMemo(() => {
-    const seen = new Map<number, number>();
-    return walls.map(({ project }, i) => {
-      const j = seen.get(project) ?? 0;
-      seen.set(project, j + 1);
-      const cardSide = project % 2 === 0 ? 1 : -1;
-      const side = j % 2 === 0 ? -cardSide : cardSide;
-      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(WALL_W, WALL_H), screenMaterial(colours));
-      mesh.position.set(
-        side * 3.3,
-        (j % 2 === 0 ? 0.55 : -0.7) + (rand(i + 31) - 0.5) * 0.4,
-        -(project + 1) * SPACING + 2.6 - j * 2.1,
-      );
-      mesh.rotation.y = -side * 1.0;
-      mesh.userData.side = side;
-      return mesh;
-    });
-  }, [walls, colours]);
 
   // Letters: I, C, E in glyphs, scattered along the walls at varied depths.
   const letters = useMemo(() => {
@@ -172,8 +142,7 @@ function Hall({ images, walls, progress, root }: Omit<Props, "active">) {
       const side = rand(i + 7) > 0.5 ? 1 : -1;
       const height = 4 + rand(i + 3) * 3;
       const mesh = new THREE.Mesh(new THREE.PlaneGeometry(height * 0.8, height), material);
-      // Behind the wall screens, so letters frame the work instead of covering it.
-      mesh.position.set(side * (4.8 + rand(i + 11) * 2.4), (rand(i + 5) - 0.5) * 3, -2 - i * 3.2);
+      mesh.position.set(side * (3.4 + rand(i + 11) * 2.4), (rand(i + 5) - 0.5) * 3, -2 - i * 3.2);
       mesh.rotation.y = -side * (0.35 + rand(i + 2) * 0.3);
       mesh.userData.char = LETTERS[i % LETTERS.length];
       return mesh;
@@ -198,8 +167,7 @@ function Hall({ images, walls, progress, root }: Omit<Props, "active">) {
     );
   }, [length, colours]);
 
-  // Textures: the glyph atlas, three letter masks, the cards' screenshots,
-  // then the wall screens (after, so the cards never wait on them).
+  // Textures: the glyph atlas, three letter masks, every screenshot.
   useEffect(() => {
     const el = root.current;
     if (!el) return;
@@ -229,24 +197,12 @@ function Hall({ images, walls, progress, root }: Omit<Props, "active">) {
         u.uTarget.value = shots[k];
         u.uCover.value.copy(coverScale(CARD_W / CARD_H, aspectOf(shots[k])));
       });
-      const screens = await Promise.all(walls.map(({ src }) => loadImage(src, 1080)));
-      if (cancelled) {
-        screens.forEach((t) => t.dispose());
-        return;
-      }
-      made.push(...screens);
-      panels.forEach((m, i) => {
-        const u = (m.material as THREE.ShaderMaterial).uniforms;
-        u.uAtlas.value = atlas;
-        u.uTarget.value = screens[i];
-        u.uCover.value.copy(coverScale(WALL_W / WALL_H, aspectOf(screens[i])));
-      });
     })();
     return () => {
       cancelled = true;
       made.forEach((t) => t.dispose());
     };
-  }, [root, images, walls, cards, panels, letters]);
+  }, [root, images, cards, letters]);
 
   useEffect(() => {
     const move = (e: PointerEvent) => {
@@ -258,14 +214,14 @@ function Hall({ images, walls, progress, root }: Omit<Props, "active">) {
 
   useEffect(
     () => () => {
-      [...cards, ...panels, ...letters].forEach((m) => {
+      [...cards, ...letters].forEach((m) => {
         m.geometry.dispose();
         (m.material as THREE.Material).dispose();
       });
       rails.geometry.dispose();
       (rails.material as THREE.Material).dispose();
     },
-    [cards, panels, letters, rails],
+    [cards, letters, rails],
   );
 
   useFrame(({ clock }) => {
@@ -288,14 +244,6 @@ function Hall({ images, walls, progress, root }: Omit<Props, "active">) {
       u.uTime.value = clock.elapsedTime;
       u.uOpacity.value = 1 - smooth(26, 32, d);
     });
-    panels.forEach((m) => {
-      m.position.x = (m.userData.side as number) * 3.3 * Math.max(0.55, spread);
-      const d = z - m.position.z;
-      const u = (m.material as THREE.ShaderMaterial).uniforms;
-      u.uProgress.value = smooth(13, 4, d);
-      u.uTime.value = clock.elapsedTime;
-      u.uOpacity.value = (1 - smooth(22, 30, d)) * 0.85;
-    });
     letters.forEach((m) => {
       const d = z - m.position.z;
       const u = (m.material as THREE.ShaderMaterial).uniforms;
@@ -310,9 +258,6 @@ function Hall({ images, walls, progress, root }: Omit<Props, "active">) {
       <fog attach="fog" args={[colours.ink, 8, 34]} />
       <primitive object={rails} />
       {letters.map((m) => (
-        <primitive key={m.uuid} object={m} />
-      ))}
-      {panels.map((m) => (
         <primitive key={m.uuid} object={m} />
       ))}
       {cards.map((m) => (
