@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { cases, clockContent, personalInfo, siteContent } from "@/app/data";
+import { cases, personalInfo, siteContent } from "@/app/data";
 import { GridLines } from "@/app/world/GridLines";
-import { LocalTime } from "@/app/world/LocalTime";
-import { recentCommits } from "@/app/world/recentCommits";
 import { SmoothScroll } from "@/app/world/SmoothScroll";
 import { WorldBoot } from "@/app/world/WorldBoot";
 import { Door } from "@/app/world/effects/crystallize/Door";
@@ -20,7 +18,8 @@ import styles from "./lab.module.css";
  * The site overhaul's prototype: the signature moments, to judge in the
  * browser before anything else is built. Unlinked and noindex.
  *
- * Hero (who, where, now, the work cycling in glyphs) → statement → door →
+ * Hero (name, one line of who and where, the work cycling in glyphs at its
+ * true shape) → statement → door →
  * the glyph hall (the work) → close.
  *
  * Posters are the projects' real screenshots until the clips exist (Ice,
@@ -41,16 +40,14 @@ const lead = ["trailr", "bevisly", "mockmate", "racha", "lumina"].flatMap((id) =
 const slides = lead.map((c) => ({ src: c.images[0], title: c.title }));
 const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c.tag, image: c.images[0] }));
 
+// The role leads the dek line, so it isn't repeated here.
 const FACTS = [
-  siteContent.roleLabel,
   "React · Next.js · TypeScript · PostgreSQL",
   "Builds with AI agents",
   "Websites for small businesses",
 ];
 
 export default function CrystallizeLab() {
-  const commits = recentCommits(3);
-
   return (
     <div data-world="crystallize" className={`${worldFontVariables} ${styles.world}`}>
       <WorldBoot />
@@ -62,48 +59,21 @@ export default function CrystallizeLab() {
           <GridLines />
 
           <section className={styles.hero} aria-label="Introduction">
-            <div className={styles.strip}>
-              <p className={styles.mark}>Ice</p>
-
-              {commits.length > 0 && (
-                <div className={styles.log}>
-                  <p className={styles.kicker}>Build log</p>
-                  <ul>
-                    {commits.map((c) => (
-                      <li key={c.subject}>
-                        <span className={styles.logText}>&gt; {c.subject}</span>
-                        <span className={styles.logWhen}>{c.when}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              <nav className={styles.nav} aria-label="Main">
-                <a href="#work-title">Work</a>
-                <Link href="/engineer">About</Link>
-                <a href={`mailto:${personalInfo.email}`}>Contact</a>
-              </nav>
-
-              <p className={styles.where}>
-                Copenhagen
-                <LocalTime />
-              </p>
-
-              <p className={styles.avail}>
-                {clockContent.availability} <Link href="/engineer">Hire me →</Link>
-              </p>
-            </div>
-
-            <Reveal className={styles.band} slides={slides} trigger="hero" wide />
-
             <Scramble as="h1" className={styles.name} text={personalInfo.name} trigger="loader" />
+
+            <p className={styles.dek}>
+              {siteContent.roleLabel} in Copenhagen. Open to full-time roles, and taking on client
+              projects.{" "}
+              <Link href="/engineer">Hire me →</Link>
+            </p>
 
             <ul className={styles.facts}>
               {FACTS.map((f) => (
                 <li key={f}>{f}</li>
               ))}
             </ul>
+
+            <Reveal className={styles.band} slides={slides} trigger="hero" wide />
           </section>
 
           <section className={styles.statement} aria-label="How I work">

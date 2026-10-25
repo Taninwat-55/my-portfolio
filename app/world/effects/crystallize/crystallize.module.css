@@ -186,15 +186,10 @@
   color: var(--muted);
 }
 
+/* The screenshots' own shape (they run 1.72 to 1.76), so nothing is cropped
+   away: a band any wider showed only a slice of each. */
 .boxWide {
-  aspect-ratio: auto;
-  height: clamp(200px, 30svh, 360px);
-}
-
-@media (min-width: 900px) {
-  .boxWide {
-    height: clamp(240px, 40svh, 520px);
-  }
+  aspect-ratio: 1.72;
 }
 
 /* ─── Glyph hall ─────────────────────────────────────────────────────────── */

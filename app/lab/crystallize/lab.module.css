@@ -40,145 +40,22 @@
 
 /* ─── Hero ───────────────────────────────────────────────────────────────── */
 
+/* Who first, in type: the name, one line, the facts. Then the work, full
+   width at its true shape, starting in the first screen and running below
+   it. No status bar: Ice found the strip of small info cells read as a
+   dashboard (and as wodniack's skeleton), 2026-10-25. */
 .hero {
   position: relative;
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(var(--cols), 1fr);
-  grid-template-rows: auto auto auto auto;
   column-gap: var(--gutter);
-  align-content: space-between;
-  min-height: 100svh;
-  padding: 0 var(--margin) calc(var(--unit) * 2);
-}
-
-/* The strip: who, now, where, available. Sits on the drawn columns. */
-.strip {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: subgrid;
-  row-gap: calc(var(--unit) * 2);
-  align-items: start;
-  padding: calc(var(--unit) * 2) 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.mark {
-  grid-column: 1 / span 2;
-  margin: 0;
-  font-family: var(--world-display);
-  font-size: 40px;
-  font-style: italic;
-  line-height: 0.9;
-}
-
-.log {
-  grid-column: 1 / -1;
-  min-width: 0;
-}
-
-.log ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-family: var(--world-mono);
-  font-size: 11px;
-  line-height: 1.7;
-}
-
-.log li {
-  display: flex;
-  gap: var(--unit);
-  min-width: 0;
-}
-
-.logText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.logWhen {
-  flex: none;
-  color: var(--muted);
-}
-
-.nav {
-  grid-column: 1 / -1;
-  display: flex;
-  gap: calc(var(--unit) * 3);
-  font-family: var(--world-mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.where {
-  grid-column: 3 / -1;
-  grid-row: 1;
-  justify-self: end;
-  display: grid;
-  margin: 0;
-  font-family: var(--world-display);
-  font-size: 20px;
-  line-height: 1.15;
-  text-align: right;
-}
-
-.where time {
-  font-family: var(--world-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-}
-
-.avail {
-  grid-column: 1 / -1;
-  margin: 0;
-  font-family: var(--world-display);
-  font-size: 20px;
-  line-height: 1.2;
-}
-
-.avail a {
-  white-space: nowrap;
-}
-
-@media (min-width: 900px) {
-  .mark {
-    grid-column: 1 / span 2;
-  }
-
-  .log {
-    grid-column: 3 / span 4;
-  }
-
-  .nav {
-    grid-column: 7 / span 2;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .where {
-    grid-column: 9 / span 2;
-    grid-row: auto;
-    justify-self: start;
-    text-align: left;
-  }
-
-  .avail {
-    grid-column: 11 / span 2;
-  }
-}
-
-.band {
-  grid-column: 1 / -1;
-  margin-top: calc(var(--unit) * 3);
+  padding: calc(var(--unit) * 10) var(--margin) calc(var(--unit) * 4);
 }
 
 .name {
   grid-column: 1 / -1;
-  margin: calc(var(--unit) * 3) 0 0;
+  margin: 0;
   font-family: var(--world-display);
   font-size: clamp(52px, 10.4vw, 200px);
   font-weight: 400;
@@ -186,21 +63,49 @@
   letter-spacing: -0.025em;
 }
 
+.dek {
+  grid-column: 1 / -1;
+  max-width: 34ch;
+  margin: calc(var(--unit) * 4) 0 0;
+  font-family: var(--world-display);
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.2;
+}
+
+.dek a {
+  white-space: nowrap;
+}
+
 .facts {
   grid-column: 1 / -1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--unit) calc(var(--unit) * 3);
-  margin: calc(var(--unit) * 2) 0 0;
-  padding: calc(var(--unit) * 1.5) 0 0;
-  border-top: 1px solid var(--line);
+  display: grid;
+  align-content: end;
+  gap: 6px;
+  margin: calc(var(--unit) * 3) 0 0;
+  padding: 0;
   list-style: none;
   font-family: var(--world-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+.band {
+  grid-column: 1 / -1;
+  margin-top: calc(var(--unit) * 5);
+}
+
+@media (min-width: 900px) {
+  .dek {
+    grid-column: 1 / span 7;
+  }
+
+  .facts {
+    grid-column: 9 / -1;
+    margin-top: calc(var(--unit) * 4);
+    text-align: right;
+  }
 }
 
 /* ─── Statement ──────────────────────────────────────────────────────────── */
