@@ -56,7 +56,7 @@ export default function Home() {
           <GridLines />
 
           <section className={styles.hero} aria-label="Introduction">
-            <WorldNav workHref="#work-title" className={styles.heroNav} />
+            <WorldNav workHref="#work-title" home className={styles.heroNav} />
 
             {/* Ice, 2026-10-25: no explanatory line under the roles; they say
                 what he does. What and where live in this one quiet label.
