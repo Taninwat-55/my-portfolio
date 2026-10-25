@@ -140,7 +140,7 @@
   position: relative;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(var(--paper), var(--ink));
+  background: linear-gradient(var(--bg), var(--ink));
 }
 
 :global(html[data-world-js]) .door {
@@ -152,7 +152,7 @@
   top: 0;
   height: 100vh;
   height: 100svh;
-  background: var(--paper);
+  background: var(--bg);
 }
 
 :global(html[data-world-js]) .door[data-mode="quiet"] {
@@ -162,7 +162,7 @@
 :global(html[data-world-js]) .door[data-mode="quiet"] .doorStage {
   position: relative;
   height: 100%;
-  background: linear-gradient(var(--paper), var(--ink));
+  background: linear-gradient(var(--bg), var(--ink));
 }
 
 /* ─── Reveal with screenshots ────────────────────────────────────────────── */

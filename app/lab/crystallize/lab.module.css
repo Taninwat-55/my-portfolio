@@ -40,10 +40,10 @@
 
 /* ─── Hero ───────────────────────────────────────────────────────────────── */
 
-/* Who on one row (the full name and (Ice)), what on the rows below (both
-   roles, at the same size); where, as a small label above. Then one line of
-   what he does, availability, two doors, and the work beside them. No status bar: Ice found a strip of small info cells read as a
-   dashboard (and as the reference's skeleton), 2026-10-25. */
+/* A plain nav row (in the page, not sticky); where, as a small label; the
+   name small; the two roles large, filling the left half; then one line of
+   what he does, availability and two doors, with the work monitor beside.
+   No info-cell strip: Ice found one read as a dashboard (2026-10-25). */
 .hero {
   position: relative;
   z-index: 1;
@@ -56,12 +56,54 @@
   align-content: center;
   min-height: 100vh;
   min-height: 100svh;
-  padding: calc(var(--unit) * 5) var(--margin);
+  /* Top padding clears the nav, which sits absolutely at the top. */
+  padding: calc(var(--unit) * 10) var(--margin) calc(var(--unit) * 5);
+}
+
+.nav {
+  position: absolute;
+  top: calc(var(--unit) * 3);
+  right: var(--margin);
+  left: var(--margin);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--unit) calc(var(--unit) * 3);
+  font-family: var(--world-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.navLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--unit) * 3);
+}
+
+.world .nav a {
+  text-decoration: none;
+}
+
+.themeToggle {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.themeToggle[aria-pressed="true"],
+.themeToggle:hover {
+  color: var(--signal);
 }
 
 .where {
   grid-column: 1 / -1;
-  grid-row: 1;
   margin: 0 0 calc(var(--unit) * 2);
   font-family: var(--world-mono);
   font-size: 11px;
@@ -72,52 +114,36 @@
 
 .headline {
   grid-column: 1 / -1;
-  grid-row: 2;
   margin: 0;
   font-weight: 400;
 }
 
-.headline {
-  white-space: nowrap;
+.name {
+  display: block;
+  margin-bottom: calc(var(--unit) * 1.5);
+  font-family: var(--world-display);
+  font-size: clamp(24px, 2.2vw, 34px);
+  line-height: 1.1;
 }
 
-.headline .line {
-  display: inline;
-}
-
-.roles {
-  grid-column: 1 / -1;
-  grid-row: 3;
-  margin: calc(var(--unit) * 1.5) 0 0;
-}
-
-/* Sized so the longest line, the full name with (Ice), exactly fills its
-   columns: on desktop it ends at the edge of the left six, beside the work
-   monitor, instead of running past it (Ice, 2026-10-25).
-
-   In Instrument Serif the name is 8.876 em wide (measured). The hero is the
-   container, so 1cqi is 1% of its content width W:
-     phone, 4 columns:   name = W        → 100cqi / 8.876 ≈ 11.2cqi
-     desktop, 6 of 12:   name = W/2 - 12px (half the width less half a
-                         24px gutter)    → (50cqi - 12px) / 8.876
+/* Sized so the longer role, "Full-stack Engineer" (6.229 em in Instrument
+   Serif, measured), exactly fills its columns: the full width on a phone,
+   the left six columns on desktop, ending where the work monitor starts.
+   The hero is the container, so 1cqi is 1% of its content width W:
+     phone, 4 columns:   W            → 100cqi / 6.3 ≈ 15.8cqi
+     desktop, 6 of 12:   W/2 - 12px   → (50cqi - 12px) / 6.3
    A vw size can't do this: the gutters are fixed pixels, so a size that fit
    at 1400px overflowed at 1920. Rounded down a hair for safety. */
 .line {
   display: block;
   font-family: var(--world-display);
-  font-size: 11cqi;
+  font-size: 15.8cqi;
   line-height: 0.92;
   letter-spacing: -0.025em;
 }
 
-/* (Ice) in italic, so it reads as the name he goes by. */
-.lineName {
-  font-style: italic;
-}
-
 .intro {
   grid-column: 1 / -1;
-  align-self: end;
   margin-top: calc(var(--unit) * 4);
 }
 
@@ -193,44 +219,33 @@
   margin-top: calc(var(--unit) * 5);
 }
 
-/* Desktop: the name runs across the top on its own row. Under it, two
-   columns that start together: the roles, the line and the doors on the
-   left; the work monitor on the right. */
+/* Desktop: where and the heading on top; under the heading the line and
+   the doors; the work monitor beside the roles. */
 @media (min-width: 900px) {
   .hero {
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: auto auto auto;
   }
 
   .line {
-    font-size: calc((50cqi - 12px) / 8.95);
-  }
-
-  .where {
-    grid-column: 1 / -1;
-    margin-bottom: calc(var(--unit) * 2);
+    font-size: calc((50cqi - 12px) / 6.3);
   }
 
   .headline {
     grid-column: 1 / span 6;
-  }
-
-  .roles {
-    grid-column: 1 / span 6;
-    grid-row: 3;
+    grid-row: 2;
   }
 
   .intro {
     grid-column: 1 / span 5;
-    grid-row: 4;
-    align-self: start;
+    grid-row: 3;
     margin-top: calc(var(--unit) * 5);
   }
 
   .band {
     grid-column: 7 / -1;
-    grid-row: 3 / span 2;
-    align-self: start;
-    margin-top: calc(var(--unit) * 3);
+    grid-row: 2 / span 2;
+    align-self: center;
+    margin-top: 0;
   }
 }
 

@@ -18,6 +18,17 @@ type Props = {
   active?: boolean;
 };
 
+/** The box's colours into the shader, so the glyphs match the current theme. */
+function readColours(material: THREE.ShaderMaterial | null, el: HTMLElement | null) {
+  const u = material?.uniforms;
+  if (!u || !el) return;
+  const style = getComputedStyle(el);
+  u.uBg.value = rgb(style.backgroundColor);
+  u.uInk.value = rgb(style.color);
+  // Custom properties compute with var() already substituted: a hex.
+  u.uSignal.value = rgb(style.getPropertyValue("--signal") || "#000");
+}
+
 /** Per frame: progress, time, size, pointer and the current target. */
 function tick(
   material: THREE.ShaderMaterial | null,
@@ -82,6 +93,14 @@ function Field({ box, progress, pointer, onReady, images, index }: Props) {
       made.forEach((t) => t.dispose());
     };
   }, [box, images, onReady]);
+
+  // Colours follow the theme: re-read from the box twice a second.
+  const lastRead = useRef(0);
+  useFrame(({ clock }) => {
+    if (clock.elapsedTime - lastRead.current < 0.5) return;
+    lastRead.current = clock.elapsedTime;
+    readColours(material.current, box.current);
+  });
 
   useFrame(({ clock }) =>
     tick(

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { GridLines } from "../../GridLines";
+import { useTheme } from "../../ThemeToggle";
 import { useWorldMode } from "../../useWorldMode";
 import styles from "./crystallize.module.css";
 
@@ -24,6 +25,7 @@ export function Door() {
   const rails = useRef<HTMLDivElement>(null);
   const progress = useRef({ value: 0 });
   const mode = useWorldMode();
+  const theme = useTheme();
   const [near, setNear] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -59,7 +61,10 @@ export function Door() {
     <section ref={section} className={styles.door} data-mode={mode ?? "pending"} aria-hidden="true">
       <div className={styles.doorStage}>
         <GridLines ref={rails} />
-        {mode === "full" && mounted && <DoorCanvas progress={progress} rails={rails} active={near} />}
+        {mode === "full" && mounted && (
+          // Keyed by theme: the canvas reads its start colours once.
+          <DoorCanvas key={theme} progress={progress} rails={rails} active={near} />
+        )}
       </div>
     </section>
   );

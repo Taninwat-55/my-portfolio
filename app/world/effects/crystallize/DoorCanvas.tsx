@@ -40,13 +40,15 @@ function Tunnel({ progress, rails }: Omit<Props, "active">) {
     const root = rails.current?.closest<HTMLElement>("[data-world]");
     const read = (name: string) =>
       new THREE.Color((root && getComputedStyle(root).getPropertyValue(name).trim()) || "#888");
+    // The outside's own tone (paper, or ink in dark mode) at the start; the
+    // work room's ink at the end.
     return {
-      paper: read("--paper"),
+      paper: read("--bg"),
       ink: read("--ink"),
-      lineOnPaper: read("--line-on-paper"),
-      mutedOnPaper: read("--muted-on-paper"),
+      lineOnPaper: read("--line"),
+      mutedOnPaper: read("--muted"),
       mutedOnInk: read("--muted-on-ink"),
-      signalOnPaper: read("--signal-on-paper"),
+      signalOnPaper: read("--signal"),
       signalOnInk: read("--signal-on-ink"),
     };
   }, [rails]);

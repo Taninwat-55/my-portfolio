@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cases, personalInfo, siteContent } from "@/app/data";
 import { GridLines } from "@/app/world/GridLines";
 import { SmoothScroll } from "@/app/world/SmoothScroll";
+import { ThemeToggle } from "@/app/world/ThemeToggle";
 import { WorldBoot } from "@/app/world/WorldBoot";
 import { Door } from "@/app/world/effects/crystallize/Door";
 import { Hall } from "@/app/world/effects/crystallize/Hall";
@@ -18,8 +19,8 @@ import styles from "./lab.module.css";
  * The site overhaul's prototype: the signature moments, to judge in the
  * browser before anything else is built. Unlinked and noindex.
  *
- * Hero (the name with (Ice), the two roles below it, one line of what he
- * does, two doors, the work cycling in glyphs) → statement → door →
+ * Hero (plain nav, the name small above two large roles, one line of what
+ * he does, two doors, the work cycling in glyphs) → statement → door →
  * the glyph hall (the work) → close.
  *
  * Posters are the projects' real screenshots until the clips exist (Ice,
@@ -48,7 +49,9 @@ const DEK = "Game designer by training. I build web products end to end, from th
 
 export default function CrystallizeLab() {
   return (
-    <div data-world="crystallize" className={`${worldFontVariables} ${styles.world}`}>
+    // suppressHydrationWarning: WorldBoot may set data-tone="ink" (a saved
+    // dark theme) on this element before React hydrates it.
+    <div data-world="crystallize" className={`${worldFontVariables} ${styles.world}`} suppressHydrationWarning>
       <WorldBoot />
       <Loader />
       <SmoothScroll />
@@ -58,21 +61,41 @@ export default function CrystallizeLab() {
           <GridLines />
 
           <section className={styles.hero} aria-label="Introduction">
+            {/* Plain links in the page, not sticky: once past the hero they're
+                gone, and the work has the screen. */}
+            <nav className={styles.nav} aria-label="Main">
+              <div className={styles.navLinks}>
+                <a href="#work-title">Work</a>
+                <Link href="/engineer">About</Link>
+                <a href={`mailto:${personalInfo.email}`}>Contact</a>
+              </div>
+              <div className={styles.navLinks}>
+                <a href={personalInfo.socials.linkedin} rel="me noopener" target="_blank">
+                  LinkedIn
+                </a>
+                <a href={personalInfo.socials.github} rel="me noopener" target="_blank">
+                  GitHub
+                </a>
+                <ThemeToggle className={styles.themeToggle} />
+              </div>
+            </nav>
+
             <p className={styles.where}>Copenhagen, Denmark</p>
 
-            {/* Who on one row, what on the next (Ice, 2026-10-25): the full name
-                for recruiters and search, (Ice) for remembering, the roles at
-                the same size below. roleLabel stays "Full-stack Engineer" for
+            {/* The roles lead; the name sits above them, smaller (Ice,
+                2026-10-25). All of it is the heading, so search and screen
+                readers get "Taninwat Kaewpankan (Ice), Full-stack Engineer,
+                Creative Developer". roleLabel stays "Full-stack Engineer" for
                 the CV, metadata and search. */}
             <h1 className={styles.headline}>
-              <Scramble as="span" className={styles.line} text={personalInfo.name} trigger="loader" />{" "}
-              <Scramble as="span" className={`${styles.line} ${styles.lineName}`} text={`(${personalInfo.nickname})`} trigger="loader" />
-            </h1>
-
-            <p className={styles.roles}>
+              <span className={styles.name}>
+                {personalInfo.name} <em>({personalInfo.nickname})</em>
+                <span className="sr-only">,</span>
+              </span>
               <Scramble as="span" className={styles.line} text={siteContent.roleLabel} trigger="loader" />
+              <span className="sr-only">,</span>
               <Scramble as="span" className={styles.line} text="Creative Developer" trigger="loader" />
-            </p>
+            </h1>
 
             <div className={styles.intro}>
               <p className={styles.dek}>{DEK}</p>
