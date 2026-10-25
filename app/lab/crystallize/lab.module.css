@@ -147,19 +147,11 @@
   margin-top: calc(var(--unit) * 4);
 }
 
-.dek {
-  max-width: 34ch;
-  margin: 0;
-  font-size: clamp(17px, 1.3vw, 20px);
-  line-height: 1.5;
-  color: var(--muted);
-}
-
 .status {
   display: flex;
   align-items: center;
   gap: var(--unit);
-  margin: calc(var(--unit) * 3) 0 0;
+  margin: 0;
   font-family: var(--world-mono);
   font-size: 11px;
   letter-spacing: 0.08em;

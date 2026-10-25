@@ -19,8 +19,9 @@ import styles from "./lab.module.css";
  * The site overhaul's prototype: the signature moments, to judge in the
  * browser before anything else is built. Unlinked and noindex.
  *
- * Hero (plain nav, the name small above two large roles, one line of what
- * he does, two doors, the work cycling in glyphs) → statement → door →
+ * Hero (plain nav, what and where in one label, the name small above two
+ * large roles, availability, two doors, the work cycling in glyphs) →
+ * statement → door →
  * the glyph hall (the work) → close.
  *
  * Posters are the projects' real screenshots until the clips exist (Ice,
@@ -43,9 +44,6 @@ const lead = ["trailr", "bevisly", "mockmate", "racha", "lumina"].flatMap((id) =
 const slides = lead.map((c) => ({ src: c.images[0], title: c.title }));
 const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c.tag, image: c.images[0] }));
 
-// DRAFT for Ice to rewrite. The game design degree (BA, Uppsala 2022) is the
-// honest reason "Creative Developer" sits under his name, so the line says it.
-const DEK = "Game designer by training. I build web products end to end, from the interface to the database.";
 
 export default function CrystallizeLab() {
   return (
@@ -80,7 +78,10 @@ export default function CrystallizeLab() {
               </div>
             </nav>
 
-            <p className={styles.where}>Copenhagen, Denmark</p>
+            {/* Ice, 2026-10-25: no explanatory line under the roles; they say
+                what he does. What and where live in this one quiet label.
+                (The game design degree belongs on the About page.) */}
+            <p className={styles.where}>Design and engineering from Copenhagen, Denmark</p>
 
             {/* The roles lead; the name sits above them, smaller (Ice,
                 2026-10-25). All of it is the heading, so search and screen
@@ -98,7 +99,6 @@ export default function CrystallizeLab() {
             </h1>
 
             <div className={styles.intro}>
-              <p className={styles.dek}>{DEK}</p>
               <p className={styles.status}>Open to full-time roles and client projects</p>
               <div className={styles.ctas}>
                 <Link className={styles.ctaPrimary} href="/engineer">
