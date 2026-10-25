@@ -14,6 +14,8 @@ type Props = {
   progress: RefObject<{ value: number }>;
   root: RefObject<HTMLElement | null>;
   active: boolean;
+  /** Which card is in front (-1 before the first, images.length after the last). */
+  onActive: (index: number) => void;
 };
 
 const CARD_W = 3.4;
@@ -75,12 +77,24 @@ const rand = (i: number) => {
   return x - Math.floor(x);
 };
 
+/**
+ * Dwell: the camera stops in front of each card, then moves briskly to the
+ * next, instead of gliding past at constant speed (Ice, 2026-10-25: the card
+ * was gone before its caption arrived). Whole steps are the cards; around
+ * each one the curve is flat, between them it's steep.
+ */
+const dwell = (raw: number) => {
+  const base = Math.round(raw);
+  const f = raw - base; // -0.5 … 0.5
+  return base + Math.sign(f) * 0.5 * Math.abs(2 * f) ** 2.4;
+};
+
 const smooth = (a: number, b: number, x: number) => {
   const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
   return t * t * (3 - 2 * t);
 };
 
-function Hall({ images, progress, root }: Omit<Props, "active">) {
+function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
   const camera = useThree((s) => s.camera);
   const size = useThree((s) => s.size);
   const pointer = useRef({ x: 0, y: 0 });
@@ -196,7 +210,7 @@ function Hall({ images, progress, root }: Omit<Props, "active">) {
         u.uMask.value = texture;
         m.userData.aspect = aspect;
       });
-      const shots = await Promise.all(images.map((src) => loadImage(src, 1200)));
+      const shots = await Promise.all(images.map((src) => loadImage(src)));
       if (cancelled) {
         shots.forEach((t) => t.dispose());
         return;
@@ -238,16 +252,27 @@ function Hall({ images, progress, root }: Omit<Props, "active">) {
   // The camera eases toward where the scroll says it should be instead of
   // snapping there: the glide is what makes the walk feel smooth.
   const eased = useRef<number | null>(null);
+  const shown = useRef<number | null>(null);
 
   useFrame(({ clock }, delta) => {
     // The DOM has an intro step, one step per card and a trailing step. Card
     // k's step centred in the viewport puts card k CARD_DISTANCE ahead; the
     // intro (steps = -1) starts a full spacing further back, in the glyphs.
-    const target = progress.current.value * (images.length + 1) - 1;
+    const target = dwell(progress.current.value * (images.length + 1) - 1);
     eased.current =
       eased.current === null ? target : THREE.MathUtils.damp(eased.current, target, 3.2, Math.min(delta, 0.1));
     const steps = eased.current;
     const z = -(steps + 1) * SPACING + CARD_DISTANCE;
+
+    // The caption shows while its card is in front: from the moment it has
+    // nearly crystallized until just before the camera passes it.
+    const nearest = Math.round(steps);
+    const front =
+      steps < -0.4 ? -1 : steps > images.length - 0.6 ? images.length : Math.abs(steps - nearest) < 0.38 ? nearest : -2;
+    if (front !== shown.current) {
+      shown.current = front;
+      onActive(front);
+    }
     camera.position.set(pointer.current.x * 0.35, -pointer.current.y * 0.2, z);
     camera.lookAt(pointer.current.x * 0.1, 0, z - 10);
 

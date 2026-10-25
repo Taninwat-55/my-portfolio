@@ -12,7 +12,8 @@
     "lint": "eslint",
     "cv": "node scripts/build-cv-pdf.mjs",
     "copy": "node scripts/export-copy.mjs",
-    "dither": "node scripts/dither-images.mjs"
+    "dither": "node scripts/dither-images.mjs",
+    "textures": "node scripts/world-textures.mjs"
   },
   "dependencies": {
     "@ai-sdk/groq": "^3.0.39",

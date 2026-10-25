@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useWorldMode } from "../../useWorldMode";
@@ -20,26 +20,32 @@ export type HallProject = {
 
 /**
  * The glyph hall: where the door lets out. Scrolling walks the camera down a
- * dark hall whose walls are giant letters made of characters, past project
- * screenshots that crystallize out of loose glyphs as you approach.
+ * dark hall past each project's screen, which crystallizes out of loose
+ * glyphs as you approach; a giant glyph room number stands opposite it.
  *
- * The page underneath is plain HTML steps: an intro, one step per project
- * (number, title, line, link) and a trailing step. Each step is a screen
- * tall, and its card arrives in 3D as its caption reaches the middle of the
- * screen. The quiet world (and no JS) gets the same steps as a list with the
- * real screenshots.
+ * One sticky screen holds the 3D hall and all the text. The camera stops in
+ * front of each card for a while before moving on, and the caption follows
+ * the camera, not the scroll: it shows while its card is in front of you.
+ * Below the screen, spacers only give the scroll its length (a screen and a
+ * half per room). The quiet world (and no JS) gets the same heading and
+ * captions as a list with the real screenshots.
  */
 export function Hall({ projects }: { projects: HallProject[] }) {
   const section = useRef<HTMLElement>(null);
+  const spacers = useRef<(HTMLDivElement | null)[]>([]);
   const progress = useRef({ value: 0 });
   const mode = useWorldMode();
   const [near, setNear] = useState(false);
   const [mounted, setMounted] = useState(false);
+  // -1: the intro (the heading shows); 0…n-1: that card is in front;
+  // -2: between two cards (nothing shows); n: past the last.
+  const [active, setActive] = useState(-1);
   const images = useMemo(() => projects.map((p) => p.image), [projects]);
+  const full = mode === "full";
 
   useEffect(() => {
     const el = section.current;
-    if (mode !== "full" || !el) return;
+    if (!full || !el) return;
     gsap.registerPlugin(ScrollTrigger);
     const st = ScrollTrigger.create({
       trigger: el,
@@ -49,12 +55,13 @@ export function Hall({ projects }: { projects: HallProject[] }) {
         progress.current.value = self.progress;
       },
     });
+    // Mount early (two screens ahead) so textures are ready on arrival.
     const io = new IntersectionObserver(
       ([entry]) => {
         setNear(entry.isIntersecting);
         if (entry.isIntersecting) setMounted(true);
       },
-      { rootMargin: "100% 0px" },
+      { rootMargin: "200% 0px" },
     );
     io.observe(el);
     ScrollTrigger.refresh();
@@ -62,45 +69,74 @@ export function Hall({ projects }: { projects: HallProject[] }) {
       st.kill();
       io.disconnect();
     };
-  }, [mode]);
+  }, [full]);
+
+  // Tabbing to a caption's link walks the hall to its card.
+  const walkTo = useCallback(
+    (k: number) => {
+      const spacer = spacers.current[k + 1];
+      if (!full || !spacer) return;
+      const rect = spacer.getBoundingClientRect();
+      scrollTo({ top: scrollY + rect.top + rect.height / 2 - innerHeight / 2 });
+    },
+    [full],
+  );
 
   const total = String(projects.length).padStart(2, "0");
+  const phase = active === -1 ? "intro" : active >= projects.length ? "end" : "card";
 
   return (
     <section ref={section} className={styles.hall} data-mode={mode ?? "pending"} aria-labelledby="work-title">
-      <div className={styles.hallStage} aria-hidden="true">
-        {mode === "full" && mounted && (
-          <HallCanvas images={images} progress={progress} root={section} active={near} />
-        )}
+      <div className={styles.hallStage} data-phase={phase}>
+        <div className={styles.hallCanvas} aria-hidden="true">
+          {full && mounted && (
+            <HallCanvas images={images} progress={progress} root={section} active={near} onActive={setActive} />
+          )}
+        </div>
+
+        <div className={styles.hallIntro}>
+          <p className={styles.hallKicker}>Work</p>
+          <h2 id="work-title" className={styles.hallTitle}>
+            Selected work
+          </h2>
+        </div>
+
+        <ol className={styles.hallList}>
+          {projects.map((p, k) => (
+            <li
+              key={p.id}
+              className={styles.hallStep}
+              data-side={k % 2 === 0 ? "left" : "right"}
+              data-on={active === k}
+            >
+              <div className={styles.hallCaption}>
+                <p className={styles.hallKicker}>
+                  No. {String(k + 1).padStart(2, "0")} / {total} · {p.tag}
+                </p>
+                <h3 className={styles.hallName}>{p.title}</h3>
+                <p className={styles.hallSub}>{p.sub}</p>
+                <Link className={styles.hallLink} href={`/cases/${p.id}`} onFocus={() => walkTo(k)}>
+                  Open the case <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element -- quiet world and no-JS only; the full world draws it in WebGL */}
+              <img className={styles.hallImage} src={p.image} alt={`${p.title}, screenshot`} loading="lazy" />
+            </li>
+          ))}
+        </ol>
       </div>
 
-      <div className={styles.hallIntro}>
-        <p className={styles.hallKicker}>Work</p>
-        <h2 id="work-title" className={styles.hallTitle}>
-          Selected work
-        </h2>
-      </div>
-
-      <ol className={styles.hallList}>
-        {projects.map((p, k) => (
-          <li key={p.id} className={styles.hallStep} data-side={k % 2 === 0 ? "left" : "right"}>
-            <div className={styles.hallCaption}>
-              <p className={styles.hallKicker}>
-                No. {String(k + 1).padStart(2, "0")} / {total} · {p.tag}
-              </p>
-              <h3 className={styles.hallName}>{p.title}</h3>
-              <p className={styles.hallSub}>{p.sub}</p>
-              <Link className={styles.hallLink} href={`/cases/${p.id}`}>
-                Open the case <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-            {/* eslint-disable-next-line @next/next/no-img-element -- quiet world and no-JS only; the full world draws it in WebGL */}
-            <img className={styles.hallImage} src={p.image} alt={`${p.title}, screenshot`} loading="lazy" />
-          </li>
-        ))}
-      </ol>
-
-      <div className={styles.hallEnd} aria-hidden="true" />
+      {/* Scroll distance only: the intro, one room per project, the way out. */}
+      {Array.from({ length: projects.length + 2 }, (_, i) => (
+        <div
+          key={i}
+          ref={(el) => {
+            spacers.current[i] = el;
+          }}
+          className={`${styles.hallSpacer} ${i === 0 ? styles.hallSpacerFirst : ""}`}
+          aria-hidden="true"
+        />
+      ))}
     </section>
   );
 }

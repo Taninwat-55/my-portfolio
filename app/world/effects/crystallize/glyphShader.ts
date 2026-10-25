@@ -117,12 +117,13 @@ export function coverScale(boxAspect: number, imageAspect: number) {
 }
 
 /**
- * A project screenshot as a texture, through Next's image optimizer so a
- * 2,900px original arrives resized. width must be one of Next's default
- * deviceSizes (640, 750, 828, 1080, 1200, 1920, 2048, 3840) or it 400s.
+ * A project screenshot as a texture, from the 1280px copy in public/world/
+ * (npm run textures) rather than the 2,900px original: small, static, and
+ * ready on the first request, where resizing on the fly left the cards
+ * empty for seconds. "/assets/trailr/x.webp" loads "/world/trailr/x.webp".
  */
-export function loadImage(src: string, width: 1080 | 1200 | 1920 = 1920) {
-  const url = `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=75`;
+export function loadImage(src: string) {
+  const url = src.replace(/^\/assets\//, "/world/");
   return new Promise<THREE.Texture>((resolve, reject) => {
     new THREE.TextureLoader().load(
       url,

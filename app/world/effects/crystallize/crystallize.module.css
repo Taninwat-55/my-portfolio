@@ -200,7 +200,8 @@
   padding: calc(var(--unit) * 12) var(--margin);
 }
 
-.hallStage {
+.hallCanvas,
+.hallSpacer {
   display: none;
 }
 
@@ -274,47 +275,73 @@
   border: 1px solid var(--line);
 }
 
-/* Full world: a sticky 3D stage, and each step one screen tall over it. */
+/*
+ * Full world: one sticky screen holds the 3D hall and every caption; the
+ * spacers below it are only scroll distance. Captions follow the camera,
+ * not the scroll: the one whose card is in front of you shows, the rest
+ * wait invisible (still in the page, so a keyboard can reach them, and
+ * focusing one walks the hall to its card).
+ */
 :global(html[data-world-js]) .hall:not([data-mode="quiet"]) {
   padding: 0;
 }
 
 :global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallStage {
-  display: block;
   position: sticky;
   top: 0;
   height: 100vh;
   height: 100svh;
+  overflow: hidden;
   background: var(--bg);
 }
 
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallCanvas {
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
 :global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallIntro {
-  position: relative;
-  display: grid;
-  align-content: center;
-  height: 150vh;
-  height: 150svh;
-  margin: -100vh 0 0;
-  margin-top: -100svh;
-  padding: 0 var(--margin);
+  position: absolute;
+  top: 50%;
+  left: var(--margin);
+  margin: 0;
+  transform: translateY(-50%);
+  transition: opacity var(--dur-reveal) var(--ease-reveal);
+}
+
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallStage:not([data-phase="intro"]) .hallIntro {
+  opacity: 0;
 }
 
 :global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallList {
-  position: relative;
+  position: absolute;
+  inset: 0;
   display: block;
+  pointer-events: none;
 }
 
 :global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallStep {
-  display: flex;
-  align-items: flex-end;
-  /* A screen and a half per room: slower, so each card has time to land. */
-  height: 150vh;
-  height: 150svh;
-  padding: 0 var(--margin) calc(var(--unit) * 6);
+  position: absolute;
+  bottom: calc(var(--unit) * 6);
+  left: var(--margin);
+  display: block;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity var(--dur-reveal) var(--ease-reveal),
+    transform var(--dur-reveal) var(--ease-reveal);
 }
 
 :global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallStep[data-side="right"] {
-  justify-content: flex-end;
+  right: var(--margin);
+  left: auto;
+}
+
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallStep[data-on="true"] {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
 }
 
 :global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallCaption {
@@ -326,7 +353,14 @@
   display: none;
 }
 
-:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallEnd {
+/* A screen and a half of scroll per room; the first sits under the stage. */
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallSpacer {
+  display: block;
   height: 150vh;
   height: 150svh;
+}
+
+:global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallSpacerFirst {
+  margin-top: -100vh;
+  margin-top: -100svh;
 }
