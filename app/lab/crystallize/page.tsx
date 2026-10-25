@@ -18,8 +18,8 @@ import styles from "./lab.module.css";
  * The site overhaul's prototype: the signature moments, to judge in the
  * browser before anything else is built. Unlinked and noindex.
  *
- * Hero (name, one line of who and where, the work cycling in glyphs at its
- * true shape) → statement → door →
+ * Hero ("Ice, full-stack engineer." with the full name as byline, one line
+ * of what he does, two doors, the work cycling in glyphs) → statement → door →
  * the glyph hall (the work) → close.
  *
  * Posters are the projects' real screenshots until the clips exist (Ice,
@@ -42,12 +42,8 @@ const lead = ["trailr", "bevisly", "mockmate", "racha", "lumina"].flatMap((id) =
 const slides = lead.map((c) => ({ src: c.images[0], title: c.title }));
 const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c.tag, image: c.images[0] }));
 
-// The role leads the dek line, so it isn't repeated here.
-const FACTS = [
-  "React · Next.js · TypeScript · PostgreSQL",
-  "Interface to database",
-  "Websites for small businesses",
-];
+// DRAFT: the hero's one line of what he does, for Ice to rewrite.
+const DEK = "I design and build web products, from the interface to the database.";
 
 export default function CrystallizeLab() {
   return (
@@ -61,19 +57,30 @@ export default function CrystallizeLab() {
           <GridLines />
 
           <section className={styles.hero} aria-label="Introduction">
-            <Scramble as="h1" className={styles.name} text={personalInfo.name} trigger="loader" />
+            <p className={styles.where}>Copenhagen, Denmark</p>
 
-            <p className={styles.dek}>
-              {siteContent.roleLabel} in Copenhagen. Open to full-time roles, and taking on client
-              projects.{" "}
-              <Link href="/engineer">Hire me →</Link>
-            </p>
+            {/* Ice and the role at one size: the name people can remember and
+                what he does, read as one phrase. The full name stays in the
+                heading as a byline, for recruiters matching a CV and for
+                search. */}
+            <h1 className={styles.headline}>
+              <span className={styles.byline}>{personalInfo.name}</span>
+              <Scramble as="span" className={`${styles.line} ${styles.lineName}`} text={`${personalInfo.nickname},`} trigger="loader" />
+              <Scramble as="span" className={styles.line} text={`${siteContent.roleLabel.toLowerCase()}.`} trigger="loader" />
+            </h1>
 
-            <ul className={styles.facts}>
-              {FACTS.map((f) => (
-                <li key={f}>{f}</li>
-              ))}
-            </ul>
+            <div className={styles.intro}>
+              <p className={styles.dek}>{DEK}</p>
+              <p className={styles.status}>Open to full-time roles and client projects</p>
+              <div className={styles.ctas}>
+                <Link className={styles.ctaPrimary} href="/engineer">
+                  Hire me <span aria-hidden="true">→</span>
+                </Link>
+                <Link className={styles.ctaSecondary} href="/services">
+                  Build my website <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </div>
 
             <Reveal className={styles.band} slides={slides} trigger="hero" wide />
           </section>
