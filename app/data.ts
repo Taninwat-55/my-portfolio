@@ -1693,6 +1693,22 @@ export const contactPage = {
   },
 };
 
+// ─── WORK AND SHOWROOM ────────────────────────────────────────────────────────
+// /work lists every case; /showroom only the priced concept sites. Moved out
+// of stackContent on 2026-10-25, when both pages joined the world.
+export const workPage = {
+  lead: "Every project with a case page: what it is, what I did and how it was built.",
+  leadGroup: "Selected work",
+  restGroup: "Also",
+};
+
+export const showroomPage = {
+  lead: "Sample sites for made-up businesses, each showing what you would get and what a site like it costs. I price a site by what it needs, never by its style, so two sites that look nothing alike can cost the same. Open one to see what is included.",
+  concept: "Concept, no client",
+  more: "I add a new sample site every week or two. The next one is a restaurant in an editorial, print-inspired style.",
+  prices: "All prices and add-ons",
+};
+
 // ─── WHAT SURVIVES OF THE CLOCK ──────────────────────────────────────────────
 // The clock homepage ran 2026-10-04 to 2026-10-18; the stack replaced it. Two
 // of its strings are still read elsewhere: the availability line (the share
