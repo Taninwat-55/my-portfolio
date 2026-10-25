@@ -18,8 +18,8 @@ import styles from "./lab.module.css";
  * The site overhaul's prototype: the signature moments, to judge in the
  * browser before anything else is built. Unlinked and noindex.
  *
- * Hero ("Ice, full-stack engineer." with the full name as byline, one line
- * of what he does, two doors, the work cycling in glyphs) → statement → door →
+ * Hero (the name with (Ice), the two roles below it, one line of what he
+ * does, two doors, the work cycling in glyphs) → statement → door →
  * the glyph hall (the work) → close.
  *
  * Posters are the projects' real screenshots until the clips exist (Ice,
@@ -59,18 +59,19 @@ export default function CrystallizeLab() {
           <section className={styles.hero} aria-label="Introduction">
             <p className={styles.where}>Copenhagen, Denmark</p>
 
-            {/* Ice and the roles at one size: the name people can remember and
-                what he does, read as one phrase. The full name stays in the
-                heading as a byline, for recruiters matching a CV and for
-                search. */}
+            {/* Who on one row, what on the next (Ice, 2026-10-25): the full name
+                for recruiters and search, (Ice) for remembering, the roles at
+                the same size below. roleLabel stays "Full-stack Engineer" for
+                the CV, metadata and search. */}
             <h1 className={styles.headline}>
-              <span className={styles.byline}>{personalInfo.name}</span>
-              <Scramble as="span" className={`${styles.line} ${styles.lineName}`} text={`${personalInfo.nickname},`} trigger="loader" />
-              <Scramble as="span" className={styles.line} text={`${siteContent.roleLabel.toLowerCase()},`} trigger="loader" />
-              {/* Ice, 2026-10-25: both roles, at the same size. roleLabel stays
-                  "Full-stack Engineer" for the CV, metadata and search. */}
-              <Scramble as="span" className={styles.line} text="creative developer." trigger="loader" />
+              <Scramble as="span" className={styles.line} text={personalInfo.name} trigger="loader" />{" "}
+              <Scramble as="span" className={`${styles.line} ${styles.lineName}`} text={`(${personalInfo.nickname})`} trigger="loader" />
             </h1>
+
+            <p className={styles.roles}>
+              <Scramble as="span" className={styles.line} text={siteContent.roleLabel} trigger="loader" />
+              <Scramble as="span" className={styles.line} text="Creative Developer" trigger="loader" />
+            </p>
 
             <div className={styles.intro}>
               <p className={styles.dek}>{DEK}</p>

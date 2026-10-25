@@ -40,10 +40,9 @@
 
 /* ─── Hero ───────────────────────────────────────────────────────────────── */
 
-/* Who and what in one phrase ("Ice, full-stack engineer."), name and role at
-   one size; the full name as a byline; where, as its own small label. Then
-   one line of what he does, availability, two doors, and the work beside
-   them. No status bar: Ice found a strip of small info cells read as a
+/* Who on one row (the full name and (Ice)), what on the rows below (both
+   roles, at the same size); where, as a small label above. Then one line of
+   what he does, availability, two doors, and the work beside them. No status bar: Ice found a strip of small info cells read as a
    dashboard (and as the reference's skeleton), 2026-10-25. */
 .hero {
   position: relative;
@@ -77,14 +76,14 @@
   font-weight: 400;
 }
 
-.byline {
-  display: block;
-  margin-bottom: calc(var(--unit) * 2);
-  font-family: var(--world-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
+.headline .line {
+  display: inline;
+}
+
+.roles {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  margin: calc(var(--unit) * 1.5) 0 0;
 }
 
 .line {
@@ -95,7 +94,7 @@
   letter-spacing: -0.025em;
 }
 
-/* The name in italic, so "Ice" reads as a name and not the word. */
+/* (Ice) in italic, so it reads as the name he goes by. */
 .lineName {
   font-style: italic;
 }
@@ -178,37 +177,34 @@
   margin-top: calc(var(--unit) * 5);
 }
 
-/* Desktop: two columns that both start at the top. Left: the headline,
-   then the line and the doors right under it. Right: where, then the work
-   monitor beside the headline. Stacking the monitor below the headline left
-   a hole on each side (Ice, 2026-10-25). */
+/* Desktop: the name runs across the top on its own row. Under it, two
+   columns that start together: the roles, the line and the doors on the
+   left; the work monitor on the right. */
 @media (min-width: 900px) {
   .hero {
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto auto auto;
   }
 
   .where {
-    grid-column: 7 / -1;
-    grid-row: 1;
-    justify-self: end;
-    margin: 0;
+    grid-column: 1 / -1;
+    margin-bottom: calc(var(--unit) * 2);
   }
 
-  .headline {
+  .roles {
     grid-column: 1 / span 6;
-    grid-row: 1 / span 2;
+    grid-row: 3;
   }
 
   .intro {
     grid-column: 1 / span 5;
-    grid-row: 3;
+    grid-row: 4;
     align-self: start;
     margin-top: calc(var(--unit) * 5);
   }
 
   .band {
     grid-column: 7 / -1;
-    grid-row: 2 / span 2;
+    grid-row: 3 / span 2;
     align-self: start;
     margin-top: calc(var(--unit) * 3);
   }
