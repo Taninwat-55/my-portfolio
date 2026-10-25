@@ -1,0 +1,377 @@
+/* A case page in the Crystallize world. Reads the world's tokens only; the
+   shell (colours, links, nav, footer) is app/world/world.module.css. Link
+   styles here use two-part selectors to outrank the shell's `.world a`. */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gutter);
+  padding-inline: var(--margin);
+}
+
+/* Small mono voice: kicker, fact names, section labels. */
+.kicker,
+.label,
+.facts dt,
+.metrics dt,
+.priceSub {
+  margin: 0;
+  font-family: var(--world-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── Head ───────────────────────────────────────────────────────────────── */
+
+/* The drawn grid runs behind the head only: the story is for reading, and
+   hairlines under long text would get in the way. */
+.head {
+  composes: grid;
+  position: relative;
+  padding-top: calc(var(--unit) * 3);
+  padding-bottom: calc(var(--unit) * 8);
+}
+
+.head > :not(:first-child) {
+  position: relative;
+  z-index: 1;
+}
+
+.nav {
+  grid-column: 1 / -1;
+  margin-bottom: calc(var(--unit) * 12);
+}
+
+.kicker {
+  grid-column: 1 / -1;
+  margin-bottom: calc(var(--unit) * 2);
+}
+
+.kicker a {
+  text-decoration: none;
+}
+
+.title {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: clamp(56px, 11vw, 168px);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+}
+
+.sub {
+  grid-column: 1 / -1;
+  max-width: 34ch;
+  margin: calc(var(--unit) * 3) 0 0;
+  font-family: var(--world-display);
+  font-size: clamp(22px, 2.4vw, 32px);
+  line-height: 1.2;
+}
+
+.concept {
+  grid-column: 1 / -1;
+  margin: calc(var(--unit) * 2) 0 0;
+  font-family: var(--world-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+
+.side {
+  grid-column: 1 / -1;
+  margin-top: calc(var(--unit) * 5);
+}
+
+.facts {
+  display: grid;
+  gap: calc(var(--unit) * 2);
+  margin: 0;
+}
+
+.facts div {
+  display: grid;
+  gap: 4px;
+  padding-top: var(--unit);
+  border-top: 1px solid var(--line);
+}
+
+.facts dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--unit) * 1.5);
+  margin: calc(var(--unit) * 3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.links li a {
+  display: inline-flex;
+  gap: var(--unit);
+  padding: 12px 18px;
+  border: 1px solid var(--fg);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color var(--dur-ui) var(--ease-reveal),
+    color var(--dur-ui) var(--ease-reveal),
+    border-color var(--dur-ui) var(--ease-reveal);
+}
+
+.links li:first-child a {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.links li a:hover,
+.links li:first-child a:hover {
+  border-color: var(--signal);
+  background: var(--signal);
+  color: var(--bg);
+}
+
+.media {
+  grid-column: 1 / -1;
+  margin-top: calc(var(--unit) * 8);
+}
+
+@media (min-width: 900px) {
+  .title {
+    grid-column: 1 / span 8;
+  }
+
+  .sub {
+    grid-column: 1 / span 7;
+  }
+
+  .concept {
+    grid-column: 1 / span 7;
+  }
+
+  /* The facts sit beside the title, ending at the right margin. */
+  .side {
+    grid-column: 9 / -1;
+    grid-row: 3 / span 3;
+    align-self: end;
+    margin-top: 0;
+  }
+}
+
+/* ─── Numbers ────────────────────────────────────────────────────────────── */
+
+.metrics {
+  composes: grid;
+  row-gap: calc(var(--unit) * 4);
+  margin: 0;
+  padding-top: calc(var(--unit) * 4);
+  padding-bottom: calc(var(--unit) * 12);
+}
+
+/* The label is first in the markup (read as "label, value") and shown under
+   the figure. */
+.metrics div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: var(--unit);
+  grid-column: span 2;
+}
+
+.metrics dd {
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: clamp(32px, 3.6vw, 52px);
+  line-height: 1;
+}
+
+@media (min-width: 900px) {
+  .metrics div {
+    grid-column: span 4;
+  }
+}
+
+/* ─── Price (Showroom concepts) ──────────────────────────────────────────── */
+
+.price {
+  composes: grid;
+  row-gap: calc(var(--unit) * 3);
+  padding-bottom: calc(var(--unit) * 12);
+}
+
+.price > h2 {
+  grid-column: 1 / -1;
+  padding-top: var(--unit);
+  border-top: 1px solid var(--line);
+}
+
+.priceBody {
+  display: grid;
+  gap: calc(var(--unit) * 5);
+  grid-column: 1 / -1;
+}
+
+.gets {
+  margin: calc(var(--unit) * 1.5) 0 0;
+  padding-left: 1.1em;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.gets li + li {
+  margin-top: var(--unit);
+}
+
+.receipt {
+  margin: 0;
+  font-size: 15px;
+}
+
+.receipt div {
+  display: flex;
+  justify-content: space-between;
+  gap: calc(var(--unit) * 2);
+  padding: var(--unit) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.receipt dd {
+  margin: 0;
+  font-family: var(--world-mono);
+  white-space: nowrap;
+}
+
+.total {
+  margin: calc(var(--unit) * 2) 0 0;
+  font-family: var(--world-display);
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.1;
+}
+
+.founding {
+  margin: var(--unit) 0 0;
+  font-family: var(--world-mono);
+  font-size: 13px;
+  color: var(--signal);
+}
+
+.terms {
+  margin: calc(var(--unit) * 1.5) 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.price .button {
+  display: inline-flex;
+  gap: var(--unit);
+  margin-top: calc(var(--unit) * 3);
+  padding: 14px 20px;
+  border: 1px solid var(--fg);
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color var(--dur-ui) var(--ease-reveal),
+    border-color var(--dur-ui) var(--ease-reveal);
+}
+
+.price .button:hover {
+  color: var(--bg);
+  border-color: var(--signal);
+  background: var(--signal);
+}
+
+@media (min-width: 900px) {
+  /* Label left, body beside it, like the story's chapters. */
+  .price > h2 {
+    grid-column: 1 / span 3;
+  }
+
+  .priceBody {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gutter);
+    grid-column: 4 / span 8;
+  }
+}
+
+/* ─── Story ──────────────────────────────────────────────────────────────── */
+
+.story {
+  padding-bottom: calc(var(--unit) * 12);
+}
+
+.chapter {
+  composes: grid;
+  row-gap: calc(var(--unit) * 1.5);
+  padding-bottom: calc(var(--unit) * 8);
+}
+
+.chapter > h2 {
+  grid-column: 1 / -1;
+  padding-top: var(--unit);
+  border-top: 1px solid var(--line);
+}
+
+.body {
+  grid-column: 1 / -1;
+  max-width: 64ch;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+@media (min-width: 900px) {
+  .chapter > h2 {
+    grid-column: 1 / span 3;
+  }
+
+  .body {
+    grid-column: 4 / span 7;
+    padding-top: var(--unit);
+  }
+}
+
+/* ─── Next ───────────────────────────────────────────────────────────────── */
+
+.next {
+  composes: grid;
+  row-gap: calc(var(--unit) * 1.5);
+  padding-top: calc(var(--unit) * 10);
+  padding-bottom: calc(var(--unit) * 16);
+  border-top: 1px solid var(--line);
+}
+
+.next > * {
+  grid-column: 1 / -1;
+}
+
+.next .nextLink {
+  justify-self: start;
+  font-family: var(--world-display);
+  font-size: clamp(48px, 8vw, 120px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.nextSub {
+  max-width: 48ch;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+}

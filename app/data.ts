@@ -373,6 +373,13 @@ export interface CaseStudy {
    * backend, "full-stack" (2026-10-18).
    */
   scope: string;
+  /**
+   * The case page's facts (2026-10-25). Taken from cvData where the CV has
+   * the project, so the two never disagree; left out where nothing confirmed
+   * it, and the page shows only what is set.
+   */
+  role?: string;
+  year?: string;
   title: string;
   sub: string;
   images: string[];
@@ -409,6 +416,8 @@ export const cases: CaseStudy[] = [
     n: "01",
     tag: "Management",
     scope: "Not a software project: operations and people leadership at a volunteer consulting organization.",
+    role: "Operations Assistant → Operations Manager → Head of Organization (volunteer)",
+    year: "2023 – 2025",
     title: "Millennial Consulting",
     sub: "Coordinating a 25+ consultant student consultancy across simultaneous client projects.",
     images: [
@@ -449,6 +458,8 @@ export const cases: CaseStudy[] = [
     n: "02",
     tag: "Product",
     scope: "Frontend and product work on an existing platform. Ice owned the UI/UX redesign and the React frontend; the backend belongs to the team and was not his.",
+    role: "Frontend Developer (intern → part-time)",
+    year: "2025 – now",
     title: "Trailr AI",
     sub: "Leading a platform redesign at an early-stage AI video startup.",
     images: [
@@ -482,6 +493,8 @@ export const cases: CaseStudy[] = [
     n: "03",
     tag: "Full-Stack",
     scope: "Full-stack: a React frontend on Supabase (Postgres with row-level security, auth and storage).",
+    role: "Personal project, built solo",
+    year: "2025 – now",
     title: "Bevisly",
     sub: "Turn skill claims into structured, verifiable proof.",
     images: [
@@ -512,6 +525,8 @@ export const cases: CaseStudy[] = [
     n: "04",
     tag: "Full-Stack",
     scope: "Full-stack: a Next.js app with a Prisma-backed database and a server-side AI grading pipeline.",
+    role: "Personal project",
+    year: "2026 – now",
     title: "MockMate",
     sub: "Paste a job description. Get a tailored interview. Get graded like a hiring panel would.",
     images: [
@@ -697,6 +712,13 @@ export const cases: CaseStudy[] = [
     },
   },
 ];
+
+/**
+ * The work in the order the homepage's hall shows it, and the order case
+ * pages hand on to the next one. Saep stays out until its redesign;
+ * Millennial has no screens to show. Both still have case pages.
+ */
+export const leadCaseIds = ["trailr", "bevisly", "mockmate", "racha", "lumina"];
 
 // ─── SERVICES ─────────────────────────────────────────────────────────────────
 // The /services page speaks to a different visitor than the homepage does: a

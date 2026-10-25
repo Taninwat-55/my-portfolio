@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { cases, personalInfo, siteContent } from "@/app/data";
+import { cases, leadCaseIds, personalInfo, siteContent } from "@/app/data";
 import { GridLines } from "@/app/world/GridLines";
 import { SmoothScroll } from "@/app/world/SmoothScroll";
-import { ThemeToggle } from "@/app/world/ThemeToggle";
-import { WorldBoot } from "@/app/world/WorldBoot";
+import { WorldFooter } from "@/app/world/WorldFooter";
+import { WorldNav } from "@/app/world/WorldNav";
+import { WorldShell } from "@/app/world/WorldShell";
 import { Door } from "@/app/world/effects/crystallize/Door";
 import { Hall } from "@/app/world/effects/crystallize/Hall";
 import { Loader } from "@/app/world/effects/crystallize/Loader";
 import { Reveal } from "@/app/world/effects/crystallize/Reveal";
 import { Scramble } from "@/app/world/effects/crystallize/Scramble";
-import { SkipLink } from "@/app/components/SkipLink";
-import { worldFontVariables } from "@/app/world/fonts";
-import "@/app/world/tokens/crystallize.css";
 import styles from "./home.module.css";
 
 /**
@@ -40,8 +38,7 @@ export const metadata: Metadata = {
 const STATEMENT =
   "Most of building good software is judgment: what is worth building, what to cut, and how it should feel when it is done.";
 
-// Saep stays out until its redesign; Millennial has no screens to show.
-const lead = ["trailr", "bevisly", "mockmate", "racha", "lumina"].flatMap((id) =>
+const lead = leadCaseIds.flatMap((id) =>
   cases.filter((c) => c.id === id),
 );
 const slides = lead.map((c) => ({ src: c.images[0], title: c.title }));
@@ -50,11 +47,7 @@ const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c
 
 export default function Home() {
   return (
-    // suppressHydrationWarning: WorldBoot may set data-tone="ink" (a saved
-    // dark theme) on this element before React hydrates it.
-    <div data-world="crystallize" className={`${worldFontVariables} ${styles.world}`} suppressHydrationWarning>
-      <SkipLink />
-      <WorldBoot />
+    <WorldShell>
       <Loader />
       <SmoothScroll />
 
@@ -63,24 +56,7 @@ export default function Home() {
           <GridLines />
 
           <section className={styles.hero} aria-label="Introduction">
-            {/* Plain links in the page, not sticky: once past the hero they're
-                gone, and the work has the screen. */}
-            <nav className={styles.nav} aria-label="Main">
-              <div className={styles.navLinks}>
-                <a href="#work-title">Work</a>
-                <Link href="/engineer">About</Link>
-                <a href={`mailto:${personalInfo.email}`}>Contact</a>
-              </div>
-              <div className={styles.navLinks}>
-                <a href={personalInfo.socials.linkedin} rel="me noopener" target="_blank">
-                  LinkedIn
-                </a>
-                <a href={personalInfo.socials.github} rel="me noopener" target="_blank">
-                  GitHub
-                </a>
-                <ThemeToggle className={styles.themeToggle} />
-              </div>
-            </nav>
+            <WorldNav workHref="#work-title" className={styles.heroNav} />
 
             {/* Ice, 2026-10-25: no explanatory line under the roles; they say
                 what he does. What and where live in this one quiet label.
@@ -141,15 +117,9 @@ export default function Home() {
             </ul>
           </section>
 
-          <footer className={styles.footer}>
-            <a href={`mailto:${personalInfo.email}`}>{personalInfo.email}</a>
-            <span>{personalInfo.location}</span>
-            <span>
-              {personalInfo.business.name} · CVR {personalInfo.business.cvr}
-            </span>
-          </footer>
+          <WorldFooter />
         </div>
       </main>
-    </div>
+    </WorldShell>
   );
 }
