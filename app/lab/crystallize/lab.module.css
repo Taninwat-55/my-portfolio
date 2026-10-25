@@ -311,6 +311,11 @@
   font-size: 12px;
 }
 
+.controlRow {
+  display: flex;
+  gap: 8px;
+}
+
 .controls button {
   padding: 6px 10px;
   border: 1px solid var(--fg);

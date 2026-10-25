@@ -18,10 +18,9 @@ type Props = {
 
 const CARD_W = 3.4;
 const CARD_H = CARD_W / 1.6;
-const LETTERS = "ICE";
 
-/** A letter made of characters: the mask decides where glyphs live. */
-const letterFragment = /* glsl */ `
+/** A shape made of characters: the mask decides where glyphs live. */
+const maskFragment = /* glsl */ `
   uniform sampler2D uMask;
   uniform sampler2D uAtlas;
   uniform float uGlyphs;
@@ -45,23 +44,29 @@ const letterFragment = /* glsl */ `
   }
 `;
 
-/** One letter in the display face, white on black, as a mask texture. */
-function letterMask(char: string, fontFamily: string) {
+/**
+ * A room number ("01") in the display face, white on black, as a mask
+ * texture. Returns the texture and its aspect, so the plane can match it.
+ */
+function numeralMask(text: string, fontFamily: string) {
+  const height = 640;
   const canvas = document.createElement("canvas");
-  canvas.width = 512;
-  canvas.height = 640;
   const ctx = canvas.getContext("2d")!;
+  const font = `560px ${fontFamily}`;
+  ctx.font = font;
+  canvas.width = Math.ceil(ctx.measureText(text).width + 80);
+  canvas.height = height;
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#fff";
-  ctx.font = `620px ${fontFamily}`;
+  ctx.font = font;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText(char, 256, 340);
+  ctx.fillText(text, canvas.width / 2, height / 2 + 20);
   const t = new THREE.CanvasTexture(canvas);
   t.minFilter = THREE.LinearFilter;
   t.generateMipmaps = false;
-  return t;
+  return { texture: t, aspect: canvas.width / height };
 }
 
 // Deterministic scatter, so the hall is the same hall on every visit.
@@ -120,34 +125,38 @@ function Hall({ images, progress, root }: Omit<Props, "active">) {
     [images, colours],
   );
 
-  // Letters: I, C, E in glyphs, scattered along the walls at varied depths.
-  const letters = useMemo(() => {
-    const count = Math.ceil(length / 3.2);
-    return Array.from({ length: count }, (_, i) => {
-      const material = new THREE.ShaderMaterial({
-        uniforms: {
-          uMask: { value: null as THREE.Texture | null },
-          uAtlas: { value: null as THREE.Texture | null },
-          uGlyphs: { value: RAMP.length },
-          uTime: { value: 0 },
-          uOpacity: { value: 1 },
-          uGrid: { value: new THREE.Vector2(26, 32) },
-          uColour: { value: rgb(colours.signal) },
-        },
-        vertexShader: sceneVertex,
-        fragmentShader: letterFragment,
-        transparent: true,
-        depthWrite: false,
-      });
-      const side = rand(i + 7) > 0.5 ? 1 : -1;
-      const height = 4 + rand(i + 3) * 3;
-      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(height * 0.8, height), material);
-      mesh.position.set(side * (3.4 + rand(i + 11) * 2.4), (rand(i + 5) - 0.5) * 3, -2 - i * 3.2);
-      mesh.rotation.y = -side * (0.35 + rand(i + 2) * 0.3);
-      mesh.userData.char = LETTERS[i % LETTERS.length];
-      return mesh;
-    });
-  }, [length, colours]);
+  // Room numbers: a giant 01, 02… in glyphs opposite each card, matching its
+  // caption ("No. 01 / 05"), so you always know which room you're in. They
+  // replaced decorative I, C, E letters, which Ice didn't take to
+  // (2026-10-25): the numbers do a job, the letters only branded.
+  const numerals = useMemo(
+    () =>
+      images.map((_, k) => {
+        const material = new THREE.ShaderMaterial({
+          uniforms: {
+            uMask: { value: null as THREE.Texture | null },
+            uAtlas: { value: null as THREE.Texture | null },
+            uGlyphs: { value: RAMP.length },
+            uTime: { value: 0 },
+            uOpacity: { value: 0 },
+            uGrid: { value: new THREE.Vector2(36, 26) },
+            uColour: { value: rgb(colours.signal) },
+          },
+          vertexShader: sceneVertex,
+          fragmentShader: maskFragment,
+          transparent: true,
+          depthWrite: false,
+        });
+        const side = k % 2 === 0 ? -1 : 1; // opposite the card
+        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material);
+        mesh.position.set(side * 3.3, 0.35, -(k + 1) * SPACING - 1.2);
+        mesh.rotation.y = -side * 0.45;
+        mesh.userData.side = side;
+        mesh.userData.text = String(k + 1).padStart(2, "0");
+        return mesh;
+      }),
+    [images, colours],
+  );
 
   // Rails: the door's corridor carries on through the hall.
   const rails = useMemo(() => {
@@ -167,7 +176,7 @@ function Hall({ images, progress, root }: Omit<Props, "active">) {
     );
   }, [length, colours]);
 
-  // Textures: the glyph atlas, three letter masks, every screenshot.
+  // Textures: the glyph atlas, the room numbers, every screenshot.
   useEffect(() => {
     const el = root.current;
     if (!el) return;
@@ -178,12 +187,14 @@ function Hall({ images, progress, root }: Omit<Props, "active">) {
       const style = getComputedStyle(el);
       const atlas = buildGlyphAtlas(style.getPropertyValue("--world-mono") || "monospace");
       const display = style.getPropertyValue("--world-display") || "serif";
-      const masks = Object.fromEntries(Array.from(LETTERS, (c) => [c, letterMask(c, display)]));
-      made.push(atlas, ...Object.values(masks));
-      letters.forEach((m) => {
+      made.push(atlas);
+      numerals.forEach((m) => {
+        const { texture, aspect } = numeralMask(m.userData.text as string, display);
+        made.push(texture);
         const u = (m.material as THREE.ShaderMaterial).uniforms;
         u.uAtlas.value = atlas;
-        u.uMask.value = masks[m.userData.char as string];
+        u.uMask.value = texture;
+        m.userData.aspect = aspect;
       });
       const shots = await Promise.all(images.map((src) => loadImage(src, 1200)));
       if (cancelled) {
@@ -202,7 +213,7 @@ function Hall({ images, progress, root }: Omit<Props, "active">) {
       cancelled = true;
       made.forEach((t) => t.dispose());
     };
-  }, [root, images, cards, letters]);
+  }, [root, images, cards, numerals]);
 
   useEffect(() => {
     const move = (e: PointerEvent) => {
@@ -214,21 +225,28 @@ function Hall({ images, progress, root }: Omit<Props, "active">) {
 
   useEffect(
     () => () => {
-      [...cards, ...letters].forEach((m) => {
+      [...cards, ...numerals].forEach((m) => {
         m.geometry.dispose();
         (m.material as THREE.Material).dispose();
       });
       rails.geometry.dispose();
       (rails.material as THREE.Material).dispose();
     },
-    [cards, letters, rails],
+    [cards, numerals, rails],
   );
 
-  useFrame(({ clock }) => {
+  // The camera eases toward where the scroll says it should be instead of
+  // snapping there: the glide is what makes the walk feel smooth.
+  const eased = useRef<number | null>(null);
+
+  useFrame(({ clock }, delta) => {
     // The DOM has an intro step, one step per card and a trailing step. Card
     // k's step centred in the viewport puts card k CARD_DISTANCE ahead; the
     // intro (steps = -1) starts a full spacing further back, in the glyphs.
-    const steps = progress.current.value * (images.length + 1) - 1;
+    const target = progress.current.value * (images.length + 1) - 1;
+    eased.current =
+      eased.current === null ? target : THREE.MathUtils.damp(eased.current, target, 3.2, Math.min(delta, 0.1));
+    const steps = eased.current;
     const z = -(steps + 1) * SPACING + CARD_DISTANCE;
     camera.position.set(pointer.current.x * 0.35, -pointer.current.y * 0.2, z);
     camera.lookAt(pointer.current.x * 0.1, 0, z - 10);
@@ -244,11 +262,14 @@ function Hall({ images, progress, root }: Omit<Props, "active">) {
       u.uTime.value = clock.elapsedTime;
       u.uOpacity.value = 1 - smooth(26, 32, d);
     });
-    letters.forEach((m) => {
+    numerals.forEach((m) => {
+      const height = 3.4 * Math.max(0.5, spread);
+      m.scale.set(height * ((m.userData.aspect as number) ?? 1), height, 1);
+      m.position.x = (m.userData.side as number) * 3.3 * Math.max(0.45, spread);
       const d = z - m.position.z;
       const u = (m.material as THREE.ShaderMaterial).uniforms;
       u.uTime.value = clock.elapsedTime;
-      u.uOpacity.value = (1 - smooth(20, 32, d)) * smooth(-1, 2, d) * 0.55;
+      u.uOpacity.value = m.userData.aspect ? (1 - smooth(18, 28, d)) * smooth(-1, 3, d) * 0.6 : 0;
     });
   });
 
@@ -257,7 +278,7 @@ function Hall({ images, progress, root }: Omit<Props, "active">) {
       <color attach="background" args={[colours.ink]} />
       <fog attach="fog" args={[colours.ink, 8, 34]} />
       <primitive object={rails} />
-      {letters.map((m) => (
+      {numerals.map((m) => (
         <primitive key={m.uuid} object={m} />
       ))}
       {cards.map((m) => (

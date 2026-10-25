@@ -13,6 +13,7 @@ import { Scramble } from "@/app/world/effects/crystallize/Scramble";
 import { worldFontVariables } from "@/app/world/fonts";
 import { LabControls } from "./LabControls";
 import "@/app/world/tokens/crystallize.css";
+import "@/app/world/tokens/nordic.css";
 import styles from "./lab.module.css";
 
 /**
@@ -48,7 +49,8 @@ const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c
 export default function CrystallizeLab() {
   return (
     // suppressHydrationWarning: WorldBoot may set data-tone="ink" (a saved
-    // dark theme) on this element before React hydrates it.
+    // dark theme) or data-world="nordic" (the lab's world switch) on this
+    // element before React hydrates it.
     <div data-world="crystallize" className={`${worldFontVariables} ${styles.world}`} suppressHydrationWarning>
       <WorldBoot />
       <Loader />

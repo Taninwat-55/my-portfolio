@@ -1,8 +1,73 @@
 /*
- * Nordic light: the planned alternative world (warm gold, low sun). A stub,
- * so the swap stays a real option rather than a promise. It must define every
- * variable crystallize.css defines; components read nothing else.
+ * Nordic light: the alternative world. Warm oat paper, warm ink, and a low
+ * gold sun for the accent where Crystallize has ice blue. Same type, motion
+ * and grid; only the light changes. It defines every variable
+ * crystallize.css defines, because components read nothing else.
+ *
+ * Contrast, checked 2026-10-25 (WCAG):
+ *   ink on paper 15.1:1
+ *   signal on paper (#8A5A12) 5.1:1, signal on ink (#E2B15A) 8.9:1: both AA
+ *   muted on paper (#6A6158) 5.2:1, muted on ink (#A39888) 6.2:1
+ *   lines are decoration (the grid), faint on purpose.
  */
 
 [data-world="nordic"] {
+  --paper: #f3eee4;
+  --ink: #1c1915;
+  --signal-on-paper: #8a5a12;
+  --signal-on-ink: #e2b15a;
+  --muted-on-paper: #6a6158;
+  --muted-on-ink: #a39888;
+  --line-on-paper: #dcd3c5;
+  --line-on-ink: #332e28;
+
+  --world-display: var(--font-instrument-serif), Georgia, serif;
+  --world-text: var(--font-geist), system-ui, sans-serif;
+  --world-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-scrub: linear;
+  --dur-ui: 200ms;
+  --dur-reveal: 600ms;
+  --dur-signature: 1200ms;
+
+  --unit: 8px;
+  --cols: 4;
+  --margin: calc(var(--unit) * 2);
+  --gutter: calc(var(--unit) * 2);
+}
+
+@media (min-width: 900px) {
+  [data-world="nordic"] {
+    --cols: 12;
+    --margin: calc(var(--unit) * 6);
+    --gutter: calc(var(--unit) * 3);
+  }
+}
+
+[data-world="nordic"],
+[data-world="nordic"] [data-tone="paper"] {
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --signal: var(--signal-on-paper);
+  --muted: var(--muted-on-paper);
+  --line: var(--line-on-paper);
+  color-scheme: light;
+}
+
+[data-world="nordic"] [data-tone="ink"],
+[data-world="nordic"][data-tone="ink"] {
+  --bg: var(--ink);
+  --fg: var(--paper);
+  --signal: var(--signal-on-ink);
+  --muted: var(--muted-on-ink);
+  --line: var(--line-on-ink);
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-world="nordic"] {
+    --dur-reveal: 200ms;
+    --dur-signature: 200ms;
+  }
 }
