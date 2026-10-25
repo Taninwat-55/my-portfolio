@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { stackContent } from "../../data";
-import { LangLinks } from "./LangLinks";
 import { Menu } from "./Menu";
 import styles from "./stack.module.css";
 
@@ -32,7 +31,6 @@ export function MenuBar() {
           </Menu>
         ))}
       </nav>
-      <LangLinks />
     </header>
   );
 }

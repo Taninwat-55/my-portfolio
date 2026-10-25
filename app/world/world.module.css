@@ -1,0 +1,124 @@
+/* Shared world pieces: the shell every world page sits in (WorldShell,
+   WorldNav, WorldFooter) and the drawn grid. */
+
+.world {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--world-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.world :focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.world a {
+  color: inherit;
+  text-underline-offset: 4px;
+}
+
+.world a:hover {
+  color: var(--signal);
+}
+
+/* A plain row of links: in the page, never sticky. */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--unit) calc(var(--unit) * 3);
+  font-family: var(--world-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.navLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--unit) * 3);
+}
+
+.world .nav a {
+  text-decoration: none;
+}
+
+/* 44px tall tap targets around 12px type (WCAG 2.5.5). */
+.navLinks > * {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.themeToggle {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.themeToggle[aria-pressed="true"],
+.themeToggle:hover {
+  color: var(--signal);
+}
+
+/* Who runs the business, as the Stack's colophon said it: the CVR belongs on
+   a site that sells. */
+.footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--unit) calc(var(--unit) * 4);
+  padding: calc(var(--unit) * 3) var(--margin) calc(var(--unit) * 4);
+  border-top: 1px solid var(--line);
+  font-family: var(--world-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* The drawn grid. */
+
+.grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gutter);
+  padding-inline: var(--margin);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grid span {
+  border-left: 1px solid var(--line);
+}
+
+.grid span:nth-child(n + 5) {
+  display: none;
+}
+
+.grid span:nth-child(4) {
+  border-right: 1px solid var(--line);
+}
+
+@media (min-width: 900px) {
+  .grid span:nth-child(n + 5) {
+    display: block;
+  }
+
+  .grid span:nth-child(4) {
+    border-right: 0;
+  }
+
+  .grid span:nth-child(12) {
+    border-right: 1px solid var(--line);
+  }
+}

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import StackLayout from "./(stack)/layout";
-import stack from "./components/stack/stack.module.css";
+import { GridLines } from "./world/GridLines";
+import { WorldFooter } from "./world/WorldFooter";
+import { WorldNav } from "./world/WorldNav";
+import { WorldShell } from "./world/WorldShell";
+import styles from "./not-found.module.css";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -9,36 +12,37 @@ export const metadata: Metadata = {
 };
 
 const ways = [
-  { href: "/work", label: "All cards" },
-  { href: "/garden", label: "Writing" },
-  { href: "/build", label: "Build mine" },
+  { href: "/", label: "Home" },
+  { href: "/#work-title", label: "Selected work" },
+  { href: "/engineer", label: "Hire me" },
+  { href: "/services", label: "Build my website" },
 ];
 
 /**
- * The 404 card. Next renders not-found at the root, outside the (stack)
- * route group, so it wraps itself in the stack layout to keep the menu bar,
- * nav bar and message box: a lost visitor lands in the same world, one click
- * from anything.
+ * The 404, in the Crystallize world since 2026-10-25. It used to wrap itself
+ * in the Stack layout, and because Next renders not-found under the root
+ * layout on every route, every page then shipped the Stack's fonts and CSS.
  */
 export default function NotFound() {
   return (
-    <StackLayout>
-      <div>
-        <h1 className={stack.title}>No such card</h1>
-        <p className={stack.lead}>
-          The link may be old, or the card has moved. Here is where most things are.
-        </p>
-        <div className={stack.buttons}>
-          <Link href="/" className={`${stack.btn} ${stack.btnDefault}`}>
-            Home card
-          </Link>
+    <WorldShell>
+      <main id="main-content" className={styles.page}>
+        <GridLines />
+        <WorldNav className={styles.nav} />
+        <p className={styles.kicker}>404</p>
+        <h1 className={styles.title}>Nothing here.</h1>
+        <p className={styles.lead}>The link may be old, or the page has moved. Here is where most things are.</p>
+        <ul className={styles.ways}>
           {ways.map((way) => (
-            <Link key={way.href} href={way.href} className={stack.btn}>
-              {way.label}
-            </Link>
+            <li key={way.href}>
+              <Link href={way.href}>
+                {way.label} <span aria-hidden="true">→</span>
+              </Link>
+            </li>
           ))}
-        </div>
-      </div>
-    </StackLayout>
+        </ul>
+      </main>
+      <WorldFooter />
+    </WorldShell>
   );
 }

@@ -37,50 +37,6 @@ export const enquiryInbox = personalInfo.email;
 // One searchable job title (roleLabel). whatIDo below is where the honest detail
 // about relative depth lives, rather than hedging every label.
 
-/**
- * The languages the site is published in.
- *
- * Extracted from siteContent rather than written inline because it needs a type
- * annotation: written as an inline literal, "en" (which has no `offer`) and the
- * others formed a union where the property existed on only some members, and
- * every read of it failed to compile.
- *
- * Two things derive from this array, so adding a language here is most of the
- * work of shipping one: the language links on the clock homepage (ClockHome),
- * and <LanguageOffer />.
- */
-type SiteLanguage = {
-  code: string;
-  label: string;
-  href: string;
-  /**
-   * What <LanguageOffer /> says to a visitor whose browser is set to this
-   * language, written IN that language — an English sentence is the one thing
-   * that particular reader may not parse. Absent for "en", which is never
-   * offered because it is the default; a language without one is skipped rather
-   * than offered in English.
-   */
-  offer?: string;
-};
-
-const SITE_LANGUAGES: readonly SiteLanguage[] = [
-  { code: "en", label: "English", href: "/" },
-  { code: "th", label: "ไทย", href: "/th", offer: "ดูหน้าภาษาไทย" },
-  // Endonym, like ไทย above, rather than "SV" — a chip that names the language in
-  // that language is legible to the person who needs it without their having to
-  // know the site's conventions.
-  { code: "sv", label: "Svenska", href: "/sv", offer: "Se sidan på svenska" },
-  // Added 2026-08-22 when item 28 passed. This single entry is what gives /da its
-  // nav chip and its browser-language banner, which is why it was the last thing
-  // to change rather than the first: while it was absent the page was genuinely
-  // unreachable, not merely unadvertised.
-  //
-  // (It was also the fourth chip in the old pill nav, SiteNav, whose breakpoint
-  // history is in PLAN.md and git. The clock homepage lists languages as plain
-  // links in its bottom row, which has room for more.)
-  { code: "da", label: "Dansk", href: "/da", offer: "Se siden på dansk" },
-];
-
 export const siteContent = {
   /**
    * The job title. Stays a job title on purpose: it feeds schema.org
@@ -111,18 +67,6 @@ export const siteContent = {
    * its description and Danish keywords, for the audience that searches for it.
    */
   roleLabel: "Full-stack Engineer",
-  /**
-   * Every language the site has a real page in.
-   *
-   * Append to this and both the nav chip and the browser-language offer pick the
-   * new page up — nothing else needs editing when /da ships.
-   *
-   * Exists because /th was unreachable: hreflang lets Google serve the Thai page
-   * to a Thai-language searcher, but a Thai visitor who landed on / had no signal
-   * it existed at all, which is exactly the person it was written for.
-   */
-  languages: SITE_LANGUAGES,
-
   // One general CV. Role-tailored versions get sent directly, not offered here —
   // a visitor picking between three versions is a visitor guessing at the identity.
   // Singular, not an array: there was only ever one entry, and both call sites
@@ -429,6 +373,14 @@ export interface CaseStudy {
    * backend, "full-stack" (2026-10-18).
    */
   scope: string;
+  /**
+   * The case page's facts (2026-10-25). Taken from cvData where the CV has
+   * the project, so the two never disagree; otherwise the year is when the
+   * project's GitHub repo was created (Racha 2025-06, Satoshi 2025-08, Lumina
+   * and Saep 2026-08). Optional: the page shows only what is set.
+   */
+  role?: string;
+  year?: string;
   title: string;
   sub: string;
   images: string[];
@@ -465,6 +417,8 @@ export const cases: CaseStudy[] = [
     n: "01",
     tag: "Management",
     scope: "Not a software project: operations and people leadership at a volunteer consulting organization.",
+    role: "Operations Assistant → Operations Manager → Head of Organization (volunteer)",
+    year: "2023 – 2025",
     title: "Millennial Consulting",
     sub: "Coordinating a 25+ consultant student consultancy across simultaneous client projects.",
     images: [
@@ -505,6 +459,8 @@ export const cases: CaseStudy[] = [
     n: "02",
     tag: "Product",
     scope: "Frontend and product work on an existing platform. Ice owned the UI/UX redesign and the React frontend; the backend belongs to the team and was not his.",
+    role: "Frontend Developer (intern → part-time)",
+    year: "2025 – now",
     title: "Trailr AI",
     sub: "Leading a platform redesign at an early-stage AI video startup.",
     images: [
@@ -538,6 +494,8 @@ export const cases: CaseStudy[] = [
     n: "03",
     tag: "Full-Stack",
     scope: "Full-stack: a React frontend on Supabase (Postgres with row-level security, auth and storage).",
+    role: "Personal project, built solo",
+    year: "2025 – now",
     title: "Bevisly",
     sub: "Turn skill claims into structured, verifiable proof.",
     images: [
@@ -568,6 +526,8 @@ export const cases: CaseStudy[] = [
     n: "04",
     tag: "Full-Stack",
     scope: "Full-stack: a Next.js app with a Prisma-backed database and a server-side AI grading pipeline.",
+    role: "Personal project",
+    year: "2026 – now",
     title: "MockMate",
     sub: "Paste a job description. Get a tailored interview. Get graded like a hiring panel would.",
     images: [
@@ -596,6 +556,8 @@ export const cases: CaseStudy[] = [
     n: "05",
     tag: "FinTech",
     scope: "Frontend only: a React dashboard that reads a live public price API. No backend of its own.",
+    role: "Personal project",
+    year: "2025",
     title: "Satoshi Standard",
     sub: "Live Bitcoin purchasing-power dashboard across every major currency.",
     images: [
@@ -632,6 +594,8 @@ export const cases: CaseStudy[] = [
     n: "07",
     tag: "Client Work",
     scope: "Frontend only: a static React site with no backend or database. The contact form posts to Web3Forms, a hosted form service.",
+    role: "Freelance, design and build for a paying client",
+    year: "2025",
     title: "Racha Beauty",
     sub: "A paying client's first website: 95+ Lighthouse, Danish-language, no maintenance budget.",
     images: [
@@ -674,6 +638,8 @@ export const cases: CaseStudy[] = [
     n: "08",
     tag: "Motion & Craft",
     scope: "Frontend only: a static HTML, CSS and JavaScript page with no backend, and a concept with no client.",
+    role: "Self-initiated concept",
+    year: "2026",
     title: "Lumina Spa",
     sub: "A self-initiated scroll-choreography piece: ten animated sections, no build step, 10.8 KB over the wire.",
     images: [
@@ -718,6 +684,8 @@ export const cases: CaseStudy[] = [
     n: "09",
     tag: "Motion & Craft",
     scope: "Frontend only: a static page built on the platform alone (canvas and CSS), no backend, and a concept with no client.",
+    role: "Self-initiated concept",
+    year: "2026",
     title: "Saep Fire Kitchen",
     sub: "A concept piece for an invented Thai restaurant: scroll-driven, every ingredient drawn in code, and no animation library underneath it.",
     images: [
@@ -753,6 +721,13 @@ export const cases: CaseStudy[] = [
     },
   },
 ];
+
+/**
+ * The work in the order the homepage's hall shows it, and the order case
+ * pages hand on to the next one. Saep stays out until its redesign;
+ * Millennial has no screens to show. Both still have case pages.
+ */
+export const leadCaseIds = ["trailr", "bevisly", "mockmate", "racha", "lumina"];
 
 // ─── SERVICES ─────────────────────────────────────────────────────────────────
 // The /services page speaks to a different visitor than the homepage does: a
@@ -1109,9 +1084,9 @@ export const services = {
       "Your site works but is slow, dated, or invisible on Google.",
       "You want one person who is accountable, not an agency with a project manager between you and the work.",
       "You want to own the result outright when it is finished.",
-      // The niche, stated on the English page too — a Thai owner who lands here
-      // first should find the Thai page rather than bounce.
-      "You run a Thai-owned business in Denmark or Sweden and would rather run the whole project in Thai: there is a page in Thai at /th.",
+      // The niche, stated in English since /th was dropped (2026-10-25): Ice
+      // still runs projects in Thai, there is just no Thai page to point to.
+      "You run a Thai-owned business in Denmark or Sweden and would rather run the whole project in Thai.",
     ],
     notFit: [
       "You need a native iOS or Android app.",
@@ -1692,11 +1667,10 @@ export const servicesEnquiryOptions = {
 // ─── WHAT SURVIVES OF THE CLOCK ──────────────────────────────────────────────
 // The clock homepage ran 2026-10-04 to 2026-10-18; the stack replaced it. Two
 // of its strings are still read elsewhere: the availability line (the share
-// card and the stack's Home card) and the label garden posts link back with.
+// card and the stack's Home card).
 
 export const clockContent = {
   availability: "Open to full-time roles in Copenhagen, and taking on client projects.",
-  writing: { title: "Writing" },
 } as const;
 
 // ─── FOUNDING CLIENTS AND THE SHOWROOM (2026-10-24) ──────────────────────────
@@ -1915,11 +1889,7 @@ export const stackContent = {
     pages: {
       "/work": "All cards",
       "/services": "Prices",
-      "/th": "ภาษาไทย",
-      "/sv": "Svenska",
-      "/da": "Dansk",
       "/cv": "CV",
-      "/garden": "Writing",
     } as Record<string, string>,
   },
   menus: [
@@ -1928,7 +1898,6 @@ export const stackContent = {
       items: [
         { label: "Home card", href: "/" },
         { label: "All cards", href: "/work" },
-        { label: "Writing", href: "/garden" },
       ],
     },
     {

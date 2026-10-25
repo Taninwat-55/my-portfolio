@@ -1,0 +1,241 @@
+/* The homepage's layout. Everything reads the world's tokens; the shell
+   (colours, links, nav, footer) is app/world/world.module.css. */
+
+.outside,
+.inside {
+  position: relative;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.kicker {
+  margin: 0 0 var(--unit);
+  font-family: var(--world-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
+
+/* A plain nav row (in the page, not sticky); where, as a small label; the
+   name small; the two roles large, filling the left half; then one line of
+   what he does, availability and two doors, with the work monitor beside.
+   No info-cell strip: Ice found one read as a dashboard (2026-10-25). */
+.hero {
+  position: relative;
+  z-index: 1;
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gutter);
+  /* One full screen, content centred in it: the statement starts below
+     the fold instead of peeking in half-scrambled (Ice, 2026-10-25). */
+  align-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  /* Top padding clears the nav, which sits absolutely at the top. */
+  padding: calc(var(--unit) * 10) var(--margin) calc(var(--unit) * 5);
+}
+
+/* The shared nav row, pinned to the top of the hero. */
+.heroNav {
+  position: absolute;
+  top: calc(var(--unit) * 3);
+  right: var(--margin);
+  left: var(--margin);
+}
+
+
+.where {
+  grid-column: 1 / -1;
+  margin: 0 0 calc(var(--unit) * 2);
+  font-family: var(--world-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.headline {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-weight: 400;
+}
+
+.name {
+  display: block;
+  margin-bottom: calc(var(--unit) * 1.5);
+  font-family: var(--world-display);
+  font-size: clamp(24px, 2.2vw, 34px);
+  line-height: 1.1;
+}
+
+/* Sized so the longer role, "Full-stack Engineer" (6.229 em in Instrument
+   Serif, measured), exactly fills its columns: the full width on a phone,
+   the left six columns on desktop, ending where the work monitor starts.
+   The hero is the container, so 1cqi is 1% of its content width W:
+     phone, 4 columns:   W            → 100cqi / 6.3 ≈ 15.8cqi
+     desktop, 6 of 12:   W/2 - 12px   → (50cqi - 12px) / 6.3
+   A vw size can't do this: the gutters are fixed pixels, so a size that fit
+   at 1400px overflowed at 1920. Rounded down a hair for safety. */
+.line {
+  display: block;
+  font-family: var(--world-display);
+  font-size: 15.8cqi;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+}
+
+.intro {
+  grid-column: 1 / -1;
+  margin-top: calc(var(--unit) * 4);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--unit);
+  margin: 0;
+  font-family: var(--world-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--signal);
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--unit) * 1.5);
+  margin-top: calc(var(--unit) * 2);
+}
+
+.ctas .ctaPrimary,
+.ctas .ctaSecondary {
+  display: inline-flex;
+  gap: var(--unit);
+  align-items: center;
+  padding: 14px 20px;
+  border: 1px solid var(--fg);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color var(--dur-ui) var(--ease-reveal),
+    color var(--dur-ui) var(--ease-reveal),
+    border-color var(--dur-ui) var(--ease-reveal);
+}
+
+.ctas .ctaPrimary {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.ctas .ctaSecondary {
+  background: transparent;
+  color: var(--fg);
+}
+
+.ctas .ctaPrimary:hover,
+.ctas .ctaSecondary:hover {
+  border-color: var(--signal);
+  background: var(--signal);
+  color: var(--bg);
+}
+
+.band {
+  grid-column: 1 / -1;
+  margin-top: calc(var(--unit) * 5);
+}
+
+/* Desktop: where and the heading on top; under the heading the line and
+   the doors; the work monitor beside the roles. */
+@media (min-width: 900px) {
+  .hero {
+    grid-template-rows: auto auto auto;
+  }
+
+  .line {
+    font-size: calc((50cqi - 12px) / 6.3);
+  }
+
+  .headline {
+    grid-column: 1 / span 6;
+    grid-row: 2;
+  }
+
+  .intro {
+    grid-column: 1 / span 5;
+    grid-row: 3;
+    margin-top: calc(var(--unit) * 5);
+  }
+
+  .band {
+    grid-column: 7 / -1;
+    grid-row: 2 / span 2;
+    align-self: center;
+    margin-top: 0;
+  }
+}
+
+/* ─── Statement ──────────────────────────────────────────────────────────── */
+
+.statement {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  column-gap: var(--gutter);
+  padding: calc(var(--unit) * 20) var(--margin) calc(var(--unit) * 24);
+}
+
+.statementText {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: clamp(30px, 4.2vw, 60px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+@media (min-width: 900px) {
+  .statementText {
+    grid-column: 2 / span 9;
+  }
+}
+
+/* ─── Close ──────────────────────────────────────────────────────────────── */
+
+.close {
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--unit) * 16) var(--margin) calc(var(--unit) * 24);
+}
+
+.closeTitle {
+  margin: 0 0 calc(var(--unit) * 4);
+  font-family: var(--world-display);
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 400;
+}
+
+.doors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--unit) * 2) calc(var(--unit) * 4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 20px;
+}
+
+

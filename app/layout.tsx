@@ -1,35 +1,13 @@
 import type { Metadata } from "next";
-import { Kanit, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { personalInfo, siteContent } from "./data";
 import "./globals.css";
 
-// Only the weights the app actually uses. next/font emits a <link rel="preload">
-// per weight, so the two unused ones (600, 800) were downloading and preloading
-// files nothing rendered — which is exactly what the console warnings were about.
-// light 300 · normal 400 · medium 500 · bold 700 · black 900
-// "thai" is not decoration: Kanit is a Thai typeface (Cadson Demak), and /th must
-// render in it.
-//
-// But `subsets` decides what is PRELOADED, not what exists. Checked on 2026-10-04
-// (Next 16): the generated CSS carries Kanit's @font-face rules for every subset,
-// Thai (U+E01-E5B) included, whatever this list says. Listing "thai" therefore only
-// added five Thai preloads to every page, English ones included, where nothing drew
-// a Thai glyph (Chrome warned about each). The browser still fetches the Thai
-// files on /th, when Thai characters appear. Before re-adding "thai", measure /th.
-const kanit = Kanit({
-  subsets: ["latin"],
-  variable: "--font-kanit",
-  weight: ["300", "400", "500", "700", "900"],
-});
-// Not preloaded: mono only appears in the footer's block-height counter and in
-// garden post code blocks, none of which are needed for first paint. Preloading it
-// meant the browser fetched a font it wouldn't use for seconds, if at all.
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
-  preload: false,
-});
+// Fonts live with the pages that use them: the world's in app/world/fonts.ts,
+// the Stack's (Kanit and JetBrains Mono included) in
+// app/components/stack/fonts.ts. Anything declared here is preloaded on every
+// route, which cost the world pages 15 font files they never drew
+// (Lighthouse, 2026-10-25).
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -151,7 +129,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${kanit.variable} ${jetbrainsMono.variable} antialiased`}
+        className="antialiased"
       >
         <script
           type="application/ld+json"

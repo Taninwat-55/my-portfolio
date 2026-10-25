@@ -6,24 +6,32 @@ const nextConfig: NextConfig = {
   experimental: {
     viewTransition: true,
   },
-  outputFileTracingIncludes: {
-    '/sitemap.xml': ['./posts/**/*.mdx'],
-  },
-  // Posts lived under /blog before the /garden rename. Search Console still had
-  // /blog/leading-volunteers as a 404 on 2026-10-18.
   async redirects() {
     return [
-      { source: "/blog", destination: "/garden", permanent: true },
-      { source: "/blog/:slug", destination: "/garden/:slug", permanent: true },
+      // The garden (posts, formerly /blog) was cut on 2026-10-25 for the
+      // site overhaul. Old post links go home rather than to a 404; each
+      // points straight at / so no redirect chains through /garden.
+      { source: "/garden", destination: "/", permanent: true },
+      { source: "/garden/:slug", destination: "/", permanent: true },
+      { source: "/blog", destination: "/", permanent: true },
+      { source: "/blog/:slug", destination: "/", permanent: true },
       // The clock homepage's in-place objects, retired with it on 2026-10-18.
       // Each goes to the card or page that now does its job.
       { source: "/about", destination: "/engineer", permanent: true },
       { source: "/contact", destination: "/build", permanent: true },
       { source: "/rates", destination: "/services", permanent: true },
-      { source: "/writing", destination: "/garden", permanent: true },
+      { source: "/writing", destination: "/", permanent: true },
       // One list of projects, not two: the stack's All cards grid replaced
       // the paper /projects page in phase 2 (2026-10-18).
       { source: "/projects", destination: "/work", permanent: true },
+      // The language pages (Thai, Swedish, Danish) were dropped for the site
+      // overhaul on 2026-10-25: English only, no switch. A Danish /services
+      // may come back later.
+      { source: "/th", destination: "/", permanent: true },
+      { source: "/sv", destination: "/", permanent: true },
+      { source: "/da", destination: "/", permanent: true },
+      // The overhaul's prototype became the homepage on 2026-10-25.
+      { source: "/lab/crystallize", destination: "/", permanent: true },
       // Cinema Booking was delisted on 2026-10-24; its card may still be indexed.
       { source: "/cases/cinema", destination: "/work", permanent: true },
     ];

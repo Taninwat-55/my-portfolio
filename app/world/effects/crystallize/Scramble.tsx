@@ -1,0 +1,116 @@
+"use client";
+
+import { useEffect, useRef, type ElementType } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useWorldMode } from "../../useWorldMode";
+import styles from "./crystallize.module.css";
+
+const GLYPHS = "#%&*+=/<>{}[]01";
+
+/** Past this (ms since navigation), the loader scramble is skipped. */
+const LATE_MS = 800;
+
+const escape = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+type Props = {
+  text: string;
+  as?: ElementType;
+  className?: string;
+  /**
+   * loader: resolves as the loader fades, first visit only (on a repeat visit
+   * the text is already being read, and read text never moves).
+   * scroll: resolves as it scrolls up through the lower half of the viewport.
+   */
+  trigger: "loader" | "scroll";
+};
+
+/**
+ * Words that start as signal and settle into type. The real text sits in a
+ * visually hidden span from the first byte of HTML, so screen readers and
+ * crawlers only ever get the sentence; the scramble runs on an aria-hidden
+ * twin. Without JS or in the quiet world, the twin simply shows the text.
+ *
+ * The twin floats over an invisible copy that holds the layout. Glyphs are
+ * wider than letters, and when the twin itself took space the scrambled text
+ * wrapped onto extra lines and shifted everything below it by a line (137px
+ * on the statement, 2026-10-25), which also threw off every ScrollTrigger.
+ */
+export function Scramble({ text, as: Tag = "p", className, trigger }: Props) {
+  const visual = useRef<HTMLSpanElement>(null);
+  const mode = useWorldMode();
+
+  useEffect(() => {
+    const el = visual.current;
+    if (!el || mode !== "full") return;
+    if (trigger === "loader" && document.documentElement.dataset.loaderSeen) return;
+    // Only while the loader still covers the page. Hydrating later (a slow
+    // phone) means the heading is already being read, and read text never
+    // moves. It also keeps the LCP honest: every frame of the scramble
+    // repaints the h1's largest line, so a late scramble moved the LCP to
+    // when it finished (6.0 s in Lighthouse mobile, 2026-10-25). Start by
+    // 0.8 s, and with its 0.5 s delay and 1.2 s run it is done by 2.5 s.
+    if (trigger === "loader" && performance.now() > LATE_MS) return;
+
+    // Earlier characters settle first, with noise, so it reads line by line
+    // without looking like a typewriter.
+    const thresholds = Array.from(text, (_, i) => (i / text.length) * 0.6 + Math.random() * 0.4);
+    const render = (p: number) => {
+      let html = "";
+      let glyphs = "";
+      Array.from(text).forEach((char, i) => {
+        if (char === " " || p >= thresholds[i]) {
+          if (glyphs) html += `<span class="${styles.glyph}">${escape(glyphs)}</span>`;
+          glyphs = "";
+          html += escape(char);
+        } else {
+          glyphs += GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+        }
+      });
+      if (glyphs) html += `<span class="${styles.glyph}">${escape(glyphs)}</span>`;
+      el.innerHTML = html;
+    };
+
+    if (trigger === "loader") {
+      const state = { p: 0 };
+      render(0);
+      const tween = gsap.to(state, {
+        p: 1,
+        duration: 1.2,
+        delay: 0.5,
+        ease: "none",
+        onUpdate: () => render(state.p),
+      });
+      return () => {
+        tween.kill();
+        el.textContent = text;
+      };
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+    const st = ScrollTrigger.create({
+      trigger: el,
+      start: "top 90%",
+      end: "top 45%",
+      onUpdate: (self) => render(self.progress),
+    });
+    render(st.progress);
+    return () => {
+      st.kill();
+      el.textContent = text;
+    };
+  }, [mode, text, trigger]);
+
+  return (
+    <Tag className={`${styles.scramble} ${className ?? ""}`}>
+      <span className="sr-only">{text}</span>
+      <span className={styles.scrambleSizer} aria-hidden="true">
+        {text}
+      </span>
+      <span ref={visual} className={styles.scrambleVisual} aria-hidden="true">
+        {text}
+      </span>
+    </Tag>
+  );
+}

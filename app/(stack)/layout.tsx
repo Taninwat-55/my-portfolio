@@ -3,7 +3,7 @@ import { SkipLink } from "../components/SkipLink";
 import { MenuBar } from "../components/stack/MenuBar";
 import { StackNav } from "../components/stack/StackNav";
 import { MessageBox } from "../components/stack/MessageBox";
-import { atkinson, display, pixel } from "../components/stack/fonts";
+import { atkinson, display, jetbrainsMono, kanit, pixel } from "../components/stack/fonts";
 import { personalInfo } from "../data";
 import styles from "../components/stack/stack.module.css";
 import "../components/stack/stack-global.css";
@@ -19,7 +19,9 @@ import "../components/stack/stack-global.css";
  */
 export default function StackLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`${display.variable} ${pixel.variable} ${atkinson.variable} ${styles.desk}`}>
+    <div
+      className={`${display.variable} ${pixel.variable} ${atkinson.variable} ${kanit.variable} ${jetbrainsMono.variable} ${styles.desk}`}
+    >
       <SkipLink />
       <MenuBar />
       <div className={styles.stage}>
