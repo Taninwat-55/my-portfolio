@@ -30,8 +30,8 @@ export function WorldNav({
           Home
         </Link>
         <a href={workHref}>Work</a>
-        <Link href="/engineer">About</Link>
-        <a href={`mailto:${personalInfo.email}`}>Contact</a>
+        <Link href="/about">About</Link>
+        <Link href="/contact">Contact</Link>
       </div>
       <div className={styles.navLinks}>
         <a href={personalInfo.socials.linkedin} rel="me noopener" target="_blank">

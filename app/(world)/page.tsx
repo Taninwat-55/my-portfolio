@@ -81,7 +81,7 @@ export default function Home() {
             <div className={styles.intro}>
               <p className={styles.status}>Open to full-time roles and client projects</p>
               <div className={styles.ctas}>
-                <Link className={styles.ctaPrimary} href="/engineer">
+                <Link className={styles.ctaPrimary} href="/about">
                   Hire me <span aria-hidden="true">→</span>
                 </Link>
                 <Link className={styles.ctaSecondary} href="/services">
@@ -109,7 +109,7 @@ export default function Home() {
             </h2>
             <ul className={styles.doors}>
               <li>
-                <Link href="/engineer">Hire me</Link>
+                <Link href="/about">Hire me</Link>
               </li>
               <li>
                 <Link href="/services">Build mine</Link>

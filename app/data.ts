@@ -111,7 +111,7 @@ export const siteContent = {
     },
     {
       title: "Full-Stack Development",
-      body: "I can take a feature the whole way — Node.js, Express, and PostgreSQL, data model to API to UI — and I have shipped it. The backend is the newer half of my toolkit, so I scope it honestly: I will own the slice end to end, and I will tell you where I would want review rather than guess in silence.",
+      body: "I can take a feature the whole way, from the data model through the API to the UI, in Node.js, Express and PostgreSQL, and I have shipped it. The backend is the newer half of my toolkit, so I scope it honestly: I will own the slice end to end, and I will tell you where I would want review rather than guess in silence.",
     },
     {
       title: "Product Decisions",
@@ -133,6 +133,19 @@ export const siteContent = {
     },
   ],
 
+};
+
+// ─── ABOUT ────────────────────────────────────────────────────────────────────
+// The /about page (2026-10-25, replacing the Stack's Engineer card). The story,
+// facts and "what I do" blocks live in siteContent; this is only the page's
+// own lines.
+export const aboutPage = {
+  lead: "Full-stack engineer in Copenhagen. TypeScript from the interface to the database.",
+  description:
+    "Ice (Taninwat Kaewpankan), full-stack engineer in Copenhagen: React, Next.js, TypeScript, Node.js and PostgreSQL. Product engineer at Trailr AI; before that, Head of Organization at Millennial Consulting.",
+  stack: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"],
+  cv: { label: "Read my CV", href: "/cv" },
+  pdf: { label: "Download the PDF", href: "/assets/Taninwat_Kaewpankan_CV.pdf" },
 };
 
 // ─── CV ───────────────────────────────────────────────────────────────────────
@@ -1663,6 +1676,22 @@ export const servicesEnquiryOptions = {
     { value: "exploring", label: "Just exploring" },
   ],
 } as const;
+
+// ─── CONTACT ──────────────────────────────────────────────────────────────────
+// The /contact page (2026-10-25): recruiters get the direct lines first,
+// clients the enquiry form below (it replaced the Stack's /build card).
+export const contactPage = {
+  lead: "Hiring, or need a website built? Both start here.",
+  role: {
+    title: "For a role",
+    body: "Email or LinkedIn reach me directly. My CV has the details.",
+  },
+  project: {
+    title: "For a project",
+    body: "Tell me about the business and what it needs. It lands in my inbox, and I reply to every enquiry myself.",
+    price: `Websites ${services.offers[0].priceRange.replace(/^From/, "from")}, at a fixed price agreed in writing before any work starts.`,
+  },
+};
 
 // ─── WHAT SURVIVES OF THE CLOCK ──────────────────────────────────────────────
 // The clock homepage ran 2026-10-04 to 2026-10-18; the stack replaced it. Two

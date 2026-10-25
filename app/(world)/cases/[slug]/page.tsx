@@ -208,7 +208,7 @@ export default async function CasePage({
                   <p className={styles.terms}>
                     {shop.timeline} {price.timeline}. {shop.terms}
                   </p>
-                  <Link className={styles.button} href={`/build?like=${caseStudy.id}`}>
+                  <Link className={styles.button} href={`/contact?like=${caseStudy.id}#enquire`}>
                     {shop.buildLike} <span aria-hidden="true">→</span>
                   </Link>
                 </div>

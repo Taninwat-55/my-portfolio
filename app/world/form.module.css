@@ -1,0 +1,228 @@
+/* The enquiry form in the Crystallize world. Reads the world's tokens only. */
+
+.form {
+  display: grid;
+  gap: calc(var(--unit) * 3) var(--gutter);
+  max-width: 760px;
+}
+
+@media (min-width: 700px) {
+  .form {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.wide,
+.group,
+.summary {
+  grid-column: 1 / -1;
+}
+
+.label {
+  display: block;
+  margin: 0 0 var(--unit);
+  padding: 0;
+  font-family: var(--world-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.optional {
+  margin-left: var(--unit);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  transition: border-color var(--dur-ui) var(--ease-reveal);
+}
+
+.input:hover {
+  border-color: var(--muted);
+}
+
+.input:focus-visible {
+  border-color: var(--signal);
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--fg);
+  border-width: 2px;
+}
+
+textarea.input {
+  resize: vertical;
+}
+
+.input::placeholder {
+  color: var(--muted);
+}
+
+/* ─── Choice groups ──────────────────────────────────────────────────────── */
+
+.group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--unit);
+}
+
+/* Each option is a chip: the radio stays real (keyboard arrows, screen
+   readers), drawn as the chip's border and fill. */
+.option {
+  position: relative;
+  display: inline-flex;
+}
+
+.option input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.option span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  font-size: 15px;
+  transition:
+    border-color var(--dur-ui) var(--ease-reveal),
+    background-color var(--dur-ui) var(--ease-reveal),
+    color var(--dur-ui) var(--ease-reveal);
+}
+
+.option:hover span {
+  border-color: var(--muted);
+}
+
+.option input:checked + span {
+  border-color: var(--fg);
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.option input:focus-visible + span {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+.group[aria-invalid="true"] .option span {
+  border-color: var(--fg);
+}
+
+/* ─── Hints, errors, summary ─────────────────────────────────────────────── */
+
+.hint,
+.error {
+  margin: var(--unit) 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.hint {
+  color: var(--muted);
+}
+
+/* Errors carry a mark, not only a colour: the world has one accent. */
+.error {
+  font-weight: 500;
+}
+
+.error::before {
+  content: "× ";
+}
+
+.summary {
+  padding: calc(var(--unit) * 2) calc(var(--unit) * 3);
+  border: 2px solid var(--fg);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.summary p {
+  margin: 0;
+}
+
+.summary ul {
+  margin: var(--unit) 0 0;
+  padding-left: 1.1em;
+}
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--unit);
+  min-height: 52px;
+  padding: 0 24px;
+  border: 1px solid var(--fg);
+  background: var(--fg);
+  color: var(--bg);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-ui) var(--ease-reveal),
+    border-color var(--dur-ui) var(--ease-reveal);
+}
+
+.submit:hover {
+  border-color: var(--signal);
+  background: var(--signal);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* ─── Sent ───────────────────────────────────────────────────────────────── */
+
+.sent {
+  max-width: 56ch;
+  padding: calc(var(--unit) * 3);
+  border: 1px solid var(--fg);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.sentTitle {
+  margin: 0 0 var(--unit);
+  font-family: var(--world-display);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+}
+
+.sent p {
+  margin: 0;
+}
