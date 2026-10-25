@@ -54,11 +54,16 @@ function Tunnel({ progress, rails }: Omit<Props, "active">) {
   const segments = MIN_RAILS + RINGS * 4 + 4;
   const { lines, positions, vertexColours } = useMemo(() => {
     const positions = new Float32Array(segments * 6);
-    const vertexColours = new Float32Array(segments * 6);
+    // RGBA: a line that hasn't arrived yet must draw nothing at all. Painting
+    // it in the background colour instead overwrote real lines beneath it.
+    const vertexColours = new Float32Array(segments * 8);
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute("color", new THREE.BufferAttribute(vertexColours, 3));
-    const lines = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial({ vertexColors: true }));
+    geometry.setAttribute("color", new THREE.BufferAttribute(vertexColours, 4));
+    const lines = new THREE.LineSegments(
+      geometry,
+      new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, depthWrite: false }),
+    );
     lines.frustumCulled = false;
     return { lines, positions, vertexColours };
   }, [segments]);
@@ -112,7 +117,6 @@ function Tunnel({ progress, rails }: Omit<Props, "active">) {
   const bg = useMemo(() => new THREE.Color(), []);
   const railColour = useMemo(() => new THREE.Color(), []);
   const frameColour = useMemo(() => new THREE.Color(), []);
-  const tmp = useMemo(() => new THREE.Color(), []);
 
   useFrame(() => {
     const p = progress.current.value;
@@ -137,9 +141,8 @@ function Tunnel({ progress, rails }: Omit<Props, "active">) {
 
     let v = 0;
     const put = (x: number, y: number, z: number, c: THREE.Color, alpha: number) => {
-      tmp.copy(bg).lerp(c, alpha);
       positions.set([x, y, z], v * 3);
-      vertexColours.set([tmp.r, tmp.g, tmp.b], v * 3);
+      vertexColours.set([c.r, c.g, c.b, alpha], v * 4);
       v++;
     };
 
@@ -184,7 +187,8 @@ function Tunnel({ progress, rails }: Omit<Props, "active">) {
     (portal.material as THREE.MeshBasicMaterial).opacity = ringsIn;
     (portal.material as THREE.MeshBasicMaterial).color.copy(colours.ink);
 
-    const sway = 0.18 * (1 - travel * 0.7);
+    // No sway while flat: the lines must sit exactly on the page's own lines.
+    const sway = 0.18 * fold * (1 - travel * 0.7);
     camera.position.set(pointer.current.x * sway, -pointer.current.y * sway, camZ);
   });
 
