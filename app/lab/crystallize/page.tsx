@@ -42,8 +42,9 @@ const lead = ["trailr", "bevisly", "mockmate", "racha", "lumina"].flatMap((id) =
 const slides = lead.map((c) => ({ src: c.images[0], title: c.title }));
 const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c.tag, image: c.images[0] }));
 
-// DRAFT: the hero's one line of what he does, for Ice to rewrite.
-const DEK = "I design and build web products, from the interface to the database.";
+// DRAFT for Ice to rewrite. The game design degree (BA, Uppsala 2022) is the
+// honest reason "Creative Developer" sits under his name, so the line says it.
+const DEK = "Game designer by training. I build web products end to end, from the interface to the database.";
 
 export default function CrystallizeLab() {
   return (
