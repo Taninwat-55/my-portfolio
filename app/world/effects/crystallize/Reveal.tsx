@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import { gsap } from "gsap";
+import { useFirstInteraction } from "../../useFirstInteraction";
 import { useWorldMode } from "../../useWorldMode";
 import { worldImage } from "../../worldImage";
 import styles from "./crystallize.module.css";
@@ -69,7 +70,8 @@ export function Reveal({ title, slides, label = "Clip", trigger, wide, sizes = "
     return () => io.disconnect();
   }, [mode]);
 
-  const armed = mode === "full" && phase !== "done" && inView;
+  const awake = useFirstInteraction();
+  const armed = mode === "full" && phase !== "done" && inView && awake;
 
   // If the WebGL chunk never arrives, show the box rather than an empty frame.
   useEffect(() => {
