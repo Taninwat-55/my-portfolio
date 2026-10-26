@@ -916,7 +916,7 @@ export const cases: CaseStudy[] = [
     concept: true,
     n: "09",
     tag: "Motion & Craft",
-    scope: "Frontend only: a static page built on the platform alone (canvas and CSS), no backend, and a concept with no client.",
+    scope: "Frontend only. Four static HTML pages with CSS and JavaScript, no backend, and a concept with no client.",
     role: "Self-initiated concept",
     year: "2026",
     making: [
@@ -924,54 +924,71 @@ export const cases: CaseStudy[] = [
         label: "Brief",
         text: "I wanted to know what it takes to build an award-level website, so I gave myself a brief with no client.",
       },
+      {
+        label: "First version, August 2026",
+        text: "A night kitchen told in five pinned chapters, one per Thai taste, with every ingredient drawn on canvas and no animation library. It proved a point about engineering, but it opened behind a loader, and nobody choosing a restaurant cares how a chilli was drawn.",
+        image: "/assets/saep/making/first-version.webp",
+        alt: "Saep's first version: the word SAEP in a large serif with the E in chilli red, over a dark background with a faint Thai script behind it.",
+      },
+      {
+        label: "Redesign, October 2026",
+        text: "Rebuilt as a six-seat Thai chef's table on light paper, around one moment instead of five chapters. A som tam comes together as you scroll: the five tastes land one by one while the photo moves from chilli to the mortar, and then the finished plate fills the screen.",
+        image: "/assets/saep/making/mortar.webp",
+        alt: "Halfway through the scroll on the new Saep: four Thai tastes underlined in chilli red, beside a photo of a hand working a stone mortar.",
+      },
     ],
     design: {
       palette: [
-        { name: "Bone", hex: "#EDE5D6" },
-        { name: "Char", hex: "#15100C" },
-        { name: "Ink", hex: "#0A0806" },
-        { name: "Smoke", hex: "#6E6155" },
+        { name: "Rice paper", hex: "#F3EDE2" },
+        { name: "Paper deep", hex: "#E8DFCF" },
+        { name: "Char", hex: "#1B1612" },
+        { name: "Chilli", hex: "#C7361B" },
+        { name: "Ember", hex: "#FF9A76" },
       ],
       type: [
         { role: "Headings", family: "Fraunces" },
         { role: "Text", family: "Instrument Sans" },
-        { role: "Labels", family: "Martian Mono" },
-        { role: "Script", family: "Charm" },
+        { role: "Thai", family: "Charm" },
       ],
       source: "the page's CSS custom properties",
     },
-    title: "Saep Fire Kitchen",
-    sub: "A concept piece for an invented Thai restaurant: scroll-driven, every ingredient drawn in code, and no animation library underneath it.",
+    title: "Saep",
+    sub: "A concept site for an invented Thai chef's table in Nørrebro, with no client behind it. Four pages, one scroll moment where a som tam comes together, and no build step.",
     images: [
       "/assets/saep/saep-hero.webp",
-      "/assets/saep/saep-phet.webp",
       "/assets/saep/saep-balance.webp",
+      "/assets/saep/saep-plate.webp",
       "/assets/saep/saep-menu.webp",
+      "/assets/saep/saep-booking.webp",
     ],
     overview:
-      "A site for an invented Thai fire kitchen in Nørrebro. Thai cooking balances five tastes and no dish tastes of one thing, so scrolling descends through them one pinned chapter at a time (spicy, sour, salty, sweet, aromatic) while that taste's ingredient draws itself on canvas and the page's accent colour travels with it. One self-contained HTML file: no framework, no libraries, no build step.",
+      "A site for an invented six-seat Thai chef's table on Jægersborggade in Nørrebro. It reads like a food magazine spread, with light paper, big serif type and photographs of the food. The homepage builds to one moment called Balance. Thai cooking balances five tastes, so a sticky stage shows a som tam being made one taste at a time until the finished plate fills the screen. After that come the menu, the visit details and a booking form that works.",
     challenge:
-      "Two problems, and the second one was the real one. The obvious challenge was building scroll choreography with nothing underneath it: no GSAP, no ScrollTrigger, no Lenis, which is what Lumina leans on. The harder challenge was that a page like this cannot be reviewed by reading its source. A hand-drawn chilli is either recognisable or it isn't, and the only way to find out is to look at it.",
+      "The first Saep was built to make a point about engineering, with five pinned chapters, canvas drawings and no animation library. It made the point and missed the reader. It opened behind a loader, and someone choosing a restaurant wants to see the food, know the price and book a seat. The challenge was to keep the one good idea, the five tastes, and give the rest of the page back to the restaurant.",
     stackWhy:
-      "Nothing but the platform. One requestAnimationFrame loop, canvas 2D, and CSS custom properties, partly to show the animation library is a convenience rather than a requirement, and partly because a bundler buys you nothing on a page with no state, no routing and no data to fetch.",
+      "Plain HTML, CSS and JavaScript, with GSAP and ScrollTrigger for the one scrubbed timeline and Lenis for smooth scrolling. The first version avoided libraries on principle. This time the weight that mattered was photos and fonts rather than code, so the photos are AVIF and WebP at three sizes, the fonts are self-hosted, and each page's own code is 12 to 14 KB gzipped.",
     engineering:
-      "The scroll engine writes exactly one number: a single loop sets a 0-to-1 progress value per section as a CSS custom property, and every bit of motion is CSS calc() off that value. No scroll listeners, no per-element style writes. The ingredients are procedural: bezier curves sampled to points, with progress controlling how much of the stroke set exists, which is what makes them appear to draw themselves. The accent colour is interpolated per frame rather than switched, and canvases repaint while it is still travelling; without that, a chapter's drawing keeps the previous chapter's colour the moment you stop scrolling. Because I couldn't review the drawings by reading them, I built a proofing harness that drives headless Chrome over the DevTools Protocol and renders every motif at 760px on one contact sheet. It paid for itself immediately: my first chilli cluster read unmistakably as a cannabis leaf, and the kaffir lime leaf read as a fish skeleton. Neither was visible at the size they appear on the page. The menu taught the same lesson from the visitor's side. I had shipped abstract circles as plates, when the thing anyone actually wants from a restaurant menu is to see the food, so each plate became a photograph with the kitchen's heat rating drawn around its rim as a gauge arc. prefers-reduced-motion unpins every section and renders each chapter in its finished state rather than freezing it mid-animation.",
+      "Balance is one GSAP timeline scrubbed by scroll, with every step placed as a fraction of the track, so the five tastes, the photo wipes and the plate all run on one clock. The plate starts exactly on top of the photo frame and then grows to fill the stage. Its starting box is measured from the frame and measured again when the window changes, so it lines up at any size. Two bugs only showed up in screenshots. The growing plate pushed the page sideways, because an absolutely positioned grid item measures from its grid area rather than the whole grid. And on phones the last photo never loaded, because lazy loading skipped an image stacked under four others. With reduced motion nothing pins, and Balance reads as a plain recipe with the finished plate. The booking form knows which nights are open, how many seats are left and what the evening costs, and says plainly that it sends nothing.",
     metrics: [
-      { v: "0", k: "Animation libraries" },
-      { v: "5 tastes", k: "Pinned chapters, one CSS variable" },
-      { v: "1 file", k: "No build step" },
+      { v: "4", k: "Pages" },
+      { v: "1", k: "Scroll moment" },
+      { v: "14 KB", k: "Code per page, gzipped" },
     ],
-    stack: [
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "Canvas 2D",
-      "CSS Custom Properties",
-      "Chrome DevTools Protocol",
-    ],
+    stack: ["HTML", "CSS", "JavaScript", "GSAP", "ScrollTrigger", "Lenis"],
     links: {
       demo: "https://saep-fire-kitchen.netlify.app",
       code: "https://github.com/Taninwat-55/saep-fire-kitchen",
+    },
+    showroom: {
+      business: "A Thai chef's table",
+      style: "Editorial, photo-led",
+      rung: 1,
+      addOns: ["scroll-story"],
+      gets: [
+        "Four pages: the evening as one story on the front page, then the menu, the visit details and booking",
+        "One scroll moment, a dish coming together taste by taste, that turns into a calm page when a phone asks for less motion",
+        "Everything in every build: search setup, your Google Business profile, analytics, and an enquiry form, here shaped as a booking request",
+      ],
     },
   },
 ];
@@ -1208,7 +1225,7 @@ const WEBSITE_ADD_ONS: { id: AddOnId; name: string; price: string; body: string;
   id: "scroll-story",
   name: "A page that tells a story as you scroll",
   price: "6.000 DKK",
-  body: "I build the whole page around one story that unfolds as the visitor scrolls. Sections pin in place, pictures and words move together, and the visitor sets the pace. Lumina in the Showroom is built this way. A visitor whose device asks for reduced motion gets the same story as a calm, complete page.",
+  body: "I build the whole page around one story that unfolds as the visitor scrolls. Sections pin in place, pictures and words move together, and the visitor sets the pace. Lumina and Saep in the Showroom are built this way. A visitor whose device asks for reduced motion gets the same story as a calm, complete page.",
   },
   {
   id: "extra-page",
@@ -1947,7 +1964,7 @@ export const workPage = {
 export const showroomPage = {
   lead: "Sample sites for made-up businesses, each showing what you would get and what a site like it costs. I price a site by what it needs, never by its style, so two sites that look nothing alike can cost the same. Open one to see what is included.",
   concept: "Concept, no client",
-  more: "I add a new sample site every week or two. The next one is a restaurant in an editorial, print-inspired style.",
+  more: "I add a new sample site every week or two.",
   prices: "All prices and add-ons",
 };
 
