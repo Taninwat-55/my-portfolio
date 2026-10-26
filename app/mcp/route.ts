@@ -28,8 +28,10 @@ import { getClientIp } from "@/app/lib/request-ip";
 
 const BASE = "https://taninwatkaewpankan.xyz";
 
-// Its own namespace: sharing "rl:chat" would spend the chat's budget.
-const checkRateLimit = createRateLimiter({ prefix: "rl:mcp", limit: 60, window: "1 h" });
+// Its own namespace: sharing "rl:chat" would spend the chat's budget. 200
+// requests, since one question from a client is three or four of them
+// (initialize, initialized, tools/list, tools/call).
+const checkRateLimit = createRateLimiter({ prefix: "rl:mcp", limit: 200, window: "1 h" });
 
 /** Every tool answers with one JSON document. */
 const json = (data: unknown) => ({

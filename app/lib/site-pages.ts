@@ -1,9 +1,9 @@
 import { cases } from "@/app/data";
 
 /**
- * The pages "Ask the site" may point to, by key. The model picks keys (the
- * show_pages tool in app/api/chat/route.ts), never URLs, so it cannot invent
- * a link; both the route and the box (app/world/AskSite.tsx) turn keys into
+ * The pages "Ask the site" may point to, by key. The model names keys in a
+ * closing "PAGES: key, key" line (app/api/chat/route.ts), never URLs, so it
+ * cannot invent a link; the box (app/world/AskSite.tsx) turns keys into
  * links from this one list.
  */
 export const SITE_PAGES: Record<string, { href: string; label: string }> = {
@@ -34,14 +34,21 @@ export function readPagesLine(raw: string): { text: string; keys: string[] } {
   let keys: string[] = [];
   const text = raw
     .split("\n")
-    .filter((line) => {
-      const m = line.match(/^\s*\**PAGES\**\s*:\s*(.*)$/i);
-      if (m) {
-        keys = m[1].split(/[,\s]+/).map((k) => k.trim().replace(/[`'".]/g, "")).filter((k) => k && k !== "none");
-        return false;
-      }
-      return !/show_pages|<\/?button|functions\./i.test(line);
+    .map((line) => {
+      // PAGES may also trail the last sentence on the same line.
+      const m = line.match(/(^|\s)\**PAGES\**\s*:\s*(.*)$/i);
+      if (!m) return line;
+      keys = m[2]
+        .replace(/:\s+/g, ":") // "case: trailr" -> "case:trailr"
+        .split(/[,\s]+/)
+        .map((k) => k.trim().replace(/[`'"*.]/g, ""))
+        .filter((k) => k && k.toLowerCase() !== "none");
+      return line.slice(0, m.index).trimEnd();
     })
+    // Only the exact shapes a misbehaving model wrote: a call or a button tag
+    // at the start of a line. Wider patterns ate real prose ("Netlify
+    // functions.", review 2026-10-26).
+    .filter((line) => !/^\s*(functions\.\w+\s*\(|show_pages\b|<\/?button)/i.test(line))
     .join("\n")
     // A PAGES line still arriving: "P", "PA", "PAG"... at the very end.
     .replace(/\n\s*P(A(G(E(S)?)?)?)?\s*$/i, "")

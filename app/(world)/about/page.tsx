@@ -95,7 +95,7 @@ export default function AboutPage() {
           </h2>
           <div className={`${styles.content} ${styles.narrow} ${styles.prose}`}>
             <p>{aboutPage.mcp.body}</p>
-            <pre className={styles.code} tabIndex={0}>
+            <pre className={styles.code} tabIndex={0} role="region" aria-label="Command to connect">
               <code>{aboutPage.mcp.command}</code>
             </pre>
             <p className={styles.note}>{aboutPage.mcp.tools}</p>

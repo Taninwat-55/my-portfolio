@@ -28,6 +28,7 @@ export function AskSite({ className }: { className?: string }) {
   const { messages, chatError, isLoading, isRateLimited, send } = useIceChat("ask");
   const [draft, setDraft] = useState("");
   const thread = useRef<HTMLOListElement>(null);
+  const input = useRef<HTMLInputElement>(null);
 
   // Keep the newest answer in view as it streams, inside the box only.
   useEffect(() => {
@@ -36,8 +37,20 @@ export function AskSite({ className }: { className?: string }) {
   }, [messages]);
 
   const ask = (text: string) => {
-    if (send(text)) setDraft("");
+    if (!send(text)) return;
+    setDraft("");
+    // A starter button unmounts once the thread starts; keep focus in the box.
+    input.current?.focus();
   };
+
+  // A finished answer that was only a PAGES line or junk shows nothing; say so
+  // rather than let "Reading the site…" just vanish.
+  const last = messages[messages.length - 1];
+  const emptyAnswer =
+    !isLoading && last?.role === "assistant" && (() => {
+      const { text, links } = readAnswer(last);
+      return !text && links.length === 0;
+    })();
 
   return (
     <div className={`${styles.ask} ${className ?? ""}`}>
@@ -72,7 +85,7 @@ export function AskSite({ className }: { className?: string }) {
         </ol>
       )}
 
-      {chatError && (
+      {(chatError || emptyAnswer) && (
         <p className={styles.error} role="alert">
           {isRateLimited ? "That is all the questions for now. " : "That did not go through. Try again, or "}
           write to <a href={`mailto:${personalInfo.email}`}>{personalInfo.email}</a>.
@@ -91,6 +104,7 @@ export function AskSite({ className }: { className?: string }) {
         </label>
         <div className={styles.row}>
           <input
+            ref={input}
             id="ask-site"
             className={styles.input}
             value={draft}

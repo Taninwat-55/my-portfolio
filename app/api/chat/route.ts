@@ -160,7 +160,21 @@ export async function POST(request: Request) {
   // Anything below can fail on bad input or an upstream outage. Without this the
   // widget just receives an opaque 500 and shows nothing useful.
   try {
-    const { messages, variant } = await request.json();
+    const body = await request.json();
+    const { variant } = body;
+    // The client sends the whole thread, so cap it: the last six messages,
+    // text parts only, 1,000 characters each. A forged or huge history could
+    // otherwise spend the Groq free tier's 8k tokens a minute for everyone
+    // (review, 2026-10-26).
+    const messages = (Array.isArray(body.messages) ? body.messages : []).slice(-6).map(
+      (m: { id?: string; role?: string; parts?: { type?: string; text?: string }[] }) => ({
+        id: String(m.id ?? ""),
+        role: m.role === "assistant" ? "assistant" : "user",
+        parts: (m.parts ?? [])
+          .filter((p) => p.type === "text" && typeof p.text === "string")
+          .map((p) => ({ type: "text", text: p.text!.slice(0, 1000) })),
+      }),
+    );
     const ask = variant === "ask";
     const system = ask ? SYSTEM_PROMPTS.ask : variant === "services" ? SYSTEM_PROMPTS.services : SYSTEM_PROMPTS.portfolio;
     const modelMessages = await convertToModelMessages(messages);
