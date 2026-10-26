@@ -12,6 +12,8 @@ export const CARD_DISTANCE = 3.5; // how far in front of the camera a card sits 
 
 type Props = {
   images: string[];
+  /** A clip per card, or undefined for a still-only card. */
+  clips: (string | undefined)[];
   progress: RefObject<{ value: number }>;
   root: RefObject<HTMLElement | null>;
   active: boolean;
@@ -21,6 +23,9 @@ type Props = {
 
 const CARD_W = 3.4;
 const CARD_H = CARD_W / 1.6;
+// Every clip is cut from the recipe's 1440×721 browser viewport (1280×638),
+// so a card with a clip takes that shape and shows the whole frame.
+const CLIP_ASPECT = 1280 / 638;
 
 /** A shape made of characters: the mask decides where glyphs live. */
 const maskFragment = /* glsl */ `
@@ -83,7 +88,46 @@ const smooth = (a: number, b: number, x: number) => {
   return t * t * (3 - 2 * t);
 };
 
-function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
+function playWhenNear(clip: Clip, near: boolean, card: THREE.Mesh) {
+  const u = (card.material as THREE.ShaderMaterial).uniforms;
+  const { video } = clip;
+  if (!near) {
+    if (!video.paused) video.pause();
+    return;
+  }
+  if (!video.src) video.src = clip.src;
+  if (video.paused) void video.play().catch(() => {});
+  if (clip.ready && !clip.swapped) {
+    clip.swapped = true;
+    u.uTarget.value = clip.texture;
+    u.uCover.value.copy(coverScale(card.userData.aspect as number, video.videoWidth / video.videoHeight));
+  }
+}
+
+/**
+ * A card's clip, as a muted looping <video>. It is not fetched until its card
+ * first comes near (no src before that), plays only while near, and its
+ * texture replaces the screenshot once the first frame has decoded, so the
+ * card never flashes blank.
+ */
+function makeClip(src: string) {
+  const video = document.createElement("video");
+  video.muted = true;
+  video.loop = true;
+  video.playsInline = true;
+  video.preload = "none";
+  const texture = new THREE.VideoTexture(video);
+  texture.minFilter = THREE.LinearFilter;
+  texture.generateMipmaps = false;
+  return { src, video, texture, ready: false, swapped: false };
+}
+type Clip = ReturnType<typeof makeClip>;
+
+// The clip plays from when its card starts crystallizing until the camera has passed it.
+const CLIP_NEAR = 16;
+const CLIP_PAST = -2;
+
+function Hall({ images, clips, progress, root, active, onActive }: Props) {
   const camera = useThree((s) => s.camera);
   const size = useThree((s) => s.size);
   const pointer = useRef({ x: 0, y: 0 });
@@ -115,17 +159,18 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
         });
         const u = material.uniforms;
         u.uSolid.value = 0;
-        u.uRes.value.set(1600, 1000);
+        u.uRes.value.set(1600, 1600 / (clips[k] ? CLIP_ASPECT : CARD_W / CARD_H)); // keeps glyph cells square
         u.uBg.value = rgb(colours.ink);
         u.uInk.value = rgb(colours.paper);
         u.uSignal.value = rgb(colours.signal);
         const mesh = new THREE.Mesh(new THREE.PlaneGeometry(CARD_W, CARD_H), material);
         mesh.position.set(side * 1.25, (rand(k) - 0.5) * 0.5, -(k + 1) * SPACING);
         mesh.userData.side = side;
+        mesh.userData.aspect = clips[k] ? CLIP_ASPECT : CARD_W / CARD_H;
         mesh.rotation.set(0, -side * 0.22, side * 0.02);
         return mesh;
       }),
-    [images, colours],
+    [images, clips, colours],
   );
 
   // Room numbers: a giant 01, 02… in glyphs opposite each card, matching its
@@ -173,10 +218,14 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
     }
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    return new THREE.LineSegments(
+    const lines = new THREE.LineSegments(
       geometry,
       new THREE.LineBasicMaterial({ color: new THREE.Color(colours.muted), transparent: true, opacity: 0.35 }),
     );
+    // Drawn first: the cards don't write depth, so lines drawn after them
+    // showed through the screens.
+    lines.renderOrder = -1;
+    return lines;
   }, [length, colours]);
 
   // Textures: the glyph atlas, the room numbers, every screenshot.
@@ -225,7 +274,7 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
         const u = (m.material as THREE.ShaderMaterial).uniforms;
         u.uAtlas.value = atlas;
         u.uTarget.value = shots[k];
-        u.uCover.value.copy(coverScale(CARD_W / CARD_H, aspectOf(shots[k])));
+        u.uCover.value.copy(coverScale(m.userData.aspect as number, aspectOf(shots[k])));
         m.userData.loaded = true;
       });
     })();
@@ -234,6 +283,34 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
       made.forEach((t) => t.dispose());
     };
   }, [root, images, cards, numerals, colours]);
+
+  const videos = useMemo(() => clips.map((src) => (src ? makeClip(src) : null)), [clips]);
+
+  useEffect(() => {
+    const listeners = videos.map((c) => {
+      if (!c) return null;
+      const onData = () => {
+        c.ready = true;
+      };
+      c.video.addEventListener("loadeddata", onData);
+      return onData;
+    });
+    return () => {
+      videos.forEach((c, k) => {
+        if (!c) return;
+        c.video.removeEventListener("loadeddata", listeners[k]!);
+        c.video.pause();
+        c.video.removeAttribute("src");
+        c.video.load();
+        c.texture.dispose();
+      });
+    };
+  }, [videos]);
+
+  // The frame loop stops when the hall scrolls away, so pause here too.
+  useEffect(() => {
+    if (!active) videos.forEach((c) => c?.video.pause());
+  }, [active, videos]);
 
   useEffect(() => {
     const move = (e: PointerEvent) => {
@@ -282,11 +359,14 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
 
     // A phone is narrow: pull the cards toward the middle so they stay on screen.
     const spread = Math.min(1, Math.max(0.2, size.width / size.height / 1.6));
-    cards.forEach((m) => {
+    cards.forEach((m, k) => {
       m.position.x = (m.userData.side as number) * 1.25 * spread;
       m.scale.setScalar(Math.min(1, Math.max(0.42, spread * 1.3)));
+      m.scale.y *= CARD_W / CARD_H / (m.userData.aspect as number); // same width, the media's height
       const d = z - m.position.z; // how far ahead of the camera
       const u = (m.material as THREE.ShaderMaterial).uniforms;
+      const clip = videos[k];
+      if (clip && m.userData.loaded) playWhenNear(clip, d < CLIP_NEAR && d > CLIP_PAST, m);
       u.uProgress.value = m.userData.loaded ? smooth(15, 5, d) : 0;
       u.uTime.value = clock.elapsedTime;
       u.uOpacity.value = 1 - smooth(26, 32, d);
@@ -317,7 +397,8 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
   );
 }
 
-export default function HallCanvas({ active, ...props }: Props) {
+export default function HallCanvas(props: Props) {
+  const { active } = props;
   return (
     <Canvas
       flat

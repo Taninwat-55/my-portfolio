@@ -426,6 +426,12 @@ export interface CaseStudy {
   title: string;
   sub: string;
   images: string[];
+  /**
+   * A short silent loop of the real product, played on the case's hall card
+   * only (Ice, 2026-10-26: hero and case pages stay static). Recorded and cut
+   * by the recipe in SIGNIFLY-PLAN.md; without it the card shows images[0].
+   */
+  clip?: string;
   overview: string;
   challenge: string;
   stackWhy: string;
@@ -548,6 +554,8 @@ export const cases: CaseStudy[] = [
       "/assets/trailr/trailr-screening-room.webp",
       "/assets/trailr/trailr-story-builder.webp",
     ],
+    // Story Builder on the Aliens demo project, dev.trailr.ai, 2026-10-26.
+    clip: "/assets/trailr/clip.mp4",
     overview:
       "An early-stage AI video platform that secured enterprise trials with two major Danish media companies. I joined as a frontend intern and, after graduating, continued part-time, owning the product side of a full UI/UX redesign.",
     challenge:
@@ -794,6 +802,8 @@ export const cases: CaseStudy[] = [
       "/assets/racha/racha-about.webp",
       "/assets/racha/racha-contact.webp",
     ],
+    // The live site: Hjem → Behandlinger → Galleri → Om, 2026-10-26.
+    clip: "/assets/racha/clip.mp4",
     overview:
       "A wellness studio in Næstved had no website at all, just a Facebook page. I built their first one: a Danish-language site covering treatments, prices, a gallery and an enquiry form. My first paid client project.",
     challenge:
