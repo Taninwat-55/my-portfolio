@@ -40,9 +40,7 @@ export async function generateMetadata({
       description: caseStudy.sub,
       url,
       type: "article",
-      // A page-level openGraph replaces the root one rather than merging, so
-      // the share card has to be named again.
-      images: ["/opengraph-image"],
+      // The case's own card comes from ./opengraph-image.tsx.
     },
     twitter: {
       card: "summary_large_image",

@@ -165,6 +165,7 @@ Approach: Design systems, accessibility, performance
 
 ## Links
 
+- Everything on the site as plain text: https://taninwatkaewpankan.xyz/llms-full.txt
 - About: https://taninwatkaewpankan.xyz/about
 - MCP server (read-only, Streamable HTTP): https://taninwatkaewpankan.xyz/mcp
   Tools: get_profile, list_projects, get_case, get_services, get_cv,
