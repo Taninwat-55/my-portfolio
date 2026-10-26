@@ -193,6 +193,25 @@
   }
 }
 
+/* A command to copy: mono, scrolls sideways rather than wrapping. */
+.code {
+  margin: calc(var(--unit) * 2.5) 0 0;
+  padding: calc(var(--unit) * 2);
+  overflow-x: auto;
+  border: 1px solid var(--muted);
+  font-family: var(--world-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre;
+}
+
+.prose .note {
+  margin-top: calc(var(--unit) * 1.5);
+  font-family: var(--world-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
 /* A list of titled blocks (what I do, services, process). */
 .blocks {
   display: grid;
