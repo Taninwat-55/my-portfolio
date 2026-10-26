@@ -1970,6 +1970,14 @@ export const showroomPage = {
 
 // ─── CASE PAGES ───────────────────────────────────────────────────────────────
 // The case page's own labels (moved out of stackContent on 2026-10-25).
+/**
+ * What no quote includes, said beside every concept price (Ice, 2026-10-27).
+ * The samples run on stock photos, which is fine for a concept and wrong for a
+ * real business, so the line says so before a client assumes otherwise.
+ */
+export const quoteExcludes =
+  "Writing your text and photographing your business are not in the price. The samples use stock photos, and a real business needs its own: a restaurant its own food, a bathhouse its own rooms. If you need a copywriter or a photographer, you pay them directly.";
+
 export const casePage = {
   concept: "Concept, no client",
   code: "Code",
@@ -1986,7 +1994,7 @@ export const casePage = {
     gets: "What you get",
     total: "Total",
     timeline: "Typically",
-    terms: `Prices ${vat.shortLabel}. You pay for the domain and any hosting directly, never through me.`,
+    terms: `Prices ${vat.shortLabel}. You pay for the domain and any hosting directly, never through me. ${quoteExcludes}`,
     buildLike: "Build me one like this",
   },
 };

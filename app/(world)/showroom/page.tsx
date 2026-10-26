@@ -6,6 +6,7 @@ import {
   foundingOpen,
   foundingSpotsLine,
   foundingTerms,
+  quoteExcludes,
   showroomCases,
   showroomPage,
 } from "@/app/data";
@@ -74,6 +75,7 @@ export default function ShowroomPage() {
               })}
             </ul>
             <div className={page.prose} style={{ marginTop: "calc(var(--unit) * 6)" }}>
+              <p>{quoteExcludes}</p>
               <p>{showroomPage.more}</p>
             </div>
             <ul className={page.actions}>
