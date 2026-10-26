@@ -3,6 +3,7 @@ import { z } from "zod";
 import {
   cases,
   conceptPrice,
+  quoteExcludes,
   cvData,
   founding,
   foundingOpen,
@@ -120,7 +121,9 @@ const handler = createMcpHandler(
           results: c.metrics.map((m) => `${m.v}: ${m.k}`),
           stack: c.stack,
           links: c.links,
-          ...(inShowroom(c) ? { priceOfASiteLikeThis: conceptPrice(c.showroom!).total } : {}),
+          ...(inShowroom(c)
+            ? { priceOfASiteLikeThis: conceptPrice(c.showroom!).total, notIncludedInThePrice: quoteExcludes }
+            : {}),
         });
       },
     );
