@@ -410,6 +410,18 @@ export interface CaseStudy {
    * this" (Ice, 2026-10-25).
    */
   making?: { label: string; text: string; image?: string; alt?: string; video?: string; poster?: string }[];
+  /**
+   * The design side of the case, beside the engineering (Ice, 2026-10-26:
+   * the site speaks both languages). Palette and type are read from the
+   * project's own code, never picked to look nice here; `notes` is Ice's
+   * reasoning, in his words, and stays out until he gives it.
+   */
+  design?: {
+    palette: { name: string; hex: string }[];
+    type: { role: string; family: string }[];
+    notes?: string;
+    source: string;
+  };
   title: string;
   sub: string;
   images: string[];
@@ -512,6 +524,21 @@ export const cases: CaseStudy[] = [
         poster: "/assets/trailr/making/before-after-poster.jpg",
       },
     ],
+    design: {
+      palette: [
+        { name: "Background", hex: "#F8FAFC" },
+        { name: "Accent", hex: "#007AFF" },
+        { name: "Text", hex: "#0E1116" },
+        { name: "Dark background", hex: "#0E1116" },
+        { name: "Dark accent", hex: "#3ABFF8" },
+        { name: "Supporting", hex: "#2DD4BF" },
+      ],
+      type: [
+        { role: "Headings", family: "Space Grotesk" },
+        { role: "Text", family: "DM Sans" },
+      ],
+      source: "src/style/theme/theme.ts, from the light and dark palette I added on 28 Oct 2025",
+    },
     title: "Trailr AI",
     sub: "Leading a platform redesign at an early-stage AI video startup.",
     images: [
@@ -624,6 +651,19 @@ export const cases: CaseStudy[] = [
         alt: "MockMate's product requirements document on GitHub, dated 27 May 2026, opening with the problem statement.",
       },
     ],
+    design: {
+      palette: [
+        { name: "Background", hex: "#FFFFFF" },
+        { name: "Text", hex: "#0A0A0A" },
+        { name: "Surface", hex: "#F5F5F5" },
+        { name: "Border", hex: "#E5E5E5" },
+      ],
+      type: [
+        { role: "Text", family: "Geist" },
+        { role: "Code", family: "Geist Mono" },
+      ],
+      source: "the app's globals.css (neutral oklch tokens)",
+    },
     title: "MockMate",
     sub: "Paste a job description. Get a tailored interview. Get graded like a hiring panel would.",
     images: [
@@ -654,6 +694,16 @@ export const cases: CaseStudy[] = [
     scope: "Frontend only: a React dashboard that reads a live public price API. No backend of its own.",
     role: "Personal project",
     year: "2025",
+    design: {
+      palette: [
+        { name: "Bitcoin orange", hex: "#F7931A" },
+        { name: "Neutral 950", hex: "#0A0A0A" },
+        { name: "Neutral 500", hex: "#737373" },
+        { name: "Neutral 100", hex: "#F5F5F5" },
+      ],
+      type: [{ role: "Text", family: "Inter" }],
+      source: "src CSS tokens (--color-brand-orange, --color-neutral-*)",
+    },
     title: "Satoshi Standard",
     sub: "Live Bitcoin purchasing-power dashboard across every major currency.",
     images: [
@@ -720,11 +770,21 @@ export const cases: CaseStudy[] = [
         image: "/assets/racha/making/contact-form.webp",
         alt: "Racha's contact form: name, phone, email, preferred date and time, message and a Send button, on the site's green.",
       },
-      {
-        label: "Design",
-        text: "Cream, a deep green and gold, with Lora for headings and Roboto for reading: calm and elegant, the way a visit should feel.",
-      },
     ],
+    design: {
+      palette: [
+        { name: "Cream", hex: "#F7F5F0" },
+        { name: "Green", hex: "#437066" },
+        { name: "Deep green", hex: "#305D4B" },
+        { name: "Gold", hex: "#F2C84A" },
+        { name: "Stone", hex: "#9C8C7F" },
+      ],
+      type: [
+        { role: "Headings", family: "Lora" },
+        { role: "Text", family: "Roboto" },
+      ],
+      source: "client/src/index.css",
+    },
     title: "Racha Beauty",
     sub: "A paying client's first website: 95+ Lighthouse, Danish-language, no maintenance budget.",
     images: [
@@ -775,6 +835,20 @@ export const cases: CaseStudy[] = [
         text: "I wanted to know what it takes to build an award-level website, so I gave myself a brief with no client.",
       },
     ],
+    design: {
+      palette: [
+        { name: "Cream", hex: "#F7F3EB" },
+        { name: "Sage", hex: "#A8B5A0" },
+        { name: "Deep sage", hex: "#6B7F6A" },
+        { name: "Gold", hex: "#C9A86C" },
+        { name: "Charcoal", hex: "#2A2E2A" },
+      ],
+      type: [
+        { role: "Headings", family: "Playfair Display" },
+        { role: "Text", family: "Inter" },
+      ],
+      source: "the page's CSS custom properties",
+    },
     title: "Lumina Spa",
     sub: "A self-initiated scroll-choreography piece: ten animated sections, no build step, 10.8 KB over the wire.",
     images: [
@@ -827,6 +901,21 @@ export const cases: CaseStudy[] = [
         text: "I wanted to know what it takes to build an award-level website, so I gave myself a brief with no client.",
       },
     ],
+    design: {
+      palette: [
+        { name: "Bone", hex: "#EDE5D6" },
+        { name: "Char", hex: "#15100C" },
+        { name: "Ink", hex: "#0A0806" },
+        { name: "Smoke", hex: "#6E6155" },
+      ],
+      type: [
+        { role: "Headings", family: "Fraunces" },
+        { role: "Text", family: "Instrument Sans" },
+        { role: "Labels", family: "Martian Mono" },
+        { role: "Script", family: "Charm" },
+      ],
+      source: "the page's CSS custom properties",
+    },
     title: "Saep Fire Kitchen",
     sub: "A concept piece for an invented Thai restaurant: scroll-driven, every ingredient drawn in code, and no animation library underneath it.",
     images: [
