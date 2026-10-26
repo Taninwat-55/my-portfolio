@@ -837,7 +837,7 @@ export const cases: CaseStudy[] = [
     concept: true,
     n: "08",
     tag: "Motion & Craft",
-    scope: "Frontend only: a static HTML, CSS and JavaScript page with no backend, and a concept with no client.",
+    scope: "Frontend only. Four static HTML pages with CSS and JavaScript, no backend, and a concept with no client.",
     role: "Self-initiated concept",
     year: "2026",
     making: [
@@ -845,41 +845,54 @@ export const cases: CaseStudy[] = [
         label: "Brief",
         text: "I wanted to know what it takes to build an award-level website, so I gave myself a brief with no client.",
       },
+      {
+        label: "First version, August 2026",
+        text: "A day spa told in ten scroll-driven sections: oils, hands, stones, water and rituals. Everything moved, so nothing stood out.",
+        image: "/assets/lumina/making/first-version.webp",
+        alt: "Lumina's first version: 'Step into pure stillness' in a large serif, centred on a dark green background, with a 'Begin the journey' prompt below.",
+      },
+      {
+        label: "Redesign, October 2026",
+        text: "Rebuilt as a bathhouse on the harbour, around one moment instead of ten. You scroll from 9 °C harbour water into an 85 °C sauna, and steam hides the change.",
+        image: "/assets/lumina/making/steam.webp",
+        alt: "Halfway through the scroll on the new Lumina: steam over a wooden sauna, with 32 °C in large type as the temperature climbs.",
+      },
     ],
     design: {
       palette: [
-        { name: "Cream", hex: "#F7F3EB" },
-        { name: "Sage", hex: "#A8B5A0" },
-        { name: "Deep sage", hex: "#6B7F6A" },
-        { name: "Gold", hex: "#C9A86C" },
-        { name: "Charcoal", hex: "#2A2E2A" },
+        { name: "Fog", hex: "#E4E6E3" },
+        { name: "Birch", hex: "#EEE8DD" },
+        { name: "Slate", hex: "#1D2327" },
+        { name: "Ember", hex: "#3A1A10" },
+        { name: "Ember glow", hex: "#F0B48A" },
       ],
       type: [
-        { role: "Headings", family: "Playfair Display" },
-        { role: "Text", family: "Inter" },
+        { role: "Headings", family: "Newsreader" },
+        { role: "Text", family: "Hanken Grotesk" },
       ],
       source: "the page's CSS custom properties",
     },
-    title: "Lumina Spa",
-    sub: "A self-initiated scroll-choreography piece: ten animated sections, no build step, 10.8 KB over the wire.",
+    title: "Lumina",
+    sub: "A concept site for an invented bathhouse on Copenhagen's harbour, with no client behind it. Four pages, one scroll moment from cold water to a hot sauna, and no build step.",
     images: [
       "/assets/lumina/lumina-hero.webp",
-      "/assets/lumina/lumina-arrival.webp",
-      "/assets/lumina/lumina-rituals.webp",
-      "/assets/lumina/lumina-experience.webp",
+      "/assets/lumina/lumina-cold.webp",
+      "/assets/lumina/lumina-heat.webp",
+      "/assets/lumina/lumina-rooms.webp",
+      "/assets/lumina/lumina-booking.webp",
     ],
     overview:
-      "A landing page for a spa that does not exist. No client, no brief. I wanted to build the kind of scroll-choreographed site that usually arrives as a framework plus a few hundred kilobytes of JavaScript, and find out how far plain HTML, CSS and two libraries would get instead. Ten sections move with the scroll: a layered hero, a pinned arrival, oil cards, hand and stone compositions, water ripples, a horizontal ritual carousel and a sequential benefit reveal.",
+      "A website for a bathhouse that does not exist. No client. The first version was a ten-section day spa page where everything moved, so nothing stood out. This version is a bathhouse on Copenhagen's harbour, built around one moment. The screen holds still while you scroll, the 9 °C harbour water disappears into steam, the number climbs, and an 85 °C sauna comes through. Around that moment sit four calm pages: the ritual, rooms and prices, the place, and a booking form that works but sends nothing.",
     challenge:
-      "Scroll animation is where responsive layout quietly breaks. The techniques that read as premium on a desktop (pinned sections, fixed viewport heights, multi-column grids) are the same ones that strand content off-screen on a phone, and they fail silently: nothing throws, the text is simply unreachable. Holding the whole thing to three static files with no build step meant every fix had to be a layout decision rather than a new dependency.",
+      "The first try at the moment looked cheap. A plain crossfade between the cold photo and the warm one gave a muddy double exposure halfway through, both pictures at half strength. The fix was to stop fading one picture into the other. Steam now rises first and fills the frame, the water goes behind it, and the sauna only fades in once the steam is thick. The same moment also has to work for someone whose device asks for less motion, so without motion it becomes a plain section with the warm photo and both lines of text.",
     stackWhy:
-      "GSAP with ScrollTrigger for scrubbed timelines and pinning, because CSS scroll-driven animations still cannot express scroll-linked easing reliably across browsers. Lenis for smooth scroll, with its scroll event wired into ScrollTrigger.update so the two share one scroll position instead of fighting over two. Both from CDN: no install, no bundler, no lockfile.",
+      "GSAP with ScrollTrigger runs the one scrubbed timeline, because the moment is a fixed sequence of eased steps (steam, swap, number, text) that CSS scroll-driven animations cannot yet sequence reliably across browsers. Lenis smooths the scroll and hands ScrollTrigger the same position. Both load from a CDN. Fonts and photos are self-hosted, and the photos come as AVIF and WebP at three widths, made once by a small script and committed, so there is still no build step. The hero's entrance is plain CSS, so it never waits on the CDN.",
     engineering:
-      "A responsive audit turned up three real bugs, two of them the same mistake. A position: sticky element taller than the viewport pins at top: 0 and can never scroll its own bottom into view, so both pinned sections stranded their lower content below the fold on phones; the fix was to unpin them under 1100px and let them flow. The benefit list declared a two-column grid but had three children, so auto-placement dropped every paragraph into the 60px number gutter and wrapped it one word per line. Full-height sections moved to 100dvh with a 100vh fallback, except the four values the pinning maths reads, which stay in vh so the sticky range cannot reflow mid-scroll.",
+      "Screenshots caught three bugs that reading the code did not. The text in the scroll moment wrapped one word per line, because its max-width was 16ch on the wrapper, and ch is measured in the wrapper's small body font rather than the heading's large one; moving the limit onto the heading as 11em fixed it. The steam was invisible because the dark shade over the photos was an ::after pseudo-element, which paints after its siblings at the same z-index and so sat on top of the steam. And the masks that make headings rise into view clipped the tops of tall letters, like the T in Three, until each line got room above as well as below.",
     metrics: [
-      { v: "10.8 KB", k: "Total page weight" },
+      { v: "11.1 KB", k: "Authored code, gzipped" },
       { v: "Zero", k: "Build steps" },
-      { v: "10", k: "Scroll-driven sections" },
+      { v: "9 → 85 °C", k: "One scroll moment" },
     ],
     stack: ["HTML", "CSS", "JavaScript", "GSAP", "ScrollTrigger", "Lenis"],
     links: {
@@ -887,14 +900,14 @@ export const cases: CaseStudy[] = [
       code: "https://github.com/Taninwat-55/lumina-spa",
     },
     showroom: {
-      business: "A day spa",
+      business: "A harbour bathhouse",
       style: "Scroll storytelling",
-      rung: 0,
+      rung: 1,
       addOns: ["scroll-story"],
       gets: [
-        "One long page that walks a visitor through the visit: arriving, the oils, the treatments, the rituals",
-        "Ten sections that move with the scroll, in 10.8 KB over the wire, so it opens fast on a phone",
-        "Everything in every build: search setup, your Google Business profile, an enquiry form and analytics",
+        "Four pages: the visit as one story on the front page, then rooms and prices, the place, and booking",
+        "One scroll moment, from cold water to a hot sauna, that turns into a calm page when a phone asks for less motion",
+        "Everything in every build: search setup, your Google Business profile, analytics, and an enquiry form, here shaped as a booking request",
       ],
     },
   },
@@ -938,7 +951,7 @@ export const cases: CaseStudy[] = [
     overview:
       "A site for an invented Thai fire kitchen in Nørrebro. Thai cooking balances five tastes and no dish tastes of one thing, so scrolling descends through them one pinned chapter at a time (spicy, sour, salty, sweet, aromatic) while that taste's ingredient draws itself on canvas and the page's accent colour travels with it. One self-contained HTML file: no framework, no libraries, no build step.",
     challenge:
-      "Two problems, and the second one was the real one. The obvious challenge was building scroll choreography with nothing underneath it: no GSAP, no ScrollTrigger, no Lenis, which is what Lumina Spa leans on. The harder challenge was that a page like this cannot be reviewed by reading its source. A hand-drawn chilli is either recognisable or it isn't, and the only way to find out is to look at it.",
+      "Two problems, and the second one was the real one. The obvious challenge was building scroll choreography with nothing underneath it: no GSAP, no ScrollTrigger, no Lenis, which is what Lumina leans on. The harder challenge was that a page like this cannot be reviewed by reading its source. A hand-drawn chilli is either recognisable or it isn't, and the only way to find out is to look at it.",
     stackWhy:
       "Nothing but the platform. One requestAnimationFrame loop, canvas 2D, and CSS custom properties, partly to show the animation library is a convenience rather than a requirement, and partly because a bundler buys you nothing on a page with no state, no routing and no data to fetch.",
     engineering:
@@ -1195,7 +1208,7 @@ const WEBSITE_ADD_ONS: { id: AddOnId; name: string; price: string; body: string;
   id: "scroll-story",
   name: "A page that tells a story as you scroll",
   price: "6.000 DKK",
-  body: "I build the whole page around one story that unfolds as the visitor scrolls. Sections pin in place, pictures and words move together, and the visitor sets the pace. Lumina Spa in the Showroom is built this way. A visitor whose device asks for reduced motion gets the same story as a calm, complete page.",
+  body: "I build the whole page around one story that unfolds as the visitor scrolls. Sections pin in place, pictures and words move together, and the visitor sets the pace. Lumina in the Showroom is built this way. A visitor whose device asks for reduced motion gets the same story as a calm, complete page.",
   },
   {
   id: "extra-page",
