@@ -11,7 +11,7 @@ import work from "@/app/world/work.module.css";
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Every project by Ice (Taninwat Kaewpankan) with a case page: Trailr AI, Bevisly, MockMate, Racha Beauty, Lumina Spa, Millennial Consulting, Satoshi Standard and Saep Fire Kitchen.",
+    "Every project by Ice (Taninwat Kaewpankan) with a case page: Trailr AI, Bevisly, MockMate, Racha Beauty, Lumina, Millennial Consulting, Satoshi Standard and Saep Fire Kitchen.",
   alternates: { canonical: "https://taninwatkaewpankan.xyz/work" },
 };
 
