@@ -2,7 +2,7 @@
 // lost again (Ice, 2026-10-26: every sketch and old version of his projects
 // was gone by the time the case pages wanted them).
 //
-//   npm run snap <url> <project> "<note>"
+//   npm run snap <url> <project> "<note>" [wait-ms, default 12000]
 //   npm run snap https://bevisly.com bevisly "before the freelance redesign"
 //
 // Saves a desktop (1440x900) and a phone (390x844) screenshot to
@@ -19,7 +19,7 @@ import { appendFileSync, existsSync, mkdirSync } from "node:fs";
 import { homedir } from "node:os";
 import path from "node:path";
 
-const [url, project, note = "snapshot"] = process.argv.slice(2);
+const [url, project, note = "snapshot", wait = "12000"] = process.argv.slice(2);
 if (!url || !project || !/^https?:\/\//.test(url)) {
   console.error('Usage: npm run snap <url> <project> "<note>"');
   process.exit(1);
@@ -49,8 +49,10 @@ for (const [name, size] of shots) {
       "--headless=new",
       "--hide-scrollbars",
       "--disable-gpu",
-      // Give scripts and fonts a moment, so the shot is the page, not a loader.
-      "--virtual-time-budget=6000",
+      // Give scripts, fonts and data a moment, so the shot is the page, not a
+      // loader. An app behind a slow session check may need more: pass a 4th
+      // argument in ms ("Loading session..." on old Bevisly at 6000).
+      `--virtual-time-budget=${wait}`,
       `--window-size=${size}`,
       `--screenshot=${file}`,
       url,

@@ -409,7 +409,7 @@ export interface CaseStudy {
    * the case page shows no Making section. Never frame a stage as "AI wrote
    * this" (Ice, 2026-10-25).
    */
-  making?: { label: string; text: string; image?: string; alt?: string }[];
+  making?: { label: string; text: string; image?: string; alt?: string; video?: string; poster?: string }[];
   title: string;
   sub: string;
   images: string[];
@@ -490,6 +490,28 @@ export const cases: CaseStudy[] = [
     scope: "Frontend and product work on an existing platform. Ice owned the UI/UX redesign and the React frontend; the backend belongs to the team and was not his.",
     role: "Frontend Developer (intern → part-time)",
     year: "2025 – now",
+    // The Making (Ice, 2026-10-26). Both screens rebuilt locally from the repo:
+    // ec34e09 (10 Sep 2025, the last commit before Ice's first) and ff541d6
+    // (19 Oct 2026), same Aliens demo project. Tommy is fine with showing the
+    // old version. Never name a client project in these.
+    making: [
+      {
+        label: "Brief",
+        text: "My program required an internship and I could not find one. Trailr AI had no open frontend role, so I emailed the CEO and asked whether they would take a frontend student. They did.",
+      },
+      {
+        label: "Before, September 2025",
+        text: "Story Builder the week before my first commit: the platform as I found it.",
+        image: "/assets/trailr/making/before-story-builder.webp",
+        alt: "Trailr AI's Story Builder in September 2025: a file tree on the left, a chat box and clip cards on top, and a blue timeline of four clips below.",
+      },
+      {
+        label: "Before and after",
+        text: "The same project in Story Builder, September 2025 and October 2026. I led the redesign of the platform's UI.",
+        video: "/assets/trailr/making/before-after.mp4",
+        poster: "/assets/trailr/making/before-after-poster.jpg",
+      },
+    ],
     title: "Trailr AI",
     sub: "Leading a platform redesign at an early-stage AI video startup.",
     images: [
@@ -525,6 +547,25 @@ export const cases: CaseStudy[] = [
     scope: "Full-stack: a React frontend on Supabase (Postgres with row-level security, auth and storage).",
     role: "Personal project, built solo",
     year: "2025 – now",
+    // The Making (Ice, 2026-10-26): the first version rebuilt from commit
+    // 5d00537 (9 Nov 2025). Bevisly is becoming a freelance platform; update
+    // this case when that ships (board-personal.md).
+    making: [
+      {
+        label: "Brief",
+        text: "I was applying for frontend jobs and getting rejected before anyone saw my work. So I started building a place to prove skills instead of claiming them: you complete a real task, it stays on your profile, recruiters rate it, and you decide whether it is public. Even after a rejection, the proof stays.",
+      },
+      {
+        label: "First version, November 2025",
+        text: "Still called Bevis, with one promise on the front page: proof replaces promise.",
+        image: "/assets/bevisly/making/first-version.webp",
+        alt: "Bevis in November 2025: a dark hero reading 'Proof replaces promise. Fair, fast, and verifiable hiring for emerging talent', with a job search box.",
+      },
+      {
+        label: "Turning point",
+        text: "A profile full of completed tasks turned out to be a portfolio by another name. In September 2026 Bevisly became a job board that can ask for the work, and it is now becoming a freelance platform.",
+      },
+    ],
     title: "Bevisly",
     sub: "Turn skill claims into structured, verifiable proof.",
     images: [
@@ -557,6 +598,19 @@ export const cases: CaseStudy[] = [
     scope: "Full-stack: a Next.js app with a Prisma-backed database and a server-side AI grading pipeline.",
     role: "Personal project",
     year: "2026 – now",
+    // The Making (Ice, 2026-10-26): the PRD as of commit b19af3d (27 May 2026).
+    making: [
+      {
+        label: "Brief",
+        text: "No grand plan. I wanted to build something, and since I was preparing for interviews myself, it became a place to practise them.",
+      },
+      {
+        label: "Day one, a written spec",
+        text: "It started as a product requirements document on 27 May 2026, before any code: the problem, the scope and the open questions, closed one by one.",
+        image: "/assets/mockmate/making/day-one-spec.webp",
+        alt: "MockMate's product requirements document on GitHub, dated 27 May 2026, opening with the problem statement.",
+      },
+    ],
     title: "MockMate",
     sub: "Paste a job description. Get a tailored interview. Get graded like a hiring panel would.",
     images: [
@@ -625,6 +679,20 @@ export const cases: CaseStudy[] = [
     scope: "Frontend only: a static React site with no backend or database. The contact form posts to Web3Forms, a hosted form service.",
     role: "Freelance, design and build for a paying client",
     year: "2025",
+    // The Making (Ice, 2026-10-26): the first version rebuilt from commit
+    // 2142f3c (27 Jun 2025).
+    making: [
+      {
+        label: "Brief",
+        text: "Racha was opening her own beauty and wellness studio and needed a website to open with. She knew I was studying frontend development and asked me to build it.",
+      },
+      {
+        label: "First version, June 2025",
+        text: "The site as first built. It has illustrations where today's site has photos of the studio.",
+        image: "/assets/racha/making/first-version.webp",
+        alt: "Racha Beauty & Wellness in June 2025: a green header, the welcome headline and an illustrated portrait.",
+      },
+    ],
     title: "Racha Beauty",
     sub: "A paying client's first website: 95+ Lighthouse, Danish-language, no maintenance budget.",
     images: [
@@ -669,6 +737,12 @@ export const cases: CaseStudy[] = [
     scope: "Frontend only: a static HTML, CSS and JavaScript page with no backend, and a concept with no client.",
     role: "Self-initiated concept",
     year: "2026",
+    making: [
+      {
+        label: "Brief",
+        text: "I wanted to know what it takes to build an award-level website, so I gave myself a brief with no client.",
+      },
+    ],
     title: "Lumina Spa",
     sub: "A self-initiated scroll-choreography piece: ten animated sections, no build step, 10.8 KB over the wire.",
     images: [
@@ -715,6 +789,12 @@ export const cases: CaseStudy[] = [
     scope: "Frontend only: a static page built on the platform alone (canvas and CSS), no backend, and a concept with no client.",
     role: "Self-initiated concept",
     year: "2026",
+    making: [
+      {
+        label: "Brief",
+        text: "I wanted to know what it takes to build an award-level website, so I gave myself a brief with no client.",
+      },
+    ],
     title: "Saep Fire Kitchen",
     sub: "A concept piece for an invented Thai restaurant: scroll-driven, every ingredient drawn in code, and no animation library underneath it.",
     images: [
