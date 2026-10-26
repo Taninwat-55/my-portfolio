@@ -19,6 +19,8 @@ export type HallProject = {
   sub: string;
   tag: string;
   image: string;
+  /** Plays on the card while it is near (full world only). */
+  clip?: string;
 };
 
 /**
@@ -44,6 +46,7 @@ export function Hall({ projects }: { projects: HallProject[] }) {
   // -2: between two cards (nothing shows); n: past the last.
   const [active, setActive] = useState(-1);
   const images = useMemo(() => projects.map((p) => p.image), [projects]);
+  const clips = useMemo(() => projects.map((p) => p.clip), [projects]);
   const full = mode === "full";
   // The DOM owns the captions: the scroll shows them until the canvas is
   // drawing, then the canvas's damped camera does, so they follow its glide.
@@ -111,7 +114,7 @@ export function Hall({ projects }: { projects: HallProject[] }) {
       <div className={styles.hallStage} data-phase={phase}>
         <div className={styles.hallCanvas} aria-hidden="true">
           {full && mounted && (
-            <HallCanvas images={images} progress={progress} root={section} active={near} onActive={onCanvasActive} />
+            <HallCanvas images={images} clips={clips} progress={progress} root={section} active={near} onActive={onCanvasActive} />
           )}
         </div>
 

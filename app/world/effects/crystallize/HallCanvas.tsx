@@ -12,6 +12,8 @@ export const CARD_DISTANCE = 3.5; // how far in front of the camera a card sits 
 
 type Props = {
   images: string[];
+  /** A clip per card, or undefined for a still-only card. */
+  clips: (string | undefined)[];
   progress: RefObject<{ value: number }>;
   root: RefObject<HTMLElement | null>;
   active: boolean;
@@ -83,7 +85,45 @@ const smooth = (a: number, b: number, x: number) => {
   return t * t * (3 - 2 * t);
 };
 
-function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
+function playWhenNear(clip: Clip, near: boolean, u: Record<string, THREE.IUniform>) {
+  const { video } = clip;
+  if (!near) {
+    if (!video.paused) video.pause();
+    return;
+  }
+  if (!video.src) video.src = clip.src;
+  if (video.paused) void video.play().catch(() => {});
+  if (clip.ready && !clip.swapped) {
+    clip.swapped = true;
+    u.uTarget.value = clip.texture;
+    u.uCover.value.copy(coverScale(CARD_W / CARD_H, video.videoWidth / video.videoHeight));
+  }
+}
+
+/**
+ * A card's clip, as a muted looping <video>. It is not fetched until its card
+ * first comes near (no src before that), plays only while near, and its
+ * texture replaces the screenshot once the first frame has decoded, so the
+ * card never flashes blank.
+ */
+function makeClip(src: string) {
+  const video = document.createElement("video");
+  video.muted = true;
+  video.loop = true;
+  video.playsInline = true;
+  video.preload = "none";
+  const texture = new THREE.VideoTexture(video);
+  texture.minFilter = THREE.LinearFilter;
+  texture.generateMipmaps = false;
+  return { src, video, texture, ready: false, swapped: false };
+}
+type Clip = ReturnType<typeof makeClip>;
+
+// The clip plays from when its card starts crystallizing until the camera has passed it.
+const CLIP_NEAR = 16;
+const CLIP_PAST = -2;
+
+function Hall({ images, clips, progress, root, active, onActive }: Props) {
   const camera = useThree((s) => s.camera);
   const size = useThree((s) => s.size);
   const pointer = useRef({ x: 0, y: 0 });
@@ -235,6 +275,34 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
     };
   }, [root, images, cards, numerals, colours]);
 
+  const videos = useMemo(() => clips.map((src) => (src ? makeClip(src) : null)), [clips]);
+
+  useEffect(() => {
+    const listeners = videos.map((c) => {
+      if (!c) return null;
+      const onData = () => {
+        c.ready = true;
+      };
+      c.video.addEventListener("loadeddata", onData);
+      return onData;
+    });
+    return () => {
+      videos.forEach((c, k) => {
+        if (!c) return;
+        c.video.removeEventListener("loadeddata", listeners[k]!);
+        c.video.pause();
+        c.video.removeAttribute("src");
+        c.video.load();
+        c.texture.dispose();
+      });
+    };
+  }, [videos]);
+
+  // The frame loop stops when the hall scrolls away, so pause here too.
+  useEffect(() => {
+    if (!active) videos.forEach((c) => c?.video.pause());
+  }, [active, videos]);
+
   useEffect(() => {
     const move = (e: PointerEvent) => {
       pointer.current = { x: (e.clientX / innerWidth) * 2 - 1, y: (e.clientY / innerHeight) * 2 - 1 };
@@ -282,11 +350,13 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
 
     // A phone is narrow: pull the cards toward the middle so they stay on screen.
     const spread = Math.min(1, Math.max(0.2, size.width / size.height / 1.6));
-    cards.forEach((m) => {
+    cards.forEach((m, k) => {
       m.position.x = (m.userData.side as number) * 1.25 * spread;
       m.scale.setScalar(Math.min(1, Math.max(0.42, spread * 1.3)));
       const d = z - m.position.z; // how far ahead of the camera
       const u = (m.material as THREE.ShaderMaterial).uniforms;
+      const clip = videos[k];
+      if (clip && m.userData.loaded) playWhenNear(clip, d < CLIP_NEAR && d > CLIP_PAST, u);
       u.uProgress.value = m.userData.loaded ? smooth(15, 5, d) : 0;
       u.uTime.value = clock.elapsedTime;
       u.uOpacity.value = 1 - smooth(26, 32, d);
@@ -317,7 +387,8 @@ function Hall({ images, progress, root, onActive }: Omit<Props, "active">) {
   );
 }
 
-export default function HallCanvas({ active, ...props }: Props) {
+export default function HallCanvas(props: Props) {
+  const { active } = props;
   return (
     <Canvas
       flat

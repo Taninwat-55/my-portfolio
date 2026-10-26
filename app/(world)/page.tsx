@@ -43,7 +43,7 @@ const lead = leadCaseIds.flatMap((id) =>
   cases.filter((c) => c.id === id),
 );
 const slides = lead.map((c) => ({ src: c.images[0], title: c.title }));
-const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c.tag, image: c.images[0] }));
+const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c.tag, image: c.images[0], clip: c.clip }));
 
 
 export default function Home() {
