@@ -8,6 +8,8 @@ The personal site of **Ice** (Taninwat Kaewpankan), Full-stack Engineer and Crea
 
 The site is built around one idea, *it comes into focus*. Everything starts as signal (glyphs, mono type) and crystallizes into the finished thing. The homepage runs as one sequence: a short loader, the hero, a statement, a door built from the page's own grid lines, and a hall where each project resolves out of loose glyphs as you walk past it.
 
+Case pages end with **The Making**: each project's brief and real, dated earlier versions, rebuilt from its own git history. An **Ask the site** box answers questions from the site's content and points to the right pages.
+
 The effects are decoration on complete HTML. Every page renders on the server and reads fully without JavaScript. With reduced motion, data saver, low device memory or no WebGL2, visitors get the same content without the effects.
 
 ## Pages
@@ -22,6 +24,7 @@ The effects are decoration on complete HTML. Every page renders on the server an
 | `/showroom` | Sample sites for made-up businesses, each with its price |
 | `/contact` | Direct lines for roles, the project enquiry form |
 | `/cv` | The CV, mirroring the PDF |
+| `/mcp` | A public, read-only MCP server: profile, projects, cases, services, CV and contact, from the same data as the pages |
 
 ## Stack
 

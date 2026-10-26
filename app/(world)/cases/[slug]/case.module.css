@@ -347,7 +347,9 @@
 
 /* ─── The Making ─────────────────────────────────────────────────────────── */
 
-/* The stages read left to right on desktop, top to bottom on a phone. */
+/* One stage per row: its label and words, then its screen or clip at the
+   screenshot's own proportions (no cropping: the detail is the point). On
+   desktop the words sit left of the media, like the story's chapters. */
 .making {
   composes: grid;
   row-gap: calc(var(--unit) * 3);
@@ -362,21 +364,20 @@
 
 .stages {
   display: grid;
-  gap: calc(var(--unit) * 5) var(--gutter);
+  gap: calc(var(--unit) * 8);
   grid-column: 1 / -1;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-@media (min-width: 900px) {
-  .stages {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
+.stage {
+  display: grid;
+  gap: calc(var(--unit) * 2) var(--gutter);
 }
 
 .stageN {
-  margin: 0 0 var(--unit);
+  margin: 0;
   font-family: var(--world-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
@@ -387,17 +388,52 @@
 .stageImage {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  margin-bottom: calc(var(--unit) * 1.5);
-  object-fit: cover;
-  object-position: top;
+  height: auto;
   border: 1px solid var(--line);
+  background: var(--bg);
 }
 
 .stageText {
+  max-width: 52ch;
   margin: 0;
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.6;
+}
+
+@media (min-width: 900px) {
+  .stage {
+    grid-template-columns: repeat(var(--cols), 1fr);
+    align-items: start;
+  }
+
+  .stageN {
+    grid-column: 1 / span 3;
+    grid-row: 1;
+  }
+
+  .stageText {
+    grid-column: 1 / span 3;
+    grid-row: 2;
+    align-self: start;
+    font-size: 16px;
+  }
+
+  /* Rows hug the label and words; the media's height goes to the last row. */
+  .stage {
+    grid-template-rows: auto 1fr;
+  }
+
+  .stageImage {
+    grid-column: 4 / -1;
+    grid-row: 1 / span 2;
+  }
+
+  /* A stage with only words reads in the story's column. */
+  .stage:not(:has(.stageImage)) .stageText {
+    grid-column: 4 / span 7;
+    grid-row: 1;
+    font-size: 18px;
+  }
 }
 
 /* ─── Next ───────────────────────────────────────────────────────────────── */

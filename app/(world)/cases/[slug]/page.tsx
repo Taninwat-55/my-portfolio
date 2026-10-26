@@ -8,6 +8,7 @@ import { SmoothScroll } from "@/app/world/SmoothScroll";
 import { WorldFooter } from "@/app/world/WorldFooter";
 import { WorldNav } from "@/app/world/WorldNav";
 import { WorldShell } from "@/app/world/WorldShell";
+import { MakingVideo } from "@/app/world/MakingVideo";
 import { Reveal } from "@/app/world/effects/crystallize/Reveal";
 import { caseTitle } from "@/app/world/caseTitle";
 import styles from "./case.module.css";
@@ -243,6 +244,9 @@ export default async function CasePage({
                     <p className={styles.stageN}>
                       {String(i + 1).padStart(2, "0")} · {stage.label}
                     </p>
+                    {stage.video && stage.poster && (
+                      <MakingVideo className={styles.stageImage} src={stage.video} poster={stage.poster} label={stage.text} />
+                    )}
                     {stage.image && (
                       // eslint-disable-next-line @next/next/no-img-element -- process material, shown as made
                       <img className={styles.stageImage} src={stage.image} alt={stage.alt ?? ""} loading="lazy" />
