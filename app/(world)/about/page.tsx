@@ -107,7 +107,7 @@ export default function AboutPage() {
           <Link className={styles.nextLink} href="/#work-title">
             The work <span aria-hidden="true">→</span>
           </Link>
-          <p className={styles.nextSub}>Five projects, each with a case page: what it is, what I did and how it was built.</p>
+          <p className={styles.nextSub}>Each project has a case page: what it is, what I did and how it was built.</p>
         </nav>
       </main>
       <WorldFooter />

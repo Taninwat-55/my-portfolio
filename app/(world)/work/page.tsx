@@ -20,7 +20,7 @@ const rest = cases.filter((c) => !leadCaseIds.includes(c.id));
 
 /**
  * Every case, in the Crystallize world (2026-10-25; it replaced the Stack's
- * all-cards grid). The hall's five first, in its order, then the rest.
+ * all-cards grid). The hall's projects first, in its order, then the rest.
  */
 export default function WorkPage() {
   const card = (c: (typeof cases)[number], eager: boolean) => (

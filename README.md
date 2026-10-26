@@ -16,7 +16,7 @@ The effects are decoration on complete HTML. Every page renders on the server an
 
 | Route | What it is |
 | --- | --- |
-| `/` | Hero, statement, door, the glyph hall of five projects |
+| `/` | Hero, statement, door, the glyph hall of the lead projects |
 | `/cases/[slug]` | A case: facts, screens, numbers, the write-up, the next case |
 | `/work` | Every project with a case page |
 | `/about` | Background, what I do, the story |

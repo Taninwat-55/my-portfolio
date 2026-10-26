@@ -955,10 +955,11 @@ export const cases: CaseStudy[] = [
 
 /**
  * The work in the order the homepage's hall shows it, and the order case
- * pages hand on to the next one. Saep stays out until its redesign;
- * Millennial has no screens to show. Both still have case pages.
+ * pages hand on to the next one. Saep joined on 2026-10-26 with its current
+ * screens (Ice); Millennial has no screens to show, so it stays a case page
+ * only.
  */
-export const leadCaseIds = ["trailr", "bevisly", "mockmate", "racha", "lumina"];
+export const leadCaseIds = ["trailr", "bevisly", "mockmate", "racha", "lumina", "saep"];
 
 // ─── SERVICES ─────────────────────────────────────────────────────────────────
 // The /services page speaks to a different visitor than the homepage does: a
