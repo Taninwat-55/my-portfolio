@@ -40,9 +40,7 @@ export async function generateMetadata({
       description: caseStudy.sub,
       url,
       type: "article",
-      // A page-level openGraph replaces the root one rather than merging, so
-      // the share card has to be named again.
-      images: ["/opengraph-image"],
+      // The case's own card comes from ./opengraph-image.tsx.
     },
     twitter: {
       card: "summary_large_image",
@@ -83,6 +81,7 @@ export default async function CasePage({
   const hero = caseStudy.images[0];
   const next = cases.find((c) => c.id === order[(order.indexOf(caseStudy.id) + 1) % order.length])!;
   const price = inShowroom(caseStudy) ? conceptPrice(caseStudy.showroom!) : null;
+  const design = caseStudy.design;
 
   const creativeWorkJsonLd = {
     "@context": "https://schema.org",
@@ -225,12 +224,58 @@ export default async function CasePage({
           )}
 
           <div className={styles.story}>
-            {copy.sections.map(({ key, label }) => (
-              <section key={key} className={styles.chapter}>
-                <h2 className={styles.label}>{label}</h2>
-                <p className={styles.body}>{caseStudy[key]}</p>
-              </section>
-            ))}
+            {/* Overview and challenge are shared; with design facts, the rest
+                splits into the two languages the site speaks, side by side. */}
+            {copy.sections
+              .filter(({ key }) => !design || key === "overview" || key === "challenge")
+              .map(({ key, label }) => (
+                <section key={key} className={styles.chapter}>
+                  <h2 className={styles.label}>{label}</h2>
+                  <p className={styles.body}>{caseStudy[key]}</p>
+                </section>
+              ))}
+
+            {design && (
+              <div className={styles.split}>
+                <section className={styles.voice} aria-labelledby="design-title">
+                  <h2 id="design-title" className={styles.voiceTitle}>
+                    Design
+                  </h2>
+                  {design.notes && <p className={styles.voiceText}>{design.notes}</p>}
+                  <p className={styles.label}>Palette</p>
+                  <ul className={styles.swatches}>
+                    {design.palette.map((c) => (
+                      <li key={c.name + c.hex}>
+                        <span className={styles.swatch} style={{ background: c.hex }} aria-hidden="true" />
+                        <span className={styles.swatchName}>{c.name}</span>
+                        <span className={styles.swatchHex}>{c.hex}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className={styles.label}>Type</p>
+                  <dl className={styles.typeList}>
+                    {design.type.map((t) => (
+                      <div key={t.role}>
+                        <dt>{t.role}</dt>
+                        <dd>{t.family}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+
+                <section className={styles.voice} aria-labelledby="engineering-title">
+                  <h2 id="engineering-title" className={styles.voiceTitle}>
+                    Engineering
+                  </h2>
+                  <p className={styles.label}>{copy.sections.find((x) => x.key === "stackWhy")!.label}</p>
+                  <p className={styles.voiceText}>{caseStudy.stackWhy}</p>
+                  <p className={styles.label}>{copy.sections.find((x) => x.key === "engineering")!.label}</p>
+                  <p className={styles.voiceText}>{caseStudy.engineering}</p>
+                  <p className={styles.label}>Built with</p>
+                  <p className={styles.voiceText}>{caseStudy.stack.join(", ")}</p>
+                </section>
+              </div>
+            )}
           </div>
 
           {caseStudy.making && caseStudy.making.length > 0 && (

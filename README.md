@@ -16,7 +16,7 @@ The effects are decoration on complete HTML. Every page renders on the server an
 
 | Route | What it is |
 | --- | --- |
-| `/` | Hero, statement, door, the glyph hall of five projects |
+| `/` | Hero, statement, door, the glyph hall of the lead projects |
 | `/cases/[slug]` | A case: facts, screens, numbers, the write-up, the next case |
 | `/work` | Every project with a case page |
 | `/about` | Background, what I do, the story |
@@ -61,6 +61,15 @@ assets/fonts/           # Fonts for the generated share images and icons
 `cvData` and `public/assets/Taninwat_Kaewpankan_CV.pdf` must stay in sync. `npm run cv` rebuilds the PDF from `cvData`.
 
 Every claim on the site has to be defensible in an interview. No invented numbers, titles or testimonials.
+
+## Adding a project
+
+More projects are coming, so this is the whole path:
+
+1. **Capture as you build** (`~/Documents/portfolio-log/<project>/`): write the brief in `log.md` on day one, and `npm run snap <url> <project> "<note>"` at the first deploy, right before any redesign and after shipping.
+2. **Screens:** put the originals in `public/assets/<id>/`, then `npm run textures` for the 720, 960 and 1280 px copies the site serves.
+3. **The case:** add an entry to `cases` in `app/data.ts` with the facts (`role`, `year`, `scope`, `stack`, `links`), the story (`overview`, `challenge`, `stackWhy`, `engineering`, `metrics`), `design` (palette and type read from the project's own code, plus your reasoning in `notes`) and `making` (brief and real, dated earlier versions).
+4. **To feature it in the hall,** add its id to `leadCaseIds`. `/work`, the sitemap, the MCP server and Ask the site pick it up from `cases` on their own.
 
 ## Getting started
 

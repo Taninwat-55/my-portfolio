@@ -410,6 +410,19 @@ export interface CaseStudy {
    * this" (Ice, 2026-10-25).
    */
   making?: { label: string; text: string; image?: string; alt?: string; video?: string; poster?: string }[];
+  /**
+   * The design side of the case, beside the engineering (Ice, 2026-10-26:
+   * the site speaks both languages). Palette and type are read from the
+   * project's own code, never picked to look nice here; `notes` is Ice's
+   * reasoning, in his words, and stays out until he gives it.
+   */
+  design?: {
+    palette: { name: string; hex: string }[];
+    type: { role: string; family: string }[];
+    notes?: string;
+    /** Where the facts were read from. For us, never rendered (Ice, 2026-10-26). */
+    source: string;
+  };
   title: string;
   sub: string;
   images: string[];
@@ -512,6 +525,21 @@ export const cases: CaseStudy[] = [
         poster: "/assets/trailr/making/before-after-poster.jpg",
       },
     ],
+    design: {
+      palette: [
+        { name: "Background", hex: "#F8FAFC" },
+        { name: "Accent", hex: "#007AFF" },
+        { name: "Text", hex: "#0E1116" },
+        { name: "Dark background", hex: "#0E1116" },
+        { name: "Dark accent", hex: "#3ABFF8" },
+        { name: "Supporting", hex: "#2DD4BF" },
+      ],
+      type: [
+        { role: "Headings", family: "Space Grotesk" },
+        { role: "Text", family: "DM Sans" },
+      ],
+      source: "src/style/theme/theme.ts, from the light and dark palette I added on 28 Oct 2025",
+    },
     title: "Trailr AI",
     sub: "Leading a platform redesign at an early-stage AI video startup.",
     images: [
@@ -547,8 +575,9 @@ export const cases: CaseStudy[] = [
     scope: "Full-stack: a React frontend on Supabase (Postgres with row-level security, auth and storage).",
     role: "Personal project, built solo",
     year: "2025 – now",
-    // The Making (Ice, 2026-10-26): the first version rebuilt from commit
-    // 5d00537 (9 Nov 2025). Bevisly is becoming a freelance platform; update
+    // The Making (Ice, 2026-10-26): v1 rebuilt from commit 5d00537 (9 Nov
+    // 2025); v2 is Ice's own screenshot of the landing from 941aa18 (22 Feb
+    // 2026); v3 is the live site on 2026-10-26. Bevisly is becoming a freelance platform; update
     // this case when that ships (board-personal.md).
     making: [
       {
@@ -562,8 +591,20 @@ export const cases: CaseStudy[] = [
         alt: "Bevis in November 2025: a dark hero reading 'Proof replaces promise. Fair, fast, and verifiable hiring for emerging talent', with a job search box.",
       },
       {
+        label: "Second version, February 2026",
+        text: "Renamed Bevisly and rebuilt around one line: prove your skills, get hired, keep the proof forever.",
+        image: "/assets/bevisly/making/second-version.webp",
+        alt: "Bevisly in 2026: 'Prove your skills. Get hired. Keep the proof forever.' above a box for generating a skill task from a job description.",
+      },
+      {
         label: "Turning point",
         text: "A profile full of completed tasks turned out to be a portfolio by another name. In September 2026 Bevisly became a job board that can ask for the work, and it is now becoming a freelance platform.",
+      },
+      {
+        label: "In progress, October 2026",
+        text: "One page of your projects, each confirmed by the client who paid for it. Still being built.",
+        image: "/assets/bevisly/making/in-progress.webp",
+        alt: "Bevisly in October 2026: 'Your work, confirmed by the clients who paid for it.' with a Create your page button.",
       },
     ],
     title: "Bevisly",
@@ -611,6 +652,19 @@ export const cases: CaseStudy[] = [
         alt: "MockMate's product requirements document on GitHub, dated 27 May 2026, opening with the problem statement.",
       },
     ],
+    design: {
+      palette: [
+        { name: "Background", hex: "#FFFFFF" },
+        { name: "Text", hex: "#0A0A0A" },
+        { name: "Surface", hex: "#F5F5F5" },
+        { name: "Border", hex: "#E5E5E5" },
+      ],
+      type: [
+        { role: "Text", family: "Geist" },
+        { role: "Code", family: "Geist Mono" },
+      ],
+      source: "the app's globals.css (neutral oklch tokens)",
+    },
     title: "MockMate",
     sub: "Paste a job description. Get a tailored interview. Get graded like a hiring panel would.",
     images: [
@@ -641,6 +695,16 @@ export const cases: CaseStudy[] = [
     scope: "Frontend only: a React dashboard that reads a live public price API. No backend of its own.",
     role: "Personal project",
     year: "2025",
+    design: {
+      palette: [
+        { name: "Bitcoin orange", hex: "#F7931A" },
+        { name: "Neutral 950", hex: "#0A0A0A" },
+        { name: "Neutral 500", hex: "#737373" },
+        { name: "Neutral 100", hex: "#F5F5F5" },
+      ],
+      type: [{ role: "Text", family: "Inter" }],
+      source: "src CSS tokens (--color-brand-orange, --color-neutral-*)",
+    },
     title: "Satoshi Standard",
     sub: "Live Bitcoin purchasing-power dashboard across every major currency.",
     images: [
@@ -679,8 +743,11 @@ export const cases: CaseStudy[] = [
     scope: "Frontend only: a static React site with no backend or database. The contact form posts to Web3Forms, a hosted form service.",
     role: "Freelance, design and build for a paying client",
     year: "2025",
-    // The Making (Ice, 2026-10-26): the first version rebuilt from commit
-    // 2142f3c (27 Jun 2025).
+    // The Making (Ice, 2026-10-26): v1 rebuilt from commit 2142f3c (27 Jun
+    // 2025); photos from 29bd3a6/5af606e (4 Aug 2025); the form's history from
+    // the repo (own backend Jun 2025, Web3Forms + Google Form fallback in
+    // bfd94de, Nov 2025, backend removed Jan 2026, date/time fields 723fbcd,
+    // d013bec); tokens from client/src/index.css (#437066, #f2c84a, #f7f5f0).
     making: [
       {
         label: "Brief",
@@ -692,7 +759,33 @@ export const cases: CaseStudy[] = [
         image: "/assets/racha/making/first-version.webp",
         alt: "Racha Beauty & Wellness in June 2025: a green header, the welcome headline and an illustrated portrait.",
       },
+      {
+        label: "Real photos, August 2025",
+        text: "Real photos of Racha replaced the illustrations on every page.",
+        image: "/assets/racha/racha-landing.webp",
+        alt: "Racha Beauty & Wellness today: the welcome headline beside a photo of Racha in her studio.",
+      },
+      {
+        label: "The contact form",
+        text: "Enquiries first went through my own small email backend. In November 2025 I moved the form to Web3Forms, a hosted form service, with a Google Form as a fallback if it is ever down, and then removed the backend, so the business has nothing to maintain. Since then it has gained a preferred date and time, and a clear confirmation when it is sent.",
+        image: "/assets/racha/making/contact-form.webp",
+        alt: "Racha's contact form: name, phone, email, preferred date and time, message and a Send button, on the site's green.",
+      },
     ],
+    design: {
+      palette: [
+        { name: "Cream", hex: "#F7F5F0" },
+        { name: "Green", hex: "#437066" },
+        { name: "Deep green", hex: "#305D4B" },
+        { name: "Gold", hex: "#F2C84A" },
+        { name: "Stone", hex: "#9C8C7F" },
+      ],
+      type: [
+        { role: "Headings", family: "Lora" },
+        { role: "Text", family: "Roboto" },
+      ],
+      source: "client/src/index.css",
+    },
     title: "Racha Beauty",
     sub: "A paying client's first website: 95+ Lighthouse, Danish-language, no maintenance budget.",
     images: [
@@ -743,6 +836,20 @@ export const cases: CaseStudy[] = [
         text: "I wanted to know what it takes to build an award-level website, so I gave myself a brief with no client.",
       },
     ],
+    design: {
+      palette: [
+        { name: "Cream", hex: "#F7F3EB" },
+        { name: "Sage", hex: "#A8B5A0" },
+        { name: "Deep sage", hex: "#6B7F6A" },
+        { name: "Gold", hex: "#C9A86C" },
+        { name: "Charcoal", hex: "#2A2E2A" },
+      ],
+      type: [
+        { role: "Headings", family: "Playfair Display" },
+        { role: "Text", family: "Inter" },
+      ],
+      source: "the page's CSS custom properties",
+    },
     title: "Lumina Spa",
     sub: "A self-initiated scroll-choreography piece: ten animated sections, no build step, 10.8 KB over the wire.",
     images: [
@@ -795,6 +902,21 @@ export const cases: CaseStudy[] = [
         text: "I wanted to know what it takes to build an award-level website, so I gave myself a brief with no client.",
       },
     ],
+    design: {
+      palette: [
+        { name: "Bone", hex: "#EDE5D6" },
+        { name: "Char", hex: "#15100C" },
+        { name: "Ink", hex: "#0A0806" },
+        { name: "Smoke", hex: "#6E6155" },
+      ],
+      type: [
+        { role: "Headings", family: "Fraunces" },
+        { role: "Text", family: "Instrument Sans" },
+        { role: "Labels", family: "Martian Mono" },
+        { role: "Script", family: "Charm" },
+      ],
+      source: "the page's CSS custom properties",
+    },
     title: "Saep Fire Kitchen",
     sub: "A concept piece for an invented Thai restaurant: scroll-driven, every ingredient drawn in code, and no animation library underneath it.",
     images: [
@@ -833,10 +955,11 @@ export const cases: CaseStudy[] = [
 
 /**
  * The work in the order the homepage's hall shows it, and the order case
- * pages hand on to the next one. Saep stays out until its redesign;
- * Millennial has no screens to show. Both still have case pages.
+ * pages hand on to the next one. Saep joined on 2026-10-26 with its current
+ * screens (Ice); Millennial has no screens to show, so it stays a case page
+ * only.
  */
-export const leadCaseIds = ["trailr", "bevisly", "mockmate", "racha", "lumina"];
+export const leadCaseIds = ["trailr", "bevisly", "mockmate", "racha", "lumina", "saep"];
 
 // ─── SERVICES ─────────────────────────────────────────────────────────────────
 // The /services page speaks to a different visitor than the homepage does: a

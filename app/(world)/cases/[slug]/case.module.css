@@ -345,6 +345,113 @@
   }
 }
 
+/* ─── Design | Engineering ──────────────────────────────────────────────── */
+
+/* The two languages, side by side on desktop, design first on a phone. */
+.split {
+  composes: grid;
+  row-gap: calc(var(--unit) * 8);
+  padding-top: calc(var(--unit) * 2);
+  padding-bottom: calc(var(--unit) * 12);
+}
+
+.voice {
+  grid-column: 1 / -1;
+  min-width: 0;
+  padding-top: calc(var(--unit) * 2);
+  border-top: 1px solid var(--fg);
+}
+
+.voice > .label {
+  margin-top: calc(var(--unit) * 4);
+  margin-bottom: calc(var(--unit) * 1.5);
+}
+
+.voiceTitle {
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.voiceText {
+  max-width: 60ch;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+@media (min-width: 900px) {
+  .voice:first-child {
+    grid-column: 1 / span 6;
+  }
+
+  .voice:last-child {
+    grid-column: 7 / -1;
+  }
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: calc(var(--unit) * 2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.swatches li {
+  display: grid;
+  gap: 4px;
+}
+
+.swatch {
+  display: block;
+  aspect-ratio: 3 / 2;
+  margin-bottom: 4px;
+  border: 1px solid var(--line);
+}
+
+.swatchName {
+  font-size: 14px;
+}
+
+.swatchHex {
+  font-family: var(--world-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.typeList {
+  display: grid;
+  gap: var(--unit);
+  margin: 0;
+}
+
+.typeList div {
+  display: flex;
+  justify-content: space-between;
+  gap: calc(var(--unit) * 2);
+  padding-bottom: var(--unit);
+  border-bottom: 1px solid var(--line);
+}
+
+.typeList dt {
+  font-family: var(--world-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.typeList dd {
+  margin: 0;
+  font-family: var(--world-display);
+  font-size: 22px;
+  line-height: 1.1;
+}
+
 /* ─── The Making ─────────────────────────────────────────────────────────── */
 
 /* One stage per row: its label and words, then its screen or clip at the
