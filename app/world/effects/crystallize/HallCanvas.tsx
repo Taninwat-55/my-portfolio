@@ -23,6 +23,9 @@ type Props = {
 
 const CARD_W = 3.4;
 const CARD_H = CARD_W / 1.6;
+// Every clip is cut from the recipe's 1440×721 browser viewport (1280×638),
+// so a card with a clip takes that shape and shows the whole frame.
+const CLIP_ASPECT = 1280 / 638;
 
 /** A shape made of characters: the mask decides where glyphs live. */
 const maskFragment = /* glsl */ `
@@ -85,7 +88,8 @@ const smooth = (a: number, b: number, x: number) => {
   return t * t * (3 - 2 * t);
 };
 
-function playWhenNear(clip: Clip, near: boolean, u: Record<string, THREE.IUniform>) {
+function playWhenNear(clip: Clip, near: boolean, card: THREE.Mesh) {
+  const u = (card.material as THREE.ShaderMaterial).uniforms;
   const { video } = clip;
   if (!near) {
     if (!video.paused) video.pause();
@@ -96,7 +100,7 @@ function playWhenNear(clip: Clip, near: boolean, u: Record<string, THREE.IUnifor
   if (clip.ready && !clip.swapped) {
     clip.swapped = true;
     u.uTarget.value = clip.texture;
-    u.uCover.value.copy(coverScale(CARD_W / CARD_H, video.videoWidth / video.videoHeight));
+    u.uCover.value.copy(coverScale(card.userData.aspect as number, video.videoWidth / video.videoHeight));
   }
 }
 
@@ -155,17 +159,18 @@ function Hall({ images, clips, progress, root, active, onActive }: Props) {
         });
         const u = material.uniforms;
         u.uSolid.value = 0;
-        u.uRes.value.set(1600, 1000);
+        u.uRes.value.set(1600, 1600 / (clips[k] ? CLIP_ASPECT : CARD_W / CARD_H)); // keeps glyph cells square
         u.uBg.value = rgb(colours.ink);
         u.uInk.value = rgb(colours.paper);
         u.uSignal.value = rgb(colours.signal);
         const mesh = new THREE.Mesh(new THREE.PlaneGeometry(CARD_W, CARD_H), material);
         mesh.position.set(side * 1.25, (rand(k) - 0.5) * 0.5, -(k + 1) * SPACING);
         mesh.userData.side = side;
+        mesh.userData.aspect = clips[k] ? CLIP_ASPECT : CARD_W / CARD_H;
         mesh.rotation.set(0, -side * 0.22, side * 0.02);
         return mesh;
       }),
-    [images, colours],
+    [images, clips, colours],
   );
 
   // Room numbers: a giant 01, 02… in glyphs opposite each card, matching its
@@ -213,10 +218,14 @@ function Hall({ images, clips, progress, root, active, onActive }: Props) {
     }
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    return new THREE.LineSegments(
+    const lines = new THREE.LineSegments(
       geometry,
       new THREE.LineBasicMaterial({ color: new THREE.Color(colours.muted), transparent: true, opacity: 0.35 }),
     );
+    // Drawn first: the cards don't write depth, so lines drawn after them
+    // showed through the screens.
+    lines.renderOrder = -1;
+    return lines;
   }, [length, colours]);
 
   // Textures: the glyph atlas, the room numbers, every screenshot.
@@ -265,7 +274,7 @@ function Hall({ images, clips, progress, root, active, onActive }: Props) {
         const u = (m.material as THREE.ShaderMaterial).uniforms;
         u.uAtlas.value = atlas;
         u.uTarget.value = shots[k];
-        u.uCover.value.copy(coverScale(CARD_W / CARD_H, aspectOf(shots[k])));
+        u.uCover.value.copy(coverScale(m.userData.aspect as number, aspectOf(shots[k])));
         m.userData.loaded = true;
       });
     })();
@@ -353,10 +362,11 @@ function Hall({ images, clips, progress, root, active, onActive }: Props) {
     cards.forEach((m, k) => {
       m.position.x = (m.userData.side as number) * 1.25 * spread;
       m.scale.setScalar(Math.min(1, Math.max(0.42, spread * 1.3)));
+      m.scale.y *= CARD_W / CARD_H / (m.userData.aspect as number); // same width, the media's height
       const d = z - m.position.z; // how far ahead of the camera
       const u = (m.material as THREE.ShaderMaterial).uniforms;
       const clip = videos[k];
-      if (clip && m.userData.loaded) playWhenNear(clip, d < CLIP_NEAR && d > CLIP_PAST, u);
+      if (clip && m.userData.loaded) playWhenNear(clip, d < CLIP_NEAR && d > CLIP_PAST, m);
       u.uProgress.value = m.userData.loaded ? smooth(15, 5, d) : 0;
       u.uTime.value = clock.elapsedTime;
       u.uOpacity.value = 1 - smooth(26, 32, d);
