@@ -263,7 +263,6 @@ export default async function CasePage({
                       </div>
                     ))}
                   </dl>
-                  <p className={styles.source}>From the project&apos;s code: {design.source}</p>
                 </section>
 
                 <section className={styles.voice} aria-labelledby="engineering-title">

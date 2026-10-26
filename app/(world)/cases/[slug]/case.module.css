@@ -452,14 +452,6 @@
   line-height: 1.1;
 }
 
-.source {
-  margin: calc(var(--unit) * 3) 0 0;
-  font-family: var(--world-mono);
-  font-size: 11px;
-  line-height: 1.5;
-  color: var(--muted);
-}
-
 /* ─── The Making ─────────────────────────────────────────────────────────── */
 
 /* One stage per row: its label and words, then its screen or clip at the

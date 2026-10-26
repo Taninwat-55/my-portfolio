@@ -420,6 +420,7 @@ export interface CaseStudy {
     palette: { name: string; hex: string }[];
     type: { role: string; family: string }[];
     notes?: string;
+    /** Where the facts were read from. For us, never rendered (Ice, 2026-10-26). */
     source: string;
   };
   title: string;

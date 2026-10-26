@@ -86,7 +86,7 @@
   border-top: 1px solid var(--line);
 }
 
-.footerInner > p {
+.footerInner > * {
   grid-column: 1 / -1;
   margin: 0;
 }
@@ -98,27 +98,35 @@
 }
 
 .footerReach,
-.footerLegal {
+.footerPages ul {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   font-size: 14px;
   line-height: 1.5;
 }
 
-.world .footerReach a {
-  align-self: flex-start;
+/* Two-part selectors to outrank the shell's `.world a`. */
+.footerReach a,
+.footerPages a {
   text-decoration: none;
 }
 
-.footerReach span,
+.footerMuted,
 .footerLegal {
   color: var(--muted);
 }
 
 .footerLegal {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   font-family: var(--world-mono);
   font-size: 12px;
+  line-height: 1.5;
 }
 
 @media (min-width: 900px) {
@@ -128,7 +136,11 @@
   }
 
   .footerInner > .footerReach {
-    grid-column: 4 / span 5;
+    grid-column: 4 / span 3;
+  }
+
+  .footerInner > .footerPages {
+    grid-column: 7 / span 2;
   }
 
   .footerInner > .footerLegal {
