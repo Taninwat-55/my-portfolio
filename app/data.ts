@@ -402,6 +402,14 @@ export interface CaseStudy {
    */
   role?: string;
   year?: string;
+  /**
+   * "The Making" (2026-10-26): how the case got from the ask to the result,
+   * one stage at a time. Real material only: Ice's own brief, sketches and
+   * in-progress screenshots (public/assets/<case>/making/). Leave it out and
+   * the case page shows no Making section. Never frame a stage as "AI wrote
+   * this" (Ice, 2026-10-25).
+   */
+  making?: { label: string; text: string; image?: string; alt?: string }[];
   title: string;
   sub: string;
   images: string[];

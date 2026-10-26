@@ -232,6 +232,28 @@ export default async function CasePage({
             ))}
           </div>
 
+          {caseStudy.making && caseStudy.making.length > 0 && (
+            <section className={styles.making} aria-labelledby="making-title">
+              <h2 id="making-title" className={styles.label}>
+                The Making
+              </h2>
+              <ol className={styles.stages}>
+                {caseStudy.making.map((stage, i) => (
+                  <li key={stage.label} className={styles.stage}>
+                    <p className={styles.stageN}>
+                      {String(i + 1).padStart(2, "0")} · {stage.label}
+                    </p>
+                    {stage.image && (
+                      // eslint-disable-next-line @next/next/no-img-element -- process material, shown as made
+                      <img className={styles.stageImage} src={stage.image} alt={stage.alt ?? ""} loading="lazy" />
+                    )}
+                    <p className={styles.stageText}>{stage.text}</p>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
           <nav className={styles.next} aria-label="Next project">
             <p className={styles.label}>Next</p>
             <Link className={styles.nextLink} href={`/cases/${next.id}`}>

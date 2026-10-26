@@ -345,6 +345,61 @@
   }
 }
 
+/* ─── The Making ─────────────────────────────────────────────────────────── */
+
+/* The stages read left to right on desktop, top to bottom on a phone. */
+.making {
+  composes: grid;
+  row-gap: calc(var(--unit) * 3);
+  padding-bottom: calc(var(--unit) * 12);
+}
+
+.making > h2 {
+  grid-column: 1 / -1;
+  padding-top: var(--unit);
+  border-top: 1px solid var(--line);
+}
+
+.stages {
+  display: grid;
+  gap: calc(var(--unit) * 5) var(--gutter);
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 900px) {
+  .stages {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+.stageN {
+  margin: 0 0 var(--unit);
+  font-family: var(--world-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+
+.stageImage {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin-bottom: calc(var(--unit) * 1.5);
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid var(--line);
+}
+
+.stageText {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
 /* ─── Next ───────────────────────────────────────────────────────────────── */
 
 .next {
