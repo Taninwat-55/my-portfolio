@@ -5,12 +5,11 @@ import { DefaultChatTransport, isTextUIPart, type UIMessage } from "ai";
 import { useEffect, useMemo, useState } from "react";
 
 /**
- * The chat's behaviour, shared by the floating widget on /services and the
- * stack's Message Box. Two audiences visit this site, and they do not open the
- * chat with the same question: the "services" variant is for a prospective
- * client rather than a recruiter.
+ * The chat's behaviour. "ask" is the site's own box (app/world/AskSite.tsx),
+ * whose answers can carry page buttons; "portfolio" and "services" are the
+ * plain prompts, one per audience, kept for any future chat surface.
  */
-export type ChatVariant = "portfolio" | "services";
+export type ChatVariant = "portfolio" | "services" | "ask";
 
 /**
  * Only a genuine rate-limit response should shut the input down. Everything else

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { aboutPage, contactPage, founding, foundingOpen, foundingSpotsLine, foundingTerms, personalInfo } from "@/app/data";
+import { AskSite } from "@/app/world/AskSite";
 import { EnquiryForm } from "@/app/world/EnquiryForm";
 import { GridLines } from "@/app/world/GridLines";
 import { WorldFooter } from "@/app/world/WorldFooter";
@@ -50,6 +51,15 @@ export default function ContactPage() {
             </div>
           </dl>
         </header>
+
+        <section className={styles.section} aria-labelledby="ask-title">
+          <h2 id="ask-title" className={styles.label}>
+            Not sure yet?
+          </h2>
+          <div className={`${styles.content} ${styles.narrow}`}>
+            <AskSite />
+          </div>
+        </section>
 
         <section className={styles.section} aria-labelledby="role-title">
           <h2 id="role-title" className={styles.label}>
