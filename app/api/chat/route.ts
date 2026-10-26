@@ -7,8 +7,10 @@ import {
   cases,
   chatbotContext,
   servicesContext,
+  services,
 } from "@/app/data";
 import { getClientIp } from "@/app/lib/request-ip";
+import { PAGE_KEYS } from "@/app/lib/site-pages";
 import { createRateLimiter } from "@/app/lib/rate-limit";
 
 // The prefix matters: the enquiry endpoint runs its own limiter, and without
@@ -115,9 +117,27 @@ Email: ${personalInfo.email}
 LinkedIn: ${personalInfo.socials.linkedin}
 GitHub: ${personalInfo.socials.github}`;
 
+/**
+ * "Ask the site" (2026-10-26): the portfolio prompt, the published price
+ * ranges, and a closing "PAGES: key, key" line the box turns into buttons
+ * (app/lib/site-pages.ts). Keys from a closed list, so the model can name a
+ * page but never invent a URL. A plain line, not a tool: gpt-oss on Groq
+ * wrote its tool calls into the text in two different made-up formats.
+ */
+const ASK_RULES = `You are answering inside the site itself, in a small "Ask the site" box. Keep answers to two or three short sentences, with no URLs, links, HTML or code in them.
+End every answer with one final line in exactly this form, naming the one to three pages that best continue the answer:
+PAGES: key, key
+or "PAGES: none". The site turns that line into buttons. Use only these keys: ${PAGE_KEYS.join(", ")}.
+
+Published prices, fine to repeat as written (they are ranges, not quotes):
+${services.offers.map((o) => `- ${o.name}: ${o.priceRange}, typically ${o.timeline}`).join("\n")}
+- ${services.localVisibility.title}: ${services.localVisibility.price}
+For anything more specific, point to services or enquire.`;
+
 const SYSTEM_PROMPTS = {
   portfolio: [RULES, PORTFOLIO_CONTEXT, CONTACT].join("\n\n"),
   services: [RULES, SERVICES_CONTEXT, CONTACT].join("\n\n"),
+  ask: [RULES, ASK_RULES, PORTFOLIO_CONTEXT, CONTACT].join("\n\n"),
 };
 
 export async function POST(request: Request) {
@@ -140,8 +160,23 @@ export async function POST(request: Request) {
   // Anything below can fail on bad input or an upstream outage. Without this the
   // widget just receives an opaque 500 and shows nothing useful.
   try {
-    const { messages, variant } = await request.json();
-    const system = variant === "services" ? SYSTEM_PROMPTS.services : SYSTEM_PROMPTS.portfolio;
+    const body = await request.json();
+    const { variant } = body;
+    // The client sends the whole thread, so cap it: the last six messages,
+    // text parts only, 1,000 characters each. A forged or huge history could
+    // otherwise spend the Groq free tier's 8k tokens a minute for everyone
+    // (review, 2026-10-26).
+    const messages = (Array.isArray(body.messages) ? body.messages : []).slice(-6).map(
+      (m: { id?: string; role?: string; parts?: { type?: string; text?: string }[] }) => ({
+        id: String(m.id ?? ""),
+        role: m.role === "assistant" ? "assistant" : "user",
+        parts: (m.parts ?? [])
+          .filter((p) => p.type === "text" && typeof p.text === "string")
+          .map((p) => ({ type: "text", text: p.text!.slice(0, 1000) })),
+      }),
+    );
+    const ask = variant === "ask";
+    const system = ask ? SYSTEM_PROMPTS.ask : variant === "services" ? SYSTEM_PROMPTS.services : SYSTEM_PROMPTS.portfolio;
     const modelMessages = await convertToModelMessages(messages);
 
     const result = await streamText({

@@ -167,6 +167,9 @@ Approach: Design systems, accessibility, performance
 ## Links
 
 - About: https://taninwatkaewpankan.xyz/about
+- MCP server (read-only, Streamable HTTP): https://taninwatkaewpankan.xyz/mcp
+  Tools: get_profile, list_projects, get_case, get_services, get_cv,
+  get_contact. Connect: claude mcp add --transport http ice https://taninwatkaewpankan.xyz/mcp
 - Every project with a write-up: https://taninwatkaewpankan.xyz/work
 - Full CV, skills and track record: https://taninwatkaewpankan.xyz/cv
 - Services and prices: https://taninwatkaewpankan.xyz/services

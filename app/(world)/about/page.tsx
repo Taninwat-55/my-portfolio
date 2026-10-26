@@ -89,6 +89,19 @@ export default function AboutPage() {
           </div>
         </section>
 
+        <section className={styles.section} aria-labelledby="mcp-title">
+          <h2 id="mcp-title" className={styles.label}>
+            {aboutPage.mcp.title}
+          </h2>
+          <div className={`${styles.content} ${styles.narrow} ${styles.prose}`}>
+            <p>{aboutPage.mcp.body}</p>
+            <pre className={styles.code} tabIndex={0} role="region" aria-label="Command to connect">
+              <code>{aboutPage.mcp.command}</code>
+            </pre>
+            <p className={styles.note}>{aboutPage.mcp.tools}</p>
+          </div>
+        </section>
+
         <nav className={styles.next} aria-label="Where next">
           <p className={styles.label}>Next</p>
           <Link className={styles.nextLink} href="/#work-title">

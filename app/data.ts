@@ -146,6 +146,14 @@ export const aboutPage = {
   stack: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"],
   cv: { label: "Read my CV", href: "/cv" },
   pdf: { label: "Download the PDF", href: "/assets/Taninwat_Kaewpankan_CV.pdf" },
+  // The public MCP server (app/mcp/route.ts), documented where a technical
+  // reader looks for it.
+  mcp: {
+    title: "For AI assistants",
+    body: "This site runs a public MCP server. Connect it to Claude or any MCP client and ask about my projects, services and CV directly. It is read-only and answers from the same data as these pages.",
+    command: "claude mcp add --transport http ice https://taninwatkaewpankan.xyz/mcp",
+    tools: "Tools: get_profile, list_projects, get_case, get_services, get_cv, get_contact.",
+  },
 };
 
 // ─── CV ───────────────────────────────────────────────────────────────────────
@@ -394,6 +402,14 @@ export interface CaseStudy {
    */
   role?: string;
   year?: string;
+  /**
+   * "The Making" (2026-10-26): how the case got from the ask to the result,
+   * one stage at a time. Real material only: Ice's own brief, sketches and
+   * in-progress screenshots (public/assets/<case>/making/). Leave it out and
+   * the case page shows no Making section. Never frame a stage as "AI wrote
+   * this" (Ice, 2026-10-25).
+   */
+  making?: { label: string; text: string; image?: string; alt?: string }[];
   title: string;
   sub: string;
   images: string[];
@@ -1717,7 +1733,9 @@ export const casePage = {
   sections: [
     { key: "overview", label: "Overview" },
     { key: "challenge", label: "The challenge" },
-    { key: "stackWhy", label: "Why this stack" },
+    // "Approach", not "Why this stack": for Trailr and Millennial the answer
+    // is about process, not tech (Ice, 2026-10-26).
+    { key: "stackWhy", label: "Approach" },
     { key: "engineering", label: "How it was built" },
   ] as const,
   price: {

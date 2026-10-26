@@ -35,3 +35,26 @@
     color: #f3f4f2;
   }
 }
+
+/*
+ * Page changes (React <ViewTransition>, app/world/caseTitle.ts). The world's
+ * reveal timing: 600ms, expo-out. The old page fades out quicker than the
+ * new one fades in, so the flying title reads as the thing that moves.
+ * Reduced motion: no animation, the page simply changes.
+ */
+::view-transition-group(*) {
+  animation-duration: 600ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-old(root) {
+  animation-duration: 250ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

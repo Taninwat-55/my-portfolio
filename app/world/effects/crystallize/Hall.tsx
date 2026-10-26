@@ -2,11 +2,12 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, ViewTransition } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useWorldMode } from "../../useWorldMode";
 import { useFirstInteraction } from "../../useFirstInteraction";
+import { caseTitle } from "../../caseTitle";
 import { frontAt, stepsAt } from "./hallSteps";
 import styles from "./crystallize.module.css";
 
@@ -133,7 +134,10 @@ export function Hall({ projects }: { projects: HallProject[] }) {
                 <p className={styles.hallKicker}>
                   No. {String(k + 1).padStart(2, "0")} / {total} · {p.tag}
                 </p>
-                <h3 className={styles.hallName}>{p.title}</h3>
+                {/* The name flies into the case page's title (caseTitle). */}
+                <ViewTransition name={caseTitle(p.id)}>
+                  <h3 className={styles.hallName}>{p.title}</h3>
+                </ViewTransition>
                 <p className={styles.hallSub}>{p.sub}</p>
                 <Link className={styles.hallLink} href={`/cases/${p.id}`} onFocus={() => walkTo(k)}>
                   Open the case <span aria-hidden="true">→</span>

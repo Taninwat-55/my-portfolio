@@ -1,0 +1,185 @@
+/* Ask the site. Reads the world's tokens only. */
+
+.ask {
+  max-width: 720px;
+}
+
+.label {
+  display: block;
+  margin: 0 0 var(--unit);
+  font-family: var(--world-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.row {
+  display: flex;
+  gap: var(--unit);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  min-height: 52px;
+  padding: 12px 14px;
+  border: 1px solid var(--muted);
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: 16px;
+}
+
+.input:hover {
+  border-color: var(--fg);
+}
+
+.input:focus-visible {
+  border-color: var(--signal);
+}
+
+.input::placeholder,
+.placeholder {
+  color: var(--muted);
+}
+
+/* The lazy placeholder's input: same box, plain text. */
+.placeholder {
+  display: flex;
+  align-items: center;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--unit);
+  min-height: 52px;
+  padding: 0 22px;
+  border: 1px solid var(--fg);
+  background: var(--fg);
+  color: var(--bg);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-ui) var(--ease-reveal),
+    border-color var(--dur-ui) var(--ease-reveal);
+}
+
+.submit:hover:not(:disabled) {
+  border-color: var(--signal);
+  background: var(--signal);
+}
+
+.submit:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.starters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--unit);
+  margin: calc(var(--unit) * 1.5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.starters button {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--muted);
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-ui) var(--ease-reveal),
+    color var(--dur-ui) var(--ease-reveal);
+}
+
+.starters button:hover:not(:disabled) {
+  border-color: var(--signal);
+  color: var(--signal);
+}
+
+.note {
+  margin: calc(var(--unit) * 1.5) 0 0;
+  font-family: var(--world-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ─── Thread ─────────────────────────────────────────────────────────────── */
+
+.thread {
+  display: grid;
+  gap: calc(var(--unit) * 2);
+  max-height: 420px;
+  margin: 0 0 calc(var(--unit) * 3);
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.thread p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.question p {
+  font-family: var(--world-mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.answer {
+  padding-left: calc(var(--unit) * 2);
+  border-left: 1px solid var(--signal);
+}
+
+.thinking {
+  color: var(--muted);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--unit);
+  margin: calc(var(--unit) * 1.5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Two-part selector to outrank the shell's `.world a`. */
+.links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--fg);
+  font-size: 15px;
+  text-decoration: none;
+  transition:
+    border-color var(--dur-ui) var(--ease-reveal),
+    color var(--dur-ui) var(--ease-reveal);
+}
+
+.links a:hover {
+  border-color: var(--signal);
+  color: var(--signal);
+}
+
+.error {
+  margin: 0 0 calc(var(--unit) * 2);
+  font-size: 15px;
+  line-height: 1.5;
+}

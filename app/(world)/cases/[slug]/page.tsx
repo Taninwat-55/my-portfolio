@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { notFound } from "next/navigation";
 import { cases, conceptPrice, founding, foundingOpen, inShowroom, leadCaseIds, casePage } from "@/app/data";
 import { GridLines } from "@/app/world/GridLines";
@@ -8,6 +9,7 @@ import { WorldFooter } from "@/app/world/WorldFooter";
 import { WorldNav } from "@/app/world/WorldNav";
 import { WorldShell } from "@/app/world/WorldShell";
 import { Reveal } from "@/app/world/effects/crystallize/Reveal";
+import { caseTitle } from "@/app/world/caseTitle";
 import styles from "./case.module.css";
 
 // ─── Static params + metadata ──────────────────────────────────────────────
@@ -133,7 +135,9 @@ export default async function CasePage({
               <Link href="/#work-title">Work</Link> <span aria-hidden="true">/</span> {caseStudy.n} ·{" "}
               {caseStudy.tag}
             </p>
-            <h1 className={styles.title}>{caseStudy.title}</h1>
+            <ViewTransition name={caseTitle(caseStudy.id)}>
+              <h1 className={styles.title}>{caseStudy.title}</h1>
+            </ViewTransition>
             <p className={styles.sub}>{caseStudy.sub}</p>
             {caseStudy.concept && <p className={styles.concept}>{copy.concept}</p>}
 
@@ -228,10 +232,35 @@ export default async function CasePage({
             ))}
           </div>
 
+          {caseStudy.making && caseStudy.making.length > 0 && (
+            <section className={styles.making} aria-labelledby="making-title">
+              <h2 id="making-title" className={styles.label}>
+                The Making
+              </h2>
+              <ol className={styles.stages}>
+                {caseStudy.making.map((stage, i) => (
+                  <li key={stage.label} className={styles.stage}>
+                    <p className={styles.stageN}>
+                      {String(i + 1).padStart(2, "0")} · {stage.label}
+                    </p>
+                    {stage.image && (
+                      // eslint-disable-next-line @next/next/no-img-element -- process material, shown as made
+                      <img className={styles.stageImage} src={stage.image} alt={stage.alt ?? ""} loading="lazy" />
+                    )}
+                    <p className={styles.stageText}>{stage.text}</p>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
           <nav className={styles.next} aria-label="Next project">
             <p className={styles.label}>Next</p>
             <Link className={styles.nextLink} href={`/cases/${next.id}`}>
-              {next.title} <span aria-hidden="true">→</span>
+              <ViewTransition name={caseTitle(next.id)}>
+                <span>{next.title}</span>
+              </ViewTransition>{" "}
+              <span aria-hidden="true">→</span>
             </Link>
             <p className={styles.nextSub}>{next.sub}</p>
           </nav>
