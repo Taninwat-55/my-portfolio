@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { notFound } from "next/navigation";
 import { cases, conceptPrice, founding, foundingOpen, inShowroom, leadCaseIds, casePage } from "@/app/data";
 import { GridLines } from "@/app/world/GridLines";
@@ -8,6 +9,7 @@ import { WorldFooter } from "@/app/world/WorldFooter";
 import { WorldNav } from "@/app/world/WorldNav";
 import { WorldShell } from "@/app/world/WorldShell";
 import { Reveal } from "@/app/world/effects/crystallize/Reveal";
+import { caseTitle } from "@/app/world/caseTitle";
 import styles from "./case.module.css";
 
 // ─── Static params + metadata ──────────────────────────────────────────────
@@ -133,7 +135,9 @@ export default async function CasePage({
               <Link href="/#work-title">Work</Link> <span aria-hidden="true">/</span> {caseStudy.n} ·{" "}
               {caseStudy.tag}
             </p>
-            <h1 className={styles.title}>{caseStudy.title}</h1>
+            <ViewTransition name={caseTitle(caseStudy.id)}>
+              <h1 className={styles.title}>{caseStudy.title}</h1>
+            </ViewTransition>
             <p className={styles.sub}>{caseStudy.sub}</p>
             {caseStudy.concept && <p className={styles.concept}>{copy.concept}</p>}
 
@@ -231,7 +235,10 @@ export default async function CasePage({
           <nav className={styles.next} aria-label="Next project">
             <p className={styles.label}>Next</p>
             <Link className={styles.nextLink} href={`/cases/${next.id}`}>
-              {next.title} <span aria-hidden="true">→</span>
+              <ViewTransition name={caseTitle(next.id)}>
+                <span>{next.title}</span>
+              </ViewTransition>{" "}
+              <span aria-hidden="true">→</span>
             </Link>
             <p className={styles.nextSub}>{next.sub}</p>
           </nav>

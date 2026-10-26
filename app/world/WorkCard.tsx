@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { ViewTransition } from "react";
 import type { CaseStudy } from "@/app/data";
+import { caseTitle } from "./caseTitle";
 import { worldImage } from "./worldImage";
 import styles from "./work.module.css";
 
@@ -34,7 +36,9 @@ export function WorkCard({
           decoding="async"
         />
         <span className={styles.kicker}>{kicker}</span>
-        <span className={styles.title}>{c.title}</span>
+        <ViewTransition name={caseTitle(c.id)}>
+          <span className={styles.title}>{c.title}</span>
+        </ViewTransition>
         <span className={styles.sub}>{c.sub}</span>
         {children}
       </Link>

@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Lets <ViewTransition> animate client navigations. Unused since the Stack
-  // was cut (2026-10-25); kept for the planned shared-element move from the
-  // hall into a case page.
+  // Lets <ViewTransition> animate client navigations: a project's title flies
+  // from the hall, a /work card or a "Next" door into its case page's <h1>
+  // (app/world/caseTitle.ts).
   experimental: {
     viewTransition: true,
   },
