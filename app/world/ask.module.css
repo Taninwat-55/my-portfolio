@@ -40,8 +40,15 @@
   border-color: var(--signal);
 }
 
-.input::placeholder {
+.input::placeholder,
+.placeholder {
   color: var(--muted);
+}
+
+/* The lazy placeholder's input: same box, plain text. */
+.placeholder {
+  display: flex;
+  align-items: center;
 }
 
 .submit {

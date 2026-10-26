@@ -6,7 +6,7 @@ import { SmoothScroll } from "@/app/world/SmoothScroll";
 import { WorldFooter } from "@/app/world/WorldFooter";
 import { WorldNav } from "@/app/world/WorldNav";
 import { WorldShell } from "@/app/world/WorldShell";
-import { AskSite } from "@/app/world/AskSite";
+import { AskSiteLazy } from "@/app/world/AskSiteLazy";
 import { Door } from "@/app/world/effects/crystallize/Door";
 import { Hall } from "@/app/world/effects/crystallize/Hall";
 import { Loader } from "@/app/world/effects/crystallize/Loader";
@@ -116,7 +116,7 @@ export default function Home() {
                 <Link href="/services">Build mine</Link>
               </li>
             </ul>
-            <AskSite className={styles.askSite} />
+            <AskSiteLazy className={styles.askSite} />
           </section>
 
         </div>
