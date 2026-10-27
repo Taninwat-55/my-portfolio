@@ -680,6 +680,8 @@ export const cases: CaseStudy[] = [
       "/assets/mockmate/mockmate-dashboard.webp",
       "/assets/mockmate/mockmate-feedback.webp",
     ],
+    // The live landing page down to the sample report, real speed, 2026-10-27.
+    clip: "/assets/mockmate/clip.mp4",
     overview:
       "A full-stack AI interview platform. Paste a job description, answer tailored technical questions from an AI interviewer, and receive a structured graded report. Built with Next.js, Google Gemini and Prisma.",
     challenge:
