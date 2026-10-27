@@ -6,6 +6,7 @@ import * as THREE from "three";
 import { buildGlyphAtlas, RAMP, rgb } from "./glyphs";
 import { aspectOf, coverScale, glyphFragment, glyphUniforms, loadImage, sceneVertex } from "./glyphShader";
 import { frontAt, stepsAt } from "./hallSteps";
+import { corridorHalf, FOG_INSIDE, MIN_RAILS, RAIL_ALPHA_INSIDE, railAngles, railPoint } from "./corridor";
 
 export const SPACING = 9; // world units between cards along the hall
 export const CARD_DISTANCE = 3.5; // how far in front of the camera a card sits when its step is centred
@@ -206,27 +207,21 @@ function Hall({ images, clips, progress, root, active, onActive }: Props) {
     [images, colours],
   );
 
-  // Rails: the door's corridor carries on through the hall.
+  // Rails: the door's corridor carries on through the hall, the same rails
+  // at the same angles, placed each frame from what the door measured.
   const rails = useMemo(() => {
-    const count = 16;
-    const positions = new Float32Array(count * 6);
-    for (let i = 0; i < count; i++) {
-      const a = (i / count) * Math.PI * 2;
-      const x = Math.cos(a) * 7;
-      const y = Math.sin(a) * 4;
-      positions.set([x, y, 6, x, y, -length], i * 6);
-    }
     const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(MIN_RAILS * 6), 3));
     const lines = new THREE.LineSegments(
       geometry,
-      new THREE.LineBasicMaterial({ color: new THREE.Color(colours.muted), transparent: true, opacity: 0.35 }),
+      new THREE.LineBasicMaterial({ color: new THREE.Color(colours.muted), transparent: true, opacity: RAIL_ALPHA_INSIDE }),
     );
     // Drawn first: the cards don't write depth, so lines drawn after them
     // showed through the screens.
     lines.renderOrder = -1;
+    lines.frustumCulled = false; // its bounds were taken before the rails were placed
     return lines;
-  }, [length, colours]);
+  }, [colours]);
 
   // Textures: the glyph atlas, the room numbers, every screenshot.
   useEffect(() => {
@@ -354,6 +349,14 @@ function Hall({ images, clips, progress, root, active, onActive }: Props) {
       shown.current = front;
       onActive(front);
     }
+    const { hw, hh } = corridorHalf(size.width, size.height);
+    const railEnds = rails.geometry.getAttribute("position") as THREE.BufferAttribute;
+    railAngles.forEach((angle, i) => {
+      const { x, y } = railPoint(angle, hw, hh);
+      (railEnds.array as Float32Array).set([x, y, 6, x, y, -length], i * 6);
+    });
+    railEnds.needsUpdate = true;
+
     camera.position.set(pointer.current.x * 0.35, -pointer.current.y * 0.2, z);
     camera.lookAt(pointer.current.x * 0.1, 0, z - 10);
 
@@ -385,7 +388,7 @@ function Hall({ images, clips, progress, root, active, onActive }: Props) {
   return (
     <>
       <color attach="background" args={[colours.ink]} />
-      <fog attach="fog" args={[colours.ink, 8, 34]} />
+      <fog attach="fog" args={[colours.ink, ...FOG_INSIDE]} />
       <primitive object={rails} />
       {numerals.map((m) => (
         <primitive key={m.uuid} object={m} />
