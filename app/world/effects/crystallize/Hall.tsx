@@ -37,6 +37,7 @@ export type HallProject = {
  */
 export function Hall({ projects }: { projects: HallProject[] }) {
   const section = useRef<HTMLElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
   const spacers = useRef<(HTMLDivElement | null)[]>([]);
   const progress = useRef({ value: 0 });
   const mode = useWorldMode();
@@ -61,14 +62,22 @@ export function Hall({ projects }: { projects: HallProject[] }) {
     const el = section.current;
     if (!full || !el) return;
     gsap.registerPlugin(ScrollTrigger);
+    // The hall rises over the door's last screens unseen, then fades in once
+    // pinned, over the door's matching last frame: a crossfade, not a slide.
+    const enter = (self: ScrollTrigger) => {
+      const fade = (self.scroll() - self.start) / (innerHeight * 0.3);
+      stage.current?.style.setProperty("--enter", String(Math.min(1, Math.max(0, fade))));
+    };
     const st = ScrollTrigger.create({
       trigger: el,
       start: "top top",
       end: "bottom bottom",
       onUpdate: (self) => {
         progress.current.value = self.progress;
+        enter(self);
         if (!canvasLive.current) setActive(frontAt(stepsAt(self.progress, projects.length), projects.length));
       },
+      onRefresh: enter,
     });
     // Mount early (two screens ahead) so textures are ready on arrival.
     const io = new IntersectionObserver(
@@ -111,7 +120,7 @@ export function Hall({ projects }: { projects: HallProject[] }) {
 
   return (
     <section ref={section} className={styles.hall} data-mode={mode ?? "pending"} aria-labelledby="work-title">
-      <div className={styles.hallStage} data-phase={phase}>
+      <div ref={stage} className={styles.hallStage} data-phase={phase}>
         <div className={styles.hallCanvas} aria-hidden="true">
           {full && mounted && (
             <HallCanvas images={images} clips={clips} progress={progress} root={section} active={near} onActive={onCanvasActive} />

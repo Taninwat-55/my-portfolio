@@ -159,6 +159,21 @@
   background: var(--bg);
 }
 
+/* The full door: the hall rises over its last screen and a half while the
+   door holds its final frame (the walk ends where the hall pins, Door.tsx),
+   then fades in over it. The stage is lifted over the ink wrapper the hall
+   lives in, which would otherwise cover it. */
+:global(html[data-world-js]) .door[data-mode="full"] {
+  height: 350vh;
+  height: 350svh;
+  margin-bottom: -150vh;
+  margin-bottom: -150svh;
+}
+
+:global(html[data-world-js]) .door[data-mode="full"] .doorStage {
+  z-index: 1;
+}
+
 :global(html[data-world-js]) .door[data-mode="quiet"] {
   height: 40vh;
 }
@@ -301,6 +316,11 @@
   height: 100svh;
   overflow: hidden;
   background: var(--bg);
+}
+
+:global(html[data-world-js]) .hall[data-mode="full"] .hallStage {
+  z-index: 2;
+  opacity: var(--enter, 0);
 }
 
 :global(html[data-world-js]) .hall:not([data-mode="quiet"]) .hallCanvas {

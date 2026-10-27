@@ -40,7 +40,9 @@ export function Door() {
     const st = ScrollTrigger.create({
       trigger: el,
       start: "top top",
-      end: "bottom bottom",
+      // The hall overlaps the door's last screens (negative margin), and the
+      // walk ends where the hall pins, so the hall picks up from this frame.
+      end: () => `+=${el.offsetHeight + parseFloat(getComputedStyle(el).marginBottom)}`,
       onUpdate: (self) => {
         progress.current.value = self.progress;
       },

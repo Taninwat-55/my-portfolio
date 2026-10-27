@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, type RefObject } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import { CAM_Z, corridorHalf, FOG_INSIDE, FOV, MIN_RAILS, RAIL_ALPHA_INSIDE, railAngle, railAngles, railPoint } from "./corridor";
 
 type Props = {
   progress: RefObject<{ value: number }>;
@@ -11,11 +12,9 @@ type Props = {
   active: boolean;
 };
 
-const FOV = 50;
-const CAM_Z = 5;
 const DEPTH = 40; // tunnel length
+const BEYOND = 40; // how far the rails carry on past the doorway, into the hall
 const RINGS = 10;
-const MIN_RAILS = 16; // a 4-column phone grid is too sparse for a tunnel
 
 const clamp01 = (t: number) => Math.min(1, Math.max(0, t));
 const easeOut = (t: number) => 1 - (1 - t) ** 3;
@@ -28,8 +27,9 @@ const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 
  *              right, the middle ones to floor and ceiling).
  *   0.12–0.42  rings fade in along the corridor; the doorway appears at its end.
  *   0.30–0.95  travel: the camera walks down the corridor to the doorway.
- *   0.72–0.96  tone: paper turns to ink, so the doorway filling the screen
- *              is the dark room the work section opens in.
+ *   0.72–0.96  tone: paper turns to ink, and the rails carry on through the
+ *              doorway at the hall's strength, so the last frame here is the
+ *              hall's first.
  */
 function Tunnel({ progress, rails }: Omit<Props, "active">) {
   const { size, scene, camera } = useThree();
@@ -53,7 +53,7 @@ function Tunnel({ progress, rails }: Omit<Props, "active">) {
     };
   }, [rails]);
 
-  const segments = MIN_RAILS + RINGS * 4 + 4;
+  const segments = MIN_RAILS * 2 + RINGS * 4 + 4;
   const { lines, positions, vertexColours } = useMemo(() => {
     const positions = new Float32Array(segments * 6);
     // RGBA: a line that hasn't arrived yet must draw nothing at all. Painting
@@ -73,9 +73,11 @@ function Tunnel({ progress, rails }: Omit<Props, "active">) {
   const portal = useMemo(() => {
     const mesh = new THREE.Mesh(
       new THREE.PlaneGeometry(1, 1),
-      new THREE.MeshBasicMaterial({ color: colours.ink, transparent: true, opacity: 0, fog: false }),
+      // No depth: the rails beyond the doorway draw over it.
+      new THREE.MeshBasicMaterial({ color: colours.ink, transparent: true, opacity: 0, fog: false, depthWrite: false }),
     );
     mesh.position.z = -DEPTH;
+    mesh.renderOrder = -1;
     return mesh;
   }, [colours]);
 
@@ -122,8 +124,7 @@ function Tunnel({ progress, rails }: Omit<Props, "active">) {
 
   useFrame(() => {
     const p = progress.current.value;
-    const hh = CAM_Z * Math.tan(THREE.MathUtils.degToRad(FOV / 2));
-    const hw = (hh * size.width) / size.height;
+    const { hw, hh } = corridorHalf(size.width, size.height);
 
     const fold = easeOut(clamp01(p / 0.35));
     const ringsIn = clamp01((p - 0.12) / 0.3);
@@ -134,7 +135,11 @@ function Tunnel({ progress, rails }: Omit<Props, "active">) {
     railColour.copy(colours.lineOnPaper).lerp(colours.mutedOnPaper, fold).lerp(colours.mutedOnInk, dark);
     frameColour.copy(colours.signalOnPaper).lerp(colours.signalOnInk, dark);
     (scene.background as THREE.Color).copy(bg);
-    if (scene.fog instanceof THREE.Fog) scene.fog.color.copy(bg);
+    if (scene.fog instanceof THREE.Fog) {
+      scene.fog.color.copy(bg);
+      scene.fog.near = THREE.MathUtils.lerp(CAM_Z + 0.5, FOG_INSIDE[0], dark);
+      scene.fog.far = THREE.MathUtils.lerp(CAM_Z + DEPTH * 0.7, FOG_INSIDE[1], dark);
+    }
 
     const camZ = THREE.MathUtils.lerp(CAM_Z, -DEPTH + 0.6, travel);
     // A rail's near end is left behind as the camera walks in; some GPUs then
@@ -149,20 +154,23 @@ function Tunnel({ progress, rails }: Omit<Props, "active">) {
     };
 
     // Rails: the DOM's lines first, then extras that only exist in the tunnel.
+    // They fade to the hall's strength as the room goes dark.
+    const inside = THREE.MathUtils.lerp(1, RAIL_ALPHA_INSIDE, dark);
     const xs = railsPx.current.length ? railsPx.current : [0, size.width];
     for (let i = 0; i < MIN_RAILS; i++) {
       const real = i < xs.length;
       const flatX = (xs[i % xs.length] / size.width - 0.5) * 2 * hw;
-      const u = MIN_RAILS > 1 ? i / (MIN_RAILS - 1) : 0;
-      const angle = (i % 2 === 0 ? 1 : -1) * Math.PI * (1 - (real ? (flatX / hw + 1) / 2 : u));
-      const cos = Math.cos(angle);
-      const sin = Math.sin(angle);
-      const reach = Math.min(hw / Math.max(Math.abs(cos), 1e-4), hh / Math.max(Math.abs(sin), 1e-4));
-      const tx = cos * reach;
-      const ty = sin * reach;
-      const alpha = real ? 1 : fold;
-      put(THREE.MathUtils.lerp(flatX, tx, fold), THREE.MathUtils.lerp(-hh, ty, fold), ahead(0), railColour, alpha);
-      put(THREE.MathUtils.lerp(flatX, tx, fold), THREE.MathUtils.lerp(hh, ty, fold), ahead(-DEPTH * fold), railColour, alpha);
+      const angle = railAngle(i, real ? (flatX / hw + 1) / 2 : i / (MIN_RAILS - 1));
+      railAngles[i] = angle; // the hall carries this rail on
+      const { x: tx, y: ty } = railPoint(angle, hw, hh);
+      const alpha = (real ? 1 : fold) * inside;
+      const x = THREE.MathUtils.lerp(flatX, tx, fold);
+      put(x, THREE.MathUtils.lerp(-hh, ty, fold), ahead(0), railColour, alpha);
+      put(x, THREE.MathUtils.lerp(hh, ty, fold), ahead(-DEPTH * fold), railColour, alpha);
+      // Past the doorway: only once the room is dark, or the fog (still
+      // paper) paints them light across the ink doorway.
+      put(tx, ty, ahead(-DEPTH), railColour, alpha * dark);
+      put(tx, ty, ahead(-DEPTH - BEYOND), railColour, alpha * dark);
     }
 
     // Rings along the corridor, and the doorway's frame at its end.
