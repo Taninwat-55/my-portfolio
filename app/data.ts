@@ -680,6 +680,8 @@ export const cases: CaseStudy[] = [
       "/assets/mockmate/mockmate-dashboard.webp",
       "/assets/mockmate/mockmate-feedback.webp",
     ],
+    // The live landing page down to the sample report, real speed, 2026-10-27.
+    clip: "/assets/mockmate/clip.mp4",
     overview:
       "A full-stack AI interview platform. Paste a job description, answer tailored technical questions from an AI interviewer, and receive a structured graded report. Built with Next.js, Google Gemini and Prisma.",
     challenge:
@@ -881,6 +883,8 @@ export const cases: CaseStudy[] = [
       "/assets/lumina/lumina-rooms.webp",
       "/assets/lumina/lumina-booking.webp",
     ],
+    // The live site's home: hero → the ritual → 9 to 85 °C, 2026-10-27.
+    clip: "/assets/lumina/clip.mp4",
     overview:
       "A website for a bathhouse that does not exist. No client. The first version was a ten-section day spa page where everything moved, so nothing stood out. This version is a bathhouse on Copenhagen's harbour, built around one moment. The screen holds still while you scroll, the 9 °C harbour water disappears into steam, the number climbs, and an 85 °C sauna comes through. Around that moment sit four calm pages: the ritual, rooms and prices, the place, and a booking form that works but sends nothing.",
     challenge:
@@ -961,6 +965,8 @@ export const cases: CaseStudy[] = [
       "/assets/saep/saep-menu.webp",
       "/assets/saep/saep-booking.webp",
     ],
+    // The live site's home: hero → the kitchen → Balance, five tastes to the plate, 2026-10-27.
+    clip: "/assets/saep/clip.mp4",
     overview:
       "A site for an invented six-seat Thai chef's table on Jægersborggade in Nørrebro. It reads like a food magazine spread, with light paper, big serif type and photographs of the food. The homepage builds to one moment called Balance. Thai cooking balances five tastes, so a sticky stage shows a som tam being made one taste at a time until the finished plate fills the screen. After that come the menu, the visit details and a booking form that works.",
     challenge:
