@@ -963,6 +963,8 @@ export const cases: CaseStudy[] = [
       "/assets/saep/saep-menu.webp",
       "/assets/saep/saep-booking.webp",
     ],
+    // The live site's home: hero → the kitchen → Balance, five tastes to the plate, 2026-10-27.
+    clip: "/assets/saep/clip.mp4",
     overview:
       "A site for an invented six-seat Thai chef's table on Jægersborggade in Nørrebro. It reads like a food magazine spread, with light paper, big serif type and photographs of the food. The homepage builds to one moment called Balance. Thai cooking balances five tastes, so a sticky stage shows a som tam being made one taste at a time until the finished plate fills the screen. After that come the menu, the visit details and a booking form that works.",
     challenge:
