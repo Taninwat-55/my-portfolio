@@ -825,10 +825,10 @@ export const cases: CaseStudy[] = [
       code: "https://github.com/Taninwat-55/rachabeautywellness",
     },
   },
-  // The last two entries — Lumina and Saep — are the only ones with no client
-  // behind them, and each says so in its own first sentence. Everything else on
-  // this page answers "would you ship for me"; these two answer "can you do
-  // motion work", which nothing else in the list shows.
+  // The last three entries — Lumina, Saep and Første Lys — are the only ones with
+  // no client behind them, and each says so in its own first sentence. Everything
+  // else on this page answers "would you ship for me"; these three answer "can you
+  // do motion work", which nothing else in the list shows.
   // Their metrics are measured rather than framed as outcomes for that reason — an
   // invented business result sitting beside Racha's real ones would cost more
   // credibility than the entries are worth. Saep is the sharper case: it is an
@@ -997,15 +997,94 @@ export const cases: CaseStudy[] = [
       ],
     },
   },
+  {
+    id: "forste-lys",
+    concept: true,
+    n: "10",
+    tag: "Motion & Craft",
+    scope: "Frontend only. One static HTML page with CSS and JavaScript, no backend, and a concept with no client.",
+    role: "Self-initiated concept",
+    year: "2026",
+    making: [
+      {
+        label: "Brief",
+        text: "I wanted a café site that no other café could copy, so I gave myself a brief with no client. The café opens at 05:30, closes at 13:00, and its menu follows the clock.",
+      },
+      {
+        label: "Prototype, October 2026",
+        text: "I built the hero and the scroll moment first and judged them in the browser before anything else. The screenshot caught a bug. The text font put a gap before every full stop and comma.",
+        image: "/assets/forste-lys/making/prototype.webp",
+        alt: "The first prototype of the scroll moment: 05:30 in a large serif on dark blue beside a photo of hands around a paper cup, with gaps before the full stops in the text.",
+      },
+      {
+        label: "Build, October 2026",
+        text: "Then the rest of the page: the menu grouped by the hour, the regulars as an arrival log, and a form to save a bun for tomorrow that knows which mornings are already full.",
+        image: "/assets/forste-lys/making/saved.webp",
+        alt: "The Save a bun form after a save, reading 'Saved, Ice.' in a serif, next to a close-up of a sugared cardamom bun.",
+      },
+    ],
+    design: {
+      palette: [
+        { name: "Night", hex: "#151B26" },
+        { name: "Ember", hex: "#4A2F1F" },
+        { name: "Gold", hex: "#E8B453" },
+        { name: "Cream", hex: "#F6F0E3" },
+        { name: "Flat", hex: "#DCD7CD" },
+      ],
+      type: [
+        { role: "Headings", family: "Bodoni Moda" },
+        { role: "Text", family: "Schibsted Grotesk" },
+      ],
+      source: "the page's CSS custom properties",
+    },
+    title: "Første Lys",
+    sub: "A concept site for an invented café on the quay in Nordhavn, with no client behind it. One page, one scroll moment where the scroll is the clock from 05:30 to 13:00, and no build step.",
+    images: [
+      "/assets/forste-lys/forste-lys-hero.webp",
+      "/assets/forste-lys/forste-lys-day.webp",
+      "/assets/forste-lys/forste-lys-close.webp",
+      "/assets/forste-lys/forste-lys-menu.webp",
+      "/assets/forste-lys/forste-lys-save.webp",
+    ],
+    overview:
+      "A website for a café that does not exist. No client. Første Lys is Danish for \"first light\". It sits on the quay in Nordhavn and opens at 05:30 for the people who are up before the city: nurses off the night shift, crane drivers, rowers and new parents. The page builds to one moment called The Day, where the scroll is the clock. It ticks from 05:30 to 13:00 while the room changes colour from night blue to gold to flat midday grey, sunlight crosses the window, and the counter board strikes dishes off as they sell out. After that come the menu by the hour, the regulars, a form to save a bun for tomorrow, and the visit details.",
+    challenge:
+      "A café is one of the most common briefs there is, and most café sites look alike, with a latte photo, a menu and the opening hours. The challenge was to find the one thing this café could say that no other could. Here it is time. The menu changes by the hour and the buns run out, so the page lets the visitor scroll through one morning. The same morning has to work with no motion at all, so with reduced motion each hour becomes a still block in its own light.",
+    stackWhy:
+      "Plain HTML, CSS and JavaScript, with GSAP and ScrollTrigger for the one scrubbed timeline. One page needs no framework, and the page's own code is 12.4 KB gzipped, so it arrives in the first round trip. The weight is in photos and fonts. The photos are AVIF and WebP at three widths, the two fonts are self-hosted, and the hero's entrance is plain CSS, so it never waits on the CDN.",
+    engineering:
+      "The Day is one GSAP timeline with every hour placed as a fraction of the track. The clock reads the smoothed timeline rather than the raw scroll position, so the digits land with the photos instead of ahead of them, and it only rewrites a digit when the digit changes. The counter board checks each dish's start and sold-out time against the same clock. Screenshots caught two bugs. Tabular figures, switched on for the whole page to keep the clock steady, also made the text font's full stops and commas tabular, so every sentence had a gap before its punctuation. And the closing photo turned muddy, because GSAP cannot tween a filter that starts from none. The Save a bun form knows the café is closed on Mondays, that Saturday's tray is always fully saved, and how many buns are left on other mornings, and it says plainly that it sends nothing.",
+    metrics: [
+      { v: "1", k: "Page" },
+      { v: "05:30 → 13:00", k: "One scroll moment" },
+      { v: "12.4 KB", k: "Authored code, gzipped" },
+    ],
+    stack: ["HTML", "CSS", "JavaScript", "GSAP", "ScrollTrigger"],
+    links: {
+      demo: "https://forste-lys.netlify.app",
+      code: "https://github.com/Taninwat-55/forste-lys",
+    },
+    showroom: {
+      business: "An early-morning café",
+      style: "Photo-led, one scroll story",
+      rung: 0,
+      addOns: ["scroll-story"],
+      gets: [
+        "One page: the morning as one story, then the menu, the regulars, a pre-order form and the visit details",
+        "One scroll moment, the café's day from opening to closing, that turns into a calm page when a phone asks for less motion",
+        "Everything in every build: search setup, your Google Business profile, analytics, and an enquiry form, here shaped as a pre-order",
+      ],
+    },
+  },
 ];
 
 /**
  * The work in the order the homepage's hall shows it, and the order case
  * pages hand on to the next one. Saep joined on 2026-10-26 with its current
- * screens (Ice); Millennial has no screens to show, so it stays a case page
- * only.
+ * screens (Ice), Første Lys on 2026-10-28; Millennial has no screens to show,
+ * so it stays a case page only.
  */
-export const leadCaseIds = ["trailr", "bevisly", "mockmate", "racha", "lumina", "saep"];
+export const leadCaseIds = ["trailr", "bevisly", "mockmate", "racha", "lumina", "saep", "forste-lys"];
 
 // ─── SERVICES ─────────────────────────────────────────────────────────────────
 // The /services page speaks to a different visitor than the homepage does: a
@@ -1231,7 +1310,7 @@ const WEBSITE_ADD_ONS: { id: AddOnId; name: string; price: string; body: string;
   id: "scroll-story",
   name: "A page that tells a story as you scroll",
   price: "6.000 DKK",
-  body: "I build the whole page around one story that unfolds as the visitor scrolls. Sections pin in place, pictures and words move together, and the visitor sets the pace. Lumina and Saep in the Showroom are built this way. A visitor whose device asks for reduced motion gets the same story as a calm, complete page.",
+  body: "I build the whole page around one story that unfolds as the visitor scrolls. Sections pin in place, pictures and words move together, and the visitor sets the pace. Lumina, Saep and Første Lys in the Showroom are built this way. A visitor whose device asks for reduced motion gets the same story as a calm, complete page.",
   },
   {
   id: "extra-page",

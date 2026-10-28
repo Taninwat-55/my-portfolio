@@ -26,7 +26,7 @@ const WIDTHS = [1280, 960, 720];
 
 // Every case's screenshot folder: the hall shows five, but every case page
 // reveals its own screens. Add a folder here when a case joins.
-const PROJECTS = ["trailr", "bevisly", "mockmate", "racha", "lumina", "millennial", "satoshi-standard", "saep"];
+const PROJECTS = ["trailr", "bevisly", "mockmate", "racha", "lumina", "millennial", "satoshi-standard", "saep", "forste-lys"];
 
 for (const project of PROJECTS) {
   const from = path.join(ASSETS, project);
