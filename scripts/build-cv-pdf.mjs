@@ -30,10 +30,9 @@
  * - **Projects before Experience**, which is the order the hand-made PDF used. For
  *   someone a year into the field with three shipped products, the projects are the
  *   stronger evidence, and the first half-page is what gets read.
- * - **Everything in `cvData`, including the two groups the old PDF cut** (the
- *   Operations & Product skills and the Languages row). Cutting them was a
- *   one-page constraint; this runs to two, and the operations history is the part
- *   of the range that no other frontend candidate has.
+ * - **Everything in `cvData`, and nothing else.** `cvData` holds only what the JD
+ *   Ledger's engineering ads ask for (2026-10-28), so the file never needs its own
+ *   cuts. The operations history lives in the Millennial entry, not a skills group.
  * - **No phone number, no street address** — email, LinkedIn, GitHub, website. Same
  *   rule as every other public surface.
  */
@@ -190,7 +189,7 @@ const html = `<!doctype html>
     break-after: avoid;
   }
 
-  .summary { text-align: justify; hyphens: auto; }
+  .summary { text-align: left; hyphens: none; }
 
   /* ── Skills ─────────────────────────────────────────────────────────── */
   /* A definition-list grid: label column fixed, values wrap. Reads as a table

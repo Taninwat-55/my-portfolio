@@ -174,62 +174,32 @@ export const cvData = {
   // single searchable title rather than a hybrid.
   title: siteContent.roleLabel,
   summary:
-    "I build web apps, mostly with React, Next.js and TypeScript. At Trailr AI, an early-stage AI startup, I work part-time on the frontend and UI/UX, and I led a redesign of the platform within what the existing backend could support. In my own projects I build the backend too, with Node.js, PostgreSQL and Supabase, including AI features on Gemini where a person keeps the final say. Before that, I spent four cycles at Millennial Consulting, going from Operations Assistant to Head of Organization and coordinating around 20 client projects with no full-time staff. I like building things, and I like getting them shipped.",
+    "Full-stack engineer working mostly in TypeScript, React and Next.js. At Trailr AI, an early-stage AI video startup, I work part-time on the React frontend and led a redesign of the platform's UI within what the existing backend supports. In my own products I build the backend too, with Node.js, REST APIs and PostgreSQL, and add LLM features where a person keeps the final say. I use AI-assisted development every day and check the result with tests and CI before it ships.",
 
-  // Four technical groups mirroring the PDF, plus the operations group the PDF
-  // has no room for. A one-page CV has to cut; the page does not.
+  // Only what the JD Ledger's engineering ads ask for (97 Nordic ads with full
+  // text, 2026-10-28). Terms almost no ad names (Zustand, Redux, Prisma, Zod,
+  // Express, Tailwind, Agile) stay in the project lines as evidence, not here.
   skills: [
     {
       label: "Languages",
-      items: ["TypeScript", "JavaScript", "SQL", "HTML5", "CSS3"],
+      items: ["TypeScript", "JavaScript", "SQL", "HTML", "CSS"],
     },
     {
       label: "Frontend",
-      items: [
-        "Next.js (Server Components, Server Actions)",
-        "React",
-        "TailwindCSS",
-        "Zustand",
-        "Redux",
-        "Responsive Design",
-        "Accessibility (WCAG)",
-      ],
+      items: ["React", "Next.js", "Accessibility (WCAG)", "Web performance (Core Web Vitals)"],
     },
     {
-      label: "Backend & Databases",
-      items: [
-        "Node.js",
-        "Express.js",
-        "REST APIs",
-        "PostgreSQL (schema design, migrations, indexes, row-level security)",
-        "Supabase",
-        "Prisma",
-        "Authentication & Authorization (JWT/OAuth)",
-      ],
+      label: "Backend",
+      items: ["Node.js", "REST APIs", "PostgreSQL", "Supabase"],
     },
     {
-      label: "Tools & AI",
+      label: "AI and tools",
       items: [
-        "Agentic coding (Claude Code, custom review agents)",
-        "Git/GitHub",
-        "Vitest",
-        "CI/CD (GitHub Actions)",
-        "Vercel",
-        "Figma",
         "LLM integration (Gemini)",
-      ],
-    },
-    {
-      label: "Operations & Product",
-      items: [
-        "Product Development",
-        "Client Relations",
-        "Recruitment & Onboarding",
-        "Requirements Gathering",
-        "Process Design",
-        "Stakeholder Communication",
-        "Agile / Scrum",
-        "Cross-functional Collaboration",
+        "AI-assisted development (Claude Code, review agents)",
+        "Git",
+        "CI/CD (GitHub Actions)",
+        "Testing (Vitest)",
       ],
     },
   ],
@@ -242,10 +212,18 @@ export const cvData = {
       place: "Remote, Denmark",
       bullets: [
         "Part of a small remote team where product, design and engineering overlap, working on the trailer report, the back office and the platform's tools in React and TypeScript.",
-        "A full overhaul of the navigation UI inside an existing Zustand codebase, reworking state connections and wiring components to new design requirements.",
-        "A shared side-panel layout across tools like Story Builder and Screening Room, so each new tool starts from the same structure.",
+        "A redesign of Story Builder and the platform navigation, scoped to what the existing backend already supports, with state reworked inside the existing Zustand store.",
         "Most work arrives as rough briefs with no formal specs, so the job is reading the intent, flagging feasibility gaps early and checking with the backend team before building.",
         "The platform is in enterprise trials with two major Danish media companies.",
+      ],
+    },
+    {
+      org: "Freelance",
+      role: "Web Developer",
+      period: "Jun 2025 – Present",
+      place: "Copenhagen, Denmark",
+      bullets: [
+        "Racha Beauty, a paying client's first website. A Danish-language React site with a 95+ Lighthouse score and a contact form with a fallback path.",
       ],
     },
     {
@@ -256,8 +234,7 @@ export const cvData = {
       bullets: [
         "20+ client engagements across 4 cycles, with 90%+ client satisfaction each time.",
         "Around 5 projects and 25+ student consultants per cycle, all volunteers, with recruitment, onboarding and team staffing as my responsibility.",
-        "A hybrid Agile and waterfall process of my design, with fixed milestones for clients and flexible mentor sessions for teams, later adopted across the organisation.",
-        "Partner workshops with Deloitte, Accenture, EY-Parthenon, PwC, BearingPoint and Round.",
+        "A hybrid Agile and waterfall process of my design, later adopted across the organisation.",
       ],
     },
   ] satisfies CvEntry[],
@@ -265,25 +242,34 @@ export const cvData = {
   projects: [
     {
       org: "Bevisly",
-      role: "Personal Project (React, TypeScript, Tailwind, Supabase, Vitest)",
+      role: "Personal Project (React, TypeScript, React Router, Supabase, PostgreSQL, Vitest)",
       period: "Aug 2025 – Present",
       place: "Copenhagen, Denmark",
       bullets: [
-        "A hiring platform built solo, where candidates prove their skills with real tasks instead of CVs, with separate flows for candidates, employers and admins.",
-        "63 PostgreSQL migrations so far, covering row-level security per role, triggers and SQL scoring functions, with the schema changed step by step as the product moved.",
-        "AI grades used to feed the public score employers see. A rewrite in October 2026 made that score count employer judgement only and kept the Gemini grade as private feedback for the candidate, in line with the EU AI Act.",
+        "Proof pages for web freelancers with real work and no reviews yet. Each project is confirmed by the client who paid for it, through a link the freelancer sends.",
+        "72 PostgreSQL migrations so far, with access rules per role, triggers and SQL functions.",
+        "Public pages prerendered to HTML, built to a budget of about 100 KB of JavaScript and Core Web Vitals targets.",
       ],
     },
     {
       org: "MockMate",
-      role: "Personal Project (Next.js 16, Server Actions, Neon PostgreSQL, Prisma)",
+      role: "Personal Project (Next.js, TypeScript, PostgreSQL, Prisma, Gemini)",
       period: "May 2026 – Present",
       place: "Copenhagen, Denmark",
       bullets: [
-        "An AI interview practice tool where candidates rehearse real interviews and get feedback, born from my own job search.",
-        "Evaluation runs in two passes. The live interview stays conversational, while a separate grading pass reads only summarized notes, not the raw answers, which keeps scores consistent and closes a prompt injection risk.",
-        "Each answer is scored on technical accuracy, clarity and problem solving, with one strength, one weakness and one concrete tip per area.",
+        "An AI interview practice tool, live at mockmate.space. Candidates paste a job ad, rehearse a tailored interview and get graded the way a hiring panel would.",
+        "The LLM grades in a separate pass that reads only summarized notes, not the raw answers, which keeps scores consistent and closes a prompt injection risk.",
         "Composite indexes chosen for the real query paths, for example the cleanup job that finds stale interview sessions.",
+      ],
+    },
+    {
+      org: "Concept websites (Lumina, Saep, Første Lys)",
+      role: "Personal Projects (HTML, CSS, JavaScript)",
+      period: "Aug 2026 – Present",
+      place: "Copenhagen, Denmark",
+      bullets: [
+        "Three sites for invented Copenhagen businesses, each built around one scroll-driven moment, at 11 to 14 KB of page code gzipped.",
+        "Each site works in full with reduced motion or without JavaScript, and each form says exactly what to fix.",
       ],
     },
   ] satisfies CvEntry[],
@@ -310,7 +296,6 @@ export const cvData = {
   ],
 
   additional: [
-    { label: "Certificates", value: "Google Project Management Certificate" },
     {
       label: "Languages",
       value: "Thai (Native), English (Fluent), Swedish (Fluent), Danish (Basic)",
