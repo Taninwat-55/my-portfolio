@@ -807,7 +807,7 @@ export const cases: CaseStudy[] = [
     stack: ["React", "Vite", "React Router", "Tailwind", "Web3Forms", "Schema.org"],
     links: {
       demo: "https://rachabeautywellness.com",
-      code: "https://github.com/Taninwat-55/rachabeautywellness",
+      code: "",
     },
   },
   // The last three entries — Lumina, Saep and Første Lys — are the only ones with
