@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ViewTransition } from "react";
 import { notFound } from "next/navigation";
-import { cases, conceptPrice, founding, foundingOpen, inShowroom, leadCaseIds, casePage } from "@/app/data";
+import { cases, conceptPrice, inShowroom, leadCaseIds, casePage } from "@/app/data";
 import { GridLines } from "@/app/world/GridLines";
 import { SmoothScroll } from "@/app/world/SmoothScroll";
 import { WorldFooter } from "@/app/world/WorldFooter";
@@ -180,46 +180,19 @@ export default async function CasePage({
             ))}
           </dl>
 
-          {/* Before the story: a client wants the price before the engineering. */}
+          {/* Before the story, as one line (Ice, 2026-10-31): the tier and its
+              range, and the way to /services. The breakdown lives there. */}
           {price && (
             <section className={styles.price} aria-labelledby="price-title">
               <h2 id="price-title" className={styles.label}>
                 {shop.label}
               </h2>
-              <div className={styles.priceBody}>
-                <div>
-                  <p className={styles.priceSub}>{shop.gets}</p>
-                  <ul className={styles.gets}>
-                    {caseStudy.showroom!.gets.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <dl className={styles.receipt}>
-                    {price.rows.map((row) => (
-                      <div key={row.label}>
-                        <dt>{row.label}</dt>
-                        <dd>{row.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                  <p className={styles.total}>
-                    {shop.total} {price.total}
-                  </p>
-                  {foundingOpen && (
-                    <p className={styles.founding}>
-                      {founding.label} {price.founding}
-                    </p>
-                  )}
-                  <p className={styles.terms}>
-                    {shop.timeline} {price.timeline}. {shop.terms}
-                  </p>
-                  <Link className={styles.button} href={`/contact?like=${caseStudy.id}#enquire`}>
-                    {shop.buildLike} <span aria-hidden="true">→</span>
-                  </Link>
-                </div>
-              </div>
+              <p className={styles.priceLine}>
+                {shop.line} {price.total} ({price.rows[0].label}).{" "}
+                <Link href="/services#website">
+                  {shop.see} <span aria-hidden="true">→</span>
+                </Link>
+              </p>
             </section>
           )}
 

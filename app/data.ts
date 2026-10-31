@@ -1863,11 +1863,8 @@ export const casePage = {
   ] as const,
   price: {
     label: "What a site like this costs",
-    gets: "What you get",
-    total: "Total",
-    timeline: "Typically",
-    terms: `Prices ${vat.shortLabel}. You pay for the domain and any hosting directly, never through me. ${quoteExcludes}`,
-    buildLike: "Build me one like this",
+    line: "A site like this costs",
+    see: "See what's included",
   },
 };
 

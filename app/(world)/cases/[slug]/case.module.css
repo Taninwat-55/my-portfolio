@@ -216,83 +216,16 @@
   border-top: 1px solid var(--line);
 }
 
-.priceBody {
-  display: grid;
-  gap: calc(var(--unit) * 5);
+.priceLine {
   grid-column: 1 / -1;
-}
-
-.gets {
-  margin: calc(var(--unit) * 1.5) 0 0;
-  padding-left: 1.1em;
-  font-size: 16px;
-  line-height: 1.55;
-}
-
-.gets li + li {
-  margin-top: var(--unit);
-}
-
-.receipt {
   margin: 0;
-  font-size: 15px;
-}
-
-.receipt div {
-  display: flex;
-  justify-content: space-between;
-  gap: calc(var(--unit) * 2);
-  padding: var(--unit) 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.receipt dd {
-  margin: 0;
-  font-family: var(--world-mono);
-  white-space: nowrap;
-}
-
-.total {
-  margin: calc(var(--unit) * 2) 0 0;
-  font-family: var(--world-display);
-  font-size: clamp(28px, 3vw, 40px);
-  line-height: 1.1;
-}
-
-.founding {
-  margin: var(--unit) 0 0;
-  font-family: var(--world-mono);
-  font-size: 13px;
-  color: var(--signal);
-}
-
-.terms {
-  margin: calc(var(--unit) * 1.5) 0 0;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.5;
-  color: var(--muted);
 }
 
-.price .button {
-  display: inline-flex;
-  gap: var(--unit);
-  margin-top: calc(var(--unit) * 3);
-  padding: 14px 20px;
-  border: 1px solid var(--fg);
-  background: var(--fg);
-  color: var(--bg);
-  font-size: 15px;
-  font-weight: 500;
-  text-decoration: none;
-  transition:
-    background-color var(--dur-ui) var(--ease-reveal),
-    border-color var(--dur-ui) var(--ease-reveal);
-}
-
-.price .button:hover {
-  color: var(--bg);
-  border-color: var(--signal);
-  background: var(--signal);
+.priceLine a {
+  color: inherit;
+  text-underline-offset: 3px;
 }
 
 @media (min-width: 900px) {
@@ -301,9 +234,7 @@
     grid-column: 1 / span 3;
   }
 
-  .priceBody {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--gutter);
+  .priceLine {
     grid-column: 4 / span 8;
   }
 }
