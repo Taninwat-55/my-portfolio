@@ -1716,7 +1716,7 @@ export const servicesFaq: FaqItem[] = [
   // first call costs one answer and saves an argument in week two.
   {
     q: "What is not included in the price?",
-    a: "Said plainly so it is never a surprise halfway through. Photography: phone photos in good light are often fine, and if you need a photographer you pay them directly. A logo: I design around the brand you already have. A professional translation, if you want one. Paid advertising. Legal wording: I put the privacy page and cookie notice in place, but the wording should be checked by someone qualified. Writing the text is not on this list. Tell me about the business on a short call, and from the 4.000 version of Get found I write it with you and you approve every word.",
+    a: "Said plainly so it is never a surprise halfway through. Photography, though phone photos in good light are often fine, and a photographer is paid directly. A logo, because I design around the brand you already have. A professional translation, if you want one. Paid advertising. Legal wording. I put the privacy page and cookie notice in place, but the wording should be checked by someone qualified. Writing the text is not on this list. Tell me about the business on a short call, and from the 4.000 version of Get found I write it with you and you approve every word.",
   },
   {
     q: "Why does Stand out cost more than Get found?",
@@ -1749,7 +1749,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Is there a monthly fee for the website?",
-    a: "No. Not to me, and not to a platform. A coded site has no site plan underneath it. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though a company's free tier is not a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. The domain is about 100 kroner, in your name. You pay those directly, and I do not mark up other people's invoices. I sell nothing that renews.",
+    a: "No. Not to me, and not to a platform. A coded site has no site plan underneath it. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though a company's free tier is not a guarantee. If it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. The domain is about 100 kroner, in your name. You pay those directly, and I do not mark up other people's invoices. I sell nothing that renews.",
   },
   {
     q: "Can I update the website myself afterwards?",
