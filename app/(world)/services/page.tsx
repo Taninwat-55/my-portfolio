@@ -27,7 +27,7 @@ const PAGE_URL = `${BASE_URL}/services`;
 // competing page says "contact us for a quote". A description that answers the
 // question in the SERP earns the click, and gives answer engines something
 // concrete enough to quote.
-const DESCRIPTION = `Ice's Stack, a one-person web studio in Copenhagen. Websites for local businesses ${services.offers[0].priceRange.replace("From", "from")}, coded by hand and set up to be found on Google and by AI assistants. No monthly fees. Also web app frontends and redesign work. Published prices, fixed scope, written quote before anything starts.`;
+const DESCRIPTION = `Ice's Stack, a one-person web studio in Copenhagen. Websites for local businesses ${services.offers[0].priceRange.replace("From", "from")}, custom-built in code and set up to be found on Google and by AI assistants. No monthly fees. Also web app frontends and redesign work. Published prices, fixed scope, written quote before anything starts.`;
 
 export const metadata: Metadata = {
   title: "Services",
@@ -433,6 +433,7 @@ export default function ServicesPage() {
                 row(tier.label, tier.price, <p className={styles.detail}>{tier.body}</p>),
               )}
             </div>
+            <p className={styles.note}>{services.aftercare.security}</p>
           </div>
         </section>
 

@@ -129,7 +129,7 @@ export const siteContent = {
     // signal for engineering roles.
     {
       title: "Client Work",
-      body: "Taking a paying client from the first call to handover: working out what they actually need, quoting a fixed price, building it, and leaving them owning the result. I code every client site by hand, so it is fast, easy to find on Google, and has no platform fee to pay each year. Racha Beauty has run since launch without maintenance.",
+      body: "Taking a paying client from the first call to handover: working out what they actually need, quoting a fixed price, building it, and leaving them owning the result. I build every client site in custom code, so it is fast, easy to find on Google, and has no platform fee to pay each year. Racha Beauty has run since launch without maintenance.",
     },
   ],
 
@@ -1226,10 +1226,12 @@ const WEBSITE_ADD_ONS: { id: AddOnId; name: string; price: string; body: string;
     id: "second-language",
     name: "A second language",
     // Still the one span: the work tracks page count, because every page has
-    // to exist twice. Already inside the 5.000 version of Get found.
-    price: "2.000 – 3.500 DKK",
-    body: "The whole site in a second language, with its own web addresses and page titles for search, plus a switcher. Danish, English, Swedish or Thai. The price follows the size of the site, because every page exists twice.",
-    note: "A professional translation, if you want one, is a separate bill from a translation bureau, paid to them directly.",
+    // to exist twice. 1.000 up to five pages (which is what the 4.000 → 5.000
+    // step in Get found already charges), 2.000 above that. Ice translates with
+    // AI and the client approves the words (Ice, 2026-10-31).
+    price: "1.000 – 2.000 DKK",
+    body: "The whole site in a second language, with its own web addresses and page titles for search, plus a switcher. Danish, English, Swedish or Thai. 1.000 for up to five pages, 2.000 above that, because every page exists twice.",
+    note: "The translation is included, and you approve every word before it goes live. A certified translation is a separate bill from a translation bureau.",
   },
   {
     id: "booking",
@@ -1287,20 +1289,13 @@ export const aftercareRates = {
   hourly: "450",
 } as const;
 
-/**
- * The rescue audit bought on its own. A constant because two places quote it:
- * the rescue offer's priceNote below, and the receipt on the clock homepage.
- * As a number typed into a sentence, the receipt would drift the first time the
- * price changed.
- */
-export const RESCUE_AUDIT_PRICE = "3.500 DKK";
 
 export const services = {
   intro: {
     eyebrow: "Freelance & Client Work",
     title: "Services",
     lead: "Ice's Stack is my one-person web studio. I build websites for local businesses, and you deal with me from the first call to launch.",
-    body: "Fixed price, agreed in writing before anything starts. Coded by hand, fast on a phone, and yours when it is done. If I am not the right person for what you need, I will say so on the first call.",
+    body: "Fixed price, agreed in writing before anything starts. Custom-built in code, fast on a phone, and yours when it is done. If I am not the right person for what you need, I will say so on the first call.",
     chips: [
       "Copenhagen · remote across the EU",
       "Dansk · English · Svenska",
@@ -1309,11 +1304,11 @@ export const services = {
     ],
   },
 
-  // Ice, 2026-10-31: the case for hiring one person who codes by hand rather
+  // Ice, 2026-10-31: the case for hiring one person who builds in custom code rather
   // than an agency or a builder. Four short claims, each true today.
   whyMe: [
     {
-      title: "Hand-built, not a template",
+      title: "Built for you, not from a template",
       body: "Every site is coded for your business, so it opens fast and looks like you, not like the shop next door.",
     },
     {
@@ -1386,7 +1381,7 @@ export const services = {
       priceLadder: [
         {
           scope: "Get found",
-          detail: "For a business where customers need the facts fast. 3.000 for up to three pages with your own text and photos. 4.000 for up to five pages, or if I write the text with you. 5.000 for five pages, a second language and help with the text.",
+          detail: "For a business where customers need the facts fast. 3.000 for up to three pages with your own text and photos. 4.000 for up to five pages, or if I write the text with you. 5.000 for five pages, a second language and help with the text. Racha Beauty, my first client, is this tier.",
           price: "3.000 – 5.000 DKK",
           timeline: "1–2 weeks",
         },
@@ -1398,7 +1393,7 @@ export const services = {
         },
         {
           scope: "Run your business on it",
-          detail: "A site with a database behind it, such as logins, orders you manage or an admin page. Scoped to your budget, so we decide together what goes in first and what can wait. Online booking or a menu you edit yourself does not need this. Those are add-ons.",
+          detail: "A site with a database behind it, such as logins, orders you manage or an admin page. Scoped to your budget, so we decide together what goes in first and what can wait. Online booking or a menu you edit yourself does not need this. Those are add-ons. Security updates are included for the first 12 months.",
           price: "From 15.000 DKK",
           timeline: "3–8 weeks",
         },
@@ -1409,7 +1404,7 @@ export const services = {
           timeline: "+ 1–3 days each",
         },
       ],
-      buildMethodNote: "Every site is coded by hand, with no platform and no monthly fee underneath it.",
+      buildMethodNote: "Every site is custom-built in code, with no page builder and no monthly fee underneath it.",
       addOns: {
         label: "Add-ons",
         body: "One price each. Take one, none, or add one later.",
@@ -1457,22 +1452,23 @@ export const services = {
       timeline: "3–8 weeks, or ongoing part-time",
     },
     {
+      // Was "Redesign & Performance Rescue", 8.000 – 16.000 with a 3.500 audit,
+      // which cost more than a new Get found site. Replaced 2026-10-31 (Ice):
+      // one rate for fixes, a new site for a new look, and the look is free.
       id: "rescue",
       n: "03",
-      name: "Redesign & Performance Rescue",
-      tagline: "The site exists. It is slow, dated, or invisible. I fix it without starting over.",
-      forWho: "Businesses with a site that works but is quietly losing them enquiries.",
+      name: "Already have a site?",
+      tagline: "Fixed if it is broken, rebuilt if it is dated. I tell you which on the first call.",
+      forWho: "Businesses with a site that is slow, broken or out of date, on any platform.",
       includes: [
-        "A written audit of speed, mobile, accessibility and search basics, in plain language",
-        "A prioritised list of fixes with what each one is actually worth, so you can stop at any point",
-        "A visual refresh on the structure you already have, on a coded site. On WordPress or Wix I fix what is broken, and a new look means a rebuild in code",
-        "Image, font and bundle work, usually where most of the speed is hiding",
-        "Before-and-after numbers, measured the same way both times",
-        "An honest call on rebuilding: if starting over is cheaper than repairing, I will say so and tell you why",
+        "A free look at your site on the first call, and a straight answer on whether to fix it or replace it",
+        "Something broken, like a form that stopped sending, an error or a slow page, fixed on the site you have",
+        "An estimate before I start, so the bill is never a surprise",
+        "A dated site replaced at Get found or Stand out prices, often reusing your text and photos",
       ],
-      priceRange: "8.000 – 16.000 DKK",
-      priceNote: `The audit can be bought on its own for ${RESCUE_AUDIT_PRICE} if you would rather take the fixes elsewhere.`,
-      timeline: "1–3 weeks",
+      priceRange: `${aftercareRates.hourly} DKK / hour`,
+      priceNote: "For fixes. A new look is a new site, priced by the tiers above.",
+      timeline: "Usually days, not weeks",
     },
   ] satisfies ServiceOffer[],
 
@@ -1568,7 +1564,7 @@ export const services = {
       {
         label: "Platform fee",
         value: "0 kr",
-        why: "A hand-coded site has no platform underneath it, so there is nothing to subscribe to. Builders like Wix, Squarespace and Webflow charge a site plan every year; this does not.",
+        why: "A site built in code has no platform underneath it, so there is nothing to subscribe to. Builders like Wix, Squarespace and Webflow charge a site plan every year; this does not.",
       },
       {
         label: "Hosting",
@@ -1614,7 +1610,7 @@ export const services = {
     lead: "No subscription and no maintenance plan. Your site has no plugins to patch, so there is nothing to sell you every month. What you might want later is changes, and this is what they cost.",
     free: {
       label: "Free",
-      body: "Two small changes in the first three months, like a new price, an opening hour or a photo. And if something breaks because of how I built it, I fix it for free, always.",
+      body: "Two small changes in the first three months, like a new price, an opening hour or a photo. And a bug in my code is fixed for free, always.",
     },
     small: {
       label: "A small change",
@@ -1626,6 +1622,13 @@ export const services = {
       price: `${aftercareRates.hourly} ${aftercareRates.currency} / hour`,
       body: "A new page, a seasonal theme, a campaign with its own design. I quote it before I start, not after.",
     },
+    /**
+     * Security, decided 2026-10-31 (Ice). Tiers 1 and 2 are static by
+     * promise, so there is nothing to patch. Tier 3 runs server code, and a
+     * hole in an outside library (React2Shell, December 2025) is not a bug in
+     * Ice's code, so "free forever" must not cover it.
+     */
+    security: "Get found and Stand out sites are static files with no server behind them, so there is nothing to patch and no security update to pay for. A site with a database is different. Security updates are included for the first 12 months, and after that I apply one when it is needed, at the hourly rate, with nothing on a subscription.",
   },
 
   /**
@@ -1731,7 +1734,7 @@ export const servicesFaq: FaqItem[] = [
   // so this is a real first question rather than a hypothetical.
   {
     q: "Can you fix my WordPress or Wix site?",
-    a: "Yes, when something is broken: error messages on the page, a slow or insecure site, a form that stopped sending. I fix those on the site you already have, as a Rescue or at the hourly rate. What I do not do is redesign a builder site or keep patching it month after month. A WordPress site breaks when its plugins and its PHP version drift apart, so ongoing patching only buys time until the next update does the same. Wix and Squarespace lock the parts that make a site fast and findable inside the platform. So when you want a new look, I rebuild in code: priced like any new site, often reusing your text and photos, with no plugins to update and no platform fee afterwards. The written audit tells you honestly which of the two you need.",
+    a: "Yes, when something is broken: error messages on the page, a slow or insecure site, a form that stopped sending. I fix those on the site you already have, at the hourly rate with an estimate first. What I do not do is redesign a builder site or keep patching it month after month. A WordPress site breaks when its plugins and its PHP version drift apart, so ongoing patching only buys time until the next update does the same. Wix and Squarespace lock the parts that make a site fast and findable inside the platform. So when you want a new look, I rebuild in code: priced like any new site, often reusing your text and photos, with no plugins to update and no platform fee afterwards. I look at it with you on the first call, for free, and tell you honestly which of the two you need.",
   },
   // AEO in the FAQ itself: the question an owner actually types into ChatGPT.
   {
@@ -1745,7 +1748,7 @@ export const servicesFaq: FaqItem[] = [
   // there instantly for anyone checking whether they would be locked in.
   {
     q: "What do you build it with, and could another developer take it over?",
-    a: "Hand-coded sites are built with React and Next.js in TypeScript, styled with Tailwind CSS, and hosted on Netlify or Vercel. Forms go through a service like Resend so messages reach you even though there is no server to maintain. The part that actually matters: these are mainstream tools, not anything invented here. Any React developer can open the repository and continue, which is deliberate: you should be able to replace me without replacing your website. Racha Beauty's site is React and Tailwind, and the full stack for every project I have built is listed on its case study page.",
+    a: "Get found and Stand out sites are static, which means plain files on a fast host like Netlify, Cloudflare or Vercel, with no server and no database to keep patched. They are written in HTML, CSS and JavaScript, sometimes with React or Next.js turned into plain files at build time. A site in the third tier uses React, Next.js and TypeScript with a database behind it. Forms go through a service like Resend so messages reach you without a server of your own. The part that actually matters is that these are mainstream tools, not anything invented here. Any React developer can open the repository and continue, which is deliberate: you should be able to replace me without replacing your website. Racha Beauty's site is React and Tailwind, and the full stack for every project I have built is listed on its case study page.",
   },
   {
     q: "Is there a monthly fee for the website?",
@@ -1761,7 +1764,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Do you maintain the site afterwards?",
-    a: `The site itself does not need maintaining, and that is deliberate. It has no plugins to patch, so I do not sell a care plan, and Racha Beauty's site has run since launch without anyone touching it. You get two small changes free in the first three months, and anything that breaks because of how I built it is fixed free, always. After that a small change is ${services.aftercare.small.price} and bigger work is ${services.aftercare.hourly.price}, quoted before I start. Nothing renews.`,
+    a: `The site itself does not need maintaining, and that is deliberate. It has no plugins to patch, so I do not sell a care plan, and Racha Beauty's site has run since launch without anyone touching it. You get two small changes free in the first three months, and a bug in my code is fixed free, always. After that a small change is ${services.aftercare.small.price} and bigger work is ${services.aftercare.hourly.price}, quoted before I start. A site with a database gets security updates free for its first 12 months, then at the hourly rate when one is needed. Nothing renews.`,
   },
   {
     q: "Which languages can you work in?",
@@ -1769,7 +1772,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "How long does it actually take?",
-    a: "A small-business site is usually two to three weeks, a rescue one to three, an app frontend three to eight. Those are real numbers, not best cases. The most common delay is not the build. It is waiting on text and photos from you, which is why the scope says exactly what I need from you and when.",
+    a: "A small-business site is usually two to three weeks, a fix usually a few days, an app frontend three to eight weeks. Those are real numbers, not best cases. The most common delay is not the build. It is waiting on text and photos from you, which is why the scope says exactly what I need from you and when.",
   },
   {
     q: "Who owns the code?",
@@ -1784,7 +1787,7 @@ export const servicesEnquiryOptions = {
   projectType: [
     { value: "small-business-site", label: "A website for my business" },
     { value: "web-app-frontend", label: "A web app frontend build" },
-    { value: "redesign-rescue", label: "Redesign / make my site faster" },
+    { value: "redesign-rescue", label: "Fix or replace my current site" },
     { value: "something-else", label: "Something else" },
   ],
   // Bands straddle the published prices rather than mirroring them: a visitor
@@ -1979,7 +1982,7 @@ ${services.offers
 
 Proof: rachabeautywellness.com, a Danish-language site he built end to end for a wellness studio in Næstved that had only a Facebook page. 95+ Lighthouse on first deploy, and it has run since launch without maintenance.
 
-A small-business website is priced by scope alone, and every client site is coded by hand. Ice does not build client sites in Webflow, Wix, WordPress or any other builder, and does not redesign existing builder sites: a new look means a rebuild in code. He does fix what is broken on any existing site, builder or not (visible errors, speed, security, a form that stopped sending), as a Rescue or at the hourly rate. Never offer to build a new site in a builder. You may quote these figures, they are published on the services page:
+A small-business website is priced by scope alone, and every client site is custom-built in code. Ice does not build client sites in Webflow, Wix, WordPress or any other builder, and does not redesign existing builder sites: a new look means a rebuild in code. He does fix what is broken on any existing site, builder or not (visible errors, speed, security, a form that stopped sending), at the hourly rate. A dated site gets a free look on the first call and a new build at tier prices. Never offer to build a new site in a builder. You may quote these figures, they are published on the services page:
 ${services.offers[0]
   .priceLadder!.map((r) => `- ${r.scope}: ${r.price} (typically ${r.timeline})`)
   .join("\n")}
@@ -2003,13 +2006,13 @@ What the site costs to keep: there is no platform fee. Hosting fits a free tier 
 
 There is NO website maintenance or care plan. Danish agencies sell website care at 250 – 3.000 kr a month, but that product is patching WordPress, and a static site has no plugins to patch. Charging for that would be charging for a problem this stack does not have.
 
-For changes after launch: two small changes are FREE in the first three months, and anything that breaks because of how Ice built it is fixed free, always. After that a small change (text, a photo, a price) is ${services.aftercare.small.price}, and bigger work is ${services.aftercare.hourly.price}, quoted before he starts. There is no prepaid block, no subscription and no monthly plan of any kind; if asked about a retainer, say he sells nothing that renews.
+For changes after launch: two small changes are FREE in the first three months, and a bug in Ice's code is fixed free, always. Get found and Stand out sites are static, so there is nothing to patch; a third-tier site with a database gets security updates free for 12 months, then at the hourly rate when needed. After that a small change (text, a photo, a price) is ${services.aftercare.small.price}, and bigger work is ${services.aftercare.hourly.price}, quoted before he starts. There is no prepaid block, no subscription and no monthly plan of any kind; if asked about a retainer, say he sells nothing that renews.
 
 The three website tiers: Get found is for a business where customers need the facts fast; Stand out is for one where the look itself sells, with its own visual identity, motion and an editor for the important parts included; Run your business on it is a site with a database behind it, scoped to the client's budget. Online booking or a menu the client edits does not need the third tier; those are add-ons.
 
 Every build includes per-page search setup and Google Business connection, setup for AI assistants (common questions answered in quotable form, schema.org for the business type, an llms.txt summary file, name/address/phone made consistent across the main directories, and a check of how AI assistants describe the business at launch), mobile-first construction, a performance budget, accessibility basics, an enquiry form with a backup delivery path, analytics, and domain and hosting in the client's name. If someone asks why it is not 3.000 kroner, that list is the answer: a template shop skips it, and it is the part that makes the site actually get found and convert. Never promise a ranking or a place in an AI answer; promise correct, consistent, quotable facts.
 
-Note that his shipped client work to date is hand-coded. Webflow and Framer are in his skill list as skills, but he does not sell builder sites and has no Webflow or Framer client work; never offer either or claim case studies.
+Note that his shipped client work to date is custom code. Webflow and Framer are in his skill list as skills, but he does not sell builder sites and has no Webflow or Framer client work; never offer either or claim case studies.
 
 How he works: a short call, then a written scope with a fixed price and a delivery date before any work starts. Fixed price is the default, and it is how a website is sold: the client knows the number before anything begins and Ice carries the risk if it runs long. Where scope genuinely cannot be pinned down, such as ongoing frontend work on a product or an open-ended list of changes, he bills by the day at ${services.offers[1].priceRange} instead. Never say he refuses hourly or time-based work: the day rate is a published offer on the same page. He does the work himself. There is no agency and no handoff to someone else. The code, domain and hosting all end up in the client's name.
 
