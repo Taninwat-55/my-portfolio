@@ -892,7 +892,7 @@ export const cases: CaseStudy[] = [
       business: "A harbour bathhouse",
       style: "Scroll storytelling",
       rung: 1,
-      addOns: ["scroll-story"],
+      addOns: [],
       gets: [
         "Four pages: the visit as one story on the front page, then rooms and prices, the place, and booking",
         "One scroll moment, from cold water to a hot sauna, that turns into a calm page when a phone asks for less motion",
@@ -974,7 +974,7 @@ export const cases: CaseStudy[] = [
       business: "A Thai chef's table",
       style: "Editorial, photo-led",
       rung: 1,
-      addOns: ["scroll-story"],
+      addOns: [],
       gets: [
         "Four pages: the evening as one story on the front page, then the menu, the visit details and booking",
         "One scroll moment, a dish coming together taste by taste, that turns into a calm page when a phone asks for less motion",
@@ -1054,8 +1054,8 @@ export const cases: CaseStudy[] = [
     showroom: {
       business: "An early-morning café",
       style: "Photo-led, one scroll story",
-      rung: 0,
-      addOns: ["scroll-story"],
+      rung: 1,
+      addOns: [],
       gets: [
         "One page: the morning as one story, then the menu, the regulars, a pre-order form and the visit details",
         "One scroll moment, the café's day from opening to closing, that turns into a calm page when a phone asks for less motion",
@@ -1205,105 +1205,51 @@ export const vat = {
  * published figure per outcome, and `note` is only ever about what something
  * costs to keep or who else gets paid.
  */
-export type AddOnId =
-  | "self-edit"
-  | "managed-list"
-  | "second-language"
-  | "booking"
-  | "payments"
-  | "motion"
-  | "art-direction"
-  | "scroll-story"
-  | "extra-page";
+export type AddOnId = "self-edit" | "second-language" | "booking" | "payments" | "extra-page";
 
+/*
+ * Cut from nine to five on 2026-10-31 (Ice), when the three tiers arrived.
+ * Motion, art direction and the scroll story are no longer extras: they are
+ * what "Stand out" is. The managed list folded into self-edit, because one
+ * editor covers both. Self-edit dropped 3.000 → 2.500 and is included in
+ * Stand out; extra page 1.800 → 600 so it fits a 3.000 – 5.000 site.
+ */
 const WEBSITE_ADD_ONS: { id: AddOnId; name: string; price: string; body: string; note?: string }[] = [
   {
-  id: "self-edit",
-  name: "Edit your own text and images",
-  price: "3.000 DKK",
-  body: "A small editor built onto the site so you can change your opening hours, your prices and your photos yourself. Setup, your own login, and a recording of me walking through it.",
-  // The one place the running-cost story belongs on an add-on: it is
-  // about what it costs to KEEP, not what it costs to build.
-  note: "A one-off. The editor runs on a free tier, so there is nothing to pay for it each year.",
+    id: "self-edit",
+    name: "Edit the important parts yourself",
+    price: "2.500 DKK",
+    body: "A simple editor for the parts that change. The big photo at the top, your headline and button text, opening hours, prices, a menu or treatment list, and a banner for an offer. Setup, your own login, and a short recording showing you how. Already included in Stand out.",
+    note: "A one-off. The editor runs on a free plan, so there is nothing to pay for it each year. A new layout or a seasonal theme is still a job for me.",
   },
   {
-  id: "managed-list",
-  name: "A list you manage yourself",
-  price: "3.500 DKK",
-  body: "Treatments, a menu, a team page, or a blog you post to yourself. Anything where you add and remove entries rather than editing a fixed page. You get a simple form per entry instead of a page to lay out.",
-  note: "Free to run afterwards: there is no higher plan to move up to.",
+    id: "second-language",
+    name: "A second language",
+    // Still the one span: the work tracks page count, because every page has
+    // to exist twice. Already inside the 5.000 version of Get found.
+    price: "2.000 – 3.500 DKK",
+    body: "The whole site in a second language, with its own web addresses and page titles for search, plus a switcher. Danish, English, Swedish or Thai. The price follows the size of the site, because every page exists twice.",
+    note: "A professional translation, if you want one, is a separate bill from a translation bureau, paid to them directly.",
   },
   {
-  id: "second-language",
-  name: "A second language",
-  // The ONE add-on priced as a span rather than a figure, because it is
-  // the only one whose work genuinely tracks page count: every page has
-  // to exist twice, with its own address and its own search title. A
-  // flat number would be wrong at both ends — on a one-pager 4.500 was
-  // nearly the price of the whole site, and on an eight-pager it
-  // undercharged. The span is tied to the two rungs above it, not
-  // invented: 3.000 at 1–3 pages, 5.500 at 4–8.
-  //
-  // Still ONE price in the sense that matters: one published span for
-  // one outcome. The market model is proportional too: Danish
-  // agencies describe a second language as roughly doubling the
-  // content work rather than as a fixed fee.
-  price: "3.000 – 5.500 DKK",
-  body: "The whole site in a second language, with its own web addresses and its own page titles for search, so Google serves the right one to the right person, plus a switcher. Danish, English, Swedish or Thai. This is the one add-on that follows the size of the site, because every page has to exist twice.",
-  note: "The translation itself is not in this. A translation bureau charges around 1 kr a word and you pay them directly, so on a small site expect a separate bill of one to two thousand kroner. What I build is the structure around the words.",
+    id: "booking",
+    name: "Online booking",
+    price: "3.500 DKK",
+    body: "A booking tool wired properly into the site and its design, with confirmation emails that work, rather than a grey box dropped onto a page.",
+    note: "The booking tool's own subscription is paid by you, directly, like the domain and the hosting.",
   },
   {
-  id: "booking",
-  name: "Online booking",
-  price: "3.500 DKK",
-  body: "A booking tool wired properly into the site and its design, with confirmation emails that work, rather than a grey box dropped onto a page. Building a booking engine from nothing is a different job and a different price.",
-  note: "The booking tool's own subscription is paid by you, directly, like the domain and the hosting.",
+    id: "payments",
+    name: "Take payment online",
+    price: "5.000 DKK",
+    body: "Card, MobilePay, Apple Pay and Google Pay through Stripe, set up in your name and tested with real payments before it goes live. Suited to a handful of services or products. A full webshop is a bigger job than this.",
+    note: "Stripe's own fee comes out of each payment, currently about 1,4% plus 1,80 kr on a European card. It never passes through me.",
   },
   {
-  id: "payments",
-  name: "Take payment online",
-  price: "5.000 DKK",
-  body: "Card, MobilePay, Apple Pay and Google Pay through Stripe, set up in your name and tested with real payments before it goes live. Suited to a handful of services or products. A full webshop is a bigger job than this.",
-  note: "Stripe's own fee is theirs and comes out of each payment, currently about 1,4% plus 1,80 kr on a European card. It never passes through me.",
-  },
-  {
-  id: "motion",
-  name: "Motion and animation",
-  price: "2.500 DKK",
-  body: "Considered movement: sections arriving as you scroll, things that respond when you touch them. Built to go still for a visitor whose device asks for reduced motion, because for some people it is not a preference.",
-  },
-  // Added 2026-10-24 with the Showroom, which shows both on concept sites.
-  // Set inside the freelance market rather than at its floor: a Danish
-  // freelancer charges 3.000 – 8.000 extra for custom design, an agency 15.000
-  // – 25.000 for custom design with animation (webworq.dk, louimicheletti.dk).
-  // The founding-client discount, not a lower list price, is what makes them
-  // reachable while there is little client proof behind them.
-  {
-  id: "art-direction",
-  // Every site is already designed for the client; this buys the visual
-  // material they do not have yet. Ice makes illustrations with design and
-  // AI image tools, not by hand, so the copy says so rather than implying
-  // an illustrator.
-  name: "Illustrations and a visual identity",
-  price: "4.000 DKK",
-  body: "Every site I build is designed for your business, around the logo, colours and photos you already have. This is for when you have no visual identity yet, or want one that stands out. I create a type and colour system, an icon set, and illustrations or a photo style for the site. The illustrations are made with design and AI image tools and finished by me to fit your site.",
-  note: "A logo and photography are separate jobs. If you need them, you pay the designer or photographer directly.",
-  },
-  {
-  // Not a bigger version of "Motion and animation" above, which adds
-  // movement to a page that would work the same without it. Here the
-  // scroll IS the page's structure, so it is a different outcome with its
-  // own price, not a second price for the same one.
-  id: "scroll-story",
-  name: "A page that tells a story as you scroll",
-  price: "6.000 DKK",
-  body: "I build the whole page around one story that unfolds as the visitor scrolls. Sections pin in place, pictures and words move together, and the visitor sets the pace. Lumina, Saep and Første Lys in the Showroom are built this way. A visitor whose device asks for reduced motion gets the same story as a calm, complete page.",
-  },
-  {
-  id: "extra-page",
-  name: "An extra page",
-  price: "1.800 DKK",
-  body: "Per page, beyond the eight. Same standard as the rest, so a ninth page is a line on an invoice rather than a new project.",
+    id: "extra-page",
+    name: "An extra page",
+    price: "600 DKK",
+    body: "Per page, beyond what your package covers. Same standard as the rest.",
   },
 ];
 
@@ -1329,70 +1275,17 @@ function figures(price: string): number[] {
 const dk = (n: number) => n.toLocaleString("da-DK");
 
 /**
- * The aftercare figures, as figures. ITEM 44.
- *
- * These used to live only inside English prose — "Works out at 480 kroner an hour
- * instead of 650" — which was fine while /services was the only page that said
- * them. It stopped being fine the moment /da, /sv and /th needed the same numbers
- * in their own sentences, because the Danish, Swedish and Thai copy files forbid
- * numerals on purpose: a price typed into a translation is a price that drifts.
- *
- * So the numbers live here once, the English strings below interpolate them, and
- * the language files use `{hourly}` / `{effective}` placeholders filled at render
- * time — the same idiom their form errors already use for `{max}` and `{email}`.
- * Change a rate here and all four languages follow.
- *
- * Written the Danish way, with a dot for thousands, like every other figure in
- * this file. /sv reformats it through svPrice() because a Swedish reader can parse
- * "2.400" as two and a half.
+ * The after-launch figures, as figures. Decided 2026-10-31 (Ice): no block of
+ * hours and no subscription. Two free small changes in the first three months,
+ * bugs that are Ice's fault fixed free forever, then these.
  */
 export const aftercareRates = {
   currency: "DKK",
-  /** Ad-hoc rate. */
-  hourly: "650",
-  /** What the block works out at per hour — the reason to prepay. */
-  effective: "480",
-  blockPrice: "2.400",
-  blockHours: "5",
-  blockMonths: "12",
+  /** One small change: text, a photo, a price. */
+  small: "300",
+  /** Anything bigger, quoted before it starts. */
+  hourly: "450",
 } as const;
-
-/**
- * The Local visibility plan's price, as a figure. Same idea as aftercareRates:
- * the number lives here once, and the page, the JSON-LD, the FAQ and the chatbot
- * all read it from here.
- *
- * ⚠️ PLACEHOLDER, set 2026-10-11, NOT YET CONFIRMED BY ICE. Danish local SEO
- * retainers publish at 1.800 – 5.000 kr/md (mfwebdesign, Wayfab, WebWorq), so
- * 1.900 sits near the floor on purpose, the same reasoning as offer 01's price.
- * Also hand-edit public/llms.txt, which does not interpolate.
- */
-export const localVisibilityRates = {
-  currency: "DKK",
-  monthly: "1.900",
-} as const;
-
-/**
- * Fills the `{effective}` / `{hourly}` placeholders in the language files' aftercare
- * terms. ITEM 44.
- *
- * The placeholders carry BARE NUMBERS and each language writes its own currency and
- * unit words around them — "480 kr. i timen", "480 DKK i timmen", "480 DKK
- * ต่อชั่วโมง". Putting the currency in the placeholder instead would have forced one
- * word order on three languages.
- *
- * `format` exists for /sv, which passes svPrice so a four-figure rate would render
- * "2 400" rather than "2.400". It is a no-op at today's rates and is wired up anyway,
- * because the whole point of this indirection is that the rates can change.
- */
-export function fillAftercareRates(
-  text: string,
-  format: (value: string) => string = (value) => value,
-): string {
-  return text
-    .replace("{effective}", format(aftercareRates.effective))
-    .replace("{hourly}", format(aftercareRates.hourly));
-}
 
 /**
  * The rescue audit bought on its own. A constant because two places quote it:
@@ -1406,36 +1299,53 @@ export const services = {
   intro: {
     eyebrow: "Freelance & Client Work",
     title: "Services",
-    // "Selected" and "a few at a time" carry the positioning. Nothing in this
-    // block should read as availability anxiety — that is the whole reason
-    // freelance lives on its own page instead of next to "Open to work".
-    lead: "I take on a small number of selected client projects alongside my product work.",
-    body: "I build websites and web interfaces for businesses that need the thing to work, load fast, and keep working after I hand it over. Fixed scope and a fixed price by default, agreed before anything starts. If I am not the right person for what you need, I will tell you on the first call.",
+    lead: "Ice's Stack is my one-person web studio. I build websites for local businesses, and you deal with me from the first call to launch.",
+    body: "Fixed price, agreed in writing before anything starts. Coded by hand, fast on a phone, and yours when it is done. If I am not the right person for what you need, I will say so on the first call.",
     chips: [
       "Copenhagen · remote across the EU",
       "Dansk · English · Svenska",
-      "Fixed price by default",
-      "A few projects at a time",
+      "Fixed price",
+      "No monthly fees",
     ],
   },
 
-  // Qualification before price. The "notFit" list is not modesty — it is the
-  // clearest signal available that the work is chosen rather than accepted.
+  // Ice, 2026-10-31: the case for hiring one person who codes by hand rather
+  // than an agency or a builder. Four short claims, each true today.
+  whyMe: [
+    {
+      title: "Hand-built, not a template",
+      body: "Every site is coded for your business, so it opens fast and looks like you, not like the shop next door.",
+    },
+    {
+      title: "Yours, all of it",
+      body: "Domain, hosting and code end up in your name. Nothing depends on me, and another developer can take over any day.",
+    },
+    {
+      title: "No monthly fees",
+      body: "No subscription to me and no platform plan. After launch you only pay for changes you ask for.",
+    },
+    {
+      title: "One person, start to finish",
+      body: "You talk to the person who builds it. No project manager in between, and a straight answer on the first call.",
+    },
+  ],
+
+  // Qualification before price. The niche since 2026-10-31 (Ice): local
+  // businesses with a weak website, or none.
   audience: {
     fit: [
-      "You run a small business with no website, or one you would rather people did not find.",
-      "You have a product and need a frontend built on an API that already exists.",
-      "Your site works but is slow, dated, or invisible on Google.",
-      "You want one person who is accountable, not an agency with a project manager between you and the work.",
+      "You run a local business with no website, or one that does not do the business justice.",
+      "Your site works but is slow, dated, hard to use on a phone, or invisible on Google.",
+      "You want one person who is accountable, not an agency with a project manager in between.",
       "You want to own the result outright when it is finished.",
-      // The niche, stated in English since /th was dropped (2026-10-25): Ice
-      // still runs projects in Thai, there is just no Thai page to point to.
+      // The niche, stated in English since /th was dropped (2026-10-25).
       "You run a Thai-owned business in Denmark or Sweden and would rather run the whole project in Thai.",
+      "You have a product and need a frontend built on an API that already exists.",
     ],
     notFit: [
+      "You need a full ordering and delivery system. The restaurant platforms do that well, and I can build your site around the one you use.",
       "You need a native iOS or Android app.",
       "You need a large backend or data platform built from nothing.",
-      "You want the cheapest possible option. A template builder will serve you better.",
       "You need someone on call around the clock after launch.",
     ],
   },
@@ -1444,111 +1354,74 @@ export const services = {
     {
       id: "website",
       n: "01",
-      name: "Small-Business Website",
-      tagline: "The site your business should already have: fast, findable, and yours.",
-      forWho: "Salons, studios, clinics, trades, and one-person businesses in Denmark and Sweden.",
+      name: "Websites for local businesses",
+      tagline: "For a business with no website, or one that does not do it justice.",
+      forWho: "Cafés, restaurants, salons, clinics, trades and shops in Denmark and Sweden.",
       includes: [
-        "Three to six pages, structured around what customers actually come looking for",
-        "Built in Danish, English or Swedish, including the page addresses",
-        "An enquiry form that reaches your inbox, with a second path so a message is never silently lost",
-        "Mobile-first, because that is where nearly all of your visitors are",
-        "Search basics set up so you can be found by name and by service",
-        "Compressed imagery and a performance budget, so it loads on a phone on mobile data",
-        "Hosting and domain set up in your name, not mine",
-        "One round of revisions, and a walkthrough so you can edit the text yourself",
+        "Pages built around what your customers actually come looking for",
+        "Made for phones first, and fast on mobile data",
+        "Set up to be found on Google and by AI assistants like ChatGPT",
+        "An enquiry form that reaches your inbox, with a backup so no message is lost",
+        "Domain, hosting and code in your name, not mine",
+        "One round of changes at each check-in, and a walkthrough at handover",
       ],
       includedInEvery: {
-        label: "In every build",
-        body: "This is the part that separates a real site from a 3.000-kroner template job, and it is why the starting price is what it is. None of it is an upsell. It is in the price of every site.",
+        label: "In every site, at every price",
+        body: "None of this is an upsell.",
         items: [
-          "Search setup that actually works: page titles and descriptions written per page, a sitemap, structured data, and your Google Business profile connected, so you turn up when someone searches your town and your service, not just your name",
-          // AEO/GEO, added 2026-10-11. Written for the owner, so each item says
-          // what it does before it names the technique. "Answer engine" and
-          // "generative engine" never appear on the page; the outcome does.
-          "Set up to be found by AI assistants too, not just Google. When someone asks ChatGPT, Gemini or Google's AI answers for the best place in your area, those tools read your site and repeat what it says, so it needs answers they can quote",
-          "Your common questions answered on the site (prices, opening hours, parking, whether you take walk-ins), written so a person can read them and an AI assistant can quote them word for word",
-          "A label for search engines that says exactly what kind of business you are, such as a restaurant, a massage clinic or a cleaning firm, with your hours, prices and area. This is called schema.org, and it is how Google and AI tools tell your business apart from a blog about it",
-          "A short summary file for AI tools (llms.txt): one page that tells them who you are, what you offer and where, in plain words",
-          "Your name, address and phone number checked so they match everywhere that matters: Google, Apple Maps, Krak and De Gule Sider (or Hitta and Eniro in Sweden). Mismatches are one of the most common reasons a business ranks lower than it should",
-          "A check of how AI assistants describe your business today, at launch, so you know where you stand and what they get wrong",
-          "Built mobile-first and checked at real phone widths, because that is where nearly all of your visitors are",
-          "A performance budget: compressed images, minimal scripts, and a site that opens fast on mobile data rather than on your office wifi",
-          "Accessibility basics (keyboard navigation, readable contrast, labelled forms), which is both the right thing and increasingly a legal expectation",
-          "An enquiry form that reaches your inbox, with a second delivery path so a lost message never costs you a customer",
+          "Search set up page by page, with titles, descriptions, a sitemap and your Google Business profile connected, so you turn up for your town and your service, not only your name",
+          // AEO/GEO, written for the owner: the outcome first, the technique in passing.
+          "Ready for AI assistants, with your common questions answered in plain words, a label (schema.org) that says exactly what kind of business you are, and a short summary file for AI tools",
+          "Your name, address and phone number matching on Google, Apple Maps, Krak and De Gule Sider",
+          "One clear next step on every page, like call, book or find us, where people see it first",
+          "Accessibility basics, with keyboard navigation, readable contrast and labelled forms",
           "Analytics, so you can see how many people found you and what they clicked",
-          "Domain and hosting registered in your name, and a walkthrough at handover so nothing depends on me afterwards",
         ],
       },
+      /*
+       * Three tiers, decided 2026-10-31 (Ice). Named for what the client gets.
+       * The fourth row is the computed add-on band. conceptPrice() reads rung
+       * 0 or 1 for a Showroom placard and row 3 for the add-on timeline.
+       */
       priceLadder: [
         {
-          scope: "1–3 pages",
-          detail: "A one-pager or simple presence: who you are, what you offer, how to reach you.",
-          // The floor sits above the Danish freelance entry point on purpose. A
-          // simple site starts around 5.000 kr here, and pricing below that
-          // reads as inexperience rather than as value.
-          price: "6.500 – 9.500 DKK",
+          scope: "Get found",
+          detail: "For a business where customers need the facts fast. 3.000 for up to three pages with your own text and photos. 4.000 for up to five pages, or if I write the text with you. 5.000 for five pages, a second language and help with the text.",
+          price: "3.000 – 5.000 DKK",
           timeline: "1–2 weeks",
         },
         {
-          scope: "4–8 pages",
-          detail: "A full site: services, prices, gallery, about, and an enquiry form.",
-          price: "12.000 – 20.000 DKK",
-          timeline: "2–3 weeks",
+          scope: "Stand out",
+          detail: "For a business where the look itself sells, like a restaurant, a café or a spa. Its own visual identity, motion, and one moment on the page people remember, plus an editor for the important parts. Lumina, Saep and Første Lys in the Showroom are this tier.",
+          price: "9.000 – 15.000 DKK",
+          timeline: "2–4 weeks",
+        },
+        {
+          scope: "Run your business on it",
+          detail: "A site with a database behind it, such as logins, orders you manage or an admin page. Scoped to your budget, so we decide together what goes in first and what can wait. Online booking or a menu you edit yourself does not need this. Those are add-ons.",
+          price: "From 15.000 DKK",
+          timeline: "3–8 weeks",
         },
         {
           scope: "Add-ons",
-          // Was "+ 3.000 – 8.000 DKK" against a one-line detail. A ladder with a
-          // wide unexplained band at the bottom reads as an arbitrary number, and
-          // gives someone with a bigger budget no visible reason to climb it. The
-          // band is now narrower AND every item behind it is priced below.
-          detail: "Priced one by one below, rather than as a band you have to ask about.",
+          detail: "Priced one by one below.",
           price: addOnBand(WEBSITE_ADD_ONS),
-          timeline: "+ 2–4 days each",
+          timeline: "+ 1–3 days each",
         },
       ],
-      buildMethodNote:
-        "Every site is coded by hand, with no platform underneath it. What it costs to keep afterwards, and who that money goes to, is the next section.",
-      /**
-       * Prices set against the Danish market rather than invented, August 2026.
-       * Where an agency publishes a band, this sits at or just under its floor:
-       * below the floor reads as inexperience, which is the same reasoning that
-       * put the base price above 5.000.
-       *
-       *   booking            agencies quote 3.000 – 10.000  → 3.500
-       *   payment setup      agencies quote 5.000 – 10.000  → 5.000
-       *   member login       agencies quote 5.000 – 15.000  → not offered, see ownWork
-       *   CRM/ERP            agencies quote 5.000 – 20.000  → not offered
-       *   second language    no market flat price; bureaus charge ~1 kr/word for
-       *                      the WORDS, which is a separate bill to a separate
-       *                      supplier. 4.500 is for the structure only.
-       *   self-editing       no market figure found. Derived from the ladder's own
-       *                      economics: offer 01 implies roughly 1.300–1.900 kr a
-       *                      working day, and this is a day and a half.
-       *   extra page         derived so it cannot undercut the ladder. The 4–8
-       *                      band spans 12.000–20.000, so a marginal page is
-       *                      about 2.000; 1.800 sits just inside that, and eight
-       *                      pages priced this way lands at ~19.200 against a
-       *                      20.000 ceiling.
-       */
+      buildMethodNote: "Every site is coded by hand, with no platform and no monthly fee underneath it.",
       addOns: {
-        label: "What more money buys",
-        body: "Each of these is one price. Take one, take none, or add one later. None of them has to be decided now, and none of them changes the price of the pages themselves.",
+        label: "Add-ons",
+        body: "One price each. Take one, none, or add one later.",
         items: WEBSITE_ADD_ONS,
         includedLabel: "Not add-ons",
         included: "A map with directions, a gallery, a contact form and a cookie and privacy page are in every build already. They take minutes, and charging for them would make the list above less believable rather than more profitable.",
-        /**
-         * Item 36 route 2, in one paragraph.
-         *
-         * Two of these capabilities have no client build behind them. Saying so
-         * is cheaper than the alternative and safer than the other alternative:
-         * inventing a case study is the line the testimonial was held to for
-         * weeks, and it is not crossed here for an upsell table.
-         */
+        // Honest capability framing: no client build behind these two yet.
         ownWork: "Two of these, taking payment and anything with logins, I have built on my own products rather than for a client. Bevisly runs multi-role accounts with row-level security, and MockMate runs a graded AI pipeline; both are written up under Projects, and you can go and use them. I would rather say that plainly than imply a client history I do not have.",
       },
-      priceRange: "From 6.500 DKK",
-      priceNote: `${vat.note} It is fixed in writing before we start, and the domain and any hosting are billed to you directly rather than through me.`,
-      timeline: "1 – 3 weeks",
+      priceRange: "From 3.000 DKK",
+      priceNote: `${vat.note} Half when we start, half at launch. The domain and any hosting are billed to you directly rather than through me.`,
+      timeline: "1 – 4 weeks",
     },
     {
       id: "app-frontend",
@@ -1690,7 +1563,7 @@ export const services = {
      * money genuinely goes to third parties, so say so where the numbers are.
      */
     paidTo:
-      "Every figure here is paid to your host or your domain registrar, directly and in your name. None of it comes to me, and I do not mark up other people's invoices. After handover I do not invoice you again unless you ask me for more work, or choose the optional Local visibility plan further down.",
+      "Every figure here is paid to your host or your domain registrar, directly and in your name. None of it comes to me, and I do not mark up other people's invoices. After handover I do not invoice you again unless you ask me for more work.",
     rows: [
       {
         label: "Platform fee",
@@ -1710,7 +1583,7 @@ export const services = {
       {
         label: "Editing it yourself",
         value: "One-off add-on",
-        why: "If you want to change your own text, prices and images, I set up a free editor on the site once, as an add-on. After that it costs nothing a year. Rearranging the layout is still a call to me.",
+        why: "An editor for your own text, prices and images is included in Stand out and an add-on for Get found. After setup it costs nothing a year. Rearranging the layout is still a call to me.",
       },
     ],
     /**
@@ -1729,103 +1602,30 @@ export const services = {
   },
 
   /**
-   * ITEM 33, DECIDED 2026-08-21: a prepaid block of hours, and NO subscription.
-   *
-   * WHY NOT THE STANDARD PRODUCT. Danish agencies sell website care at 250 – 3.000
-   * kr a MONTH, typically 500 – 2.000. Read what is in those plans and they are all
-   * the same product: hosting, security patches, daily backups, WordPress core and
-   * plugin updates. That plan exists because WordPress rots. A static site on
-   * Netlify has no plugins to patch, so selling a monthly CARE plan here would
-   * mean charging for a problem this stack deliberately does not have, and it
-   * would undercut the exact technical choice that makes "no yearly bill" true
-   * in runningCosts. That is not a small inconsistency to accept for recurring
-   * revenue; it is the argument.
-   *
-   * AMENDED 2026-10-11. There IS now one monthly product, `localVisibility`
-   * below, and it is deliberately not care: it sells getting customers (Google
-   * profile, reviews, AI assistants, a report), not keeping software alive.
-   * The reasoning above still rules out a maintenance plan, and the block below
-   * still never renews. Keep the two apart in every sentence that mentions them.
-   *
-   * SO THE PRODUCT IS CHANGES, NOT MAINTENANCE. That is also what clients actually
-   * want, and it closes the one thing the old position left dangling: what a
-   * ten-minute text change costs. "Call me and I will invoice you 100 kr" costs
-   * more in admin and awkwardness than it earns, so small changes are simply free
-   * and anything real is either billed hourly or drawn from a prepaid block.
-   *
-   * The block is the recommended answer and it is priced to be one: 480 kr an hour
-   * against 650 ad-hoc, roughly a quarter less, which is what makes prepaying a
-   * decision rather than a favour. 650 sits inside the Danish freelance band
-   * (550 – 750) and above offer 01's implied project rate, which is correct — ad-hoc
-   * work has no economies of scale and every change is a context switch.
-   *
-   * ⚠️ NOTHING HERE RENEWS. No subscription, no automatic billing. The only
-   * recurring charge on the page is `localVisibility`, which the client opts
-   * into separately. If anything in THIS object ever renews, `paidTo` and the
-   * aftercare FAQ both become false and have to change in the same commit.
+   * DECIDED 2026-10-31 (Ice): no subscription of any kind and no prepaid block.
+   * Ice: "We're all tired of subscriptions." A static site has no plugins to
+   * patch, so there is no care plan to sell either. The Local visibility
+   * monthly plan was removed the same day for the same reason. If anything
+   * here ever renews, `runningCosts.paidTo` and the FAQ become false.
    */
   aftercare: {
     eyebrow: "After Launch",
     title: "If you want changes later",
-    lead: "Your site has no plugins to patch and nothing that rots. That is the point of building it this way, and it is why there is no maintenance plan here to sell you. What people do want later is changes, so this is what those cost.",
+    lead: "No subscription and no maintenance plan. Your site has no plugins to patch, so there is nothing to sell you every month. What you might want later is changes, and this is what they cost.",
     free: {
-      label: "Free, just ask",
-      body: "A price, a phone number, an opening hour, a typo. Anything that takes me a few minutes is not worth either of us raising an invoice for, so I do not.",
+      label: "Free",
+      body: "Two small changes in the first three months, like a new price, an opening hour or a photo. And if something breaks because of how I built it, I fix it for free, always.",
+    },
+    small: {
+      label: "A small change",
+      price: `${aftercareRates.small} ${aftercareRates.currency}`,
+      body: "After that, a text, photo or price change is one fixed price. No hourly maths.",
     },
     hourly: {
-      label: "By the hour",
+      label: "Bigger work",
       price: `${aftercareRates.hourly} ${aftercareRates.currency} / hour`,
-      body: "Billed in half hours, for anything bigger: new photos, a rewritten page, a seasonal menu. I tell you the estimate before I start, not after.",
+      body: "A new page, a seasonal theme, a campaign with its own design. I quote it before I start, not after.",
     },
-    block: {
-      label: "A block of hours",
-      price: `${aftercareRates.blockPrice} ${aftercareRates.currency}`,
-      unit: `${aftercareRates.blockHours} hours · valid ${aftercareRates.blockMonths} months`,
-      body: "Most of my clients never need this, and I would rather say so than sell you a subscription. But if you would rather not think about it every time you want something changed, buy a block up front and draw on it. Use it for anything: text, photos, prices, a new page, a question. I log what each change took and tell you what is left.",
-      terms: [
-        `Works out at ${aftercareRates.effective} kroner an hour instead of ${aftercareRates.hourly}`,
-        "Unused hours roll over once, into a second year",
-        "No monthly bill, and nothing renews automatically",
-        "When it runs out you buy another or you do not. There is no default",
-      ],
-    },
-  },
-
-  /**
-   * The one monthly product, added 2026-10-11. Read the AMENDED note on
-   * aftercare before changing the framing: this is sold as getting customers,
-   * never as looking after the website, because the site does not need looking
-   * after and the page says so two sections earlier.
-   *
-   * 🔒 NO BINDING. Cancel any month, no notice period, no setup fee. Danish
-   * owners on amino.dk complain most about agency lock-in and paying for work
-   * nobody can see; this plan answers both, so neither promise may soften.
-   * The price is localVisibilityRates above; never type it here.
-   */
-  localVisibility: {
-    eyebrow: "Optional, Monthly",
-    title: "Local visibility",
-    lead: "A website is only half of being found. The other half lives on Google, in your reviews and, more and more, in what AI assistants say when someone asks where to go. This plan looks after that half every month, so you can get on with running the business.",
-    price: `${localVisibilityRates.monthly} ${localVisibilityRates.currency} / month`,
-    includes: [
-      "Your Google Business profile kept up to date: hours, holiday closures, photos, menu or price list, and a regular post so it stays active",
-      "Help getting more reviews: a simple way to ask happy customers, and suggested replies to every review, good or bad, for you to approve",
-      "Updates beyond the free small changes, such as new photos, a seasonal menu or a rewritten section, included rather than billed by the hour",
-      "A monthly check of how Google and AI assistants like ChatGPT describe your business, and corrections to the sources they read when they get it wrong",
-      "Your name, address and phone number kept consistent across the directories that matter",
-      "A short report each month in plain language: how many people found you, called, asked for directions or visited the site, and what I did",
-    ],
-    terms: [
-      "No binding: cancel any month, no notice period",
-      "No setup fee",
-      "Works best on a site I built, but I can take on your Google profile and reviews alone",
-      "Not advertising: no ad budget is spent on your behalf",
-    ],
-    /**
-     * Said on the page because the reader just saw "no maintenance plan" in
-     * the aftercare section and will otherwise think this contradicts it.
-     */
-    notCare: "This is not website care. Your site does not need patching, and I will not charge you to watch it. What this pays for is the work that brings customers in, which never really finishes.",
   },
 
   /**
@@ -1880,14 +1680,14 @@ export const servicesProcess: ProcessStep[] = [
   {
     n: "03",
     title: "Build",
-    body: "You get a live preview link from the first day, so you can watch it take shape rather than waiting for a reveal. One round of revisions is already in the price.",
-    youGet: "A preview link, updated as I go.",
+    body: "You get a live preview link you can open on your phone. We check in three times: when the look of the homepage is ready, when the whole site is ready, and before launch. One round of changes at each check-in is in the price.",
+    youGet: "A preview link and three check-ins.",
     duration: "1–8 weeks",
   },
   {
     n: "04",
     title: "Handover",
-    body: "The code, the domain and the hosting all end up in your name. I walk you through updating the text yourself, and I stay reachable for fixes after launch.",
+    body: "We set up the domain and hosting in your name together, on a call, so I never need your passwords. The code is handed over to you, and you get a short recording of how to change what you can change.",
     youGet: "Everything in your name, plus a walkthrough.",
     duration: "1 day",
   },
@@ -1906,7 +1706,7 @@ export const servicesFaq: FaqItem[] = [
   // "it depends" — is what gets a page quoted by search and AI assistants.
   {
     q: "What does a website actually cost?",
-    a: `It depends on how many pages, and the answer is published rather than quoted on request. A one-pager or simple three-page site is ${services.offers[0].priceLadder![0].price}, and a full four-to-eight page site is ${services.offers[0].priceLadder![1].price}. Every site is coded by hand, so there is no platform fee on top afterwards, only a domain and possibly hosting. Fixing an existing site is ${services.offers[2].priceRange}, and frontend work on a web app is ${services.offers[1].priceRange}. The exact number is fixed in writing before any work starts. ${vat.note} For context, a simple site from a Danish freelancer or agency typically runs 5.000 to 25.000 kroner before moms, so this sits at the lower half of the market.`,
+    a: `Published, not quoted on request. Get found, a clear site of up to five pages, is ${services.offers[0].priceLadder![0].price}. Stand out, with its own design, motion and an editor, is ${services.offers[0].priceLadder![1].price}. A site with logins or a database behind it starts at ${services.offers[0].priceLadder![2].price.replace("From ", "")}, scoped to your budget. Every site is coded by hand, so there is no platform fee afterwards, only a domain and possibly hosting. The exact number is fixed in writing before any work starts, and you pay half when we start and half at launch. ${vat.note}`,
   },
   // Second, beside the price questions (Ice, 2026-10-05). It replaced the
   // "Yours, not mine" section on /services, whose ownership half the FAQ already
@@ -1916,11 +1716,11 @@ export const servicesFaq: FaqItem[] = [
   // first call costs one answer and saves an argument in week two.
   {
     q: "What is not included in the price?",
-    a: "Said plainly so it is never a surprise halfway through. Writing your content: I will structure it, edit it, and tell you what each page needs, but the words about your own business should come from you or a copywriter. It is the most common thing that delays a project. Professional photography: phone photos in good light are often fine; if you need a photographer, budget for one separately. Logo and brand identity: I design around the brand you already have. Ongoing work after launch: the search and AI foundations are included, and keeping your Google profile, reviews and listings active is the optional Local visibility plan, ${services.localVisibility.price}. Paid advertising: running ad campaigns is somebody else's speciality. Legal wording: I put the privacy page, cookie notice and structure in place, but the wording should be checked by someone qualified. For most of these I can point you to someone good.",
+    a: "Said plainly so it is never a surprise halfway through. Photography: phone photos in good light are often fine, and if you need a photographer you pay them directly. A logo: I design around the brand you already have. A professional translation, if you want one. Paid advertising. Legal wording: I put the privacy page and cookie notice in place, but the wording should be checked by someone qualified. Writing the text is not on this list. Tell me about the business on a short call, and from the 4.000 version of Get found I write it with you and you approve every word.",
   },
   {
-    q: "Why not just get a site for 3.000 kroner?",
-    a: "You can, and for some businesses that is genuinely the right call: if you need a placeholder page and nothing more, a template builder will do it cheaper than I will. What you usually do not get at that price is the part that makes the site earn its money: search setup written per page so you turn up when someone searches your town and your service, a performance budget so it opens fast on mobile data, accessibility basics, an enquiry form with a backup delivery path, and analytics so you can tell whether any of it is working. That work is the same amount of work whether the site has three pages or eight, which is why the starting price is where it is. If your budget is firmly under 6.500, say so in the enquiry form. I will tell you honestly whether to spend it with me or somewhere else.",
+    q: "Why does Stand out cost more than Get found?",
+    a: "Because it is more work, not a fancier label. Get found uses clear layouts I already know work, so the time goes into your content and your search setup. Stand out gets a visual identity of its own, motion, one moment designed for your business, and an editor for the important parts. Search setup, speed and accessibility are the same in both.",
   },
   {
     q: "Can I pay by the hour instead?",
@@ -1936,7 +1736,7 @@ export const servicesFaq: FaqItem[] = [
   // AEO in the FAQ itself: the question an owner actually types into ChatGPT.
   {
     q: "Will my business show up when people ask ChatGPT or Google's AI?",
-    a: `More and more people ask an AI assistant where to eat or who to call, and those tools answer from what they can read about you: your website, your Google profile, your reviews and the big directories. Every site I build is set up for that: your common questions answered in plain words they can quote, a label that tells them exactly what kind of business you are, a short summary file written for AI tools, and your name, address and phone number matching everywhere. I also check what the assistants say about you at launch. Nobody can promise a place in an AI answer, and anyone who does is guessing. What I can do is make sure the facts they find are right and easy to repeat. Keeping that up every month is part of the optional Local visibility plan, ${services.localVisibility.price} with no binding.`,
+    a: "More and more people ask an AI assistant where to eat or who to call, and those tools answer from what they can read about you: your website, your Google profile, your reviews and the big directories. Every site I build is set up for that, with your common questions answered in plain words they can quote, a label that tells them exactly what kind of business you are, a short summary file written for AI tools, and your name, address and phone number matching everywhere. Nobody can promise a place in an AI answer, and anyone who does is guessing. What I can do is make sure the facts they find are right and easy to repeat.",
   },
   // Deliberately a FAQ rather than a line on the offer card. To the buyer this
   // page is written for, "React · Next.js · TypeScript" is noise, and jargon in
@@ -1949,11 +1749,11 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Is there a monthly fee for the website?",
-    a: "Not to me, and not to a platform. A coded site has no site plan underneath it. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though I will not pretend a company's free tier is a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. The domain is about 100 kroner, in your name. You pay those directly; I do not mark up other people's invoices. The only monthly thing I sell is the optional Local visibility plan, which is about getting customers rather than keeping the site running, and you can cancel it any month.",
+    a: "No. Not to me, and not to a platform. A coded site has no site plan underneath it. Its hosting fits inside the free tier at Netlify or Vercel for a site this size, though a company's free tier is not a guarantee: if it changes, or you would rather sit on a Danish webhotel, that is 500 to 1.500 kroner a year. The domain is about 100 kroner, in your name. You pay those directly, and I do not mark up other people's invoices. I sell nothing that renews.",
   },
   {
     q: "Can I update the website myself afterwards?",
-    a: `Yes, if you want to. I set up a free editor on the site as a one-off add-on (${WEBSITE_ADD_ONS[0].price}), and after that you can change text, prices and images yourself and it costs nothing a year to keep. Content you post to repeatedly, like a menu or a treatment list, is a list you manage yourself (${WEBSITE_ADD_ONS[1].price}), also free to run afterwards. What you cannot do is move the layout around yourself; a new section is still a call to me. Either way you get a walkthrough at handover, and you are not locked into paying me for small changes.`,
+    a: `Yes, the important parts. An editor for your headline, the big photo, button text, opening hours, prices, a menu or treatment list and an offer banner is included in Stand out, and an add-on for Get found (${WEBSITE_ADD_ONS[0].price}). It runs on a free plan, so it costs nothing a year. Changing the layout or the theme is a job for me, at a price agreed first.`,
   },
   {
     q: "Do you only work with clients in Copenhagen?",
@@ -1961,7 +1761,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Do you maintain the site afterwards?",
-    a: `The site itself does not need maintaining, and that is deliberate. It has no plugins to patch, so I do not sell a care plan: Racha Beauty's site has run since launch without anyone touching it. What I do not do is pretend you will never want anything changed. Small things, like a price, an opening hour or a typo, are free, because a 100-kroner invoice costs us both more in admin than it is worth. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, with the estimate given before I start. Or buy a block of ${services.aftercare.block.unit.split(" · ")[0]} for ${services.aftercare.block.price} and draw on it as you go, which works out cheaper per hour and never renews. Separately, if you want someone keeping your Google profile, reviews and AI listings working for you every month, that is the Local visibility plan at ${services.localVisibility.price}, with no binding. It is about getting customers, not looking after software.`,
+    a: `The site itself does not need maintaining, and that is deliberate. It has no plugins to patch, so I do not sell a care plan, and Racha Beauty's site has run since launch without anyone touching it. You get two small changes free in the first three months, and anything that breaks because of how I built it is fixed free, always. After that a small change is ${services.aftercare.small.price} and bigger work is ${services.aftercare.hourly.price}, quoted before I start. Nothing renews.`,
   },
   {
     q: "Which languages can you work in?",
@@ -1973,7 +1773,7 @@ export const servicesFaq: FaqItem[] = [
   },
   {
     q: "Who owns the code?",
-    a: "You do, completely. The code lives in a repository in your name, on hosting in your name, with the domain in your name. If you want to hand the whole thing to another developer next year, there is nothing to untangle and nothing you need to ask me for.",
+    a: "You do, completely. The domain and hosting are set up in your name from the start, and the code is handed over to you at launch. If you want another developer to take over next year, there is nothing to untangle and nothing you need to ask me for.",
   },
 ];
 
@@ -1985,9 +1785,6 @@ export const servicesEnquiryOptions = {
     { value: "small-business-site", label: "A website for my business" },
     { value: "web-app-frontend", label: "A web app frontend build" },
     { value: "redesign-rescue", label: "Redesign / make my site faster" },
-    // The monthly plan. Before it had a value of its own, an owner who only
-    // wanted their Google profile looked after had to pick "Something else".
-    { value: "local-visibility", label: "Local visibility (monthly)" },
     { value: "something-else", label: "Something else" },
   ],
   // Bands straddle the published prices rather than mirroring them: a visitor
@@ -2034,7 +1831,7 @@ export const workPage = {
 };
 
 export const showroomPage = {
-  lead: "Sample sites for made-up businesses, each showing what you would get and what a site like it costs. I price a site by what it needs, never by its style, so two sites that look nothing alike can cost the same. Open one to see what is included.",
+  lead: "Sample sites for made-up businesses, each showing what you would get and what a site like it costs. The price follows how much design and building a site needs, not which style it has, so two sites that look nothing alike can cost the same. Open one to see what is included.",
   concept: "Concept, no client",
   more: "I add a new sample site every week or two.",
   prices: "All prices and add-ons",
@@ -2128,7 +1925,7 @@ export function conceptPrice(showroom: NonNullable<CaseStudy["showroom"]>) {
     founding: range(foundingFigure(low + addLow), foundingFigure(high + addHigh)),
     // The ladder's own Add-ons rung says how much time each add-on adds.
     timeline: addOns.length
-      ? `${rung.timeline}, ${services.offers[0].priceLadder![2].timeline.replace("+ ", "plus ")}`
+      ? `${rung.timeline}, ${services.offers[0].priceLadder![3].timeline.replace("+ ", "plus ")}`
       : rung.timeline,
   };
 }
@@ -2202,13 +1999,13 @@ ${showroomLines()}
 
 Taking payment and anything involving logins are capabilities Ice has built on his own products (Bevisly and MockMate) rather than for a client. Say that plainly if asked; never imply a client build that does not exist.
 
-What the site costs to keep: there is no platform fee. Hosting fits a free tier or costs 500 – 1.500 kr a year on a Danish webhotel, and a .dk domain is about 100 kr a year, so five years of running cost is about ${services.runningCosts.fiveYear.value}. Self-editing is a one-off add-on Ice sets up, free to run afterwards; nobody can rearrange the layout themselves. All of these yearly costs are paid by the client directly to their host and registrar, never to Ice, and he does not mark up other people's invoices. If someone worries about an ongoing bill from him, say that plainly.
+What the site costs to keep: there is no platform fee. Hosting fits a free tier or costs 500 – 1.500 kr a year on a Danish webhotel, and a .dk domain is about 100 kr a year, so five years of running cost is about ${services.runningCosts.fiveYear.value}. Self-editing is included in Stand out and a one-off add-on for Get found, free to run afterwards; nobody can rearrange the layout themselves. All of these yearly costs are paid by the client directly to their host and registrar, never to Ice, and he does not mark up other people's invoices. If someone worries about an ongoing bill from him, say that plainly.
 
 There is NO website maintenance or care plan. Danish agencies sell website care at 250 – 3.000 kr a month, but that product is patching WordPress, and a static site has no plugins to patch. Charging for that would be charging for a problem this stack does not have.
 
-For changes after launch: small things, like a price, an opening hour or a typo, are FREE, because a 100 kr invoice costs more in admin than it earns. Anything bigger is ${services.aftercare.hourly.price}, billed in half hours, estimate given first. Or a prepaid block: ${services.aftercare.block.price} for ${services.aftercare.block.unit}, which works out at ${aftercareRates.effective} kr an hour instead of ${aftercareRates.hourly} and rolls over once. The block never renews.
+For changes after launch: two small changes are FREE in the first three months, and anything that breaks because of how Ice built it is fixed free, always. After that a small change (text, a photo, a price) is ${services.aftercare.small.price}, and bigger work is ${services.aftercare.hourly.price}, quoted before he starts. There is no prepaid block, no subscription and no monthly plan of any kind; if asked about a retainer, say he sells nothing that renews.
 
-There IS one optional monthly plan, and it is about getting customers, not maintaining the site: Local visibility, ${services.localVisibility.price} ekskl. moms, no binding, cancel any month, no setup fee. It covers: ${services.localVisibility.includes.join("; ")}. It does not include paid advertising or an ad budget. If someone asks about a retainer or ongoing SEO, this plan is the answer; never call it maintenance or website care, and never imply it is required.
+The three website tiers: Get found is for a business where customers need the facts fast; Stand out is for one where the look itself sells, with its own visual identity, motion and an editor for the important parts included; Run your business on it is a site with a database behind it, scoped to the client's budget. Online booking or a menu the client edits does not need the third tier; those are add-ons.
 
 Every build includes per-page search setup and Google Business connection, setup for AI assistants (common questions answered in quotable form, schema.org for the business type, an llms.txt summary file, name/address/phone made consistent across the main directories, and a check of how AI assistants describe the business at launch), mobile-first construction, a performance budget, accessibility basics, an enquiry form with a backup delivery path, analytics, and domain and hosting in the client's name. If someone asks why it is not 3.000 kroner, that list is the answer: a template shop skips it, and it is the part that makes the site actually get found and convert. Never promise a ranking or a place in an AI answer; promise correct, consistent, quotable facts.
 

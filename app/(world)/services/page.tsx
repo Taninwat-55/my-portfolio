@@ -7,8 +7,6 @@ import {
   services,
   servicesProcess,
   servicesFaq,
-  localVisibilityRates,
-  vat,
   founding,
   foundingOpen,
   foundingSpotsLine,
@@ -29,7 +27,7 @@ const PAGE_URL = `${BASE_URL}/services`;
 // competing page says "contact us for a quote". A description that answers the
 // question in the SERP earns the click, and gives answer engines something
 // concrete enough to quote.
-const DESCRIPTION = `Freelance web development in Copenhagen. Small-business websites ${services.offers[0].priceRange}, coded by hand and set up to be found on Google and by AI assistants. Optional Local visibility plan, ${services.localVisibility.price}, no binding. Also web app frontends and redesign work. Published prices, fixed scope, written quote before anything starts.`;
+const DESCRIPTION = `Ice's Stack, a one-person web studio in Copenhagen. Websites for local businesses ${services.offers[0].priceRange.replace("From", "from")}, coded by hand and set up to be found on Google and by AI assistants. No monthly fees. Also web app frontends and redesign work. Published prices, fixed scope, written quote before anything starts.`;
 
 export const metadata: Metadata = {
   title: "Services",
@@ -94,16 +92,16 @@ export default function ServicesPage() {
       {
         "@type": "ProfessionalService",
         "@id": `${PAGE_URL}#business`,
-        name: `${personalInfo.name} · Freelance Web Development`,
+        name: "Ice's Stack",
+        alternateName: `${personalInfo.name} · Freelance Web Development`,
         url: PAGE_URL,
         description: DESCRIPTION,
         image: `${PAGE_URL}/opengraph-image`,
         // Free text, not a structured Offer.price. schema.org's `price` is a
         // single exact figure; publishing a range's low end there would put the
         // structured data out of step with what the page visibly says.
-        // Spans the cheapest thing sold (the standalone audit) to the top of
-        // the website band.
-        priceRange: "3.500 – 25.000 DKK",
+        // The website floor. The top is open: the third tier is scoped.
+        priceRange: "From 3.000 DKK",
         areaServed: [
           { "@type": "Country", name: "Denmark" },
           { "@type": "Country", name: "Sweden" },
@@ -156,37 +154,6 @@ export default function ServicesPage() {
                 provider: { "@type": "Person", name: personalInfo.name, url: BASE_URL },
               },
             })),
-            // The monthly plan is one exact figure, unlike the offers' ranges,
-            // so it can carry a real price. Read from localVisibilityRates so
-            // the structured data cannot drift from the visible page.
-            {
-              "@type": "Offer",
-              "@id": `${PAGE_URL}#local-visibility`,
-              url: `${PAGE_URL}#local-visibility`,
-              priceCurrency: "DKK",
-              availability: "https://schema.org/LimitedAvailability",
-              priceSpecification: {
-                "@type": "UnitPriceSpecification",
-                price: Number(localVisibilityRates.monthly.replace(/\./g, "")),
-                priceCurrency: localVisibilityRates.currency,
-                unitCode: "MON",
-                unitText: "month",
-                referenceQuantity: {
-                  "@type": "QuantitativeValue",
-                  value: 1,
-                  unitCode: "MON",
-                },
-                // Only claim "moms on top" once it actually is.
-                ...(vat.registered ? { valueAddedTaxIncluded: false } : {}),
-              },
-              itemOffered: {
-                "@type": "Service",
-                name: services.localVisibility.title,
-                serviceType: "Local SEO and Google Business Profile management",
-                description: services.localVisibility.lead,
-                provider: { "@type": "Person", name: personalInfo.name, url: BASE_URL },
-              },
-            },
           ],
         },
         ...(proofCase && {
@@ -262,6 +229,22 @@ export default function ServicesPage() {
           </ul>
         </header>
 
+        {/* Why hire me (Ice, 2026-10-31): the case in four lines, before
+            anything about fit or price. */}
+        <section className={page.section} aria-labelledby="why-heading">
+          <h2 id="why-heading" className={page.label}>
+            Why hire me
+          </h2>
+          <ul className={`${page.content} ${styles.why}`}>
+            {services.whyMe.map((item) => (
+              <li key={item.title}>
+                <h3 className={styles.offerName}>{item.title}</h3>
+                <p className={styles.text}>{item.body}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         {/* Qualification, before price. */}
         <section className={page.section} aria-labelledby="fit-heading">
           <h2 id="fit-heading" className={page.label}>
@@ -289,7 +272,7 @@ export default function ServicesPage() {
 
         <section className={page.section} aria-labelledby="offers-heading">
           <h2 id="offers-heading" className={page.label}>
-            Three ways in
+            What I offer
           </h2>
           <div className={page.content}>
             {services.offers.map((offer) => (
@@ -314,7 +297,7 @@ export default function ServicesPage() {
                     ServiceOffer in data.ts for why there is only one. */}
                 {offer.priceLadder && (
                   <div className={styles.block}>
-                    <p className={page.label}>Priced by scope</p>
+                    <p className={page.label}>Three tiers</p>
                     {offer.priceLadder.map((rung) =>
                       row(
                         rung.scope,
@@ -433,7 +416,7 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* A prepaid block and an hourly rate, not a subscription: see
+        {/* Two free changes, then fixed prices. Nothing renews: see
             services.aftercare in data.ts. */}
         <section className={page.section} aria-labelledby="aftercare-heading">
           <h2 id="aftercare-heading" className={page.label}>
@@ -441,71 +424,14 @@ export default function ServicesPage() {
           </h2>
           <div className={`${page.content} ${page.narrow}`}>
             <p className={styles.lead}>{services.aftercare.lead}</p>
-            <div className={`${styles.twoUp} ${styles.spaced}`}>
-              {(
-                [services.aftercare.free, services.aftercare.hourly] as {
-                  label: string;
-                  body: string;
-                  price?: string;
-                }[]
-              ).map((tier) => (
-                <div key={tier.label}>
-                  {tier.price ? (
-                    row(tier.label, tier.price, <p className={styles.detail}>{tier.body}</p>)
-                  ) : (
-                    <div className={styles.row}>
-                      <div className={styles.rowLine}>{tier.label}</div>
-                      <p className={styles.detail}>{tier.body}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className={styles.panel}>
-              <p className={page.label}>{services.aftercare.block.label}</p>
-              <p className={styles.bigFigure}>
-                {services.aftercare.block.price} <small>{services.aftercare.block.unit}</small>
-              </p>
-              <p className={styles.text}>{services.aftercare.block.body}</p>
-              <ul className={`${styles.bullets} ${styles.bulletsTwo}`}>
-                {services.aftercare.block.terms.map((term) => (
-                  <li key={term}>{term}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* After aftercare on purpose: `notCare` says why this monthly plan is
-            not a maintenance plan. The id is the JSON-LD Offer's anchor. */}
-        <section id="local-visibility" className={page.section} aria-labelledby="visibility-heading">
-          <h2 id="visibility-heading" className={page.label}>
-            {services.localVisibility.title}
-          </h2>
-          <div className={`${page.content} ${page.narrow}`}>
-            <p className={styles.lead}>{services.localVisibility.lead}</p>
-            <div className={styles.panel}>
-              <p className={page.label}>Every month</p>
-              <p className={styles.bigFigure}>{services.localVisibility.price}</p>
-              <ul className={`${styles.bullets} ${styles.bulletsTwo}`}>
-                {services.localVisibility.includes.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-              <ul className={`${styles.bullets} ${styles.bulletsTwo} ${styles.spaced}`}>
-                {services.localVisibility.terms.map((term) => (
-                  <li key={term}>{term}</li>
-                ))}
-              </ul>
-              <p className={styles.meta}>{services.localVisibility.notCare}</p>
-              <p className={styles.meta}>{vat.note}</p>
-              <ul className={page.actions}>
-                <li>
-                  <Link className={page.buttonQuiet} href={enquire}>
-                    Ask about it <span aria-hidden="true">→</span>
-                  </Link>
-                </li>
-              </ul>
+            <div className={`${styles.block} ${styles.spaced}`}>
+              <div className={styles.row}>
+                <div className={styles.rowLine}>{services.aftercare.free.label}</div>
+                <p className={styles.detail}>{services.aftercare.free.body}</p>
+              </div>
+              {[services.aftercare.small, services.aftercare.hourly].map((tier) =>
+                row(tier.label, tier.price, <p className={styles.detail}>{tier.body}</p>),
+              )}
             </div>
           </div>
         </section>

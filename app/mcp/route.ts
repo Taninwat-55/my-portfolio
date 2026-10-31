@@ -133,7 +133,7 @@ const handler = createMcpHandler(
       {
         title: "Services and prices",
         description:
-          "Ice's freelance web development offers with their published prices, the optional monthly plan, and the founding-client offer. Prices are what the site publishes; a real project is quoted after an enquiry.",
+          "Ice's freelance web development offers with their published prices, what changes cost after launch, and the founding-client offer. Prices are what the site publishes; a real project is quoted after an enquiry.",
         inputSchema: z.object({}),
       },
       async () =>
@@ -147,7 +147,7 @@ const handler = createMcpHandler(
             includes: o.includes,
             priceLadder: o.priceLadder ?? null,
           })),
-          localVisibility: { title: services.localVisibility.title, price: services.localVisibility.price },
+          afterLaunch: { free: services.aftercare.free.body, smallChange: services.aftercare.small.price, hourly: services.aftercare.hourly.price },
           foundingClients: foundingOpen
             ? { label: founding.label, spotsLeft: founding.spotsLeft, discount: `${Math.round(founding.discount * 100)}%` }
             : null,

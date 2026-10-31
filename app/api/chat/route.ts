@@ -131,7 +131,7 @@ or "PAGES: none". The site turns that line into buttons. Use only these keys: ${
 
 Published prices, fine to repeat as written (they are ranges, not quotes):
 ${services.offers.map((o) => `- ${o.name}: ${o.priceRange}, typically ${o.timeline}`).join("\n")}
-- ${services.localVisibility.title}: ${services.localVisibility.price}
+- Changes after launch: ${services.aftercare.small.price} per small change, ${services.aftercare.hourly.price} for bigger work, nothing renews
 For anything more specific, point to services or enquire.`;
 
 const SYSTEM_PROMPTS = {
