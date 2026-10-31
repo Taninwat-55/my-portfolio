@@ -134,9 +134,10 @@ Approach: Design systems, accessibility, performance
   description, answer tailored questions from an AI interviewer, get a structured
   graded report. Owned the product end to end. Next.js, Google Gemini, Prisma,
   AWS Lambda.
-- Bevisly (https://bevisly.com): Skill verification platform. Owned end-to-end:
-  defined the two-role model, designed row-level-security policies, shipped 8+ AI
-  features. React, TypeScript, Supabase, PostgreSQL with row-level security.
+- Bevisly (https://bevisly.com): Proof pages for web freelancers. Each project
+  is confirmed by the client who paid for it, through a single-use link the
+  client opens with no account. Owned end to end; the confirmation rules live
+  in Postgres. React, React Router, TypeScript, Supabase. Still being built.
 - Satoshi Standard (https://satoshi-standard.vercel.app): Bitcoin purchasing power
   dashboard. React, Tailwind, real-time price API, full Vitest test suite.
 - Racha Beauty & Wellness (https://rachabeautywellness.com): Commercial site

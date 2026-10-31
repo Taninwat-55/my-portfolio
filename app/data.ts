@@ -568,8 +568,10 @@ export const cases: CaseStudy[] = [
     year: "2025 – now",
     // The Making (Ice, 2026-10-26): v1 rebuilt from commit 5d00537 (9 Nov
     // 2025); v2 is Ice's own screenshot of the landing from 941aa18 (22 Feb
-    // 2026); v3 is the live site on 2026-10-26. Bevisly is becoming a freelance platform; update
-    // this case when that ships (board-personal.md).
+    // 2026); v3 is the live site on 2026-10-26. Copy rewritten for the proof-page
+    // version on 2026-10-31 from Bevisly's PRODUCT.md and migrations. The two
+    // old in-app shots (candidate, employer kanban) came out with it; new ones
+    // wait for the finished app.
     making: [
       {
         label: "Brief",
@@ -589,7 +591,7 @@ export const cases: CaseStudy[] = [
       },
       {
         label: "Turning point",
-        text: "A profile full of completed tasks turned out to be a portfolio by another name. In September 2026 Bevisly became a job board that can ask for the work, and it is now becoming a freelance platform.",
+        text: "A profile full of completed tasks turned out to be a portfolio by another name. In September 2026 Bevisly became a job board that can ask for the work. In October 2026 it turned into proof pages for freelancers.",
       },
       {
         label: "In progress, October 2026",
@@ -599,26 +601,24 @@ export const cases: CaseStudy[] = [
       },
     ],
     title: "Bevisly",
-    sub: "Turn skill claims into structured, verifiable proof.",
+    sub: "Proof pages for freelancers, confirmed by the clients who paid for the work.",
     images: [
       "/assets/bevisly/Bevisly-Landing.webp",
-      "/assets/bevisly/bevisly-candidate.webp",
-      "/assets/bevisly/bevisly-employer-kanban.webp",
     ],
     overview:
-      "A platform where skill claims come with structured, verifiable proof. Built full-stack with Supabase, PostgreSQL, and a row-level security model designed for multi-role data isolation.",
+      "Proof pages for web freelancers who have real work but no reviews yet. A freelancer adds a past project and sends the client a single-use link. The client opens it on a phone, with no account, and confirms the project. Confirmed projects sit together on one public page the freelancer can put in a proposal. Still being built, with no real users yet.",
     challenge:
-      "Skills are claimed everywhere and verified nowhere. The product problem was making endorsements mean something. The technical problem was designing multi-role data isolation at the database layer, so the security model is a constraint, not a client-side hope.",
+      "A newcomer has real projects and no reviews, and a marketplace review says little about the work anyway. The product problem was making one confirmation worth trusting: tied to a specific project, given by the person who paid for it, with nothing to sign up for. The technical problem was making it hard to fake or to change quietly, because a confirmation that survives the freelancer rewriting the project is worth nothing.",
     stackWhy:
-      "Supabase for RLS-based multi-role auth so security lives in the database, not the frontend. React and TypeScript on the front so the data model surfaces cleanly in the component tree. Next.js for SSR and SEO.",
+      "React with React Router in framework mode, so the public pages are prerendered to real HTML and open fast on a phone. Supabase for Postgres, auth and storage, with the rules in the database rather than in the interface. Shared logic in one TypeScript package, tested with Vitest.",
     engineering:
-      "I owned the product end to end. I defined the two-role model, candidate and employer, and made one call early: enforce access with database-level row security instead of application-level checks. Why it matters: if those checks lived in the frontend or API, one missed guard would leak another role's data, and I would be trusting every future feature to remember the rule. Pushing it into the database means the rule holds even when the UI is wrong. I designed those policies before writing any UI, then shipped 8+ AI features on top of a security layer most side projects skip. I also designed the Employer Responsibility Score and Candidate Reliability Score to make ghosting visible and costly, an incentive-design decision, not a feature request.",
+      "I own it end to end, from the research and the written decisions to the database. The rules for a confirmation live in Postgres, not the frontend: one open link and one confirmation per project, links that expire after 30 days, at most 20 new links a day, and editing a project's title, description or link takes its confirmation away. The client's consent text is versioned and stored with every confirmation, so it is always clear what someone agreed to, and anyone can report a confirmation. The copy says confirmed, never verified, because Bevisly does not check the work. The client does.",
     metrics: [
-      { v: "RLS", k: "Database security" },
-      { v: "8+", k: "AI features" },
-      { v: "100", k: "SEO score" },
+      { v: "72", k: "Postgres migrations" },
+      { v: "0", k: "Accounts a client needs" },
+      { v: "30 days", k: "Life of a confirmation link" },
     ],
-    stack: ["React", "TypeScript", "Vite", "Supabase", "Tailwind CSS", "Vitest"],
+    stack: ["React", "TypeScript", "React Router", "Vite", "Supabase", "Tailwind CSS", "Vitest"],
     // No code link: the Bevisly repo is private, so the button sent every
     // visitor to GitHub's 404 page (found 2026-10-18).
     links: { demo: "https://bevisly.com/", code: "" },
@@ -1413,7 +1413,7 @@ export const services = {
         includedLabel: "Not add-ons",
         included: "A map with directions, a gallery, a contact form and a cookie and privacy page are in every build already. They take minutes, and charging for them would make the list above less believable rather than more profitable.",
         // Honest capability framing: no client build behind these two yet.
-        ownWork: "Two of these, taking payment and anything with logins, I have built on my own products rather than for a client. Bevisly runs multi-role accounts with row-level security, and MockMate runs a graded AI pipeline; both are written up under Projects, and you can go and use them. I would rather say that plainly than imply a client history I do not have.",
+        ownWork: "Two of these, taking payment and anything with logins, I have built on my own products rather than for a client. Bevisly runs accounts with access rules in the database, and MockMate runs a graded AI pipeline; both are written up under Projects, and you can go and use them. I would rather say that plainly than imply a client history I do not have.",
       },
       priceRange: "From 3.000 DKK",
       priceNote: `${vat.note} Half when we start, half at launch. The domain and any hosting are billed to you directly rather than through me.`,
