@@ -1293,7 +1293,8 @@ export const aftercareRates = {
 export const services = {
   intro: {
     eyebrow: "Freelance & Client Work",
-    title: "Services",
+    // The promise, not the label (audit, 2026-10-31). "Services" stays as the kicker.
+    title: "Websites for local businesses",
     lead: "Ice's Stack is my one-person web studio. I build websites for local businesses, and you deal with me from the first call to launch.",
     body: "Fixed price, agreed in writing before anything starts. Custom-built in code, fast on a phone, and yours when it is done. If I am not the right person for what you need, I will say so on the first call.",
     chips: [
@@ -1834,7 +1835,7 @@ export const workPage = {
 };
 
 export const showroomPage = {
-  lead: "Sample sites for made-up businesses, each showing what you would get and what a site like it costs. The price follows how much design and building a site needs, not which style it has, so two sites that look nothing alike can cost the same. Open one to see what is included.",
+  lead: "Sample sites for made-up businesses, with what a site like each would cost. The price follows how much a site needs, not its style.",
   concept: "Concept, no client",
   more: "I add a new sample site every week or two.",
   prices: "All prices and add-ons",

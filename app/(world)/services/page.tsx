@@ -217,7 +217,7 @@ export default function ServicesPage() {
           <GridLines />
           <WorldNav className={page.nav} />
           <p className={page.kicker}>Services</p>
-          <h1 className={page.title}>{services.intro.title}</h1>
+          <h1 className={`${page.title} ${styles.titleLong}`}>{services.intro.title}</h1>
           <p className={page.lead}>{services.intro.lead}</p>
           <div className={`${page.prose} ${styles.introBody}`}>
             <p>{services.intro.body}</p>
@@ -226,6 +226,19 @@ export default function ServicesPage() {
             {services.intro.chips.map((chip) => (
               <li key={chip}>{chip}</li>
             ))}
+          </ul>
+          {/* The next step and the floor in the first screen (audit, 2026-10-31). */}
+          <ul className={page.actions}>
+            <li>
+              <Link className={page.button} href={enquire}>
+                Enquire <span aria-hidden="true">→</span>
+              </Link>
+            </li>
+            <li>
+              <a className={page.buttonQuiet} href="#website">
+                Websites {services.offers[0].priceRange.replace("From", "from")}
+              </a>
+            </li>
           </ul>
         </header>
 

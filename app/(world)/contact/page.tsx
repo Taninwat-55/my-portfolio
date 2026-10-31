@@ -40,6 +40,19 @@ export default function ContactPage() {
           <p className={styles.kicker}>Contact</p>
           <h1 className={styles.title}>Get in touch</h1>
           <p className={styles.lead}>{contactPage.lead}</p>
+          {/* Clients jump past the recruiter block (audit, 2026-10-31). */}
+          <ul className={styles.actions}>
+            <li>
+              <a className={styles.button} href="#enquire">
+                Start a project <span aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li>
+              <a className={styles.buttonQuiet} href="#role-title">
+                For a role
+              </a>
+            </li>
+          </ul>
           <dl className={styles.facts}>
             <div>
               <dt>Based</dt>
