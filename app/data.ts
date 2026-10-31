@@ -1211,14 +1211,14 @@ export type AddOnId = "self-edit" | "second-language" | "booking" | "payments" |
  * Cut from nine to five on 2026-10-31 (Ice), when the three tiers arrived.
  * Motion, art direction and the scroll story are no longer extras: they are
  * what "Stand out" is. The managed list folded into self-edit, because one
- * editor covers both. Self-edit dropped 3.000 → 2.500 and is included in
+ * editor covers both. Self-edit dropped 3.000 → 2.000 and is included in
  * Stand out; extra page 1.800 → 600 so it fits a 3.000 – 5.000 site.
  */
 const WEBSITE_ADD_ONS: { id: AddOnId; name: string; price: string; body: string; note?: string }[] = [
   {
     id: "self-edit",
     name: "Edit the important parts yourself",
-    price: "2.500 DKK",
+    price: "2.000 DKK",
     body: "A simple editor for the parts that change. The big photo at the top, your headline and button text, opening hours, prices, a menu or treatment list, and a banner for an offer. Setup, your own login, and a short recording showing you how. Already included in Stand out.",
     note: "A one-off. The editor runs on a free plan, so there is nothing to pay for it each year. A new layout or a seasonal theme is still a job for me.",
   },
@@ -1888,7 +1888,7 @@ export const casePage = {
 export const founding = {
   spots: 3,
   spotsLeft: 3,
-  discount: 0.4,
+  discount: 0.3,
   label: "Founding client price",
 };
 
