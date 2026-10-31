@@ -1114,6 +1114,8 @@ export const cases: CaseStudy[] = [
       "/assets/lag-paa-lag/lag-paa-lag-cakes.webp",
       "/assets/lag-paa-lag/lag-paa-lag-order.webp",
     ],
+    // The live site: the cake built plate to name → Order this cake → the order placed, 2026-10-31.
+    clip: "/assets/lag-paa-lag/clip.mp4",
     overview:
       "A website for a bakery that does not exist. No client. Lag på Lag is Danish for \"layer on layer\". It only bakes celebration cakes, and it is written for the person ordering one for someone else who wants to get it right. The page builds to one moment called Byg kagen, \"build the cake\". As you scroll, Sofie's birthday cake is built from the plate up: two sponges, raspberry jam, vanilla cream, a marzipan drape, raspberries and pistachio, two Danish paper flags, and her name piped on the front. Each layer lands with its line on a receipt, and the total adds up to 550 kr. before the order button appears. After that come the cakes, how ordering works, an order form and the opening hours.",
     challenge:
