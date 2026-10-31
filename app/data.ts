@@ -73,14 +73,12 @@ export const siteContent = {
   // were working around the list rather than using it.
   cv: { label: "Download CV", href: "/assets/Taninwat_Kaewpankan_CV.pdf" },
 
+  // Three paragraphs since 2026-10-31 (Ice): the character, not the timeline.
+  // The facts live in aboutFacts and the CV.
   aboutStory: [
-    "I moved to Sweden at 16 with no Swedish and no plan. I learned the language, rebuilt my grades, and worked every job that would have me. Cleaning, waiting tables, running a food truck, bartending, sorting packages through the night.",
-    "Somewhere between the food truck and the night shifts, I decided I wanted more.",
-    "Before Uppsala, there was York, England. I moved there alone, fully by choice, for the first time in my life. Eight months of living completely independently, pushing my English further, figuring out who I was when nobody knew me or had any expectations of me. I had planned to study there. Brexit made it complicated. Uppsala said yes. So I followed.",
-    "Uppsala University, one of Scandinavia's oldest. Not where I expected to end up, but I stopped questioning where life was sending me. Three years studying how interactive systems get designed and how projects actually get shipped. The most valuable thing wasn't any specific course. It was wearing the PM hat on real team projects, learning what it actually costs to take something from an idea to a finished thing. Then a Master's in Entrepreneurship, because building was the only thing I ever kept coming back to.",
-    "Denmark wasn't the plan. But life pointed there, and I've learned not to argue with that. A new country, again. The same familiar question: what do I make of this? I found Millennial Consulting, joined the operations team, adapted quickly to how things worked, and eventually grew into leading the organization.",
-    "I wanted to become a more complete builder, someone who understands technical constraints, not just concepts. So I enrolled in a Higher Vocational Diploma in Frontend Development at Jensen, which led me into an internship at Trailr AI. After graduating, I stayed on part-time as an early team member. I graduated from Jensen in May 2026.",
-    "I'm in Copenhagen now. Still building. Still the same person who walked into Sweden without the language, just with a few more tools.",
+    "I moved to Sweden at 16 with no Swedish and no plan. I learned the language, rebuilt my grades, and worked every job that would have me, from cleaning and waiting tables to a food truck and night shifts sorting packages.",
+    "Then came York, Uppsala University (interaction design, then a Master's in Entrepreneurship), and Denmark, where I grew from operations assistant to head of organization at Millennial Consulting. I wanted the technical side too, so I trained as a frontend developer at Jensen, interned at Trailr AI, and stayed on as an early team member.",
+    "I'm in Copenhagen now, building products and websites for local businesses. Still the same person who walked into Sweden without the language, just with a few more tools.",
   ],
 
   // The About letter's letterhead on the clock homepage. Every value here traces
@@ -1071,7 +1069,9 @@ export const cases: CaseStudy[] = [
  * screens (Ice), Første Lys on 2026-10-28; Millennial has no screens to show,
  * so it stays a case page only.
  */
-export const leadCaseIds = ["trailr", "bevisly", "mockmate", "racha", "lumina", "saep", "forste-lys"];
+// Strongest first (Ice, 2026-10-31): open on the most striking piece, then
+// alternate client-style sites and product work. Bevisly last while on hiatus.
+export const leadCaseIds = ["lumina", "trailr", "saep", "mockmate", "forste-lys", "racha", "bevisly"];
 
 // ─── SERVICES ─────────────────────────────────────────────────────────────────
 // The /services page speaks to a different visitor than the homepage does: a
