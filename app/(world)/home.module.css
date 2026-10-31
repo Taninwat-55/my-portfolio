@@ -249,4 +249,12 @@
   font-size: 20px;
 }
 
+.doorNote {
+  display: block;
+  margin-top: calc(var(--unit) * 0.5);
+  font-family: var(--world-mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
 

@@ -21,6 +21,9 @@ export type HallProject = {
   image: string;
   /** Plays on the card while it is near (full world only). */
   clip?: string;
+  /** A room that is not a case (the closing "your business here" card). */
+  href?: string;
+  linkLabel?: string;
 };
 
 /**
@@ -151,12 +154,12 @@ export function Hall({ projects }: { projects: HallProject[] }) {
                   <h3 className={styles.hallName}>{p.title}</h3>
                 </ViewTransition>
                 <p className={styles.hallSub}>{p.sub}</p>
-                <Link className={styles.hallLink} href={`/cases/${p.id}`} onFocus={() => walkTo(k)}>
-                  Open the case <span aria-hidden="true">→</span>
+                <Link className={styles.hallLink} href={p.href ?? `/cases/${p.id}`} onFocus={() => walkTo(k)}>
+                  {p.linkLabel ?? "Open the case"} <span aria-hidden="true">→</span>
                 </Link>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element -- quiet world and no-JS only; the full world draws it in WebGL */}
-              <img className={styles.hallImage} src={p.image} alt={`${p.title}, screenshot`} loading="lazy" />
+              <img className={styles.hallImage} src={p.image} alt={p.href ? "" : `${p.title}, screenshot`} loading="lazy" />
             </li>
           ))}
         </ol>
