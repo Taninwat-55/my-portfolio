@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { cases, leadCaseIds, personalInfo, siteContent } from "@/app/data";
+import { cases, leadCaseIds, personalInfo, services, siteContent } from "@/app/data";
 import { GridLines } from "@/app/world/GridLines";
 import { SmoothScroll } from "@/app/world/SmoothScroll";
 import { WorldFooter } from "@/app/world/WorldFooter";
@@ -43,7 +43,20 @@ const lead = leadCaseIds.flatMap((id) =>
   cases.filter((c) => c.id === id),
 );
 const slides = lead.map((c) => ({ src: c.images[0], title: c.title }));
-const projects = lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c.tag, image: c.images[0], clip: c.clip }));
+const projects = [
+  ...lead.map((c) => ({ id: c.id, title: c.title, sub: c.sub, tag: c.tag, image: c.images[0], clip: c.clip })),
+  // The hall's last room, kept free for the next client (prototype, Ice
+  // 2026-10-31). The price is read from services, never typed here.
+  {
+    id: "yours",
+    title: "Your business, here",
+    sub: `A website for your local business, custom-built in code. ${services.offers[0].priceRange}.`,
+    tag: "Your project",
+    image: "/assets/yours/your-project.webp",
+    href: "/services",
+    linkLabel: "Build mine",
+  },
+];
 
 
 export default function Home() {
@@ -114,6 +127,8 @@ export default function Home() {
               </li>
               <li>
                 <Link href="/services">Build mine</Link>
+                {/* The floor, so a client sees it before clicking (Ice, 2026-10-31). */}
+                <span className={styles.doorNote}>{services.offers[0].priceRange.replace("From", "from")}</span>
               </li>
             </ul>
             <AskSiteLazy className={styles.askSite} />

@@ -9,7 +9,7 @@ related_targets: ["app/cases/[slug]/page.tsx","app/work/page.tsx","app/engineer/
 
 Mode: Experience. Scope: phase 1, Home card `/`, project cards `/cases/[slug]`, grid `/work`, `/engineer`, `/build`. Old paper pages (services, cv, garden, language pages) are phase 2.
 
-Audience and job: Copenhagen small-business owners (often on a phone) see real shops Ice built and reach "Build mine"; recruiters arrive from the CV at `/engineer`. Success is an enquiry or a call. Proof is the 7 lead projects (Racha, Trailr, Bevisly, MockMate, Lumina, Saep, Millennial) plus the archive (Satoshi, Cinema). Real portrait available, dithered.
+Audience and job: Copenhagen small-business owners (often on a phone) see real shops Ice built and reach "Build mine"; recruiters arrive from the CV at `/engineer`. Success is an enquiry or a call. Proof is the 7 lead projects (Racha, Trailr, Bevisly, MockMate, Lumina, Saep, Millennial) plus the archive (Satoshi). Real portrait available, dithered.
 
 Memorable moment: a dithered screenshot developing into full colour, the only colour on the site.
 

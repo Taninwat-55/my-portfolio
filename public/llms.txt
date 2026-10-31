@@ -29,38 +29,40 @@ client projects for small businesses, startups, and solo founders.
 Details and published price ranges: https://taninwatkaewpankan.xyz/services
 Enquiry form: https://taninwatkaewpankan.xyz/contact
 
-- Small-Business Website, in Danish, English or Swedish. Every client site is
-  coded by hand; Ice does not build in Webflow, Wix or WordPress, and does not
-  redesign existing builder sites (a new look means a rebuild in code). He does
-  fix what is broken on any site, builder or not: visible errors, speed,
-  security, a form that stopped sending. Priced by scope alone:
-    · 1–3 pages, 6.500–9.500 DKK, typically 1–2 weeks.
-    · 4–8 pages, 12.000–20.000 DKK, typically 2–3 weeks.
-    · Add-ons: itemised, one price each:
-        - Edit your own text and images: 3.000 DKK one-off, free to run after.
-        - A list you manage yourself, e.g. a menu, treatments, a blog: 3.500 DKK,
-          free to run after.
-        - A second language, 3.000–5.500 DKK for the structure, following the
-          number of pages, because every page has to exist twice. The translation
-          itself is a separate bill to a translation bureau, around 1 DKK/word.
-          This is the only add-on priced as a span rather than a flat figure.
+- Websites for local businesses (Ice's Stack, a one-person web studio), for
+  businesses with no website or one that does not do them justice. In Danish,
+  English or Swedish. Every client site is custom-built in code; Ice does not build in
+  Webflow, Wix or WordPress, and does not redesign existing builder sites (a new
+  look means a rebuild in code). He does fix what is broken on any site,
+  builder or not. Three tiers:
+    · Get found, 3.000–5.000 DKK, typically 1–2 weeks. 3.000 = up to 3 pages
+      with the client's own text and photos; 4.000 = up to 5 pages, or Ice
+      writes the text with them; 5.000 = 5 pages, a second language and text
+      help. Racha Beauty is this tier.
+    · Stand out, 9.000–15.000 DKK, typically 2–4 weeks. For businesses where
+      the look sells: own visual identity, motion, one signature moment, and an
+      editor for the important parts included. Lumina, Saep and Første Lys in
+      the Showroom are this tier.
+    · Run your business on it, from 15.000 DKK, scoped to the client's budget,
+      typically 3–8 weeks. A site with a database behind it (logins, orders,
+      an admin page). Booking or a self-edited menu does not need this tier.
+    · Add-ons, one price each:
+        - Edit the important parts yourself (headline, hero photo, button text,
+          hours, prices, a menu or list, an offer banner): 2.000 DKK one-off,
+          free to run after. Included in Stand out.
+        - A second language, 1.000 DKK up to 5 pages, 2.000 DKK above. The
+          translation is included and approved by the client.
         - Online booking, an existing tool wired in properly, 3.500 DKK.
         - Taking payment via Stripe (card, MobilePay, Apple/Google Pay), 5.000 DKK.
           Not a full webshop.
-        - Motion and animation, 2.500 DKK.
-        - Illustrations and a visual identity (type, colour, icons,
-          illustrations made with design and AI image tools), 4.000 DKK. Every
-          site is already designed for the client; this is for a business with
-          no visual identity yet. A logo and photography are separate jobs.
-        - A page that tells a story as you scroll (scroll storytelling, as in
-          the Lumina and Saep concepts), 6.000 DKK.
-        - An extra page beyond eight, 1.800 DKK per page.
+        - An extra page, 600 DKK per page.
       A map, a gallery, a contact form and a cookie/privacy page are in every
       build already and are not charged for. Taking payment and anything with
       logins are capabilities Ice has built on his own products (Bevisly,
       MockMate) rather than for a client. He says so rather than implying
       otherwise.
-    · Founding client price: 40% off a whole website for Ice's first 3
+    · Payment terms: half at the start, half at launch.
+    · Founding client price: 30% off a whole website for Ice's first 3
       clients, in return for a short testimonial and permission to show the
       site. Ends when the 3 spots are taken.
     · Showroom (https://taninwatkaewpankan.xyz/showroom): sample sites for
@@ -69,7 +71,7 @@ Enquiry form: https://taninwatkaewpankan.xyz/contact
   What it costs to KEEP: no platform fee. Roughly 100–1.600 DKK a year for the
   domain plus hosting, which fits the Netlify/Vercel free tier or costs
   500–1.500 DKK on a Danish webhotel; about 500–8.000 DKK over five years.
-  Self-editing is a one-off add-on, after which it costs nothing a year. The
+  Self-editing is included in Stand out or a one-off add-on, free to run. The
   client cannot move the layout themselves. Every yearly figure is paid by the
   client directly to their host or registrar, never to Ice, who does not mark
   up other people's invoices.
@@ -84,26 +86,16 @@ Enquiry form: https://taninwatkaewpankan.xyz/contact
   of how AI assistants describe the business at launch), mobile-first
   construction, a performance budget, accessibility basics, an enquiry form
   with a backup delivery path, analytics, and domain and hosting registered in
-  the client's name. That work is why the floor is not 3.000 DKK.
+  the client's name, at every tier.
   Reference build: rachabeautywellness.com, a Danish wellness studio's first
   website, 95+ Lighthouse on first deploy.
 - Web App Frontend (5.500 DKK / day, roughly 27.500 DKK a week, typically 3–8
   weeks): a React, Next.js and TypeScript frontend built against an API that
   already exists, for teams that have a backend but not an interface.
-- Redesign & Performance Rescue (8.000 – 16.000 DKK, typically 1–3 weeks):
-  fixing an existing site that is slow, dated, or invisible on Google, instead
-  of rebuilding from zero. On a builder site (WordPress, Wix) this covers fixing
-  what is broken; a visual redesign there means a rebuild in code. The written
-  audit can be bought alone for 3.500 DKK.
-- Local visibility (optional monthly plan, 1.900 DKK / month ekskl. moms, no
-  binding, cancel any month, no setup fee): Google Business profile upkeep,
-  help getting and replying to reviews, site updates beyond the free small
-  changes (new photos, a seasonal menu, a rewritten section), a monthly check of
-  how Google and AI assistants describe the business with corrections to the
-  sources they read, consistent name/address/phone across directories, and a short
-  plain-language monthly report. It is about getting customers, not website
-  maintenance, and it includes no paid advertising.
-  (Mirrors `localVisibilityRates` in app/data.ts; update both.)
+- Already have a site? Fixes on any existing site (a broken form, errors,
+  speed) at 450 DKK/hour with an estimate first. A dated site is replaced at
+  Get found or Stand out prices. Ice looks at the site for free on the first
+  call and says which of the two it needs.
 
 Engagements are fixed-scope by default, with a written price and delivery date
 agreed before work starts. Where scope genuinely cannot be pinned down he bills
@@ -142,9 +134,10 @@ Approach: Design systems, accessibility, performance
   description, answer tailored questions from an AI interviewer, get a structured
   graded report. Owned the product end to end. Next.js, Google Gemini, Prisma,
   AWS Lambda.
-- Bevisly (https://bevisly.com): Skill verification platform. Owned end-to-end:
-  defined the two-role model, designed row-level-security policies, shipped 8+ AI
-  features. React, TypeScript, Supabase, PostgreSQL with row-level security.
+- Bevisly (https://bevisly.com): Proof pages for web freelancers. Each project
+  is confirmed by the client who paid for it, through a single-use link the
+  client opens with no account. Owned end to end; the confirmation rules live
+  in Postgres. React, React Router, TypeScript, Supabase. Still being built.
 - Satoshi Standard (https://satoshi-standard.vercel.app): Bitcoin purchasing power
   dashboard. React, Tailwind, real-time price API, full Vitest test suite.
 - Racha Beauty & Wellness (https://rachabeautywellness.com): Commercial site
@@ -174,16 +167,16 @@ Approach: Design systems, accessibility, performance
 - Full CV, skills and track record: https://taninwatkaewpankan.xyz/cv
 - Services and prices: https://taninwatkaewpankan.xyz/services
 - Contact and project enquiries: https://taninwatkaewpankan.xyz/contact
-- Changes after launch. There is NO website maintenance or care plan, and this
-  is a deliberate choice, not an omission: the Danish market's care plans
-  (250-3.000 DKK/month) are priced for patching WordPress, and a static site has
-  no plugins to patch. Instead:
-    · Small changes (a price, an opening hour, a typo) are free.
-    · Anything bigger: 650 DKK/hour, billed in half hours, estimate first.
-    · Or a prepaid block: 2.400 DKK for 5 hours, valid 12 months, which is
-      480 DKK/hour instead of 650. Unused hours roll over once.
-  The block never renews. The only monthly product is the optional Local
-  visibility plan above, which is about getting customers, not maintenance.
+- Changes after launch. There is NO maintenance plan, subscription or monthly
+  product of any kind; a static site has no plugins to patch. Instead:
+    · Two small changes free in the first three months.
+    · A bug in Ice's code: fixed free, always.
+    · Security: Get found and Stand out are static, nothing to patch. A
+      third-tier site with a database gets security updates free for 12
+      months, then at the hourly rate when needed.
+    · After that: 300 DKK per small change (text, a photo, a price), and
+      450 DKK/hour for bigger work, quoted before he starts.
+  (Mirrors `aftercareRates` in app/data.ts; update both.)
 
 ## Links
 

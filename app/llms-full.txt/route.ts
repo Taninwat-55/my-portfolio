@@ -68,7 +68,7 @@ export function GET() {
     `Published prices: ${BASE}/services · Enquiries: ${BASE}/contact`,
     "",
     ...services.offers.flatMap((o) => [`### ${o.name}: ${o.priceRange}`, "", o.tagline, "", `Typical timeline: ${o.timeline}`, ""]),
-    `${services.localVisibility.title}: ${services.localVisibility.price}`,
+    `Changes after launch: ${services.aftercare.small.price} per small change, ${services.aftercare.hourly.price} for bigger work. No subscriptions.`,
     "",
   ];
 

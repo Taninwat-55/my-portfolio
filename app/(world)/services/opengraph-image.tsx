@@ -11,7 +11,7 @@ export default async function OgImage() {
   return worldOgImage(
     <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
       <div style={{ display: "flex", fontFamily: OG_FONT.display, fontSize: 96, lineHeight: 0.95, letterSpacing: -2 }}>
-        {services.intro.title}
+        Ice&apos;s Stack
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 18 }}>
         {services.offers.map((offer) => (

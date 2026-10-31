@@ -48,7 +48,7 @@ An engineer who has run things. Ice ships real product (frontend at Trailr AI, a
 
 ## Evidence on Hand
 
-- Case studies in `app/data.ts` (`cases`): Millennial Consulting, Trailr AI, Bevisly, MockMate, Satoshi Standard, Cinema Booking, Racha Beauty, Lumina, Saep. Images in `public/assets/`.
+- Case studies in `app/data.ts` (`cases`): Millennial Consulting, Trailr AI, Bevisly, MockMate, Satoshi Standard, Racha Beauty, Lumina, Saep, Første Lys. Images in `public/assets/`.
 - Millennial: four cycles, ~20 client engagements, 90%+ satisfaction, ~5 projects and 25+ consultants per cycle.
 - Racha Beauty: a live client site that has run since launch without maintenance.
 - Garden notes (MDX) in `posts/`.
