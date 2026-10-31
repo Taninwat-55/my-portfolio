@@ -808,7 +808,7 @@ export const cases: CaseStudy[] = [
       code: "",
     },
   },
-  // The last three entries — Lumina, Saep and Første Lys — are the only ones with
+  // The last four entries — Lumina, Saep, Første Lys and Lag på Lag — are the only ones with
   // no client behind them, and each says so in its own first sentence. Everything
   // else on this page answers "would you ship for me"; these three answer "can you
   // do motion work", which nothing else in the list shows.
@@ -1061,17 +1061,100 @@ export const cases: CaseStudy[] = [
       ],
     },
   },
+  {
+    id: "lag-paa-lag",
+    concept: true,
+    n: "11",
+    tag: "Motion & Craft",
+    scope: "Frontend with a content editor. One static Astro page and a Sanity Studio the owner edits, no backend of my own, and a concept with no client.",
+    role: "Self-initiated concept",
+    year: "2026",
+    making: [
+      {
+        label: "Brief",
+        text: "I wanted to build an editor a shop owner can use before selling one to anyone, so I gave myself a brief with no client. A konditori that only bakes celebration cakes, for the person ordering a cake for someone else.",
+      },
+      {
+        label: "Drawing, October 2026",
+        text: "There is no photography. Every drawing is generated at build time from lines that wander like a pen. I proofed it at full size before building anything around it, and the proof caught the raspberries rendering solid black.",
+        image: "/assets/lag-paa-lag/making/proof.webp",
+        alt: "The first full-size proof of the cake drawing: a marzipan cake with 'Tillykke Sofie' piped on the front and two Danish paper flags, with the raspberries on top drawn as black blobs.",
+      },
+      {
+        label: "Prototype, October 2026",
+        text: "Then the hero and the scroll moment, judged in the browser. Here a sponge layer fell as a faint ghost through the intro text. Now each layer appears solid just above the stack and drops a short way.",
+        image: "/assets/lag-paa-lag/making/prototype.webp",
+        alt: "An early frame of the scroll moment: a pale, see-through sponge floating over the intro text while the jam and cream layers sit on the plate, and the receipt reads 275 kr.",
+      },
+      {
+        label: "Editor, October 2026",
+        text: "Sanity holds what the owner changes: the hero line, a promo banner, opening hours, closed days, the cakes and their prices, and every layer of the cake. Pressing Publish rebuilds the live site in about 15 seconds.",
+      },
+    ],
+    design: {
+      palette: [
+        { name: "Kraft", hex: "#C8A06B" },
+        { name: "Baking paper", hex: "#F5EDDC" },
+        { name: "Cocoa", hex: "#3B2316" },
+        { name: "Raspberry", hex: "#C42A52" },
+        { name: "Pistachio", hex: "#9CB860" },
+      ],
+      type: [
+        { role: "Headings", family: "Caprasimo" },
+        { role: "Text", family: "Figtree" },
+      ],
+      source: "the page's CSS custom properties",
+    },
+    title: "Lag på Lag",
+    sub: "A concept site for an invented konditori on Amagerbrogade, with no client behind it. One page, one scroll moment where a hand-drawn cake builds itself layer by layer, and an editor the owner uses.",
+    images: [
+      "/assets/lag-paa-lag/lag-paa-lag-hero.webp",
+      "/assets/lag-paa-lag/lag-paa-lag-build.webp",
+      "/assets/lag-paa-lag/lag-paa-lag-cake.webp",
+      "/assets/lag-paa-lag/lag-paa-lag-cakes.webp",
+      "/assets/lag-paa-lag/lag-paa-lag-order.webp",
+    ],
+    overview:
+      "A website for a bakery that does not exist. No client. Lag på Lag is Danish for \"layer on layer\". It only bakes celebration cakes, and it is written for the person ordering one for someone else who wants to get it right. The page builds to one moment called Byg kagen, \"build the cake\". As you scroll, Sofie's birthday cake is built from the plate up: two sponges, raspberry jam, vanilla cream, a marzipan drape, raspberries and pistachio, two Danish paper flags, and her name piped on the front. Each layer lands with its line on a receipt, and the total adds up to 550 kr. before the order button appears. After that come the cakes, how ordering works, an order form and the opening hours.",
+    challenge:
+      "Two things. Someone ordering a cake for another person is nervous about getting it wrong, so the page shows the cake being made, with its price, before they order. And this was the first site where the business owner edits the content, so the editor had to be safe to hand over. The owner can change every word and price, but not the number of layers, because each layer has its own drawing.",
+    stackWhy:
+      "Astro with TypeScript, because the page is static and Astro ships no framework JavaScript. It reads Sanity once at build time, so visitors never wait on the CMS and hosting stays free. Sanity's free plan covers a bakery many times over. GSAP and ScrollTrigger drive the one scrubbed timeline. The first screen, the HTML up to the fold plus the CSS, is about 2.4 KB gzipped, so it paints from the first round trip. The whole page is 24.8 KB, most of it the drawing.",
+    engineering:
+      "The drawings are code. Each shape is sampled into points, pushed sideways by smooth seeded noise so the line wanders, and joined with Catmull-Rom curves written as short SVG commands. The same seed draws the same cake on every build. Each layer is its own group, so the scroll timeline can drop it, squash it a little on landing and print its receipt line. The build fails rather than publish stale prices: if Sanity is down or a layer has no price, nothing ships. A code review before launch caught five bugs, among them a receipt that showed the full total before any layer had landed, and an order button tied to a position in the cake list instead of to the cake itself. The order form knows the three days' notice and the closed days, and it says plainly that it sends nothing.",
+    metrics: [
+      { v: "1", k: "Page" },
+      { v: "7 layers", k: "One scroll moment" },
+      { v: "~15 s", k: "Publish to live" },
+    ],
+    stack: ["Astro", "TypeScript", "Sanity", "GSAP", "ScrollTrigger"],
+    links: {
+      demo: "https://lag-paa-lag.netlify.app",
+      code: "https://github.com/Taninwat-55/lag-paa-lag",
+    },
+    showroom: {
+      business: "A celebration-cake bakery",
+      style: "Hand-drawn, one scroll story",
+      rung: 1,
+      addOns: [],
+      gets: [
+        "One page: the cake built as one story, then the cakes, how ordering works, an order form and the opening hours",
+        "One scroll moment, a cake built layer by layer with its price, that turns into a calm page when a phone asks for less motion",
+        "The editor that comes with Stand out, for prices, cakes, opening hours, closed days and an offer banner, live about 15 seconds after you press Publish",
+      ],
+    },
+  },
 ];
 
 /**
  * The work in the order the homepage's hall shows it, and the order case
  * pages hand on to the next one. Saep joined on 2026-10-26 with its current
- * screens (Ice), Første Lys on 2026-10-28; Millennial has no screens to show,
+ * screens (Ice), Første Lys on 2026-10-28, Lag på Lag on 2026-10-31; Millennial has no screens to show,
  * so it stays a case page only.
  */
 // Strongest first (Ice, 2026-10-31): open on the most striking piece, then
 // alternate client-style sites and product work. Bevisly last while on hiatus.
-export const leadCaseIds = ["lumina", "trailr", "saep", "mockmate", "forste-lys", "racha", "bevisly"];
+export const leadCaseIds = ["lumina", "trailr", "saep", "mockmate", "forste-lys", "lag-paa-lag", "racha", "bevisly"];
 
 // ─── SERVICES ─────────────────────────────────────────────────────────────────
 // The /services page speaks to a different visitor than the homepage does: a
@@ -1388,7 +1471,7 @@ export const services = {
         },
         {
           scope: "Stand out",
-          detail: "For a business where the look itself sells, like a restaurant, a café or a spa. Its own visual identity, motion, and one moment on the page people remember, plus an editor for the important parts. Lumina, Saep and Første Lys in the Showroom are this tier.",
+          detail: "For a business where the look itself sells, like a restaurant, a café or a spa. Its own visual identity, motion, and one moment on the page people remember, plus an editor for the important parts. Lumina, Saep, Første Lys and Lag på Lag in the Showroom are this tier.",
           price: "9.000 – 15.000 DKK",
           timeline: "2–4 weeks",
         },
