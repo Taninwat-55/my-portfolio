@@ -539,7 +539,7 @@ export const cases: CaseStudy[] = [
       "/assets/trailr/trailr-screening-room.webp",
       "/assets/trailr/trailr-story-builder.webp",
     ],
-    // Story Builder on the Aliens demo project, dev.trailr.ai, 2026-10-26.
+    // Story Builder on the Aliens demo project: play runs clip 1 into clips 2 and 3, 2026-10-31.
     clip: "/assets/trailr/clip.mp4",
     overview:
       "An early-stage AI video platform that secured enterprise trials with two major Danish media companies. I joined as a frontend intern and, after graduating, continued part-time, owning the product side of a full UI/UX redesign.",
@@ -665,7 +665,7 @@ export const cases: CaseStudy[] = [
       "/assets/mockmate/mockmate-dashboard.webp",
       "/assets/mockmate/mockmate-feedback.webp",
     ],
-    // The live landing page down to the sample report, real speed, 2026-10-27.
+    // Inside the app: dashboard → one interview's feedback report, names and companies hidden, 2026-10-31.
     clip: "/assets/mockmate/clip.mp4",
     overview:
       "A full-stack AI interview platform. Paste a job description, answer tailored technical questions from an AI interviewer, and receive a structured graded report. Built with Next.js, Google Gemini and Prisma.",
@@ -789,7 +789,7 @@ export const cases: CaseStudy[] = [
       "/assets/racha/racha-about.webp",
       "/assets/racha/racha-contact.webp",
     ],
-    // The live site: Hjem → Behandlinger → Galleri → Om, 2026-10-26.
+    // The live site: the hero, then Behandlinger and its prices, 2026-10-31.
     clip: "/assets/racha/clip.mp4",
     overview:
       "A wellness studio in Næstved had no website at all, just a Facebook page. I built their first one: a Danish-language site covering treatments, prices, a gallery and an enquiry form. My first paid client project.",
@@ -868,7 +868,7 @@ export const cases: CaseStudy[] = [
       "/assets/lumina/lumina-rooms.webp",
       "/assets/lumina/lumina-booking.webp",
     ],
-    // The live site's home: hero → the ritual → 9 to 85 °C, 2026-10-27.
+    // The live site: hero → 9 to 85 °C → booking a session, 2026-10-31.
     clip: "/assets/lumina/clip.mp4",
     overview:
       "A website for a bathhouse that does not exist. No client. The first version was a ten-section day spa page where everything moved, so nothing stood out. This version is a bathhouse on Copenhagen's harbour, built around one moment. The screen holds still while you scroll, the 9 °C harbour water disappears into steam, the number climbs, and an 85 °C sauna comes through. Around that moment sit four calm pages: the ritual, rooms and prices, the place, and a booking form that works but sends nothing.",
@@ -950,7 +950,7 @@ export const cases: CaseStudy[] = [
       "/assets/saep/saep-menu.webp",
       "/assets/saep/saep-booking.webp",
     ],
-    // The live site's home: hero → the kitchen → Balance, five tastes to the plate, 2026-10-27.
+    // The live site: hero → five tastes to the plate → booking two seats, 2026-10-31.
     clip: "/assets/saep/clip.mp4",
     overview:
       "A site for an invented six-seat Thai chef's table on Jægersborggade in Nørrebro. It reads like a food magazine spread, with light paper, big serif type and photographs of the food. The homepage builds to one moment called Balance. Thai cooking balances five tastes, so a sticky stage shows a som tam being made one taste at a time until the finished plate fills the screen. After that come the menu, the visit details and a booking form that works.",
@@ -1031,6 +1031,8 @@ export const cases: CaseStudy[] = [
       "/assets/forste-lys/forste-lys-menu.webp",
       "/assets/forste-lys/forste-lys-save.webp",
     ],
+    // The live site: 05:30 → the whole day to 13:00 → saving two buns, 2026-10-31.
+    clip: "/assets/forste-lys/clip.mp4",
     overview:
       "A website for a café that does not exist. No client. Første Lys is Danish for \"first light\". It sits on the quay in Nordhavn and opens at 05:30 for the people who are up before the city: nurses off the night shift, crane drivers, rowers and new parents. The page builds to one moment called The Day, where the scroll is the clock. It ticks from 05:30 to 13:00 while the room changes colour from night blue to gold to flat midday grey, sunlight crosses the window, and the counter board strikes dishes off as they sell out. After that come the menu by the hour, the regulars, a form to save a bun for tomorrow, and the visit details.",
     challenge:
