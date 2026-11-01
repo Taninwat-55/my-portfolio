@@ -296,7 +296,7 @@ export const cvData = {
   additional: [
     {
       label: "Languages",
-      value: "Thai (Native), English (Fluent), Swedish (Fluent), Danish (Basic)",
+      value: "Thai (Native), English (Fluent), Swedish (Fluent), Danish (Intermediate, B1, studying)",
     },
     {
       label: "Work authorization",
