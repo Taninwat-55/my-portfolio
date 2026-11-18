@@ -33,8 +33,11 @@
  * - **Everything in `cvData`, and nothing else.** `cvData` holds only what the JD
  *   Ledger's engineering ads ask for (2026-10-28), so the file never needs its own
  *   cuts. The operations history lives in the Millennial entry, not a skills group.
- * - **No phone number, no street address** — email, LinkedIn, GitHub, website. Same
- *   rule as every other public surface.
+ * - **No phone number, no street address, no photo on the public CV.** Email,
+ *   LinkedIn, GitHub, website, same rule as every other public surface. A variant
+ *   (a CV sent straight to one employer) may add a phone number, a photo and a
+ *   broader location; see PRIVATE FIELDS below. They live only in cv.json outside
+ *   the repo, so they never reach git or the site.
  */
 
 import { readFile, writeFile, mkdir, rm } from "node:fs/promises";
@@ -71,6 +74,36 @@ if (VARIANT && !existsSync(path.join(VARIANT, "cv.json"))) {
 const cv = VARIANT
   ? { ...cvData, ...JSON.parse(await readFile(path.join(VARIANT, "cv.json"), "utf8")) }
   : cvData;
+/**
+ * PRIVATE FIELDS, honoured only with --variant (the generic build ignores them even
+ * if someone adds them to cvData):
+ *
+ *   "phone":    "+45 ..."             printed first in the contact line
+ *   "location": "Greater Copenhagen"  replaces personalInfo.location
+ *   "photo":    "photo.jpg"           file inside the variant folder, 4:5 crop
+ *   "headings": { "projects": "Selected work" }  rename any section heading
+ */
+const priv = VARIANT
+  ? {
+      phone: cv.phone,
+      location: cv.location,
+      photo: cv.photo ? "file://" + encodeURI(path.join(VARIANT, cv.photo)) : null,
+    }
+  : {};
+if (VARIANT && cv.photo && !existsSync(path.join(VARIANT, cv.photo))) {
+  console.error(`Photo not found: ${path.join(VARIANT, cv.photo)}`);
+  process.exit(1);
+}
+const H = {
+  summary: "Summary",
+  skills: "Skills",
+  projects: "Projects",
+  experience: "Experience",
+  education: "Education",
+  additional: "Additional",
+  ...(VARIANT ? cv.headings : {}),
+};
+
 const OUT = VARIANT
   ? path.join(VARIANT, "CV.pdf")
   : path.join(ROOT, "public/assets/Taninwat_Kaewpankan_CV.pdf");
@@ -168,6 +201,17 @@ const html = `<!doctype html>
      stream an ATS extracts stays clean. */
   .contact span + span::before { content: " · "; color: #98a3ab; }
 
+  /* Photo sits to the right of the name block; the text still comes first in the
+     stream, so an ATS reads name, title, contact before anything else. */
+  .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.2em; }
+  .head .text { flex: 1; }
+  .photo {
+    width: 25mm;
+    height: 31.25mm;
+    object-fit: cover;
+    border-radius: 2px;
+  }
+
   /* ── Sections ───────────────────────────────────────────────────────── */
   section { margin-top: 1.25em; }
   h2 {
@@ -241,25 +285,29 @@ const html = `<!doctype html>
 </head>
 <body>
 
-  <header>
+  <header class="head">
+   <div class="text">
     <h1 class="name">${e(personalInfo.name)}</h1>
     <p class="title">${e(cv.title)}</p>
     <p class="contact">
-      <span>${e(personalInfo.location)}</span>
+      ${priv.phone ? `<span><a href="tel:${e(priv.phone.replace(/\s/g, ""))}">${e(priv.phone)}</a></span>` : ""}
+      <span>${e(priv.location ?? personalInfo.location)}</span>
       <span><a href="mailto:${e(personalInfo.email)}">${e(personalInfo.email)}</a></span>
       <span><a href="${e(personalInfo.socials.linkedin)}">${e(bare(personalInfo.socials.linkedin))}</a></span>
       <span><a href="${e(personalInfo.socials.github)}">${e(bare(personalInfo.socials.github))}</a></span>
       <span><a href="https://${site}">${site}</a></span>
     </p>
+   </div>
+   ${priv.photo ? `<img class="photo" src="${e(priv.photo)}" alt="">` : ""}
   </header>
 
   <section>
-    <h2>Summary</h2>
+    <h2>${e(H.summary)}</h2>
     <p class="summary">${e(cv.summary)}</p>
   </section>
 
   <section>
-    <h2>Skills</h2>
+    <h2>${e(H.skills)}</h2>
     <dl class="skills">
       ${cv.skills
         .map(
@@ -271,17 +319,17 @@ const html = `<!doctype html>
   </section>
 
   <section>
-    <h2>Projects</h2>
+    <h2>${e(H.projects)}</h2>
     ${cv.projects.map(entry).join("\n    ")}
   </section>
 
   <section>
-    <h2>Experience</h2>
+    <h2>${e(H.experience)}</h2>
     ${cv.experience.map(entry).join("\n    ")}
   </section>
 
   <section>
-    <h2>Education</h2>
+    <h2>${e(H.education)}</h2>
     ${cv.education
       .map(
         (s) => `
@@ -297,7 +345,7 @@ const html = `<!doctype html>
   </section>
 
   <section>
-    <h2>Additional</h2>
+    <h2>${e(H.additional)}</h2>
     <dl class="extra">
       ${cv.additional
         .map((a) => `<dt>${e(a.label)}</dt><dd>${e(a.value)}</dd>`)
